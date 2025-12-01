@@ -6,6 +6,7 @@
 #include <Engine/Input/Input.h>
 #include <Game/Camera/Follow/FollowCamera.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 
 //============================================================================
@@ -77,6 +78,7 @@ void PlayerHUD::InitSprite() {
 		// 最初は非表示
 		inputSuggest.sprite->SetAlpha(0.0f);
 	}
+	isCanParryBossEnemy_ = false;
 }
 
 void PlayerHUD::Init() {
@@ -126,6 +128,32 @@ void PlayerHUD::Update(const Player& player) {
 
 	// alpha値を表示切替で更新
 	UpdateAlpha();
+}
+
+void PlayerHUD::CheckBossEnemyParry() {
+
+	// ボスの状態が切り替わったら、パリィ可能状態をリセット
+	if (exitParryBossEnemyState_.has_value()) {
+		if (exitParryBossEnemyState_.value() != bossEnemy_->GetCurrentState()) {
+
+			exitParryBossEnemyState_ = std::nullopt;
+		}
+	}
+
+	// パリィ可能状態になったかどうか
+	const ParryParameter& parryParam = bossEnemy_->GetParryParam();
+	if (!exitParryBossEnemyState_.has_value() &&
+		!isCanParryBossEnemy_ && parryParam.canParry) {
+
+		isCanParryBossEnemy_ = true;
+		// パリィ可能状態になったら入力示唆を開始
+		StartInputSuggest();
+	}
+	// 入力不可になったら入力示唆を終了
+	if (isCanParryBossEnemy_ && !parryParam.canParry) {
+
+		EndInputSuggest();
+	}
 }
 
 void PlayerHUD::UpdateSprite(const Player& player) {
@@ -212,8 +240,12 @@ void PlayerHUD::StartInputSuggest() {
 
 void PlayerHUD::EndInputSuggest() {
 
+	// この時点のボスの状態を取得
+	exitParryBossEnemyState_ = bossEnemy_->GetCurrentState();
+
 	// 終了
 	isInputSuggestActive_ = false;
+	isCanParryBossEnemy_ = false;
 	// アニメーションをリセット
 	for (auto& inputSuggest : inputSuggests_) {
 

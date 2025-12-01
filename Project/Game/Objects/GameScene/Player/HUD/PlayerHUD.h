@@ -3,16 +3,18 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/InputStructures.h>
 #include <Game/Objects/Base/GameHPBar.h>
 #include <Game/Objects/Base/GameDisplayDamage.h>
-#include <Engine/Input/InputStructures.h>
 #include <Game/Objects/Base/GameCommonStructures.h>
 #include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // c++
 #include <utility>
 // front
 class Player;
+class BossEnemy;
 class FollowCamera;
 
 //============================================================================
@@ -33,6 +35,8 @@ public:
 
 	// HUD表示の更新
 	void Update(const Player& player);
+	// ボス敵のパリィ受付状態の確認
+	void CheckBossEnemyParry();
 
 	// エディター
 	void ImGui();
@@ -46,6 +50,7 @@ public:
 	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
+	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetDisable();
 	void SetValid();
 private:
@@ -95,6 +100,11 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	const FollowCamera* followCamera_;
+	const BossEnemy* bossEnemy_;
+
+	// ボスの状態を監視してパリィ入力示唆を出す
+	std::optional<BossEnemyState> exitParryBossEnemyState_;
+	bool isCanParryBossEnemy_;
 
 	// ステータス
 	PlayerStats stats_;

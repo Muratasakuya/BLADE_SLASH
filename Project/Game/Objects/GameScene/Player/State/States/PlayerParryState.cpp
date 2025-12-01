@@ -56,6 +56,9 @@ void PlayerParryState::Enter(Player& player) {
 	// 剣先の引っかきエフェクトを発生させる
 	tipScrackEffect_->Emit(player.GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 
+	// HUDの入力示唆を消させる
+	player.GetHUD()->EndInputSuggest();
+
 	canExit_ = false;
 	isEmitedBlur_ = false;
 	request_ = std::nullopt;
