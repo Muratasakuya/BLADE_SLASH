@@ -53,7 +53,9 @@
     "titleButton",
     "retryButton",
     "playerToBoss",
-    "inputSuggestRing"
+    "inputSuggestRing",
+    "barThresholdFrame",
+    "barThreshold"
   ],
   "Models": [
     "bossEnemy",

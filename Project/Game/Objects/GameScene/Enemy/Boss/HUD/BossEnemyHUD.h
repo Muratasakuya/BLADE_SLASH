@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Object/Base/GameObject2DArray.h>
 #include <Game/Objects/Base/GameHPBar.h>
 #include <Game/Objects/Base/GameDisplayDamage.h>
 #include <Game/Objects/Base/GameCommonStructures.h>
@@ -74,6 +75,9 @@ private:
 	GameCommon::HUDInitParameter nameTextParameter_;
 	// ダメージ表示
 	std::unique_ptr<GameDisplayDamage> damageDisplay_;
+
+	// フェーズ閾値表示
+	std::unique_ptr<GameObject2DArray> phaseThreshold_;
 
 	// parameters
 	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間

@@ -2526,5 +2526,9 @@
     <None Include="Assets\Engine\Shaders\Skybox\Skybox.hlsli">
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
+    <ClCompile Include="Engine\Object\Base\GameObject2DArray.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Object\Base\GameObject2DArray.h" />
   </ItemGroup>
 </Project>
