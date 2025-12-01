@@ -52,7 +52,8 @@
     "bgCheckerboard",
     "titleButton",
     "retryButton",
-    "playerToBoss"
+    "playerToBoss",
+    "inputSuggestRing"
   ],
   "Models": [
     "bossEnemy",
