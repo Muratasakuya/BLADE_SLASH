@@ -684,14 +684,14 @@ void KeyframeObject3D::ImGui() {
 
 		// 座標
 		key.transform.translation = keyObjects_.empty() ?
-			Vector3::AnyInit(0.0f) : keyObjects_.back()->GetTransform().GetWorldPos();
+			Vector3::AnyInit(0.0f) : keyObjects_.back()->GetTransform().translation;
 		key.transform.translation.y += 4.0f;
 		// スケール
 		key.transform.scale = keyObjects_.empty() ?
-			Vector3::AnyInit(1.0f) : keyObjects_.back()->GetTransform().GetWorldScale();
+			Vector3::AnyInit(1.0f) : keyObjects_.back()->GetTransform().scale;
 		// 回転
 		key.transform.rotation = keyObjects_.empty() ?
-			Quaternion::Identity() : keyObjects_.back()->GetTransform().GetWorldRotation();
+			Quaternion::Identity() : keyObjects_.back()->GetTransform().rotation;
 
 		// 任意の型の値があれば
 		if (!anyTracks_.empty()) {
