@@ -555,6 +555,7 @@ Json CPUParticleGroup::ToJson() const {
 	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
 
 	data["textureName"] = textureName_;
+	data["modelName"] = modelName_;
 	data["gameMaxParticleCount_"] = gameMaxParticleCount_;
 
 	//============================================================================
@@ -580,6 +581,7 @@ void CPUParticleGroup::FromJson(const Json& data, Asset* asset) {
 	blendMode_ = blendMode.value();
 
 	textureName_ = data.value("textureName", "circle");
+	modelName_ = data.value("modelName", "");
 	gameMaxParticleCount_ = data.value("gameMaxParticleCount_", 0);
 
 	//============================================================================

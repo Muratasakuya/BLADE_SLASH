@@ -13,6 +13,14 @@
 //	BossEnemyTeleportationState classMethods
 //============================================================================
 
+BossEnemyTeleportationState::BossEnemyTeleportationState() {
+
+	// 残像エフェクト初期化
+	afterImageEffect_ = std::make_unique<EffectGroup>();
+	afterImageEffect_->Init("teleportAfterImageEffect", "BossEnemyEffect");
+	afterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyTeleportAfterImageEffect.json");
+}
+
 void BossEnemyTeleportationState::Enter(BossEnemy& bossEnemy) {
 
 	bossEnemy.SetNextAnimation("bossEnemy_teleport", true, nextAnimDuration_);
@@ -81,9 +89,17 @@ void BossEnemyTeleportationState::Update(BossEnemy& bossEnemy) {
 		canExit_ = true;
 	} else {
 
-		Vector3 emitPos = bossEnemy.GetTranslation();
-		emitPos.y = emitParticleOffsetY_;
+		// 補間中は発生させる
+		afterImageEffect_->Emit(bossEnemy.GetTranslation());
 	}
+}
+
+void BossEnemyTeleportationState::UpdateAlways(BossEnemy& bossEnemy) {
+
+	// 残像エフェクト更新、回転を設定する
+	afterImageEffect_->SetParentRotation("bossAfterImage",
+		Quaternion::Normalize(bossEnemy.GetRotation()), ParticleUpdateModuleID::Rotation);
+	afterImageEffect_->Update();
 }
 
 void BossEnemyTeleportationState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -109,7 +125,6 @@ void BossEnemyTeleportationState::ImGui([[maybe_unused]] const BossEnemy& bossEn
 	ImGui::DragFloat("lerpTime", &lerpTime_, 0.01f);
 	ImGui::DragFloat("fadeOutTime", &fadeOutTime_, 0.01f);
 	ImGui::DragFloat("fadeInTime", &fadeInTime_, 0.01f);
-	ImGui::DragFloat("emitParticleOffsetY", &emitParticleOffsetY_, 0.01f);
 	Easing::SelectEasingType(easingType_);
 
 	Vector3 center = player_->GetTranslation();
@@ -130,7 +145,6 @@ void BossEnemyTeleportationState::ApplyJson(const Json& data) {
 	lerpTime_ = JsonAdapter::GetValue<float>(data, "lerpTime_");
 	fadeOutTime_ = JsonAdapter::GetValue<float>(data, "fadeOutTime_");
 	fadeInTime_ = JsonAdapter::GetValue<float>(data, "fadeInTime_");
-	emitParticleOffsetY_ = JsonAdapter::GetValue<float>(data, "emitParticleOffsetY_");
 	easingType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "easingType_"));
 
 	{
@@ -152,6 +166,5 @@ void BossEnemyTeleportationState::SaveJson(Json& data) {
 	data["lerpTime_"] = lerpTime_;
 	data["fadeOutTime_"] = fadeOutTime_;
 	data["fadeInTime_"] = fadeInTime_;
-	data["emitParticleOffsetY_"] = emitParticleOffsetY_;
 	data["easingType_"] = static_cast<int>(easingType_);
 }

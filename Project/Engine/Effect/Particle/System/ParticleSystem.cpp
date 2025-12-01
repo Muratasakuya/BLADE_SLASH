@@ -156,7 +156,8 @@ void ParticleSystem::AddGroup() {
 
 	// モデル描画を行うとき、作成済みかチェックして
 	// 未作成ならエラー分を出す
-	if (!ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>()->GetMeshes().contains(addModelInput_)) {
+	if (primitiveType_ == ParticlePrimitiveType::Model &&
+		!ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>()->GetMeshes().contains(addModelInput_)) {
 
 		// モデルが存在しない
 		vaildAddModel_ = false;

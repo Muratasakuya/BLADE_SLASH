@@ -95,8 +95,6 @@ private:
 	float fadeInTime_;   // テレポート終了時の時間
 	float currentAlpha_; // α値
 
-	float emitParticleOffsetY_; // particleの発生位置のオフセット
-
 	// 3本の刃
 	static const uint32_t bladeMaxCount_ = 3;
 	std::array<std::unique_ptr<BossEnemyBladeCollision>, bladeMaxCount_> divisionBlades_;

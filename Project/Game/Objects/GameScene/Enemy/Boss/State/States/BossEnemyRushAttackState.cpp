@@ -155,10 +155,6 @@ void BossEnemyRushAttackState::UpdateTeleport(BossEnemy& bossEnemy, float deltaT
 			currentState_ = State::Attack;
 			lerpTimer_ = 0.0f;
 		}
-	} else {
-
-		Vector3 emitPos = bossEnemy.GetTranslation();
-		emitPos.y = emitParticleOffsetY_;
 	}
 }
 
@@ -286,7 +282,6 @@ void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
 		ImGui::DragFloat("fadeOutTime", &fadeOutTime_, 0.01f);
 		ImGui::DragFloat("fadeInTime", &fadeInTime_, 0.01f);
 		ImGui::DragFloat("attackCoolTime", &attackCoolTime_, 0.01f);
-		ImGui::DragFloat("emitParticleOffsetY_", &emitParticleOffsetY_, 0.01f);
 		ImGui::DragFloat("divisionOffsetAngle_", &divisionOffsetAngle_, 0.01f);
 		ImGui::DragFloat("divisionBladeMoveSpeed", &divisionBladeMoveSpeed_, 0.1f);
 		ImGui::DragFloat("singleBladeMoveSpeed", &singleBladeMoveSpeed_, 0.1f);
@@ -362,7 +357,6 @@ void BossEnemyRushAttackState::ApplyJson(const Json& data) {
 	attackCoolTime_ = JsonAdapter::GetValue<float>(data, "attackCoolTime_");
 	fadeOutTime_ = JsonAdapter::GetValue<float>(data, "fadeOutTime_");
 	fadeInTime_ = JsonAdapter::GetValue<float>(data, "fadeInTime_");
-	emitParticleOffsetY_ = JsonAdapter::GetValue<float>(data, "emitParticleOffsetY_");
 	divisionOffsetAngle_ = JsonAdapter::GetValue<float>(data, "divisionOffsetAngle_");
 	divisionBladeMoveSpeed_ = JsonAdapter::GetValue<float>(data, "divisionBladeMoveSpeed_");
 	singleBladeMoveSpeed_ = JsonAdapter::GetValue<float>(data, "singleBladeMoveSpeed_");
@@ -389,7 +383,6 @@ void BossEnemyRushAttackState::SaveJson(Json& data) {
 	data["attackCoolTime_"] = attackCoolTime_;
 	data["fadeOutTime_"] = fadeOutTime_;
 	data["fadeInTime_"] = fadeInTime_;
-	data["emitParticleOffsetY_"] = emitParticleOffsetY_;
 	data["divisionOffsetAngle_"] = divisionOffsetAngle_;
 	data["divisionBladeMoveSpeed_"] = divisionBladeMoveSpeed_;
 	data["singleBladeMoveSpeed_"] = singleBladeMoveSpeed_;
