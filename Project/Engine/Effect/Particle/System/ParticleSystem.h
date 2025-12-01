@@ -139,6 +139,8 @@ private:
 	bool showSavePopup_ = false;
 	static constexpr int kSaveNameSize = 128;
 	char jsonSaveInput_[kSaveNameSize] = {};
+	std::string addModelInput_; // 追加モデル入力用
+	bool vaildAddModel_ = true;
 	// layout
 	float comboWidth_ = 104.0f;
 	float itemWidth_ = 160.0f;

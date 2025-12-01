@@ -69,6 +69,7 @@ D3D12_GPU_VIRTUAL_ADDRESS BaseParticleGroup::GetPrimitiveBufferAdress() const {
 void BaseParticleGroup::CreatePrimitiveBuffer(ID3D12Device* device,
 	ParticlePrimitiveType primitiveType, uint32_t maxParticle) {
 
+	// モデルの場合はバッファが存在しないので処理しない
 	primitiveBuffer_.type = primitiveType;
 
 	// 各形状で生成、この時点で転送してしまう

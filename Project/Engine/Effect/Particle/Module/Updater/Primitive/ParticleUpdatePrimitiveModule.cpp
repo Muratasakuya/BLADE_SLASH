@@ -23,6 +23,10 @@ void ParticleUpdatePrimitiveModule::SetCommand(const ParticleCommand& command) {
 	// updaterにコマンドを送る
 	for (const auto& updater : updaters_) {
 
+		if (!updater) {
+			continue;
+		}
+
 		updater->SetCommand(command);
 	}
 }
@@ -55,6 +59,12 @@ void ParticleUpdatePrimitiveModule::Execute(
 
 	// 形状別で更新
 	type_ = particle.primitive.type;
+
+	// モデルの場合は処理しない
+	if (type_== ParticlePrimitiveType::Model) {
+		return;
+	}
+
 	if (const auto& updater = updaters_[static_cast<uint32_t>(type_)]) {
 
 		updater->Update(particle, easingType_);
@@ -62,6 +72,11 @@ void ParticleUpdatePrimitiveModule::Execute(
 }
 
 void ParticleUpdatePrimitiveModule::ImGui() {
+
+	// モデルの場合は処理しない
+	if (type_ == ParticlePrimitiveType::Model) {
+		return;
+	}
 
 	Easing::SelectEasingType(easingType_, GetName());
 	if (const auto& updater = updaters_[static_cast<uint32_t>(type_)]) {
@@ -76,6 +91,10 @@ Json ParticleUpdatePrimitiveModule::ToJson() {
 	data["easingType"] = EnumAdapter<EasingType>::ToString(easingType_);
 	for (const auto& updater : updaters_) {
 
+		if (!updater) {
+			continue;
+		}
+
 		updater->ToJson(data);
 	}
 	return data;
@@ -88,6 +107,10 @@ void ParticleUpdatePrimitiveModule::FromJson(const Json& data) {
 	easingType_ = easingType.value();
 
 	for (const auto& updater : updaters_) {
+
+		if (!updater) {
+			continue;
+		}
 
 		updater->FromJson(data);
 	}

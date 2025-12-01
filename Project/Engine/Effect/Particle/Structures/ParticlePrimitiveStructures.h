@@ -18,6 +18,7 @@ enum class ParticlePrimitiveType {
 	Crescent,  // 三日月
 	Lightning, // 雷
 	TestMesh,  // テストメッシュ
+	Model,     // 3Dモデル
 	Count
 };
 
