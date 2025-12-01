@@ -108,6 +108,53 @@ void ParticleRenderer::ToCompute(bool debugEnable, const GPUParticleGroup& group
 #endif
 }
 
+void ParticleRenderer::BeginSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand) {
+
+	// skinnedMesh以外は何もしない
+	if (!mesh->IsSkinned()) {
+		return;
+	}
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+
+	if (!debugEnable) {
+		return;
+	}
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+#else
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+#endif
+}
+
+void ParticleRenderer::EndSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand) {
+
+	// skinnedMesh以外は何もしない
+	if (!mesh->IsSkinned()) {
+		return;
+	}
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+	if (!debugEnable) {
+		return;
+	}
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER,
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+#else
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER,
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+#endif
+}
+
 void ParticleRenderer::Rendering(bool debugEnable, const GPUParticleGroup& group,
 	SceneConstBuffer* sceneBuffer, DxCommand* dxCommand) {
 
@@ -155,9 +202,13 @@ void ParticleRenderer::Rendering(bool debugEnable, const GPUParticleGroup& group
 			// textureTable
 			commandList->SetGraphicsRootDescriptorTable(8, asset_->GetGPUHandle(group.GetTextureName()));
 
+			BeginSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
+
 			// 描画処理
 			// 0,1,2,3,5にコマンドを設定
 			commandContext.DispatchMesh(commandList, kMaxGPUParticles, meshIndex, mesh.get());
+
+			EndSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
 		}
 	} else {
 
@@ -235,9 +286,13 @@ void ParticleRenderer::Rendering(bool debugEnable, const CPUParticleGroup& group
 			// texture(bindless)
 			commandList->SetGraphicsRootDescriptorTable(9, srvDescriptor_->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 
+			BeginSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
+
 			// 描画処理
 			// 0,1,2,3,5にコマンドを設定
 			commandContext.DispatchMesh(commandList, numInstance, meshIndex, mesh.get());
+
+			EndSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
 		}
 	} else {
 

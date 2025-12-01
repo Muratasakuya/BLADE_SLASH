@@ -68,7 +68,7 @@ private:
 	char renameBuffer_[128] = {}; // 入力用バッファ
 	// layout
 	float leftColumnWidth_ = 152.0f;
-	ImVec2 leftUpChildSize_ = ImVec2(leftColumnWidth_, 122.0f);
+	ImVec2 leftUpChildSize_ = ImVec2(leftColumnWidth_, 160.0f);
 	ImVec2 leftCenterChildSize_ = ImVec2(leftColumnWidth_, 122.0f);
 	float rightUpChildSizeY_ = leftUpChildSize_.y;
 	float rightCenterChildSizeY_ = leftCenterChildSize_.y;

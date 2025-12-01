@@ -109,12 +109,8 @@ out vertices MSOutput verts[64], out indices uint3 polys[126]) {
 	// 各スレッドで頂点データを処理して出力
 	if (groupThreadId < meshlet.vertexCount) {
 		
+		// 同じアニメーションになるのでインデックスは共通
 		uint index = gIndices[meshlet.vertexOffset + groupThreadId];
-		// skinnedMeshだったらindexをインスタンスインデックス * 頂点分足す
-		if (isSkinned == 1) {
-			
-			index += instanceIndex * numVertices;
-		}
 		MSInput input = gVertices[index];
 		MSOutput vertex = (MSOutput) 0;
 		
