@@ -67,6 +67,10 @@ bool BossEnemyRequestFalter::Check(BossEnemyStateController& stateController) {
 	BossEnemyState bossState = bossEnemy_->GetCurrentState();
 	PlayerState playerState = player_->GetCurrentState();
 
+	if (bossState == BossEnemyState::Stun) {
+		return false;
+	}
+
 	auto& bossInfo = allowFalterBossInfos_.at(bossState);
 	auto& playerInfo = falterPlayerInfos_.at(playerState);
 
@@ -84,6 +88,11 @@ bool BossEnemyRequestFalter::Check(BossEnemyStateController& stateController) {
 		disablePlayerState_ = playerState;
 	}
 
+	// 怯めないときはfalseを返す
+	if (!playerInfo.isDisableState && maxFalterCount_ <= currentFalterCount_) {
+		return false;
+	}
+
 	// isForce がtrueのときはボス側isAllowがfalseでも怯ませる
 	if (playerInfo.isForce) {
 
@@ -91,11 +100,6 @@ bool BossEnemyRequestFalter::Check(BossEnemyStateController& stateController) {
 		currentRecoverFalterCount_ = 0;
 		++currentFalterCount_;
 		return true;
-	}
-
-	// 怯めないときはfalseを返す
-	if (maxFalterCount_ <= currentFalterCount_) {
-		return false;
 	}
 
 	// ボスの状態が怯み許可のときだけ通常の攻撃で怯む

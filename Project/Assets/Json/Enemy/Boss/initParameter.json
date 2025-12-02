@@ -111,14 +111,6 @@
             }
         }
     },
-    "BlockFalterState": [
-        "Stun",
-        "Teleport",
-        "LightAttack",
-        "StrongAttack",
-        "ChargeAttack",
-        "RushAttack"
-    ],
     "CollisionBody0": {
         "OBB": {
             "center": {
@@ -152,7 +144,8 @@
         "4": 400,
         "5": 600,
         "6": 600,
-        "7": 450
+        "7": 450,
+        "8": 421
     },
     "DistanceLevels": {
         "Far": 200.0,
@@ -202,11 +195,9 @@
             "z": 0.0
         }
     },
-    "ReFalterTimer": {
-        "easeingType_": "EaseInSine",
-        "target_": 16.0
-    },
     "Transform": {
+        "isCompulsion_": false,
+        "isIgnoreParentScale": false,
         "rotation": {
             "w": 1.0,
             "x": 0.0,
@@ -229,6 +220,5 @@
         50
     ],
     "maxDestroyToughness": 100,
-    "maxFalterCount": 6,
     "maxHP": 1280000
 }
