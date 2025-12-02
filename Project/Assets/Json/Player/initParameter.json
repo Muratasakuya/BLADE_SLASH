@@ -270,11 +270,13 @@
         "5": 2200,
         "6": 4000,
         "7": 8000,
-        "8": 4000
+        "8": 4000,
+        "9": 9000
     },
     "LeftWeapon": {
         "InitTransform": {
             "isCompulsion_": false,
+            "isIgnoreParentScale": false,
             "rotation": {
                 "w": 1.0,
                 "x": 0.0,
@@ -559,6 +561,7 @@
     "RightWeapon": {
         "InitTransform": {
             "isCompulsion_": false,
+            "isIgnoreParentScale": false,
             "rotation": {
                 "w": 1.0,
                 "x": 0.0,
@@ -799,6 +802,7 @@
     },
     "Transform": {
         "isCompulsion_": false,
+        "isIgnoreParentScale": false,
         "rotation": {
             "w": 1.0,
             "x": 0.0,
