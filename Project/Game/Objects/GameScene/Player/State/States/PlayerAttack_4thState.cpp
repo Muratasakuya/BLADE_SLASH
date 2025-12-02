@@ -64,6 +64,9 @@ void PlayerAttack_4thState::Enter(Player& player) {
 
 	// 回転エフェクトの発生
 	rotationEffect_->Emit(player_->GetRotation() * rotateEffectOffset_);
+
+	// HUD入力リアクション
+	player.GetHUD()->StartInputReactAnim(PlayerState::Attack_4th);
 }
 
 void PlayerAttack_4thState::Update(Player& player) {

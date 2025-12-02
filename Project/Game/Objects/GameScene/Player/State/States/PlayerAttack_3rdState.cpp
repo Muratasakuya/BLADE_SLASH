@@ -63,6 +63,9 @@ void PlayerAttack_3rdState::Enter(Player& player) {
 		// カメラアニメーション開始
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_3rd);
 	}
+
+	// HUD入力リアクション
+	player.GetHUD()->StartInputReactAnim(PlayerState::Attack_3rd);
 }
 
 void PlayerAttack_3rdState::Update(Player& player) {

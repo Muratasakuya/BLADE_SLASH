@@ -90,6 +90,9 @@ void PlayerSkilAttackState::Enter(Player& player) {
 
 	// カメラアニメーション開始
 	followCamera_->StartPlayerActionAnim("playerSkilMove");
+
+	// HUD入力リアクション
+	player.GetHUD()->StartInputReactAnim(PlayerState::SkilAttack);
 }
 
 void PlayerSkilAttackState::Update([[maybe_unused]] Player& player) {
