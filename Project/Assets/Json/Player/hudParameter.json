@@ -36,6 +36,60 @@
             "y": 64.0
         }
     },
+    "inputReactColorAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "PingPong"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "Linear",
+            "target_": 0.1599999964237213
+        },
+        "move_.end": {
+            "a": 1.0,
+            "b": 0.48499926924705505,
+            "g": 0.7427425980567932,
+            "r": 0.9926416277885437
+        },
+        "move_.start": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "useReturnTimer_": false
+    },
+    "inputReactSizeAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "PingPong"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseInBack",
+            "target_": 0.07999999821186066
+        },
+        "move_.end": {
+            "x": 100.01000213623047,
+            "y": 160.0
+        },
+        "move_.start": {
+            "x": 128.0,
+            "y": 128.0
+        },
+        "useReturnTimer_": false
+    },
     "inputSuggestBackEmissiveAnim": {
         "Loop": {
             "loop": {

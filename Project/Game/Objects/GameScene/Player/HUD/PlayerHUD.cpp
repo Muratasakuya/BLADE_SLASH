@@ -168,6 +168,8 @@ void PlayerHUD::UpdateSprite(const Player& player) {
 
 	// 入力示唆の更新
 	UpdateInputSuggest();
+	// 入力リアクションアニメーションの更新
+	UpdateInputReactAnim();
 
 	// 入力状態に応じて表示を切り替える
 	ChangeAllOperateSprite();
@@ -258,6 +260,51 @@ void PlayerHUD::EndInputSuggest() {
 	}
 }
 
+void PlayerHUD::StartInputReactAnim(PlayerState state) {
+
+	// 状態に応じて処理
+	inputReactState_ = state;
+	// 無効状態なら処理しない
+	if (inputReactState_ == PlayerState::SkilAttack) {
+
+		// スキルUIをアクティブにしてアニメーションさせる
+		skil_.isActiveInput = true;
+		// パリィ入力のUIサイズを元に戻す
+		// 入力画像は2倍する
+		parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+		// 攻撃入力のUIサイズを元に戻す
+		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+	} else if (inputReactState_ == PlayerState::Parry) {
+
+		// パリィUIをアクティブにしてアニメーションさせる
+		parry_.isActiveInput = true;
+		// スキル入力のUIサイズを元に戻す
+		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+		// 攻撃入力のUIサイズを元に戻す
+		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+	} else if (
+		inputReactState_ == PlayerState::Attack_1st ||
+		inputReactState_ == PlayerState::Attack_2nd ||
+		inputReactState_ == PlayerState::Attack_3rd ||
+		inputReactState_ == PlayerState::Attack_4th) {
+
+		// パリィUIをアクティブにしてアニメーションさせる
+		attack_.isActiveInput = true;
+		// スキル入力のUIサイズを元に戻す
+		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+		// パリィ入力のUIサイズを元に戻す
+		// 入力画像は2倍する
+		parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+	} else {
+		// それ以外の状態なら処理しない
+		return;
+	}
+
+	// 入力リアクションアニメーション開始
+	inputReactSizeAnim_.Start();
+	inputReactColorAnim_.Start();
+}
+
 void PlayerHUD::UpdateInputSuggest() {
 
 	// 入力示唆が有効でない場合は処理しない
@@ -304,6 +351,96 @@ void PlayerHUD::UpdateInputSuggest() {
 			inputSuggest.colorAnim.Start();
 			inputSuggest.emissiveAnim.Start();
 		}
+	}
+}
+
+void PlayerHUD::UpdateInputReactAnim() {
+
+	// 無効状態なら処理しない
+	if (!parry_.isActiveInput && !skil_.isActiveInput && !attack_.isActiveInput) {
+		return;
+	}
+
+	Vector2 size{};
+	Color color{};
+	switch (inputReactState_) {
+	case PlayerState::SkilAttack: {
+
+		// スキルUIをアニメーションさせる
+		// サイズ
+		size = skil_.staticSprite->GetSize();
+		inputReactSizeAnim_.LerpValue(size);
+		skil_.staticSprite->SetSize(size);
+		// 色
+		color = skil_.staticSprite->GetColor();
+		inputReactColorAnim_.LerpValue(color);
+		skil_.staticSprite->SetColor(color);
+		break;
+	}
+	case PlayerState::Parry: {
+
+		// パリィUIをアニメーションさせる
+		// サイズ
+		size = parry_.staticSprite->GetSize();
+		inputReactSizeAnim_.LerpValue(size);
+		parry_.staticSprite->SetSize(size);
+		// 色
+		color = parry_.staticSprite->GetColor();
+		inputReactColorAnim_.LerpValue(color);
+		parry_.staticSprite->SetColor(color);
+		break;
+	}
+	case PlayerState::Attack_1st:
+	case PlayerState::Attack_2nd:
+	case PlayerState::Attack_3rd:
+	case PlayerState::Attack_4th:
+
+		// パリィUIをアニメーションさせる
+		// サイズ
+		size = attack_.staticSprite->GetSize();
+		inputReactSizeAnim_.LerpValue(size);
+		attack_.staticSprite->SetSize(size);
+		// 色
+		color = attack_.staticSprite->GetColor();
+		inputReactColorAnim_.LerpValue(color);
+		attack_.staticSprite->SetColor(color);
+		break;
+	}
+
+	// アニメーションが終了次第リセット
+	if (inputReactSizeAnim_.IsFinished() &&
+		inputReactColorAnim_.IsFinished()) {
+
+		// サイズと色を元に戻す
+		switch (inputReactState_) {
+		case PlayerState::SkilAttack: {
+
+			skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+			skil_.staticSprite->SetColor(Color::White());
+			break;
+		}
+		case PlayerState::Parry: {
+
+			// 入力画像は2倍する
+			parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+			parry_.staticSprite->SetColor(Color::White());
+			break;
+		}
+		case PlayerState::Attack_1st:
+		case PlayerState::Attack_2nd:
+		case PlayerState::Attack_3rd:
+		case PlayerState::Attack_4th:
+
+			attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+			attack_.staticSprite->SetColor(Color::White());
+			break;
+		}
+		inputReactSizeAnim_.Reset();
+		inputReactColorAnim_.Reset();
+		// 無効状態にする
+		skil_.isActiveInput = false;
+		parry_.isActiveInput = false;
+		attack_.isActiveInput = false;
 	}
 }
 
@@ -389,6 +526,34 @@ void PlayerHUD::ImGui() {
 				inputSuggests_.back().sizeAnim.ImGui("BackSizeAnim", false);
 				inputSuggests_.back().colorAnim.ImGui("BackcolorAnim", false);
 				inputSuggests_.back().emissiveAnim.ImGui("BackEmissiveAnim", false);
+			}
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("InputReactAnim")) {
+
+			if (ImGui::Button("Start Skil")) {
+
+				StartInputReactAnim(PlayerState::SkilAttack);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Start Parry")) {
+
+				StartInputReactAnim(PlayerState::Parry);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Start Attack")) {
+
+				StartInputReactAnim(PlayerState::Attack_2nd);
+			}
+			ImGui::Separator();
+
+			if (ImGui::CollapsingHeader("Size")) {
+
+				inputReactSizeAnim_.ImGui("InputReactSizeAnim", true);
+			}
+			if (ImGui::CollapsingHeader("Color")) {
+
+				inputReactColorAnim_.ImGui("InputReactColorAnim", true);
 			}
 			ImGui::EndTabItem();
 		}
@@ -497,6 +662,9 @@ void PlayerHUD::ApplyJson() {
 	inputSuggestDelay_.FromJson(data.value("inputSuggestDelay", Json()));
 	inputSuggestEmissionColor_ = Vector3::FromJson(data.value("inputSuggestEmissionColor", Json()));
 
+	inputReactSizeAnim_.FromJson(data.value("inputReactSizeAnim", Json()));
+	inputReactColorAnim_.FromJson(data.value("inputReactColorAnim", Json()));
+
 	SetAllOperateTranslation();
 	SetAllOperateSize();
 }
@@ -528,6 +696,9 @@ void PlayerHUD::SaveJson() {
 	inputSuggests_.back().emissiveAnim.ToJson(data["inputSuggestBackEmissiveAnim"]);
 	inputSuggestDelay_.ToJson(data["inputSuggestDelay"]);
 	data["inputSuggestEmissionColor"] = inputSuggestEmissionColor_.ToJson();
+
+	inputReactSizeAnim_.ToJson(data["inputReactSizeAnim"]);
+	inputReactColorAnim_.ToJson(data["inputReactColorAnim"]);
 
 	JsonAdapter::Save("Player/hudParameter.json", data);
 }

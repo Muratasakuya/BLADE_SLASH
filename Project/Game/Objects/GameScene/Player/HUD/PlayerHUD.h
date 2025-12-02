@@ -47,6 +47,9 @@ public:
 	void StartInputSuggest();
 	void EndInputSuggest();
 
+	// 入力リアクションアニメーション開始
+	void StartInputReactAnim(PlayerState state);
+
 	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
@@ -67,6 +70,9 @@ private:
 		std::unordered_map<InputType, std::unique_ptr<GameObject2D>> dynamicSprites;
 
 		uint32_t index; // spriteを左から並べた時の順番
+
+		// 現在アクティブな入力状態かどうか
+		bool isActiveInput = false;
 
 		// groupの名前
 		const std::string groupName = "PlayerHUD";
@@ -143,6 +149,12 @@ private:
 	InputStateSprite skil_;   // スキル
 	InputStateSprite parry_;  // パリィ
 
+	// 入力に応じたリアクション
+	SimpleAnimation<Vector2> inputReactSizeAnim_; // サイズ
+	SimpleAnimation<Color> inputReactColorAnim_;  // 色
+	// 入力リアクションさせる状態
+	PlayerState inputReactState_;
+
 	// parameters
 	Vector2 leftSpriteTranslation_; // 左端のsprite座標
 	float dynamicSpriteOffsetY_;    // 入力状態に応じて変化するspriteのオフセットY座標
@@ -177,6 +189,8 @@ private:
 
 	// 入力示唆更新
 	void UpdateInputSuggest();
+	// 入力に応じたUIのアニメーション
+	void UpdateInputReactAnim();
 
 	// helper
 	void ChangeAllOperateSprite();
