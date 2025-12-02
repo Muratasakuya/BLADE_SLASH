@@ -78,6 +78,7 @@ private:
 
 	// フェーズ閾値表示
 	std::unique_ptr<GameObject2DArray> phaseThreshold_;
+	Color disablePhaseThresholdColor_; // 無効時の色
 
 	// parameters
 	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間
@@ -99,4 +100,7 @@ private:
 	// update
 	void UpdateSprite(const BossEnemy& bossEnemy);
 	void UpdateAlpha();
+
+	// ボスのフェーズ閾値表示位置の更新
+	void UpdatePhaseThresholdPos();
 };

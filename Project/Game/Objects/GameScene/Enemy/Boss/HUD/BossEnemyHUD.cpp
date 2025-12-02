@@ -105,6 +105,7 @@ void BossEnemyHUD::UpdateSprite(const BossEnemy& bossEnemy) {
 	damageDisplay_->Update(bossEnemy, *followCamera_);
 
 	// フェーズ閾値表示の更新
+	UpdatePhaseThresholdPos();
 	phaseThreshold_->Update();
 }
 
@@ -146,6 +147,34 @@ void BossEnemyHUD::UpdateAlpha() {
 		isDisable_ = false;
 		returnVaild_ = false;
 	}
+}
+
+void BossEnemyHUD::UpdatePhaseThresholdPos() {
+
+	// 閾値が設定されていない場合は何もしない
+	if (!phaseThreshold_ || stats_.hpThresholds.empty()) {
+		return;
+	}
+
+	// 最後の閾（HP%を取得
+	int lastThreshold = stats_.hpThresholds.back();
+	float thresholdRatio = std::clamp(lastThreshold / 100.0f, 0.0f, 1.0f);
+
+	// HPバーのTransform取得
+	const Transform2D& barT = hpBar_->GetTransform();
+
+	// 実際の描画幅
+	float barWidth = barT.size.x * barT.sizeScale.x;
+
+	// 左端、右端のX座標
+	float barLeft = barT.translation.x - barWidth * barT.anchorPoint.x;
+	float barRight = barLeft + barWidth;
+	float thresholdX = barRight - barWidth * thresholdRatio;
+
+	// Yは現在の値を維持してXだけ更新
+	Vector2 phasePos = phaseThreshold_->GetTransform().translation;
+	phasePos.x = thresholdX;
+	phaseThreshold_->SetTranslation(phasePos);
 }
 
 void BossEnemyHUD::ImGui() {

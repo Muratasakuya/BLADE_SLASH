@@ -52,6 +52,9 @@ public:
 	// 色
 	void SetColor(const Color& color, int32_t index = -1);
 	void SetAlpha(float alpha, int32_t index = -1);
+
+	// transform
+	const Transform2D& GetTransform() { return transform_; }
 private:
 	//========================================================================
 	//	private Methods
