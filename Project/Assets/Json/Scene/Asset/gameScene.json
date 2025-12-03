@@ -52,7 +52,10 @@
     "bgCheckerboard",
     "titleButton",
     "retryButton",
-    "playerToBoss"
+    "playerToBoss",
+    "inputSuggestRing",
+    "barThresholdFrame",
+    "barThreshold"
   ],
   "Models": [
     "bossEnemy",

@@ -35,5 +35,6 @@ enum class ParticleUpdateModuleID {
 	Trail,
 	KeyframePath,
 	Translate,
+	Collect,
 	Count,
 };

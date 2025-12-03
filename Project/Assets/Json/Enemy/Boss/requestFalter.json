@@ -1,40 +1,52 @@
 {
     "allowFalterBossStates": {
         "ChargeAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "ContinuousAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "Falter": {
-            "isAllow": true
+            "isAllow": true,
+            "isAllowAll": false
         },
         "GreatAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "Idle": {
-            "isAllow": true
+            "isAllow": true,
+            "isAllowAll": false
         },
         "JumpAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "LightAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "ProjectileAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "RushAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "StrongAttack": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "Stun": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         },
         "Teleport": {
-            "isAllow": false
+            "isAllow": false,
+            "isAllowAll": false
         }
     },
     "forceFalterPlayerStates": {
@@ -47,8 +59,8 @@
             "isForce": false
         },
         "Attack_3rd": {
-            "isDisableState": true,
-            "isForce": true
+            "isDisableState": false,
+            "isForce": false
         },
         "Attack_4th": {
             "isDisableState": false,
@@ -95,6 +107,6 @@
             "isForce": false
         }
     },
-    "maxFalterCount": 16,
-    "recoverFalterCount": 4
+    "maxFalterCount": 8,
+    "recoverFalterCount": 8
 }

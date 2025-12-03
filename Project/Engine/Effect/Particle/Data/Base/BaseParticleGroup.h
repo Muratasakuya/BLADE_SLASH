@@ -27,11 +27,15 @@ public:
 
 	// シーンビューの設定
 	void SetSceneView(SceneView* sceneView) { sceneView_ = sceneView; }
-
 	// 親の設定
 	void SetParent(bool isSet, const BaseTransform& parent);
+	// モデルの設定
+	void SetModelName(const std::string& modelName) { modelName_ = modelName; }
 
+	// 形状バッファのアドレス取得
 	D3D12_GPU_VIRTUAL_ADDRESS GetPrimitiveBufferAdress() const;
+	// モデルの名前を取得
+	const std::string& GetModelName() const { return modelName_; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -67,6 +71,7 @@ protected:
 	// 描画情報
 	BlendMode blendMode_;
 	std::string textureName_;
+	std::string modelName_;
 
 	// 親設定
 	const BaseTransform* parentTransform_ = nullptr;

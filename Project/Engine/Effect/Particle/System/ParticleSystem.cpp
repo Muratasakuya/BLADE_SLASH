@@ -4,6 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Core/Window/WinApp.h>
+#include <Engine/Object/Core/ObjectManager.h>
+#include <Engine/Object/System/Systems/InstancedMeshSystem.h>
 #include <Engine/Effect/Particle/ParticleConfig.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -152,6 +154,18 @@ void ParticleSystem::ApplyCommand(const ParticleCommand& command) {
 
 void ParticleSystem::AddGroup() {
 
+	// モデル描画を行うとき、作成済みかチェックして
+	// 未作成ならエラー分を出す
+	if (primitiveType_ == ParticlePrimitiveType::Model &&
+		!ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>()->GetMeshes().contains(addModelInput_)) {
+
+		// モデルが存在しない
+		vaildAddModel_ = false;
+		return;
+	} else {
+		vaildAddModel_ = true;
+	}
+
 	// タイプに応じて作成
 	if (particleType_ == ParticleType::CPU) {
 
@@ -171,6 +185,18 @@ void ParticleSystem::AddGroup() {
 		group.name = "particle" + std::to_string(++nextGroupId_);
 		// 作成
 		group.group.Create(device_, asset_, primitiveType_);
+	}
+	if (primitiveType_ == ParticlePrimitiveType::Model) {
+		// モデル名の設定
+		if (particleType_ == ParticleType::CPU) {
+
+			cpuGroups_.back().group.SetModelName(addModelInput_);
+		} else if (particleType_ == ParticleType::GPU) {
+
+			gpuGroups_.back().group.SetModelName(addModelInput_);
+		}
+		// 入力欄をクリア
+		addModelInput_.clear();
 	}
 }
 
@@ -251,6 +277,21 @@ void ParticleSystem::ImGuiGroupAdd() {
 
 	EnumAdapter<ParticleType>::Combo("Type", &particleType_);
 	EnumAdapter<ParticlePrimitiveType>::Combo("Prim", &primitiveType_);
+
+	// モデルを選択した場合のみ読み込み済みのモデルを表示する
+	if (primitiveType_ == ParticlePrimitiveType::Model) {
+
+		// モデルの名前を入力する
+		char buf[128] = {};
+		strncpy_s(buf, sizeof(buf), addModelInput_.c_str(), _TRUNCATE);
+		if (ImGui::InputText("Name", buf, IM_ARRAYSIZE(buf))) {
+
+			addModelInput_ = buf;
+		}
+		if (!vaildAddModel_) {
+			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Model not found!");
+		}
+	}
 
 	ImGui::PopItemWidth();
 

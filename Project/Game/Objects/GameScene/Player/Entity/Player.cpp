@@ -150,6 +150,7 @@ void Player::SetBossEnemy(const BossEnemy* bossEnemy) {
 	bossEnemy_ = bossEnemy;
 
 	stateController_->SetBossEnemy(bossEnemy);
+	hudSprites_->SetBossEnemy(bossEnemy);
 }
 
 void Player::SetFollowCamera(FollowCamera* followCamera) {
@@ -260,6 +261,7 @@ void Player::Update() {
 
 	// HUDの更新
 	hudSprites_->SetStatas(stats_);
+	hudSprites_->CheckBossEnemyParry();
 	hudSprites_->Update(*this);
 	stunHudSprites_->Update();
 

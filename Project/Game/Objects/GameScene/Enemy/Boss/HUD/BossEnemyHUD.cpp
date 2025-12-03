@@ -38,6 +38,13 @@ void BossEnemyHUD::InitSprite() {
 	// ダメージ表示
 	damageDisplay_ = std::make_unique<GameDisplayDamage>();
 	damageDisplay_->Init("enemyDamageNumber", "BossEnemyHUD", 8, 4);
+
+	// フェーズ閾値表示
+	phaseThreshold_ = std::make_unique<GameObject2DArray>();
+	phaseThreshold_->Init();
+	// フェーズ閾値のスプライトを追加
+	phaseThreshold_->Add("barThresholdFrame", "phaseThreshold", "BossEnemyHUD"); // 枠
+	phaseThreshold_->Add("barThreshold", "phaseThreshold", "BossEnemyHUD");      // 中の色
 }
 
 void BossEnemyHUD::Init() {
@@ -66,6 +73,7 @@ void BossEnemyHUD::SetDisable() {
 	destroyNumDisplay_->SetAlpha(0.0f);
 	nameText_->SetAlpha(0.0f);
 	damageDisplay_->SetAlpha(0.0f);
+	phaseThreshold_->SetAlpha(0.0f);
 }
 
 void BossEnemyHUD::SetValid() {
@@ -95,6 +103,10 @@ void BossEnemyHUD::UpdateSprite(const BossEnemy& bossEnemy) {
 
 	// ダメージ表記の更新
 	damageDisplay_->Update(bossEnemy, *followCamera_);
+
+	// フェーズ閾値表示の更新
+	UpdatePhaseThresholdPos();
+	phaseThreshold_->Update();
 }
 
 void BossEnemyHUD::UpdateAlpha() {
@@ -116,6 +128,7 @@ void BossEnemyHUD::UpdateAlpha() {
 	destroyNumDisplay_->SetAlpha(alpha);
 	nameText_->SetAlpha(alpha);
 	damageDisplay_->SetAlpha(alpha);
+	phaseThreshold_->SetAlpha(alpha);
 
 	if (returnAlphaTime_ < returnAlphaTimer_) {
 
@@ -126,6 +139,7 @@ void BossEnemyHUD::UpdateAlpha() {
 		destroyNumDisplay_->SetAlpha(1.0f);
 		nameText_->SetAlpha(1.0f);
 		damageDisplay_->SetAlpha(1.0f);
+		phaseThreshold_->SetAlpha(1.0f);
 
 		// 元に戻ったので処理終了
 		returnAlphaTimer_ = 0.0f;
@@ -133,6 +147,34 @@ void BossEnemyHUD::UpdateAlpha() {
 		isDisable_ = false;
 		returnVaild_ = false;
 	}
+}
+
+void BossEnemyHUD::UpdatePhaseThresholdPos() {
+
+	// 閾値が設定されていない場合は何もしない
+	if (!phaseThreshold_ || stats_.hpThresholds.empty()) {
+		return;
+	}
+
+	// 最後の閾（HP%を取得
+	int lastThreshold = stats_.hpThresholds.back();
+	float thresholdRatio = std::clamp(lastThreshold / 100.0f, 0.0f, 1.0f);
+
+	// HPバーのTransform取得
+	const Transform2D& barT = hpBar_->GetTransform();
+
+	// 実際の描画幅
+	float barWidth = barT.size.x * barT.sizeScale.x;
+
+	// 左端、右端のX座標
+	float barLeft = barT.translation.x - barWidth * barT.anchorPoint.x;
+	float barRight = barLeft + barWidth;
+	float thresholdX = barRight - barWidth * thresholdRatio;
+
+	// Yは現在の値を維持してXだけ更新
+	Vector2 phasePos = phaseThreshold_->GetTransform().translation;
+	phasePos.x = thresholdX;
+	phaseThreshold_->SetTranslation(phasePos);
 }
 
 void BossEnemyHUD::ImGui() {
@@ -194,6 +236,11 @@ void BossEnemyHUD::ImGui() {
 			damageDisplay_->ImGui();
 			ImGui::EndTabItem();
 		}
+		if (ImGui::BeginTabItem("PhaseThreshold##HUD")) {
+
+			phaseThreshold_->ImGui();
+			ImGui::EndTabItem();
+		}
 		ImGui::EndTabBar();
 	}
 }
@@ -228,6 +275,8 @@ void BossEnemyHUD::ApplyJson() {
 		JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
 
 	damageDisplay_->ApplyJson(data);
+
+	phaseThreshold_->FromJson(data.value("phaseThreshold_", Json()));
 }
 
 void BossEnemyHUD::SaveJson() {
@@ -245,6 +294,8 @@ void BossEnemyHUD::SaveJson() {
 	data["returnAlphaEasingType_"] = static_cast<int>(returnAlphaEasingType_);
 
 	damageDisplay_->SaveJson(data);
+
+	phaseThreshold_->ToJson(data["phaseThreshold_"]);
 
 	JsonAdapter::Save("Enemy/Boss/hudParameter.json", data);
 }

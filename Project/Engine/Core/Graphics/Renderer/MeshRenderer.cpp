@@ -192,6 +192,11 @@ void MeshRenderer::SetPipeline(bool debugEnable, const SkyboxRenderSystem& skybo
 
 void MeshRenderer::BeginSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand) {
 
+	// #if defined(_DEBUG) || defined(_DEVELOPBUILD)
+	// GameView描画の時にCSからMSで使える状態に遷移
+	// #else
+	// スキンメッシュならCSからMSで使える状態に遷移
+
 	// skinnedMeshなら頂点を読める状態にする
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	if (!debugEnable) {
@@ -213,6 +218,11 @@ void MeshRenderer::BeginSkinnedTransition(bool debugEnable, uint32_t meshIndex, 
 }
 
 void MeshRenderer::EndSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand) {
+
+	// #if defined(_DEBUG) || defined(_DEVELOPBUILD)
+	// DebugView描画が終わったタイミングでMSからCSで使える状態に遷移
+	// #else
+	// スキンメッシュならMSからCSで使える状態に遷移
 
 	// skinnedMeshなら頂点を書き込み状態に戻す
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)

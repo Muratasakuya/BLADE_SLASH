@@ -36,6 +36,215 @@
             "y": 64.0
         }
     },
+    "inputReactColorAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "PingPong"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "Linear",
+            "target_": 0.1599999964237213
+        },
+        "move_.end": {
+            "a": 1.0,
+            "b": 0.48499926924705505,
+            "g": 0.7427425980567932,
+            "r": 0.9926416277885437
+        },
+        "move_.start": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "useReturnTimer_": false
+    },
+    "inputReactSizeAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "PingPong"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseInBack",
+            "target_": 0.07999999821186066
+        },
+        "move_.end": {
+            "x": 100.01000213623047,
+            "y": 160.0
+        },
+        "move_.start": {
+            "x": 128.0,
+            "y": 128.0
+        },
+        "useReturnTimer_": false
+    },
+    "inputSuggestBackEmissiveAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseInSine",
+            "target_": 0.07999999821186066
+        },
+        "move_.end": 0.0,
+        "move_.start": 16.0,
+        "useReturnTimer_": false
+    },
+    "inputSuggestBackSizeAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "Linear",
+            "target_": 0.11999999731779099
+        },
+        "move_.end": {
+            "x": 160.0,
+            "y": 160.0
+        },
+        "move_.start": {
+            "x": 128.0,
+            "y": 128.0
+        },
+        "useReturnTimer_": false
+    },
+    "inputSuggestBackcolorAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseInSine",
+            "target_": 0.11999999731779099
+        },
+        "move_.end": {
+            "a": 0.0,
+            "b": 0.062745101749897,
+            "g": 0.062745101749897,
+            "r": 0.9607843160629272
+        },
+        "move_.start": {
+            "a": 1.0,
+            "b": 0.06283887475728989,
+            "g": 0.359756201505661,
+            "r": 0.9595290422439575
+        },
+        "useReturnTimer_": false
+    },
+    "inputSuggestDelay": {
+        "easeingType_": "Linear",
+        "target_": 0.03999999910593033
+    },
+    "inputSuggestEmissionColor": {
+        "x": 0.9632082581520081,
+        "y": 0.01701027899980545,
+        "z": 0.01701027899980545
+    },
+    "inputSuggestFrontEmissiveAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseInSine",
+            "target_": 0.07999999821186066
+        },
+        "move_.end": 0.0,
+        "move_.start": 16.0,
+        "useReturnTimer_": false
+    },
+    "inputSuggestFrontSizeAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseOutExpo",
+            "target_": 0.11999999731779099
+        },
+        "move_.end": {
+            "x": 172.0,
+            "y": 172.0
+        },
+        "move_.start": {
+            "x": 128.0,
+            "y": 128.0
+        },
+        "useReturnTimer_": false
+    },
+    "inputSuggestFrontcolorAnim": {
+        "Loop": {
+            "loop": {
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easeingType_": "Linear",
+            "target_": 0.0
+        },
+        "Timer": {
+            "easeingType_": "EaseOutSine",
+            "target_": 0.11999999731779099
+        },
+        "move_.end": {
+            "a": 0.0,
+            "b": 0.062745101749897,
+            "g": 0.062745101749897,
+            "r": 0.9607843160629272
+        },
+        "move_.start": {
+            "a": 1.0,
+            "b": 0.06283887475728989,
+            "g": 0.359756201505661,
+            "r": 0.9595290422439575
+        },
+        "useReturnTimer_": false
+    },
     "leftSpriteTranslation": {
         "x": 1348.0,
         "y": 900.0

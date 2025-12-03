@@ -16,12 +16,13 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyTeleportationState() = default;
+	BossEnemyTeleportationState();
 	~BossEnemyTeleportationState() = default;
 
 	void Enter(BossEnemy& bossEnemy) override;
 
 	void Update(BossEnemy& bossEnemy) override;
+	void UpdateAlways(BossEnemy& bossEnemy) override;
 
 	void Exit(BossEnemy& bossEnemy) override;
 
@@ -63,5 +64,6 @@ private:
 	float fadeInTime_;   // テレポート終了時の時間
 	float currentAlpha_; // α値
 
-	float emitParticleOffsetY_; // particleの発生位置のオフセット
+	// 残像エフェクト
+	std::unique_ptr<EffectGroup> afterImageEffect_;
 };

@@ -516,6 +516,7 @@ Json GPUParticleGroup::ToJson() const {
 	data["updateType"] = EnumAdapter<GPUParticle::UpdateType>::ToString(updateType_);
 
 	data["textureName"] = textureName_;
+	data["modelName_"] = modelName_;
 	data["noiseTextureName"] = noiseTextureName_;
 	data["frequency"] = frequency_;
 
@@ -582,6 +583,7 @@ void GPUParticleGroup::FromJson(const Json& data) {
 	updateType_ = updateType.value();
 
 	textureName_ = data.value("textureName", "circle");
+	modelName_ = data.value("modelName_", "");
 	noiseTextureName_ = data.value("noiseTextureName", "noise");
 	frequency_ = data.value("frequency", 0.4f);
 

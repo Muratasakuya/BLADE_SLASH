@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Effect/User/EffectGroup.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
@@ -25,6 +26,7 @@ public:
 	void Enter(BossEnemy& bossEnemy) override;
 
 	void Update(BossEnemy& bossEnemy) override;
+	void UpdateAlways(BossEnemy& bossEnemy) override;
 
 	void Exit(BossEnemy& bossEnemy) override;
 
@@ -60,6 +62,12 @@ private:
 
 	// 値操作する状態
 	State editState_;
+
+	// エフェクト
+	// チャージ
+	std::unique_ptr<EffectGroup> beginChargeEffect_;
+	// 雷攻撃(警告も)
+	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 
 	//--------- functions ----------------------------------------------------
 

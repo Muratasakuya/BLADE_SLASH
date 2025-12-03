@@ -172,6 +172,10 @@ void SubPlayerPunchAttackState::UpdateAttack() {
 	// 溜め後の攻撃が終了したら次の状態へ
 	if (chargeAttackTimer_.IsReached()) {
 
+		// 回転を設定
+		hitEffect_->SetParentRotation("subPlayerPunchHitEffect",
+			Quaternion::Normalize(leftHand_->GetRotation()), ParticleUpdateModuleID::Rotation);
+
 		// ヒットエフェクト発生
 		hitEffect_->Emit(leftHand_->GetTransform().GetWorldPos());
 
@@ -302,6 +306,11 @@ void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, GameObjec
 	// 攻撃終了時にヒットエフェクトを再生
 	if (attackInfo.loop.IsReachedEnd(prevRawT, attackInfo.timer.t_, 0.0f, 1.0f)) {
 
+		// 回転を設定
+		hitEffect_->SetParentRotation("subPlayerPunchHitEffect",
+			Quaternion::Normalize(hand.GetRotation()), ParticleUpdateModuleID::Rotation);
+
+		// ヒットエフェクト発生
 		hitEffect_->Emit(hand.GetTransform().GetWorldPos());
 	}
 	attackInfo.prevRawT = attackInfo.timer.t_;

@@ -287,6 +287,9 @@ namespace CPUParticle {
 		// 回転の保持
 		Quaternion rotation;
 
+		// 発生させたエミッターの座標
+		Vector3 emitterTranslation;
+
 		// トレイル
 		ParticleCommon::TrailRuntime trailRuntime;
 

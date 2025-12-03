@@ -33,6 +33,7 @@
 #include <Engine/Effect/Particle/Module/Updater/Move/ParticleUpdateGravityModule.h>
 #include <Engine/Effect/Particle/Module/Updater/Move/ParticleUpdateNoiseForceModule.h>
 #include <Engine/Effect/Particle/Module/Updater/Move/ParticleUpdateKeyframePathModule.h>
+#include <Engine/Effect/Particle/Module/Updater/Move/ParticleUpdateCollectModule.h>
 // Primitive
 #include <Engine/Effect/Particle/Module/Updater/Primitive/ParticleUpdatePrimitiveModule.h>
 // Trail
@@ -132,6 +133,7 @@ void ParticleManager::RegisterModules() {
 	uRegistry.Register<ParticleUpdatePrimitiveModule>();
 	uRegistry.Register<ParticleUpdateTrailModule>();
 	uRegistry.Register<ParticleUpdateKeyframePathModule>();
+	uRegistry.Register<ParticleUpdateCollectModule>();
 	uRegistry.Register<ParticleUpdateTranslateModule>();
 }
 

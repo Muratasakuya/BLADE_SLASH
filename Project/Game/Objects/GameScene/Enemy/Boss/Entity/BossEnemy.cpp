@@ -122,7 +122,7 @@ void BossEnemy::CalDistanceToTarget() {
 	std::sort(distancePair.begin(), distancePair.end(),
 		[](const auto& a, const auto& b) { return a.first < b.first; });
 	auto it = std::lower_bound(distancePair.begin(), distancePair.end(), distance,
-		[](const auto& e, float val) { return e.first < val; });
+		[](const auto& e, float value) { return e.first < value; });
 
 	// 範囲内ならその距離レベルを設定
 	if (it != distancePair.end()) {

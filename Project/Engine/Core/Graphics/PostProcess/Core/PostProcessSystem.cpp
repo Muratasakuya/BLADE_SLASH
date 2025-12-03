@@ -580,17 +580,19 @@ void PostProcessSystem::CreateCBuffer(PostProcessType type) {
 void PostProcessSystem::ExecuteCBuffer(
 	ID3D12GraphicsCommandList* commandList, PostProcessType type) {
 
-	if (Algorithm::Find(buffers_, type)) {
-
-		// buffer更新
-		buffers_[type]->Update();
-
-		UINT rootIndex;
-		D3D12_GPU_VIRTUAL_ADDRESS adress{};
-
-		rootIndex = buffers_[type]->GetRootIndex();
-		adress = buffers_[type]->GetResource()->GetGPUVirtualAddress();
-
-		commandList->SetComputeRootConstantBufferView(rootIndex, adress);
+	auto it = buffers_.find(type);
+	if (it == buffers_.end()) {
+		return;
 	}
+
+	// buffer更新
+	it->second->Update();
+
+	UINT rootIndex;
+	D3D12_GPU_VIRTUAL_ADDRESS adress{};
+
+	rootIndex = it->second->GetRootIndex();
+	adress = it->second->GetResource()->GetGPUVirtualAddress();
+
+	commandList->SetComputeRootConstantBufferView(rootIndex, adress);
 }

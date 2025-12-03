@@ -3,16 +3,18 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/InputStructures.h>
 #include <Game/Objects/Base/GameHPBar.h>
 #include <Game/Objects/Base/GameDisplayDamage.h>
-#include <Engine/Input/InputStructures.h>
 #include <Game/Objects/Base/GameCommonStructures.h>
 #include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // c++
 #include <utility>
 // front
 class Player;
+class BossEnemy;
 class FollowCamera;
 
 //============================================================================
@@ -33,15 +35,25 @@ public:
 
 	// HUD表示の更新
 	void Update(const Player& player);
+	// ボス敵のパリィ受付状態の確認
+	void CheckBossEnemyParry();
 
 	// エディター
 	void ImGui();
 
 	//--------- accessor -----------------------------------------------------
 
+	// 入力示唆アニメーション開始、終了呼び出し
+	void StartInputSuggest();
+	void EndInputSuggest();
+
+	// 入力リアクションアニメーション開始
+	void StartInputReactAnim(PlayerState state);
+
 	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
+	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetDisable();
 	void SetValid();
 private:
@@ -58,6 +70,9 @@ private:
 		std::unordered_map<InputType, std::unique_ptr<GameObject2D>> dynamicSprites;
 
 		uint32_t index; // spriteを左から並べた時の順番
+
+		// 現在アクティブな入力状態かどうか
+		bool isActiveInput = false;
 
 		// groupの名前
 		const std::string groupName = "PlayerHUD";
@@ -76,9 +91,26 @@ private:
 		void SetAlpha(InputType type, float alpha);
 	};
 
+	// 入力示唆
+	struct Suggest {
+
+		// 表示スプライト
+		std::unique_ptr<GameObject2D> sprite;
+
+		// アニメーション
+		SimpleAnimation<Vector2> sizeAnim;
+		SimpleAnimation<Color> colorAnim;
+		SimpleAnimation<float> emissiveAnim;
+	};
+
 	//--------- variables ----------------------------------------------------
 
 	const FollowCamera* followCamera_;
+	const BossEnemy* bossEnemy_;
+
+	// ボスの状態を監視してパリィ入力示唆を出す
+	std::optional<BossEnemyState> exitParryBossEnemyState_;
+	bool isCanParryBossEnemy_;
 
 	// ステータス
 	PlayerStats stats_;
@@ -105,13 +137,23 @@ private:
 	// ダメージ表示
 	std::unique_ptr<GameDisplayDamage> damageDisplay_;
 
+	// ボタン入力示唆
+	static const uint32_t kInputSuggestCount_ = 2;
+	std::array<Suggest, kInputSuggestCount_> inputSuggests_;
+
 	//----------- operate ----------------------//
 
 	// 操作方法表示
-	InputStateSprite attack_;  // 攻撃
-	InputStateSprite dash_;    // ダッシュ/回避
-	InputStateSprite skil_;    // スキル
-	InputStateSprite parry_;   // パリィ
+	InputStateSprite attack_; // 攻撃
+	InputStateSprite dash_;   // ダッシュ/回避
+	InputStateSprite skil_;   // スキル
+	InputStateSprite parry_;  // パリィ
+
+	// 入力に応じたリアクション
+	SimpleAnimation<Vector2> inputReactSizeAnim_; // サイズ
+	SimpleAnimation<Color> inputReactColorAnim_;  // 色
+	// 入力リアクションさせる状態
+	PlayerState inputReactState_;
 
 	// parameters
 	Vector2 leftSpriteTranslation_; // 左端のsprite座標
@@ -123,6 +165,11 @@ private:
 	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間
 	float returnAlphaTime_;  // alpha値を元に戻すときの時間
 	EasingType returnAlphaEasingType_;
+	// 入力示唆
+	bool isInputSuggestActive_;    // 入力示唆アニメーションが有効かどうか
+	bool endDelayInputSuggest_;    // 遅延時間が終わったかどうか
+	StateTimer inputSuggestDelay_; // 表示遅延時間、初期発生時
+	Vector3 inputSuggestEmissionColor_; // 入力示唆の発光色
 
 	bool isDisable_;   // 無効状態かどうか
 	bool returnVaild_; // 再度有効にする
@@ -139,6 +186,11 @@ private:
 	// update
 	void UpdateSprite(const Player& player);
 	void UpdateAlpha();
+
+	// 入力示唆更新
+	void UpdateInputSuggest();
+	// 入力に応じたUIのアニメーション
+	void UpdateInputReactAnim();
 
 	// helper
 	void ChangeAllOperateSprite();

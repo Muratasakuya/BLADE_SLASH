@@ -6,8 +6,11 @@
 #include <Engine/Asset/Asset.h>
 #include <Engine/Core/Graphics/DxObject/DxCommand.h>
 #include <Engine/Core/Graphics/Descriptors/SRVDescriptor.h>
+#include <Engine/Object/Core/ObjectManager.h>
+#include <Engine/Object/System/Systems/InstancedMeshSystem.h>
 #include <Engine/Effect/Particle/Data/GPUParticleGroup.h>
 #include <Engine/Effect/Particle/Data/CPUParticleGroup.h>
+#include <Engine/Core/Graphics/Context/MeshCommandContext.h>
 #include <Engine/Effect/Particle/ParticleConfig.h>
 #include <Engine/Scene/SceneView.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -105,6 +108,53 @@ void ParticleRenderer::ToCompute(bool debugEnable, const GPUParticleGroup& group
 #endif
 }
 
+void ParticleRenderer::BeginSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand) {
+
+	// skinnedMesh以外は何もしない
+	if (!mesh->IsSkinned()) {
+		return;
+	}
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+
+	if (!debugEnable) {
+		return;
+	}
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+#else
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+#endif
+}
+
+void ParticleRenderer::EndSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand) {
+
+	// skinnedMesh以外は何もしない
+	if (!mesh->IsSkinned()) {
+		return;
+	}
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+	if (!debugEnable) {
+		return;
+	}
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER,
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+#else
+	dxCommand->TransitionBarriers(
+		{ static_cast<SkinnedMesh*>(mesh)->GetOutputVertexBuffer(meshIndex).GetResource() },
+		D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER,
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+#endif
+}
+
 void ParticleRenderer::Rendering(bool debugEnable, const GPUParticleGroup& group,
 	SceneConstBuffer* sceneBuffer, DxCommand* dxCommand) {
 
@@ -115,19 +165,67 @@ void ParticleRenderer::Rendering(bool debugEnable, const GPUParticleGroup& group
 	// pipeline設定
 	SetPipeline(RenderMode::None, typeIndex, primitiveIndex, commandList, group.GetBlendMode());
 
-	// 形状
-	commandList->SetGraphicsRootShaderResourceView(0, group.GetPrimitiveBufferAdress());
-	// transform
-	commandList->SetGraphicsRootShaderResourceView(1, group.GetTransformBuffer().GetResource()->GetGPUVirtualAddress());
-	// perView
-	sceneBuffer->SetPerViewCommand(debugEnable, commandList, 2);
-	// material
-	commandList->SetGraphicsRootShaderResourceView(3, group.GetMaterialBuffer().GetResource()->GetGPUVirtualAddress());
-	// textureTable
-	commandList->SetGraphicsRootDescriptorTable(4, asset_->GetGPUHandle(group.GetTextureName()));
-	// 描画
-	commandList->DispatchMesh(kMaxGPUParticles, 1, 1);
+	//=======================================================================================================================
+	//	形状がモデルかどうかで分岐
+	//=======================================================================================================================
 
+	// モデル描画の場合
+	if (group.GetPrimitiveType() == ParticlePrimitiveType::Model) {
+
+		MeshCommandContext commandContext{};
+
+		// モデル名を取得
+		const std::string& modelName = group.GetModelName();
+
+		// 描画情報取得
+		const auto& system = ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>();
+		const auto& meshes = system->GetMeshes();
+		// モデルがあるかチェック
+		if (!meshes.contains(modelName)) {
+
+			// モデルが存在しない場合はエラー
+			ASSERT(FALSE, "Model not found!");
+			return;
+		}
+		const auto& mesh = meshes.at(modelName);
+
+		// マルチメッシュ描画
+		for (uint32_t meshIndex = 0; meshIndex < mesh->GetMeshCount(); ++meshIndex) {
+
+			// transform
+			commandList->SetGraphicsRootShaderResourceView(4, group.GetTransformBuffer().GetResource()->GetGPUVirtualAddress());
+			// perView
+			sceneBuffer->SetPerViewCommand(debugEnable, commandList, 6);
+
+			// material
+			commandList->SetGraphicsRootShaderResourceView(7, group.GetMaterialBuffer().GetResource()->GetGPUVirtualAddress());
+			// textureTable
+			commandList->SetGraphicsRootDescriptorTable(8, asset_->GetGPUHandle(group.GetTextureName()));
+
+			BeginSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
+
+			// 描画処理
+			// 0,1,2,3,5にコマンドを設定
+			commandContext.DispatchMesh(commandList, kMaxGPUParticles, meshIndex, mesh.get());
+
+			EndSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
+		}
+	} else {
+
+		// 形状
+		commandList->SetGraphicsRootShaderResourceView(0, group.GetPrimitiveBufferAdress());
+		// transform
+		commandList->SetGraphicsRootShaderResourceView(1, group.GetTransformBuffer().GetResource()->GetGPUVirtualAddress());
+		// perView
+		sceneBuffer->SetPerViewCommand(debugEnable, commandList, 2);
+
+		// material
+		commandList->SetGraphicsRootShaderResourceView(3, group.GetMaterialBuffer().GetResource()->GetGPUVirtualAddress());
+		// textureTable
+		commandList->SetGraphicsRootDescriptorTable(4, asset_->GetGPUHandle(group.GetTextureName()));
+		// 描画
+		commandList->DispatchMesh(kMaxGPUParticles, 1, 1);
+	}
 	// バリア遷移処理
 	ToCompute(debugEnable, group, dxCommand);
 }
@@ -148,21 +246,73 @@ void ParticleRenderer::Rendering(bool debugEnable, const CPUParticleGroup& group
 	// pipeline設定
 	SetPipeline(RenderMode::None, typeIndex, primitiveIndex, commandList, group.GetBlendMode());
 
-	// 形状
-	commandList->SetGraphicsRootShaderResourceView(0, group.GetPrimitiveBufferAdress());
-	// transform
-	commandList->SetGraphicsRootShaderResourceView(1, group.GetTransformBuffer().GetResource()->GetGPUVirtualAddress());
-	// perView
-	sceneBuffer->SetPerViewCommand(debugEnable, commandList, 2);
-	// material
-	commandList->SetGraphicsRootShaderResourceView(3, group.GetMaterialBuffer().GetResource()->GetGPUVirtualAddress());
-	// textureInfo
-	commandList->SetGraphicsRootShaderResourceView(4, group.GetTextureInfoBuffer().GetResource()->GetGPUVirtualAddress());
-	// texture(bindless)
-	commandList->SetGraphicsRootDescriptorTable(5, srvDescriptor_->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	//=======================================================================================================================
+	//	形状がモデルかどうかで分岐
+	//=======================================================================================================================
 
-	// 描画
-	commandList->DispatchMesh(numInstance, 1, 1);
+	// モデル描画の場合
+	if (group.GetPrimitiveType() == ParticlePrimitiveType::Model) {
+
+
+		MeshCommandContext commandContext{};
+
+		// モデル名を取得
+		const std::string& modelName = group.GetModelName();
+
+		// 描画情報取得
+		const auto& system = ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>();
+		const auto& meshes = system->GetMeshes();
+		// モデルがあるかチェック
+		if (!meshes.contains(modelName)) {
+
+			// モデルが存在しない場合はエラー
+			ASSERT(FALSE, "Model not found!");
+			return;
+		}
+		const auto& mesh = meshes.at(modelName);
+
+		// マルチメッシュ描画
+		for (uint32_t meshIndex = 0; meshIndex < mesh->GetMeshCount(); ++meshIndex) {
+
+			// transform
+			commandList->SetGraphicsRootShaderResourceView(4, group.GetTransformBuffer().GetResource()->GetGPUVirtualAddress());
+			// perView
+			sceneBuffer->SetPerViewCommand(debugEnable, commandList, 6);
+
+			// material
+			commandList->SetGraphicsRootShaderResourceView(7, group.GetMaterialBuffer().GetResource()->GetGPUVirtualAddress());
+			// textureInfo
+			commandList->SetGraphicsRootShaderResourceView(8, group.GetTextureInfoBuffer().GetResource()->GetGPUVirtualAddress());
+			// texture(bindless)
+			commandList->SetGraphicsRootDescriptorTable(9, srvDescriptor_->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+
+			BeginSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
+
+			// 描画処理
+			// 0,1,2,3,5にコマンドを設定
+			commandContext.DispatchMesh(commandList, numInstance, meshIndex, mesh.get());
+
+			EndSkinnedTransition(debugEnable, meshIndex, mesh.get(), dxCommand);
+		}
+	} else {
+
+		// 形状
+		commandList->SetGraphicsRootShaderResourceView(0, group.GetPrimitiveBufferAdress());
+		// transform
+		commandList->SetGraphicsRootShaderResourceView(1, group.GetTransformBuffer().GetResource()->GetGPUVirtualAddress());
+		// perView
+		sceneBuffer->SetPerViewCommand(debugEnable, commandList, 2);
+
+		// material
+		commandList->SetGraphicsRootShaderResourceView(3, group.GetMaterialBuffer().GetResource()->GetGPUVirtualAddress());
+		// textureInfo
+		commandList->SetGraphicsRootShaderResourceView(4, group.GetTextureInfoBuffer().GetResource()->GetGPUVirtualAddress());
+		// texture(bindless)
+		commandList->SetGraphicsRootDescriptorTable(5, srvDescriptor_->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+
+		// 描画
+		commandList->DispatchMesh(numInstance, 1, 1);
+	}
 }
 
 void ParticleRenderer::RenderingTrail(bool debugEnable, const CPUParticleGroup& group,

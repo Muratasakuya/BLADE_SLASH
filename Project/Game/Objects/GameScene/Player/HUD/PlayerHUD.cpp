@@ -6,6 +6,7 @@
 #include <Engine/Input/Input.h>
 #include <Game/Camera/Follow/FollowCamera.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 
 //============================================================================
@@ -66,6 +67,18 @@ void PlayerHUD::InitSprite() {
 	dash_.ChangeDynamicSprite(inputType_);
 	skil_.ChangeDynamicSprite(inputType_);
 	parry_.ChangeDynamicSprite(inputType_);
+
+	// 入力示唆スプライト初期化
+	for (auto& inputSuggest : inputSuggests_) {
+
+		// 作成
+		inputSuggest.sprite = std::make_unique<GameObject2D>();
+		inputSuggest.sprite->Init("inputSuggestRing", "inputSuggest", "PlayerHUD");
+
+		// 最初は非表示
+		inputSuggest.sprite->SetAlpha(0.0f);
+	}
+	isCanParryBossEnemy_ = false;
 }
 
 void PlayerHUD::Init() {
@@ -117,6 +130,32 @@ void PlayerHUD::Update(const Player& player) {
 	UpdateAlpha();
 }
 
+void PlayerHUD::CheckBossEnemyParry() {
+
+	// ボスの状態が切り替わったら、パリィ可能状態をリセット
+	if (exitParryBossEnemyState_.has_value()) {
+		if (exitParryBossEnemyState_.value() != bossEnemy_->GetCurrentState()) {
+
+			exitParryBossEnemyState_ = std::nullopt;
+		}
+	}
+
+	// パリィ可能状態になったかどうか
+	const ParryParameter& parryParam = bossEnemy_->GetParryParam();
+	if (!exitParryBossEnemyState_.has_value() &&
+		!isCanParryBossEnemy_ && parryParam.canParry) {
+
+		isCanParryBossEnemy_ = true;
+		// パリィ可能状態になったら入力示唆を開始
+		StartInputSuggest();
+	}
+	// 入力不可になったら入力示唆を終了
+	if (isCanParryBossEnemy_ && !parryParam.canParry) {
+
+		EndInputSuggest();
+	}
+}
+
 void PlayerHUD::UpdateSprite(const Player& player) {
 
 	// HP残量を更新
@@ -126,6 +165,11 @@ void PlayerHUD::UpdateSprite(const Player& player) {
 
 	// ダメージ表記の更新
 	damageDisplay_->Update(player, *followCamera_);
+
+	// 入力示唆の更新
+	UpdateInputSuggest();
+	// 入力リアクションアニメーションの更新
+	UpdateInputReactAnim();
 
 	// 入力状態に応じて表示を切り替える
 	ChangeAllOperateSprite();
@@ -176,6 +220,230 @@ void PlayerHUD::UpdateAlpha() {
 	}
 }
 
+void PlayerHUD::StartInputSuggest() {
+
+	// 開始
+	isInputSuggestActive_ = true;
+	endDelayInputSuggest_ = false;
+	inputSuggestDelay_.Reset();
+
+	// アニメーションをリセット
+	for (auto& inputSuggest : inputSuggests_) {
+
+		inputSuggest.sizeAnim.Reset();
+		inputSuggest.colorAnim.Reset();
+		inputSuggest.emissiveAnim.Reset();
+	}
+	// index0番目を発生させる
+	inputSuggests_.front().sizeAnim.Start();
+	inputSuggests_.front().colorAnim.Start();
+	inputSuggests_.front().emissiveAnim.Start();
+}
+
+void PlayerHUD::EndInputSuggest() {
+
+	// この時点のボスの状態を取得
+	exitParryBossEnemyState_ = bossEnemy_->GetCurrentState();
+
+	// 終了
+	isInputSuggestActive_ = false;
+	isCanParryBossEnemy_ = false;
+	// アニメーションをリセット
+	for (auto& inputSuggest : inputSuggests_) {
+
+		inputSuggest.sizeAnim.Reset();
+		inputSuggest.colorAnim.Reset();
+		inputSuggest.emissiveAnim.Reset();
+
+		// 非表示にする
+		inputSuggest.sprite->SetAlpha(0.0f);
+	}
+}
+
+void PlayerHUD::StartInputReactAnim(PlayerState state) {
+
+	// 状態に応じて処理
+	inputReactState_ = state;
+	// 無効状態なら処理しない
+	if (inputReactState_ == PlayerState::SkilAttack) {
+
+		// スキルUIをアクティブにしてアニメーションさせる
+		skil_.isActiveInput = true;
+		// パリィ入力のUIサイズを元に戻す
+		// 入力画像は2倍する
+		parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+		// 攻撃入力のUIサイズを元に戻す
+		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+	} else if (inputReactState_ == PlayerState::Parry) {
+
+		// パリィUIをアクティブにしてアニメーションさせる
+		parry_.isActiveInput = true;
+		// スキル入力のUIサイズを元に戻す
+		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+		// 攻撃入力のUIサイズを元に戻す
+		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+	} else if (
+		inputReactState_ == PlayerState::Attack_1st ||
+		inputReactState_ == PlayerState::Attack_2nd ||
+		inputReactState_ == PlayerState::Attack_3rd ||
+		inputReactState_ == PlayerState::Attack_4th) {
+
+		// パリィUIをアクティブにしてアニメーションさせる
+		attack_.isActiveInput = true;
+		// スキル入力のUIサイズを元に戻す
+		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+		// パリィ入力のUIサイズを元に戻す
+		// 入力画像は2倍する
+		parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+	} else {
+		// それ以外の状態なら処理しない
+		return;
+	}
+
+	// 入力リアクションアニメーション開始
+	inputReactSizeAnim_.Start();
+	inputReactColorAnim_.Start();
+}
+
+void PlayerHUD::UpdateInputSuggest() {
+
+	// 入力示唆が有効でない場合は処理しない
+	if (!isInputSuggestActive_) {
+		return;
+	}
+
+	// 遅延時間更新
+	inputSuggestDelay_.Update();
+	// 時間経過後にindex1番目を発生させる
+	if (!endDelayInputSuggest_ && inputSuggestDelay_.IsReached()) {
+
+		inputSuggests_.back().sizeAnim.Start();
+		inputSuggests_.back().colorAnim.Start();
+		inputSuggests_.back().emissiveAnim.Start();
+		endDelayInputSuggest_ = true;
+	}
+
+	// アニメーション更新
+	for (auto& inputSuggest : inputSuggests_) {
+
+		// サイズ
+		Vector2 size = inputSuggest.sprite->GetSize();
+		inputSuggest.sizeAnim.LerpValue(size);
+		inputSuggest.sprite->SetSize(size);
+
+		// α値
+		Color color = inputSuggest.sprite->GetColor();
+		inputSuggest.colorAnim.LerpValue(color);
+		inputSuggest.sprite->SetColor(color);
+		inputSuggest.sprite->SetEmissionColor(inputSuggestEmissionColor_);
+
+		// エミッシブ強度
+		float emissive = inputSuggest.sprite->GetEmissiveIntensity();
+		inputSuggest.emissiveAnim.LerpValue(emissive);
+		inputSuggest.sprite->SetEmissiveIntensity(emissive);
+
+		// 補間が終了次第リセットして再スタート
+		if (inputSuggest.sizeAnim.IsFinished() &&
+			inputSuggest.colorAnim.IsFinished() &&
+			inputSuggest.emissiveAnim.IsFinished()) {
+
+			inputSuggest.sizeAnim.Start();
+			inputSuggest.colorAnim.Start();
+			inputSuggest.emissiveAnim.Start();
+		}
+	}
+}
+
+void PlayerHUD::UpdateInputReactAnim() {
+
+	// 無効状態なら処理しない
+	if (!parry_.isActiveInput && !skil_.isActiveInput && !attack_.isActiveInput) {
+		return;
+	}
+
+	Vector2 size{};
+	Color color{};
+	switch (inputReactState_) {
+	case PlayerState::SkilAttack: {
+
+		// スキルUIをアニメーションさせる
+		// サイズ
+		size = skil_.staticSprite->GetSize();
+		inputReactSizeAnim_.LerpValue(size);
+		skil_.staticSprite->SetSize(size);
+		// 色
+		color = skil_.staticSprite->GetColor();
+		inputReactColorAnim_.LerpValue(color);
+		skil_.staticSprite->SetColor(color);
+		break;
+	}
+	case PlayerState::Parry: {
+
+		// パリィUIをアニメーションさせる
+		// サイズ
+		size = parry_.staticSprite->GetSize();
+		inputReactSizeAnim_.LerpValue(size);
+		parry_.staticSprite->SetSize(size);
+		// 色
+		color = parry_.staticSprite->GetColor();
+		inputReactColorAnim_.LerpValue(color);
+		parry_.staticSprite->SetColor(color);
+		break;
+	}
+	case PlayerState::Attack_1st:
+	case PlayerState::Attack_2nd:
+	case PlayerState::Attack_3rd:
+	case PlayerState::Attack_4th:
+
+		// パリィUIをアニメーションさせる
+		// サイズ
+		size = attack_.staticSprite->GetSize();
+		inputReactSizeAnim_.LerpValue(size);
+		attack_.staticSprite->SetSize(size);
+		// 色
+		color = attack_.staticSprite->GetColor();
+		inputReactColorAnim_.LerpValue(color);
+		attack_.staticSprite->SetColor(color);
+		break;
+	}
+
+	// アニメーションが終了次第リセット
+	if (inputReactSizeAnim_.IsFinished() &&
+		inputReactColorAnim_.IsFinished()) {
+
+		// サイズと色を元に戻す
+		switch (inputReactState_) {
+		case PlayerState::SkilAttack: {
+
+			skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+			skil_.staticSprite->SetColor(Color::White());
+			break;
+		}
+		case PlayerState::Parry: {
+
+			// 入力画像は2倍する
+			parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+			parry_.staticSprite->SetColor(Color::White());
+			break;
+		}
+		case PlayerState::Attack_1st:
+		case PlayerState::Attack_2nd:
+		case PlayerState::Attack_3rd:
+		case PlayerState::Attack_4th:
+
+			attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+			attack_.staticSprite->SetColor(Color::White());
+			break;
+		}
+		inputReactSizeAnim_.Reset();
+		inputReactColorAnim_.Reset();
+		// 無効状態にする
+		skil_.isActiveInput = false;
+		parry_.isActiveInput = false;
+		attack_.isActiveInput = false;
+	}
+}
+
 void PlayerHUD::ChangeAllOperateSprite() {
 
 	if (preInputType_ == inputType_) {
@@ -203,6 +471,12 @@ void PlayerHUD::SetAllOperateTranslation() {
 
 	parry_.SetTranslation(leftSpriteTranslation_,
 		dynamicSpriteOffsetY_, operateSpriteSpancingX_);
+
+	// パリィアイコンの位置に入力示唆を合わせる
+	for (auto& inputSuggest : inputSuggests_) {
+
+		inputSuggest.sprite->SetTranslation(parry_.staticSprite->GetTranslation());
+	}
 }
 
 void PlayerHUD::SetAllOperateSize() {
@@ -210,6 +484,7 @@ void PlayerHUD::SetAllOperateSize() {
 	attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
 	dash_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
 	skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
+
 
 	// 入力画像は2倍する
 	parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
@@ -222,63 +497,129 @@ void PlayerHUD::ImGui() {
 		SaveJson();
 	}
 
-	if (hpBackgroundParameter_.ImGui("HPBackground")) {
+	if (ImGui::BeginTabBar("PlayerHUDTabBar")) {
+		if (ImGui::BeginTabItem("InputSuggest")) {
 
-		hpBackground_->SetTranslation(hpBackgroundParameter_.translation);
-	}
+			ImGui::Text(std::format("endDelayInputSuggest: {}", endDelayInputSuggest_).c_str());
+			if (ImGui::Button("Start")) {
 
-	if (hpBarParameter_.ImGui("HPBar")) {
+				StartInputSuggest();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("End")) {
 
-		hpBar_->SetTranslation(hpBarParameter_.translation);
-	}
+				EndInputSuggest();
+			}
+			ImGui::Separator();
 
-	if (skilBarParameter_.ImGui("SkilBar")) {
+			ImGui::ColorEdit3("inputSuggestEmissionColor", &inputSuggestEmissionColor_.x);
+			inputSuggestDelay_.ImGui("InputSuggestDelay");
 
-		skilBar_->SetTranslation(skilBarParameter_.translation);
-	}
+			if (ImGui::CollapsingHeader("Front")) {
 
+				inputSuggests_.front().sizeAnim.ImGui("FrontSizeAnim", false);
+				inputSuggests_.front().colorAnim.ImGui("FrontcolorAnim", false);
+				inputSuggests_.front().emissiveAnim.ImGui("FrontEmissiveAnim", false);
+			}
+			if (ImGui::CollapsingHeader("Back")) {
 
-	if (nameTextParameter_.ImGui("NameText")) {
-
-		nameText_->SetTranslation(nameTextParameter_.translation);
-	}
-
-	damageDisplay_->ImGui();
-
-	ImGui::Separator();
-
-	if (isDisable_) {
-		if (ImGui::Button("Vaild")) {
-
-			SetValid();
+				inputSuggests_.back().sizeAnim.ImGui("BackSizeAnim", false);
+				inputSuggests_.back().colorAnim.ImGui("BackcolorAnim", false);
+				inputSuggests_.back().emissiveAnim.ImGui("BackEmissiveAnim", false);
+			}
+			ImGui::EndTabItem();
 		}
-	} else {
-		if (ImGui::Button("Disable")) {
+		if (ImGui::BeginTabItem("InputReactAnim")) {
 
-			SetDisable();
+			if (ImGui::Button("Start Skil")) {
+
+				StartInputReactAnim(PlayerState::SkilAttack);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Start Parry")) {
+
+				StartInputReactAnim(PlayerState::Parry);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Start Attack")) {
+
+				StartInputReactAnim(PlayerState::Attack_2nd);
+			}
+			ImGui::Separator();
+
+			if (ImGui::CollapsingHeader("Size")) {
+
+				inputReactSizeAnim_.ImGui("InputReactSizeAnim", true);
+			}
+			if (ImGui::CollapsingHeader("Color")) {
+
+				inputReactColorAnim_.ImGui("InputReactColorAnim", true);
+			}
+			ImGui::EndTabItem();
 		}
-	}
-	ImGui::Text("returnAlphaTimer / returnAlphaTime: %f", returnAlphaTimer_ / returnAlphaTime_);
 
-	bool edit = false;
+		if (ImGui::BeginTabItem("Setting")) {
 
-	edit |= ImGui::DragFloat2("leftSpriteTranslation", &leftSpriteTranslation_.x, 1.0f);
-	edit |= ImGui::DragFloat("dynamicSpriteOffsetY", &dynamicSpriteOffsetY_, 1.0f);
-	edit |= ImGui::DragFloat("operateSpriteSpancingX", &operateSpriteSpancingX_, 1.0f);
-	ImGui::DragFloat("returnAlphaTime", &returnAlphaTime_, 0.01f);
-	Easing::SelectEasingType(returnAlphaEasingType_);
+			if (hpBackgroundParameter_.ImGui("HPBackground")) {
 
-	if (edit) {
+				hpBackground_->SetTranslation(hpBackgroundParameter_.translation);
+			}
 
-		SetAllOperateTranslation();
-	}
+			if (hpBarParameter_.ImGui("HPBar")) {
 
-	edit |= ImGui::DragFloat2("staticSpriteSize", &staticSpriteSize_.x, 0.1f);
-	edit |= ImGui::DragFloat2("dynamicSpriteSize", &dynamicSpriteSize_.x, 0.1f);
+				hpBar_->SetTranslation(hpBarParameter_.translation);
+			}
 
-	if (edit) {
+			if (skilBarParameter_.ImGui("SkilBar")) {
 
-		SetAllOperateSize();
+				skilBar_->SetTranslation(skilBarParameter_.translation);
+			}
+
+			if (nameTextParameter_.ImGui("NameText")) {
+
+				nameText_->SetTranslation(nameTextParameter_.translation);
+			}
+
+			damageDisplay_->ImGui();
+
+			ImGui::Separator();
+
+			if (isDisable_) {
+				if (ImGui::Button("Vaild")) {
+
+					SetValid();
+				}
+			} else {
+				if (ImGui::Button("Disable")) {
+
+					SetDisable();
+				}
+			}
+			ImGui::Text("returnAlphaTimer / returnAlphaTime: %f", returnAlphaTimer_ / returnAlphaTime_);
+
+			bool edit = false;
+
+			edit |= ImGui::DragFloat2("leftSpriteTranslation", &leftSpriteTranslation_.x, 1.0f);
+			edit |= ImGui::DragFloat("dynamicSpriteOffsetY", &dynamicSpriteOffsetY_, 1.0f);
+			edit |= ImGui::DragFloat("operateSpriteSpancingX", &operateSpriteSpancingX_, 1.0f);
+			ImGui::DragFloat("returnAlphaTime", &returnAlphaTime_, 0.01f);
+			Easing::SelectEasingType(returnAlphaEasingType_);
+
+			if (edit) {
+
+				SetAllOperateTranslation();
+			}
+
+			edit |= ImGui::DragFloat2("staticSpriteSize", &staticSpriteSize_.x, 0.1f);
+			edit |= ImGui::DragFloat2("dynamicSpriteSize", &dynamicSpriteSize_.x, 0.1f);
+
+			if (edit) {
+
+				SetAllOperateSize();
+			}
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
 	}
 }
 
@@ -312,6 +653,18 @@ void PlayerHUD::ApplyJson() {
 	returnAlphaEasingType_ = static_cast<EasingType>(
 		JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
 
+	inputSuggests_.front().sizeAnim.FromJson(data.value("inputSuggestFrontSizeAnim", Json()));
+	inputSuggests_.front().colorAnim.FromJson(data.value("inputSuggestFrontcolorAnim", Json()));
+	inputSuggests_.front().emissiveAnim.FromJson(data.value("inputSuggestFrontEmissiveAnim", Json()));
+	inputSuggests_.back().sizeAnim.FromJson(data.value("inputSuggestBackSizeAnim", Json()));
+	inputSuggests_.back().colorAnim.FromJson(data.value("inputSuggestBackcolorAnim", Json()));
+	inputSuggests_.back().emissiveAnim.FromJson(data.value("inputSuggestBackEmissiveAnim", Json()));
+	inputSuggestDelay_.FromJson(data.value("inputSuggestDelay", Json()));
+	inputSuggestEmissionColor_ = Vector3::FromJson(data.value("inputSuggestEmissionColor", Json()));
+
+	inputReactSizeAnim_.FromJson(data.value("inputReactSizeAnim", Json()));
+	inputReactColorAnim_.FromJson(data.value("inputReactColorAnim", Json()));
+
 	SetAllOperateTranslation();
 	SetAllOperateSize();
 }
@@ -334,6 +687,18 @@ void PlayerHUD::SaveJson() {
 	data["operateSpriteSpancingX"] = operateSpriteSpancingX_;
 	data["returnAlphaTime_"] = returnAlphaTime_;
 	data["returnAlphaEasingType_"] = static_cast<int>(returnAlphaEasingType_);
+
+	inputSuggests_.front().sizeAnim.ToJson(data["inputSuggestFrontSizeAnim"]);
+	inputSuggests_.front().colorAnim.ToJson(data["inputSuggestFrontcolorAnim"]);
+	inputSuggests_.front().emissiveAnim.ToJson(data["inputSuggestFrontEmissiveAnim"]);
+	inputSuggests_.back().sizeAnim.ToJson(data["inputSuggestBackSizeAnim"]);
+	inputSuggests_.back().colorAnim.ToJson(data["inputSuggestBackcolorAnim"]);
+	inputSuggests_.back().emissiveAnim.ToJson(data["inputSuggestBackEmissiveAnim"]);
+	inputSuggestDelay_.ToJson(data["inputSuggestDelay"]);
+	data["inputSuggestEmissionColor"] = inputSuggestEmissionColor_.ToJson();
+
+	inputReactSizeAnim_.ToJson(data["inputReactSizeAnim"]);
+	inputReactColorAnim_.ToJson(data["inputReactColorAnim"]);
 
 	JsonAdapter::Save("Player/hudParameter.json", data);
 }

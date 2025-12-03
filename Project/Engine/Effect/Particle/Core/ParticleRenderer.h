@@ -14,6 +14,7 @@ class Asset;
 class SRVDescriptor;
 class DxShaderCompiler;
 class DxCommand;
+class IMesh;
 class SceneConstBuffer;
 class GPUParticleGroup;
 class CPUParticleGroup;
@@ -81,4 +82,8 @@ private:
 	void SetPipeline(RenderMode mode, uint32_t typeIndex, uint32_t primitiveIndex,
 		ID3D12GraphicsCommandList* commandList, BlendMode blendMode);
 	void ToCompute(bool debugEnable, const GPUParticleGroup& group, DxCommand* dxCommand);
+
+	// 骨バッファの遷移処理
+	void BeginSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand);
+	void EndSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand);
 };

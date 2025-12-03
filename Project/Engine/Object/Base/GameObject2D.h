@@ -106,6 +106,7 @@ public:
 
 	// material
 	const Color& GetColor() const { return material_->material.color; }
+	float GetEmissiveIntensity() const { return material_->material.emissiveIntensity; }
 protected:
 	//========================================================================
 	//	protected Methods

@@ -62,6 +62,9 @@ void PlayerAttack_2ndState::Enter(Player& player) {
 
 	// 剣エフェクトの発生
 	slash1stEffect_->Emit(player_->GetRotation() * slash1stEffectOffset_);
+
+	// HUD入力リアクション
+	player.GetHUD()->StartInputReactAnim(PlayerState::Attack_2nd);
 }
 
 void PlayerAttack_2ndState::Update(Player& player) {

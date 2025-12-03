@@ -513,7 +513,7 @@ void CPUParticleGroup::ImGui() {
 			}
 
 			ImGui::SameLine();
-			if (ImGui::SmallButton("X")) {
+			if (ImGui::Button("X")) {
 
 				phases_.erase(phases_.begin() + i);
 				selectedPhase_ = std::clamp(selectedPhase_, 0, static_cast<int>(phases_.size()) - 1);
@@ -555,6 +555,7 @@ Json CPUParticleGroup::ToJson() const {
 	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
 
 	data["textureName"] = textureName_;
+	data["modelName"] = modelName_;
 	data["gameMaxParticleCount_"] = gameMaxParticleCount_;
 
 	//============================================================================
@@ -580,6 +581,7 @@ void CPUParticleGroup::FromJson(const Json& data, Asset* asset) {
 	blendMode_ = blendMode.value();
 
 	textureName_ = data.value("textureName", "circle");
+	modelName_ = data.value("modelName", "");
 	gameMaxParticleCount_ = data.value("gameMaxParticleCount_", 0);
 
 	//============================================================================
