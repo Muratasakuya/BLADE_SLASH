@@ -46,10 +46,9 @@ private:
 	// 状態
 	enum class State {
 
-		BlowPlayer, // プレイヤー吹っ飛ばし
-		Charge,     // チャージ開始 -> 終了後魔法陣起動
-		Execute,    // 大技攻撃中...(魔法陣回転中)
-		Finish      // 終了(魔法陣を閉じる)
+		Charge,  // チャージ
+		Execute, // 攻撃中
+		Finish   // 終了
 	};
 
 	//--------- variables ----------------------------------------------------
@@ -64,8 +63,6 @@ private:
 	State editState_;
 
 	// エフェクト
-	// チャージ
-	std::unique_ptr<EffectGroup> beginChargeEffect_;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 

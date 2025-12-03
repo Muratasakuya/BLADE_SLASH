@@ -47,6 +47,7 @@ void BossEnemy::InitAnimations() {
 	animation_->SetAnimationData("bossEnemy_stunUpdate");
 	animation_->SetAnimationData("bossEnemy_teleport");
 	animation_->SetAnimationData("bossEnemy_start");
+	animation_->SetAnimationData("bossEnemy_beginChargeGreatAttack");
 
 	// 右手を親として更新させる
 	animation_->SetParentJoint("rightHand");
@@ -196,6 +197,11 @@ void BossEnemy::SetFollowCamera(FollowCamera* followCamera) {
 
 	stateController_->SetFollowCamera(followCamera, *this);
 	hudSprites_->SetFollowCamera(followCamera);
+}
+
+void BossEnemy::SetGameLight(GameLight* gameLight) {
+
+	stateController_->SetGameLight(gameLight);
 }
 
 void BossEnemy::SetAlpha(float alpha) {
@@ -364,6 +370,11 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 }
 
 void BossEnemy::OnCollisionEnter(const CollisionBody* collisionBody) {
+
+	// 無効状態の時ダメージを受けない
+	if (hudSprites_->IsDisable()) {
+		return;
+	}
 
 	// playerからの攻撃を受けた時
 	if ((collisionBody->GetType() & ColliderType::Type_PlayerWeapon) != ColliderType::Type_None) {

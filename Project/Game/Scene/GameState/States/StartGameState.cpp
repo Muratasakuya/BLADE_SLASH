@@ -50,10 +50,10 @@ void StartGameState::Init(SceneView* sceneView) {
 	// サブプレイヤー
 	context_->subPlayer->Init();
 
-	// プレイヤー、カメラをセット
+	// 必要なデータをセット
 	context_->boss->SetPlayer(context_->player);
+	context_->boss->SetGameLight(context_->light);
 	context_->boss->SetFollowCamera(context_->camera->GetFollowCamera());
-	// ボス、カメラ、サブプレイヤーをセット
 	context_->player->SetBossEnemy(context_->boss);
 	context_->player->SetFollowCamera(context_->camera->GetFollowCamera());
 	context_->player->SetSubPlayer(context_->subPlayer);

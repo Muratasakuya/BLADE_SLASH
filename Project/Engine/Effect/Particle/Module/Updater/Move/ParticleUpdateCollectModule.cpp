@@ -35,7 +35,8 @@ void ParticleUpdateCollectModule::Init() {
 	noiseSeed_ = 1337u;
 }
 
-void ParticleUpdateCollectModule::Execute(CPUParticle::ParticleData& particle, float deltaTime) {
+void ParticleUpdateCollectModule::Execute(
+	CPUParticle::ParticleData& particle, [[maybe_unused]] float deltaTime) {
 
 	// 目標座標のXZを発生位置に合わせる
 	if (isAlignXZToTarget_) {
@@ -72,7 +73,7 @@ void ParticleUpdateCollectModule::Execute(CPUParticle::ParticleData& particle, f
 			FBm(sample, noiseSeed_ + 23u), FBm(sample, noiseSeed_ + 31u));
 
 		// だんだんtargetに収束させるための減衰 
-		float falloff = std::pow(std::max(0.0f, 1.0f - particle.progress), noiseFalloffPow_);
+		float falloff = std::pow((std::max)(0.0f, 1.0f - particle.progress), noiseFalloffPow_);
 		Vector3 offset(o.x * noiseAmp_.x * falloff, o.y * noiseAmp_.y * falloff, o.z * noiseAmp_.z * falloff);
 
 		// 座標を設定

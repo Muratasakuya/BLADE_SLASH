@@ -189,6 +189,7 @@ uint32_t ObjectManager::BuildEmptyobject(const std::string& name, const std::str
 	tag->identifier = name;
 	tag->name = systemManager_->GetSystem<TagSystem>()->CheckName(name);
 	tag->groupName = groupName;
+	tag->objectID = object;
 
 	return object;
 }

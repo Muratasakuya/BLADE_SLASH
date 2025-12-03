@@ -34,6 +34,7 @@ public:
 	bool IsCreated() const { return isCreated_; }
 
 	uint32_t GetTextureIndex() const;
+	uint32_t GetObjectID() const { return data_->GetObjectID(); }
 private:
 	//========================================================================
 	//	private Methods

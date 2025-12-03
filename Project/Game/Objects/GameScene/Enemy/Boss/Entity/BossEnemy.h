@@ -63,6 +63,7 @@ public:
 
 	void SetPlayer(Player* player);
 	void SetFollowCamera(FollowCamera* followCamera);
+	void SetGameLight(GameLight* gameLight);
 
 	void SetAlpha(float alpha);
 	void SetCastShadow(bool cast);
@@ -76,6 +77,7 @@ public:
 
 	int GetDamage() const;
 	bool IsDead() const;
+	bool IsInvincible() const { return hudSprites_->IsDisable(); }
 	uint32_t GetCurrentPhaseIndex() const;
 	const ParryParameter& GetParryParam() const { return stateController_->GetParryParam(); }
 private:

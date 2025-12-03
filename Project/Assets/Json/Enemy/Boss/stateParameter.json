@@ -35,39 +35,22 @@
         "rotationLerpRate_": 0.0
     },
     "GreatAttack": {
-        "BlowPlayer": {
-            "AnimTranslation": {
-                "Loop": {
-                    "loop": {
-                        "loopCount": 1,
-                        "type": "Repeat"
-                    }
-                },
-                "ReturnTimer": {
-                    "easeingType_": "Linear",
-                    "target_": 0.0
-                },
-                "Timer": {
-                    "easeingType_": "Linear",
-                    "target_": 1.600000023841858
-                },
-                "move_.end": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "move_.start": {
-                    "x": -43.59653854370117,
-                    "y": 0.0,
-                    "z": -118.7220458984375
-                },
-                "useReturnTimer_": false
-            }
-        },
         "Charge": {
             "NextTimer": {
                 "easeingType_": "Linear",
-                "target_": 1.0
+                "target_": 1.7999999523162842
+            },
+            "beginChargeEffectOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -11.399999618530273
+            },
+            "nextAnimDuration": 0.4000000059604645,
+            "skyboxColor": {
+                "a": 1.0,
+                "b": 0.019607843831181526,
+                "g": 0.0117647061124444,
+                "r": 0.019607843831181526
             }
         },
         "Execute": {
@@ -91,24 +74,24 @@
     "JumpAttack": {
         "JumpKeyframes": [
             {
-                "x": 9.610511779785156,
+                "x": 0.0,
                 "y": 0.0,
-                "z": -158.76087951660156
+                "z": -39.322505950927734
             },
             {
-                "x": 9.664010047912598,
+                "x": 0.0,
                 "y": 20.0,
-                "z": -158.98828125
+                "z": -42.217803955078125
             },
             {
-                "x": 9.717508316040039,
+                "x": 0.0,
                 "y": 18.299999237060547,
-                "z": -159.21568298339844
+                "z": -45.113101959228516
             },
             {
-                "x": 9.77100658416748,
+                "x": 0.0,
                 "y": 0.0,
-                "z": -159.44308471679688
+                "z": -48.008399963378906
             }
         ],
         "LerpTranslationXZ": {
@@ -127,14 +110,14 @@
                 "target_": 0.5699999928474426
             },
             "move_.end": {
-                "x": 9.77100658416748,
-                "y": 0.03360790014266968,
-                "z": -159.44308471679688
+                "x": 0.0,
+                "y": 0.2815811038017273,
+                "z": -48.008399963378906
             },
             "move_.start": {
-                "x": 9.610511779785156,
+                "x": 0.0,
                 "y": 0.0,
-                "z": -158.76087951660156
+                "z": -39.322505950927734
             },
             "useReturnTimer_": false
         },
@@ -184,7 +167,6 @@
         "divisionBladeMoveSpeed_": 96.0,
         "divisionOffsetAngle_": 7.199999809265137,
         "easingType_": 14,
-        "emitParticleOffsetY_": 8.0,
         "fadeInTime_": 0.07999999821186066,
         "fadeOutTime_": 0.11999999731779099,
         "farRadius_": 130.0,
@@ -221,7 +203,6 @@
     },
     "Teleport": {
         "easingType_": 14,
-        "emitParticleOffsetY_": 8.0,
         "fadeInTime_": 0.07999999821186066,
         "fadeOutTime_": 0.11999999731779099,
         "farRadius_": 112.0,

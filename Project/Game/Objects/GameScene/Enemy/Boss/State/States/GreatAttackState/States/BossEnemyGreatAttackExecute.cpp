@@ -17,8 +17,7 @@ BossEnemyGreatAttackExecute::BossEnemyGreatAttackExecute() {
 
 void BossEnemyGreatAttackExecute::Enter() {
 
-	// プレイヤーの動きを止める
-	player_->SetUpdateMode(ObjectUpdateMode::None);
+
 }
 
 void BossEnemyGreatAttackExecute::Update() {

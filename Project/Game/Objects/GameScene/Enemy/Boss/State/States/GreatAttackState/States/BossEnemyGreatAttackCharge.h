@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
+#include <Engine/Effect/User/EffectGroup.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
@@ -25,6 +26,7 @@ public:
 
 	// 更新処理
 	void Update() override;
+	void UpdateAlways() override;
 
 	// 状態終了時
 	void Exit() override;
@@ -44,6 +46,17 @@ private:
 
 	// 次の状態進むまでの時間
 	StateTimer nextTimer_;
+
+	// チャージ
+	std::unique_ptr<EffectGroup> beginChargeEffect_;
+	Vector3 beginChargeEffectOffset_;
+	bool emitedBeginChargeEffect_ = false;
+
+	// アニメーション遷移時間
+	float nextAnimDuration_;
+
+	// skyboxの色
+	Color skyboxColor_;
 
 	//--------- functions ----------------------------------------------------
 
