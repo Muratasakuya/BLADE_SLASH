@@ -47,7 +47,7 @@ public:
 	void SetLeftHand(GameObject3D* leftHand) { leftHand_ = leftHand; }
 
 	// ボス敵
-	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
+	void SetBossEnemy(BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 
 	bool CanExit() const { return canExit_; }
 protected:
@@ -57,7 +57,7 @@ protected:
 
 	//--------- variables ----------------------------------------------------
 
-	const BossEnemy* bossEnemy_;
+	BossEnemy* bossEnemy_;
 
 	// 状態遷移先相手の各パーツ
 	GameObject3D* body_;      // 体

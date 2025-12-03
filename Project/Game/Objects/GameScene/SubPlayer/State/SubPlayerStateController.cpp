@@ -28,7 +28,7 @@ void SubPlayerStateController::Init() {
 	ChangeState(true);
 }
 
-void SubPlayerStateController::SetBossEnemy(const BossEnemy* bossEnemy) {
+void SubPlayerStateController::SetBossEnemy(BossEnemy* bossEnemy) {
 
 	// 各状態にボス敵を設定
 	for (const auto& state : std::views::values(states_)) {

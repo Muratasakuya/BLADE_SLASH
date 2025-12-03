@@ -68,6 +68,7 @@ public:
 	void SetAlpha(float alpha);
 	void SetCastShadow(bool cast);
 	void SetDecreaseToughnessProgress(float progress);
+	void RequestHit();
 
 	BossEnemyAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
 	BossEnemyHUD* GetHUD() const { return hudSprites_.get(); }

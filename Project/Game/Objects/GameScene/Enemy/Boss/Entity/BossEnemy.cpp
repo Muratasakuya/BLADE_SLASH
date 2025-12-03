@@ -225,12 +225,22 @@ void BossEnemy::SetDecreaseToughnessProgress(float progress) {
 		0, progress)), 0, stats_.maxDestroyToughness);
 }
 
+void BossEnemy::RequestHit() {
+
+	// ダメージを受ける
+	const int damage = player_->GetDamage();
+	stats_.currentHP = (std::max)(0, stats_.currentHP - damage);
+
+	// HUDに通知
+	hudSprites_->SetDamage(damage);
+}
+
 Vector3 BossEnemy::GetWeaponTranslation() const {
 
 	return weapon_->GetTransform().GetWorldPos();
 }
 
-int  BossEnemy::GetDamage() const {
+int BossEnemy::GetDamage() const {
 
 	BossEnemyState currentState = stateController_->GetCurrentState();
 

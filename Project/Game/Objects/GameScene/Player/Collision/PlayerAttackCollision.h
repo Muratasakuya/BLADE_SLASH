@@ -7,6 +7,9 @@
 #include <Engine/Effect/User/GameEffect.h>
 #include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
 
+// front
+class BossEnemy;
+
 //============================================================================
 //	PlayerAttackCollision class
 //	プレイヤーの状態に応じた攻撃判定、ヒットストップ処理
@@ -26,7 +29,7 @@ public:
 
 	// 衝突判定更新
 	void Update(const Transform3D& transform);
-	
+
 	// エディター
 	void ImGui();
 
@@ -38,6 +41,8 @@ public:
 	void OnCollisionEnter(const CollisionBody* collisionBody) override;
 
 	//--------- accessor -----------------------------------------------------
+
+	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 
 	// プレイヤーの状態に応じた攻撃判定に切り替え
 	void SetEnterState(PlayerState state);
@@ -67,9 +72,14 @@ private:
 		float lerpSpeed;
 		float timeScale;
 		EasingType timeScaleEasing;
+
+		// 衝突判定の基準を敵の位置にするか
+		bool isEnemyBased = false;
 	};
 
 	//--------- variables ----------------------------------------------------
+
+	const BossEnemy* bossEnemy_;
 
 	CollisionBody* weaponBody_;
 	const Transform3D* transform_;
