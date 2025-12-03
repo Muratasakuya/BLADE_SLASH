@@ -52,7 +52,7 @@ void SceneConstBuffer::Update(class SceneView* sceneView) {
 	cameraPosBuffer_.TransferData(sceneView->GetCamera()->GetTransform().translation);
 	orthoProjectionBuffer_.TransferData(sceneView->GetCamera2D()->GetViewProjectionMatrix());
 	// light
-	lightBuffer_.TransferData(*sceneView->GetLight());
+	lightBuffer_.TransferData(sceneView->GetLight()->GetPunctualLight());
 
 	// dither
 	ditherBuffer_.TransferData(sceneView->GetDither());

@@ -79,7 +79,7 @@ void TitleScene::Init() {
 	sceneView_->SetGameCamera(titleViewCamera_.get());
 
 	// ライトの設定
-	light_ = std::make_unique<PunctualLight>();
+	light_ = std::make_unique<BasePunctualLight>();
 	light_->Init();
 	sceneView_->SetLight(light_.get());
 

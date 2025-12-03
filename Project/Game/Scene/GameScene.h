@@ -44,7 +44,7 @@ private:
 
 	// scene
 	std::unique_ptr<CameraManager> cameraManager_;
-	std::unique_ptr<PunctualLight> gameLight_;
+	std::unique_ptr<GameLight> gameLight_;
 	std::unique_ptr<FadeTransition> fadeTransition_;
 	// collision
 	std::unique_ptr<FieldBoundary> fieldBoundary_;

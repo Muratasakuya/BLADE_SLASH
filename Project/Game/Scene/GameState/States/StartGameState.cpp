@@ -33,10 +33,6 @@ void StartGameState::Init(SceneView* sceneView) {
 
 	// ライトの初期設定
 	context_->light->Init();
-	context_->light->directional.direction.x = 0.558f;
-	context_->light->directional.direction.y = -0.476f;
-	context_->light->directional.direction.z = -0.68f;
-	context_->light->directional.color = Color::White();
 	sceneView->SetLight(context_->light);
 
 	// 衝突

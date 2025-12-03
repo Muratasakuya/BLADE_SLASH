@@ -62,7 +62,7 @@ void GameScene::Init() {
 	//========================================================================
 
 	cameraManager_ = std::make_unique<CameraManager>();
-	gameLight_ = std::make_unique<PunctualLight>();
+	gameLight_ = std::make_unique<GameLight>();
 	fieldBoundary_ = std::make_unique<FieldBoundary>();
 
 	//========================================================================

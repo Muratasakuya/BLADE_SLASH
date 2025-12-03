@@ -2529,10 +2529,12 @@
     <ClCompile Include="Engine\Object\Base\GameObject2DArray.cpp" />
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp" />
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp" />
+    <ClCompile Include="Game\Light\GameLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Object\Base\GameObject2DArray.h" />
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h" />
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h" />
+    <ClInclude Include="Game\Light\GameLight.h" />
   </ItemGroup>
 </Project>

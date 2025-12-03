@@ -219,6 +219,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\Timer\DelayedHitstop.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Game\Light\GameLight.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
       <SubType>
       </SubType>
@@ -976,6 +980,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Utility\Timer\DelayedHitstop.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Light\GameLight.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
       <SubType>

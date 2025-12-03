@@ -6,7 +6,7 @@
 
 // scene
 #include <Game/Camera/Manager/CameraManager.h>
-#include <Engine/Scene/Light/PunctualLight.h>
+#include <Game/Light/GameLight.h>
 #include <Game/Objects/GameScene/Environment/Collision/FieldBoundary.h>
 
 // object
@@ -27,7 +27,7 @@ struct GameContext {
 
 	// scene
 	CameraManager* camera = nullptr;
-	PunctualLight* light = nullptr;
+	GameLight* light = nullptr;
 	FieldBoundary* fieldBoundary = nullptr;
 
 	// object

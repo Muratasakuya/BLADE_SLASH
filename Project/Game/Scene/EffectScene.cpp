@@ -29,7 +29,7 @@ void EffectScene::Init() {
 	sceneView_->SetGameCamera(camera3D_.get());
 
 	// ライトの設定
-	light_ = std::make_unique<PunctualLight>();
+	light_ = std::make_unique<BasePunctualLight>();
 	light_->Init();
 	sceneView_->SetLight(light_.get());
 }

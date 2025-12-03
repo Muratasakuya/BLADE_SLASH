@@ -25,7 +25,10 @@ void DirectionalLight::ImGui(float itemWidth) {
 	ImGui::PushItemWidth(itemWidth);
 
 	ImGui::ColorEdit4("color##Directional", &color.r);
-	ImGui::DragFloat3("direction##Directional", &direction.x, 0.1f);
+	if (ImGui::DragFloat3("direction##Directional", &direction.x, 0.01f)) {
+
+		direction = Vector3::Normalize(direction);
+	}
 	ImGui::DragFloat("intensity##Directional", &intensity, 0.01f);
 
 	ImGui::PopItemWidth();
@@ -75,7 +78,10 @@ void SpotLight::ImGui(float itemWidth) {
 
 	ImGui::ColorEdit4("color##SpotLight", &color.r);
 	ImGui::DragFloat3("pos##SpotLight", &pos.x, 0.1f);
-	ImGui::DragFloat3("direction##SpotLight", &direction.x, 0.01f);
+	if (ImGui::DragFloat3("direction##SpotLight", &direction.x, 0.01f)) {
+
+		direction = Vector3::Normalize(direction);
+	}
 	ImGui::DragFloat("distance##SpotLight", &distance, 0.01f);
 	ImGui::DragFloat("intensity##SpotLight", &intensity, 0.01f);
 	ImGui::DragFloat("decay##SpotLight", &decay, 0.01f);
@@ -86,39 +92,29 @@ void SpotLight::ImGui(float itemWidth) {
 }
 
 //============================================================================
-//	PunctualLight classMethods
+//	BasePunctualLight classMethods
 //============================================================================
 
-void PunctualLight::Init() {
+void BasePunctualLight::Init() {
 
-	directional.Init();
-	point.Init();
-	spot.Init();
+	// 各lightの初期化
+	light_.directional.Init();
+	light_.point.Init();
+	light_.spot.Init();
 
-	preDirectionalLightDirection_ = directional.direction;
-	preSpotLightDirection_ = spot.direction;
+	// 継承先の初期化
+	DerivedInit();
 }
 
-void PunctualLight::Update() {
-
-	// 向きに変更があった場合のみ正規化
-	if (preDirectionalLightDirection_ != directional.direction) {
-		
-		directional.direction = directional.direction.Normalize();
-		preDirectionalLightDirection_ = directional.direction;
-	}
-
-	if (preSpotLightDirection_ != spot.direction) {
-
-		directional.direction = spot.direction.Normalize();
-		preSpotLightDirection_ = spot.direction;
-	}
-}
-
-void PunctualLight::ImGui() {
+void BasePunctualLight::ImGui() {
 
 	// 各lightのImGui表示
-	directional.ImGui(itemWidth_);
-	point.ImGui(itemWidth_);
-	spot.ImGui(itemWidth_);
+	light_.directional.ImGui(itemWidth_);
+	light_.point.ImGui(itemWidth_);
+	light_.spot.ImGui(itemWidth_);
+
+	ImGui::Separator();
+
+	// 継承先のImGui
+	DerivedImGui();
 }

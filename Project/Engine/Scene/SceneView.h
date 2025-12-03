@@ -42,20 +42,21 @@ public:
 	void Update();
 
 	void ImGui() override;
+
 	//--------- accessor -----------------------------------------------------
 
 	// camera
 	void SetGameCamera(BaseCamera* gameCamera);
 	void AddSceneCamera(const std::string& name, BaseCamera* sceneCamera);
 	// light
-	void SetLight(PunctualLight* gameLight);
+	void SetLight(BasePunctualLight* gameLight);
 
 	// camera
 	BaseCamera* GetCamera() const { return activeGameCamera3D_.value(); }
 	BaseCamera* GetSceneCamera() const { return activeSceneCamera_.value(); }
 	Camera2D* GetCamera2D() const { return camera2D_.get(); }
 	// light
-	PunctualLight* GetLight() const { return punctualLight_.value(); }
+	BasePunctualLight* GetLight() const { return punctualLight_.value(); }
 	// dither
 	const DitherForGPU& GetDither() const { return dither_; }
 private:
@@ -79,13 +80,14 @@ private:
 	std::unique_ptr<Camera2D> camera2D_;
 
 	// light
-	std::optional<PunctualLight*> punctualLight_;
+	std::optional<BasePunctualLight*> punctualLight_;
 
 	// dither
 	DitherForGPU dither_;
 
 	// editor
 	int activeSceneCameraIndex_;
+	bool isDrawLight_ = false;
 
 	//--------- functions ----------------------------------------------------
 
