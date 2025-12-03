@@ -18,12 +18,14 @@ void ParticleSpawnHemisphereModule::SetCommand(const ParticleCommand& command) {
 
 			emitter_.translation = *translation;
 		}
+		break;
 	}
 	case ParticleCommandID::SetRotation: {
 		if (const auto& rotation = std::get_if<Vector3>(&command.value)) {
 
 			emitterRotation_ = *rotation;
 		}
+		break;
 	}
 	}
 }
@@ -74,6 +76,8 @@ void ParticleSpawnHemisphereModule::Execute(std::list<CPUParticle::ParticleData>
 
 		// 発生した瞬間の座標を記録
 		particle.spawnTranlation = particle.transform.translation;
+		// エミッターの座標
+		particle.emitterTranslation = emitter_.translation;
 
 		// 追加
 		particles.push_back(particle);

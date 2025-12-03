@@ -56,6 +56,8 @@ void ParticleSpawnSphereModule::Execute(std::list<CPUParticle::ParticleData>& pa
 
 		// 発生した瞬間の座標を記録
 		particle.spawnTranlation = particle.transform.translation;
+		// エミッターの座標
+		particle.emitterTranslation = emitter_.translation;
 
 		// 追加
 		particles.push_back(particle);

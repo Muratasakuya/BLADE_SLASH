@@ -513,7 +513,7 @@ void CPUParticleGroup::ImGui() {
 			}
 
 			ImGui::SameLine();
-			if (ImGui::SmallButton("X")) {
+			if (ImGui::Button("X")) {
 
 				phases_.erase(phases_.begin() + i);
 				selectedPhase_ = std::clamp(selectedPhase_, 0, static_cast<int>(phases_.size()) - 1);

@@ -26,6 +26,15 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 	// 初期化値
 	canExit_ = false;
 	editState_ = State::BlowPlayer;
+
+	// チャージ開始エフェクト
+	beginChargeEffect_ = std::make_unique<EffectGroup>();
+	beginChargeEffect_->Init("beginCharge", "BossEnemyEffect");
+	beginChargeEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyBeginChargeEffect.json");
+	// 雷攻撃
+	lightningAttackEffect_ = std::make_unique<EffectGroup>();
+	lightningAttackEffect_->Init("lightningAttack", "BossEnemyEffect");
+	lightningAttackEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightningAttackEffect.json");
 }
 
 void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
@@ -39,43 +48,56 @@ void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
 void BossEnemyGreatAttackState::Enter([[maybe_unused]] BossEnemy& bossEnemy) {
 
 	// 初期状態で初期化
-	currentState_ = State::BlowPlayer;
-	states_[currentState_]->Enter();
+	/*currentState_ = State::BlowPlayer;
+	states_[currentState_]->Enter();*/
+
+	// 処理終了
+	canExit_ = true;
 }
 
 void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 
-	// 現在の状態を更新
-	auto& state = states_[currentState_];
-	state->Update();
+	// 処理終了
+	canExit_ = true;
 
-	// 処理終了後次の状態に進む
-	if (state->CanExit()) {
+	//// 現在の状態を更新
+	//auto& state = states_[currentState_];
+	//state->Update();
 
-		// 現在の状態を終了させる
-		state->Exit();
-		// 次の状態があれば遷移
-		if (auto next = GetNextState(currentState_)) {
+	//// 処理終了後次の状態に進む
+	//if (state->CanExit()) {
 
-			currentState_ = *next;
-			states_[currentState_]->Enter();
-		} else {
+	//	// 現在の状態を終了させる
+	//	state->Exit();
+	//	// 次の状態があれば遷移
+	//	if (auto next = GetNextState(currentState_)) {
 
-			// 処理終了
-			canExit_ = true;
-		}
-	}
+	//		currentState_ = *next;
+	//		states_[currentState_]->Enter();
+	//	} else {
+
+	//		// 処理終了
+	//		canExit_ = true;
+	//	}
+	//}
+}
+
+void BossEnemyGreatAttackState::UpdateAlways(BossEnemy& bossEnemy) {
+
+	// エフェクト更新
+	beginChargeEffect_->Update();
+	lightningAttackEffect_->Update();
 }
 
 void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 
 	canExit_ = false;
 
-	// 全てのExitを呼びだして完全にリセット
-	for (const auto& state : std::views::values(states_)) {
+	//// 全てのExitを呼びだして完全にリセット
+	//for (const auto& state : std::views::values(states_)) {
 
-		state->Exit();
-	}
+	//	state->Exit();
+	//}
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
