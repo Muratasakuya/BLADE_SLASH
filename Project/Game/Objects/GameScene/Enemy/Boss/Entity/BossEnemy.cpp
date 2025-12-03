@@ -48,6 +48,7 @@ void BossEnemy::InitAnimations() {
 	animation_->SetAnimationData("bossEnemy_teleport");
 	animation_->SetAnimationData("bossEnemy_start");
 	animation_->SetAnimationData("bossEnemy_beginChargeGreatAttack");
+	animation_->SetAnimationData("bossEnemy_endChargeGreatAttack");
 
 	// 右手を親として更新させる
 	animation_->SetParentJoint("rightHand");

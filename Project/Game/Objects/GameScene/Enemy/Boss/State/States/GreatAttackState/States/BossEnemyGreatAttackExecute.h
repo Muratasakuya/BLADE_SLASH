@@ -45,6 +45,9 @@ private:
 	// 次の状態進むまでの時間
 	StateTimer nextTimer_;
 
+	// アニメーション遷移時間
+	float nextAnimDuration_;
+
 	//--------- functions ----------------------------------------------------
 
 };
