@@ -25,6 +25,11 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 	canExit_ = false;
 	editState_ = State::Charge;
 
+	// エフェクト作成
+	// フィールドエフェクト
+	fieldEffect_ = std::make_unique<EffectGroup>();
+	fieldEffect_->Init("fieldEffect", "BossEnemyEffect");
+	fieldEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackFieldEffect.json");
 	// 雷攻撃
 	lightningAttackEffect_ = std::make_unique<EffectGroup>();
 	lightningAttackEffect_->Init("lightningAttack", "BossEnemyEffect");
@@ -62,6 +67,9 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 
 			currentState_ = *next;
 			states_[currentState_]->Enter();
+
+			// 状態別のEnter時のエフェクト発生
+			EmitEffect(currentState_);
 		} else {
 
 			// 処理終了
@@ -79,6 +87,7 @@ void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEne
 	}
 
 	// エフェクト更新
+	fieldEffect_->Update();
 	lightningAttackEffect_->Update();
 }
 
@@ -91,6 +100,8 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 
 		state->Exit();
 	}
+	// エフェクト停止
+	fieldEffect_->Stop();
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
@@ -135,4 +146,19 @@ BossEnemyGreatAttackState::GetNextState(State state) const {
 	case State::Finish:  return std::nullopt;
 	}
 	return std::nullopt;
+}
+
+void BossEnemyGreatAttackState::EmitEffect(State state) {
+
+	switch (state) {
+	case BossEnemyGreatAttackState::State::Charge:
+		break;
+	case BossEnemyGreatAttackState::State::Execute:
+
+		// フィールドエフェクト発生
+		fieldEffect_->Emit(Vector3::AnyInit(0.0f));
+		break;
+	case BossEnemyGreatAttackState::State::Finish:
+		break;
+	}
 }

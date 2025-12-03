@@ -63,6 +63,8 @@ private:
 	State editState_;
 
 	// エフェクト
+	// フィールド、チャージ終了後から
+	std::unique_ptr<EffectGroup> fieldEffect_;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 
@@ -70,4 +72,7 @@ private:
 
 	// helper
 	std::optional<State> GetNextState(State state) const;
+
+	// エフェクトの発生
+	void EmitEffect(State state);
 };
