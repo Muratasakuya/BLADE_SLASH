@@ -4,6 +4,12 @@
 //	BossEnemyGreatAttackApproach classMethods
 //============================================================================
 
+BossEnemyGreatAttackApproach::BossEnemyGreatAttackApproach() {
+
+	// 初期化
+	movePendulum_.Init();
+}
+
 void BossEnemyGreatAttackApproach::Enter() {
 
 	canExit_ = true;
@@ -21,15 +27,19 @@ void BossEnemyGreatAttackApproach::Exit() {
 
 void BossEnemyGreatAttackApproach::ImGui() {
 
-
+	movePendulum_.ImGui();
 }
 
-void BossEnemyGreatAttackApproach::ApplyJson([[maybe_unused]] const Json& data) {
+void BossEnemyGreatAttackApproach::ApplyJson(const Json& data) {
 
+	if (data.empty()) {
+		return;
+	}
 
+	movePendulum_.FromJson(data.value("MovePendulum", Json()));
 }
 
-void BossEnemyGreatAttackApproach::SaveJson([[maybe_unused]] Json& data) {
+void BossEnemyGreatAttackApproach::SaveJson(Json& data) {
 
-
+	movePendulum_.ToJson(data["MovePendulum"]);
 }

@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/MathLib/ConicalPendulum.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
@@ -15,7 +16,7 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyGreatAttackApproach() = default;
+	BossEnemyGreatAttackApproach();
 	~BossEnemyGreatAttackApproach() = default;
 
 	// 状態遷移時
@@ -40,7 +41,8 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-
+	// 振り子移動
+	ConicalPendulum movePendulum_;
 
 	//--------- functions ----------------------------------------------------
 
