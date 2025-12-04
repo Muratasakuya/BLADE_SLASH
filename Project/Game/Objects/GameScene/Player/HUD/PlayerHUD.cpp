@@ -450,6 +450,8 @@ void PlayerHUD::ChangeAllOperateSprite() {
 		return;
 	}
 
+	inputType_ = InputType::GamePad;
+	preInputType_ = InputType::GamePad;
 	attack_.ChangeDynamicSprite(inputType_);
 	dash_.ChangeDynamicSprite(inputType_);
 	skil_.ChangeDynamicSprite(inputType_);
