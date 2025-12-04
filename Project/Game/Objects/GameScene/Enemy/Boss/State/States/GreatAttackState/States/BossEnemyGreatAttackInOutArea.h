@@ -3,22 +3,20 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Timer/StateTimer.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
-//	BossEnemyGreatAttackExecute class
-//	大技発動状態
+//	BossEnemyGreatAttackInOutArea class
 //============================================================================
-class BossEnemyGreatAttackExecute :
+class BossEnemyGreatAttackInOutArea :
 	public BossEnemyGreatAttackIState {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	BossEnemyGreatAttackExecute();
-	~BossEnemyGreatAttackExecute() = default;
+	BossEnemyGreatAttackInOutArea() = default;
+	~BossEnemyGreatAttackInOutArea() = default;
 
 	// 状態遷移時
 	void Enter() override;
@@ -42,11 +40,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	// 次の状態進むまでの時間
-	StateTimer nextTimer_;
 
-	// アニメーション遷移時間
-	float nextAnimDuration_;
 
 	//--------- functions ----------------------------------------------------
 

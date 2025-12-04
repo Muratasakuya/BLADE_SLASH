@@ -7,7 +7,9 @@
 
 // state
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackCharge.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackExecute.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackApproach.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackProjectile.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackInOutArea.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackFinish.h>
 
 //============================================================================
@@ -18,7 +20,9 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 
 	// 各状態を初期化
 	states_.emplace(State::Charge, std::make_unique<BossEnemyGreatAttackCharge>());
-	states_.emplace(State::Execute, std::make_unique<BossEnemyGreatAttackExecute>());
+	states_.emplace(State::ApproachAttack, std::make_unique<BossEnemyGreatAttackApproach>());
+	states_.emplace(State::ProjectileAttack, std::make_unique<BossEnemyGreatAttackProjectile>());
+	states_.emplace(State::InOutAreaAttack, std::make_unique<BossEnemyGreatAttackInOutArea>());
 	states_.emplace(State::Finish, std::make_unique<BossEnemyGreatAttackFinish>());
 
 	// 初期化値
@@ -129,6 +133,10 @@ void BossEnemyGreatAttackState::ApplyJson(const Json& data) {
 	for (const auto& [state, ptr] : states_) {
 
 		auto key = EnumAdapter<State>::ToString(state);
+		if (!ptr || !data.contains(key)) {
+			continue;
+		}
+
 		ptr->ApplyJson(data[key]);
 	}
 }
@@ -147,8 +155,10 @@ BossEnemyGreatAttackState::GetNextState(State state) const {
 
 	// 次の遷移状態を返す、無ければnullopt
 	switch (state) {
-	case State::Charge:  return State::Execute;
-	case State::Execute: return State::Finish;
+	case State::Charge: return State::ApproachAttack;
+	case State::ApproachAttack: return State::ProjectileAttack;
+	case State::ProjectileAttack: return State::InOutAreaAttack;
+	case State::InOutAreaAttack: return State::Finish;
 	case State::Finish:  return std::nullopt;
 	}
 	return std::nullopt;
@@ -159,13 +169,23 @@ void BossEnemyGreatAttackState::EmitEffect(State state) {
 	switch (state) {
 	case BossEnemyGreatAttackState::State::Charge:
 		break;
-	case BossEnemyGreatAttackState::State::Execute:
+	case BossEnemyGreatAttackState::State::ApproachAttack:
 
 		// エフェクト発生
 		bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
 		fieldEffect_->Emit(Vector3::AnyInit(0.0f));
 		break;
+	case BossEnemyGreatAttackState::State::ProjectileAttack:
+
+
+		break;
+	case BossEnemyGreatAttackState::State::InOutAreaAttack:
+
+
+		break;
 	case BossEnemyGreatAttackState::State::Finish:
+
+
 		break;
 	}
 }

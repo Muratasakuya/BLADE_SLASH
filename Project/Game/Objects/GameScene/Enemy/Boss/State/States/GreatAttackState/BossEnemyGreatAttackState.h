@@ -7,6 +7,9 @@
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
+// 流れ
+// 近接攻撃 -> 弾 && 雷攻撃 -> 外側から内側攻撃 -> 終了
+
 //============================================================================
 //	BossEnemyGreatAttackState class
 //	ボスの大技攻撃処理
@@ -46,9 +49,11 @@ private:
 	// 状態
 	enum class State {
 
-		Charge,  // チャージ
-		Execute, // 攻撃中
-		Finish   // 終了
+		Charge,           // チャージ
+		ApproachAttack,   // 近接攻撃
+		ProjectileAttack, // 弾攻撃
+		InOutAreaAttack,  // 内外攻撃
+		Finish            // 終了
 	};
 
 	//--------- variables ----------------------------------------------------
