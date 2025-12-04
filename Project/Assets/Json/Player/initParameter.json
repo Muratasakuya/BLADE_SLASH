@@ -833,5 +833,5 @@
     },
     "maxHP": 12000,
     "maxSkilPoint": 100,
-    "toughness": 0
+    "toughness": 1
 }
