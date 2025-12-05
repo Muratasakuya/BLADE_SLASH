@@ -13,7 +13,6 @@ class BossEnemy;
 class BossEnemyAttackSign;
 class Player;
 class FollowCamera;
-class GameLight;
 
 //============================================================================
 //	BossEnemyIState class
@@ -49,7 +48,6 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
-	void SetGameLight(GameLight* gameLight) { gameLight_ = gameLight; }
 	void SetAttackSign(BossEnemyAttackSign* attackSign) { attackSign_ = attackSign; }
 
 	virtual bool GetCanExit() const { return canExit_; }
@@ -82,7 +80,6 @@ protected:
 
 	Player* player_;
 	FollowCamera* followCamera_;
-	GameLight* gameLight_;
 	BossEnemyAttackSign* attackSign_;
 
 	// 共通parameters

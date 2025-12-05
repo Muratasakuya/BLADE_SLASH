@@ -11,8 +11,6 @@
 class BossEnemy;
 class Player;
 class FollowCamera;
-class GameLight;
-class Skybox;
 
 //============================================================================
 //	BossEnemyGreatAttackIState class
@@ -24,11 +22,11 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyGreatAttackIState();
+	BossEnemyGreatAttackIState() = default;
 	virtual ~BossEnemyGreatAttackIState() = default;
 
 	// 共通初期化
-	void Init(BossEnemy* bossEnemy, Player* player, FollowCamera* followCamera, GameLight* gameLight);
+	void Init(BossEnemy* bossEnemy, Player* player, FollowCamera* followCamera);
 
 	// 状態遷移時
 	virtual void Enter() = 0;
@@ -60,9 +58,7 @@ protected:
 
 	Player* player_;
 	FollowCamera* followCamera_;
-	GameLight* gameLight_;
 	BossEnemy* bossEnemy_;
-	Skybox* skybox_;
 
 	// 状態終了フラグ
 	bool canExit_ = false;

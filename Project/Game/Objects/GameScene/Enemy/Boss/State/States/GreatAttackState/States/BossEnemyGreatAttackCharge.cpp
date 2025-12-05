@@ -73,10 +73,6 @@ void BossEnemyGreatAttackCharge::Exit() {
 	canExit_ = false;
 	emitedBeginChargeEffect_ = false;
 
-	// ライト、skyboxの色を設定する
-	gameLight_->Start();
-	skybox_->SetColor(skyboxColor_);
-
 	// ブラーを発生させる
 	PostProcessSystem* postProcess = PostProcessSystem::GetInstance();
 	postProcess->Start(PostProcessType::RadialBlur);

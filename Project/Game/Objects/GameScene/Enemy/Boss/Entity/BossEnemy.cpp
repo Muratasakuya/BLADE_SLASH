@@ -202,11 +202,6 @@ void BossEnemy::SetFollowCamera(FollowCamera* followCamera) {
 	hudSprites_->SetFollowCamera(followCamera);
 }
 
-void BossEnemy::SetGameLight(GameLight* gameLight) {
-
-	stateController_->SetGameLight(gameLight);
-}
-
 void BossEnemy::SetAlpha(float alpha) {
 
 	// 武器も一緒に設定する

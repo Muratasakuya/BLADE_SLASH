@@ -18,6 +18,12 @@
 //	GameScene classMethods
 //============================================================================
 
+GameScene::~GameScene() {
+
+	// シーンを削除するタイミングで停止させる
+	fieldEffect_->Stop();
+}
+
 void GameScene::InitStates() {
 
 	// scene
@@ -76,6 +82,13 @@ void GameScene::Init() {
 
 	fadeSprite_ = std::make_unique<FadeSprite>();
 
+	// フィールドエフェクト
+	fieldEffect_ = std::make_unique<EffectGroup>();
+	fieldEffect_->Init("fieldEffect", "SceneEffect");
+	fieldEffect_->LoadJson("GameEffectGroup/GameScene/sceneFieldEffect.json");
+	// 最初から発生
+	fieldEffect_->Emit(Vector3::AnyInit(0.0f));
+
 	//========================================================================
 	//	state
 	//========================================================================
@@ -93,10 +106,10 @@ void GameScene::Update() {
 	// 状態に応じて更新
 	uint32_t stateIndex = static_cast<uint32_t>(currentState_);
 	switch (currentState_) {
+	case GameSceneState::Start: {
 		//========================================================================
 		//	ゲーム開始時の処理
 		//========================================================================
-	case GameSceneState::Start: {
 
 		states_[stateIndex]->Update(nullptr);
 
@@ -107,10 +120,10 @@ void GameScene::Update() {
 		}
 		break;
 	}
+	case GameSceneState::BeginGame: {
 		//========================================================================
 		//	ゲーム開始演出の処理
 		//========================================================================
-	case GameSceneState::BeginGame: {
 
 		states_[stateIndex]->Update(nullptr);
 
@@ -121,10 +134,10 @@ void GameScene::Update() {
 		}
 		break;
 	}
+	case GameSceneState::PlayGame: {
 		//========================================================================
 		//	ゲームプレイ中の処理
 		//========================================================================
-	case GameSceneState::PlayGame: {
 
 		states_[stateIndex]->Update(nullptr);
 
@@ -135,10 +148,10 @@ void GameScene::Update() {
 		}
 		break;
 	}
+	case GameSceneState::EndGame: {
 		//========================================================================
 		//	ゲーム終了時の処理
 		//========================================================================
-	case GameSceneState::EndGame: {
 
 		states_[stateIndex]->Update(nullptr);
 
@@ -153,10 +166,10 @@ void GameScene::Update() {
 		}
 		break;
 	}
+	case GameSceneState::Result: {
 		//========================================================================
 		//	リザルト画面の処理
 		//========================================================================
-	case GameSceneState::Result: {
 
 		states_[stateIndex]->Update(nullptr);
 
@@ -174,15 +187,22 @@ void GameScene::Update() {
 		}
 		break;
 	}
+	case GameSceneState::Pause: {
 		//========================================================================
 		//	ポーズ中の処理
 		//========================================================================
-	case GameSceneState::Pause: {
 
 		states_[stateIndex]->Update(nullptr);
 		break;
 	}
 	}
+
+	//========================================================================
+	//	常に行う更新処理
+	//========================================================================
+
+	// フィールドエフェクト
+	fieldEffect_->Update();
 }
 
 void GameScene::EndFrame() {

@@ -42,7 +42,7 @@
                 "updaterScaleValue": 1.0
             },
             "ParticleSystem": {
-                "path": "Particle/Boss/bossEnemyAttackField.json"
+                "path": "Particle/GameScene/attackField.json"
             },
             "StartAfter": {
                 "Condition": "None",
@@ -54,8 +54,8 @@
                 "emptyGroupIndex": -1,
                 "emptyNodeKey": ""
             },
-            "key": "bossEnemyAttackField",
-            "name": "bossEnemyAttackField",
+            "key": "attackField",
+            "name": "attackField",
             "startOffset": 0.0
         }
     ],

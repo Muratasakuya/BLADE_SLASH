@@ -10,15 +10,7 @@
 //	BossEnemyGreatAttackIState classMethods
 //============================================================================
 
-BossEnemyGreatAttackIState::BossEnemyGreatAttackIState() {
-
-	// skybox取得
-	ObjectManager* objectManager = ObjectManager::GetInstance();
-	skybox_ = objectManager->GetData<Skybox>(objectManager->GetSystem<SkyboxRenderSystem>()->GetObjectID());
-}
-
-void BossEnemyGreatAttackIState::Init(BossEnemy* bossEnemy,
-	Player* player, FollowCamera* followCamera, GameLight* gameLight) {
+void BossEnemyGreatAttackIState::Init(BossEnemy* bossEnemy,Player* player, FollowCamera* followCamera) {
 
 	bossEnemy_ = nullptr;
 	bossEnemy_ = bossEnemy;
@@ -28,7 +20,4 @@ void BossEnemyGreatAttackIState::Init(BossEnemy* bossEnemy,
 
 	followCamera_ = nullptr;
 	followCamera_ = followCamera;
-
-	gameLight_ = nullptr;
-	gameLight_ = gameLight;
 }

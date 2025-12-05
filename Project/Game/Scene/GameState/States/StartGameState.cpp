@@ -33,6 +33,7 @@ void StartGameState::Init(SceneView* sceneView) {
 
 	// ライトの初期設定
 	context_->light->Init();
+	context_->light->Start();
 	sceneView->SetLight(context_->light);
 
 	// 衝突
@@ -52,7 +53,6 @@ void StartGameState::Init(SceneView* sceneView) {
 
 	// 必要なデータをセット
 	context_->boss->SetPlayer(context_->player);
-	context_->boss->SetGameLight(context_->light);
 	context_->boss->SetFollowCamera(context_->camera->GetFollowCamera());
 	context_->player->SetBossEnemy(context_->boss);
 	context_->player->SetFollowCamera(context_->camera->GetFollowCamera());

@@ -38,10 +38,6 @@ void BossEnemyGreatAttackFinish::Exit() {
 	nextTimer_.Reset();
 	canExit_ = false;
 
-	// ライト、skyboxを元に戻す
-	gameLight_->Start();
-	skybox_->ResetColor();
-
 	// 攻撃有効状態にする
 	bossEnemy_->GetHUD()->SetValid();
 }

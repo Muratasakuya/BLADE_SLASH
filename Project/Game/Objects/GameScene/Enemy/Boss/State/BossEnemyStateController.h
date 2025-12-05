@@ -48,7 +48,6 @@ public:
 
 	void SetPlayer(Player* player);
 	void SetFollowCamera(FollowCamera* followCamera, BossEnemy& owner);
-	void SetGameLight(GameLight* gameLight);
 
 	void SetStatas(const BossEnemyStats& stats) { stats_ = stats; }
 	void SetDisableTransitions(bool disable) { disableTransitions_ = disable; }

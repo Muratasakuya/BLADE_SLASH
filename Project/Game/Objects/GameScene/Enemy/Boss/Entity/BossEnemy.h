@@ -63,7 +63,6 @@ public:
 
 	void SetPlayer(Player* player);
 	void SetFollowCamera(FollowCamera* followCamera);
-	void SetGameLight(GameLight* gameLight);
 
 	void SetAlpha(float alpha);
 	void SetCastShadow(bool cast);

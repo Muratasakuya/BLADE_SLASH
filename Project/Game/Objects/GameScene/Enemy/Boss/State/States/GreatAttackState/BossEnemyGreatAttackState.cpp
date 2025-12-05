@@ -34,10 +34,6 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 	bossAuraEffect_ = std::make_unique<EffectGroup>();
 	bossAuraEffect_->Init("bossAuraEffect", "BossEnemyEffect");
 	bossAuraEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackBossAuraEffect.json");
-	// フィールドエフェクト
-	fieldEffect_ = std::make_unique<EffectGroup>();
-	fieldEffect_->Init("fieldEffect", "BossEnemyEffect");
-	fieldEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackFieldEffect.json");
 	// 雷攻撃
 	lightningAttackEffect_ = std::make_unique<EffectGroup>();
 	lightningAttackEffect_->Init("lightningAttack", "BossEnemyEffect");
@@ -48,7 +44,7 @@ void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
 
 	for (const auto& state : std::views::values(states_)) {
 
-		state->Init(&bossEnemy, player_, followCamera_, gameLight_);
+		state->Init(&bossEnemy, player_, followCamera_);
 	}
 }
 
@@ -96,7 +92,6 @@ void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEne
 
 	// エフェクト更新
 	bossAuraEffect_->Update();
-	fieldEffect_->Update();
 	lightningAttackEffect_->Update();
 }
 
@@ -111,7 +106,6 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	}
 	// エフェクト停止
 	bossAuraEffect_->Stop();
-	fieldEffect_->Stop();
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
@@ -173,7 +167,6 @@ void BossEnemyGreatAttackState::EmitEffect(State state) {
 
 		// エフェクト発生
 		bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
-		fieldEffect_->Emit(Vector3::AnyInit(0.0f));
 		break;
 	case BossEnemyGreatAttackState::State::ProjectileAttack:
 

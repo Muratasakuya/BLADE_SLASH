@@ -86,15 +86,6 @@ void BossEnemyStateController::SetFollowCamera(FollowCamera* followCamera, BossE
 	static_cast<BossEnemyGreatAttackState*>(states_[BossEnemyState::GreatAttack].get())->InitState(owner);
 }
 
-void BossEnemyStateController::SetGameLight(GameLight* gameLight) {
-
-	// 各状態にgameLightをセット
-	for (const auto& state : std::views::values(states_)) {
-
-		state->SetGameLight(gameLight);
-	}
-}
-
 void BossEnemyStateController::StartFalter(BossEnemy& owner) {
 
 	// 現在の状態を終了させる

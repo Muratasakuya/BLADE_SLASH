@@ -70,8 +70,6 @@ private:
 	// エフェクト
 	// オーラエフェクト、チャージ終了後から
 	std::unique_ptr<EffectGroup> bossAuraEffect_;
-	// フィールド、チャージ終了後から
-	std::unique_ptr<EffectGroup> fieldEffect_;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 
