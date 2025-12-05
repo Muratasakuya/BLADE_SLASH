@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/MathLib/Vector3.h>
+#include <Engine/MathLib/Quaternion.h>
 
 //============================================================================
 //	ConicalPendulum struct
@@ -24,16 +25,30 @@ public:
 	float angle;           // 現在の角度
 	float angularVelocity; // 角速度
 
+	float moveSpeed; // 移動速度
+
 	float minAngle; // 最小角度
 	float maxAngle; // 最大角度
 	
 	bool isDrawDebug = false;  // デバッグ描画するか
 	bool isEditUpdate = false; // エディターで更新するか
 
+	// 回転
+	Quaternion rotation;
+
+	// min、maxに到達した回数
+	uint32_t reachCount;
+
 	//--------- functions ----------------------------------------------------
+
+	// min、maxAngleの位置を取得する
+	Vector3 GetMinPos() const;
+	Vector3 GetMaxPos() const;
 
 	// 初期化
 	void Init();
+	// リセット
+	void Reset();
 
 	// 更新
 	void Update();

@@ -49,7 +49,6 @@ private:
 	// 状態
 	enum class State {
 
-		Charge,           // チャージ
 		ApproachAttack,   // 近接攻撃
 		ProjectileAttack, // 弾攻撃
 		InOutAreaAttack,  // 内外攻撃

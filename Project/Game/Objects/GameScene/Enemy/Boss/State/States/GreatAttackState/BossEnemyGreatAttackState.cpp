@@ -6,7 +6,6 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 // state
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackCharge.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackApproach.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackProjectile.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackInOutArea.h>
@@ -19,7 +18,6 @@
 BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 
 	// 各状態を初期化
-	states_.emplace(State::Charge, std::make_unique<BossEnemyGreatAttackCharge>());
 	states_.emplace(State::ApproachAttack, std::make_unique<BossEnemyGreatAttackApproach>());
 	states_.emplace(State::ProjectileAttack, std::make_unique<BossEnemyGreatAttackProjectile>());
 	states_.emplace(State::InOutAreaAttack, std::make_unique<BossEnemyGreatAttackInOutArea>());
@@ -27,7 +25,7 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 
 	// 初期化値
 	canExit_ = false;
-	editState_ = State::Charge;
+	editState_ = State::ApproachAttack;
 
 	// エフェクト作成
 	// オーラエフェクト
@@ -51,8 +49,11 @@ void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
 void BossEnemyGreatAttackState::Enter([[maybe_unused]] BossEnemy& bossEnemy) {
 
 	// 初期状態で初期化
-	currentState_ = State::Charge;
+	currentState_ = State::ApproachAttack;
 	states_[currentState_]->Enter();
+
+	// エフェクト発生
+	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
 }
 
 void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -149,7 +150,6 @@ BossEnemyGreatAttackState::GetNextState(State state) const {
 
 	// 次の遷移状態を返す、無ければnullopt
 	switch (state) {
-	case State::Charge: return State::ApproachAttack;
 	case State::ApproachAttack: return State::ProjectileAttack;
 	case State::ProjectileAttack: return State::InOutAreaAttack;
 	case State::InOutAreaAttack: return State::Finish;
@@ -161,12 +161,9 @@ BossEnemyGreatAttackState::GetNextState(State state) const {
 void BossEnemyGreatAttackState::EmitEffect(State state) {
 
 	switch (state) {
-	case BossEnemyGreatAttackState::State::Charge:
-		break;
 	case BossEnemyGreatAttackState::State::ApproachAttack:
 
-		// エフェクト発生
-		bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+
 		break;
 	case BossEnemyGreatAttackState::State::ProjectileAttack:
 

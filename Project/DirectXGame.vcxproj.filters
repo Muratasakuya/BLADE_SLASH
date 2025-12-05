@@ -1158,9 +1158,6 @@
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackCharge.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackFinish.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClCompile>
@@ -2165,9 +2162,6 @@
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackCharge.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackFinish.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>

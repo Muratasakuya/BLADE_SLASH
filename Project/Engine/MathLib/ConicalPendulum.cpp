@@ -21,14 +21,58 @@ void ConicalPendulum::Init() {
 	angularVelocity = 1.0f;
 	halfApexAngle = pi / 6.0f;
 	angle = 0.0f;
+	moveSpeed = 1.0f;
 	minAngle = 0.0f;
 	maxAngle = pi;
+	rotation = Quaternion::Identity();
+	reachCount = 0;
+}
+
+void ConicalPendulum::Reset() {
+
+	angularVelocity = 0.0f;
+	angle = 0.0f;
+	reachCount = 0;
+}
+
+Vector3 ConicalPendulum::GetMinPos() const {
+
+	// 半径と高さ
+	float radius = std::sin(halfApexAngle) * length;
+	float height = std::cos(halfApexAngle) * length;
+
+	// ローカル位置
+	Vector3 local = Vector3(radius * std::cos(minAngle), -height, radius * std::sin(minAngle));
+	// 回転させた位置
+	Vector3 rotated = rotation * local;
+
+	// 位置を設定
+	Vector3 result = anchor + rotated;
+
+	return result;
+}
+
+Vector3 ConicalPendulum::GetMaxPos() const {
+
+	// 半径と高さ
+	float radius = std::sin(halfApexAngle) * length;
+	float height = std::cos(halfApexAngle) * length;
+
+	// ローカル位置
+	Vector3 local = Vector3(radius * std::cos(maxAngle), -height, radius * std::sin(maxAngle));
+	// 回転させた位置
+	Vector3 rotated = rotation * local;
+
+	// 位置を設定
+	Vector3 result = anchor + rotated;
+
+	return result;
 }
 
 void ConicalPendulum::Update() {
 
 	// 角速度を計算
-	float angularSpeed = std::sqrt(9.8f / (length * std::cos(halfApexAngle)));
+	float angularSpeed = std::sqrt(9.8f / (length * std::cos(halfApexAngle))) * moveSpeed;
 	if (0.0f <= angularVelocity) {
 
 		angularVelocity = angularSpeed;
@@ -43,21 +87,26 @@ void ConicalPendulum::Update() {
 		// ここで反転
 		angle = maxAngle;
 		angularVelocity = -angularSpeed;
+		++reachCount;
 	} else if (angle < minAngle) {
 
 		// ここで反転
 		angle = minAngle;
 		angularVelocity = angularSpeed;
+		++reachCount;
 	}
 
 	// 半径と高さ
 	float radius = std::sin(halfApexAngle) * length;
 	float height = std::cos(halfApexAngle) * length;
 
-	// 現在の位置を計算
-	currentPos.x = anchor.x + radius * std::cos(angle);
-	currentPos.y = anchor.y - height;
-	currentPos.z = anchor.z + radius * std::sin(angle);
+	// ローカル位置
+	Vector3 local = Vector3(radius * std::cos(angle), -height, radius * std::sin(angle));
+	// 回転させた位置
+	Vector3 rotated = rotation * local;
+
+	// 位置を設定
+	currentPos = anchor + rotated;
 }
 
 void ConicalPendulum::DrawDebugLine() {
@@ -70,38 +119,41 @@ void ConicalPendulum::DrawDebugLine() {
 	// アンカー位置、現在位置を球で描画
 	lineRenderer->DrawSphere(6, 0.4f, anchor, Color::Cyan());
 	lineRenderer->DrawSphere(6, 0.4f, currentPos, Color::Cyan());
+	// 最小角度位置と最大角度位置を球で描画
+	lineRenderer->DrawSphere(6, 0.4f, GetMinPos(), Color::Cyan());
+	lineRenderer->DrawSphere(6, 0.4f, GetMaxPos(), Color::Cyan());
 
 	// 円錐振り子の円の半径と高さ
 	float radius = std::sin(halfApexAngle) * length;
 	float height = std::cos(halfApexAngle) * length;
 
 	// 円の中心
-	Vector3 center(anchor.x, anchor.y - height, anchor.z);
+	Vector3 localCenter(0.0f, -height, 0.0f);
+	Vector3 worldCenter = anchor + rotation * localCenter;
 
 	// 分割数
 	const int32_t kDiv = 64;
 
-	// ここで minAngle ～ maxAngle の弧だけ描く
+	// ここでminAngle ～ maxAngleの弧だけ描く
 	float startAngle = minAngle;
 	float endAngle = maxAngle;
 	float step = (endAngle - startAngle) / kDiv;
 
-	// 最初の点
-	Vector3 prev(
-		center.x + radius * std::cos(startAngle),
-		center.y,
-		center.z + radius * std::sin(startAngle));
+	float angle = startAngle;
+	Vector3 localP(radius * std::cos(angle), -height, radius * std::sin(angle));
+	Vector3 worldP = anchor + rotation * localP;
+
+	Vector3 prev = worldP;
 
 	for (int32_t i = 1; i <= kDiv; ++i) {
 
-		float a = startAngle + step * i;
+		angle = startAngle + step * i;
 
-		Vector3 p(center.x + radius * std::cos(a),
-			center.y,
-			center.z + radius * std::sin(a));
+		Vector3 localPi(radius * std::cos(angle), -height, radius * std::sin(angle));
+		Vector3 worldPi = anchor + rotation * localPi;
 
-		lineRenderer->DrawLine3D(prev, p, Color::Yellow());
-		prev = p;
+		lineRenderer->DrawLine3D(prev, worldPi, Color::Yellow());
+		prev = worldPi;
 	}
 }
 
@@ -113,6 +165,7 @@ void ConicalPendulum::ImGui() {
 	ImGui::Checkbox("isEditUpdate", &isEditUpdate);
 	ImGui::Text("currentPos: (%.2f, %.2f, %.2f)", currentPos.x, currentPos.y, currentPos.z);
 	ImGui::Text("angle: %.2f", angle);
+	ImGui::Text("reachCount: %d", reachCount);
 
 	ImGui::SeparatorText("Edit");
 
@@ -123,6 +176,7 @@ void ConicalPendulum::ImGui() {
 	ImGui::DragFloat3("anchor", &anchor.x, 0.1f);
 	ImGui::DragFloat("length", &length, 0.01f);
 	ImGui::DragFloat("halfApexAngle", &halfApexAngle, 0.01f, 0.01f, pi / 2.0f);
+	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.01f);
 	ImGui::DragFloat("minAngle", &minAngle, 0.01f, -pi * 2.0f, pi * 2.0f);
 	ImGui::DragFloat("maxAngle", &maxAngle, 0.01f, -pi * 2.0f, pi * 2.0f);
 
@@ -148,6 +202,7 @@ void ConicalPendulum::FromJson(const Json& data) {
 	halfApexAngle = data["halfApexAngle"];
 	angle = data["angle"];
 	angularVelocity = data["angularVelocity"];
+	moveSpeed = data.value("moveSpeed", 1.0f);
 	minAngle = data["minAngle"];
 	maxAngle = data["maxAngle"];
 }
@@ -160,6 +215,7 @@ void ConicalPendulum::ToJson(Json& data) {
 	data["halfApexAngle"] = halfApexAngle;
 	data["angle"] = angle;
 	data["angularVelocity"] = angularVelocity;
+	data["moveSpeed"] = moveSpeed;
 	data["minAngle"] = minAngle;
 	data["maxAngle"] = maxAngle;
 }
