@@ -441,7 +441,7 @@ void PlayerHUD::UpdateInputReactAnim() {
 		skil_.isActiveInput = false;
 		parry_.isActiveInput = false;
 		attack_.isActiveInput = false;
-	}
+	} 
 }
 
 void PlayerHUD::ChangeAllOperateSprite() {
