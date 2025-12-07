@@ -62,10 +62,14 @@ void BossEnemyGreatAttackState::Enter(BossEnemy& bossEnemy) {
 	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy.GetTransform());
 	// エフェクト発生
 	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+	isEmitAuraEffect_ = true;
 
 	// 表示を消す
 	bossEnemy.SetIsRejection(true);
 	bossEnemy.SetWeaponRejection(true);
+
+	// 攻撃無効状態にする
+	bossEnemy.GetHUD()->SetDisable();
 }
 
 void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -83,6 +87,7 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 		if (auto next = GetNextState(currentState_)) {
 
 			currentState_ = *next;
+			states_[currentState_]->SetParentState(this);
 			states_[currentState_]->Enter();
 
 			// 状態別のEnter時のエフェクト発生
@@ -96,12 +101,15 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 
 	// 残像エフェクトは常に更新
 	// 回転を設定
-	bossAfterImageEffect_->SetParentRotation("bossAfterImage1",
-		bossEnemy.GetRotation(), ParticleUpdateModuleID::Rotation);
-	bossWeaponAfterImageEffect_->SetParentRotation("bossWeaponAfterImage",
-		bossEnemy.GetWeaponRotation(), ParticleUpdateModuleID::Rotation);
-	bossAfterImageEffect_->Emit(bossEnemy.GetTranslation());
-	bossWeaponAfterImageEffect_->Emit(bossEnemy.GetWeaponTranslation());
+	if (isEmitAuraEffect_) {
+
+		bossAfterImageEffect_->SetParentRotation("bossAfterImage1",
+			bossEnemy.GetRotation(), ParticleUpdateModuleID::Rotation);
+		bossWeaponAfterImageEffect_->SetParentRotation("bossWeaponAfterImage",
+			bossEnemy.GetWeaponRotation(), ParticleUpdateModuleID::Rotation);
+		bossAfterImageEffect_->Emit(bossEnemy.GetTranslation());
+		bossWeaponAfterImageEffect_->Emit(bossEnemy.GetWeaponTranslation());
+	}
 }
 
 void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -134,6 +142,9 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	// 表示を元に戻す
 	bossEnemy.SetIsRejection(false);
 	bossEnemy.SetWeaponRejection(false);
+
+	// 攻撃有効状態にする
+	bossEnemy.GetHUD()->SetValid();
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
@@ -170,6 +181,20 @@ void BossEnemyGreatAttackState::SaveJson(Json& data) {
 		auto key = EnumAdapter<State>::ToString(state);
 		ptr->SaveJson(data[key]);
 	}
+}
+
+void BossEnemyGreatAttackState::StartEffects() {
+
+	// エフェクト発生
+	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+	isEmitAuraEffect_ = true;
+}
+
+void BossEnemyGreatAttackState::StopEffects() {
+
+	// エフェクト停止
+	bossAuraEffect_->Stop();
+	isEmitAuraEffect_ = false;
 }
 
 std::optional<BossEnemyGreatAttackState::State>

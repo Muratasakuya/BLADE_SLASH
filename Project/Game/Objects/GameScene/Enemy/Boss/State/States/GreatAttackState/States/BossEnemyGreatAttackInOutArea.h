@@ -64,10 +64,6 @@ private:
 
 	// 敵の表示を消す
 	StateTimer hideEnemyTimer_;
-	// 消える距離、座標
-	float hideDistance_;
-	Vector3 hideStartPos_;
-	Vector3 hideTargetPos_;
 
 	// 雷攻撃の時間
 	StateTimer lightningAttackTimer_;
@@ -79,10 +75,19 @@ private:
 
 	// 移動攻撃のキーフレーム
 	std::unique_ptr<KeyframeObject3D> attackKeyframeObject_;
+	StateTimer endWaitTimer_;
 
 	// 攻撃アニメーションに入るまでのキーフレーム
 	uint32_t attackKeyframeIndex_;
+	uint32_t greatKeyframeIndex_;
 	bool isPlayedAttackKeyframe_;
+	bool isPlayedGrearAttackAnim_;
+
+	// 大技攻撃への遷移時間
+	float grearAttackNextAnimTime_;
+
+	// 最後の攻撃の目標トランスフォーム
+	std::unique_ptr<Transform3D> grearAttackTargetTransform_;
 
 	//--------- functions ----------------------------------------------------
 

@@ -39,6 +39,10 @@ public:
 	// json
 	void ApplyJson(const Json& data) override;
 	void SaveJson(Json& data) override;
+
+	// エフェクトの発生と停止
+	void StartEffects();
+	void StopEffects();
 private:
 	//========================================================================
 	//	private Methods
@@ -70,6 +74,7 @@ private:
 	// ボスの残像エフェクト
 	std::unique_ptr<EffectGroup> bossAfterImageEffect_;
 	std::unique_ptr<EffectGroup> bossWeaponAfterImageEffect_;
+	bool isEmitAuraEffect_ = false;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 

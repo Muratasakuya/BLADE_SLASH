@@ -53,6 +53,7 @@ void BossEnemy::InitAnimations() {
 	animation_->SetAnimationData("bossEnemy_speedSlash1");
 	animation_->SetAnimationData("bossEnemy_slashStay");
 	animation_->SetAnimationData("bossEnemy_stayedSlash");
+	animation_->SetAnimationData("bossEnemy_greatAttack");
 
 	// 右手を親として更新させる
 	animation_->SetParentJoint("rightHand");

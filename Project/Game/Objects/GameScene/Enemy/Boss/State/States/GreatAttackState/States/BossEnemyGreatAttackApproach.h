@@ -46,6 +46,7 @@ private:
 	// 状態
 	enum class State {
 
+		Begin,    // 溜め
 		Approach, // 近接
 		Attack    // 攻撃
 	};
@@ -69,9 +70,13 @@ private:
 	uint32_t pendulumMaxReachCount_;
 	uint32_t prevPendulumReachCount_;
 
+	// 最初の溜め時間
+	StateTimer beginTimer_;
+
 	//--------- functions ----------------------------------------------------
 
 	// 状態毎の更新
+	void UpdateBegin();
 	void UpdateApproach();
 	void UpdateAttack();
 

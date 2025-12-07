@@ -4,7 +4,9 @@
 //	include
 //============================================================================
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Game/Camera/Follow/FollowCamera.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/BossEnemyGreatAttackState.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
 
 //============================================================================
@@ -24,6 +26,10 @@ BossEnemyGreatAttackInOutArea::BossEnemyGreatAttackInOutArea() {
 	// 移動キーフレーム
 	attackKeyframeObject_ = std::make_unique<KeyframeObject3D>();
 	attackKeyframeObject_->Init("attackKeyframeObject");
+
+	// 大技攻撃目標トランスフォーム
+	grearAttackTargetTransform_ = std::make_unique<Transform3D>();
+	grearAttackTargetTransform_->Init();
 }
 
 void BossEnemyGreatAttackInOutArea::Enter() {
@@ -34,14 +40,15 @@ void BossEnemyGreatAttackInOutArea::Enter() {
 	hideEnemyTimer_.Reset();
 	lightningAttackTimer_.Reset();
 	attackKeyframeObject_->Reset();
+	endWaitTimer_.Reset();
 	isPlayedAttackKeyframe_ = false;
+	isPlayedGrearAttackAnim_ = false;
 
-	// 補間座標を決定
-	hideStartPos_ = bossEnemy_->GetTranslation();
-	hideTargetPos_ = hideStartPos_ + bossEnemy_->GetTransform().GetForward() * hideDistance_;
+	// ボスの表示を消す
+	parentState_->StopEffects();
 
 	// 親を設定
-	attackKeyframeObject_->SetParent(player_->GetTag().name, player_->GetTransform());
+	attackKeyframeObject_->SetParent("", *grearAttackTargetTransform_);
 }
 
 void BossEnemyGreatAttackInOutArea::Update() {
@@ -78,15 +85,14 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 
 			// 攻撃予兆アニメーション再生
 			bossEnemy_->SetNextAnimation("bossEnemy_slashStay", false, 0.0f);
+
+			// ボスの表示を戻す
+			parentState_->StartEffects();
 		}
 	} else {
 
 		// 時間の更新
 		hideEnemyTimer_.Update();
-
-		// 座標の補間とα値の補間
-		Vector3 lerpPos = Vector3::Lerp(hideStartPos_, hideTargetPos_, hideEnemyTimer_.easedT_);
-		bossEnemy_->SetTranslation(lerpPos);
 
 		// トリガーで雷を発生させる
 		if (hideEnemyTimer_.IsReached()) {
@@ -102,25 +108,38 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 
 void BossEnemyGreatAttackInOutArea::UpdateIn() {
 
-	// キーフレーム更新
-	attackKeyframeObject_->SelfUpdate();
-
-	// 回転と座標を設定
-	bossEnemy_->SetRotation(attackKeyframeObject_->GetCurrentTransform().rotation);
-	bossEnemy_->SetTranslation(attackKeyframeObject_->GetCurrentTransform().translation);
-
-	// 指定のキーインデックスを超えたら攻撃アニメーションへ移行
-	if (!isPlayedAttackKeyframe_ &&
-		attackKeyframeObject_->GetNextKeyIndex() == attackKeyframeIndex_) {
-
-		bossEnemy_->SetNextAnimation("bossEnemy_stayedSlash", false, 0.0f);
-		isPlayedAttackKeyframe_ = true;
-	}
-
 	// キーフレーム補間終了後状態終了
 	if (!attackKeyframeObject_->IsUpdating()) {
 
-		canExit_ = true;
+		endWaitTimer_.Update();
+		// 待機時間終了後状態終了
+		if (endWaitTimer_.IsReached()) {
+
+			canExit_ = true;
+		}
+	} else {
+
+		// キーフレーム更新
+		attackKeyframeObject_->SelfUpdate();
+
+		// 回転と座標を設定
+		bossEnemy_->SetRotation(attackKeyframeObject_->GetCurrentTransform().rotation);
+		bossEnemy_->SetTranslation(attackKeyframeObject_->GetCurrentTransform().translation);
+
+		// 指定のキーインデックスを超えたら攻撃アニメーションへ移行
+		if (!isPlayedAttackKeyframe_ &&
+			attackKeyframeObject_->GetNextKeyIndex() == attackKeyframeIndex_) {
+
+			bossEnemy_->SetNextAnimation("bossEnemy_stayedSlash", false, 0.0f);
+			isPlayedAttackKeyframe_ = true;
+		}
+		// 最後の攻撃アニメーションへの遷移
+		if (!isPlayedGrearAttackAnim_ &&
+			attackKeyframeObject_->GetNextKeyIndex() == greatKeyframeIndex_) {
+
+			bossEnemy_->SetNextAnimation("bossEnemy_greatAttack", false, grearAttackNextAnimTime_);
+			isPlayedGrearAttackAnim_ = true;
+		}
 	}
 }
 
@@ -154,6 +173,21 @@ void BossEnemyGreatAttackInOutArea::UpdateAlways() {
 	}
 	// キーフレーム更新
 	attackKeyframeObject_->UpdateKey();
+
+	// 状態がOutの時のみカメラのトランスフォームの値で更新させる
+	if (currentState_ == State::Out) {
+
+		// 回転と座標を設定
+		grearAttackTargetTransform_->translation = followCamera_->GetTransform().translation;
+		grearAttackTargetTransform_->translation.y = 0.0f;
+		// 位置、回転を更新する
+		Vector3 forward = followCamera_->GetTransform().GetForward();
+		forward.y = 0.0f;
+		Quaternion cameraRotation = Quaternion::LookRotation(forward.Normalize(), Vector3(0.0f, 1.0f, 0.0f));
+		grearAttackTargetTransform_->rotation = Quaternion::Normalize(cameraRotation);
+		// 行列更新
+		grearAttackTargetTransform_->UpdateMatrix();
+	}
 }
 
 void BossEnemyGreatAttackInOutArea::Exit() {
@@ -162,6 +196,7 @@ void BossEnemyGreatAttackInOutArea::Exit() {
 	canExit_ = false;
 	currentState_ = State::Out;
 	isPlayedAttackKeyframe_ = false;
+	isPlayedGrearAttackAnim_ = false;
 }
 
 void BossEnemyGreatAttackInOutArea::ImGui() {
@@ -180,7 +215,7 @@ void BossEnemyGreatAttackInOutArea::ImGui() {
 	ImGui::DragInt("LightningCount", &lightningCount, 1, 1);
 	lightningCount_ = std::clamp(static_cast<uint32_t>(lightningCount), uint32_t(0), maxLightningCount_);
 
-	ImGui::DragFloat("HideDistance", &hideDistance_, 0.1f);
+	ImGui::DragFloat("GrearAttackNextAnimTime", &grearAttackNextAnimTime_, 0.01f);
 
 	hideEnemyTimer_.ImGui("HideEnemyTimer");
 	lightningAttackTimer_.ImGui("LightningAttackTimer");
@@ -191,9 +226,18 @@ void BossEnemyGreatAttackInOutArea::ImGui() {
 
 	ImGui::SeparatorText("In");
 
-	int32_t attackKeyframeIndex = static_cast<int32_t>(attackKeyframeIndex_);
-	ImGui::DragInt("AttackKeyframeIndex", &attackKeyframeIndex, 1, 0);
-	attackKeyframeIndex_ = static_cast<uint32_t>(attackKeyframeIndex);
+	{
+		int32_t attackKeyframeIndex = static_cast<int32_t>(attackKeyframeIndex_);
+		ImGui::DragInt("AttackKeyframeIndex", &attackKeyframeIndex, 1, 0);
+		attackKeyframeIndex_ = static_cast<uint32_t>(attackKeyframeIndex);
+	}
+	{
+		int32_t attackKeyframeIndex = static_cast<int32_t>(greatKeyframeIndex_);
+		ImGui::DragInt("GreatKeyframeIndex_", &attackKeyframeIndex, 1, 0);
+		greatKeyframeIndex_ = static_cast<uint32_t>(attackKeyframeIndex);
+	}
+
+	endWaitTimer_.ImGui("EndWaitTimer");
 
 	if (ImGui::CollapsingHeader("AttackKeyframeObject")) {
 
@@ -210,20 +254,24 @@ void BossEnemyGreatAttackInOutArea::ApplyJson(const Json& data) {
 	outAreaRadius_ = data.value("outAreaRadius_", 10.0f);
 	lightningCount_ = data.value("lightningCount_", 8u);
 	attackKeyframeIndex_ = data.value("attackKeyframeIndex_", 8u);
+	greatKeyframeIndex_ = data.value("greatKeyframeIndex_", 8u);
 	lightningCount_ = std::clamp(lightningCount_, uint32_t(0), maxLightningCount_);
-	hideDistance_ = data.value("hideDistance_", 5.0f);
+	grearAttackNextAnimTime_ = data.value("grearAttackNextAnimTime_", 5.0f);
 	hideEnemyTimer_.FromJson(data.value("hideEnemyTimer_", Json()));
 	lightningAttackTimer_.FromJson(data.value("lightningAttackTimer_", Json()));
 	attackKeyframeObject_->FromJson(data.value("AttackKeyframeObject", Json()));
+	endWaitTimer_.FromJson(data.value("endWaitTimer_", Json()));
 }
 
 void BossEnemyGreatAttackInOutArea::SaveJson(Json& data) {
 
 	data["outAreaRadius_"] = outAreaRadius_;
 	data["lightningCount_"] = lightningCount_;
-	data["hideDistance_"] = hideDistance_;
 	data["attackKeyframeIndex_"] = attackKeyframeIndex_;
+	data["greatKeyframeIndex_"] = greatKeyframeIndex_;
+	data["grearAttackNextAnimTime_"] = grearAttackNextAnimTime_;
 	hideEnemyTimer_.ToJson(data["hideEnemyTimer_"]);
 	lightningAttackTimer_.ToJson(data["lightningAttackTimer_"]);
 	attackKeyframeObject_->ToJson(data["AttackKeyframeObject"]);
+	endWaitTimer_.ToJson(data["endWaitTimer_"]);
 }
