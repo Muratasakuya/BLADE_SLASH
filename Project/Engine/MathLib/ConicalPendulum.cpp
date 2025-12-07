@@ -187,17 +187,17 @@ void ConicalPendulum::DrawDebugLine() {
 	float endAngle = maxAngle;
 	float step = (endAngle - startAngle) / kDiv;
 
-	float angle = startAngle;
-	Vector3 localP(radius * std::cos(angle), -height, radius * std::sin(angle));
+	float currentAngle = startAngle;
+	Vector3 localP(radius * std::cos(angle), -height, radius * std::sin(currentAngle));
 	Vector3 worldP = anchor + rotation * localP;
 
 	Vector3 prev = worldP;
 
 	for (int32_t i = 1; i <= kDiv; ++i) {
 
-		angle = startAngle + step * i;
+		currentAngle = startAngle + step * i;
 
-		Vector3 localPi(radius * std::cos(angle), -height, radius * std::sin(angle));
+		Vector3 localPi(radius * std::cos(currentAngle), -height, radius * std::sin(currentAngle));
 		Vector3 worldPi = anchor + rotation * localPi;
 
 		lineRenderer->DrawLine3D(prev, worldPi, Color::Yellow());

@@ -62,7 +62,7 @@
             "Emit": {
                 "Mode": "Once",
                 "count": 1,
-                "delay": 0.4000000059604645,
+                "delay": 0.800000011920929,
                 "duration": 0.0,
                 "interval": 0.0
             },
@@ -120,7 +120,7 @@
             "Emit": {
                 "Mode": "Once",
                 "count": 1,
-                "delay": 0.9200000166893005,
+                "delay": 1.9600000381469727,
                 "duration": 0.0,
                 "interval": 0.0
             },

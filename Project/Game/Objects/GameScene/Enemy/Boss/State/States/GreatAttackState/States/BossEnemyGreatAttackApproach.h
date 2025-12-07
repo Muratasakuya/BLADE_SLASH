@@ -67,7 +67,7 @@ private:
 
 	// 振り子移動での角への最大到達回数
 	uint32_t pendulumMaxReachCount_;
-	int32_t prevPendulumReachCount_;
+	uint32_t prevPendulumReachCount_;
 
 	//--------- functions ----------------------------------------------------
 

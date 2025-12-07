@@ -24,7 +24,7 @@ void BossEnemyGreatAttackApproach::Enter() {
 	canExit_ = false;
 	// 右->左->右...
 	movePendulum_.Reset(false);
-	prevPendulumReachCount_ = -1;
+	prevPendulumReachCount_ = pendulumMaxReachCount_;
 
 	// 最初の補間位置までの座標を設定する
 	startMoveAnim_.SetStart(bossEnemy_->GetTranslation());
