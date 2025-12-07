@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Scene/Manager/SceneManager.h>
+#include <Engine/Editor/Camera/CameraEditor.h>
 
 // scene
 #include <Game/Scene/GameState/States/StartGameState.h>
@@ -22,6 +23,8 @@ GameScene::~GameScene() {
 
 	// シーンを削除するタイミングで停止させる
 	fieldEffect_->Stop();
+	// カメラキーデータをクリア
+	CameraEditor::GetInstance()->ResetAllKeyData();
 }
 
 void GameScene::InitStates() {
