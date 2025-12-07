@@ -48,7 +48,7 @@ public:
 	// 初期化
 	void Init();
 	// リセット
-	void Reset();
+	void Reset(bool isStartMin);
 
 	// 更新
 	void Update();

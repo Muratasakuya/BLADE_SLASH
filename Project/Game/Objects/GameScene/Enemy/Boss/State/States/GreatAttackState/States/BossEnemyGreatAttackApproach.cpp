@@ -22,7 +22,7 @@ void BossEnemyGreatAttackApproach::Enter() {
 	// 状態初期化
 	currentState_ = State::Approach;
 	canExit_ = false;
-	movePendulum_.Reset();
+	movePendulum_.Reset(false);
 
 	// 最初の補間位置までの座標を設定する
 	startMoveAnim_.SetStart(bossEnemy_->GetTranslation());
@@ -47,7 +47,7 @@ void BossEnemyGreatAttackApproach::Update() {
 void BossEnemyGreatAttackApproach::UpdateApproach() {
 
 	// 補間先座標は常に更新する
-	startMoveAnim_.SetEnd(movePendulum_.GetMinPos());
+	startMoveAnim_.SetEnd(movePendulum_.GetMaxPos());
 
 	// 座標補間
 	Vector3 newPos = bossEnemy_->GetTranslation();
@@ -78,7 +78,10 @@ void BossEnemyGreatAttackApproach::UpdateAlways() {
 
 	// 位置、回転を更新する
 	Vector3 forward = followCamera_->GetTransform().GetForward();
+	forward.y = 0.0f;
 	Quaternion cameraRotation = Quaternion::LookRotation(forward.Normalize(), Vector3(0.0f, 1.0f, 0.0f));
+	// X軸回転オフセット
+	cameraRotation = Quaternion::Multiply(cameraRotation, Quaternion::MakeAxisAngle(Vector3(1.0f, 0.0f, 0.0f), pendulumRotateX_));
 	cameraRotation = Quaternion::Normalize(cameraRotation);
 	// カメラのXZ回転は0.0fにしてYの回転のみ反映させる
 	movePendulum_.rotation = cameraRotation;
@@ -93,6 +96,7 @@ void BossEnemyGreatAttackApproach::Exit() {
 void BossEnemyGreatAttackApproach::ImGui() {
 
 	ImGui::DragFloat3("PendulumOffset", &pendulumOffset_.x, 0.01f);
+	ImGui::DragFloat("PendulumRotateX", &pendulumRotateX_, 0.01f);
 	int32_t reachCount = static_cast<int32_t>(pendulumMaxReachCount_);
 	ImGui::DragInt("PendulumMaxReachCount", &reachCount, 1, 0);
 	pendulumMaxReachCount_ = static_cast<uint32_t>(reachCount);
@@ -114,6 +118,7 @@ void BossEnemyGreatAttackApproach::ApplyJson(const Json& data) {
 	}
 
 	movePendulum_.FromJson(data.value("MovePendulum", Json()));
+	pendulumRotateX_ = data.value("PendulumRotateX", 0.0f);
 	pendulumOffset_ = Vector3::FromJson(data.value("PendulumOffset", Json()));
 	pendulumMaxReachCount_ = data.value("PendulumMaxReachCount", 3u);
 	startMoveAnim_.FromJson(data.value("StartMoveAnim", Json()));
@@ -122,6 +127,7 @@ void BossEnemyGreatAttackApproach::ApplyJson(const Json& data) {
 void BossEnemyGreatAttackApproach::SaveJson(Json& data) {
 
 	movePendulum_.ToJson(data["MovePendulum"]);
+	data["PendulumRotateX"] = pendulumRotateX_;
 	data["PendulumOffset"] = pendulumOffset_.ToJson();
 	data["PendulumMaxReachCount"] = pendulumMaxReachCount_;
 	startMoveAnim_.ToJson(data["StartMoveAnim"]);

@@ -28,11 +28,28 @@ void ConicalPendulum::Init() {
 	reachCount = 0;
 }
 
-void ConicalPendulum::Reset() {
+void ConicalPendulum::Reset(bool isStartMin) {
 
-	angularVelocity = 0.0f;
-	angle = 0.0f;
 	reachCount = 0;
+
+	if (isStartMin) {
+
+		// minAngleからmaxAngle
+		angle = minAngle;
+		angularVelocity = 1.0f; 
+	} else {
+
+		// maxAngleからminAngle
+		angle = maxAngle;
+		angularVelocity = -1.0f;
+	}
+	// 初期位置を計算
+	float radius = std::sin(halfApexAngle) * length;
+	float height = std::cos(halfApexAngle) * length;
+
+	Vector3 local(radius * std::cos(angle), -height, radius * std::sin(angle));
+	Vector3 rotated = rotation * local;
+	currentPos = anchor + rotated;
 }
 
 Vector3 ConicalPendulum::GetMinPos() const {

@@ -62,6 +62,8 @@ private:
 	ConicalPendulum movePendulum_;
 	// 振り子の親からのオフセット位置
 	Vector3 pendulumOffset_;
+	// 円錐のX軸回転オフセット
+	float pendulumRotateX_;
 
 	// 振り子移動での角への最大到達回数
 	uint32_t pendulumMaxReachCount_;
