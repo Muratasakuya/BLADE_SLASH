@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/MathLib/Vector3.h>
 #include <Engine/MathLib/Quaternion.h>
+#include <Engine/Utility/Enum/Easing.h>
 
 //============================================================================
 //	ConicalPendulum struct
@@ -25,7 +26,9 @@ public:
 	float angle;           // 現在の角度
 	float angularVelocity; // 角速度
 
-	float moveSpeed; // 移動速度
+	float moveSpeed;       // 移動速度
+	EasingType easingType; // イージング
+	float easedAngle;      // イージング後の角度
 
 	float minAngle; // 最小角度
 	float maxAngle; // 最大角度

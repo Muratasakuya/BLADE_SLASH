@@ -22,7 +22,9 @@ void BossEnemyGreatAttackApproach::Enter() {
 	// 状態初期化
 	currentState_ = State::Approach;
 	canExit_ = false;
+	// 右->左->右...
 	movePendulum_.Reset(false);
+	prevPendulumReachCount_ = -1;
 
 	// 最初の補間位置までの座標を設定する
 	startMoveAnim_.SetStart(bossEnemy_->GetTranslation());
@@ -58,20 +60,56 @@ void BossEnemyGreatAttackApproach::UpdateApproach() {
 	if (startMoveAnim_.IsFinished()) {
 
 		currentState_ = State::Attack;
+
+		// アニメーション再生
+		StartPendulumAnim();
 	}
 }
 
 void BossEnemyGreatAttackApproach::UpdateAttack() {
 
+	// 常にプレイヤーの方を向くようにする
+	// 回転を計算して設定
+	Vector3 direction = Vector3(bossEnemy_->GetTranslation() - player_->GetTranslation()).Normalize();
+	Quaternion rotation = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
+	bossEnemy_->SetRotation(Quaternion::Normalize(rotation));
+
 	// 振り子を更新して振り子位置をセットする
 	movePendulum_.Update();
 	bossEnemy_->SetTranslation(movePendulum_.currentPos);
+
+	// 振り子移動に合わせたアニメーション再生
+	StartPendulumAnim();
 
 	// 最大到達回数に達したら終了
 	if (pendulumMaxReachCount_ <= movePendulum_.reachCount) {
 
 		canExit_ = true;
 	}
+}
+
+void BossEnemyGreatAttackApproach::StartPendulumAnim() {
+
+	// 最大数に達していたら何もしない
+	if (pendulumMaxReachCount_ <= movePendulum_.reachCount) {
+		return;
+	}
+
+	// 到達回数に変更があった場合に偶数か奇数で分岐してアニメーション再生
+	if (prevPendulumReachCount_ != movePendulum_.reachCount) {
+		// 偶数
+		if (movePendulum_.reachCount % 2 == 0) {
+
+			bossEnemy_->SetNextAnimation("bossEnemy_speedSlash0", false, 0.0f);
+		}
+		// 奇数
+		else {
+
+			bossEnemy_->SetNextAnimation("bossEnemy_speedSlash1", false, 0.0f);
+		}
+	}
+	// 回数を記録
+	prevPendulumReachCount_ = movePendulum_.reachCount;
 }
 
 void BossEnemyGreatAttackApproach::UpdateAlways() {

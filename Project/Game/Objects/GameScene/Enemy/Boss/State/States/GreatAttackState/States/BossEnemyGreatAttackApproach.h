@@ -67,10 +67,14 @@ private:
 
 	// 振り子移動での角への最大到達回数
 	uint32_t pendulumMaxReachCount_;
+	int32_t prevPendulumReachCount_;
 
 	//--------- functions ----------------------------------------------------
 
 	// 状態毎の更新
 	void UpdateApproach();
 	void UpdateAttack();
+
+	// カウントに合わせたアニメーション再生
+	void StartPendulumAnim();
 };

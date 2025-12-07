@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/GameTimer.h>
+#include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 
 // imgui
@@ -113,12 +114,42 @@ void ConicalPendulum::Update() {
 		++reachCount;
 	}
 
+	easedAngle = angle;
+	float angleRange = maxAngle - minAngle;
+	if (angleRange != 0.0f) {
+
+		// 片道分の0〜1の進行度
+		float t = 0.0f;
+		if (angularVelocity >= 0.0f) {
+
+			// min->maxへ向かっているとき
+			// 0〜1
+			t = (angle - minAngle) / angleRange;
+		} else {
+			// max->minへ向かっているとき
+			// 0〜1
+			t = (maxAngle - angle) / angleRange;
+		}
+		t = std::clamp(t, 0.0f, 1.0f);
+		float easedT = EasedValue(easingType, t);
+
+		// イージングしたtを角度に戻す
+		if (angularVelocity >= 0.0f) {
+
+			easedAngle = minAngle + easedT * angleRange;
+		} else {
+
+			easedAngle = maxAngle - easedT * angleRange;
+		}
+	}
+
+
 	// 半径と高さ
 	float radius = std::sin(halfApexAngle) * length;
 	float height = std::cos(halfApexAngle) * length;
 
 	// ローカル位置
-	Vector3 local = Vector3(radius * std::cos(angle), -height, radius * std::sin(angle));
+	Vector3 local = Vector3(radius * std::cos(easedAngle), -height, radius * std::sin(easedAngle));
 	// 回転させた位置
 	Vector3 rotated = rotation * local;
 
@@ -181,7 +212,7 @@ void ConicalPendulum::ImGui() {
 	ImGui::Checkbox("isDrawDebug", &isDrawDebug);
 	ImGui::Checkbox("isEditUpdate", &isEditUpdate);
 	ImGui::Text("currentPos: (%.2f, %.2f, %.2f)", currentPos.x, currentPos.y, currentPos.z);
-	ImGui::Text("angle: %.2f", angle);
+	ImGui::Text("angle: %.2f", easedAngle);
 	ImGui::Text("reachCount: %d", reachCount);
 
 	ImGui::SeparatorText("Edit");
@@ -196,6 +227,7 @@ void ConicalPendulum::ImGui() {
 	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.01f);
 	ImGui::DragFloat("minAngle", &minAngle, 0.01f, -pi * 2.0f, pi * 2.0f);
 	ImGui::DragFloat("maxAngle", &maxAngle, 0.01f, -pi * 2.0f, pi * 2.0f);
+	Easing::SelectEasingType(easingType);
 
 	if (isEditUpdate) {
 
@@ -222,6 +254,7 @@ void ConicalPendulum::FromJson(const Json& data) {
 	moveSpeed = data.value("moveSpeed", 1.0f);
 	minAngle = data["minAngle"];
 	maxAngle = data["maxAngle"];
+	easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", "Linear")).value();
 }
 
 void ConicalPendulum::ToJson(Json& data) {
@@ -235,4 +268,5 @@ void ConicalPendulum::ToJson(Json& data) {
 	data["moveSpeed"] = moveSpeed;
 	data["minAngle"] = minAngle;
 	data["maxAngle"] = maxAngle;
+	data["easingType"] = EnumAdapter<EasingType>::ToString(easingType);
 }
