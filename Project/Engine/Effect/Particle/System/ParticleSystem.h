@@ -70,6 +70,7 @@ public:
 	void SetParent(const BaseTransform& parent);
 
 	const std::string& GetName() const { return name_; }
+	const std::string& GetLoadFileName() const { return loadFileName_; }
 	const std::string& GetGroupName(uint32_t i) const { return gpuGroups_[i].name; }
 
 	std::vector<NameGroup<GPUParticleGroup>>& GetGPUGroup() { return gpuGroups_; }
