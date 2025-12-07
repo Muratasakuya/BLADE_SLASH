@@ -73,6 +73,8 @@ public:
 	BossEnemyHUD* GetHUD() const { return hudSprites_.get(); }
 
 	Vector3 GetWeaponTranslation() const;
+	Quaternion GetWeaponRotation() const;
+	void SetWeaponRejection(bool isRejection) { weapon_->SetIsRejection(isRejection); }
 	BossEnemyState GetCurrentState() const { return stateController_->GetCurrentState(); }
 
 	int GetDamage() const;

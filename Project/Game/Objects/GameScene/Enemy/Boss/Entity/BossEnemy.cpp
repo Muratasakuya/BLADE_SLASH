@@ -240,6 +240,11 @@ Vector3 BossEnemy::GetWeaponTranslation() const {
 	return weapon_->GetTransform().GetWorldPos();
 }
 
+Quaternion BossEnemy::GetWeaponRotation() const {
+
+	return weapon_->GetTransform().GetWorldRotation();
+}
+
 int BossEnemy::GetDamage() const {
 
 	BossEnemyState currentState = stateController_->GetCurrentState();

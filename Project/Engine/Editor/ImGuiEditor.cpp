@@ -173,8 +173,8 @@ void ImGuiEditor::MainWindow(SceneView* sceneView) {
 
 	ImGui::Begin("Scene", nullptr,
 		ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_MenuBar |
-		ImGuiWindowFlags_NoMove);
+		ImGuiWindowFlags_MenuBar/* |
+		ImGuiWindowFlags_NoMove*/);
 
 	// メニューバー
 	SceneMenuBar();

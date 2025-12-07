@@ -29,6 +29,15 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 	bossAuraEffect_ = std::make_unique<EffectGroup>();
 	bossAuraEffect_->Init("bossAuraEffect", "BossEnemyEffect");
 	bossAuraEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackBossAuraEffect.json");
+	// ボス残像エフェクト
+	// 本体
+	bossAfterImageEffect_ = std::make_unique<EffectGroup>();
+	bossAfterImageEffect_->Init("bossAfterImageEffect", "BossEnemyEffect");
+	bossAfterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackAfterImageEffect.json");
+	// 武器
+	bossWeaponAfterImageEffect_ = std::make_unique<EffectGroup>();
+	bossWeaponAfterImageEffect_->Init("bossWeaponAfterImageEffect", "BossEnemyEffect");
+	bossWeaponAfterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackWeaponAfterImageEffect.json");
 	// 雷攻撃
 	lightningAttackEffect_ = std::make_unique<EffectGroup>();
 	lightningAttackEffect_->Init("lightningAttack", "BossEnemyEffect");
@@ -53,6 +62,10 @@ void BossEnemyGreatAttackState::Enter(BossEnemy& bossEnemy) {
 	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy.GetTransform());
 	// エフェクト発生
 	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+
+	// 表示を消す
+	bossEnemy.SetIsRejection(true);
+	bossEnemy.SetWeaponRejection(true);
 }
 
 void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -80,6 +93,15 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 			canExit_ = true;
 		}
 	}
+
+	// 残像エフェクトは常に更新
+	// 回転を設定
+	bossAfterImageEffect_->SetParentRotation("bossAfterImage1",
+		bossEnemy.GetRotation(), ParticleUpdateModuleID::Rotation);
+	bossWeaponAfterImageEffect_->SetParentRotation("bossWeaponAfterImage",
+		bossEnemy.GetWeaponRotation(), ParticleUpdateModuleID::Rotation);
+	bossAfterImageEffect_->Emit(bossEnemy.GetTranslation());
+	bossWeaponAfterImageEffect_->Emit(bossEnemy.GetWeaponTranslation());
 }
 
 void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -92,6 +114,8 @@ void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEne
 
 	// エフェクト更新
 	bossAuraEffect_->Update();
+	bossAfterImageEffect_->Update();
+	bossWeaponAfterImageEffect_->Update();
 	lightningAttackEffect_->Update();
 }
 
@@ -106,6 +130,10 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	}
 	// エフェクト停止
 	bossAuraEffect_->Stop();
+
+	// 表示を元に戻す
+	bossEnemy.SetIsRejection(false);
+	bossEnemy.SetWeaponRejection(false);
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {

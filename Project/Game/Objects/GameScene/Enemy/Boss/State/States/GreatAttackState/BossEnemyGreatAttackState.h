@@ -67,6 +67,9 @@ private:
 	// エフェクト
 	// オーラエフェクト、チャージ終了後から
 	std::unique_ptr<EffectGroup> bossAuraEffect_;
+	// ボスの残像エフェクト
+	std::unique_ptr<EffectGroup> bossAfterImageEffect_;
+	std::unique_ptr<EffectGroup> bossWeaponAfterImageEffect_;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 

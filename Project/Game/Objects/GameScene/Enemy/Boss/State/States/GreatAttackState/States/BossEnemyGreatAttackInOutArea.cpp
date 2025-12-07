@@ -76,10 +76,6 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 			// キーフレームアニメーション再生
 			attackKeyframeObject_->StartLerp(bossEnemy_->GetTransform());
 
-			// 描画を戻す
-			bossEnemy_->SetAlpha(1.0f);
-			bossEnemy_->SetIsRejection(false);
-
 			// 攻撃予兆アニメーション再生
 			bossEnemy_->SetNextAnimation("bossEnemy_slashStay", false, 0.0f);
 		}
@@ -91,15 +87,15 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 		// 座標の補間とα値の補間
 		Vector3 lerpPos = Vector3::Lerp(hideStartPos_, hideTargetPos_, hideEnemyTimer_.easedT_);
 		bossEnemy_->SetTranslation(lerpPos);
-		bossEnemy_->SetAlpha(1.0f - hideEnemyTimer_.easedT_);
 
 		// トリガーで雷を発生させる
 		if (hideEnemyTimer_.IsReached()) {
 
 			// 雷攻撃発生
 			EmitLightningAttack();
-			// 描画を消す
-			bossEnemy_->SetIsRejection(true);
+
+			// 一度画面外に飛ばす
+			bossEnemy_->SetTranslation(Vector3(0.0f, -32, 0.0f));
 		}
 	}
 }
