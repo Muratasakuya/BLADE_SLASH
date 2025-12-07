@@ -35,8 +35,35 @@
         "rotationLerpRate_": 0.0
     },
     "GreatAttack": {
-        "BlowPlayer": {
-            "AnimTranslation": {
+        "ApproachAttack": {
+            "MovePendulum": {
+                "anchor": {
+                    "x": -6.643962860107422,
+                    "y": 35.02881622314453,
+                    "z": -38.303035736083984
+                },
+                "angle": 3.8299999237060547,
+                "angularVelocity": 4.1060028076171875,
+                "currentPos": {
+                    "x": 33.76870346069336,
+                    "y": 2.9973602294921875,
+                    "z": 90.44142150878906
+                },
+                "easingType": "EaseInCubic",
+                "halfApexAngle": 0.8199999928474426,
+                "length": 44.16999816894531,
+                "maxAngle": 5.833000183105469,
+                "minAngle": 3.8299999237060547,
+                "moveSpeed": 7.199999809265137
+            },
+            "PendulumMaxReachCount": 3,
+            "PendulumOffset": {
+                "x": 0.0,
+                "y": 30.0,
+                "z": 43.86000061035156
+            },
+            "PendulumRotateX": -0.10000000149011612,
+            "StartMoveAnim": {
                 "Loop": {
                     "loop": {
                         "loopCount": 1,
@@ -48,40 +75,33 @@
                     "target_": 0.0
                 },
                 "Timer": {
-                    "easeingType_": "Linear",
-                    "target_": 1.600000023841858
+                    "easeingType_": "EaseOutSine",
+                    "target_": 0.23999999463558197
                 },
                 "move_.end": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 73.32695007324219,
+                    "y": 3.6427440643310547,
+                    "z": 53.10041046142578
                 },
                 "move_.start": {
-                    "x": -43.59653854370117,
-                    "y": 0.0,
-                    "z": -118.7220458984375
+                    "x": 34.028831481933594,
+                    "y": 3.009958505630493,
+                    "z": 95.2529296875
                 },
                 "useReturnTimer_": false
-            }
-        },
-        "Charge": {
-            "NextTimer": {
-                "easeingType_": "Linear",
-                "target_": 1.0
-            }
-        },
-        "Execute": {
-            "NextTimer": {
-                "easeingType_": "Linear",
-                "target_": 4.0
             }
         },
         "Finish": {
             "NextTimer": {
                 "easeingType_": "Linear",
-                "target_": 1.0
+                "target_": 2.200000047683716
             }
-        }
+        },
+        "InOutAreaAttack": {
+            "lightningCount_": 8,
+            "outAreaRadius_": 166.0
+        },
+        "ProjectileAttack": null
     },
     "Idle": {
         "backStepSpeed_": -1.600000023841858,
@@ -91,24 +111,24 @@
     "JumpAttack": {
         "JumpKeyframes": [
             {
-                "x": 9.610511779785156,
+                "x": 115.34525299072266,
                 "y": 0.0,
-                "z": -158.76087951660156
+                "z": 42.31761932373047
             },
             {
-                "x": 9.664010047912598,
+                "x": 111.08480834960938,
                 "y": 20.0,
-                "z": -158.98828125
+                "z": 26.111467361450195
             },
             {
-                "x": 9.717508316040039,
+                "x": 106.82435607910156,
                 "y": 18.299999237060547,
-                "z": -159.21568298339844
+                "z": 9.905319213867188
             },
             {
-                "x": 9.77100658416748,
+                "x": 102.56391143798828,
                 "y": 0.0,
-                "z": -159.44308471679688
+                "z": -6.30082893371582
             }
         ],
         "LerpTranslationXZ": {
@@ -127,14 +147,14 @@
                 "target_": 0.5699999928474426
             },
             "move_.end": {
-                "x": 9.77100658416748,
-                "y": 0.03360790014266968,
-                "z": -159.44308471679688
+                "x": 102.56391143798828,
+                "y": 0.6068627238273621,
+                "z": -6.30082893371582
             },
             "move_.start": {
-                "x": 9.610511779785156,
+                "x": 115.34525299072266,
                 "y": 0.0,
-                "z": -158.76087951660156
+                "z": 42.31761932373047
             },
             "useReturnTimer_": false
         },
@@ -184,7 +204,6 @@
         "divisionBladeMoveSpeed_": 96.0,
         "divisionOffsetAngle_": 7.199999809265137,
         "easingType_": 14,
-        "emitParticleOffsetY_": 8.0,
         "fadeInTime_": 0.07999999821186066,
         "fadeOutTime_": 0.11999999731779099,
         "farRadius_": 130.0,
@@ -221,7 +240,6 @@
     },
     "Teleport": {
         "easingType_": 14,
-        "emitParticleOffsetY_": 8.0,
         "fadeInTime_": 0.07999999821186066,
         "fadeOutTime_": 0.11999999731779099,
         "farRadius_": 112.0,

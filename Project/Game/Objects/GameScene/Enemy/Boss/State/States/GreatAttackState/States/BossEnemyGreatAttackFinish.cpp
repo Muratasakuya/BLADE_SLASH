@@ -1,6 +1,13 @@
 #include "BossEnemyGreatAttackFinish.h"
 
 //============================================================================
+//	include
+//============================================================================
+#include <Engine/Object/Data/Skybox.h>
+#include <Game/Light/GameLight.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+
+//============================================================================
 //	BossEnemyGreatAttackFinish classMethods
 //============================================================================
 
@@ -30,6 +37,9 @@ void BossEnemyGreatAttackFinish::Exit() {
 	// リセット
 	nextTimer_.Reset();
 	canExit_ = false;
+
+	// 攻撃有効状態にする
+	bossEnemy_->GetHUD()->SetValid();
 }
 
 void BossEnemyGreatAttackFinish::ImGui() {

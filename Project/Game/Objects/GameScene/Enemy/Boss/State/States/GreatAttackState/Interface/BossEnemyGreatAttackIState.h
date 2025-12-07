@@ -33,6 +33,7 @@ public:
 
 	// 更新処理
 	virtual void Update() = 0;
+	virtual void UpdateAlways() {}
 
 	// 状態終了時
 	virtual void Exit() = 0;

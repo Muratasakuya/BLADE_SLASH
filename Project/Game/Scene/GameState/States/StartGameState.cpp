@@ -33,10 +33,7 @@ void StartGameState::Init(SceneView* sceneView) {
 
 	// ライトの初期設定
 	context_->light->Init();
-	context_->light->directional.direction.x = 0.558f;
-	context_->light->directional.direction.y = -0.476f;
-	context_->light->directional.direction.z = -0.68f;
-	context_->light->directional.color = Color::White();
+	context_->light->Start();
 	sceneView->SetLight(context_->light);
 
 	// 衝突
@@ -54,10 +51,9 @@ void StartGameState::Init(SceneView* sceneView) {
 	// サブプレイヤー
 	context_->subPlayer->Init();
 
-	// プレイヤー、カメラをセット
+	// 必要なデータをセット
 	context_->boss->SetPlayer(context_->player);
 	context_->boss->SetFollowCamera(context_->camera->GetFollowCamera());
-	// ボス、カメラ、サブプレイヤーをセット
 	context_->player->SetBossEnemy(context_->boss);
 	context_->player->SetFollowCamera(context_->camera->GetFollowCamera());
 	context_->player->SetSubPlayer(context_->subPlayer);

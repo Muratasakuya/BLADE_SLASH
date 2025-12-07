@@ -44,6 +44,8 @@ public:
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
 	void SetDisable();
 	void SetValid();
+
+	bool IsDisable() const { return isDisable_; }
 private:
 	//========================================================================
 	//	private Methods

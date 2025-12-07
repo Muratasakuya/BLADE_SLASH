@@ -1,0 +1,70 @@
+{
+    "beginUpdateTimer": {
+        "easeingType_": "EaseOutSine",
+        "target_": 1.0
+    },
+    "directionalColor": {
+        "a": 1.0,
+        "b": 1.0,
+        "g": 1.0,
+        "r": 1.0
+    },
+    "directionalDirection": {
+        "x": 0.3063642978668213,
+        "y": -0.3787878751754761,
+        "z": -0.8733044862747192
+    },
+    "directionalIntensity": 0.9200000166893005,
+    "endColor": {
+        "a": 1.0,
+        "b": 0.05282846838235855,
+        "g": 0.0,
+        "r": 0.2861538529396057
+    },
+    "endDistance": 1024.0,
+    "endIntensity": 0.5,
+    "endPos": {
+        "x": 0.0,
+        "y": 320.0,
+        "z": 0.0
+    },
+    "endUpdateTimer": {
+        "easeingType_": "EaseInBack",
+        "target_": 0.6399999856948853
+    },
+    "pointColor": {
+        "a": 1.0,
+        "b": 1.0,
+        "g": 1.0,
+        "r": 1.0
+    },
+    "pointDecay": 1.0,
+    "pointIntensity": 0.800000011920929,
+    "pointPos": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "pointRadius": 5.0,
+    "spotCosAngle": 3.140000104904175,
+    "spotCosFalloffStart": 1.0,
+    "spotDecay": 0.20000000298023224,
+    "spotDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+    },
+    "startColor": {
+        "a": 1.0,
+        "b": 0.17846155166625977,
+        "g": 0.17846155166625977,
+        "r": 0.17846155166625977
+    },
+    "startDistance": 0.0,
+    "startIntensity": 0.0,
+    "startPos": {
+        "x": 0.0,
+        "y": 320.0,
+        "z": 0.0
+    }
+}

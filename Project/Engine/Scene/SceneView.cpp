@@ -71,10 +71,13 @@ void SceneView::UpdateLight() {
 
 	// pointLight、spotLightのデバッグ表示
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
-	// point
-	//DisplayPointLight();
-	// spot
-	//DisplaySpotLight();
+	if (isDrawLight_) {
+
+		// point
+		DisplayPointLight();
+		// spot
+		DisplaySpotLight();
+	}
 #endif
 }
 
@@ -180,6 +183,8 @@ void SceneView::EditCamera() {
 
 void SceneView::EditLight() {
 
+	ImGui::Checkbox("isDrawLight", &isDrawLight_);
+
 	punctualLight_.value()->ImGui();
 }
 
@@ -200,7 +205,7 @@ void SceneView::AddSceneCamera(const std::string& name, BaseCamera* sceneCamera)
 	sceneCameras_[name].emplace_back(sceneCamera);
 }
 
-void SceneView::SetLight(PunctualLight* gameLight) {
+void SceneView::SetLight(BasePunctualLight* gameLight) {
 
 	// ライトのセット
 	punctualLight_ = std::nullopt;
@@ -215,17 +220,18 @@ void SceneView::DisplayPointLight() {
 	// 規定値
 	const int sphereDivision = 8;
 	const float sphereRadius = 0.12f;
+	const PointLight& pointLight = light->GetPunctualLight().point;
 	const Color sphereColor = Color(
-		light->point.color.r,
-		light->point.color.g,
-		light->point.color.b,
+		pointLight.color.r,
+		pointLight.color.g,
+		pointLight.color.b,
 		0.8f); // 薄く表示する
 
 	// 球で描画
 	lineRenderer->DrawSphere(
 		sphereDivision,
 		sphereRadius,
-		light->point.pos,
+		pointLight.pos,
 		sphereColor, LineType::DepthIgnore);
 }
 
@@ -235,26 +241,27 @@ void SceneView::DisplaySpotLight() {
 	const auto& light = punctualLight_.value();
 
 	const float coneLength = 2.0f;
+	const SpotLight& spotLight = light->GetPunctualLight().spot;
 	const Color coneColor = Color(
-		light->spot.color.r,
-		light->spot.color.g,
-		light->spot.color.b,
+		spotLight.color.r,
+		spotLight.color.g,
+		spotLight.color.b,
 		0.8f);
 
-	const Vector3 pos = light->spot.pos;
-	const Vector3 dir = Vector3::Normalize(light->spot.direction);
+	const Vector3 pos = spotLight.pos;
+	const Vector3 dir = Vector3::Normalize(spotLight.direction);
 
 	const int coneDivision = 4;
-	const float radius = coneLength * std::tanf(light->spot.cosAngle * 0.5f);
+	const float radius = coneLength * std::tanf(spotLight.cosAngle * 0.5f);
 	Vector3 baseCenter = pos + dir * coneLength;
 
 	for (uint32_t index = 0; index < coneDivision; ++index) {
 
-		float theta1 = static_cast<float>(index) / coneDivision * std::numbers::pi_v<float>*2.0f;
-		float theta2 = static_cast<float>(index + 1) / coneDivision * std::numbers::pi_v<float>*2.0f;
+		float theta1 = static_cast<float>(index) / coneDivision * pi * 2.0f;
+		float theta2 = static_cast<float>(index + 1) / coneDivision * pi * 2.0f;
 
-		Vector3 p1 = baseCenter + Vector3(cosf(theta1), 0, sinf(theta1)) * radius;
-		Vector3 p2 = baseCenter + Vector3(cosf(theta2), 0, sinf(theta2)) * radius;
+		Vector3 p1 = baseCenter + Vector3(std::cosf(theta1), 0.0f, std::sinf(theta1)) * radius;
+		Vector3 p2 = baseCenter + Vector3(std::cosf(theta2), 0.0f, std::sinf(theta2)) * radius;
 
 		// coneの形状で描画
 		lineRenderer->DrawLine3D(p1, p2, coneColor, LineType::DepthIgnore);

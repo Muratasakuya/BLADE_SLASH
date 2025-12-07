@@ -31,7 +31,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetBossEnemy(const BossEnemy* bossEnemy);
+	void SetBossEnemy(BossEnemy* bossEnemy);
 
 	// 状態をリクエスト
 	void SetRequestState(SubPlayerState state) { requestState_ = state; }

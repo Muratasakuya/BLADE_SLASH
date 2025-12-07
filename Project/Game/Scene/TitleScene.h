@@ -45,6 +45,6 @@ private:
 
 	// scene
 	std::unique_ptr<TitleViewCamera> titleViewCamera_;
-	std::unique_ptr<PunctualLight> light_;
+	std::unique_ptr<BasePunctualLight> light_;
 	std::unique_ptr<FadeTransition> fadeTransition_;
 };

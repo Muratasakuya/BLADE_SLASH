@@ -28,7 +28,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetBossEnemy(const BossEnemy* bossEnemy) { stateController_->SetBossEnemy(bossEnemy); }
+	void SetBossEnemy(BossEnemy* bossEnemy) { stateController_->SetBossEnemy(bossEnemy); }
 
 	// 状態をリクエスト
 	void SetRequestState(SubPlayerState state) { stateController_->SetRequestState(state); }

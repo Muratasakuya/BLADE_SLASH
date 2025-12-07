@@ -47,6 +47,10 @@ void BossEnemy::InitAnimations() {
 	animation_->SetAnimationData("bossEnemy_stunUpdate");
 	animation_->SetAnimationData("bossEnemy_teleport");
 	animation_->SetAnimationData("bossEnemy_start");
+	animation_->SetAnimationData("bossEnemy_beginChargeGreatAttack");
+	animation_->SetAnimationData("bossEnemy_endChargeGreatAttack");
+	animation_->SetAnimationData("bossEnemy_speedSlash0");
+	animation_->SetAnimationData("bossEnemy_speedSlash1");
 
 	// 右手を親として更新させる
 	animation_->SetParentJoint("rightHand");
@@ -219,12 +223,22 @@ void BossEnemy::SetDecreaseToughnessProgress(float progress) {
 		0, progress)), 0, stats_.maxDestroyToughness);
 }
 
+void BossEnemy::RequestHit() {
+
+	// ダメージを受ける
+	const int damage = player_->GetDamage();
+	stats_.currentHP = (std::max)(0, stats_.currentHP - damage);
+
+	// HUDに通知
+	hudSprites_->SetDamage(damage);
+}
+
 Vector3 BossEnemy::GetWeaponTranslation() const {
 
 	return weapon_->GetTransform().GetWorldPos();
 }
 
-int  BossEnemy::GetDamage() const {
+int BossEnemy::GetDamage() const {
 
 	BossEnemyState currentState = stateController_->GetCurrentState();
 
@@ -364,6 +378,11 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 }
 
 void BossEnemy::OnCollisionEnter(const CollisionBody* collisionBody) {
+
+	// 無効状態の時ダメージを受けない
+	if (hudSprites_->IsDisable()) {
+		return;
+	}
 
 	// playerからの攻撃を受けた時
 	if ((collisionBody->GetType() & ColliderType::Type_PlayerWeapon) != ColliderType::Type_None) {

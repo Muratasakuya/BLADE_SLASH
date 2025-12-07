@@ -22,7 +22,7 @@ public:
 	//========================================================================
 
 	GameScene() :IGameEditor("GameScene") {};
-	~GameScene() = default;
+	~GameScene();
 
 	void Init() override;
 
@@ -44,7 +44,7 @@ private:
 
 	// scene
 	std::unique_ptr<CameraManager> cameraManager_;
-	std::unique_ptr<PunctualLight> gameLight_;
+	std::unique_ptr<GameLight> gameLight_;
 	std::unique_ptr<FadeTransition> fadeTransition_;
 	// collision
 	std::unique_ptr<FieldBoundary> fieldBoundary_;
@@ -57,6 +57,9 @@ private:
 
 	// sprites
 	std::unique_ptr<FadeSprite> fadeSprite_;
+
+	// effects
+	std::unique_ptr<EffectGroup> fieldEffect_;
 
 	//--------- functions ----------------------------------------------------
 

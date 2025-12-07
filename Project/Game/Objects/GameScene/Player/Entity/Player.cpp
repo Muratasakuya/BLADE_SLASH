@@ -151,6 +151,7 @@ void Player::SetBossEnemy(const BossEnemy* bossEnemy) {
 
 	stateController_->SetBossEnemy(bossEnemy);
 	hudSprites_->SetBossEnemy(bossEnemy);
+	attackCollision_->SetBossEnemy(bossEnemy);
 }
 
 void Player::SetFollowCamera(FollowCamera* followCamera) {

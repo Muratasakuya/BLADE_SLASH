@@ -58,32 +58,49 @@ struct SpotLight {
 	void ImGui(float itemWidth);
 };
 
+// すべてのライト情報
+struct PunctualLight {
+
+	DirectionalLight directional;
+	PointLight point;
+	SpotLight spot;
+};
+
 //============================================================================
-//	PunctualLight class
-//	すべてのライト情報を管理
+//	BasePunctualLight class
+//	ライトの初期化から更新を行うクラス
 //============================================================================
-class PunctualLight {
+class BasePunctualLight {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PunctualLight() = default;
-	~PunctualLight() = default;
+	BasePunctualLight() = default;
+	virtual ~BasePunctualLight() = default;
 
 	//--------- functions ----------------------------------------------------
 
 	void Init();
+	virtual void DerivedInit() {}
 
-	void Update();
+	virtual void Update() {}
 
 	void ImGui();
+	virtual void DerivedImGui() {}
+
+	//--------- accessor -----------------------------------------------------
+
+	const PunctualLight& GetPunctualLight() const { return light_; }
+protected:
+	//========================================================================
+	//	protected Methods
+	//========================================================================
 
 	//--------- variables ----------------------------------------------------
 
-	DirectionalLight directional;
-	PointLight point;
-	SpotLight spot;
+	// ライト情報
+	PunctualLight light_;
 private:
 	//========================================================================
 	//	private Methods
@@ -92,7 +109,4 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	const float itemWidth_ = 224.0f;
-
-	Vector3 preDirectionalLightDirection_;
-	Vector3 preSpotLightDirection_;
 };

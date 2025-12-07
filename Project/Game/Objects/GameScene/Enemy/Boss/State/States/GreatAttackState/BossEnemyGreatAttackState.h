@@ -7,6 +7,9 @@
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
+// 流れ
+// 近接攻撃 -> 弾 && 雷攻撃 -> 外側から内側攻撃 -> 終了
+
 //============================================================================
 //	BossEnemyGreatAttackState class
 //	ボスの大技攻撃処理
@@ -46,10 +49,10 @@ private:
 	// 状態
 	enum class State {
 
-		BlowPlayer, // プレイヤー吹っ飛ばし
-		Charge,     // チャージ開始 -> 終了後魔法陣起動
-		Execute,    // 大技攻撃中...(魔法陣回転中)
-		Finish      // 終了(魔法陣を閉じる)
+		ApproachAttack,   // 近接攻撃
+		ProjectileAttack, // 弾攻撃
+		InOutAreaAttack,  // 内外攻撃
+		Finish            // 終了
 	};
 
 	//--------- variables ----------------------------------------------------
@@ -64,8 +67,8 @@ private:
 	State editState_;
 
 	// エフェクト
-	// チャージ
-	std::unique_ptr<EffectGroup> beginChargeEffect_;
+	// オーラエフェクト、チャージ終了後から
+	std::unique_ptr<EffectGroup> bossAuraEffect_;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 
@@ -73,4 +76,7 @@ private:
 
 	// helper
 	std::optional<State> GetNextState(State state) const;
+
+	// エフェクトの発生
+	void EmitEffect(State state);
 };

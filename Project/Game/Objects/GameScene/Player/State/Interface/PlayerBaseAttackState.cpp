@@ -70,6 +70,12 @@ void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
 bool PlayerBaseAttackState::CheckInRange(float range, float distance) {
 
 	bool result = range > epsilon_ && distance <= range;
+
+	// ボスが無効状態なら常にfalseを返す
+	if (bossEnemy_->IsInvincible()) {
+		result = false;
+	}
+
 	return result;
 }
 

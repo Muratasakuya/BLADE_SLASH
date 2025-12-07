@@ -1158,15 +1158,6 @@
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackBlowPlayer.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackCharge.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackExecute.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackFinish.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClCompile>
@@ -2172,15 +2163,6 @@
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackBlowPlayer.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackCharge.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackExecute.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackFinish.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClInclude>
@@ -2529,10 +2511,23 @@
     <ClCompile Include="Engine\Object\Base\GameObject2DArray.cpp" />
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp" />
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp" />
+    <ClCompile Include="Game\Light\GameLight.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackProjectile.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp" />
+    <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Object\Base\GameObject2DArray.h" />
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h" />
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h" />
+    <ClInclude Include="Game\Light\GameLight.h" />
+    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.h" />
+    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackProjectile.h" />
+    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.h" />
+    <ClInclude Include="Engine\MathLib\ConicalPendulum.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\Engine\Shaders\Mesh\MS\MeshStandard.MS.hlsl" />
   </ItemGroup>
 </Project>

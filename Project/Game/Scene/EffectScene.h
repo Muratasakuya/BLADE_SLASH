@@ -34,5 +34,5 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	std::unique_ptr<BaseCamera> camera3D_;
-	std::unique_ptr<PunctualLight> light_;
+	std::unique_ptr<BasePunctualLight> light_;
 };

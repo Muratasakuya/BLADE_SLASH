@@ -67,6 +67,7 @@ public:
 	void SetAlpha(float alpha);
 	void SetCastShadow(bool cast);
 	void SetDecreaseToughnessProgress(float progress);
+	void RequestHit();
 
 	BossEnemyAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
 	BossEnemyHUD* GetHUD() const { return hudSprites_.get(); }
@@ -76,6 +77,7 @@ public:
 
 	int GetDamage() const;
 	bool IsDead() const;
+	bool IsInvincible() const { return hudSprites_->IsDisable(); }
 	uint32_t GetCurrentPhaseIndex() const;
 	const ParryParameter& GetParryParam() const { return stateController_->GetParryParam(); }
 private:

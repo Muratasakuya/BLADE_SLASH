@@ -8,6 +8,7 @@
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Helper/Algorithm.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 
 // imgui
 #include <imgui.h>
@@ -34,7 +35,14 @@ void PlayerAttackCollision::Update(const Transform3D& transform) {
 		return;
 	}
 
-	transform_ = &transform;
+	// 基準となるトランスフォームを設定
+	if (currentParameter_->isEnemyBased) {
+
+		transform_ = &bossEnemy_->GetTransform();
+	} else {
+
+		transform_ = &transform;
+	}
 
 	// 攻撃中かどうか
 	bool isAttack = std::any_of(currentParameter_->windows.begin(),
@@ -120,6 +128,7 @@ void PlayerAttackCollision::ImGui() {
 	edit |= ImGui::DragFloat3("centerOffset", &parameter.centerOffset.x, 0.01f);
 	edit |= ImGui::DragFloat3("size", &parameter.size.x, 0.01f);
 	edit |= ImGui::DragFloat("hitInterval", &parameter.hitInterval, 0.01f);
+	ImGui::Checkbox("isEnemyBased", &parameter.isEnemyBased);
 
 	ImGui::SeparatorText("Hit Stop");
 
@@ -156,6 +165,7 @@ void PlayerAttackCollision::ApplyJson(const Json& data) {
 		parameter.lerpSpeed = value.value("lerpSpeed", 1.0f);
 		parameter.timeScaleEasing = EnumAdapter<EasingType>::FromString(value.value("timeScaleEasing", "Linear")).value();
 		parameter.hitInterval = value.value("hitInterval", 0.0f);
+		parameter.isEnemyBased = value.value("isEnemyBased", false);
 
 		if (value.contains("hitWindows")) {
 			for (auto& window : value["hitWindows"]) {
@@ -191,6 +201,7 @@ void PlayerAttackCollision::SaveJson(Json& data) {
 		value["waitTime"] = parameter.waitTime;
 		value["lerpSpeed"] = parameter.lerpSpeed;
 		value["timeScaleEasing"] = EnumAdapter<EasingType>::ToString(parameter.timeScaleEasing);
+		value["isEnemyBased"] = parameter.isEnemyBased;
 
 		Json windowData = Json::array();
 		{

@@ -53,8 +53,13 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	// 色の設定
+	void SetColor(const Color& color) { material_.color = color; }
+	void ResetColor() { material_.color = initColor_; }
+
 	uint32_t GetIndexCount() const { return indexCount_; }
 	uint32_t GetTextureIndex() const { return material_.textureIndex; }
+	uint32_t GetObjectID() const { return tag_->objectID; }
 
 	// buffers
 	const VertexBuffer<Vector4>& GetVertexBuffer() const { return vertexBuffer_; }
@@ -79,6 +84,9 @@ private:
 
 	BaseTransform transform_;
 	SkyboxMaterial material_;
+
+	// 初期色の保存
+	Color initColor_;
 
 	// uv
 	UVTransform uvTransform_;

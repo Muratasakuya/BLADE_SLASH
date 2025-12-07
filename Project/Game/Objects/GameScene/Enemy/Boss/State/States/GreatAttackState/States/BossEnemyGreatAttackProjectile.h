@@ -3,22 +3,20 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Animation/SimpleAnimation.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
-//	BossEnemyGreatAttackBlowPlayer class
-//	プレイヤーを遠くに吹っ飛ばす状態
+//	BossEnemyGreatAttackProjectile class
 //============================================================================
-class BossEnemyGreatAttackBlowPlayer :
+class BossEnemyGreatAttackProjectile :
 	public BossEnemyGreatAttackIState {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	BossEnemyGreatAttackBlowPlayer();
-	~BossEnemyGreatAttackBlowPlayer() = default;
+	BossEnemyGreatAttackProjectile() = default;
+	~BossEnemyGreatAttackProjectile() = default;
 
 	// 状態遷移時
 	void Enter() override;
@@ -42,8 +40,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	// 座標の補間
-	std::unique_ptr<SimpleAnimation<Vector3>> animTranslation_;
+
 
 	//--------- functions ----------------------------------------------------
 

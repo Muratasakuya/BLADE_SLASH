@@ -3,28 +3,29 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Timer/StateTimer.h>
+#include <Engine/MathLib/ConicalPendulum.h>
+#include <Engine//Utility/Animation/SimpleAnimation.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
-//	BossEnemyGreatAttackCharge class
-//	チャージ攻撃の準備中...状態
+//	BossEnemyGreatAttackApproach class
 //============================================================================
-class BossEnemyGreatAttackCharge :
+class BossEnemyGreatAttackApproach :
 	public BossEnemyGreatAttackIState {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	BossEnemyGreatAttackCharge();
-	~BossEnemyGreatAttackCharge() = default;
+	BossEnemyGreatAttackApproach();
+	~BossEnemyGreatAttackApproach() = default;
 
 	// 状態遷移時
 	void Enter() override;
 
 	// 更新処理
 	void Update() override;
+	void UpdateAlways() override;
 
 	// 状態終了時
 	void Exit() override;
@@ -40,11 +41,40 @@ private:
 	//	private Methods
 	//========================================================================
 
+	//--------- structure ----------------------------------------------------
+
+	// 状態
+	enum class State {
+
+		Approach, // 近接
+		Attack    // 攻撃
+	};
+
 	//--------- variables ----------------------------------------------------
 
-	// 次の状態進むまでの時間
-	StateTimer nextTimer_;
+	// 現在の状態
+	State currentState_;
+
+	// 最初の補間移動
+	SimpleAnimation<Vector3> startMoveAnim_;
+
+	// 振り子移動
+	ConicalPendulum movePendulum_;
+	// 振り子の親からのオフセット位置
+	Vector3 pendulumOffset_;
+	// 円錐のX軸回転オフセット
+	float pendulumRotateX_;
+
+	// 振り子移動での角への最大到達回数
+	uint32_t pendulumMaxReachCount_;
+	uint32_t prevPendulumReachCount_;
 
 	//--------- functions ----------------------------------------------------
 
+	// 状態毎の更新
+	void UpdateApproach();
+	void UpdateAttack();
+
+	// カウントに合わせたアニメーション再生
+	void StartPendulumAnim();
 };

@@ -179,6 +179,9 @@ void SubPlayerPunchAttackState::UpdateAttack() {
 		// ヒットエフェクト発生
 		hitEffect_->Emit(leftHand_->GetTransform().GetWorldPos());
 
+		// 攻撃をカウント
+		bossEnemy_->RequestHit();
+
 		// 次の状態へ
 		currentState_ = State::Leave;
 		// 離脱の補間処理を開始
@@ -312,6 +315,9 @@ void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, GameObjec
 
 		// ヒットエフェクト発生
 		hitEffect_->Emit(hand.GetTransform().GetWorldPos());
+
+		// 攻撃をカウント
+		bossEnemy_->RequestHit();
 	}
 	attackInfo.prevRawT = attackInfo.timer.t_;
 }
