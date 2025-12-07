@@ -50,9 +50,7 @@ private:
 	enum class State {
 
 		ApproachAttack,   // 近接攻撃
-		ProjectileAttack, // 弾攻撃
 		InOutAreaAttack,  // 内外攻撃
-		Finish            // 終了
 	};
 
 	//--------- variables ----------------------------------------------------

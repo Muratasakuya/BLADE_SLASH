@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Object/Base/KeyframeObject3D.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
@@ -54,13 +55,34 @@ private:
 	// 現在の状態
 	State currentState_;
 
+	/*---------- In State ----------*/
+
 	// 雷攻撃の発生
 	float outAreaRadius_;     // 外側の範囲半径
 	uint32_t lightningCount_; // 雷攻撃の個数(半径の分割数)
 	static const uint32_t maxLightningCount_ = 32u;
 
+	// 敵の表示を消す
+	StateTimer hideEnemyTimer_;
+	// 消える距離、座標
+	float hideDistance_;
+	Vector3 hideStartPos_;
+	Vector3 hideTargetPos_;
+
+	// 雷攻撃の時間
+	StateTimer lightningAttackTimer_;
+
 	// 雷攻撃(警告も)
 	std::array<std::unique_ptr<EffectGroup>, maxLightningCount_> lightningAttackEffects_;
+
+	/*--------- Out State ----------*/
+
+	// 移動攻撃のキーフレーム
+	std::unique_ptr<KeyframeObject3D> attackKeyframeObject_;
+
+	// 攻撃アニメーションに入るまでのキーフレーム
+	uint32_t attackKeyframeIndex_;
+	bool isPlayedAttackKeyframe_;
 
 	//--------- functions ----------------------------------------------------
 

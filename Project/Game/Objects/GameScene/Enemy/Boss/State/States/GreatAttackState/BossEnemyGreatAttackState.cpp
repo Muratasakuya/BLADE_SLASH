@@ -4,12 +4,11 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 
 // state
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackApproach.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackProjectile.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackInOutArea.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackFinish.h>
 
 //============================================================================
 //	BossEnemyGreatAttackState classMethods
@@ -19,9 +18,7 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 
 	// 各状態を初期化
 	states_.emplace(State::ApproachAttack, std::make_unique<BossEnemyGreatAttackApproach>());
-	states_.emplace(State::ProjectileAttack, std::make_unique<BossEnemyGreatAttackProjectile>());
 	states_.emplace(State::InOutAreaAttack, std::make_unique<BossEnemyGreatAttackInOutArea>());
-	states_.emplace(State::Finish, std::make_unique<BossEnemyGreatAttackFinish>());
 
 	// 初期化値
 	canExit_ = false;
@@ -46,12 +43,14 @@ void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyGreatAttackState::Enter([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::Enter(BossEnemy& bossEnemy) {
 
 	// 初期状態で初期化
 	currentState_ = State::ApproachAttack;
 	states_[currentState_]->Enter();
 
+	// 親を設定
+	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy.GetTransform());
 	// エフェクト発生
 	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
 }
@@ -150,10 +149,8 @@ BossEnemyGreatAttackState::GetNextState(State state) const {
 
 	// 次の遷移状態を返す、無ければnullopt
 	switch (state) {
-	case State::ApproachAttack: return State::ProjectileAttack;
-	case State::ProjectileAttack: return State::InOutAreaAttack;
-	case State::InOutAreaAttack: return State::Finish;
-	case State::Finish:  return std::nullopt;
+	case State::ApproachAttack: return State::InOutAreaAttack;
+	case State::InOutAreaAttack: return std::nullopt;
 	}
 	return std::nullopt;
 }
@@ -165,15 +162,7 @@ void BossEnemyGreatAttackState::EmitEffect(State state) {
 
 
 		break;
-	case BossEnemyGreatAttackState::State::ProjectileAttack:
-
-
-		break;
 	case BossEnemyGreatAttackState::State::InOutAreaAttack:
-
-
-		break;
-	case BossEnemyGreatAttackState::State::Finish:
 
 
 		break;
