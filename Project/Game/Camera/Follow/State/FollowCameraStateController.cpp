@@ -115,10 +115,27 @@ void FollowCameraStateController::ExitOverlayState(FollowCameraOverlayState stat
 	overlayStates_[state]->Exit();
 }
 
+bool FollowCameraStateController::IsFinishedHandoffBlend() const {
+
+	auto it = states_.find(FollowCameraState::Follow);
+	if (it == states_.end()) {
+		return false;
+	}
+	if (FollowCameraFollowState* state = dynamic_cast<FollowCameraFollowState*>(it->second.get())) {
+
+		return state->IsFinishedHandoffBlend();
+	}
+	return false;
+}
+
 void FollowCameraStateController::SetInputMapper() {
 
 	// 各状態にinputをセット
 	for (const auto& state : std::views::values(states_)) {
+
+		state->SetInputMapper(inputMapper_.get());
+	}
+	for (const auto& state : std::views::values(overlayStates_)) {
 
 		state->SetInputMapper(inputMapper_.get());
 	}

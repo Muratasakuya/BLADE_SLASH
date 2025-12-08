@@ -453,6 +453,10 @@ Quaternion Quaternion::ExtractTwistX(const Quaternion& qNorm) {
 	// X軸成分だけを残す
 	Quaternion t{ qNorm.x, 0.0f, 0.0f, qNorm.w };
 	float lenSq = t.x * t.x + t.w * t.w;
+	// ほぼx成分なし、w=0のときはIdentityを返す
+	if (lenSq <= std::numeric_limits<float>::epsilon()) {
+		return Quaternion::Identity();
+	}
 	float invLen = 1.0f / std::sqrt(lenSq);
 	return Quaternion{ t.x * invLen, 0.0f, 0.0f, t.w * invLen };
 }

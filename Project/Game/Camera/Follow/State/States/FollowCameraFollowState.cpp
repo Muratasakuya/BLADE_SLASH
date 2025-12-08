@@ -16,13 +16,14 @@ void FollowCameraFollowState::SnapToCamera(const FollowCamera& camera) {
 	// 補間位置を初期化
 	interTarget_ = targets_[FollowCameraTargetType::Player]->GetWorldPos();
 	const auto& transform = camera.GetTransform();
-	offsetTranslation_ = Quaternion::Conjugate(transform.rotation) * (transform.translation - interTarget_);
+	offsetTranslation_ = Quaternion::Conjugate(Quaternion::Normalize(transform.rotation)) * (transform.translation - interTarget_);
 	// 現在位置のオフセットを記録
 	handoffDefault_ = offsetTranslation_;
 
 	// 初期化
 	handoffBlendT_ = 0.0f;
 	clampBlendT_ = 0.0f;
+	smoothedInput_ = Vector2::AnyInit(0.0f);
 }
 
 void FollowCameraFollowState::Enter([[maybe_unused]] FollowCamera& followCamera) {
@@ -42,6 +43,14 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	InputType inputType = Input::GetInstance()->GetType();
 	Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
 		inputMapper_->GetVector(FollowCameraInputAction::RotateY));
+	// 入力が合ったらブレンド処理を終了させる
+	if (rawInput.Length() > std::numeric_limits<float>::epsilon()) {
+
+		handoffBlendT_ = 1.0f;
+		clampBlendT_ = 1.0f;
+		handoffDefault_ = defaultOffset_;
+	}
+
 	// 補間を適応する
 	smoothedInput_ = Vector2::Lerp(smoothedInput_, rawInput, inputLerpRate_);
 
@@ -219,4 +228,11 @@ void FollowCameraFollowState::SaveJson(Json& data) {
 void FollowCameraFollowState::SetOffsetTranslation(const Vector3& translation) {
 
 	offsetTranslation_ = translation;
+}
+
+bool FollowCameraFollowState::IsFinishedHandoffBlend() const {
+
+	bool result = (handoffBlendT_ >= 1.0f);
+	result |= (clampBlendT_ >= 1.0f);
+	return result;
 }

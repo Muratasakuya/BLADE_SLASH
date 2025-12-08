@@ -41,10 +41,13 @@ public:
 
 	// ロガー(エンジン用)を初期化。出力先とフォーマットを設定
 	static void Init(const std::string& fileName = "engine.log", bool truncate = true);
+	// ゲーム用ロガーを初期化。game.logへ出力
+	static void InitGame(const std::string& fileName = "game.log", bool truncate = true);
 	// アセット監視用ロガーを初期化。asset.logへ出力
 	static void InitAsset(const std::string& fileName = "assetCheck.log", bool truncate = true);
 	// 文字列を指定レベルで出力
 	static void Log(const std::string& message, LogLevel level = LogLevel::INFO);
+	static void LogGame(const std::string& msg, LogLevel level = LogLevel::INFO);
 
 	// 書式つきでログ出力(printf風/型安全)
 	template <typename... Args>
@@ -63,6 +66,7 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	static inline std::shared_ptr<spdlog::logger> logger_;
+	static inline std::shared_ptr<spdlog::logger> gameLogger_;
 	static inline std::shared_ptr<spdlog::logger> assetLogger_;
 };
 

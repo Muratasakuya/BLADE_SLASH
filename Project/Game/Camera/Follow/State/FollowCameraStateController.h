@@ -39,6 +39,9 @@ public:
 	void ExitOverlayState(FollowCameraOverlayState state);
 
 	FollowCameraState GetCurrentState() const { return current_; }
+
+	// ブレンド処理が終了しているか
+	bool IsFinishedHandoffBlend() const;
 private:
 	//========================================================================
 	//	private Methods

@@ -78,6 +78,14 @@ ParticleSystem* ParticleManager::CreateParticleSystem(const std::string& filePat
 		return nullptr;
 	}
 
+	// 作成済みのシステムならポインタを返す
+	for (const auto& system : systems_) {
+		if ("Particle/" + system->GetLoadFileName() == filePath) {
+
+			return system.get();
+		}
+	}
+
 	// システム作成
 	std::unique_ptr<ParticleSystem> system = std::make_unique<ParticleSystem>();
 	system->Init(device_, asset_, filePath);

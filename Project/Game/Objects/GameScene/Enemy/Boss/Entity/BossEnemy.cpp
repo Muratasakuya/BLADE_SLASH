@@ -51,6 +51,9 @@ void BossEnemy::InitAnimations() {
 	animation_->SetAnimationData("bossEnemy_endChargeGreatAttack");
 	animation_->SetAnimationData("bossEnemy_speedSlash0");
 	animation_->SetAnimationData("bossEnemy_speedSlash1");
+	animation_->SetAnimationData("bossEnemy_slashStay");
+	animation_->SetAnimationData("bossEnemy_stayedSlash");
+	animation_->SetAnimationData("bossEnemy_greatAttack");
 
 	// 右手を親として更新させる
 	animation_->SetParentJoint("rightHand");
@@ -236,6 +239,11 @@ void BossEnemy::RequestHit() {
 Vector3 BossEnemy::GetWeaponTranslation() const {
 
 	return weapon_->GetTransform().GetWorldPos();
+}
+
+Quaternion BossEnemy::GetWeaponRotation() const {
+
+	return weapon_->GetTransform().GetWorldRotation();
 }
 
 int BossEnemy::GetDamage() const {

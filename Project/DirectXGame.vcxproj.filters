@@ -1158,9 +1158,6 @@
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackFinish.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Environment\Collision\FieldWallCollision.cpp">
       <Filter>Game\Objects\GameScene\Environment\Collision</Filter>
     </ClCompile>
@@ -2163,9 +2160,6 @@
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackFinish.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Environment\Collision\FieldWallCollision.h">
       <Filter>Game\Objects\GameScene\Environment\Collision</Filter>
     </ClInclude>
@@ -2513,7 +2507,6 @@
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp" />
     <ClCompile Include="Game\Light\GameLight.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.cpp" />
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackProjectile.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp" />
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp" />
   </ItemGroup>
@@ -2523,7 +2516,6 @@
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h" />
     <ClInclude Include="Game\Light\GameLight.h" />
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.h" />
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackProjectile.h" />
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.h" />
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h" />
   </ItemGroup>

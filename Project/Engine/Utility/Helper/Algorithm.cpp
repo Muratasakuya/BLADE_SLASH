@@ -98,6 +98,20 @@ bool Algorithm::EndsWithW(const std::wstring& s, const std::wstring& suf) {
 	return s.size() >= suf.size() && s.compare(s.size() - suf.size(), suf.size(), suf) == 0;
 }
 
+std::string Algorithm::ToStringQuaternion(const Quaternion& q) {
+
+	std::ostringstream oss;
+	oss << "(" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")";
+	return oss.str();
+}
+
+std::string Algorithm::ToStringVector3(const Vector3& v) {
+
+	std::ostringstream oss;
+	oss << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+	return oss.str();
+}
+
 int Algorithm::LerpInt(int a, int b, float t) {
 
 	float v = static_cast<float>(a) + (static_cast<float>(b) - static_cast<float>(a)) * t;

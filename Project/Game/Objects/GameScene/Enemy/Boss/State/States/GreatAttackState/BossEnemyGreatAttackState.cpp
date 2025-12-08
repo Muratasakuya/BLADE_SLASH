@@ -4,12 +4,11 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 
 // state
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackApproach.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackProjectile.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackInOutArea.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackFinish.h>
 
 //============================================================================
 //	BossEnemyGreatAttackState classMethods
@@ -19,9 +18,7 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 
 	// 各状態を初期化
 	states_.emplace(State::ApproachAttack, std::make_unique<BossEnemyGreatAttackApproach>());
-	states_.emplace(State::ProjectileAttack, std::make_unique<BossEnemyGreatAttackProjectile>());
 	states_.emplace(State::InOutAreaAttack, std::make_unique<BossEnemyGreatAttackInOutArea>());
-	states_.emplace(State::Finish, std::make_unique<BossEnemyGreatAttackFinish>());
 
 	// 初期化値
 	canExit_ = false;
@@ -32,6 +29,15 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 	bossAuraEffect_ = std::make_unique<EffectGroup>();
 	bossAuraEffect_->Init("bossAuraEffect", "BossEnemyEffect");
 	bossAuraEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackBossAuraEffect.json");
+	// ボス残像エフェクト
+	// 本体
+	bossAfterImageEffect_ = std::make_unique<EffectGroup>();
+	bossAfterImageEffect_->Init("bossAfterImageEffect", "BossEnemyEffect");
+	bossAfterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackAfterImageEffect.json");
+	// 武器
+	bossWeaponAfterImageEffect_ = std::make_unique<EffectGroup>();
+	bossWeaponAfterImageEffect_->Init("bossWeaponAfterImageEffect", "BossEnemyEffect");
+	bossWeaponAfterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackWeaponAfterImageEffect.json");
 	// 雷攻撃
 	lightningAttackEffect_ = std::make_unique<EffectGroup>();
 	lightningAttackEffect_->Init("lightningAttack", "BossEnemyEffect");
@@ -46,14 +52,24 @@ void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyGreatAttackState::Enter([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::Enter(BossEnemy& bossEnemy) {
 
 	// 初期状態で初期化
 	currentState_ = State::ApproachAttack;
 	states_[currentState_]->Enter();
 
+	// 親を設定
+	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy.GetTransform());
 	// エフェクト発生
 	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+	isEmitAuraEffect_ = true;
+
+	// 表示を消す
+	bossEnemy.SetIsRejection(true);
+	bossEnemy.SetWeaponRejection(true);
+
+	// 攻撃無効状態にする
+	bossEnemy.GetHUD()->SetDisable();
 }
 
 void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
@@ -71,6 +87,7 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 		if (auto next = GetNextState(currentState_)) {
 
 			currentState_ = *next;
+			states_[currentState_]->SetParentState(this);
 			states_[currentState_]->Enter();
 
 			// 状態別のEnter時のエフェクト発生
@@ -80,6 +97,18 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 			// 処理終了
 			canExit_ = true;
 		}
+	}
+
+	// 残像エフェクトは常に更新
+	// 回転を設定
+	if (isEmitAuraEffect_) {
+
+		bossAfterImageEffect_->SetParentRotation("bossAfterImage1",
+			bossEnemy.GetRotation(), ParticleUpdateModuleID::Rotation);
+		bossWeaponAfterImageEffect_->SetParentRotation("bossWeaponAfterImage",
+			bossEnemy.GetWeaponRotation(), ParticleUpdateModuleID::Rotation);
+		bossAfterImageEffect_->Emit(bossEnemy.GetTranslation());
+		bossWeaponAfterImageEffect_->Emit(bossEnemy.GetWeaponTranslation());
 	}
 }
 
@@ -93,6 +122,8 @@ void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEne
 
 	// エフェクト更新
 	bossAuraEffect_->Update();
+	bossAfterImageEffect_->Update();
+	bossWeaponAfterImageEffect_->Update();
 	lightningAttackEffect_->Update();
 }
 
@@ -107,6 +138,13 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	}
 	// エフェクト停止
 	bossAuraEffect_->Stop();
+
+	// 表示を元に戻す
+	bossEnemy.SetIsRejection(false);
+	bossEnemy.SetWeaponRejection(false);
+
+	// 攻撃有効状態にする
+	bossEnemy.GetHUD()->SetValid();
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
@@ -145,15 +183,27 @@ void BossEnemyGreatAttackState::SaveJson(Json& data) {
 	}
 }
 
+void BossEnemyGreatAttackState::StartEffects() {
+
+	// エフェクト発生
+	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+	isEmitAuraEffect_ = true;
+}
+
+void BossEnemyGreatAttackState::StopEffects() {
+
+	// エフェクト停止
+	bossAuraEffect_->Stop();
+	isEmitAuraEffect_ = false;
+}
+
 std::optional<BossEnemyGreatAttackState::State>
 BossEnemyGreatAttackState::GetNextState(State state) const {
 
 	// 次の遷移状態を返す、無ければnullopt
 	switch (state) {
-	case State::ApproachAttack: return State::ProjectileAttack;
-	case State::ProjectileAttack: return State::InOutAreaAttack;
-	case State::InOutAreaAttack: return State::Finish;
-	case State::Finish:  return std::nullopt;
+	case State::ApproachAttack: return State::InOutAreaAttack;
+	case State::InOutAreaAttack: return std::nullopt;
 	}
 	return std::nullopt;
 }
@@ -165,15 +215,7 @@ void BossEnemyGreatAttackState::EmitEffect(State state) {
 
 
 		break;
-	case BossEnemyGreatAttackState::State::ProjectileAttack:
-
-
-		break;
 	case BossEnemyGreatAttackState::State::InOutAreaAttack:
-
-
-		break;
-	case BossEnemyGreatAttackState::State::Finish:
 
 
 		break;

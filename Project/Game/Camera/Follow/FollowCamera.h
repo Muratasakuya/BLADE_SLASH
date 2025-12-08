@@ -49,6 +49,9 @@ public:
 		bool isReset = false, bool isLockTarget = false,
 		std::optional<float> targetXRotation = std::nullopt, float lookTimerRate = 1.0f);
 	void SetLookAlwaysTarget(bool look) { lookAlwaysTarget_ = look; }
+
+	// ブレンド処理が終了しているか
+	bool IsFinishedHandoffBlend() const { return  stateController_->IsFinishedHandoffBlend(); }
 private:
 	//========================================================================
 	//	private Methods

@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
+#include <Engine/Effect/User/EffectGroup.h>
 
 // imgui
 #include <imgui.h>
@@ -11,6 +12,7 @@
 class BossEnemy;
 class Player;
 class FollowCamera;
+class BossEnemyGreatAttackState;
 
 //============================================================================
 //	BossEnemyGreatAttackIState class
@@ -49,6 +51,8 @@ public:
 
 	// 状態遷移可能か
 	bool CanExit() const { return canExit_; }
+
+	void SetParentState(BossEnemyGreatAttackState* parentState) { parentState_ = parentState; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -59,6 +63,7 @@ protected:
 	Player* player_;
 	FollowCamera* followCamera_;
 	BossEnemy* bossEnemy_;
+	BossEnemyGreatAttackState* parentState_;
 
 	// 状態終了フラグ
 	bool canExit_ = false;

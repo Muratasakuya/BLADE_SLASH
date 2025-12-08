@@ -198,3 +198,8 @@ void BaseCamera::CalBillboardMatrix() {
 	billboardMatrix_.m[3][1] = 0.0f;
 	billboardMatrix_.m[3][2] = 0.0f;
 }
+
+void CameraLog::Output(const std::string& msg) {
+
+	SpdLogger::LogGame(msg, SpdLogger::LogLevel::INFO);
+}

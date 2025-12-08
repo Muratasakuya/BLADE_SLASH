@@ -87,6 +87,7 @@ StyleCopReport.xml
 
 imgui.ini
 Project/Log/engine.log
+Project/Log/game.log
 Project/Log/assetCheck.log
 
 Project/Scripts/Make-UsedAssets.ps1

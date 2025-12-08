@@ -53,6 +53,7 @@ Framework::Framework() {
 	//========================================================================
 
 	SpdLogger::Init();
+	SpdLogger::InitGame();
 	SpdLogger::InitAsset();
 	SpdLogger::Log("[StartLogginig]\n");
 

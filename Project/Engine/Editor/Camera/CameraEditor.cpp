@@ -189,6 +189,13 @@ bool CameraEditor::IsAnimFinished() const {
 	return !activeKeyObject_->IsUpdating();
 }
 
+void CameraEditor::ResetAllKeyData() {
+
+	keyObjects_.clear();
+	nameCounts_.clear();
+	activeKeyObject_ = nullptr;
+}
+
 void CameraEditor::Update() {
 
 	// キーオブジェクトの更新

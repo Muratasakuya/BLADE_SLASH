@@ -39,6 +39,10 @@ public:
 	// json
 	void ApplyJson(const Json& data) override;
 	void SaveJson(Json& data) override;
+
+	// エフェクトの発生と停止
+	void StartEffects();
+	void StopEffects();
 private:
 	//========================================================================
 	//	private Methods
@@ -50,9 +54,7 @@ private:
 	enum class State {
 
 		ApproachAttack,   // 近接攻撃
-		ProjectileAttack, // 弾攻撃
 		InOutAreaAttack,  // 内外攻撃
-		Finish            // 終了
 	};
 
 	//--------- variables ----------------------------------------------------
@@ -69,6 +71,10 @@ private:
 	// エフェクト
 	// オーラエフェクト、チャージ終了後から
 	std::unique_ptr<EffectGroup> bossAuraEffect_;
+	// ボスの残像エフェクト
+	std::unique_ptr<EffectGroup> bossAfterImageEffect_;
+	std::unique_ptr<EffectGroup> bossWeaponAfterImageEffect_;
+	bool isEmitAuraEffect_ = false;
 	// 雷攻撃(警告も)
 	std::unique_ptr<EffectGroup> lightningAttackEffect_;
 
