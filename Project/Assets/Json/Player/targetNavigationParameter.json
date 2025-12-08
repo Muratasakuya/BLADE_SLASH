@@ -6,8 +6,8 @@
                     "alphaReference": 0.0,
                     "color": {
                         "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
+                        "b": 0.1376909613609314,
+                        "g": 0.30901065468788147,
                         "r": 1.0
                     },
                     "emissionColor": {
@@ -94,8 +94,8 @@
                     "alphaReference": 0.0,
                     "color": {
                         "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
+                        "b": 0.1376909613609314,
+                        "g": 0.30901065468788147,
                         "r": 1.0
                     },
                     "emissionColor": {
@@ -184,7 +184,7 @@
                 "y": 0.5
             },
             "rotateAroundSelfWhenParented": true,
-            "rotation": 0.29457294940948486,
+            "rotation": 0.012581825256347656,
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -202,8 +202,8 @@
                 "y": 0.0
             },
             "translation": {
-                "x": 1047.4599609375,
-                "y": 585.2737426757813
+                "x": 963.4711303710938,
+                "y": 545.5083618164063
             },
             "vertexOffset": [
                 {
@@ -225,8 +225,29 @@
             ]
         }
     },
-    "distanceEasingType_": "Linear",
+    "alphaTimer_": {
+        "easeingType_": "Linear",
+        "target_": 0.10000000149011612
+    },
+    "blinkColorTimer_": {
+        "easeingType_": "Linear",
+        "target_": 0.10000000149011612
+    },
+    "distanceEasingType_": "EaseOutSine",
+    "distanceScaleTimer_": {
+        "easeingType_": "Linear",
+        "target_": 3.200000047683716
+    },
     "maxDistanceToTarget_": 320.0,
+    "minDistanceScale_": 0.9599999785423279,
     "minDistanceToTarget_": 120.0,
-    "pivotOffsetY_": 2.0
+    "pivotOffsetY_": 2.0,
+    "targetBlinkColor_": {
+        "a": 1.0,
+        "b": 0.0,
+        "g": 0.1986755132675171,
+        "r": 1.0
+    },
+    "waveAmplitude_": 0.05999999865889549,
+    "waveCenter_": 1.0
 }

@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
+#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
 
 // front
 class FollowCamera;
@@ -40,6 +41,10 @@ public:
 
 	// 表示するか
 	void IsDisplay(bool isDisplay);
+	// 点滅させるか
+	void IsBlink(bool isBlink) { isBlink_ = isBlink; }
+	// カメラ内に注視点があるかチェックを行うか
+	void SetInFrustumCheck(bool inFrustum) { inFrustumCheck_ = inFrustum; }
 private:
 	//========================================================================
 	//	private Methods
@@ -63,10 +68,32 @@ private:
 	float minDistanceToTarget_; // 注視点までの最小距離
 	EasingType distanceEasingType_;
 
+	float minDistanceScale_;        // 最小距離のスケール
+	float waveCenter_;              // 波の中心
+	float waveAmplitude_;           // 波の振幅
+	StateTimer distanceScaleTimer_; // 距離スケールタイマー
+
 	// 現在のUI角度
 	float currentAngleRadian_;
 
+	// 表示切替タイマー
+	bool isDisplay_;
+	StateTimer alphaTimer_;
+
+	// 点滅
+	bool isBlink_;
+	Color targetBlinkColor_;
+	StateTimer blinkColorTimer_;
+
+	// カメラ内に注視点があるかチェックを行うか
+	bool inFrustumCheck_;
+
 	//--------- functions ----------------------------------------------------
+
+	// 注視点がカメラ内にあるか
+	void CheckInCamera();
+	// 点滅
+	void UpdateBlink(float alpha);
 
 	// json
 	void ApplyJson();

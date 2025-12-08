@@ -256,6 +256,9 @@ void Player::Update() {
 	// スタン状態のチェック
 	CheckBossEnemyStun();
 
+	// 方向UIの更新
+	UpdateTargetNavigation();
+
 	// 状態の更新
 	stateController_->SetStatas(stats_);
 	stateController_->Update(*this);
@@ -269,7 +272,6 @@ void Player::Update() {
 	hudSprites_->CheckBossEnemyParry();
 	hudSprites_->Update(*this);
 	stunHudSprites_->Update();
-	UpdateTargetNavigation();
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
@@ -286,8 +288,6 @@ void Player::Update() {
 }
 
 void Player::UpdateTargetNavigation() {
-
-	// カメラにボスが映っているかチェック
 
 	// 座標を設定
 	targetNavigation_->SetTargetPos(bossEnemy_->GetTranslation());
