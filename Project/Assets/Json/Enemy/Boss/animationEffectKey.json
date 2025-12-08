@@ -18,14 +18,14 @@
             "action": "continuousAttack",
             "events": {
                 "Parry": [
-                    8,
-                    24,
-                    50
+                    7,
+                    18,
+                    36
                 ],
                 "Effect": [
                     6,
-                    18,
-                    34
+                    16,
+                    29
                 ]
             }
         },
@@ -69,14 +69,56 @@
             }
         },
         {
+            "object": "<unlinked>",
+            "action": "slashStay",
+            "events": {
+                "Parry": [
+                    12
+                ],
+                "Effect": [
+                    12
+                ]
+            }
+        },
+        {
+            "object": "bossEnemyArmature",
+            "action": "speedSlash0",
+            "events": {
+                "Parry": [
+                    8
+                ]
+            }
+        },
+        {
+            "object": "<unlinked>",
+            "action": "speedSlash1",
+            "events": {
+                "Parry": [
+                    8
+                ]
+            }
+        },
+        {
+            "object": "<unlinked>",
+            "action": "stayedSlash",
+            "events": {
+                "Parry": [
+                    12
+                ],
+                "Effect": [
+                    12
+                ]
+            }
+        },
+        {
             "object": "bossEnemyArmature",
             "action": "strongAttack",
             "events": {
                 "Parry": [
-                    9
+                    5
                 ],
                 "Effect": [
-                    6
+                    4
                 ]
             }
         },

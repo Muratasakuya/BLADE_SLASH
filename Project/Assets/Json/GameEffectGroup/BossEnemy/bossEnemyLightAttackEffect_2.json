@@ -4,7 +4,7 @@
             "Emit": {
                 "Mode": "EmitCount",
                 "count": 1,
-                "delay": 0.5400000214576721,
+                "delay": 0.30000001192092896,
                 "duration": 0.0,
                 "interval": 0.0
             },
