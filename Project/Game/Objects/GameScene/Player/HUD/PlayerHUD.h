@@ -35,8 +35,6 @@ public:
 
 	// HUD表示の更新
 	void Update(const Player& player);
-	// ボス敵のパリィ受付状態の確認
-	void CheckBossEnemyParry();
 
 	// エディター
 	void ImGui();
@@ -107,10 +105,6 @@ private:
 
 	const FollowCamera* followCamera_;
 	const BossEnemy* bossEnemy_;
-
-	// ボスの状態を監視してパリィ入力示唆を出す
-	std::optional<BossEnemyState> exitParryBossEnemyState_;
-	bool isCanParryBossEnemy_;
 
 	// ステータス
 	PlayerStats stats_;

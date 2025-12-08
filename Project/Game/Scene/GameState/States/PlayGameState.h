@@ -25,6 +25,9 @@ public:
 	void NonActiveUpdate(SceneManager* sceneManager) override;
 
 	void ImGui() override;
+
+	// 遷移開始時
+	void Enter() override;
 private:
 	//========================================================================
 	//	private Methods

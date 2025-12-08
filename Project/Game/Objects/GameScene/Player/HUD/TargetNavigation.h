@@ -39,10 +39,12 @@ public:
 	void SetTargetPos(const Vector3& targetPos) { targetPos_ = targetPos; }
 	void SetPivotPos(const Vector3& pivotPos) { pivotPos_ = pivotPos; }
 
+	// 完全に何も表示しなくさせる
+	void SetDisable(bool isDisable) { isDisable_ = isDisable; }
 	// 表示するか
-	void IsDisplay(bool isDisplay);
+	void SetIsDisplay(bool isDisplay);
 	// 点滅させるか
-	void IsBlink(bool isBlink) { isBlink_ = isBlink; }
+	void SetIsBlink(bool isBlink) { isBlink_ = isBlink; }
 	// カメラ内に注視点があるかチェックを行うか
 	void SetInFrustumCheck(bool inFrustum) { inFrustumCheck_ = inFrustum; }
 private:
@@ -87,6 +89,9 @@ private:
 
 	// カメラ内に注視点があるかチェックを行うか
 	bool inFrustumCheck_;
+
+	// 完全に何も表示しなくさせる
+	bool isDisable_;
 
 	//--------- functions ----------------------------------------------------
 

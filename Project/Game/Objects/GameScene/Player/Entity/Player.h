@@ -68,6 +68,7 @@ public:
 	PlayerHUD* GetHUD() const { return hudSprites_.get(); }
 	PlayerStunHUD* GetStunHUD() const { return stunHudSprites_.get(); }
 	PlayerWeapon* GetWeapon(PlayerWeaponType type) const;
+	TargetNavigation* GetTargetNavigation() const { return targetNavigation_.get(); }
 
 	int GetDamage() const;
 	int GetToughness() const { return stats_.toughness; }
@@ -108,6 +109,10 @@ private:
 	// 敵のスタン中の更新になったか
 	bool isStunUpdate_;
 
+	// ボスの状態を監視してパリィ入力示唆を出す
+	std::optional<BossEnemyState> exitParryBossEnemyState_;
+	bool isCanParryBossEnemy_;
+
 	// json
 	Json cacheJsonData_;
 
@@ -136,4 +141,5 @@ private:
 	// helper
 	void SetInitTransform();
 	void CheckBossEnemyStun();
+	void CheckBossEnemyParry();
 };

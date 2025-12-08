@@ -60,12 +60,17 @@ void BeginGameState::Enter() {
 
 	// プレイヤーの座標をゲーム開始座標にする
 	context_->player->SetTranslation(startPlayerPos_);
+	// 表示を消す
+	context_->player->GetTargetNavigation()->SetDisable(true);
 
 	// カメラのアニメーション開始
 	CameraEditor::GetInstance()->StartAnim("startGameCamera", false);
 }
 
 void BeginGameState::Exit() {
+
+	// プレイヤーの表示を戻す
+	context_->player->GetTargetNavigation()->SetDisable(false);
 
 	// エディターによる更新を止めさせる
 	context_->camera->GetFollowCamera()->SetIsUpdateEditor(false);

@@ -48,6 +48,7 @@ void StartGameState::Init(SceneView* sceneView) {
 
 	// プレイヤー
 	context_->player->Init("player", "player", "Player", "player_idle");
+	context_->player->GetTargetNavigation()->SetInFrustumCheck(false);
 	// サブプレイヤー
 	context_->subPlayer->Init();
 

@@ -95,6 +95,8 @@ void Player::InitHUD() {
 
 	targetNavigation_ = std::make_unique<TargetNavigation>();
 	targetNavigation_->Init();
+
+	isCanParryBossEnemy_ = false;
 }
 
 void Player::InitEffects() {
@@ -255,6 +257,8 @@ void Player::Update() {
 
 	// スタン状態のチェック
 	CheckBossEnemyStun();
+	// パリィ可能状態のチェック
+	CheckBossEnemyParry();
 
 	// 方向UIの更新
 	UpdateTargetNavigation();
@@ -269,7 +273,6 @@ void Player::Update() {
 
 	// HUDの更新
 	hudSprites_->SetStatas(stats_);
-	hudSprites_->CheckBossEnemyParry();
 	hudSprites_->Update(*this);
 	stunHudSprites_->Update();
 
@@ -316,6 +319,38 @@ void Player::CheckBossEnemyStun() {
 	// スタン状態になったら状態を切り替え状態に強制的に遷移させる
 	isStunUpdate_ = true;
 	stateController_->SetForcedState(*this, PlayerState::SwitchAlly);
+}
+
+void Player::CheckBossEnemyParry() {
+
+	// ボスの状態が切り替わったら、パリィ可能状態をリセット
+	if (exitParryBossEnemyState_.has_value()) {
+		if (exitParryBossEnemyState_.value() != bossEnemy_->GetCurrentState()) {
+
+			exitParryBossEnemyState_ = std::nullopt;
+		}
+	}
+
+	// パリィ可能状態になったかどうか
+	const ParryParameter& parryParam = bossEnemy_->GetParryParam();
+	if (!exitParryBossEnemyState_.has_value() &&
+		!isCanParryBossEnemy_ && parryParam.canParry) {
+
+		isCanParryBossEnemy_ = true;
+		// パリィ可能状態になったら入力示唆を開始
+		hudSprites_->StartInputSuggest();
+		targetNavigation_->SetIsBlink(true);
+	}
+	// 入力不可になったら入力示唆を終了
+	if (isCanParryBossEnemy_ && !parryParam.canParry) {
+
+		// この時点のボスの状態を取得
+		exitParryBossEnemyState_ = bossEnemy_->GetCurrentState();
+		isCanParryBossEnemy_ = false;
+
+		hudSprites_->EndInputSuggest();
+		targetNavigation_->SetIsBlink(false);
+	}
 }
 
 void Player::OnCollisionEnter(const CollisionBody* collisionBody) {

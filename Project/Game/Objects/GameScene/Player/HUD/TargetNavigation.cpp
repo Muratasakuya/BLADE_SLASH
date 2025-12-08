@@ -22,6 +22,7 @@ void TargetNavigation::Init() {
 	objectArray_->Add("navigation", "navigationFrame", "PlayerNavigationUI");
 
 	// 初期化
+	isDisable_ = false;
 	isDisplay_ = true;
 	inFrustumCheck_ = false;
 	isBlink_ = false;
@@ -30,7 +31,7 @@ void TargetNavigation::Init() {
 	ApplyJson();
 }
 
-void TargetNavigation::IsDisplay(bool isDisplay) {
+void TargetNavigation::SetIsDisplay(bool isDisplay) {
 
 	if (isDisplay_ != isDisplay) {
 		// 状態が変わったときのみリセット
@@ -43,7 +44,7 @@ void TargetNavigation::IsDisplay(bool isDisplay) {
 void TargetNavigation::CheckInCamera() {
 
 	if (!inFrustumCheck_) {
-		IsDisplay(true);
+		SetIsDisplay(true);
 		return;
 	}
 
@@ -57,10 +58,17 @@ void TargetNavigation::CheckInCamera() {
 		ndc.z >= 0.0f && ndc.z <= 1.0f;
 
 	// 範囲外なら矢印を表示、範囲内なら非表示
-	IsDisplay(!inFrustum);
+	SetIsDisplay(!inFrustum);
 }
 
 void TargetNavigation::UpdateBlink(float alpha) {
+
+	// 何もさせない
+	if (isDisable_) {
+
+		objectArray_->SetAlpha(0.0f);
+		return;
+	}
 
 	// falseの時は処理しない
 	if (!isBlink_) {
@@ -166,12 +174,12 @@ void TargetNavigation::ImGui() {
 
 			if (ImGui::Button("Disable")) {
 
-				IsDisplay(false);
+				SetIsDisplay(false);
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Vaild")) {
 
-				IsDisplay(true);
+				SetIsDisplay(true);
 			}
 
 			// ワールド座標のtargetPosをビュー射影行列でNDC(-1～1)に変換

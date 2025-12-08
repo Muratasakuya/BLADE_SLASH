@@ -52,11 +52,18 @@ void PlayGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 
 		// HUDの表示を消す
 		context_->player->GetHUD()->SetDisable();
+		context_->player->GetTargetNavigation()->SetDisable(true);
 		context_->boss->GetHUD()->SetDisable();
 	}
 }
 
 void PlayGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {
+}
+
+void PlayGameState::Enter() {
+
+	// 矢印UIのカメラ範囲チェックを有効にする
+	context_->player->GetTargetNavigation()->SetInFrustumCheck(true);
 }
 
 void PlayGameState::ImGui() {
