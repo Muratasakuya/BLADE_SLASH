@@ -40,6 +40,9 @@ public:
 	void SetOffsetTranslation(const Vector3& translation);
 
 	const Vector3& GetOffsetTranslation() const { return offsetTranslation_; }
+
+	// ブレンド処理が終了しているか
+	bool IsFinishedHandoffBlend() const;
 private:
 	//========================================================================
 	//	private Methods

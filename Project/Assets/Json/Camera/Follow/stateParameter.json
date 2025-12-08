@@ -14,15 +14,15 @@
         "fovYLerpRate_": 0.11999999731779099,
         "handoffBlendSpeed_": 0.3199999928474426,
         "inputLerpRate_": 0.12999999523162842,
-        "lerpRate_": 0.23999999463558197,
+        "lerpRate_": 0.1599999964237213,
         "mouseSensitivity_": {
             "x": 0.041999999433755875,
             "y": 0.14399999380111694
         },
         "offsetTranslation_": {
-            "x": 4.6528274566526306e-08,
+            "x": 4.6528164432402264e-08,
             "y": 8.999970436096191,
-            "z": -53.3497200012207
+            "z": -53.34969711303711
         },
         "offsetXLerpRate_": 0.01600000075995922,
         "offsetYLerpRate_": 0.01600000075995922,
@@ -41,16 +41,16 @@
     },
     "ReturnDefaultRotate": {
         "TargetTime": {
-            "Dash": 0.4000000059604645,
+            "Dash": 0.800000011920929,
             "Idle": 6.0,
-            "Walk": 0.699999988079071
+            "Walk": 0.800000011920929
         },
         "Timer": {
-            "easeingType_": "EaseOutCubic",
+            "easeingType_": "EaseOutQuad",
             "target_": 0.6399999856948853
         },
-        "lerpThreshold_": 0.0,
-        "targetRotateX_": 0.10000000149011612
+        "lerpThreshold_": 0.10000000149011612,
+        "targetRotateX_": 0.1599999964237213
     },
     "Shake": {
         "shakeEasingType_": 14,

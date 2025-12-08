@@ -4,6 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Core/Debug/Assert.h>
+#include <Engine/MathLib/Vector3.h>
+#include <Engine/MathLib/Quaternion.h>
 
 // c++
 #include <cstdint>
@@ -81,6 +83,10 @@ namespace Algorithm {
 
 	// ワイド文字列が指定サフィックスで終わるか判定する
 	bool EndsWithW(const std::wstring& s, const std::wstring& suf);
+
+	// 数学値を文字列を返す
+	std::string ToStringQuaternion(const Quaternion& q);
+	std::string ToStringVector3(const Vector3& v);
 
 	//========================================================================
 	//	Find

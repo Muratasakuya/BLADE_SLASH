@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/MathLib/MathUtils.h>
+#include <Engine/Core/Debug/SpdLogger.h>
 #include <Game/Camera/Follow/FollowCamera.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
 
@@ -21,13 +22,15 @@ FollowCameraReturnDefaultRotate::FollowCameraReturnDefaultRotate() {
 
 void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
 
+	Quaternion currentRotation = Quaternion::Normalize(followCamera.GetTransform().rotation);
+
 	// 現在のx軸回転が閾値以上なら処理しない
 	// ローカルX軸を取り出して角度を計算
 	startTwistX_ = Quaternion::ExtractTwistX(Quaternion::Normalize(followCamera.GetTransform().rotation));
-	const float currentX = Math::AngleFromTwist(startTwistX_, Math::Axis::X);
+	const float currentAngleX = Math::AngleFromTwist(startTwistX_, Math::Axis::X);
 
 	// しきい値以上なら処理しない
-	if (lerpThreshold_ <= currentX) {
+	if (lerpThreshold_ <= currentAngleX) {
 		canExit_ = true;
 		return;
 	}
@@ -45,8 +48,17 @@ void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
 
 void FollowCameraReturnDefaultRotate::Update(FollowCamera& followCamera) {
 
+	// カメラ入力があれば処理を終了する
+	Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
+		inputMapper_->GetVector(FollowCameraInputAction::RotateY));
+	if (rawInput.Length() > std::numeric_limits<float>::epsilon()) {
+
+		canExit_ = true;
+		return;
+	}
+
 	// 時間を進める
-	lerpTimer_.Update(requestTargetTime_);
+	lerpTimer_.Update(requestTargetTime_, false);
 
 	// 補間処理
 	// y、z軸は維持した状態でx軸を補間する

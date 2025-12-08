@@ -3,6 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Core/Debug/SpdLogger.h>
+#include <Engine/Utility/Helper/Algorithm.h>
 #include <Engine/Object/Data/Transform.h>
 #include <Engine/Utility/Timer/StateTimer.h>
 
@@ -117,3 +119,13 @@ protected:
 	// ビルボード行列計算
 	void CalBillboardMatrix();
 };
+
+//============================================================================
+//	BaseCamera log
+//============================================================================
+
+namespace CameraLog {
+
+	// ログ出力
+	void Output(const std::string& msg);
+}
