@@ -1,0 +1,232 @@
+{
+    "ObjectArray": {
+        "objects": [
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "postProccessEnable_": false,
+                    "textureName": "navigationFrame"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "postProccessEnable_": false,
+                    "textureName": "navigation"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            }
+        ],
+        "transform": {
+            "anchorPoint": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "rotateAroundSelfWhenParented": true,
+            "rotation": 0.29457294940948486,
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "sizeScale": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "textureLeftTop": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "textureSize": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "translation": {
+                "x": 1047.4599609375,
+                "y": 585.2737426757813
+            },
+            "vertexOffset": [
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            ]
+        }
+    },
+    "distanceEasingType_": "Linear",
+    "maxDistanceToTarget_": 320.0,
+    "minDistanceToTarget_": 120.0,
+    "pivotOffsetY_": 2.0
+}

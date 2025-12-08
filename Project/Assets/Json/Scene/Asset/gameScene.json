@@ -55,7 +55,9 @@
     "playerToBoss",
     "inputSuggestRing",
     "barThresholdFrame",
-    "barThreshold"
+    "barThreshold",
+    "navigationFrame",
+    "navigation"
   ],
   "Models": [
     "bossEnemy",

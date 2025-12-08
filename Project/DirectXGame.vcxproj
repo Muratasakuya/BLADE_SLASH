@@ -199,7 +199,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Core\Graphics\GPUObject\IndexBuffer.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\customClassTemplateCPP\CustomClassTemplate.cpp" />
     <ClCompile Include="Engine\Editor\Camera\CameraEditor.cpp">
       <SubType />
     </ClCompile>
@@ -225,6 +224,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Light\GameLight.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -988,6 +991,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Light\GameLight.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.h">
       <SubType>
       </SubType>
     </ClInclude>

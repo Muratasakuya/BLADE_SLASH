@@ -92,6 +92,9 @@ void Player::InitHUD() {
 
 	stunHudSprites_ = std::make_unique<PlayerStunHUD>();
 	stunHudSprites_->Init();
+
+	targetNavigation_ = std::make_unique<TargetNavigation>();
+	targetNavigation_->Init();
 }
 
 void Player::InitEffects() {
@@ -158,6 +161,7 @@ void Player::SetFollowCamera(FollowCamera* followCamera) {
 
 	stateController_->SetFollowCamera(followCamera);
 	hudSprites_->SetFollowCamera(followCamera);
+	targetNavigation_->SetCamera(followCamera);
 }
 
 void Player::SetSubPlayer(SubPlayer* subPlayer) {
@@ -265,6 +269,7 @@ void Player::Update() {
 	hudSprites_->CheckBossEnemyParry();
 	hudSprites_->Update(*this);
 	stunHudSprites_->Update();
+	UpdateTargetNavigation();
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
@@ -278,6 +283,18 @@ void Player::Update() {
 
 		isInvincible_ = !isInvincible_;
 	}
+}
+
+void Player::UpdateTargetNavigation() {
+
+	// カメラにボスが映っているかチェック
+
+	// 座標を設定
+	targetNavigation_->SetTargetPos(bossEnemy_->GetTranslation());
+	targetNavigation_->SetPivotPos(transform_->translation);
+
+	// オブジェクト更新
+	targetNavigation_->Update();
 }
 
 void Player::CheckBossEnemyStun() {
@@ -406,12 +423,8 @@ void Player::DerivedImGui() {
 			stunHudSprites_->ImGui();
 			ImGui::EndTabItem();
 		}
-
-		// ---- Effect ---------------------------------------------------
-		if (ImGui::BeginTabItem("Effect")) {
-
-			// エフェクト、エンジン機能変更中...
-			//animationEffect_->ImGui(*this);
+		if (ImGui::BeginTabItem("Navigation")) {
+			targetNavigation_->ImGui();
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

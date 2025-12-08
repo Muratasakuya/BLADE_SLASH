@@ -15,6 +15,7 @@
 // HUD
 #include <Game/Objects/GameScene/Player/HUD/PlayerHUD.h>
 #include <Game/Objects/GameScene/Player/HUD/PlayerStunHUD.h>
+#include <Game/Objects/GameScene/Player/HUD/TargetNavigation.h>
 
 // front
 class SubPlayer;
@@ -95,6 +96,7 @@ private:
 	// HUD
 	std::unique_ptr<PlayerHUD> hudSprites_;
 	std::unique_ptr<PlayerStunHUD> stunHudSprites_;
+	std::unique_ptr<TargetNavigation> targetNavigation_;
 
 	// 回避エフェクト
 	std::unique_ptr<EffectGroup> avoidEffect_;
@@ -127,6 +129,9 @@ private:
 	void InitState();
 	void InitHUD();
 	void InitEffects();
+
+	// update
+	void UpdateTargetNavigation();
 
 	// helper
 	void SetInitTransform();

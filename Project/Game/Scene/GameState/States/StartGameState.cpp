@@ -72,10 +72,6 @@ void StartGameState::Init(SceneView* sceneView) {
 	//	sprites
 	//========================================================================
 
-	// プレイヤーの移動する方向
-	playerToBossText_ = std::make_unique<GameObject2D>();
-	playerToBossText_->Init("playerToBoss", "playerToBoss", "Scene");
-
 	context_->fadeSprite->Init("white", "fadeSprite", "Scene");
 
 	//========================================================================
@@ -130,9 +126,6 @@ void StartGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager
 }
 
 void StartGameState::Exit() {
-
-	// 方向指示を消す
-	playerToBossText_.reset();
 }
 
 void StartGameState::ImGui() {
@@ -153,9 +146,6 @@ void StartGameState::ApplyJson() {
 	}
 
 	nextStateEvent_->ApplyBodyOffset(data["NextStateEvent"]);
-
-	playerToBossText_->SetSize(Vector2::FromJson(data.value("playerToBossText_Size", Json())));
-	playerToBossText_->SetTranslation(Vector2::FromJson(data.value("playerToBossText_Pos", Json())));
 }
 
 void StartGameState::SaveJson() {
@@ -163,9 +153,6 @@ void StartGameState::SaveJson() {
 	Json data;
 
 	nextStateEvent_->SaveBodyOffset(data["NextStateEvent"]);
-
-	data["playerToBossText_Size"] = playerToBossText_->GetSize().ToJson();
-	data["playerToBossText_Pos"] = playerToBossText_->GetTranslation().ToJson();
 
 	JsonAdapter::Save("Scene/State/startGameState.json", data);
 }
