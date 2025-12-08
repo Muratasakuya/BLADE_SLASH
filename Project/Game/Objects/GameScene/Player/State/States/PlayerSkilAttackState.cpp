@@ -57,7 +57,7 @@ PlayerSkilAttackState::PlayerSkilAttackState(Player* player) {
 	// 地割れエフェクト作成
 	groundCrackEffect_ = std::make_unique<EffectGroup>();
 	groundCrackEffect_->Init("skilGroundCrack", "PlayerEffect");
-	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundCrackEffect.json");
+	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundSkilCrackEffect.json");
 	groundCrackEmitted_ = false;
 }
 

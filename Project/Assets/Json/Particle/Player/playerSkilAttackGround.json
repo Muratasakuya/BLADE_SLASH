@@ -3952,6 +3952,6 @@
             "textureName": ""
         }
     ],
-    "name": "player4thAttackGround",
+    "name": "playerSkilAttackGround",
     "primitiveType": "Lightning"
 }
