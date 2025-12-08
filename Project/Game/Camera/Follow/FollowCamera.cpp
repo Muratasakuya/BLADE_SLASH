@@ -149,9 +149,15 @@ void FollowCamera::Init() {
 
 	stateController_ = std::make_unique<FollowCameraStateController>();
 	stateController_->Init(*this);
+}
 
+void FollowCamera::UpdateInitialSettings() {
+
+	// 初期位置に持って行く
+	stateController_->UpdateInitialSettings(*this);
+	
 	// 行列更新
-	BaseCamera::UpdateView();
+	BaseCamera::UpdateView(UpdateMode::Quaternion);
 }
 
 void FollowCamera::SetOverlayState(FollowCameraOverlayState state, bool isStart) {

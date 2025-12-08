@@ -35,6 +35,9 @@ public:
 	// 今のカメラ姿勢からフォローの基準値を作る
 	void SnapToCamera(const FollowCamera& camera);
 
+	// 最初にカメラが一気に移動してしまうのを防ぐ
+	void UpdateInitialSettings(FollowCamera& followCamera);
+
 	//--------- accessor -----------------------------------------------------
 
 	void SetOffsetTranslation(const Vector3& translation);

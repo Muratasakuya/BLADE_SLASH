@@ -347,6 +347,14 @@ void PlayerSkilAttackState::Exit(Player& player) {
 	Quaternion twistInverse = Quaternion::Inverse(twistX);
 	// X軸まわりのツイストを除去した回転
 	player.SetRotation(Quaternion::Normalize(Quaternion::Multiply(currentRotation, twistInverse)));
+
+	// 残像表現エフェクト終了
+	std::vector<GameObject3D*> objects = {
+		&player,
+		player.GetWeapon(PlayerWeaponType::Left),
+		player.GetWeapon(PlayerWeaponType::Right)
+	};
+	afterImageEffect_->End(objects);
 }
 
 void PlayerSkilAttackState::ImGui([[maybe_unused]] const Player& player) {

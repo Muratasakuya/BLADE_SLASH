@@ -26,6 +26,18 @@ void FollowCameraFollowState::SnapToCamera(const FollowCamera& camera) {
 	smoothedInput_ = Vector2::AnyInit(0.0f);
 }
 
+void FollowCameraFollowState::UpdateInitialSettings(FollowCamera& followCamera) {
+
+	// 画角
+	followCamera.SetFovY(defaultFovY_);
+
+	// 回転を考慮したオフセットと追従先の座標を足す
+	Vector3 translation = targets_[FollowCameraTargetType::Player]->translation +
+		followCamera.GetTransform().rotation * offsetTranslation_;
+	interTarget_ = translation;
+	followCamera.SetTranslation(translation);
+}
+
 void FollowCameraFollowState::Enter([[maybe_unused]] FollowCamera& followCamera) {
 }
 

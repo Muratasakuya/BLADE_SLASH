@@ -29,6 +29,9 @@ public:
 
 	void ImGui(FollowCamera& owner);
 
+	// 最初にカメラが一気に移動してしまうのを防ぐ
+	void UpdateInitialSettings(FollowCamera& followCamera);
+
 	//--------- accessor -----------------------------------------------------
 
 	void SetPlayer(const Player* player);

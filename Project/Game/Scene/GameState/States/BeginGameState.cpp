@@ -58,10 +58,14 @@ void BeginGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager
 
 void BeginGameState::Enter() {
 
-	// プレイヤーの座標をゲーム開始座標にする
-	context_->player->SetTranslation(startPlayerPos_);
 	// 表示を消す
 	context_->player->GetTargetNavigation()->SetDisable(true);
+	context_->player->Update();
+	// アイドル状態に戻す
+	context_->player->ResetState();
+
+	// プレイヤーの座標をゲーム開始座標にする
+	context_->player->SetTranslation(startPlayerPos_);
 
 	// カメラのアニメーション開始
 	CameraEditor::GetInstance()->StartAnim("startGameCamera", false);

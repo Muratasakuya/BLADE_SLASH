@@ -57,6 +57,18 @@ void FollowCameraStateController::Init(FollowCamera& owner) {
 	ChangeState(owner);
 }
 
+void FollowCameraStateController::UpdateInitialSettings(FollowCamera& followCamera) {
+
+	auto it = states_.find(FollowCameraState::Follow);
+	if (it == states_.end()) {
+		return;
+	}
+	if (FollowCameraFollowState* state = dynamic_cast<FollowCameraFollowState*>(it->second.get())) {
+
+		state->UpdateInitialSettings(followCamera);
+	}
+}
+
 void FollowCameraStateController::SetPlayer(const Player* player) {
 
 	// 各状態にplayerをセット

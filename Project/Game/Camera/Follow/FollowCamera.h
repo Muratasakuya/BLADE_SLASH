@@ -30,6 +30,9 @@ public:
 
 	void ImGui() override;
 
+	// 最初にカメラが一気に移動してしまうのを防ぐ
+	void UpdateInitialSettings();
+
 	//--------- accessor -----------------------------------------------------
 
 	void SetPlayer(const Player* player) { stateController_->SetPlayer(player); }
