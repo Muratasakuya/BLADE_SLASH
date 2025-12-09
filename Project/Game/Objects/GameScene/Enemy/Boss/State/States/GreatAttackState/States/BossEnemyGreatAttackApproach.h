@@ -73,6 +73,14 @@ private:
 	// 最初の溜め時間
 	StateTimer beginTimer_;
 
+	// 剣エフェクト
+	// 左から右
+	std::unique_ptr<EffectGroup> leftToRightSlashEffect_;
+	// 右から左
+	std::unique_ptr<EffectGroup> rightToLeftSlashEffect_;
+	// オフセット位置
+	Vector3 slashEffectOffset_;
+
 	//--------- functions ----------------------------------------------------
 
 	// 状態毎の更新

@@ -15,6 +15,16 @@ BossEnemyGreatAttackApproach::BossEnemyGreatAttackApproach() {
 
 	// 初期化
 	movePendulum_.Init();
+
+	// エフェクト作成
+	// 左から右
+	leftToRightSlashEffect_ = std::make_unique<EffectGroup>();
+	leftToRightSlashEffect_->Init("leftToRightSlash", "BossEnemyEffect");
+	leftToRightSlashEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackLeftToRightSlashEffect.json");
+	// 右から左
+	rightToLeftSlashEffect_ = std::make_unique<EffectGroup>();
+	rightToLeftSlashEffect_->Init("rightToLeftSlash", "BossEnemyEffect");
+	rightToLeftSlashEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackRightToLeftSlashEffect.json");
 }
 
 void BossEnemyGreatAttackApproach::Enter() {
@@ -115,15 +125,40 @@ void BossEnemyGreatAttackApproach::StartPendulumAnim() {
 
 	// 到達回数に変更があった場合に偶数か奇数で分岐してアニメーション再生
 	if (prevPendulumReachCount_ != movePendulum_.reachCount) {
+
+		// 方向の基準となるカメラの回転を取得
+		Vector3 backward = followCamera_->GetTransform().GetForward();
+		backward.y = 0.0f;
+		Quaternion cameraRotation = Quaternion::LookRotation(backward.Normalize(), Vector3(0.0f, 1.0f, 0.0f));
+
+		// 発生座標
+		Vector3 emitPos = movePendulum_.anchor;
+		// オフセットに回転をかけて加算
+		emitPos += cameraRotation * slashEffectOffset_;
+
 		// 偶数
 		if (movePendulum_.reachCount % 2 == 0) {
 
 			bossEnemy_->SetNextAnimation("bossEnemy_speedSlash0", false, 0.0f);
+
+			// 親の回転を設定する
+			rightToLeftSlashEffect_->SetParentRotation("bossSlash_4",
+				Quaternion::Normalize(cameraRotation), ParticleUpdateModuleID::Rotation);
+
+			// 右から左へのエフェクト発生
+			rightToLeftSlashEffect_->Emit(emitPos);
 		}
 		// 奇数
 		else {
 
 			bossEnemy_->SetNextAnimation("bossEnemy_speedSlash1", false, 0.0f);
+
+			// 親の回転を設定する
+			leftToRightSlashEffect_->SetParentRotation("bossSlash_5",
+				Quaternion::Normalize(cameraRotation), ParticleUpdateModuleID::Rotation);
+
+			// 左から右へのエフェクト発生
+			leftToRightSlashEffect_->Emit(emitPos);
 		}
 	}
 	// 回数を記録
@@ -142,6 +177,10 @@ void BossEnemyGreatAttackApproach::UpdateAlways() {
 	// カメラのXZ回転は0.0fにしてYの回転のみ反映させる
 	movePendulum_.rotation = cameraRotation;
 	movePendulum_.anchor = player_->GetTranslation() + cameraRotation * pendulumOffset_;
+
+	// エフェクト更新
+	leftToRightSlashEffect_->Update();
+	rightToLeftSlashEffect_->Update();
 }
 
 void BossEnemyGreatAttackApproach::Exit() {
@@ -154,6 +193,8 @@ void BossEnemyGreatAttackApproach::ImGui() {
 	int32_t reachCount = static_cast<int32_t>(pendulumMaxReachCount_);
 	ImGui::DragInt("PendulumMaxReachCount", &reachCount, 1, 0);
 	pendulumMaxReachCount_ = static_cast<uint32_t>(reachCount);
+
+	ImGui::DragFloat3("SlashEffectOffset", &slashEffectOffset_.x, 0.01f);
 
 	beginTimer_.ImGui("BeginTimer");
 
@@ -179,6 +220,7 @@ void BossEnemyGreatAttackApproach::ApplyJson(const Json& data) {
 	pendulumMaxReachCount_ = data.value("PendulumMaxReachCount", 3u);
 	startMoveAnim_.FromJson(data.value("StartMoveAnim", Json()));
 	beginTimer_.FromJson(data.value("BeginTimer", Json()));
+	slashEffectOffset_ = Vector3::FromJson(data.value("SlashEffectOffsetY", Json()));
 }
 
 void BossEnemyGreatAttackApproach::SaveJson(Json& data) {
@@ -189,4 +231,5 @@ void BossEnemyGreatAttackApproach::SaveJson(Json& data) {
 	data["PendulumMaxReachCount"] = pendulumMaxReachCount_;
 	startMoveAnim_.ToJson(data["StartMoveAnim"]);
 	beginTimer_.ToJson(data["BeginTimer"]);
+	data["SlashEffectOffsetY"] = slashEffectOffset_.ToJson();
 }
