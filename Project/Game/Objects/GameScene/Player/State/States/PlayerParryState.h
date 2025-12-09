@@ -87,6 +87,9 @@ private:
 	float parryHitEffectPosY_;
 	// 引きずる剣先
 	std::unique_ptr<EffectGroup> tipScrackEffect_;
+	// 攻撃ヒットエフェクト
+	std::unique_ptr<EffectGroup> hitEffect_;
+	float hitEffectOffsetY_;
 
 	//--------- functions ----------------------------------------------------
 

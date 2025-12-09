@@ -387,6 +387,7 @@ void PlayerStateController::UpdateParryState(Player& owner) {
 		SetForcedState(owner, PlayerState::Parry);
 		if (const auto& parryState = static_cast<PlayerParryState*>(states_.at(PlayerState::Parry).get())) {
 
+			// 攻撃できるか設定する、最後なら可
 			parryState->SetAllowAttack(isLast);
 		}
 

@@ -313,10 +313,11 @@
     "Parry": {
         "attackLerp_.easingType": 14,
         "attackLerp_.moveDistance": -13.0,
-        "attackLerp_.time": 0.07999999821186066,
+        "attackLerp_.time": 0.1599999964237213,
         "cameraLookRate_": 4.800000190734863,
         "deltaLerpSpeed_": 12.59000015258789,
         "deltaWaitTime_": 0.3140000104904175,
+        "hitEffectOffsetY_": 3.0,
         "nextAnimDuration_": 0.009999999776482582,
         "parryEffectPosY_": 4.0,
         "parryLerp_.easingType": 11,
