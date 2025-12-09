@@ -182,9 +182,9 @@
                 8,
                 11,
                 14,
-                15
+                12
             ],
-            "nextStateDuration": 0.30000001192092896
+            "nextStateDuration": 0.46000000834465027
         },
         {
             "autoIdleAfterAttack": true,
@@ -196,7 +196,6 @@
                 8,
                 11,
                 14,
-                15,
                 13
             ],
             "nextStateDuration": 0.25999999046325684
@@ -212,7 +211,6 @@
                 8,
                 11,
                 14,
-                15,
                 13
             ],
             "nextStateDuration": 0.1599999964237213

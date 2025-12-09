@@ -68,7 +68,8 @@ void ParticleManager::Finalize() {
 	}
 }
 
-ParticleSystem* ParticleManager::CreateParticleSystem(const std::string& filePath, bool useGame) {
+ParticleSystem* ParticleManager::CreateParticleSystem(const std::string& filePath,
+	bool useGame, bool isEveryCreare) {
 
 	// ファイル読み込みチェック
 	if (!JsonAdapter::LoadAssert(filePath)) {
@@ -78,11 +79,15 @@ ParticleSystem* ParticleManager::CreateParticleSystem(const std::string& filePat
 		return nullptr;
 	}
 
-	// 作成済みのシステムならポインタを返す
-	for (const auto& system : systems_) {
-		if ("Particle/" + system->GetLoadFileName() == filePath) {
+	// 毎回作らないとき以外
+	if (!isEveryCreare) {
 
-			return system.get();
+		// 作成済みのシステムならポインタを返す
+		for (const auto& system : systems_) {
+			if ("Particle/" + system->GetLoadFileName() == filePath) {
+
+				return system.get();
+			}
 		}
 	}
 

@@ -217,8 +217,8 @@
     },
     "hpThresholds": [
         80,
-        50
+        20
     ],
     "maxDestroyToughness": 100,
-    "maxHP": 1280000
+    "maxHP": 720000
 }

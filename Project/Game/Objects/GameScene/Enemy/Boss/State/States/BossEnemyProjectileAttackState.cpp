@@ -44,7 +44,7 @@ BossEnemyProjectileAttackState::BossEnemyProjectileAttackState(uint32_t phaseCou
 
 		effect = std::make_unique<EffectGroup>();
 		effect->Init("bossEnemyProjectileBulletEffect", "BossEnemyEffect");
-		effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyProjectileBulletEffect.json");
+		effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyProjectileBulletEffect.json", true);
 	}
 	// 弾の衝突判定初期化
 	for (auto& bullet : bulletColliders_) {

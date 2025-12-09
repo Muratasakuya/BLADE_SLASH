@@ -625,7 +625,7 @@ void EffectGroup::EditLayout() {
 	ImGui::End();
 }
 
-void EffectGroup::LoadJson(const std::string& fileName) {
+void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 
 	Json data;
 	if (!JsonAdapter::LoadCheck(fileName, data)) {
@@ -650,7 +650,7 @@ void EffectGroup::LoadJson(const std::string& fileName) {
 				const std::string filePath = system->value("path", "");
 				if (!filePath.empty()) {
 
-					node.system = ParticleManager::GetInstance()->CreateParticleSystem(filePath);
+					node.system = ParticleManager::GetInstance()->CreateParticleSystem(filePath, true, isEveryCreare);
 					node.filePath = filePath;
 				}
 			}

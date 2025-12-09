@@ -41,7 +41,7 @@ public:
 
 	//---------- runtime -----------------------------------------------------
 
-	ParticleSystem* CreateParticleSystem(const std::string& filePath, bool useGame = true);
+	ParticleSystem* CreateParticleSystem(const std::string& filePath, bool useGame = true, bool isEveryCreare = false);
 private:
 	//========================================================================
 	//	private Methods

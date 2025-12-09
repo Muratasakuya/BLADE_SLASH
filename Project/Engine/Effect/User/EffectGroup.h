@@ -25,7 +25,7 @@ public:
 	void Init(const std::string& name, const std::string& groupName);
 	void DerivedInit() override {}
 	// .jsonファイルからエフェクトデータを読み込み、作成する
-	void LoadJson(const std::string& fileName);
+	void LoadJson(const std::string& fileName, bool isEveryCreare = false);
 
 	// 更新処理
 	void Update();
