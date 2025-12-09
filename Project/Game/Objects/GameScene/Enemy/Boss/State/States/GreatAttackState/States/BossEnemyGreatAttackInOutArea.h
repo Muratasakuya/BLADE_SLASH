@@ -89,6 +89,12 @@ private:
 	// 最後の攻撃の目標トランスフォーム
 	std::unique_ptr<Transform3D> grearAttackTargetTransform_;
 
+	// 範囲斬撃エフェクト
+	std::unique_ptr<EffectGroup> rangeSlashEffect_;
+	bool emitedRangeSlashEffect_; // 発生済みかどうか
+	uint32_t rangeSlashKeyIndex_; // 発生させるキーのインデックス
+	Vector3 rangeSlashEffectOffset_; // エフェクトのオフセット
+
 	//--------- functions ----------------------------------------------------
 
 	// 状態毎の更新
