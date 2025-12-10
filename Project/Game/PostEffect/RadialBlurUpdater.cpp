@@ -1,4 +1,4 @@
-#include "RadialBlurUpdater.h"
+﻿#include "RadialBlurUpdater.h"
 
 //============================================================================
 //	include

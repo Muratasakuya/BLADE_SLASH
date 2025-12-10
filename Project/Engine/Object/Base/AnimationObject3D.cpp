@@ -1,4 +1,4 @@
-#include "AnimationObject3D.h"
+﻿#include "AnimationObject3D.h"
 
 //============================================================================
 //	AnimationObject3D classMethods

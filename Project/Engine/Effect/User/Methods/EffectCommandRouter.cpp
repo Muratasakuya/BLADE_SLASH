@@ -1,4 +1,4 @@
-#include "EffectCommandRouter.h"
+﻿#include "EffectCommandRouter.h"
 
 //============================================================================
 //	include

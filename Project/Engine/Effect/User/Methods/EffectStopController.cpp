@@ -1,4 +1,4 @@
-#include "EffectStopController.h"
+﻿#include "EffectStopController.h"
 
 //============================================================================
 //	EffectStopController classMethods

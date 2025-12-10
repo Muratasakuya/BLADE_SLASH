@@ -1,4 +1,4 @@
-#include "DelayedHitstop.h"
+﻿#include "DelayedHitstop.h"
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#include "BossEnemyGreatAttackApproach.h"
+﻿#include "BossEnemyGreatAttackApproach.h"
 
 //============================================================================
 //	include

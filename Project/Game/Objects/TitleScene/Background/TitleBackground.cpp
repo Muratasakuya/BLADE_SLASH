@@ -1,4 +1,4 @@
-#include "TitleBackground.h"
+﻿#include "TitleBackground.h"
 
 //============================================================================
 //	TitleBackground classMethods

@@ -1,4 +1,4 @@
-#include "ParticleUpdateTranslateModule.h"
+﻿#include "ParticleUpdateTranslateModule.h"
 
 //============================================================================
 //	ParticleUpdateTranslateModule classMethods

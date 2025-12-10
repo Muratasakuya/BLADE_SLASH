@@ -1,4 +1,4 @@
-#include "GPUParticleUpdater.h"
+﻿#include "GPUParticleUpdater.h"
 
 //============================================================================
 //	GPUParticleUpdater classMethods

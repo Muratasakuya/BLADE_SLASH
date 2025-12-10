@@ -1,4 +1,4 @@
-#include "GameHPBar.h"
+﻿#include "GameHPBar.h"
 
 //============================================================================
 //	GameHPBar classMethods

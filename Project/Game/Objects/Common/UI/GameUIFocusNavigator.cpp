@@ -1,4 +1,4 @@
-#include "GameUIFocusNavigator.h"
+﻿#include "GameUIFocusNavigator.h"
 
 //============================================================================
 //	include

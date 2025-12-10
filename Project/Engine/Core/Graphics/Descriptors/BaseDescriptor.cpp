@@ -1,4 +1,4 @@
-#include "BaseDescriptor.h"
+﻿#include "BaseDescriptor.h"
 
 //============================================================================
 //	include

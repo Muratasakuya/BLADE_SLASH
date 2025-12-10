@@ -1,4 +1,4 @@
-#include "EffectModuleBinder.h"
+﻿#include "EffectModuleBinder.h"
 
 //============================================================================
 //	include

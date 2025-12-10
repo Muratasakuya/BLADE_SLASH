@@ -1,4 +1,4 @@
-#include "ParticleUpdateTrailModule.h"
+﻿#include "ParticleUpdateTrailModule.h"
 
 //============================================================================
 //	include

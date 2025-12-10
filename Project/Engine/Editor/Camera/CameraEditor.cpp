@@ -1,4 +1,4 @@
-#include "CameraEditor.h"
+﻿#include "CameraEditor.h"
 
 //============================================================================
 //	include

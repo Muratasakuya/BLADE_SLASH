@@ -1,4 +1,4 @@
-#include "SimpleAnimation.h"
+﻿#include "SimpleAnimation.h"
 
 //============================================================================
 //	SimpleAnimation classMethods

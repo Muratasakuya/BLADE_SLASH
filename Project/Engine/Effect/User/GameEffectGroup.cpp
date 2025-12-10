@@ -1,4 +1,4 @@
-#include "GameEffectGroup.h"
+﻿#include "GameEffectGroup.h"
 
 //============================================================================
 //	include

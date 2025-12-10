@@ -1,4 +1,4 @@
-#include "ParticleUpdateScaleModule.h"
+﻿#include "ParticleUpdateScaleModule.h"
 
 //============================================================================
 //	include

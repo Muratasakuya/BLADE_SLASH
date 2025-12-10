@@ -1,4 +1,4 @@
-#include "IGameEditor.h"
+﻿#include "IGameEditor.h"
 
 //============================================================================
 //	include

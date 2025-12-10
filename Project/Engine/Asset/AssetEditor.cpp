@@ -1,4 +1,4 @@
-#include "AssetEditor.h"
+﻿#include "AssetEditor.h"
 
 //============================================================================
 //	include

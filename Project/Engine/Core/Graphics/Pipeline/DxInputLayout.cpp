@@ -1,4 +1,4 @@
-#include "DxInputLayout.h"
+﻿#include "DxInputLayout.h"
 
 //============================================================================
 //	DxInputLayout classMethods

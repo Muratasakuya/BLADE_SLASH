@@ -1,4 +1,4 @@
-#include "CollisionBody.h"
+﻿#include "CollisionBody.h"
 
 //============================================================================
 //	Collider classMethods

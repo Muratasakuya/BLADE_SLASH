@@ -1,4 +1,4 @@
-#include "SpdLogger.h"
+﻿#include "SpdLogger.h"
 
 //============================================================================
 //	SpdLogger classMethods

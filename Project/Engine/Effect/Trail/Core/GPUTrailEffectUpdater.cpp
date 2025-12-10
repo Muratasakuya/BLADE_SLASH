@@ -1,4 +1,4 @@
-#include "GPUTrailEffectUpdater.h"
+﻿#include "GPUTrailEffectUpdater.h"
 
 //============================================================================
 //	GPUTrailEffectUpdater classMethods

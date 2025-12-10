@@ -1,4 +1,4 @@
-#include "CurveValueEditor.h"
+﻿#include "CurveValueEditor.h"
 
 //============================================================================
 //	include

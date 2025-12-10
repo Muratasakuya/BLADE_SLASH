@@ -1,4 +1,4 @@
-#include "EffectGroup.h"
+﻿#include "EffectGroup.h"
 
 //============================================================================
 //	include

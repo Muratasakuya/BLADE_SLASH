@@ -1,4 +1,4 @@
-#include "GameDigitDisplay.h"
+﻿#include "GameDigitDisplay.h"
 
 //============================================================================
 //	include

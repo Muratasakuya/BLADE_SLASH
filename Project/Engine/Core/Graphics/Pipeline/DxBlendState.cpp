@@ -1,4 +1,4 @@
-#include "DxBlendState.h"
+﻿#include "DxBlendState.h"
 
 //============================================================================
 //	DxBlendState classMethods

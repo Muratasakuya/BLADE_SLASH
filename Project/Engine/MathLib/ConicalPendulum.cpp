@@ -1,4 +1,4 @@
-#include "ConicalPendulum.h"
+﻿#include "ConicalPendulum.h"
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#include "GameEffectCommandHelper.h"
+﻿#include "GameEffectCommandHelper.h"
 
 //============================================================================
 //	include

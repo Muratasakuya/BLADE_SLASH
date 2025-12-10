@@ -1,4 +1,4 @@
-#include "GameObjectEditor.h"
+﻿#include "GameObjectEditor.h"
 
 //============================================================================
 //	include

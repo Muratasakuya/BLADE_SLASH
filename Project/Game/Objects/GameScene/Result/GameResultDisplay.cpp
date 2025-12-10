@@ -1,4 +1,4 @@
-#include "GameResultDisplay.h"
+﻿#include "GameResultDisplay.h"
 
 //============================================================================
 //	include

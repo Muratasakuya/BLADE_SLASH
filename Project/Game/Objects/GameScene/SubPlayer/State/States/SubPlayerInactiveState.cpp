@@ -1,4 +1,4 @@
-#include "SubPlayerInactiveState.h"
+﻿#include "SubPlayerInactiveState.h"
 
 //============================================================================
 //	SubPlayerInactiveState classMethods

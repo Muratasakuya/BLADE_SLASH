@@ -1,4 +1,4 @@
-#include "FollowCameraShakeState.h"
+﻿#include "FollowCameraShakeState.h"
 
 //============================================================================
 //	include

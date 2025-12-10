@@ -1,4 +1,4 @@
-#include "EndGameState.h"
+﻿#include "EndGameState.h"
 
 //============================================================================
 //	EndGameState classMethods

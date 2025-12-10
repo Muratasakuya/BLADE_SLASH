@@ -1,4 +1,4 @@
-#include "JsonAdapter.h"
+﻿#include "JsonAdapter.h"
 
 //============================================================================*/
 //	JsonAdapter classMethods

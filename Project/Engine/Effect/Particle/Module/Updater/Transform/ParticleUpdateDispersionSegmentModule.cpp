@@ -1,4 +1,4 @@
-#include "ParticleUpdateDispersionSegmentModule.h"
+﻿#include "ParticleUpdateDispersionSegmentModule.h"
 
 //============================================================================
 //	include

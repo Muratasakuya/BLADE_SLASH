@@ -1,4 +1,4 @@
-#include "TrailEffectEditor.h"
+﻿#include "TrailEffectEditor.h"
 
 //============================================================================
 //	TrailEffectEditor classMethods

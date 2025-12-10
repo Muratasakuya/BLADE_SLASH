@@ -1,4 +1,4 @@
-#include "ParticleLoop.h"
+﻿#include "ParticleLoop.h"
 
 //============================================================================
 //	ParticleLoop classMethods

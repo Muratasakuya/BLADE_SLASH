@@ -1,4 +1,4 @@
-#include "CRTDisplayUpdater.h"
+﻿#include "CRTDisplayUpdater.h"
 
 //============================================================================
 //	include

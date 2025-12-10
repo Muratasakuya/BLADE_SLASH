@@ -1,4 +1,4 @@
-#include "EffectSequencer.h"
+﻿#include "EffectSequencer.h"
 
 //============================================================================
 //	include

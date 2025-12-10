@@ -1,4 +1,4 @@
-#include "AnimationLoop.h"
+﻿#include "AnimationLoop.h"
 
 //============================================================================
 //	include

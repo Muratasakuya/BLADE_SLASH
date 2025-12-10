@@ -1,4 +1,4 @@
-#include "SkinnedAnimation.h"
+﻿#include "SkinnedAnimation.h"
 
 //============================================================================
 //	include

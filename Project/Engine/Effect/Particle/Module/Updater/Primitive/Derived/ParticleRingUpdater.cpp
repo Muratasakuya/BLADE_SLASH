@@ -1,4 +1,4 @@
-#include "ParticleRingUpdater.h"
+﻿#include "ParticleRingUpdater.h"
 
 //============================================================================
 //	include

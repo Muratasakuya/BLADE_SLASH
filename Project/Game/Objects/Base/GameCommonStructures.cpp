@@ -1,4 +1,4 @@
-#include "GameCommonStructures.h"
+﻿#include "GameCommonStructures.h"
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#include "GraphicsPlatform.h"
+﻿#include "GraphicsPlatform.h"
 
 //============================================================================
 //	include

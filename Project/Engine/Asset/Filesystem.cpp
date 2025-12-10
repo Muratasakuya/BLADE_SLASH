@@ -1,4 +1,4 @@
-#include "Filesystem.h"
+﻿#include "Filesystem.h"
 
 //============================================================================
 //	Filesystem namespaceMethods
