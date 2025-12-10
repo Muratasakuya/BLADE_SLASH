@@ -9,7 +9,7 @@ void PlayGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 	
 }
 
-void PlayGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
+void PlayGameState::Update() {
 
 	const GameSceneState currentState = GameSceneState::PlayGame;
 
@@ -57,7 +57,7 @@ void PlayGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManag
 	}
 }
 
-void PlayGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
+void PlayGameState::NonActiveUpdate() {
 }
 
 void PlayGameState::Enter() {

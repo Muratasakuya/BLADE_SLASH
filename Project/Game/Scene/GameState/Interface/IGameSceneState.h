@@ -28,8 +28,8 @@ public:
 	virtual void Init(SakuEngine::SceneView* sceneView) = 0;
 
 	// 更新処理
-	virtual void Update(SakuEngine::SceneManager* sceneManager) = 0;
-	virtual void NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {}
+	virtual void Update() = 0;
+	virtual void NonActiveUpdate() {}
 
 	// 遷移開始時
 	virtual void Enter() {}

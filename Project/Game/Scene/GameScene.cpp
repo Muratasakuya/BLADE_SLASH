@@ -114,7 +114,7 @@ void GameScene::Update() {
 		//	ゲーム開始時の処理
 		//========================================================================
 
-		states_[stateIndex]->Update(nullptr);
+		states_[stateIndex]->Update();
 
 		// ゲーム開始演出状態にする
 		if (states_[stateIndex]->IsRequestNext()) {
@@ -128,7 +128,7 @@ void GameScene::Update() {
 		//	ゲーム開始演出の処理
 		//========================================================================
 
-		states_[stateIndex]->Update(nullptr);
+		states_[stateIndex]->Update();
 
 		// ゲーム開始
 		if (states_[stateIndex]->IsRequestNext()) {
@@ -142,7 +142,7 @@ void GameScene::Update() {
 		//	ゲームプレイ中の処理
 		//========================================================================
 
-		states_[stateIndex]->Update(nullptr);
+		states_[stateIndex]->Update();
 
 		// ゲーム終了
 		if (states_[stateIndex]->IsRequestNext()) {
@@ -156,7 +156,7 @@ void GameScene::Update() {
 		//	ゲーム終了時の処理
 		//========================================================================
 
-		states_[stateIndex]->Update(nullptr);
+		states_[stateIndex]->Update();
 
 		// 終了演出後リザルト画面に遷移させる
 		if (states_[stateIndex]->IsRequestNext()) {
@@ -174,7 +174,7 @@ void GameScene::Update() {
 		//	リザルト画面の処理
 		//========================================================================
 
-		states_[stateIndex]->Update(nullptr);
+		states_[stateIndex]->Update();
 
 		// 入力に応じて遷移先を決定する
 		if (states_[stateIndex]->IsRequestNext() && fadeTransition_) {
@@ -195,7 +195,7 @@ void GameScene::Update() {
 		//	ポーズ中の処理
 		//========================================================================
 
-		states_[stateIndex]->Update(nullptr);
+		states_[stateIndex]->Update();
 		break;
 	}
 	}

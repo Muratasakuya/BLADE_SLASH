@@ -21,8 +21,8 @@ public:
 
 	void Init(SakuEngine::SceneView* sceneView) override;
 
-	void Update(SakuEngine::SceneManager* sceneManager) override;
-	void NonActiveUpdate(SakuEngine::SceneManager* sceneManager) override;
+	void Update() override;
+	void NonActiveUpdate() override;
 
 	void ImGui() override;
 

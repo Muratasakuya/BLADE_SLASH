@@ -164,9 +164,7 @@ void BossEnemyContinuousAttackState::UpdateAttack(BossEnemy& bossEnemy) {
 void BossEnemyContinuousAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
 
 	// パリィ攻撃のタイミング
-	switch (currentState_) {
-	case BossEnemyContinuousAttackState::State::Attack: {
-
+	if (currentState_ == State::Attack) {
 		if (bossEnemy.IsEventKey("Parry", keyEventIndex_)) {
 
 			bossEnemy.TellParryTiming();
@@ -182,8 +180,6 @@ void BossEnemyContinuousAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
 			startPos_ = bossEnemy.GetTranslation();
 			lerpTimer_ = 0.0f;
 		}
-		break;
-	}
 	}
 }
 

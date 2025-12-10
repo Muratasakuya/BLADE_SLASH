@@ -19,7 +19,7 @@ void BeginGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 	ApplyJson();
 }
 
-void BeginGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
+void BeginGameState::Update() {
 
 	const GameSceneState currentState = GameSceneState::BeginGame;
 
@@ -53,7 +53,7 @@ void BeginGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneMana
 	}
 }
 
-void BeginGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
+void BeginGameState::NonActiveUpdate() {
 }
 
 void BeginGameState::Enter() {

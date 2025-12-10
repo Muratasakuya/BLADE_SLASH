@@ -7,7 +7,7 @@
 void EndGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 }
 
-void EndGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
+void EndGameState::Update() {
 
 	const GameSceneState currentState = GameSceneState::EndGame;
 
@@ -28,5 +28,5 @@ void EndGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManage
 	}
 }
 
-void EndGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
+void EndGameState::NonActiveUpdate() {
 }
