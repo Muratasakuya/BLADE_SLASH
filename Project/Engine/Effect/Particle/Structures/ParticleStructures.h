@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -277,6 +277,8 @@ namespace CPUParticle {
 		float progress;
 		// 現在のフェーズ
 		uint32_t phaseIndex;
+		// 発生したときのインデックス
+		uint32_t spawnIndex;
 
 		// キー補間の開始したときの補間t
 		float keyPathStartT = -1.0f;

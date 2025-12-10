@@ -48,6 +48,9 @@ void ParticleSpawnSphereModule::Execute(std::list<CPUParticle::ParticleData>& pa
 
 		CPUParticle::ParticleData particle{};
 
+		// 発生インデックス
+		particle.spawnIndex = index;
+
 		// 共通設定
 		ICPUParticleSpawnModule::SetCommonData(particle);
 

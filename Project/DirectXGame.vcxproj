@@ -203,23 +203,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateDispersionSegmentModule.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Base\GameObject2DArray.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Base\KeyframeObject3D.cpp">
       <SubType />
@@ -228,16 +221,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Light\GameLight.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Start\BossEnemyStartAnimation.cpp">
       <SubType />
@@ -246,12 +236,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.cpp">
       <SubType />
@@ -957,28 +945,20 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Core\Graphics\GPUObject\VertexBuffer.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\customClassTemplateH\CustomClassTemplate.h" />
     <ClInclude Include="Engine\Editor\Camera\CameraEditor.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateDispersionSegmentModule.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Base\GameObject2DArray.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Base\KeyframeObject3D.h">
       <SubType />
@@ -990,16 +970,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Light\GameLight.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Start\BossEnemyStartAnimation.h">
       <SubType />
@@ -1008,12 +985,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.h">
       <SubType />

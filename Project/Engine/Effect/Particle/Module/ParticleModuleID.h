@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	ParticleModuleID
@@ -36,6 +36,5 @@ enum class ParticleUpdateModuleID {
 	KeyframePath,
 	Translate,
 	Collect,
-	DispersionSegment,
 	Count,
 };
