@@ -83,7 +83,7 @@ private:
 	Rect rectParams_;
 
 	// 発生パラメータ
-	uint32_t divisionCount_; // 遅延ごとに発生させる分割数(4で発生数が12なら遅延ごとに3個ずつ発生させる)
+	uint32_t divisionCount_; // 遅延ごとに発生させる分割数(4で発生数が12なら遅延ごとに3個ずつどんどん外側にずらして発生させる)
 	float delay_;            // 遅延時間(lifeTimeにその分+する)
 	Vector3 targetPosRange_; // 発生位置から真下に下ろした位置からのランダム範囲
 	float targetSize;        // 補間目標サイズ
