@@ -1,15 +1,15 @@
-﻿#include "PlayGameState.h"
+#include "PlayGameState.h"
 
 //============================================================================
 //	PlayGameState classMethods
 //============================================================================
 
-void PlayGameState::Init([[maybe_unused]] SceneView* sceneView) {
+void PlayGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 
 	
 }
 
-void PlayGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
+void PlayGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 
 	const GameSceneState currentState = GameSceneState::PlayGame;
 
@@ -57,7 +57,7 @@ void PlayGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	}
 }
 
-void PlayGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {
+void PlayGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 }
 
 void PlayGameState::Enter() {

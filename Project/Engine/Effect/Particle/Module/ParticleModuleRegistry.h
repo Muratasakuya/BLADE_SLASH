@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -96,7 +96,7 @@ inline std::vector<const char*> ParticleModuleRegistry<Base, EnumT>::GetNames() 
 	std::vector<const char*> names{};
 	for (auto [type, fn] : creators_) {
 
-		names.emplace_back(EnumAdapter<EnumT>::ToString(type));
+		names.emplace_back(SakuEngine::EnumAdapter<EnumT>::ToString(type));
 	}
 	return names;
 }

@@ -1,4 +1,4 @@
-﻿#include "InstancedMeshSystem.h"
+#include "InstancedMeshSystem.h"
 
 using namespace SakuEngine;
 
@@ -184,7 +184,7 @@ void InstancedMeshSystem::CreateSkinnedMesh(const std::string& modelName) {
 Archetype InstancedMeshSystem::Signature() const {
 
 	Archetype arch{};
-	arch.set(ObjectPoolManager::GetTypeID<Transform3D>());
+	arch.set(ObjectPoolManager::GetTypeID<SakuEngine::Transform3D>());
 	arch.set(ObjectPoolManager::GetTypeID<Material>());
 	arch.set(ObjectPoolManager::GetTypeID<MeshRender>());
 	return arch;
@@ -201,7 +201,7 @@ void InstancedMeshSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 
 	for (const auto& object : view) {
 
-		auto* transform = ObjectPoolManager.GetData<Transform3D>(object);
+		auto* transform = ObjectPoolManager.GetData<SakuEngine::Transform3D>(object);
 		auto* materials = ObjectPoolManager.GetData<Material, true>(object);
 		auto* meshRender = ObjectPoolManager.GetData<MeshRender>(object);
 		auto* animation = ObjectPoolManager.GetData<SkinnedAnimation>(object);

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	UI選択用ゲームパッド入力
 //============================================================================
 class SelectUIGamePadInput :
-	public IInputDevice<SelectUIInputAction> {
+	public SakuEngine::IInputDevice<SelectUIInputAction> {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	SelectUIGamePadInput(Input* input) { input_ = input; }
+	SelectUIGamePadInput(SakuEngine::Input* input) { input_ = input; }
 	~SelectUIGamePadInput() = default;
 
 	//--------- accessor -----------------------------------------------------

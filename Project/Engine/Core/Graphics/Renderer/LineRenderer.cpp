@@ -1,4 +1,4 @@
-﻿#include "LineRenderer.h"
+#include "LineRenderer.h"
 
 using namespace SakuEngine;
 
@@ -14,7 +14,7 @@ using namespace SakuEngine;
 
 LineRenderer* LineRenderer::instance_ = nullptr;
 
-LineRenderer* LineRenderer::GetInstance() {
+LineRenderer* SakuEngine::LineRenderer::GetInstance() {
 
 	if (instance_ == nullptr) {
 		instance_ = new LineRenderer();
@@ -59,8 +59,8 @@ void LineRenderer::RenderStructure::Init(const std::string& pipelineFile, ID3D12
 	vertexBuffer.CreateBuffer(device, kMaxLineCount_ * kVertexCountLine_);
 }
 
-void LineRenderer::DrawLine3D(const Vector3& pointA, const Vector3& pointB,
-	const Color& color, LineType type) {
+void LineRenderer::DrawLine3D(const SakuEngine::Vector3& pointA, const SakuEngine::Vector3& pointB,
+	const SakuEngine::Color& color, LineType type) {
 
 	auto& lineVertices = renderData_[type].lineVertices;
 	ASSERT(lineVertices.size() < kMaxLineCount_ * kVertexCountLine_, "exceeded the upper limit line");
@@ -105,7 +105,7 @@ void LineRenderer::ResetLine() {
 	renderData_[LineType::DepthIgnore].lineVertices.clear();
 }
 
-void LineRenderer::DrawGrid(int division, float gridSize, const Color& color, LineType type) {
+void LineRenderer::DrawGrid(int division, float gridSize, const SakuEngine::Color& color, LineType type) {
 
 	const float kGridEvery = (gridSize * 2.0f) / float(division);
 
@@ -125,8 +125,8 @@ void LineRenderer::DrawGrid(int division, float gridSize, const Color& color, Li
 	}
 }
 
-void LineRenderer::DrawSegment(int division, float radius, const Vector3& pointA,
-	const Vector3& pointB, const Color& color, LineType type) {
+void LineRenderer::DrawSegment(int division, float radius, const SakuEngine::Vector3& pointA,
+	const SakuEngine::Vector3& pointB, const SakuEngine::Color& color, LineType type) {
 
 	// 線分
 	DrawLine3D(pointA, pointB, color, type);
@@ -136,8 +136,8 @@ void LineRenderer::DrawSegment(int division, float radius, const Vector3& pointA
 	DrawSphere(division, radius, pointB, color, type);
 }
 
-void LineRenderer::DrawSphere(int division, float radius, const Vector3& centerPos,
-	const Color& color, LineType type) {
+void LineRenderer::DrawSphere(int division, float radius, const SakuEngine::Vector3& centerPos,
+	const SakuEngine::Color& color, LineType type) {
 
 	const float kLatEvery = pi / division;        // 緯度
 	const float kLonEvery = 2.0f * pi / division; // 経度
@@ -166,8 +166,8 @@ void LineRenderer::DrawSphere(int division, float radius, const Vector3& centerP
 	}
 }
 
-void LineRenderer::DrawAABB(const Vector3& min, const Vector3& max,
-	const Color& color, LineType type) {
+void LineRenderer::DrawAABB(const SakuEngine::Vector3& min, const SakuEngine::Vector3& max,
+	const SakuEngine::Color& color, LineType type) {
 
 	// AABBの各頂点
 	std::vector<Vector3> vertices = {
@@ -189,8 +189,8 @@ void LineRenderer::DrawAABB(const Vector3& min, const Vector3& max,
 
 	for (const auto& edge : edges) {
 
-		const Vector3& start = vertices[edge.first];
-		const Vector3& end = vertices[edge.second];
+		const SakuEngine::Vector3& start = vertices[edge.first];
+		const SakuEngine::Vector3& end = vertices[edge.second];
 
 		// 各辺の描画
 		DrawLine3D(start, end, color, type);
@@ -198,7 +198,7 @@ void LineRenderer::DrawAABB(const Vector3& min, const Vector3& max,
 }
 
 void LineRenderer::DrawCircle(int division, float radius,
-	const Vector3& center, const Color& color, LineType type) {
+	const SakuEngine::Vector3& center, const SakuEngine::Color& color, LineType type) {
 
 	for (int i = 0; i < division; ++i) {
 
@@ -213,7 +213,7 @@ void LineRenderer::DrawCircle(int division, float radius,
 }
 
 void LineRenderer::DrawArc(int division, float radius, float halfAngle,
-	const Vector3& center, const Vector3& direction, const Color& color, LineType type) {
+	const SakuEngine::Vector3& center, const SakuEngine::Vector3& direction, const SakuEngine::Color& color, LineType type) {
 
 	// XZ平面
 	const float baseYaw = Math::GetYawRadian(direction);
@@ -248,8 +248,8 @@ void LineRenderer::DrawArc(int division, float radius, float halfAngle,
 	DrawLine3D(center, lastPoint, color, type);
 }
 
-void LineRenderer::DrawSquare(float length, const Vector3& center,
-	const Color& color, LineType type) {
+void LineRenderer::DrawSquare(float length, const SakuEngine::Vector3& center,
+	const SakuEngine::Color& color, LineType type) {
 
 	float half = length * 0.5f;
 
@@ -266,8 +266,8 @@ void LineRenderer::DrawSquare(float length, const Vector3& center,
 	DrawLine3D(p3, p0, color, type);
 }
 
-void LineRenderer::DrawRect(const Vector2& size, const Vector3& center,
-	const Color& color, LineType type) {
+void LineRenderer::DrawRect(const SakuEngine::Vector2& size, const SakuEngine::Vector3& center,
+	const SakuEngine::Color& color, LineType type) {
 
 	float halfX = size.x * 0.5f;
 	float halfY = size.y * 0.5f;

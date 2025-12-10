@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -95,7 +95,7 @@ public:
 	void SetParentJoint(const std::string& jointName);
 
 	// 親となるトランスフォームを取得
-	const Transform3D* FindJointTransform(const std::string& name) const;
+	const SakuEngine::Transform3D* FindJointTransform(const std::string& name) const;
 
 	//========================================================================
 	//	デバッグ

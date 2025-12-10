@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnHemisphereModule.h"
+#include "ParticleSpawnHemisphereModule.h"
 
 using namespace SakuEngine;
 
@@ -57,13 +57,13 @@ Vector3 ParticleSpawnHemisphereModule::GetRandomDirection() const {
 void ParticleSpawnHemisphereModule::UpdateEmitter() {
 
 	// 回転を更新
-	emitter_.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+	emitter_.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 }
 
 void ParticleSpawnHemisphereModule::Execute(std::list<CPUParticle::ParticleData>& particles) {
 
 	uint32_t emitCount = emitCount_.GetValue();
-	emitter_.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+	emitter_.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 	for (uint32_t index = 0; index < emitCount; ++index) {
 
 		CPUParticle::ParticleData particle{};
@@ -102,7 +102,7 @@ void ParticleSpawnHemisphereModule::DrawEmitter() {
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
 
-	LineRenderer::GetInstance()->DrawHemisphere(8, emitter_.radius,
+	SakuEngine::LineRenderer::GetInstance()->DrawHemisphere(8, emitter_.radius,
 		parentTranslation + emitter_.translation, emitter_.rotationMatrix, emitterLineColor_);
 }
 
@@ -126,8 +126,8 @@ void ParticleSpawnHemisphereModule::FromJson(const Json& data) {
 	// 共通設定
 	ICPUParticleSpawnModule::FromCommonJson(data);
 
-	emitterRotation_ = Vector3::FromJson(data["emitterRotation"]);
+	emitterRotation_ = SakuEngine::Vector3::FromJson(data["emitterRotation"]);
 
 	emitter_.radius = data.value("radius", 1.0f);
-	emitter_.translation = Vector3::FromJson(data["translation"]);
+	emitter_.translation = SakuEngine::Vector3::FromJson(data["translation"]);
 }

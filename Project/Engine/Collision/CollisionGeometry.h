@@ -27,7 +27,7 @@ namespace SakuEngine {
 
 			static Sphere Default() {
 				Sphere sphere = {
-					.center = Vector3::AnyInit(0.0f),
+					.center = SakuEngine::Vector3::AnyInit(0.0f),
 					.radius = 1.0f
 				};
 				return sphere;
@@ -52,8 +52,8 @@ namespace SakuEngine {
 			static AABB Default() {
 				AABB aabb = {
 
-					.center = Vector3::AnyInit(0.0f),
-					.extent = Vector3::AnyInit(1.0f),
+					.center = SakuEngine::Vector3::AnyInit(0.0f),
+					.extent = SakuEngine::Vector3::AnyInit(1.0f),
 				};
 				return aabb;
 			};
@@ -75,8 +75,8 @@ namespace SakuEngine {
 
 			static OBB Default() {
 				OBB obb = {
-					.center = Vector3::AnyInit(0.0f),
-					.size = Vector3::AnyInit(1.0f),
+					.center = SakuEngine::Vector3::AnyInit(0.0f),
+					.size = SakuEngine::Vector3::AnyInit(1.0f),
 					.rotate = Quaternion::Identity()
 				};
 				return obb;
@@ -144,7 +144,7 @@ namespace SakuEngine {
 		//========================================================================
 
 		// 画面内の矩形とマウス座標のヒットを判定する
-		bool RectToMouse(const Vector2& center, const Vector2& size, const Vector2& anchor);
+		bool RectToMouse(const SakuEngine::Vector2& center, const SakuEngine::Vector2& size, const SakuEngine::Vector2& anchor);
 	}
 
 }; // SakuEngine

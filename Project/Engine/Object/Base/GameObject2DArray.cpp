@@ -1,4 +1,4 @@
-﻿#include "GameObject2DArray.h"
+#include "GameObject2DArray.h"
 
 using namespace SakuEngine;
 
@@ -16,7 +16,7 @@ void GameObject2DArray::Add(const std::string& textureName,
 	const std::string& name, const std::string& groupName) {
 
 	// 2Dオブジェクトを生成して初期化
-	std::unique_ptr<GameObject2D> object = std::make_unique<GameObject2D>();
+	std::unique_ptr<GameObject2D> object = std::make_unique<SakuEngine::GameObject2D>();
 	object->Init(textureName, name, groupName);
 
 	// 親トランスフォームを設定
@@ -26,7 +26,7 @@ void GameObject2DArray::Add(const std::string& textureName,
 	objects_.emplace_back(std::move(object));
 }
 
-void GameObject2DArray::SetColor(const Color& color, int32_t index) {
+void GameObject2DArray::SetColor(const SakuEngine::Color& color, int32_t index) {
 
 	// 0以上のインデックスが指定された場合、そのインデックスのオブジェクトのみ色を変更
 	if (0 <= index) {

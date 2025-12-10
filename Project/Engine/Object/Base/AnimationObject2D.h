@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -16,7 +16,7 @@
 namespace SakuEngine {
 
 class AnimationObject2D :
-	public GameObject2D {
+	public SakuEngine::GameObject2D {
 public:
 	//========================================================================
 	//	public Methods

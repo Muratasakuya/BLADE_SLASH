@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -246,14 +246,14 @@ inline void ParticleValue<T>::ApplyJson(const Json& data, const std::string& nam
 		random.max = data[name]["randomMax"];
 	} else if constexpr (std::is_same_v<T, Vector3>) {
 
-		constant.value = JsonAdapter::ToObject<Vector3>(data[name]["constant"]);
-		random.min = JsonAdapter::ToObject<Vector3>(data[name]["randomMin"]);
-		random.max = JsonAdapter::ToObject<Vector3>(data[name]["randomMax"]);
+		constant.value = SakuEngine::JsonAdapter::ToObject<Vector3>(data[name]["constant"]);
+		random.min = SakuEngine::JsonAdapter::ToObject<Vector3>(data[name]["randomMin"]);
+		random.max = SakuEngine::JsonAdapter::ToObject<Vector3>(data[name]["randomMax"]);
 	} else if constexpr (std::is_same_v<T, Color>) {
 
-		constant.value = JsonAdapter::ToObject<Color>(data[name]["constant"]);
-		random.min = JsonAdapter::ToObject<Color>(data[name]["randomMin"]);
-		random.max = JsonAdapter::ToObject<Color>(data[name]["randomMax"]);
+		constant.value = SakuEngine::JsonAdapter::ToObject<Color>(data[name]["constant"]);
+		random.min = SakuEngine::JsonAdapter::ToObject<Color>(data[name]["randomMin"]);
+		random.max = SakuEngine::JsonAdapter::ToObject<Color>(data[name]["randomMax"]);
 	}
 }
 
@@ -270,14 +270,14 @@ inline void ParticleValue<T>::SaveJson(Json& data, const std::string& name) {
 		data[name]["randomMax"] = random.max;
 	} else if constexpr (std::is_same_v<T, Vector3>) {
 
-		data[name]["constant"] = JsonAdapter::FromObject<Vector3>(constant.value);
-		data[name]["randomMin"] = JsonAdapter::FromObject<Vector3>(random.min);
-		data[name]["randomMax"] = JsonAdapter::FromObject<Vector3>(random.max);
+		data[name]["constant"] = SakuEngine::JsonAdapter::FromObject<Vector3>(constant.value);
+		data[name]["randomMin"] = SakuEngine::JsonAdapter::FromObject<Vector3>(random.min);
+		data[name]["randomMax"] = SakuEngine::JsonAdapter::FromObject<Vector3>(random.max);
 	} else if constexpr (std::is_same_v<T, Color>) {
 
-		data[name]["constant"] = JsonAdapter::FromObject<Color>(constant.value);
-		data[name]["randomMin"] = JsonAdapter::FromObject<Color>(random.min);
-		data[name]["randomMax"] = JsonAdapter::FromObject<Color>(random.max);
+		data[name]["constant"] = SakuEngine::JsonAdapter::FromObject<Color>(constant.value);
+		data[name]["randomMin"] = SakuEngine::JsonAdapter::FromObject<Color>(random.min);
+		data[name]["randomMax"] = SakuEngine::JsonAdapter::FromObject<Color>(random.max);
 	}
 }
 

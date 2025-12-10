@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -16,36 +16,36 @@
 //============================================================================
 namespace SakuEngine {
 
-class StateTimer {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class StateTimer {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	StateTimer() = default;
-	~StateTimer() = default;
+		StateTimer() = default;
+		~StateTimer() = default;
 
-	void Update(const std::optional<float>& target = std::nullopt, bool isUseScaledDeltaTime = true);
+		void Update(const std::optional<float>& target = std::nullopt, bool isUseScaledDeltaTime = true);
 
-	void Reset();
+		void Reset();
 
-	bool IsReached() const;
+		bool IsReached() const;
 
-	// editor
-	void ImGui(const std::string& name, bool isSeparate = true);
+		// editor
+		void ImGui(const std::string& name, bool isSeparate = true);
 
-	// json
-	void FromJson(const Json& data);
-	void ToJson(Json& data);
+		// json
+		void FromJson(const Json& data);
+		void ToJson(Json& data);
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	float current_; // 現在の時間
-	float target_;  // 目標時間
-	float t_;       // イージングされていない補間T
-	float easedT_;  // イージングした補間T
+		float current_; // 現在の時間
+		float target_;  // 目標時間
+		float t_;       // イージングされていない補間T
+		float easedT_;  // イージングした補間T
 
-	EasingType easeingType_;
-};
+		EasingType easeingType_;
+	};
 
 }; // SakuEngine

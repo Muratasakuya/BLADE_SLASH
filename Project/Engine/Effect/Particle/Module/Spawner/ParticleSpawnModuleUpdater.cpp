@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnModuleUpdater.h"
+#include "ParticleSpawnModuleUpdater.h"
 
 using namespace SakuEngine;
 
@@ -31,7 +31,7 @@ void ParticlePolygonVertexUpdater::Update(float& scale, Vector3& rotation) {
 	// 値を補間
 	scale = std::lerp(scale_.start, scale_.target,
 		EasedValue(scale_.easing, timer_.t_));
-	rotation = Vector3::Lerp(rotation_.start, rotation_.target,
+	rotation = SakuEngine::Vector3::Lerp(rotation_.start, rotation_.target,
 		EasedValue(rotation_.easing, timer_.t_));
 }
 
@@ -60,12 +60,12 @@ void ParticlePolygonVertexUpdater::FromJson(const Json& data) {
 	scale_.start = data.value("startScale", 4.0f);
 	scale_.target = data.value("targetScale", 0.0f);
 
-	rotation_.start = Vector3::FromJson(data.value("startRotation", Json()));
-	rotation_.target = Vector3::FromJson(data.value("targetRotation", Json()));
+	rotation_.start = SakuEngine::Vector3::FromJson(data.value("startRotation", Json()));
+	rotation_.target = SakuEngine::Vector3::FromJson(data.value("targetRotation", Json()));
 
 	// イージング
-	scale_.easing = EnumAdapter<EasingType>::FromString(data["scaleEasing"]).value();
-	rotation_.easing = EnumAdapter<EasingType>::FromString(data["rotationEasing"]).value();
+	scale_.easing = SakuEngine::EnumAdapter<EasingType>::FromString(data["scaleEasing"]).value();
+	rotation_.easing = SakuEngine::EnumAdapter<EasingType>::FromString(data["rotationEasing"]).value();
 }
 
 void ParticlePolygonVertexUpdater::ToJson(Json& data) {
@@ -78,8 +78,8 @@ void ParticlePolygonVertexUpdater::ToJson(Json& data) {
 	data["startRotation"] = rotation_.start.ToJson();
 	data["targetRotation"] = rotation_.target.ToJson();
 
-	data["scaleEasing"] = EnumAdapter<EasingType>::ToString(scale_.easing);
-	data["rotationEasing"] = EnumAdapter<EasingType>::ToString(rotation_.easing);
+	data["scaleEasing"] = SakuEngine::EnumAdapter<EasingType>::ToString(scale_.easing);
+	data["rotationEasing"] = SakuEngine::EnumAdapter<EasingType>::ToString(rotation_.easing);
 }
 
 void ParticlePolygonVertexUpdater::SetOffsetRotation(Vector3 offsetRotation) {

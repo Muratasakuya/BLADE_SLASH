@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -33,7 +33,7 @@ enum class GameButtonResponseType {
 //	ゲームで使えるボタンを楽に処理する、Updaterと組み合わせて使う
 //============================================================================
 class GameButton :
-	public GameObject2D {
+	public SakuEngine::GameObject2D {
 public:
 	//========================================================================
 	//	public Methods
@@ -104,7 +104,7 @@ private:
 	bool hoverAtRelease_ = false;         // 離した瞬間の位置
 
 	// parameters
-	Vector2 collisionSize_;
+	SakuEngine::Vector2 collisionSize_;
 
 	//--------- functions ----------------------------------------------------
 

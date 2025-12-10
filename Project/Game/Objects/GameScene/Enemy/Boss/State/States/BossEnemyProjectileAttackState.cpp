@@ -1,4 +1,4 @@
-﻿#include "BossEnemyProjectileAttackState.h"
+#include "BossEnemyProjectileAttackState.h"
 
 //============================================================================
 //	include
@@ -15,9 +15,9 @@
 void BossEnemyProjectileAttackState::BulletCollision::Init() {
 
 	// 衝突初期化
-	collider = std::make_unique<Collider>();
+	collider = std::make_unique<SakuEngine::Collider>();
 	// 球で追加
-	CollisionBody* body = collider->AddCollider(CollisionShape::Sphere(), true);
+	SakuEngine::CollisionBody* body = collider->AddCollider(SakuEngine::CollisionShape::Sphere(), true);
 	// タイプ設定
 	body->SetType(ColliderType::Type_BossWeapon);
 	body->SetTargetType(ColliderType::Type_Player);
@@ -36,13 +36,13 @@ BossEnemyProjectileAttackState::BossEnemyProjectileAttackState(uint32_t phaseCou
 
 	// エフェクトの初期化
 	// 発生起動エフェクト
-	launchEffect_ = std::make_unique<EffectGroup>();
+	launchEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	launchEffect_->Init("launchProjectileEffect", "BossEnemyEffect");
 	launchEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemylaunchProjectileEffect.json");
 	// 弾エフェクト
 	for (auto& effect : bulletEffects_) {
 
-		effect = std::make_unique<EffectGroup>();
+		effect = std::make_unique<SakuEngine::EffectGroup>();
 		effect->Init("bossEnemyProjectileBulletEffect", "BossEnemyEffect");
 		effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyProjectileBulletEffect.json", true);
 	}
@@ -142,7 +142,7 @@ void  BossEnemyProjectileAttackState::UpdateAttack(const BossEnemy& bossEnemy) {
 	attackTimer_.Update(bulletAttackDuration_ * static_cast<float>(count));
 
 	// プレイヤーの座標
-	Vector3 playerPos = player_->GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	for (uint32_t i = 0; i < count; ++i) {
 
 		// 発生していなければ
@@ -153,17 +153,17 @@ void  BossEnemyProjectileAttackState::UpdateAttack(const BossEnemy& bossEnemy) {
 			if (t <= attackTimer_.t_) {
 
 				// 目標への向き
-				Vector3 direction = Vector3(playerPos - bossEnemy.GetTranslation()).Normalize();
+				SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy.GetTranslation()).Normalize();
 				// 目標座標からのオフセットを加える
-				Vector3 target = playerPos + direction * targetDistance_;
+				SakuEngine::Vector3 target = playerPos + direction * targetDistance_;
 
 				// 発生座標
-				Vector3 start = launchPositions_[launchIndices_[i]];
+				SakuEngine::Vector3 start = launchPositions_[launchIndices_[i]];
 
 				// 弾エフェクト発生
 				bulletEffects_[i]->Emit(start);
 				// 発生位置、目標座標を設定
-				std::vector<Vector3> keys = { start, target };
+				std::vector<SakuEngine::Vector3> keys = { start, target };
 				bulletEffects_[i]->SetKeyframePath(bulletParticleNodeKey_, keys);
 				// 発生済み
 				bulletEmited_[i] = true;
@@ -205,21 +205,21 @@ void BossEnemyProjectileAttackState::SetLeftToRightIndices(const BossEnemy& boss
 	}
 
 	// 中心
-	Vector3 center = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 center = bossEnemy.GetTranslation();
 	center.y = launchTopPosY_;
 
 	// y軸の向きのベクトルを取得
-	Vector3 forward = bossEnemy.GetTransform().GetForward();
+	SakuEngine::Vector3 forward = bossEnemy.GetTransform().GetForward();
 	forward.y = 0.0f;
 	forward = forward.Normalize();
-	Vector3 right = Vector3(forward.z, 0.0f, -forward.x);
+	SakuEngine::Vector3 right = SakuEngine::Vector3(forward.z, 0.0f, -forward.x);
 
 	// 座標を方向ベクトルに射影して短い方からソートする
 	std::sort(launchIndices_.begin(), launchIndices_.end(),
 		[&](uint32_t a, uint32_t b) {
 
-			float projectionA = Vector3::Dot(launchPositions_[a] - center, right);
-			float projectionB = Vector3::Dot(launchPositions_[b] - center, right);
+			float projectionA = SakuEngine::Vector3::Dot(launchPositions_[a] - center, right);
+			float projectionB = SakuEngine::Vector3::Dot(launchPositions_[b] - center, right);
 			return projectionA < projectionB; });
 }
 
@@ -230,29 +230,29 @@ void BossEnemyProjectileAttackState::SetLaunchPositions(const BossEnemy& bossEne
 	launchPositions_.clear();
 
 	// 中心位置、Y座標は固定
-	Vector3 center = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 center = bossEnemy.GetTranslation();
 	center.y = launchTopPosY_;
 
 	// フェーズの左右段数
 	uint32_t half = phaseBulletCounts_[phaseIndex] / 2;
 
 	// y軸の向きのベクトルを取得
-	Vector3 forward = bossEnemy.GetTransform().GetForward();
+	SakuEngine::Vector3 forward = bossEnemy.GetTransform().GetForward();
 	forward.y = 0.0f;
 	forward = forward.Normalize();
-	Vector3 right = Vector3(forward.z, 0.0f, -forward.x);
+	SakuEngine::Vector3 right = SakuEngine::Vector3(forward.z, 0.0f, -forward.x);
 	// 絶対値のxオフセット、y,zはそのまま
-	Vector3 step = Vector3(std::fabs(launchOffsetPos_.x), launchOffsetPos_.y, launchOffsetPos_.z);
+	SakuEngine::Vector3 step = SakuEngine::Vector3(std::fabs(launchOffsetPos_.x), launchOffsetPos_.y, launchOffsetPos_.z);
 
 	// 真ん中の発生位置
 	launchPositions_.push_back(center);
-	Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
+	SakuEngine::Vector3 up = SakuEngine::Vector3(0.0f, 1.0f, 0.0f);
 	for (uint32_t i = 1; i <= half; ++i) {
 
 		// 左右のオフセット距離
-		Vector3 offset = step * static_cast<float>(i);
+		SakuEngine::Vector3 offset = step * static_cast<float>(i);
 		// 差分
-		Vector3 delta = right * offset.x + up * offset.y + forward * offset.z;
+		SakuEngine::Vector3 delta = right * offset.x + up * offset.y + forward * offset.z;
 
 		// 左右の発生位置を設定
 		launchPositions_.emplace_back(center - right * offset.x + up * offset.y + forward * offset.z);
@@ -296,7 +296,7 @@ void BossEnemyProjectileAttackState::BulletCollision::LerpTranslation(float dura
 	moveTimer.Update(duration);
 
 	// 弾の衝突座標を補間する
-	transform.translation = Vector3::Lerp(startPos, targetPos, moveTimer.t_);
+	transform.translation = SakuEngine::Vector3::Lerp(startPos, targetPos, moveTimer.t_);
 	transform.UpdateMatrix();
 
 	// 終了次第補間を終了し安全な座標に移す
@@ -320,7 +320,7 @@ void BossEnemyProjectileAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy)
 
 void BossEnemyProjectileAttackState::ImGui(const BossEnemy& bossEnemy) {
 
-	ImGui::Text("currentState: %s", EnumAdapter<State>::ToString(currentState_));
+	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));
 
 	ImGui::Checkbox("isEditMode", &isEditMode_);
 	ImGui::DragInt("editingPhase", &editingPhase_, 1, 0, static_cast<uint32_t>(phaseBulletCounts_.size() - 1));
@@ -367,7 +367,7 @@ void BossEnemyProjectileAttackState::ImGui(const BossEnemy& bossEnemy) {
 	// 現在発生させる位置のデバッグ表示
 	for (const auto& pos : launchPositions_) {
 
-		LineRenderer::GetInstance()->DrawSphere(6, 1.0f, pos, Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 1.0f, pos, SakuEngine::Color::Cyan());
 	}
 }
 
@@ -381,7 +381,7 @@ void BossEnemyProjectileAttackState::ApplyJson(const Json& data) {
 	launchTopPosY_ = data.value("launchTopPosY", 4.0f);
 	bulletLerpDuration_ = data.value("bulletLerpDuration_", 0.32f);
 	bulletCollisionRadius_ = data.value("bulletCollisionRadius_", 4.0f);
-	launchOffsetPos_ = Vector3::FromJson(data.value("launchOffsetPos", Json()));
+	launchOffsetPos_ = SakuEngine::Vector3::FromJson(data.value("launchOffsetPos", Json()));
 
 	// 弾の衝突判定の半径を適応
 	for (const auto& bullet : bulletColliders_) {

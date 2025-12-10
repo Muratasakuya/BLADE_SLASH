@@ -1,6 +1,4 @@
-﻿#include "DxUtils.h"
-
-using namespace SakuEngine;
+#include "DxUtils.h"
 
 //============================================================================
 //	include

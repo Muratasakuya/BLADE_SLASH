@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -54,8 +54,8 @@ private:
 	bool loopApproach_ = false;
 
 	// parameters
-	Vector3 startTranslation_;                    // 移動開始地点
-	std::array<Vector3, kNumSegments> wayPoints_; // 移動する点の数
+	SakuEngine::Vector3 startTranslation_;                    // 移動開始地点
+	std::array<SakuEngine::Vector3, kNumSegments> wayPoints_; // 移動する点の数
 	size_t currentIndex_; // 現在の区間
 	float segmentTimer_;  // 区間経過時間
 	float segmentTime_;   //区間にかかる時間
@@ -71,24 +71,24 @@ private:
 	float approachRightPointAngle_; // 右の角度
 
 	// debug
-	std::array<Vector3, kNumSegments> debugWayPoints_;
-	std::array<Vector3, kNumSegments> debugApproachWayPoints_;
+	std::array<SakuEngine::Vector3, kNumSegments> debugWayPoints_;
+	std::array<SakuEngine::Vector3, kNumSegments> debugApproachWayPoints_;
 
 	// 剣エフェクト
 	// 1段目
-	std::unique_ptr<EffectGroup> slash1stEffect_;
-	Vector3 slash1stEffectOffset_; // 発生位置のオフセット
+	std::unique_ptr<SakuEngine::EffectGroup> slash1stEffect_;
+	SakuEngine::Vector3 slash1stEffectOffset_; // 発生位置のオフセット
 	// 2段目
-	std::unique_ptr<EffectGroup> slash2ndEffect_;
-	Vector3 slash2ndEffectOffset_; // 発生位置のオフセット
+	std::unique_ptr<SakuEngine::EffectGroup> slash2ndEffect_;
+	SakuEngine::Vector3 slash2ndEffectOffset_; // 発生位置のオフセット
 
 	//--------- functions ----------------------------------------------------
 
 	// helper
-	void CalcWayPoints(const Player& player, std::array<Vector3, kNumSegments>& dstWayPoints);
-	void CalcWayPointsToTarget(const Vector3& start, const Vector3& target,
+	void CalcWayPoints(const Player& player, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
+	void CalcWayPointsToTarget(const SakuEngine::Vector3& start, const SakuEngine::Vector3& target,
 		float leftT, float rightT, float swayLength,
-		std::array<Vector3, kNumSegments>& dstWayPoints);
-	void CalcApproachWayPoints(const Player& player, std::array<Vector3, kNumSegments>& dstWayPoints);
+		std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
+	void CalcApproachWayPoints(const Player& player, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
 	bool LerpAlongSegments(Player& player);
 };

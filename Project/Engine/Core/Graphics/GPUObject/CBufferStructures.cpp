@@ -1,4 +1,4 @@
-﻿#include "CBufferStructures.h"
+#include "CBufferStructures.h"
 
 using namespace SakuEngine;
 
@@ -14,8 +14,8 @@ using namespace SakuEngine;
 //	CBufferStructures
 //============================================================================
 
-void TransformationMatrix::Update(const BaseTransform* parent, const Vector3& scale,
-	const Quaternion& rotation, const Vector3& translation, bool isIgnoreParentScale,
+void TransformationMatrix::Update(const BaseTransform* parent, const SakuEngine::Vector3& scale,
+	const Quaternion& rotation, const SakuEngine::Vector3& translation, bool isIgnoreParentScale,
 	const std::optional<Matrix4x4>& billboardMatrix) {
 
 	// billboardMatrixに値が入っていればbillboardMatrixでrotateを計算する
@@ -26,7 +26,7 @@ void TransformationMatrix::Update(const BaseTransform* parent, const Vector3& sc
 		Quaternion billboardRot = Quaternion::FromRotationMatrix(billboardMatrix.value());
 
 		// 回転行列取得
-		Quaternion normalizedRotation = Quaternion::Normalize(rotation);
+		Quaternion normalizedRotation = SakuEngine::Quaternion::Normalize(rotation);
 		Matrix4x4 fullRotMat = Quaternion::MakeRotateMatrix(normalizedRotation);
 
 		Vector3 xAxis = Vector3::TransferNormal(Vector3(1.0f, 0.0f, 0.0f), fullRotMat);
@@ -48,7 +48,7 @@ void TransformationMatrix::Update(const BaseTransform* parent, const Vector3& sc
 
 		// Y軸はbillboard、XZはrotation
 		Quaternion finalRotation = Quaternion::Multiply(Quaternion::Conjugate(billboardRot), xzRotation);
-		finalRotation = Quaternion::Normalize(finalRotation);
+		finalRotation = SakuEngine::Quaternion::Normalize(finalRotation);
 
 		Matrix4x4 rotateMatrix = Quaternion::MakeRotateMatrix(finalRotation);
 		world = scaleMatrix * rotateMatrix * translateMatrix;
@@ -81,12 +81,12 @@ void TransformationMatrix::Update(const BaseTransform* parent, const Vector3& sc
 
 void SpriteMaterialForGPU::Init() {
 
-	color = Color::White();
+	color = SakuEngine::Color::White();
 	useVertexColor = false;
 	useAlphaColor = false;
 	emissiveIntensity = 0.0f;
 	alphaReference = 0.0f;
-	emissionColor = Vector3::AnyInit(1.0f);
+	emissionColor = SakuEngine::Vector3::AnyInit(1.0f);
 	uvTransform = Matrix4x4::MakeIdentity4x4();
 	postProcessMask = 0;
 }

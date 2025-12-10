@@ -1,4 +1,4 @@
-﻿#include "MultiRenderTexture.h"
+#include "MultiRenderTexture.h"
 
 using namespace SakuEngine;
 
@@ -22,7 +22,7 @@ void MultiRenderTexture::Init(ID3D12Device* device, RTVDescriptor* rtvDescriptor
 	height_ = height;
 }
 
-void MultiRenderTexture::AddColorTarget(DXGI_FORMAT format, const Color& color) {
+void MultiRenderTexture::AddColorTarget(DXGI_FORMAT format, const SakuEngine::Color& color) {
 
 	AddAttachment(format, color);
 	primary_ = 0;
@@ -33,7 +33,7 @@ void MultiRenderTexture::AddMaskTarget(DXGI_FORMAT format) {
 	AddAttachment(format, Color::Green(1.0f));
 }
 
-void MultiRenderTexture::AddAttachment(DXGI_FORMAT format, const Color& color) {
+void MultiRenderTexture::AddAttachment(DXGI_FORMAT format, const SakuEngine::Color& color) {
 
 	// RTVテクスチャの作成
 	auto texture = std::make_unique<RenderTexture>();

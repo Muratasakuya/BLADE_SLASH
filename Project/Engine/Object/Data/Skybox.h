@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -56,7 +56,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 色の設定
-	void SetColor(const Color& color) { material_.color = color; }
+	void SetColor(const SakuEngine::Color& color) { material_.color = color; }
 	void ResetColor() { material_.color = initColor_; }
 
 	uint32_t GetIndexCount() const { return indexCount_; }

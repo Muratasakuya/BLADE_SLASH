@@ -1,4 +1,4 @@
-﻿#include "PlayerStateController.h"
+#include "PlayerStateController.h"
 
 //============================================================================
 //	include
@@ -36,8 +36,8 @@
 void PlayerStateController::Init(Player& owner) {
 
 	// 入力クラスを初期化
-	Input* input = Input::GetInstance();
-	inputMapper_ = std::make_unique<InputMapper<PlayerInputAction>>();
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+	inputMapper_ = std::make_unique<SakuEngine::InputMapper<PlayerInputAction>>();
 	inputMapper_->AddDevice(std::make_unique<PlayerGamePadInput>(input));
 
 #ifdef _RELEASE
@@ -68,7 +68,7 @@ void PlayerStateController::Init(Player& owner) {
 	// 初期状態を設定
 	current_ = PlayerState::Idle;
 	requested_ = PlayerState::Idle;
-	currentEnterTime_ = GameTimer::GetTotalTime();
+	currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 	lastEnterTime_[current_] = currentEnterTime_;
 	isDashInput_ = false;
 	ChangeState(owner);
@@ -123,7 +123,7 @@ void PlayerStateController::SetForcedState(Player& owner, PlayerState state) {
 			currentState->Exit(owner);
 			currentState->Enter(owner);
 		}
-		currentEnterTime_ = GameTimer::GetTotalTime();
+		currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 		lastEnterTime_[current_] = currentEnterTime_;
 		owner.GetAttackCollision()->SetEnterState(current_);
 		return;
@@ -151,7 +151,7 @@ void PlayerStateController::SetForcedState(Player& owner, PlayerState state) {
 	}
 
 	// 現在の時間を記録
-	currentEnterTime_ = GameTimer::GetTotalTime();
+	currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 	lastEnterTime_[current_] = currentEnterTime_;
 	owner.GetAttackCollision()->SetEnterState(current_);
 }
@@ -266,7 +266,7 @@ void PlayerStateController::UpdateInputState(Player& owner) {
 	bool actionLocked = (inCombat && !states_.at(current_)->GetCanExit()) || (inCombat && IsInChain());
 
 	// 移動方向
-	Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX),
+	SakuEngine::Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
 	// 動いたかどうか判定
 	bool isMove = move.Length() > std::numeric_limits<float>::epsilon();
@@ -363,7 +363,7 @@ void PlayerStateController::UpdateInputState(Player& owner) {
 			parrySession_.active = true;
 			parrySession_.reserved = true;
 			parrySession_.total = std::max<uint32_t>(1, parryParam.continuousCount);
-			parrySession_.reservedStart = GameTimer::GetTotalTime();
+			parrySession_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
 		}
 	}
 
@@ -392,7 +392,7 @@ void PlayerStateController::UpdateParryState(Player& owner) {
 		}
 
 		parrySession_.reserved = !isLast;
-		parrySession_.reservedStart = GameTimer::GetTotalTime();
+		parrySession_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
 		return;
 	}
 
@@ -409,7 +409,7 @@ void PlayerStateController::RequestParryState() {
 	if (current_ == PlayerState::Parry && states_[current_]->GetCanExit()) {
 		if (parrySession_.done < parrySession_.total) {
 
-			parrySession_.reservedStart = GameTimer::GetTotalTime();
+			parrySession_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
 		} else {
 
 			parrySession_.Init();
@@ -544,7 +544,7 @@ void PlayerStateController::ChangeState(Player& owner) {
 		currentState->Enter(owner);
 	}
 
-	currentEnterTime_ = GameTimer::GetTotalTime();
+	currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 	lastEnterTime_[current_] = currentEnterTime_;
 
 	// player側に切り替えを通知する
@@ -580,7 +580,7 @@ bool PlayerStateController::CanTransition(PlayerState next, bool viaQueue) const
 	}
 
 	const PlayerStateCondition& condition = it->second;
-	const float totalTime = GameTimer::GetTotalTime();
+	const float totalTime = SakuEngine::GameTimer::GetTotalTime();
 
 	// クールタイムの処理
 	auto itTime = lastEnterTime_.find(next);
@@ -643,7 +643,7 @@ bool PlayerStateController::IsInChain() const {
 		return false;
 	}
 
-	const float elapsed = GameTimer::GetTotalTime() - currentEnterTime_;
+	const float elapsed = SakuEngine::GameTimer::GetTotalTime() - currentEnterTime_;
 	return (it->second.chainInputTime > 0.0f) && (elapsed <= it->second.chainInputTime);
 }
 
@@ -665,7 +665,7 @@ void PlayerStateController::ParrySession::Init() {
 void PlayerStateController::ImGui(const Player& owner) {
 
 	// tool
-	ImGui::Text("Current : %s", EnumAdapter<PlayerState>::ToString(current_));
+	ImGui::Text("Current : %s", SakuEngine::EnumAdapter<PlayerState>::ToString(current_));
 	ImGui::SameLine();
 	if (ImGui::Button("Save##StateJson")) {
 		SaveJson();
@@ -678,7 +678,7 @@ void PlayerStateController::ImGui(const Player& owner) {
 		if (ImGui::BeginTabItem("Runtime")) {
 
 			ImGui::Text("Enter Time   : %.2f", currentEnterTime_);
-			ImGui::Text("Queued State : %s", queued_ ? EnumAdapter<PlayerState>::ToString(*queued_) : "None");
+			ImGui::Text("Queued State : %s", queued_ ? SakuEngine::EnumAdapter<PlayerState>::ToString(*queued_) : "None");
 
 			ImGui::SeparatorText("Parry");
 
@@ -692,10 +692,10 @@ void PlayerStateController::ImGui(const Player& owner) {
 		// ---- States --------------------------------------------------
 		if (ImGui::BeginTabItem("States")) {
 			ImGui::BeginChild("StateList", ImVec2(140, 0), true);
-			for (uint32_t i = 0; i < EnumAdapter<PlayerState>::GetEnumCount(); ++i) {
+			for (uint32_t i = 0; i < SakuEngine::EnumAdapter<PlayerState>::GetEnumCount(); ++i) {
 
 				bool selected = (editingStateIndex_ == static_cast<int>(i));
-				if (ImGui::Selectable(EnumAdapter<PlayerState>::GetEnumName(i), selected)) {
+				if (ImGui::Selectable(SakuEngine::EnumAdapter<PlayerState>::GetEnumName(i), selected)) {
 
 					editingStateIndex_ = static_cast<int>(i);
 				}
@@ -716,8 +716,8 @@ void PlayerStateController::ImGui(const Player& owner) {
 		// ---- Conditions ---------------------------------------------
 		if (ImGui::BeginTabItem("Conditions")) {
 			ImGui::Combo("Edit##cond-state", &comboIndex_,
-				EnumAdapter<PlayerState>::GetEnumArray().data(),
-				static_cast<int>(EnumAdapter<PlayerState>::GetEnumCount()));
+				SakuEngine::EnumAdapter<PlayerState>::GetEnumArray().data(),
+				static_cast<int>(SakuEngine::EnumAdapter<PlayerState>::GetEnumCount()));
 
 			PlayerState state = static_cast<PlayerState>(comboIndex_);
 			PlayerStateCondition& cond = conditions_[state];
@@ -734,12 +734,12 @@ void PlayerStateController::ImGui(const Player& owner) {
 				ImGui::TableSetupColumn("Interrupt");
 				ImGui::TableHeadersRow();
 
-				for (int i = 0; i < EnumAdapter<PlayerState>::GetEnumCount(); ++i) {
+				for (int i = 0; i < SakuEngine::EnumAdapter<PlayerState>::GetEnumCount(); ++i) {
 					PlayerState s = static_cast<PlayerState>(i);
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
-					ImGui::TextUnformatted(EnumAdapter<PlayerState>::GetEnumName(i));
+					ImGui::TextUnformatted(SakuEngine::EnumAdapter<PlayerState>::GetEnumName(i));
 
 					// ---- Allowed 列 -------------------------------------------------
 					ImGui::TableNextColumn();
@@ -784,13 +784,13 @@ void PlayerStateController::ApplyJson() {
 	// state
 	{
 		Json data;
-		if (!JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
+		if (!SakuEngine::JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
 			return;
 		}
 
 		for (auto& [state, ptr] : states_) {
 
-			const auto& key = EnumAdapter<PlayerState>::ToString(state);
+			const auto& key = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 			if (!data.contains(key)) {
 				continue;
 			}
@@ -803,7 +803,7 @@ void PlayerStateController::ApplyJson() {
 		const Json& condRoot = data["Conditions"];
 		for (auto& [state, ptr] : states_) {
 
-			const auto& key = EnumAdapter<PlayerState>::ToString(state);
+			const auto& key = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 			if (!condRoot.contains(key)) {
 				continue;
 			}
@@ -823,7 +823,7 @@ void PlayerStateController::SaveJson() {
 			continue;
 		}
 
-		ptr->SaveJson(data[EnumAdapter<PlayerState>::ToString(state)]);
+		ptr->SaveJson(data[SakuEngine::EnumAdapter<PlayerState>::ToString(state)]);
 	}
 
 	Json& condRoot = data["Conditions"];
@@ -832,8 +832,8 @@ void PlayerStateController::SaveJson() {
 			continue;
 		}
 
-		cond.ToJson(condRoot[EnumAdapter<PlayerState>::ToString(state)]);
+		cond.ToJson(condRoot[SakuEngine::EnumAdapter<PlayerState>::ToString(state)]);
 	}
 
-	JsonAdapter::Save(kStateJsonPath_, data);
+	SakuEngine::JsonAdapter::Save(kStateJsonPath_, data);
 }

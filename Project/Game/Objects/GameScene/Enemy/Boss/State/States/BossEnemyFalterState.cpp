@@ -1,4 +1,4 @@
-﻿#include "BossEnemyFalterState.h"
+#include "BossEnemyFalterState.h"
 
 //============================================================================
 //	include
@@ -16,24 +16,24 @@ void BossEnemyFalterState::Enter(BossEnemy& bossEnemy) {
 	bossEnemy.SetNextAnimation("bossEnemy_falter", false, nextAnimDuration_);
 
 	// Y座標をリセットする
-	bossEnemy.SetTranslation(Vector3(bossEnemy.GetTranslation().x, 0.0f, bossEnemy.GetTranslation().z));
+	bossEnemy.SetTranslation(SakuEngine::Vector3(bossEnemy.GetTranslation().x, 0.0f, bossEnemy.GetTranslation().z));
 }
 
 void BossEnemyFalterState::Update(BossEnemy& bossEnemy) {
 
-	const float deltaTime = GameTimer::GetScaledDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 前方ベクトルを取得
-	Vector3 bossPos = bossEnemy.GetTranslation();
-	Vector3 playerPos = player_->GetTransform().translation;
+	SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTransform().translation;
 
 	// 回転を計算して設定
-	Quaternion bossRotation = Quaternion::LookTarget(bossPos, playerPos,
-		Vector3(0.0f, 1.0f, 0.0f), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
+	SakuEngine::Quaternion bossRotation = SakuEngine::Quaternion::LookTarget(bossPos, playerPos,
+		SakuEngine::Vector3(0.0f, 1.0f, 0.0f), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
 	bossEnemy.SetRotation(bossRotation);
 
 	// 後ずさりさせる
-	Vector3 backStepVelocity = bossEnemy.GetTransform().GetBack() * backStepSpeed_ * deltaTime;
+	SakuEngine::Vector3 backStepVelocity = bossEnemy.GetTransform().GetBack() * backStepSpeed_ * deltaTime;
 	bossEnemy.SetTranslation(bossPos + backStepVelocity);
 
 	// アニメーションが終了次第状態を終了
@@ -55,9 +55,9 @@ void BossEnemyFalterState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
 
 void BossEnemyFalterState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	backStepSpeed_ = JsonAdapter::GetValue<float>(data, "backStepSpeed_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	backStepSpeed_ = SakuEngine::JsonAdapter::GetValue<float>(data, "backStepSpeed_");
 }
 
 void BossEnemyFalterState::SaveJson(Json& data) {

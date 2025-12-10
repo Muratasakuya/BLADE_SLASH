@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnPolygonVertexModule.h"
+#include "ParticleSpawnPolygonVertexModule.h"
 
 using namespace SakuEngine;
 
@@ -86,7 +86,7 @@ std::vector<Vector3> ParticleSpawnPolygonVertexModule::CalcVertices() const {
 }
 
 std::vector<Vector3> ParticleSpawnPolygonVertexModule::CalcVertices(
-	float scale, const Vector3& rotation) const {
+	float scale, const SakuEngine::Vector3& rotation) const {
 
 	std::vector<Vector3> vertices; vertices.reserve(vertexCount_);
 
@@ -94,11 +94,11 @@ std::vector<Vector3> ParticleSpawnPolygonVertexModule::CalcVertices(
 	Matrix4x4 rotateMatrix = Matrix4x4::MakeIdentity4x4();
 	if (useBillboardRotation_) {
 
-		Matrix4x4 rollZ = Matrix4x4::MakeRotateMatrix(Vector3(0.0f, 0.0f, rotation.y));
+		Matrix4x4 rollZ = SakuEngine::Matrix4x4::MakeRotateMatrix(Vector3(0.0f, 0.0f, rotation.y));
 		rotateMatrix = Matrix4x4::Multiply(billboardRotation_, rollZ);
 	} else {
 
-		rotateMatrix = Matrix4x4::MakeRotateMatrix(rotation);
+		rotateMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
 	}
 	for (int i = 0; i < vertexCount_; ++i) {
 
@@ -527,7 +527,7 @@ void ParticleSpawnPolygonVertexModule::ImGui() {
 
 void ParticleSpawnPolygonVertexModule::DrawEmitter() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 	Vector3 parentTranslation{};
 	// 親の座標
 	if (parentTransform_) {
@@ -594,8 +594,8 @@ void ParticleSpawnPolygonVertexModule::FromJson(const Json& data) {
 	vertexCount_ = data.value("vertexCount", 3);
 	scale_ = data.value("scale", 1.0f);
 
-	emitterRotation_ = Vector3::FromJson(data["emitterRotation"]);
-	translation_ = Vector3::FromJson(data["translation"]);
+	emitterRotation_ = SakuEngine::Vector3::FromJson(data["emitterRotation"]);
+	translation_ = SakuEngine::Vector3::FromJson(data["translation"]);
 
 	emitPerVertex_.ApplyJson(data, "emitPerVertex");
 	interpolateSpacing_.ApplyJson(data, "interpolateSpacing");
@@ -608,7 +608,7 @@ void ParticleSpawnPolygonVertexModule::FromJson(const Json& data) {
 	useMulti_ = data.value("useMulti", false);
 	spawnBurstCount_ = data.value("spawnBurstCount", 1);
 	maxConcurrent_ = data.value("maxConcurrent", 1);
-	offsetRotation_ = Vector3::FromJson(data.value("offsetRotation", Json()));
+	offsetRotation_ = SakuEngine::Vector3::FromJson(data.value("offsetRotation", Json()));
 	if (data.contains("MultiSpawn")) {
 
 		spawnTimer_.FromJson(data["MultiSpawn"]);

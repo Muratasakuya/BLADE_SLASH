@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateTrailModule.h"
+#include "ParticleUpdateTrailModule.h"
 
 using namespace SakuEngine;
 
@@ -47,7 +47,7 @@ void ParticleUpdateTrailModule::Execute(
 	// トレイル対象の座標、親がいれば親の座標も加算する
 	const Vector3 parentTranslation = (particle.transform.aliveParent == 1) ?
 		particle.transform.parentMatrix.GetTranslationValue() :
-		Vector3::AnyInit(0.0f);
+		SakuEngine::Vector3::AnyInit(0.0f);
 	const Vector3 particleTranslation = particle.transform.translation + parentTranslation;
 
 	// ノードの寿命を更新
@@ -312,10 +312,10 @@ Json ParticleUpdateTrailModule::ToJson() {
 
 	data["startWidth"] = width_.start;
 	data["targetWidth"] = width_.target;
-	data["widthEasing_"] = EnumAdapter<EasingType>::ToString(widthEasing_);
+	data["widthEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(widthEasing_);
 	data["startAlpha"] = alpha_.start;
 	data["targetAlpha"] = alpha_.target;
-	data["alphaEasing_"] = EnumAdapter<EasingType>::ToString(alphaEasing_);
+	data["alphaEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(alphaEasing_);
 
 	data["minDistance"] = minDistance_;
 	data["minTime"] = minTime_;
@@ -339,11 +339,11 @@ void ParticleUpdateTrailModule::FromJson(const Json& data) {
 
 	width_.start = data.value("startWidth", 0.5f);
 	width_.target = data.value("targetWidth", 0.5f);
-	widthEasing_ = EnumAdapter<EasingType>::FromString(
+	widthEasing_ = SakuEngine::EnumAdapter<EasingType>::FromString(
 		data.value("widthEasing_", "EaseInSine")).value();
 	alpha_.start = data.value("startAlpha", 1.0f);
 	alpha_.target = data.value("targetAlpha", 0.0f);
-	alphaEasing_ = EnumAdapter<EasingType>::FromString(
+	alphaEasing_ = SakuEngine::EnumAdapter<EasingType>::FromString(
 		data.value("alphaEasing_", "EaseInSine")).value();
 
 	minDistance_ = data.value("minDistance", 0.0f);

@@ -1,4 +1,4 @@
-﻿#include "SceneManager.h"
+#include "SceneManager.h"
 
 using namespace SakuEngine;
 
@@ -35,13 +35,13 @@ SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGa
 	const auto& system = ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>();
 	system->BuildForSceneSynch(scene);
 	// 最初のシーン以外を非同期で読み込む
-	for (uint32_t index = 0; index < EnumAdapter<Scene>::GetEnumCount(); ++index) {
+	for (uint32_t index = 0; index < SakuEngine::EnumAdapter<Scene>::GetEnumCount(); ++index) {
 
 		// 同じシーンは処理しない
 		if (index == static_cast<uint32_t>(scene)) {
 			continue;
 		}
-		asset->LoadSceneAsync(EnumAdapter<Scene>::GetValue(index), AssetLoadType::Async);
+		asset->LoadSceneAsync(SakuEngine::EnumAdapter<Scene>::GetValue(index), AssetLoadType::Async);
 	}
 
 	// 最初のシーンを読み込んで初期化
@@ -124,11 +124,11 @@ void SceneManager::SetNextScene(Scene scene, std::unique_ptr<ITransition> transi
 
 void SceneManager::ImGui() {
 
-	ImGui::Text("CurrentScene : %s", EnumAdapter<Scene>::ToString(currentSceneType_));
+	ImGui::Text("CurrentScene : %s", SakuEngine::EnumAdapter<Scene>::ToString(currentSceneType_));
 
 	// 選択
 	static Scene selected = currentSceneType_;
-	if (EnumAdapter<Scene>::Combo("Select Scene", &selected)) {
+	if (SakuEngine::EnumAdapter<Scene>::Combo("Select Scene", &selected)) {
 	}
 
 	if (ImGui::Button("Apply") && selected != currentSceneType_ && !isSceneSwitching_) {

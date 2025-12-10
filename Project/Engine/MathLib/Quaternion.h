@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -16,88 +16,85 @@ using Json = nlohmann::json;
 
 namespace SakuEngine {
 
-// front
+	// front
+	class Vector3;
+	class Matrix4x4;
+	template <typename tValue>
+	struct Keyframe;
 
-class Vector3;
-class Matrix4x4;
-template <typename tValue>
-struct Keyframe;
+	//============================================================================
+	//	Quaternion class
+	//============================================================================
+	class Quaternion final {
+	public:
 
-//============================================================================
-//	Quaternion class
-//============================================================================
-class Quaternion final {
-public:
+		float x, y, z, w;
 
-	float x, y, z, w;
+		//--------- operators ----------------------------------------------------
 
-	//--------- operators ----------------------------------------------------
+		Quaternion operator+(const Quaternion& other) const;
+		Quaternion operator-(const Quaternion& other) const;
+		Quaternion operator*(const Quaternion& other) const;
+		Quaternion operator-() const;
 
-	Quaternion operator+(const Quaternion& other) const;
-	Quaternion operator-(const Quaternion& other) const;
-	Quaternion operator*(const Quaternion& other) const;
-	Quaternion operator-() const;
+		Quaternion operator*(float scalar) const;
+		Vector3 operator*(const Vector3& v) const;
 
-	Quaternion operator*(float scalar) const;
-	friend Quaternion operator*(float scalar, const Quaternion& q);
+		bool operator==(const Quaternion& other) const;
 
-	Vector3 operator*(const Vector3& v) const;
+		//----------- json -------------------------------------------------------
 
-	bool operator==(const Quaternion& other) const;
+		Json ToJson() const;
+		static Quaternion FromJson(const Json& data);
 
-	//----------- json -------------------------------------------------------
+		//--------- functions ----------------------------------------------------
 
-	Json ToJson() const;
-	static Quaternion FromJson(const Json& data);
+		void Init();
 
-	//--------- functions ----------------------------------------------------
+		Quaternion Normalize();
 
-	void Init();
+		static Quaternion EulerToQuaternion(const SakuEngine::Vector3& euler);
 
-	Quaternion Normalize();
+		static SakuEngine::Vector3 ToEulerAngles(const Quaternion& quaternion);
 
-	static Quaternion EulerToQuaternion(const Vector3& euler);
+		static Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
 
-	static Vector3 ToEulerAngles(const Quaternion& quaternion);
+		static Quaternion Identity();
 
-	static Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
+		static Quaternion Conjugate(const Quaternion& quaternion);
 
-	static Quaternion Identity();
+		static float Norm(const Quaternion& quaternion);
 
-	static Quaternion Conjugate(const Quaternion& quaternion);
+		static Quaternion Normalize(const Quaternion& quaternion);
 
-	static float Norm(const Quaternion& quaternion);
+		static Quaternion Inverse(const Quaternion& quaternion);
 
-	static Quaternion Normalize(const Quaternion& quaternion);
+		static Quaternion MakeAxisAngle(const SakuEngine::Vector3& axis, float angle);
 
-	static Quaternion Inverse(const Quaternion& quaternion);
+		static SakuEngine::Vector3 RotateVector(const SakuEngine::Vector3& vector, const Quaternion& quaternion);
 
-	static Quaternion MakeAxisAngle(const Vector3& axis, float angle);
+		static Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 
-	static Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
+		static Quaternion Slerp(Quaternion q0, const Quaternion& q1, float t);
 
-	static Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+		static float Dot(const Quaternion& q0, const Quaternion& q1);
 
-	static Quaternion Slerp(Quaternion q0, const Quaternion& q1, float t);
+		static Quaternion CalculateValue(const std::vector<Keyframe<Quaternion>>& keyframes, float time);
 
-	static float Dot(const Quaternion& q0, const Quaternion& q1);
+		static Quaternion LookRotation(const SakuEngine::Vector3& forward, const SakuEngine::Vector3& up);
 
-	static Quaternion CalculateValue(const std::vector<Keyframe<Quaternion>>& keyframes, float time);
+		static Quaternion LookAt(const SakuEngine::Vector3& from, const SakuEngine::Vector3& to, const SakuEngine::Vector3& up);
 
-	static Quaternion LookRotation(const Vector3& forward, const Vector3& up);
+		static Quaternion FromToRotation(const SakuEngine::Vector3& from, const SakuEngine::Vector3& to);
 
-	static Quaternion LookAt(const Vector3& from, const Vector3& to, const Vector3& up);
+		static Quaternion FromRotationMatrix(const Matrix4x4& m);
 
-	static Quaternion FromToRotation(const Vector3& from, const Vector3& to);
+		static Quaternion FromToY(const SakuEngine::Vector3& direction);
 
-	static Quaternion FromRotationMatrix(const Matrix4x4& m);
+		static Quaternion LookTarget(const SakuEngine::Vector3& from, const SakuEngine::Vector3& to, const SakuEngine::Vector3& axis,
+			const Quaternion& rotation, float lerpRate);
 
-	static Quaternion FromToY(const Vector3& direction);
-
-	static Quaternion LookTarget(const Vector3& from, const Vector3& to, const Vector3& axis,
-		const Quaternion& rotation, float lerpRate);
-
-	static Quaternion ExtractTwistX(const Quaternion& qNorm);
-};
+		static Quaternion ExtractTwistX(const Quaternion& qNorm);
+	};
 
 }; // SakuEngine

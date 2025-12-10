@@ -1,4 +1,4 @@
-﻿#include "Vector3.h"
+#include "Vector3.h"
 
 using namespace SakuEngine;
 
@@ -263,7 +263,7 @@ Vector3 Vector3::Projection(const Vector3& v0, const Vector3& v1) {
 	Vector3 vector{};
 
 	Vector3 nomalizedV1 = Normalize(v1);
-	vector = Dot(v0, nomalizedV1) * nomalizedV1;
+	vector = nomalizedV1 * Dot(v0, nomalizedV1);
 
 	return vector;
 }

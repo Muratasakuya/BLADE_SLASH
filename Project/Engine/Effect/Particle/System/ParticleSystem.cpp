@@ -1,4 +1,4 @@
-﻿#include "ParticleSystem.h"
+#include "ParticleSystem.h"
 
 using namespace SakuEngine;
 
@@ -130,7 +130,7 @@ void ParticleSystem::UpdateAllEmit() {
 	}
 
 	// 時間経過で全て発生させる
-	allEmitTimer_ += GameTimer::GetDeltaTime();
+	allEmitTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	if (allEmitTime_ < allEmitTimer_) {
 
 		// 発生
@@ -277,8 +277,8 @@ void ParticleSystem::ImGuiGroupAdd() {
 
 	ImGui::PushItemWidth(comboWidth_);
 
-	EnumAdapter<ParticleType>::Combo("Type", &particleType_);
-	EnumAdapter<ParticlePrimitiveType>::Combo("Prim", &primitiveType_);
+	SakuEngine::EnumAdapter<ParticleType>::Combo("Type", &particleType_);
+	SakuEngine::EnumAdapter<ParticlePrimitiveType>::Combo("Prim", &primitiveType_);
 
 	// モデルを選択した場合のみ読み込み済みのモデルを表示する
 	if (primitiveType_ == ParticlePrimitiveType::Model) {
@@ -324,7 +324,7 @@ void ParticleSystem::ImGuiGroupSelect() {
 			const bool isSelected = (selected_.type == type && selected_.index == i);
 
 			// 表示名
-			std::string label = std::format("[{}]{}", EnumAdapter<ParticleType>::ToString(type), vec[i].name);
+			std::string label = std::format("[{}]{}", SakuEngine::EnumAdapter<ParticleType>::ToString(type), vec[i].name);
 			ImGui::PushID(id);
 			if (ImGui::Selectable(label.c_str(), isSelected,
 				ImGuiSelectableFlags_AllowDoubleClick)) {
@@ -513,7 +513,7 @@ void ParticleSystem::SaveJson() {
 	//	SystemParameters
 	//============================================================================
 
-	data["primitiveType"] = EnumAdapter<ParticlePrimitiveType>::ToString(primitiveType_);
+	data["primitiveType"] = SakuEngine::EnumAdapter<ParticlePrimitiveType>::ToString(primitiveType_);
 	data["name"] = name_;
 
 	//============================================================================
@@ -534,7 +534,7 @@ void ParticleSystem::SaveJson() {
 	}
 
 	std::string fileName = static_cast<std::string>(fileBuffer_);
-	JsonAdapter::Save(fileName, data);
+	SakuEngine::JsonAdapter::Save(fileName, data);
 }
 
 void ParticleSystem::LoadJson(const std::optional<std::string>& filePath, bool useGame) {
@@ -545,7 +545,7 @@ void ParticleSystem::LoadJson(const std::optional<std::string>& filePath, bool u
 
 		loadFileName_ = filePath.value();
 	}
-	if (!JsonAdapter::LoadCheck(loadFileName_, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(loadFileName_, data)) {
 		return;
 	}
 	// リセット
@@ -560,7 +560,7 @@ void ParticleSystem::LoadJson(const std::optional<std::string>& filePath, bool u
 	//	SystemParameters
 	//============================================================================
 
-	const auto& primitiveType = EnumAdapter<ParticlePrimitiveType>::FromString(data["primitiveType"]);
+	const auto& primitiveType = SakuEngine::EnumAdapter<ParticlePrimitiveType>::FromString(data["primitiveType"]);
 	primitiveType_ = primitiveType.value();
 	name_ = data.value("name", "particleSystem");
 

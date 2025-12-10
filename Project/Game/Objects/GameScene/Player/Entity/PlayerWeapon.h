@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,7 @@
 //	プレイヤーの武器
 //============================================================================
 class PlayerWeapon :
-	public GameObject3D {
+	public SakuEngine::GameObject3D {
 public:
 	//========================================================================
 	//	public Methods
@@ -30,7 +30,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 剣先の座標を取得
-	const Vector3& GetTipTranslation() const { return tipTranslation_; }
+	const SakuEngine::Vector3& GetTipTranslation() const { return tipTranslation_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -39,12 +39,12 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// parameters
-	Transform3D initTransform_; // 初期化時の値
+	SakuEngine::Transform3D initTransform_; // 初期化時の値
 
 	// 剣先の座標
-	Vector3 tipTranslation_;
+	SakuEngine::Vector3 tipTranslation_;
 	// オフセット
-	Vector3 tipOffset_;
+	SakuEngine::Vector3 tipOffset_;
 
 	//--------- functions ----------------------------------------------------
 

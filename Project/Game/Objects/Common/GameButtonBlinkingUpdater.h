@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -22,18 +22,18 @@ public:
 	~GameButtonBlinkingUpdater() = default;
 
 	// 更新開始
-	void Begin(GameObject2D& object) override;
+	void Begin(SakuEngine::GameObject2D& object) override;
 
 	// 更新中
-	void ActiveUpdate(GameObject2D& object) override;
+	void ActiveUpdate(SakuEngine::GameObject2D& object) override;
 	// 非アクティブになったときの更新
-	void InactiveUpdate(GameObject2D& object) override;
+	void InactiveUpdate(SakuEngine::GameObject2D& object) override;
 
 	// リセット
-	void End(GameObject2D& object) override;
+	void End(SakuEngine::GameObject2D& object) override;
 
 	// 常に行う更新処理
-	void IdleUpdate(GameObject2D&) override;
+	void IdleUpdate(SakuEngine::GameObject2D&) override;
 
 	// editor
 	void ImGui() override;
@@ -53,7 +53,7 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// ループ
-	AnimationLoop animationLoop_;
+	SakuEngine::AnimationLoop animationLoop_;
 
 	float loopTimer_;   // 時間経過
 	float loopSpacing_; // ループ間隔
@@ -63,11 +63,11 @@ private:
 	float endTime_;  // 元に戻っていく時間
 	EasingType endEasing_;
 
-	Vector2 baseSize_; // スケーリングを行うサイズ
+	SakuEngine::Vector2 baseSize_; // スケーリングを行うサイズ
 	float smallScale_; // 最小スケール
 	float maxScale_;   // 最大スケール
 
-	Color beginColor_;  // 開始時の色の保持
-	Color startColor_;  // 最初の色
-	Color targetColor_; // 目標の色
+	SakuEngine::Color beginColor_;  // 開始時の色の保持
+	SakuEngine::Color startColor_;  // 最初の色
+	SakuEngine::Color targetColor_; // 目標の色
 };

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -77,8 +77,8 @@ private:
 	// フォーカスされるUIの受付UI情報
 	struct EntryRule {
 
-		Vector2Int from;       // どの座標からか
-		Direction2D direction; // どの方向入力か
+		SakuEngine::Vector2Int from; // どの座標からか
+		Direction2D direction;       // どの方向入力か
 	};
 
 	// UI構造体
@@ -93,14 +93,14 @@ private:
 		bool isDefaultFocus = true;
 
 		// 表示用スプライト
-		std::vector<std::unique_ptr<AnimationObject2D>> sprites;
+		std::vector<std::unique_ptr<SakuEngine::AnimationObject2D>> sprites;
 
 		// UIの位置しているマップ位置
-		Vector2Int ownMapCoordinate;
+		SakuEngine::Vector2Int ownMapCoordinate;
 		std::vector<EntryRule> entryRules;
 
 		// 表示スプライトの親
-		std::unique_ptr<Transform2D> parentTransform;
+		std::unique_ptr<SakuEngine::Transform2D> parentTransform;
 
 		UI() = default;
 		~UI() = default;
@@ -124,13 +124,13 @@ private:
 	std::string groupName_;
 
 	// 入力クラス
-	std::unique_ptr<InputMapper<SelectUIInputAction>> inputMapper_;
+	std::unique_ptr<SakuEngine::InputMapper<SelectUIInputAction>> inputMapper_;
 	// UIリスト
 	std::vector<UI> uiList_;
 
 	// フォーカス処理
 	int focusedUIIndex_ = -1;                    // 現在フォーカスしているUIのインデックス
-	Vector2Int currentCoordinate_;               // 現在のマップ位置
+	SakuEngine::Vector2Int currentCoordinate_;               // 現在のマップ位置
 	std::vector<int32_t> inputAcceptMapNumbers_; // 入力を受け付けるマップ番号のリスト
 
 	// エディター
@@ -138,9 +138,9 @@ private:
 	int selectedUIIndex_ = -1;
 	int selectedSpriteIndex_ = -1;
 
-	InputImGui addUIName_;        // 追加するUIの名前
-	InputImGui addUISpriteName_;  // 追加するUI内のSpriteの名前
-	JsonSaveState jsonSaveState_; // json保存用状態
+	SakuEngine::InputImGui addUIName_;        // 追加するUIの名前
+	SakuEngine::InputImGui addUISpriteName_;  // 追加するUI内のSpriteの名前
+	SakuEngine::JsonSaveState jsonSaveState_; // json保存用状態
 
 	//--------- functions ----------------------------------------------------
 
@@ -170,7 +170,7 @@ private:
 	// 1フレームでの状態遷移
 	void StepStates();
 
-	int FindUIIndexByCoord(const Vector2Int& coordinate) const;
-	bool CanFocusUIFrom(const UI& ui, const Vector2Int& from, Direction2D direction) const;
-	Vector2Int DirectionDelta(Direction2D direction);
+	int FindUIIndexByCoord(const SakuEngine::Vector2Int& coordinate) const;
+	bool CanFocusUIFrom(const UI& ui, const SakuEngine::Vector2Int& from, Direction2D direction) const;
+	SakuEngine::Vector2Int DirectionDelta(Direction2D direction);
 };

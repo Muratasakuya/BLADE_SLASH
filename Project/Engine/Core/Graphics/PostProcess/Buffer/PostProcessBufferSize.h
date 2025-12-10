@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -125,7 +125,7 @@ public:
 	float threshold = 12.0f;
 	float pad0[2];
 
-	Vector3 color = Vector3::AnyInit(0.0f);
+	Vector3 color = SakuEngine::Vector3::AnyInit(0.0f);
 	float pad1;
 };
 
@@ -145,7 +145,7 @@ public:
 	float scale = 24.0f;
 	float power = 0.0f;
 	float padding[2];
-	Vector3 color = Vector3::AnyInit(1.0f);
+	Vector3 color = SakuEngine::Vector3::AnyInit(1.0f);
 };
 
 class RadialBlurForGPU {
@@ -161,7 +161,7 @@ public:
 
 	//--------- properties ---------------------------------------------------
 
-	Vector2 center = Vector2::AnyInit(0.5f);
+	Vector2 center = SakuEngine::Vector2::AnyInit(0.5f);
 	int numSamples = 0;
 	float width = 0.0f;
 };
@@ -341,10 +341,10 @@ public:
 	float pad1[3];
 
 	// ディザリング色
-	Color ditherColor = Color::White();
+	Color ditherColor = SakuEngine::Color::White();
 
 	// 発光
-	Vector3 emissionColor = Vector3::AnyInit(1.0f);
+	Vector3 emissionColor = SakuEngine::Vector3::AnyInit(1.0f);
 	float emissionIntensity = 0.0f;
 };
 

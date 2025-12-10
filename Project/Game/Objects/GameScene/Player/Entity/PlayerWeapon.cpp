@@ -1,4 +1,4 @@
-﻿#include "PlayerWeapon.h"
+#include "PlayerWeapon.h"
 
 //============================================================================
 //	include
@@ -21,7 +21,7 @@ void PlayerWeapon::SetInitTransform() {
 void PlayerWeapon::Update() {
 
 	// 剣先の座標を更新する
-	tipTranslation_ = Vector3::Transform(tipOffset_, transform_->matrix.world);
+	tipTranslation_ = SakuEngine::Vector3::Transform(tipOffset_, transform_->matrix.world);
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
@@ -35,7 +35,7 @@ void PlayerWeapon::DerivedImGui() {
 	ImGui::DragFloat3("tipOffset", &tipOffset_.x, 0.01f);
 	SetInitTransform();
 
-	LineRenderer::GetInstance()->DrawSphere(6, 0.8f, tipTranslation_, Color::Cyan());
+	SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, tipTranslation_, SakuEngine::Color::Cyan());
 
 	Collider::ImGui(itemWidth_);
 }
@@ -43,7 +43,7 @@ void PlayerWeapon::DerivedImGui() {
 void PlayerWeapon::ApplyJson(const Json& data) {
 
 	initTransform_.FromJson(data["InitTransform"]);
-	tipOffset_ = Vector3::FromJson(data.value("tipOffset_", Json()));
+	tipOffset_ = SakuEngine::Vector3::FromJson(data.value("tipOffset_", Json()));
 	SetInitTransform();
 
 	GameObject3D::ApplyMaterial(data);

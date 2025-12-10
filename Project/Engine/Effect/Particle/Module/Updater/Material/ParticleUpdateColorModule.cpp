@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateColorModule.h"
+#include "ParticleUpdateColorModule.h"
 
 using namespace SakuEngine;
 
@@ -14,8 +14,8 @@ using namespace SakuEngine;
 void ParticleUpdateColorModule::Init() {
 
 	// 初期化値
-	color_.start = Color::White();
-	color_.target = Color::White(0.0f);
+	color_.start = SakuEngine::Color::White();
+	color_.target = SakuEngine::Color::White(0.0f);
 }
 
 void ParticleUpdateColorModule::Execute(
@@ -25,7 +25,7 @@ void ParticleUpdateColorModule::Execute(
 	const float lerpT = LoopedT(particle.progress);
 
 	// 色を補間
-	particle.material.color = Color::Lerp(color_.start, color_.target,
+	particle.material.color = SakuEngine::Color::Lerp(color_.start, color_.target,
 		EasedValue(easing, lerpT));
 }
 
@@ -49,7 +49,7 @@ Json ParticleUpdateColorModule::ToJson() {
 	data["color"]["start"] = color_.start.ToJson();
 	data["color"]["target"] = color_.target.ToJson();
 
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easing);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easing);
 
 	return data;
 }
@@ -59,7 +59,7 @@ void ParticleUpdateColorModule::FromJson(const Json& data) {
 	// ループ
 	ParticleLoopableModule::FromLoopJson(data);
 
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
 	easing = easingType.value();
 
 	const auto& colorData = data["color"];

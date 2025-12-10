@@ -1,4 +1,4 @@
-﻿#include "EffectNode.h"
+#include "EffectNode.h"
 
 using namespace SakuEngine;
 
@@ -13,7 +13,7 @@ using namespace SakuEngine;
 //	EffectNode classMethods
 //============================================================================
 
-void EffectNode::Update(const Vector3& worldPos, const EffectQueryGroupAliveFn& queryFn) {
+void EffectNode::Update(const SakuEngine::Vector3& worldPos, const EffectQueryGroupAliveFn& queryFn) {
 
 	// ランタイムが無効なら何もしない
 	if (!system) {

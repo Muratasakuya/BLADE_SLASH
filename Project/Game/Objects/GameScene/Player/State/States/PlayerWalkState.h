@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -38,7 +38,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	Vector3 move_;    // 移動量
+	SakuEngine::Vector3 move_; // 移動量
 	float moveSpeed_; // 移動速度
 	float moveDecay_; // 移動減衰率
 

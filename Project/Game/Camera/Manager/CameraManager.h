@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -14,14 +14,16 @@
 // front
 class Player;
 class BossEnemy;
-class SceneView;
+namespace SakuEngine {
+	class SceneView;
+}
 
 //============================================================================
 //	CameraManager class
 //	全てのカメラを管理する
 //============================================================================
 class CameraManager :
-	public IGameEditor {
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -31,7 +33,7 @@ public:
 	~CameraManager() = default;
 
 	// 全てのカメラを初期化
-	void Init(SceneView* sceneView);
+	void Init(SakuEngine::SceneView* sceneView);
 
 	// シーンの状態に応じてカメラを更新
 	void Update(GameSceneState sceneState);
@@ -52,7 +54,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	SceneView* sceneView_;
+	SakuEngine::SceneView* sceneView_;
 	const Player* player_;
 	GameSceneState preSceneState_;
 

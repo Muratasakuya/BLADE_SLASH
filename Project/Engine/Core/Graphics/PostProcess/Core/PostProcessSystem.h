@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -29,7 +29,7 @@ class Asset;
 //	ポストプロセス一式の初期化/実行/管理(UI含む)を担う統括クラス。
 //============================================================================
 class PostProcessSystem :
-	public IGameEditor {
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -168,7 +168,7 @@ private:
 template<typename T>
 inline void PostProcessSystem::SetParameter(const T& parameter, PostProcessType process) {
 
-	if (Algorithm::Find(buffers_, process, true)) {
+	if (SakuEngine::Algorithm::Find(buffers_, process, true)) {
 
 		buffers_[process]->SetParameter((void*)&parameter, sizeof(T));
 	}
@@ -179,7 +179,7 @@ inline T* PostProcessSystem::GetUpdater(PostProcessType type) const {
 
 	static_assert(std::is_base_of_v<PostProcessUpdaterBase, T>,
 		"T must derive from PostProcessUpdaterBase");
-	if (!Algorithm::Find(updaters_, type)) {
+	if (!SakuEngine::Algorithm::Find(updaters_, type)) {
 		return nullptr;
 	}
 	return dynamic_cast<T*>(updaters_.at(type).get());

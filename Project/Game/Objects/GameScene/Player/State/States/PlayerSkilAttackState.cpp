@@ -1,4 +1,4 @@
-﻿#include "PlayerSkilAttackState.h"
+#include "PlayerSkilAttackState.h"
 
 //============================================================================
 //	include
@@ -21,17 +21,17 @@ PlayerSkilAttackState::PlayerSkilAttackState(Player* player) {
 	player_ = player;
 
 	// キーフレームオブジェクトの生成
-	moveKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	moveKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	moveKeyframeObject_->Init("playerSkilMoveKey");
-	jumpKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	jumpKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	jumpKeyframeObject_->Init("playerSkilJumpKey");
 
 	// 空の親トランスフォームの生成
-	ObjectManager* objectManager = ObjectManager::GetInstance();
+	SakuEngine::ObjectManager* objectManager = SakuEngine::ObjectManager::GetInstance();
 	uint32_t moveFrontID = objectManager->BuildEmptyobject("playerSkilMoveFrontTransform", "Player");
-	moveFrontTag_ = objectManager->GetData<ObjectTag>(moveFrontID);
+	moveFrontTag_ = objectManager->GetData<SakuEngine::ObjectTag>(moveFrontID);
 	// トランスフォームを追加
-	moveFrontTransform_ = objectManager->GetObjectPoolManager()->AddData<Transform3D>(moveFrontID);
+	moveFrontTransform_ = objectManager->GetObjectPoolManager()->AddData<SakuEngine::Transform3D>(moveFrontID);
 	moveFrontTransform_->Init();
 	moveFrontTransform_->SetInstancingName(moveFrontTag_->name);
 	// プレイヤーを親に設定
@@ -39,9 +39,9 @@ PlayerSkilAttackState::PlayerSkilAttackState(Player* player) {
 
 	// 敵のトランスフォーム補正用の生成
 	uint32_t fixedEnemyID = objectManager->BuildEmptyobject("fixedEnemyTransform", "BossEnemy");
-	fixedEnemyTag_ = objectManager->GetData<ObjectTag>(fixedEnemyID);
+	fixedEnemyTag_ = objectManager->GetData<SakuEngine::ObjectTag>(fixedEnemyID);
 	// トランスフォームを追加
-	fixedEnemyTransform_ = objectManager->GetObjectPoolManager()->AddData<Transform3D>(fixedEnemyID);
+	fixedEnemyTransform_ = objectManager->GetObjectPoolManager()->AddData<SakuEngine::Transform3D>(fixedEnemyID);
 	fixedEnemyTransform_->Init();
 	fixedEnemyTransform_->isCompulsion_ = true;
 	fixedEnemyTransform_->SetInstancingName(fixedEnemyTag_->name);
@@ -51,11 +51,11 @@ PlayerSkilAttackState::PlayerSkilAttackState(Player* player) {
 	afterImageEffect_->Init("playerAttackSkilMove");
 
 	// 移動エフェクト作成
-	moveAtackEffect_ = std::make_unique<EffectGroup>();
+	moveAtackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	moveAtackEffect_->Init("skilMoveAtackEffect", "PlayerEffect");
 	moveAtackEffect_->LoadJson("GameEffectGroup/Player/skilMoveAtackEffect.json");
 	// 地割れエフェクト作成
-	groundCrackEffect_ = std::make_unique<EffectGroup>();
+	groundCrackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	groundCrackEffect_->Init("skilGroundCrack", "PlayerEffect");
 	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundSkilCrackEffect.json");
 	groundCrackEmitted_ = false;
@@ -81,7 +81,7 @@ void PlayerSkilAttackState::Enter(Player& player) {
 	preMovePos_ = player.GetTranslation();
 
 	// 残像表現エフェクト開始
-	std::vector<GameObject3D*> objects = {
+	std::vector<SakuEngine::GameObject3D*> objects = {
 		&player,
 		player.GetWeapon(PlayerWeaponType::Left),
 		player.GetWeapon(PlayerWeaponType::Right)
@@ -118,13 +118,13 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 	moveKeyframeObject_->SelfUpdate();
 
 	// 補間された回転、座標をプレイヤーに適用
-	Vector3 currentTranslation = moveKeyframeObject_->GetCurrentTransform().translation;
+	SakuEngine::Vector3 currentTranslation = moveKeyframeObject_->GetCurrentTransform().translation;
 	player.SetTranslation(currentTranslation);
 	// 回転は次の移動位置の方向を向くようにする
 	// 方向
-	Vector3 direction = Vector3(currentTranslation - preMovePos_).Normalize();
-	Quaternion rotation = Quaternion::LookRotation(direction, rotationAxis_);
-	player.SetRotation(Quaternion::Normalize(rotation));
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(currentTranslation - preMovePos_).Normalize();
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, rotationAxis_);
+	player.SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 
 	// 移動座標を更新する
 	preMovePos_ = currentTranslation;
@@ -142,12 +142,12 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 	if (moveKeyframeObject_->IsNextKeyReached()) {
 
 		// 向きを基に回転を作成
-		Quaternion effectRotation = Quaternion::LookRotation(direction, rotationAxis_);
+		SakuEngine::Quaternion effectRotation = SakuEngine::Quaternion::LookRotation(direction, rotationAxis_);
 		moveAtackEffect_->SetParentRotation("playerSkilMoveEffect",
-			Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
+			SakuEngine::Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
 
 		// キーの位置からエフェクト発生
-		Vector3 translation = moveKeyframeObject_->GetIndexKeyTransform(
+		SakuEngine::Vector3 translation = moveKeyframeObject_->GetIndexKeyTransform(
 			moveKeyframeObject_->GetNextKeyIndex() - 1).translation;
 		moveAtackEffect_->Emit(translation);
 	}
@@ -159,7 +159,7 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 		currentState_ = State::JumpAttack;
 
 		// 残像表現エフェクト終了
-		std::vector<GameObject3D*> objects = {
+		std::vector<SakuEngine::GameObject3D*> objects = {
 			&player,
 			player.GetWeapon(PlayerWeaponType::Left),
 			player.GetWeapon(PlayerWeaponType::Right)
@@ -173,18 +173,18 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 		if (CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
 
 			// 範囲内なので敵の方向を向く回転を設定する
-			Vector3 toEnemyDirection = Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Normalize();
-			targetRotation_ = Quaternion::LookRotation(toEnemyDirection, rotationAxis_);
+			SakuEngine::Vector3 toEnemyDirection = SakuEngine::Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Normalize();
+			targetRotation_ = SakuEngine::Quaternion::LookRotation(toEnemyDirection, rotationAxis_);
 		} else {
 
 			// 範囲外なので前方を向く回転を設定する
 			// 移動後後ろ向いているのでGetBackで前方を取得
-			Vector3 forward = player.GetTransform().GetBack();
-			targetRotation_ = Quaternion::LookRotation(forward, rotationAxis_);
+			SakuEngine::Vector3 forward = player.GetTransform().GetBack();
+			targetRotation_ = SakuEngine::Quaternion::LookRotation(forward, rotationAxis_);
 		}
 
 		// Enterした瞬間の回転を設定
-		player.SetRotation(Quaternion::Normalize(targetRotation_));
+		player.SetRotation(SakuEngine::Quaternion::Normalize(targetRotation_));
 		// 行列を更新
 		player.UpdateMatrix();
 		moveFrontTransform_->UpdateMatrix();
@@ -223,22 +223,22 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 		jumpMoveEffectEmitted_ = true;
 		
 		// 目標へ向けた回転
-		Vector3 direction{};
-		const Vector3 playerPos = player.GetTranslation();
+		SakuEngine::Vector3 direction{};
+		const SakuEngine::Vector3 playerPos = player.GetTranslation();
 		if (isInRange_) {
 
 			// 敵の方向
-			direction = Vector3(bossEnemy_->GetTranslation() - playerPos).Normalize();
+			direction = SakuEngine::Vector3(bossEnemy_->GetTranslation() - playerPos).Normalize();
 		} else {
 
 			// 前方の方向
-			Vector3 targetTranslation = jumpKeyframeObject_->GetLastKeyTransform().translation;
-			direction = Vector3(targetTranslation - playerPos).Normalize();
+			SakuEngine::Vector3 targetTranslation = jumpKeyframeObject_->GetLastKeyTransform().translation;
+			direction = SakuEngine::Vector3(targetTranslation - playerPos).Normalize();
 		}
 		// 向きを基に回転を作成
-		Quaternion effectRotation = Quaternion::LookRotation(direction, rotationAxis_);
+		SakuEngine::Quaternion effectRotation = SakuEngine::Quaternion::LookRotation(direction, rotationAxis_);
 		moveAtackEffect_->SetParentRotation("playerSkilMoveEffect",
-			Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
+			SakuEngine::Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
 		// プレイヤーの右手からエフェクト発生
 		moveAtackEffect_->Emit(player.GetWeapon(PlayerWeaponType::Right)->GetTransform().GetWorldPos());
 	}
@@ -251,7 +251,7 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 
 			// 地割れエフェクトの発生
 			// Y座標は固定
-			Vector3 emitPos = player.GetTranslation();
+			SakuEngine::Vector3 emitPos = player.GetTranslation();
 			// 地面に隠れない位置に調整
 			emitPos.y = 1.0f;
 			groundCrackEffect_->Emit(emitPos);
@@ -260,7 +260,7 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 		}
 
 		// 経過時間更新
-		exitTimer_ += GameTimer::GetDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 		// 時間経過後に状態終了可能にする
 		if (exitTime_ <= exitTimer_) {
 
@@ -269,12 +269,12 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 	} else {
 
 		// 補間された回転、座標をプレイヤーに適用
-		Vector3 currentTranslation = jumpKeyframeObject_->GetCurrentTransform().translation;
+		SakuEngine::Vector3 currentTranslation = jumpKeyframeObject_->GetCurrentTransform().translation;
 		player.SetTranslation(currentTranslation);
 	}
 }
 
-void PlayerSkilAttackState::SetTargetByRange(KeyframeObject3D& keyObject, const std::string& cameraKeyName) {
+void PlayerSkilAttackState::SetTargetByRange(SakuEngine::KeyframeObject3D& keyObject, const std::string& cameraKeyName) {
 
 	// 敵が攻撃可能範囲にいるかチェック
 	isInRange_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
@@ -336,20 +336,20 @@ void PlayerSkilAttackState::Exit(Player& player) {
 	followCamera_->EndPlayerActionAnim(true);
 
 	// 初期Y座標に戻す
-	Vector3 currentPos = player.GetTranslation();
+	SakuEngine::Vector3 currentPos = player.GetTranslation();
 	currentPos.y = player.GetInitTransform().translation.y;
 	player.SetTranslation(currentPos);
 
 	// X軸回転を0.0fに戻す
-	Quaternion currentRotation = player.GetRotation();
+	SakuEngine::Quaternion currentRotation = player.GetRotation();
 	// X軸まわりのツイスト回転を取得
-	Quaternion twistX = Quaternion::ExtractTwistX(currentRotation);
-	Quaternion twistInverse = Quaternion::Inverse(twistX);
+	SakuEngine::Quaternion twistX = SakuEngine::Quaternion::ExtractTwistX(currentRotation);
+	SakuEngine::Quaternion twistInverse = SakuEngine::Quaternion::Inverse(twistX);
 	// X軸まわりのツイストを除去した回転
-	player.SetRotation(Quaternion::Normalize(Quaternion::Multiply(currentRotation, twistInverse)));
+	player.SetRotation(SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(currentRotation, twistInverse)));
 
 	// 残像表現エフェクト終了
-	std::vector<GameObject3D*> objects = {
+	std::vector<SakuEngine::GameObject3D*> objects = {
 		&player,
 		player.GetWeapon(PlayerWeaponType::Left),
 		player.GetWeapon(PlayerWeaponType::Right)
@@ -380,8 +380,8 @@ void PlayerSkilAttackState::ImGui([[maybe_unused]] const Player& player) {
 
 	moveFrontTransform_->ImGui(200.0f);
 
-	LineRenderer::GetInstance()->DrawOBB(moveFrontTransform_->GetWorldPos(),
-		moveFrontTransform_->scale, moveFrontTransform_->rotation, Color::Cyan());
+	SakuEngine::LineRenderer::GetInstance()->DrawOBB(moveFrontTransform_->GetWorldPos(),
+		moveFrontTransform_->scale, moveFrontTransform_->rotation, SakuEngine::Color::Cyan());
 
 	ImGui::SeparatorText("KeyframeObject3D");
 
@@ -410,15 +410,15 @@ void PlayerSkilAttackState::ImGui([[maybe_unused]] const Player& player) {
 
 void PlayerSkilAttackState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	nextJumpAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextJumpAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	nextJumpAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextJumpAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 	jumpEffectEmitProgress_ = data.value("jumpEffectEmitProgress_", 0.5f);
 
 	PlayerBaseAttackState::ApplyJson(data);
 
-	rotationAxis_ = Vector3::FromJson(data.value("rotationAxis_", Json()));
+	rotationAxis_ = SakuEngine::Vector3::FromJson(data.value("rotationAxis_", Json()));
 
 	moveFrontTransform_->FromJson(data.value("MoveFrontTransform", Json()));
 	moveKeyframeObject_->FromJson(data.value("MoveKey", Json()));

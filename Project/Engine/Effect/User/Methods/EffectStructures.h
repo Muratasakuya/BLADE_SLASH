@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -142,9 +142,9 @@ struct EffectModuleSetting {
 
 	// 発生位置、回転
 	Vector3 spawnPos = Vector3(0.0f, 0.4f, 0.0f);
-	Vector3 spawnRotate = Vector3::AnyInit(0.0f);
+	Vector3 spawnRotate = SakuEngine::Vector3::AnyInit(0.0f);
 	// 更新回転
-	Vector3 updateRotate = Vector3::AnyInit(0.0f);
+	Vector3 updateRotate = SakuEngine::Vector3::AnyInit(0.0f);
 
 	// モジュールに値を渡すかどうか
 	// 発生

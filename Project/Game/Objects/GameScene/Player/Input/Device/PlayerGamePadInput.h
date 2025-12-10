@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	ゲームパッド入力
 //============================================================================
 class PlayerGamePadInput :
-	public IInputDevice<PlayerInputAction> {
+	public SakuEngine::IInputDevice<PlayerInputAction> {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerGamePadInput(Input* input) { input_ = input; }
+	PlayerGamePadInput(SakuEngine::Input* input) { input_ = input; }
 	~PlayerGamePadInput() = default;
 
 	//--------- accessor -----------------------------------------------------

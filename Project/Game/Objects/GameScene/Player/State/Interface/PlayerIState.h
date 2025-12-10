@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -13,7 +13,9 @@ class Player;
 class SubPlayer;
 class BossEnemy;
 class FollowCamera;
-class PostProcessSystem;
+namespace SakuEngine {
+	class PostProcessSystem;
+}
 
 //============================================================================
 //	PlayerIState class
@@ -48,7 +50,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetInputMapper(const InputMapper<PlayerInputAction>* inputMapper) { inputMapper_ = inputMapper; }
+	void SetInputMapper(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) { inputMapper_ = inputMapper; }
 	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
 	void SetSubPlayer(SubPlayer* subPlayer) { subPlayer_ = subPlayer; }
@@ -65,12 +67,12 @@ protected:
 
 	//--------- variables ----------------------------------------------------
 
-	const InputMapper<PlayerInputAction>* inputMapper_;
+	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
 	const BossEnemy* bossEnemy_;
 	FollowCamera* followCamera_;
 	Player* player_;
 	SubPlayer* subPlayer_;
-	PostProcessSystem* postProcess_;
+	SakuEngine::PostProcessSystem* postProcess_;
 
 	// 遷移前の状態
 	PlayerState preState_;
@@ -81,7 +83,7 @@ protected:
 	float nextAnimDuration_; // 次のアニメーション遷移にかかる時間
 	bool canExit_ = true;    // 遷移可能かどうか
 	float rotationLerpRate_; // 回転補間割合
-	
+
 	float targetCameraRotateX_; // 目標カメラX軸回転
 
 	bool isAvoidance_ = false; // 回避行動中かどうか
@@ -89,15 +91,15 @@ protected:
 	//--------- functions ----------------------------------------------------
 
 	// helper
-	void SetRotateToDirection(Player& player, const Vector3& move);
+	void SetRotateToDirection(Player& player, const SakuEngine::Vector3& move);
 
 	// プレイヤー、敵の座標取得(Yを固定するため)
-	Vector3 GetPlayerFixedYPos() const;
-	Vector3 GetBossEnemyFixedYPos() const;
+	SakuEngine::Vector3 GetPlayerFixedYPos() const;
+	SakuEngine::Vector3 GetBossEnemyFixedYPos() const;
 
 	// プレイヤーの敵との距離
 	float GetDistanceToBossEnemy() const;
 
 	// プレイヤーから敵への方向
-	Vector3 GetDirectionToBossEnemy() const;
+	SakuEngine::Vector3 GetDirectionToBossEnemy() const;
 };

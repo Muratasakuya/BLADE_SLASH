@@ -1,4 +1,4 @@
-﻿#include "DelayedHitstop.h"
+#include "DelayedHitstop.h"
 
 using namespace SakuEngine;
 
@@ -46,7 +46,7 @@ void DelayedHitstop::Update() {
 	currentIndex_ = std::clamp(currentIndex_, 0u, static_cast<uint32_t>(hitstopInfos_.size() - 1));
 
 	// 遅延時間の経過
-	delayElapsed_ += GameTimer::GetDeltaTime();
+	delayElapsed_ += SakuEngine::GameTimer::GetDeltaTime();
 
 	// 時間経過したら
 	const auto& currentInfo = hitstopInfos_[currentIndex_];

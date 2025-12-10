@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -12,7 +12,7 @@
 namespace SakuEngine {
 
 class DebugCamera :
-	public BaseCamera {
+	public SakuEngine::BaseCamera {
 public:
 	//========================================================================
 	//	public Methods

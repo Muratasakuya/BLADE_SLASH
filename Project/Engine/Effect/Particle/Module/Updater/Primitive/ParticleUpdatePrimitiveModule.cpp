@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdatePrimitiveModule.h"
+#include "ParticleUpdatePrimitiveModule.h"
 
 using namespace SakuEngine;
 
@@ -90,7 +90,7 @@ void ParticleUpdatePrimitiveModule::ImGui() {
 Json ParticleUpdatePrimitiveModule::ToJson() {
 
 	Json data;
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easingType_);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easingType_);
 	for (const auto& updater : updaters_) {
 
 		if (!updater) {
@@ -105,7 +105,7 @@ Json ParticleUpdatePrimitiveModule::ToJson() {
 void ParticleUpdatePrimitiveModule::FromJson(const Json& data) {
 
 	// イージング
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", "EaseInSine"));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", "EaseInSine"));
 	easingType_ = easingType.value();
 
 	for (const auto& updater : updaters_) {

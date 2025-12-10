@@ -1,4 +1,4 @@
-﻿#include "CollisionManager.h"
+#include "CollisionManager.h"
 
 using namespace SakuEngine;
 
@@ -179,13 +179,13 @@ bool CollisionManager::IsColliding(CollisionBody* colliderA, CollisionBody* coll
 
 void CollisionManager::DrawCollider() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 	if (!lineRenderer) return;
 
 	for (auto& collider : colliders_) {
 
 		const auto& shape = collider->GetShape();
-		Vector3 center = Vector3::AnyInit(0.0f);
+		Vector3 center = SakuEngine::Vector3::AnyInit(0.0f);
 		if (std::holds_alternative<CollisionShape::Sphere>(shape)) {
 
 			center = std::get<CollisionShape::Sphere>(shape).center;

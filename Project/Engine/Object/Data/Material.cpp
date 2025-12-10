@@ -1,4 +1,4 @@
-﻿#include "Material.h"
+#include "Material.h"
 
 using namespace SakuEngine;
 
@@ -19,7 +19,7 @@ using namespace SakuEngine;
 
 void Material::InitParameter() {
 
-	color = Color::White();
+	color = SakuEngine::Color::White();
 	enableNormalMap = false;
 	enableDithering = false;
 	enableLighting = true;
@@ -39,8 +39,8 @@ void Material::InitParameter() {
 void Material::Init(Asset* asset) {
 
 	InitParameter();
-	uvTransform.scale = Vector3::AnyInit(1.0f);
-	prevUVTransform_.scale = Vector3::AnyInit(1.0f);
+	uvTransform.scale = SakuEngine::Vector3::AnyInit(1.0f);
+	prevUVTransform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
 
 	asset_ = nullptr;
 	asset_ = asset;
@@ -111,7 +111,7 @@ void Material::ImGui(float itemSize) {
 
 	ImGui::SeparatorText("PostProcess");
 
-	ImGuiHelper::EditPostProcessMask(postProcessMask);
+	SakuEngine::ImGuiHelper::EditPostProcessMask(postProcessMask);
 
 	int32_t isRejectionInt = static_cast<int32_t>(isRejection);
 	if (ImGui::DragInt("isRejection", &isRejectionInt, 1, 0, 1)) {
@@ -151,25 +151,25 @@ void Material::FromJson(const Json& data) {
 
 	// Material
 	// color
-	color = JsonAdapter::ToObject<Color>(data["color"]);
-	emissionColor = JsonAdapter::ToObject<Vector3>(data["emissionColor"]);
-	emissiveIntensity = JsonAdapter::GetValue<float>(data, "emissiveIntensity");
-	enableDithering = JsonAdapter::GetValue<int32_t>(data, "enableDithering");
+	color = SakuEngine::JsonAdapter::ToObject<Color>(data["color"]);
+	emissionColor = SakuEngine::JsonAdapter::ToObject<Vector3>(data["emissionColor"]);
+	emissiveIntensity = SakuEngine::JsonAdapter::GetValue<float>(data, "emissiveIntensity");
+	enableDithering = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableDithering");
 	// lighting
-	enableLighting = JsonAdapter::GetValue<int32_t>(data, "enableLighting");
-	enableHalfLambert = JsonAdapter::GetValue<int32_t>(data, "enableHalfLambert");
-	enableBlinnPhongReflection = JsonAdapter::GetValue<int32_t>(data, "enableBlinnPhongReflection");
-	enableImageBasedLighting = JsonAdapter::GetValue<int32_t>(data, "enableImageBasedLighting");
-	castShadow = JsonAdapter::GetValue<int32_t>(data, "castShadow");
-	phongRefShininess = JsonAdapter::GetValue<float>(data, "phongRefShininess");
-	specularColor = JsonAdapter::ToObject<Vector3>(data["specularColor"]);
-	shadowRate = JsonAdapter::GetValue<float>(data, "shadowRate");
-	environmentCoefficient = JsonAdapter::GetValue<float>(data, "environmentCoefficient");
+	enableLighting = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableLighting");
+	enableHalfLambert = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableHalfLambert");
+	enableBlinnPhongReflection = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableBlinnPhongReflection");
+	enableImageBasedLighting = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableImageBasedLighting");
+	castShadow = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "castShadow");
+	phongRefShininess = SakuEngine::JsonAdapter::GetValue<float>(data, "phongRefShininess");
+	specularColor = SakuEngine::JsonAdapter::ToObject<Vector3>(data["specularColor"]);
+	shadowRate = SakuEngine::JsonAdapter::GetValue<float>(data, "shadowRate");
+	environmentCoefficient = SakuEngine::JsonAdapter::GetValue<float>(data, "environmentCoefficient");
 
 	// UV
-	uvTransform.scale = JsonAdapter::ToObject<Vector3>(data["uvScale"]);
-	uvTransform.rotate = JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
-	uvTransform.translation = JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
+	uvTransform.scale = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvScale"]);
+	uvTransform.rotate = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
+	uvTransform.translation = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
 }
 
 void Material::SetTextureName(const std::string& textureName) {
@@ -184,8 +184,8 @@ void Material::SetTextureName(const std::string& textureName) {
 void SpriteMaterial::Init(ID3D12Device* device) {
 
 	material.Init();
-	uvTransform.scale = Vector3::AnyInit(1.0f);
-	prevUVTransform_.scale = Vector3::AnyInit(1.0f);
+	uvTransform.scale = SakuEngine::Vector3::AnyInit(1.0f);
+	prevUVTransform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
 
 	// buffer初期化
 	buffer_.CreateBuffer(device);
@@ -243,7 +243,7 @@ void SpriteMaterial::ImGui(float itemSize) {
 
 	ImGui::SeparatorText("PostProcess");
 
-	ImGuiHelper::EditPostProcessMask(material.postProcessMask);
+	SakuEngine::ImGuiHelper::EditPostProcessMask(material.postProcessMask);
 
 	ImGui::PopItemWidth();
 }
@@ -269,7 +269,7 @@ void SpriteMaterial::FromJson(const Json& data) {
 
 	// Material
 	material.color = Color::FromJson(data["color"]);
-	material.emissionColor = Vector3::FromJson(data["emissionColor"]);
+	material.emissionColor = SakuEngine::Vector3::FromJson(data["emissionColor"]);
 	material.useVertexColor = data["useVertexColor"];
 	material.useAlphaColor = data["useAlphaColor"];
 	material.emissiveIntensity = data["emissiveIntensity"];
@@ -277,7 +277,7 @@ void SpriteMaterial::FromJson(const Json& data) {
 	material.postProcessMask = data["postProcessMask"];
 
 	// UV
-	uvTransform.scale = JsonAdapter::ToObject<Vector3>(data["uvScale"]);
-	uvTransform.rotate = JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
-	uvTransform.translation = JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
+	uvTransform.scale = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvScale"]);
+	uvTransform.rotate = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
+	uvTransform.translation = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
 }

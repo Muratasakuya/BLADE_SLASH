@@ -1,4 +1,4 @@
-﻿#include "Skybox.h"
+#include "Skybox.h"
 
 using namespace SakuEngine;
 
@@ -96,15 +96,15 @@ void Skybox::CreateCBuffer(ID3D12Device* device, uint32_t textureIndex) {
 	transform_.Init();
 	// 初期化値で320.0fにスケーリング
 	const float scale = 640.0f;
-	transform_.scale = Vector3::AnyInit(scale);
+	transform_.scale = SakuEngine::Vector3::AnyInit(scale);
 	transform_.UpdateMatrix();
 
 	initColor_ = Color(0.03f, 0.026f, 0.032f, 1.0f);
 	material_.color = initColor_;
 	material_.textureIndex = textureIndex;
 
-	uvTransform_.scale = Vector3::AnyInit(1.0f);
-	prevUVTransform_.scale = Vector3::AnyInit(1.0f);
+	uvTransform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
+	prevUVTransform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
 	// uvの更新
 	material_.uvTransform = Matrix4x4::MakeAffineMatrix(
 		uvTransform_.scale, uvTransform_.rotate, uvTransform_.translation);

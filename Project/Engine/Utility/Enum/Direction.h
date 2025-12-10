@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -32,9 +32,9 @@ enum class Direction2D {
 namespace Direction {
 
 	// 3D
-	Vector3 Get(Direction3D direction);
-	Vector3 GetRotate(Direction3D direction);
+	SakuEngine::Vector3 Get(Direction3D direction);
+	SakuEngine::Vector3 GetRotate(Direction3D direction);
 
 	// 2D
-	Vector2 Get(Direction2D direction);
+	SakuEngine::Vector2 Get(Direction2D direction);
 }

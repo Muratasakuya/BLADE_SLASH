@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -12,7 +12,7 @@
 //	ボスの攻撃予備動作サイン
 //============================================================================
 class BossEnemyAttackSign :
-	public IGameEditor {
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -33,7 +33,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 予備動作サインを発生させる
-	void Emit(const Vector2& emitPos);
+	void Emit(const SakuEngine::Vector2& emitPos);
 private:
 	//========================================================================
 	//	private Methods
@@ -50,8 +50,8 @@ private:
 
 	struct DirectionInfo {
 
-		Vector2 direction; // 進行方向
-		Vector2 anchor;    // アンカーポイント
+		SakuEngine::Vector2 direction; // 進行方向
+		SakuEngine::Vector2 anchor;    // アンカーポイント
 		bool horizontal;   // 横方向かどうか
 	};
 
@@ -78,14 +78,14 @@ private:
 	State currentState_;
 
 	// 表示スプライト
-	std::array<std::unique_ptr<GameObject2D>, static_cast<uint32_t>(SignDirection::Count)> signs_;
+	std::array<std::unique_ptr<SakuEngine::GameObject2D>, static_cast<uint32_t>(SignDirection::Count)> signs_;
 
 	// parameters
 	// アニメーションに使用するパラメータは全て共通
-	Vector2 emitPos_;           // 発生座標
-	StateTimer animationTimer_; // タイマー
-	LerpValue<Vector2> size_;   // サイズ
-	LerpValue<float> move_;     // 開始地点からの移動量
+	SakuEngine::Vector2 emitPos_;           // 発生座標
+	SakuEngine::StateTimer animationTimer_; // タイマー
+	LerpValue<SakuEngine::Vector2> size_;   // サイズ
+	LerpValue<float> move_;                 // 開始地点からの移動量
 
 	//--------- functions ----------------------------------------------------
 

@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateAlphaReferenceModule.h"
+#include "ParticleUpdateAlphaReferenceModule.h"
 
 using namespace SakuEngine;
 
@@ -69,7 +69,7 @@ Json ParticleUpdateAlphaReferenceModule::ToJson() {
 	data["noise"]["start"] = noise_.start;
 	data["noise"]["target"] = noise_.target;
 
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easing_);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easing_);
 
 	return data;
 }
@@ -79,7 +79,7 @@ void ParticleUpdateAlphaReferenceModule::FromJson(const Json& data) {
 	useNoiseTexture_ = data.value("useNoiseTexture", false);
 
 	// イージング
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
 	easing_ = easingType.value();
 
 	// 色

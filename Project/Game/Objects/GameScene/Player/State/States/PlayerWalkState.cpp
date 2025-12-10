@@ -1,4 +1,4 @@
-﻿#include "PlayerWalkState.h"
+#include "PlayerWalkState.h"
 
 //============================================================================
 //	include
@@ -34,19 +34,19 @@ void PlayerWalkState::Update(Player& player) {
 void PlayerWalkState::UpdateWalk(Player& player) {
 
 	// 入力値取得
-	Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
+	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
-	inputValue = Vector2::Normalize(inputValue);
+	inputValue = SakuEngine::Vector2::Normalize(inputValue);
 
 	if (std::fabs(inputValue.x) > epsilon_ || std::fabs(inputValue.y) > epsilon_) {
 
 		// 入力がある場合のみ速度を計算する
-		Vector3 inputDirection(inputValue.x, 0.0f, inputValue.y);
-		inputDirection = Vector3::Normalize(inputDirection);
+		SakuEngine::Vector3 inputDirection(inputValue.x, 0.0f, inputValue.y);
+		inputDirection = SakuEngine::Vector3::Normalize(inputDirection);
 
-		Matrix4x4 rotateMatrix = Quaternion::MakeRotateMatrix(followCamera_->GetTransform().rotation);
-		Vector3 rotatedDirection = Vector3::TransferNormal(inputDirection, rotateMatrix);
-		rotatedDirection = Vector3::Normalize(rotatedDirection);
+		SakuEngine::Matrix4x4 rotateMatrix = SakuEngine::Quaternion::MakeRotateMatrix(followCamera_->GetTransform().rotation);
+		SakuEngine::Vector3 rotatedDirection = SakuEngine::Vector3::TransferNormal(inputDirection, rotateMatrix);
+		rotatedDirection = SakuEngine::Vector3::Normalize(rotatedDirection);
 
 		move_ = rotatedDirection * moveSpeed_;
 	} else {
@@ -61,7 +61,7 @@ void PlayerWalkState::UpdateWalk(Player& player) {
 	move_.y = 0.0f;
 
 	// 移動量を加算
-	Vector3 translation = player.GetTranslation();
+	SakuEngine::Vector3 translation = player.GetTranslation();
 	translation += move_;
 	player.SetTranslation(translation);
 }
@@ -79,10 +79,10 @@ void PlayerWalkState::ImGui([[maybe_unused]] const Player& player) {
 
 void PlayerWalkState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	moveSpeed_ = JsonAdapter::GetValue<float>(data, "moveSpeed_");
-	moveDecay_ = JsonAdapter::GetValue<float>(data, "moveDecay_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	moveSpeed_ = SakuEngine::JsonAdapter::GetValue<float>(data, "moveSpeed_");
+	moveDecay_ = SakuEngine::JsonAdapter::GetValue<float>(data, "moveDecay_");
 }
 
 void PlayerWalkState::SaveJson(Json& data) {

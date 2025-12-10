@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -35,7 +35,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	void SetPlayer(const Player* player);
-	void SetTarget(FollowCameraTargetType type, const Transform3D& target);
+	void SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target);
 	void SetState(FollowCameraState state) { requested_ = state; }
 	void SetOverlayState(FollowCamera& owner, FollowCameraOverlayState state);
 	void WarmStartFollow(FollowCamera& owner);
@@ -56,7 +56,7 @@ private:
 	const std::string kStateJsonPath_ = "Camera/Follow/stateParameter.json";
 
 	// 入力
-	std::unique_ptr<InputMapper<FollowCameraInputAction>> inputMapper_;
+	std::unique_ptr<SakuEngine::InputMapper<FollowCameraInputAction>> inputMapper_;
 
 	std::unordered_map<FollowCameraState, std::unique_ptr<FollowCameraIState>> states_;
 	std::unordered_map<FollowCameraOverlayState, std::unique_ptr<FollowCameraIState>> overlayStates_;

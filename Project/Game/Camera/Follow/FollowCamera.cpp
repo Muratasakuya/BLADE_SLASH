@@ -1,4 +1,4 @@
-﻿#include "FollowCamera.h"
+#include "FollowCamera.h"
 
 //============================================================================
 //	include
@@ -20,7 +20,7 @@ void FollowCamera::LoadAnim() {
 		return;
 	}
 
-	CameraEditor* editor = CameraEditor::GetInstance();
+	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 	// プレイヤーの攻撃
 	editor->LoadJson("Player/player3rdAttack.json");
 	editor->LoadJson("Player/player4thAttack.json");
@@ -37,7 +37,7 @@ void FollowCamera::LoadAnim() {
 
 void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 
-	CameraEditor* editor = CameraEditor::GetInstance();
+	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 
 	// 状態毎に名前を取得
 	std::string name{};
@@ -48,9 +48,9 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	case PlayerState::Parry:
 
 		// 目標回転
-		const Quaternion baseTarget = targets_[FollowCameraTargetType::BossEnemy]->rotation;
+		const SakuEngine::Quaternion baseTarget = targets_[FollowCameraTargetType::BossEnemy]->rotation;
 		// y軸最短補間方向
-		int direction = Math::YawShortestDirection(transform_.rotation, baseTarget);
+		int direction = SakuEngine::Math::YawShortestDirection(transform_.rotation, baseTarget);
 
 		// 0か-1なら左、+1は右からの視点のパリィアニメーションを行わせる
 		name = (0 <= direction) ? "playerParryRight" : "playerParryLeft";
@@ -66,7 +66,7 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 
 void FollowCamera::StartPlayerActionAnim(const std::string& animName) {
 
-	CameraEditor* editor = CameraEditor::GetInstance();
+	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 
 	// 名前が設定されていればアニメーションを再生
 	if (!animName.empty()) {
@@ -77,7 +77,7 @@ void FollowCamera::StartPlayerActionAnim(const std::string& animName) {
 
 void FollowCamera::EndPlayerActionAnim(bool isWarmStart) {
 
-	CameraEditor* editor = CameraEditor::GetInstance();
+	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 
 	// アニメーションを終了させる
 	editor->EndAnim();
@@ -105,7 +105,7 @@ void FollowCamera::StartLookToTarget(FollowCameraTargetType from,
 	startFovY_ = fovY_;
 
 	// 開始回転を設定
-	lookToStart_ = Quaternion::Normalize(transform_.rotation);
+	lookToStart_ = SakuEngine::Quaternion::Normalize(transform_.rotation);
 	lookToTarget_ = std::nullopt;
 	anyTargetXRotation_ = std::nullopt;
 
@@ -123,11 +123,11 @@ void FollowCamera::StartLookToTarget(FollowCameraTargetType from,
 	}
 
 	// 目標回転
-	const Quaternion baseTarget = lookToTarget_.has_value()
+	const SakuEngine::Quaternion baseTarget = lookToTarget_.has_value()
 		? lookToTarget_.value() : GetTargetRotation();
 
 	// Y軸回転の差
-	const float yawDelta = Math::YawSignedDelta(lookToStart_, baseTarget);
+	const float yawDelta = SakuEngine::Math::YawSignedDelta(lookToStart_, baseTarget);
 	const float kDeadZone = 0.008f;
 	if (std::abs(yawDelta) <= kDeadZone) {
 
@@ -173,7 +173,7 @@ void FollowCamera::SetOverlayState(FollowCameraOverlayState state, bool isStart)
 	}
 }
 
-void FollowCamera::SetTarget(FollowCameraTargetType type, const Transform3D& target) {
+void FollowCamera::SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target) {
 
 	stateController_->SetTarget(type, target);
 	targets_[type] = &target;
@@ -209,7 +209,7 @@ void FollowCamera::UpdateLookToTarget() {
 	}
 
 	// 目標回転
-	Quaternion baseTarget = lookToTarget_.has_value() ?
+	SakuEngine::Quaternion baseTarget = lookToTarget_.has_value() ?
 		lookToTarget_.value() : GetTargetRotation();
 
 	// 最短のY軸補間方向を取得
@@ -217,16 +217,16 @@ void FollowCamera::UpdateLookToTarget() {
 	float signedOffset = -static_cast<float>(lookYawDirection_) * lookYawOffset_;
 
 	// Y軸にオフセットをかけて目標回転を算出
-	Quaternion yawOffset = Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Up), signedOffset);
-	Quaternion targetRotation = Quaternion::Normalize(yawOffset * baseTarget);
+	SakuEngine::Quaternion yawOffset = SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Up), signedOffset);
+	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::Normalize(yawOffset * baseTarget);
 
 	// 時間の更新
 	lookTimer_.Update(lookTimer_.target_ * lookTimerRate_);
 
 	// 回転補間
-	Quaternion rotation = Quaternion::Slerp(lookToStart_,
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Slerp(lookToStart_,
 		targetRotation, lookTimer_.easedT_);
-	transform_.rotation = Quaternion::Normalize(rotation);
+	transform_.rotation = SakuEngine::Quaternion::Normalize(rotation);
 
 	fovY_ = std::lerp(startFovY_, initFovY_, lookTimer_.easedT_);
 
@@ -251,27 +251,27 @@ void FollowCamera::UpdateLookAlwaysTarget() {
 	lookPair_.second = FollowCameraTargetType::BossEnemy;
 
 	// 目標回転
-	Quaternion targetRotation = GetTargetRotation();
+	SakuEngine::Quaternion targetRotation = GetTargetRotation();
 
 	// 回転をフレーム補間
-	Quaternion rotation = Quaternion::Slerp(
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Slerp(
 		transform_.rotation, targetRotation, lookTargetLerpRate_);
-	transform_.rotation = Quaternion::Normalize(rotation);
+	transform_.rotation = SakuEngine::Quaternion::Normalize(rotation);
 }
 
-Quaternion FollowCamera::GetTargetRotation() const {
+SakuEngine::Quaternion FollowCamera::GetTargetRotation() const {
 
 	// 注視点に向ける
 	// 視点と注視点
-	const Transform3D fromTransform = *targets_.at(lookPair_.first);
-	const Transform3D toTransform = *targets_.at(lookPair_.second);
+	const SakuEngine::Transform3D fromTransform = *targets_.at(lookPair_.first);
+	const SakuEngine::Transform3D toTransform = *targets_.at(lookPair_.second);
 
 	// ワールド座標
-	const Vector3 fromPos = fromTransform.GetWorldPos();
-	const Vector3 toPos = toTransform.GetWorldPos();
+	const SakuEngine::Vector3 fromPos = fromTransform.GetWorldPos();
+	const SakuEngine::Vector3 toPos = toTransform.GetWorldPos();
 
 	// 水平のみの前方ベクトル方向を取得
-	Vector3 forward = toPos - fromPos;
+	SakuEngine::Vector3 forward = toPos - fromPos;
 	forward.y = 0.0f;
 	forward = forward.Normalize();
 
@@ -280,14 +280,14 @@ Quaternion FollowCamera::GetTargetRotation() const {
 	targetXRotation = (std::max)(0.0f, targetXRotation);
 
 	// Y軸の回転
-	Quaternion yawRotation = Quaternion::LookRotation(
+	SakuEngine::Quaternion yawRotation = SakuEngine::Quaternion::LookRotation(
 		forward, Direction::Get(Direction3D::Up));
 	// X軸回転
-	Vector3 rightAxis = (yawRotation * Direction::Get(Direction3D::Right)).Normalize();
-	Quaternion pitchRotation = Quaternion::Normalize(Quaternion::MakeAxisAngle(
+	SakuEngine::Vector3 rightAxis = (yawRotation * Direction::Get(Direction3D::Right)).Normalize();
+	SakuEngine::Quaternion pitchRotation = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::MakeAxisAngle(
 		rightAxis, targetXRotation));
 	// 目標回転 
-	Quaternion targetRotation = Quaternion::Normalize(pitchRotation * yawRotation);
+	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::Normalize(pitchRotation * yawRotation);
 	return targetRotation;
 }
 
@@ -345,14 +345,14 @@ void FollowCamera::ImGui() {
 void FollowCamera::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Camera/Follow/initParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Camera/Follow/initParameter.json", data)) {
 		return;
 	}
 
-	fovY_ = JsonAdapter::GetValue<float>(data, "fovY_");
+	fovY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fovY_");
 	initFovY_ = fovY_;
-	nearClip_ = JsonAdapter::GetValue<float>(data, "nearClip_");
-	farClip_ = JsonAdapter::GetValue<float>(data, "farClip_");
+	nearClip_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nearClip_");
+	farClip_ = SakuEngine::JsonAdapter::GetValue<float>(data, "farClip_");
 
 	targetXRotation_ = data.value("targetXRotation_", 0.4f);
 	lookTargetLerpRate_ = data.value("lookTargetLerpRate_", 0.4f);
@@ -373,5 +373,5 @@ void FollowCamera::SaveJson() {
 	data["lookYawOffset_"] = lookYawOffset_;
 	lookTimer_.ToJson(data["LookTimer"]);
 
-	JsonAdapter::Save("Camera/Follow/initParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Camera/Follow/initParameter.json", data);
 }

@@ -1,4 +1,4 @@
-﻿#include "GameObjectEditor.h"
+#include "GameObjectEditor.h"
 
 using namespace SakuEngine;
 
@@ -233,7 +233,7 @@ void GameObjectEditor::DropFile(const std::string& label, std::optional<std::str
 		ImGui::Button(label.c_str(), dropSize_);
 
 		if (ImGui::BeginDragDropTarget()) {
-			if (const auto* payload = ImGuiHelper::DragDropPayload(PendingType::Model)) {
+			if (const auto* payload = SakuEngine::ImGuiHelper::DragDropPayload(PendingType::Model)) {
 
 				// 名前を保存
 				recieveName = std::string(payload->name);

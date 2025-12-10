@@ -1,4 +1,4 @@
-﻿#include "SceneTransition.h"
+#include "SceneTransition.h"
 
 using namespace SakuEngine;
 
@@ -94,7 +94,7 @@ void SceneTransition::SetTransition() {
 
 void SceneTransition::ImGui() {
 
-	ImGui::Text("CurrentTransition : %s", EnumAdapter<TransitionState>::ToString(state_));
+	ImGui::Text("CurrentTransition : %s", SakuEngine::EnumAdapter<TransitionState>::ToString(state_));
 	if (!isTransition_) {
 		return;
 	}

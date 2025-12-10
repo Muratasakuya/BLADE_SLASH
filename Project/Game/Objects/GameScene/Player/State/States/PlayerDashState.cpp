@@ -1,4 +1,4 @@
-﻿#include "PlayerDashState.h"
+#include "PlayerDashState.h"
 
 //============================================================================
 //	include
@@ -54,7 +54,7 @@ void PlayerDashState::UpdateState() {
 	}
 	case PlayerDashState::State::Sustain: {
 
-		sustainTimer_ += GameTimer::GetScaledDeltaTime();
+		sustainTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 
 		// 時間経過後減速させる
 		if (sustainTime_ <= sustainTimer_) {
@@ -81,14 +81,14 @@ void PlayerDashState::UpdateDash(Player& player) {
 	UpdateState();
 
 	// 入力値取得
-	Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
+	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
-	inputValue = Vector2::Normalize(inputValue);
+	inputValue = SakuEngine::Vector2::Normalize(inputValue);
 	if (inputValue.Length() > epsilon_) {
 
-		Vector3 direction = Vector3::Normalize(Vector3(inputValue.x, 0.0f, inputValue.y));
-		direction = Vector3::TransferNormal(direction,
-			Quaternion::MakeRotateMatrix(followCamera_->GetTransform().rotation));
+		SakuEngine::Vector3 direction = SakuEngine::Vector3::Normalize(SakuEngine::Vector3(inputValue.x, 0.0f, inputValue.y));
+		direction = SakuEngine::Vector3::TransferNormal(direction,
+			SakuEngine::Quaternion::MakeRotateMatrix(followCamera_->GetTransform().rotation));
 		move_ = direction * moveSpeed_;
 	}
 	// 特に何も入力していなくても加速状態の時は向いている方向に加速分動かして進ませる
@@ -99,7 +99,7 @@ void PlayerDashState::UpdateDash(Player& player) {
 	move_.y = 0.0f;
 
 	// 座標を設定
-	Vector3 translation = player.GetTranslation();
+	SakuEngine::Vector3 translation = player.GetTranslation();
 	translation += move_;
 	player.SetTranslation(translation);
 }
@@ -149,12 +149,12 @@ void PlayerDashState::ImGui([[maybe_unused]] const Player& player) {
 
 void PlayerDashState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	sustainTime_ = JsonAdapter::GetValue<float>(data, "sustainTime_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	sustainTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "sustainTime_");
 
-	accelLerp_ = std::make_unique<SimpleAnimation<float>>();
-	decelLerp_ = std::make_unique<SimpleAnimation<float>>();
+	accelLerp_ = std::make_unique<SakuEngine::SimpleAnimation<float>>();
+	decelLerp_ = std::make_unique<SakuEngine::SimpleAnimation<float>>();
 	if (data.contains("accelLerp_")) {
 
 		accelLerp_->FromJson(data["accelLerp_"]);

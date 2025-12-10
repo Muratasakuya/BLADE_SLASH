@@ -1,4 +1,4 @@
-﻿#include "LerpKeyframe.h"
+#include "LerpKeyframe.h"
 
 using namespace SakuEngine;
 
@@ -43,8 +43,8 @@ void LerpKeyframe::DrawKeyframeLine(const std::vector<Vector3>& points,
 				(t + static_cast<float>(i)) / (points.size() - 1), type);
 
 			// 線を描画
-			LineRenderer::GetInstance()->DrawLine3D(
-				previousPoint, currentPoint, Color::Cyan());
+			SakuEngine::LineRenderer::GetInstance()->DrawLine3D(
+				previousPoint, currentPoint, SakuEngine::Color::Cyan());
 
 			// 現在の点を前の点に更新
 			previousPoint = currentPoint;

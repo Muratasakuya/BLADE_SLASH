@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -14,7 +14,7 @@
 //	エフェクト確認用シーン
 //============================================================================
 class EffectScene :
-	public IScene {
+	public SakuEngine::IScene {
 public:
 	//========================================================================
 	//	public Methods
@@ -33,6 +33,6 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	std::unique_ptr<BaseCamera> camera3D_;
-	std::unique_ptr<BasePunctualLight> light_;
+	std::unique_ptr<SakuEngine::BaseCamera> camera3D_;
+	std::unique_ptr<SakuEngine::BasePunctualLight> light_;
 };

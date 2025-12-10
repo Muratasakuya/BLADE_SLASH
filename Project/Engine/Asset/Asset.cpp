@@ -1,4 +1,4 @@
-﻿#include "Asset.h"
+#include "Asset.h"
 
 using namespace SakuEngine;
 
@@ -153,14 +153,14 @@ std::vector<std::function<void()>> Asset::SetTask(const Json& data, AssetLoadTyp
 void Asset::LoadSceneAsync(Scene scene, AssetLoadType loadType) {
 
 	// Sceneの種類に応じてファイル名を決定する
-	std::string sceneName = EnumAdapter<Scene>::ToString(scene);
+	std::string sceneName = SakuEngine::EnumAdapter<Scene>::ToString(scene);
 	// 1文字目を小文字に変換する
 	sceneName[0] = static_cast<char>(std::tolower(sceneName[0]));
 	std::string fileName = "Scene/Asset/" + sceneName + "Scene.json";
 
 	// 読み込み処理
 	Json data{};
-	if (!JsonAdapter::LoadCheck(fileName, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(fileName, data)) {
 		// エラー
 		LOG_WARN("sceneFile not found → {}", fileName);
 		ASSERT(FALSE, "sceneFile not found: " + fileName);

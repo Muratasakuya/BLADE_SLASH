@@ -1,4 +1,4 @@
-﻿#include "GPUPixelPicker.h"
+#include "GPUPixelPicker.h"
 
 using namespace SakuEngine;
 
@@ -32,7 +32,7 @@ void GPUPixelPicker::Init(ID3D12Device8* device,
 }
 
 void GPUPixelPicker::Update(SceneView* sceneView,
-	const Vector2& textureSize, const Vector2& input) {
+	const SakuEngine::Vector2& textureSize, const SakuEngine::Vector2& input) {
 
 	BaseCamera* camera = sceneView->GetSceneCamera();
 

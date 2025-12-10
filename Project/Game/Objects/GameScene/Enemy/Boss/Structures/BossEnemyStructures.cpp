@@ -1,4 +1,4 @@
-﻿#include "BossEnemyStructures.h"
+#include "BossEnemyStructures.h"
 
 //============================================================================
 //	BossEnemyStructures classMethods
@@ -24,7 +24,7 @@ void BossEnemyCombo::FromJson(const Json& data) {
 	if (data.contains("requiredDistanceLevels")) {
 		for (const auto& v : data["requiredDistanceLevels"]) {
 			if (v.is_string()) {
-				if (auto ev = EnumAdapter<DistanceLevel>::FromString(v.get<std::string>()); ev) {
+				if (auto ev = SakuEngine::EnumAdapter<DistanceLevel>::FromString(v.get<std::string>()); ev) {
 					requiredDistanceLevels.emplace_back(*ev);
 				}
 			} else if (v.is_number_integer()) {
@@ -47,21 +47,21 @@ void BossEnemyCombo::ToJson(Json& data) {
 	data["requiredDistanceLevels"].clear();
 	for (auto lv : requiredDistanceLevels) {
 
-		data["requiredDistanceLevels"].push_back(EnumAdapter<DistanceLevel>::ToString(lv));
+		data["requiredDistanceLevels"].push_back(SakuEngine::EnumAdapter<DistanceLevel>::ToString(lv));
 	}
 }
 
 void BossEnemyPhase::FromJson(const Json& data) {
 
 	nextStateDuration = data.value("nextStateDuration", 1.0f);
-	comboIndices = JsonAdapter::ToVector<int>(data["comboIndices"]);
+	comboIndices = SakuEngine::JsonAdapter::ToVector<int>(data["comboIndices"]);
 	autoIdleAfterAttack = data.value("autoIdleAfterAttack", false);
 }
 
 void BossEnemyPhase::ToJson(Json& data) {
 
 	data["nextStateDuration"] = nextStateDuration;
-	data["comboIndices"] = JsonAdapter::FromVector<int>(comboIndices);
+	data["comboIndices"] = SakuEngine::JsonAdapter::FromVector<int>(comboIndices);
 	data["autoIdleAfterAttack"] = autoIdleAfterAttack;
 }
 

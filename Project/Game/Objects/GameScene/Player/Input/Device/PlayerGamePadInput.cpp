@@ -1,4 +1,4 @@
-﻿#include "PlayerGamePadInput.h"
+#include "PlayerGamePadInput.h"
 
 //============================================================================
 //	include
@@ -12,7 +12,7 @@
 float PlayerGamePadInput::GetVector(PlayerInputAction axis) const {
 
 	// 左スティック入力
-	const Vector2 value = input_->GetLeftStickVal();
+	const SakuEngine::Vector2 value = input_->GetLeftStickVal();
 	switch (axis) {
 	case PlayerInputAction::MoveX: {
 

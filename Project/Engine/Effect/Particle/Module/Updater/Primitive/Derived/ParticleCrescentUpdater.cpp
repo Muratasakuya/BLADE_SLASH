@@ -1,4 +1,4 @@
-﻿#include "ParticleCrescentUpdater.h"
+#include "ParticleCrescentUpdater.h"
 
 using namespace SakuEngine;
 
@@ -42,19 +42,19 @@ void ParticleCrescentUpdater::Update(CPUParticle::ParticleData& particle, Easing
 	particle.primitive.crescent.thickness = std::lerp(start_.thickness,
 		target_.thickness, EasedValue(easingType, particle.progress));
 
-	particle.primitive.crescent.pivot = Vector2::Lerp(start_.pivot,
+	particle.primitive.crescent.pivot = SakuEngine::Vector2::Lerp(start_.pivot,
 		target_.pivot, EasedValue(easingType, particle.progress));
 
-	particle.primitive.crescent.tipSharpness = Vector2::Lerp(start_.tipSharpness,
+	particle.primitive.crescent.tipSharpness = SakuEngine::Vector2::Lerp(start_.tipSharpness,
 		target_.tipSharpness, EasedValue(easingType, particle.progress));
 
-	particle.primitive.crescent.weight = Vector2::Lerp(start_.weight,
+	particle.primitive.crescent.weight = SakuEngine::Vector2::Lerp(start_.weight,
 		target_.weight, EasedValue(easingType, particle.progress));
 
-	particle.primitive.crescent.outerColor = Color::Lerp(start_.outerColor,
+	particle.primitive.crescent.outerColor = SakuEngine::Color::Lerp(start_.outerColor,
 		target_.outerColor, EasedValue(easingType, particle.progress));
 
-	particle.primitive.crescent.innerColor = Color::Lerp(start_.innerColor,
+	particle.primitive.crescent.innerColor = SakuEngine::Color::Lerp(start_.innerColor,
 		target_.innerColor, EasedValue(easingType, particle.progress));
 }
 
@@ -122,11 +122,11 @@ void ParticleCrescentUpdater::FromJson(const Json& data) {
 	start_.pivot = start_.pivot.FromJson(crescentData["startPivot"]);
 	target_.pivot = target_.pivot.FromJson(crescentData["targetPivot"]);
 
-	start_.tipSharpness = Vector2::FromJson(crescentData.value("startTipSharpness", Json()));
-	target_.tipSharpness = Vector2::FromJson(crescentData.value("targetTipSharpness", Json()));
+	start_.tipSharpness = SakuEngine::Vector2::FromJson(crescentData.value("startTipSharpness", Json()));
+	target_.tipSharpness = SakuEngine::Vector2::FromJson(crescentData.value("targetTipSharpness", Json()));
 
-	start_.weight = Vector2::FromJson(crescentData.value("startWeight", Json()));
-	target_.weight = Vector2::FromJson(crescentData.value("targetWeight", Json()));
+	start_.weight = SakuEngine::Vector2::FromJson(crescentData.value("startWeight", Json()));
+	target_.weight = SakuEngine::Vector2::FromJson(crescentData.value("targetWeight", Json()));
 
 	if (crescentData.contains("startOuterColor")) {
 

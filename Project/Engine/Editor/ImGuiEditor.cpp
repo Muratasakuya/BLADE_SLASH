@@ -1,4 +1,4 @@
-﻿#include "ImGuiEditor.h"
+#include "ImGuiEditor.h"
 
 using namespace SakuEngine;
 
@@ -274,7 +274,7 @@ void ImGuiEditor::Console() {
 
 			for (const auto& [type, ptr] : descriptors_) {
 
-				ImGui::SeparatorText(EnumAdapter<DescriptorHeapType>::ToString(type));
+				ImGui::SeparatorText(SakuEngine::EnumAdapter<DescriptorHeapType>::ToString(type));
 				DrawDescriptorUsageBar(nullptr, ptr);
 			}
 			ImGui::EndTabItem();
@@ -363,7 +363,7 @@ void ImGuiEditor::SelectObjectFocus(SceneView* sceneView) {
 		if (const auto& select = ImGuiObjectEditor::GetInstance()->GetSelected3D()) {
 			// 新しいオブジェクトを選択したときにのみ処理
 			if (lastAutoFocusId_ != select) {
-				if (Transform3D* transform = ObjectManager::GetInstance()->GetData<Transform3D>(*select)) {
+				if (SakuEngine::Transform3D* transform = ObjectManager::GetInstance()->GetData<SakuEngine::Transform3D>(*select)) {
 
 					BaseCamera* camera = sceneView->GetSceneCamera();
 					camera->StartAutoFocus(true, transform->GetWorldPos());
@@ -382,7 +382,7 @@ void ImGuiEditor::SelectObjectFocus(SceneView* sceneView) {
 
 void ImGuiEditor::SetInputArea(InputViewArea viewArea, const ImVec2& imMin, const ImVec2& imSize) {
 
-	Input* input = Input::GetInstance();
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 
 	Vector2 min = Vector2(imMin.x, imMin.y);
 	Vector2 size = Vector2(imSize.x, imSize.y);

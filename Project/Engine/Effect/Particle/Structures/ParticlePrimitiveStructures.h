@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -48,15 +48,15 @@ struct PlaneForGPU {
 
 	void Init() {
 
-		size = Vector2::AnyInit(1.0f);
-		pivot = Vector2::AnyInit(0.5f);
+		size = SakuEngine::Vector2::AnyInit(1.0f);
+		pivot = SakuEngine::Vector2::AnyInit(0.5f);
 
 		mode = 0;
 
-		leftTopVertexColor = Color::White();
-		rightTopVertexColor = Color::White();
-		leftBottomVertexColor = Color::White();
-		rightBottomVertexColor = Color::White();
+		leftTopVertexColor = SakuEngine::Color::White();
+		rightTopVertexColor = SakuEngine::Color::White();
+		leftBottomVertexColor = SakuEngine::Color::White();
+		rightBottomVertexColor = SakuEngine::Color::White();
 	}
 };
 // リング
@@ -107,8 +107,8 @@ struct CylinderForGPU {
 		divide = 16;
 		uvMode = static_cast<uint32_t>(CylinderUVMode::None);
 
-		topColor = Color::White();
-		bottomColor = Color::White();
+		topColor = SakuEngine::Color::White();
+		bottomColor = SakuEngine::Color::White();
 	}
 };
 // 三日月
@@ -152,13 +152,13 @@ struct CrescentForGPU {
 		endAngle = pi * 5.0f / 6.0f;
 
 		thickness = 0.1f;
-		pivot = Vector2::AnyInit(0.5f);
+		pivot = SakuEngine::Vector2::AnyInit(0.5f);
 
-		outerColor = Color::White();
-		innerColor = Color::White();
+		outerColor = SakuEngine::Color::White();
+		innerColor = SakuEngine::Color::White();
 
-		tipSharpness = Vector2::AnyInit(0.5f);
-		weight = Vector2::AnyInit(0.5f);
+		tipSharpness = SakuEngine::Vector2::AnyInit(0.5f);
+		weight = SakuEngine::Vector2::AnyInit(0.5f);
 
 		divide = 8;
 		uvMode = 1;
@@ -214,8 +214,8 @@ struct TestMeshForGPU {
 
 	void Init() {
 
-		size = Vector2::AnyInit(1.0f);
-		pivot = Vector2::AnyInit(0.5f);
+		size = SakuEngine::Vector2::AnyInit(1.0f);
+		pivot = SakuEngine::Vector2::AnyInit(0.5f);
 
 		mode = 0;
 	}

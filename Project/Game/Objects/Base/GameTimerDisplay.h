@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -32,16 +32,16 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetSpriteLayer(SpriteLayer layer);
+	void SetSpriteLayer(SakuEngine::SpriteLayer layer);
 
-	void SetTranslation(const Vector2& translation);
+	void SetTranslation(const SakuEngine::Vector2& translation);
 
-	void SetOffset(const Vector2& offset);
-	void SetElementOffset(uint32_t index, const Vector2& offset);
+	void SetOffset(const SakuEngine::Vector2& offset);
+	void SetElementOffset(uint32_t index, const SakuEngine::Vector2& offset);
 
-	void SetElementSize(uint32_t index, const Vector2& size);
-	void SetTimerSize(const Vector2& size);
-	void SetSymbolSize(const Vector2& size);
+	void SetElementSize(uint32_t index, const SakuEngine::Vector2& size);
+	void SetTimerSize(const SakuEngine::Vector2& size);
+	void SetSymbolSize(const SakuEngine::Vector2& size);
 
 	void SetAlpha(float alpha);
 	void SetPostProcessMask(uint32_t mask);
@@ -56,18 +56,18 @@ private:
 	// 各桁の表示
 	struct Element {
 
-		std::unique_ptr<GameObject2D> sprite;
+		std::unique_ptr<SakuEngine::GameObject2D> sprite;
 		bool isDigit;
 	};
 
 	//--------- variables ----------------------------------------------------
 
 	std::vector<Element> elements_;
-	std::vector<Vector2> offsets_;
-	std::vector<Vector2> baseOffsets_;
+	std::vector<SakuEngine::Vector2> offsets_;
+	std::vector<SakuEngine::Vector2> baseOffsets_;
 
-	Vector2 digitSize_;
-	Vector2 symbolSize_;
+	SakuEngine::Vector2 digitSize_;
+	SakuEngine::Vector2 symbolSize_;
 
 	// コロンとピリオドの数字インデックス
 	std::unordered_map<char, int> charIndex_ = { {':',0},{'.',1} };

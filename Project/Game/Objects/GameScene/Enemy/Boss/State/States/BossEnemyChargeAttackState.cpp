@@ -1,4 +1,4 @@
-﻿#include "BossEnemyChargeAttackState.h"
+#include "BossEnemyChargeAttackState.h"
 
 //============================================================================
 //	include
@@ -48,7 +48,7 @@ void BossEnemyChargeAttackState::Update(BossEnemy& bossEnemy) {
 
 	if (bossEnemy.IsAnimationFinished()) {
 
-		exitTimer_ += GameTimer::GetScaledDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 時間経過が過ぎたら遷移可能
 		if (exitTime_ < exitTimer_) {
 
@@ -63,18 +63,13 @@ void BossEnemyChargeAttackState::UpdateBlade(BossEnemy& bossEnemy) {
 	if (bossEnemy.IsEventKey("Attack", 0)) {
 
 		// 発生処理
-		const Vector3 pos = bossEnemy.GetTranslation();
-		const Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
+		const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
+		const SakuEngine::Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
 		singleBlade_->EmitEffect(pos, velocity);
-
-		// エフェクトを発生
-		// エフェクト、エンジン機能変更中...
-		/*singleBladeEffect_->EmitEffect(singleBlade_->GetTransform(),
-			singleBladeEffectScalingValue_);*/
 	}
 }
 
-Vector3 BossEnemyChargeAttackState::CalcBaseDir(const BossEnemy& bossEnemy) const {
+SakuEngine::Vector3 BossEnemyChargeAttackState::CalcBaseDir(const BossEnemy& bossEnemy) const {
 
 	return (player_->GetTranslation() - bossEnemy.GetTranslation()).Normalize();
 }
@@ -98,14 +93,9 @@ void BossEnemyChargeAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEne
 		if (ImGui::Button("Emit SingleBlade")) {
 
 			// 発生処理
-			const Vector3 pos = bossEnemy.GetTranslation();
-			const Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
+			const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
+			const SakuEngine::Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
 			singleBlade_->EmitEffect(pos, velocity);
-
-			// エフェクトを発生
-			// エフェクト、エンジン機能変更中...
-			/*singleBladeEffect_->EmitEffect(singleBlade_->GetTransform(),
-				singleBladeEffectScalingValue_);*/
 		}
 
 		ImGui::Separator();
@@ -124,10 +114,10 @@ void BossEnemyChargeAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEne
 
 void BossEnemyChargeAttackState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
 
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 	singleBladeMoveSpeed_ = data.value("singleBladeMoveSpeed_", 1.0f);
 	singleBladeEffectScalingValue_ = data.value("singleBladeEffectScalingValue_", 1.0f);
 }

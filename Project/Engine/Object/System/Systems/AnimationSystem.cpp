@@ -1,4 +1,4 @@
-﻿#include "AnimationSystem.h"
+#include "AnimationSystem.h"
 
 using namespace SakuEngine;
 
@@ -24,7 +24,7 @@ void AnimationSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 	for (uint32_t object : ObjectPoolManager.View(Signature())) {
 
 		auto* animation = ObjectPoolManager.GetData<SkinnedAnimation>(object);
-		auto* transform = ObjectPoolManager.GetData<Transform3D>(object);
+		auto* transform = ObjectPoolManager.GetData<SakuEngine::Transform3D>(object);
 		animation->Update(transform->matrix.world);
 	}
 }

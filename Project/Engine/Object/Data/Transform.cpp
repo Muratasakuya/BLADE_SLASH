@@ -1,4 +1,4 @@
-﻿#include "Transform.h"
+#include "Transform.h"
 
 using namespace SakuEngine;
 
@@ -23,12 +23,12 @@ using namespace SakuEngine;
 
 void BaseTransform::Init() {
 
-	scale = Vector3::AnyInit(1.0f);
+	scale = SakuEngine::Vector3::AnyInit(1.0f);
 	rotation.Init();
 	translation.Init();
 
 	eulerRotate.Init();
-	prevScale = Vector3::AnyInit(1.0f);
+	prevScale = SakuEngine::Vector3::AnyInit(1.0f);
 }
 
 void BaseTransform::UpdateMatrix() {
@@ -81,7 +81,7 @@ bool BaseTransform::ImGui(float itemSize) {
 	edited = ImGui::Button("Reset");
 	if (edited) {
 
-		scale = Vector3::AnyInit(1.0f);
+		scale = SakuEngine::Vector3::AnyInit(1.0f);
 		rotation.Init();
 		translation.Init();
 
@@ -104,7 +104,7 @@ bool BaseTransform::ImGui(float itemSize) {
 
 	ImGui::SeparatorText("Offset");
 
-	ImGuiHelper::ValueText<Vector3>("translation", offsetTranslation);
+	SakuEngine::ImGuiHelper::ValueText<Vector3>("translation", offsetTranslation);
 
 	ImGui::SeparatorText("World Matrix");
 	if (ImGui::BeginTable("WorldMatrix", 4,
@@ -159,7 +159,7 @@ void BaseTransform::ToJson(Json& data) {
 	data["scale"] = scale.ToJson();
 
 	// 正規化してから保存
-	rotation = Quaternion::Normalize(rotation);
+	rotation = SakuEngine::Quaternion::Normalize(rotation);
 	data["rotation"] = rotation.ToJson();
 	data["translation"] = translation.ToJson();
 }
@@ -172,9 +172,9 @@ void BaseTransform::FromJson(const Json& data) {
 
 	isCompulsion_ = data.value("isCompulsion_", false);
 	isIgnoreParentScale = data.value("isIgnoreParentScale", false);
-	scale = JsonAdapter::ToObject<Vector3>(data["scale"]);
-	rotation = JsonAdapter::ToObject<Quaternion>(data["rotation"]);
-	translation = JsonAdapter::ToObject<Vector3>(data["translation"]);
+	scale = SakuEngine::JsonAdapter::ToObject<Vector3>(data["scale"]);
+	rotation = SakuEngine::JsonAdapter::ToObject<Quaternion>(data["rotation"]);
+	translation = SakuEngine::JsonAdapter::ToObject<Vector3>(data["translation"]);
 }
 
 Vector3 BaseTransform::GetWorldScale() const {
@@ -197,8 +197,8 @@ Quaternion BaseTransform::GetWorldRotation() const {
 	Vector3 up = GetUp();
 
 	// 回転を作成
-	Quaternion worldRotation = Quaternion::LookRotation(forward, up);
-	return Quaternion::Normalize(worldRotation);
+	Quaternion worldRotation = SakuEngine::Quaternion::LookRotation(forward, up);
+	return SakuEngine::Quaternion::Normalize(worldRotation);
 }
 
 Vector3 BaseTransform::GetWorldPos() const {
@@ -273,7 +273,7 @@ void EffectTransform::ImGui(float itemSize) {
 	ImGui::DragFloat3("translation", &translation.x, 0.01f);
 	if (ImGui::DragFloat3("rotation", &eulerRotate.x, 0.01f)) {
 
-		rotation = Quaternion::Normalize(Quaternion::EulerToQuaternion(eulerRotate));
+		rotation = SakuEngine::Quaternion::Normalize(Quaternion::EulerToQuaternion(eulerRotate));
 	}
 	ImGui::Text("quaternion(%4.3f, %4.3f, %4.3f, %4.3f)",
 		rotation.x, rotation.y, rotation.z, rotation.w);
@@ -287,17 +287,17 @@ void EffectTransform::ImGui(float itemSize) {
 
 void Transform2D::Init(ID3D12Device* device) {
 
-	translation = Vector2::AnyInit(0.0f);
+	translation = SakuEngine::Vector2::AnyInit(0.0f);
 	rotation = 0.0f;
 
-	size = Vector2::AnyInit(0.0f);
-	sizeScale = Vector2::AnyInit(1.0f);
+	size = SakuEngine::Vector2::AnyInit(0.0f);
+	sizeScale = SakuEngine::Vector2::AnyInit(1.0f);
 	// 中心で設定
-	anchorPoint = Vector2::AnyInit(0.5f);
+	anchorPoint = SakuEngine::Vector2::AnyInit(0.5f);
 
 	// 左上設定
-	textureLeftTop = Vector2::AnyInit(0.0f);
-	textureSize = Vector2::AnyInit(0.0f);
+	textureLeftTop = SakuEngine::Vector2::AnyInit(0.0f);
+	textureSize = SakuEngine::Vector2::AnyInit(0.0f);
 
 	// deviceがnullptrの場合はバッファを作成しない
 	if (!device) {
@@ -350,17 +350,17 @@ void Transform2D::ImGui(float itemSize, float buttonSize) {
 
 	if (ImGui::Button("Set CenterAnchor", ImVec2(itemSize, buttonSize))) {
 
-		anchorPoint = Vector2::AnyInit(0.5f);
+		anchorPoint = SakuEngine::Vector2::AnyInit(0.5f);
 	}
 
 	if (ImGui::Button("Set LeftAnchor", ImVec2(itemSize, buttonSize))) {
 
-		anchorPoint = Vector2::AnyInit(0.0f);
+		anchorPoint = SakuEngine::Vector2::AnyInit(0.0f);
 	}
 
 	if (ImGui::Button("Set RightAnchor", ImVec2(itemSize, buttonSize))) {
 
-		anchorPoint = Vector2::AnyInit(1.0f);
+		anchorPoint = SakuEngine::Vector2::AnyInit(1.0f);
 	}
 
 	if (ImGui::Button("Set WindowSize", ImVec2(itemSize, buttonSize))) {
@@ -422,26 +422,26 @@ void Transform2D::ToJson(Json& data) {
 
 void Transform2D::FromJson(const Json& data) {
 
-	translation = JsonAdapter::ToObject<Vector2>(data["translation"]);
+	translation = SakuEngine::JsonAdapter::ToObject<Vector2>(data["translation"]);
 	rotation = data["rotation"].get<float>();
-	size = JsonAdapter::ToObject<Vector2>(data["size"]);
-	anchorPoint = JsonAdapter::ToObject<Vector2>(data["anchorPoint"]);
-	textureLeftTop = JsonAdapter::ToObject<Vector2>(data["textureLeftTop"]);
-	textureSize = JsonAdapter::ToObject<Vector2>(data["textureSize"]);
+	size = SakuEngine::JsonAdapter::ToObject<Vector2>(data["size"]);
+	anchorPoint = SakuEngine::JsonAdapter::ToObject<Vector2>(data["anchorPoint"]);
+	textureLeftTop = SakuEngine::JsonAdapter::ToObject<Vector2>(data["textureLeftTop"]);
+	textureSize = SakuEngine::JsonAdapter::ToObject<Vector2>(data["textureSize"]);
 	rotateAroundSelfWhenParented = data.value("rotateAroundSelfWhenParented", true);
 
 	if (data.contains("sizeScale")) {
 
-		sizeScale = Vector2::FromJson(data["sizeScale"]);
+		sizeScale = SakuEngine::Vector2::FromJson(data["sizeScale"]);
 	} else {
 
-		sizeScale = Vector2::AnyInit(1.0f);
+		sizeScale = SakuEngine::Vector2::AnyInit(1.0f);
 	}
 
 	if (data.contains("vertexOffset")) {
 		for (uint32_t i = 0; i < vertexOffset_.size(); ++i) {
 
-			vertexOffset_[i] = Vector2::FromJson(data["vertexOffset"][i]);
+			vertexOffset_[i] = SakuEngine::Vector2::FromJson(data["vertexOffset"][i]);
 		}
 	}
 }

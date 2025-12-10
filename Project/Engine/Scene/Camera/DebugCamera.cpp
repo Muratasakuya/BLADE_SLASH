@@ -1,4 +1,4 @@
-﻿#include "DebugCamera.h"
+#include "DebugCamera.h"
 
 using namespace SakuEngine;
 
@@ -23,7 +23,7 @@ void DebugCamera::Init() {
 	farClip_ = 3200.0f;
 
 	transform_.eulerRotate = Vector3(0.26f, 0.0f, 0.0f);
-	transform_.scale = Vector3::AnyInit(1.0f);
+	transform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
 	transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);
 	transform_.translation = Vector3(0.0f, 30.733f, -112.363f);
 
@@ -49,11 +49,11 @@ void DebugCamera::Update() {
 
 	// 行列更新
 	transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);
-	rotateMatrix_ = Matrix4x4::MakeRotateMatrix(transform_.eulerRotate);
+	rotateMatrix_ = SakuEngine::Matrix4x4::MakeRotateMatrix(transform_.eulerRotate);
 	transform_.matrix.world = Matrix4x4::MakeIdentity4x4();
 
 	Matrix4x4 translateMatrix = Matrix4x4::MakeTranslateMatrix(transform_.translation);
-	Matrix4x4 scaleMatrix = Matrix4x4::MakeScaleMatrix(Vector3::AnyInit(1.0f));
+	Matrix4x4 scaleMatrix = Matrix4x4::MakeScaleMatrix(SakuEngine::Vector3::AnyInit(1.0f));
 	transform_.matrix.world = Matrix4x4::Multiply(scaleMatrix, rotateMatrix_);
 	transform_.matrix.world = Matrix4x4::Multiply(transform_.matrix.world, translateMatrix);
 	viewMatrix_ = Matrix4x4::Inverse(transform_.matrix.world);

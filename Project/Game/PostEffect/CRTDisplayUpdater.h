@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	CRTディスプレイエフェクトの更新
 //============================================================================
 class CRTDisplayUpdater :
-	public IPostProcessUpdater<CRTDisplayForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::CRTDisplayForGPU> {
 public:
 	//========================================================================
 	//	public Methods

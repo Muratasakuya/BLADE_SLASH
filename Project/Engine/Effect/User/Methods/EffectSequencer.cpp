@@ -1,4 +1,4 @@
-﻿#include "EffectSequencer.h"
+#include "EffectSequencer.h"
 
 using namespace SakuEngine;
 
@@ -20,7 +20,7 @@ bool EffectSequencer::ConsumeOffset(EffectNodeRuntime* runtime) {
 	// 開始オフセットが残っていれば、スケール済みで減算
 	if (0.0f < runtime->startOffsetRemain) {
 
-		runtime->startOffsetRemain -= GameTimer::GetScaledDeltaTime();
+		runtime->startOffsetRemain -= SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 0.0f未満になったら0.0fに補正
 		if (runtime->startOffsetRemain < 0.0f) {
 

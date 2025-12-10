@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -37,7 +37,7 @@ public:
 	void SetRequestState(SubPlayerState state) { requestState_ = state; }
 
 	// 各パーツを状態に設定
-	void SetParts(GameObject3D* body, GameObject3D* rightHand, GameObject3D* leftHand);
+	void SetParts(SakuEngine::GameObject3D* body, SakuEngine::GameObject3D* rightHand, SakuEngine::GameObject3D* leftHand);
 
 	// 現在の状態を取得
 	SubPlayerState GetCurrentState() const { return current_; }
@@ -63,7 +63,7 @@ private:
 	SubPlayerState editState_;
 	SubPlayerState editRequestState_;
 	bool isAutoPunchAttack_ = false; // 自動でパンチ攻撃を繰り返すか
-	StateTimer autoPunchAttackTimer_;
+	SakuEngine::StateTimer autoPunchAttackTimer_;
 
 	//--------- functions ----------------------------------------------------
 

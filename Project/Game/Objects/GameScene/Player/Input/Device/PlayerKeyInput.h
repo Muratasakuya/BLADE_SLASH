@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	キーボード入力
 //============================================================================
 class PlayerKeyInput :
-	public IInputDevice<PlayerInputAction> {
+	public SakuEngine::IInputDevice<PlayerInputAction> {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerKeyInput(Input* input) { input_ = input; }
+	PlayerKeyInput(SakuEngine::Input* input) { input_ = input; }
 	~PlayerKeyInput() = default;
 
 	//--------- accessor -----------------------------------------------------

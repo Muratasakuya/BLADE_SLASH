@@ -1,4 +1,4 @@
-﻿#include "GlitchUpdater.h"
+#include "GlitchUpdater.h"
 
 //============================================================================
 //	include
@@ -23,7 +23,7 @@ void GlitchUpdater::Init() {
 void GlitchUpdater::Start() {
 
 	// グリッチを有効にする
-	PostProcessSystem::GetInstance()->AddProcess(GetType());
+	SakuEngine::PostProcessSystem::GetInstance()->AddProcess(GetType());
 
 	// 収束時間を設定
 	convergenceTimer_.target_ = maxRandomCount_ * timer_.target_;
@@ -55,7 +55,7 @@ void GlitchUpdater::Update() {
 		if (timer_.IsReached()) {
 
 			// ランダムな値で強度を設定する
-			bufferData_.intensity = RandomGenerator::Generate(
+			bufferData_.intensity = SakuEngine::RandomGenerator::Generate(
 				-intencityRange_, intencityRange_);
 
 			// リセットして進める
@@ -72,7 +72,7 @@ void GlitchUpdater::Update() {
 				if (isAutoReomoveProcess_) {
 
 					// 処理が終了次第無効にする
-					PostProcessSystem::GetInstance()->RemoveProcess(GetType());
+					SakuEngine::PostProcessSystem::GetInstance()->RemoveProcess(GetType());
 				}
 			}
 		}
@@ -85,7 +85,7 @@ void GlitchUpdater::ImGui() {
 	SaveButton();
 
 	// 値操作する状態を選択
-	if (EnumAdapter<State>::Combo("State", &currentState_)) {
+	if (SakuEngine::EnumAdapter<State>::Combo("State", &currentState_)) {
 		if (currentState_ == State::Updating) {
 
 			Start();

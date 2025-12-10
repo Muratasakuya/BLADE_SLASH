@@ -1,4 +1,4 @@
-﻿#include "BaseParticleGroup.h"
+#include "BaseParticleGroup.h"
 
 using namespace SakuEngine;
 
@@ -153,7 +153,7 @@ void BaseParticleGroup::CreateTrailBuffer(ID3D12Device* device,
 
 void BaseParticleGroup::DrawEmitter() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	const uint32_t division = 8;
 	const Color color = Color::Red(0.6f);
@@ -265,7 +265,7 @@ bool BaseParticleGroup::ImGuiParent() {
 	parentIDs_.push_back(0);
 
 	for (const auto& [id, tag] : tags) {
-		if (objectManager->GetData<Transform3D>(id)) {
+		if (objectManager->GetData<SakuEngine::Transform3D>(id)) {
 
 			parentIDs_.push_back(id);
 			parentNames_.emplace_back(tag->name);
@@ -276,7 +276,7 @@ bool BaseParticleGroup::ImGuiParent() {
 	int current = 0;
 	if (parentTransform_) {
 		for (size_t i = 1; i < parentIDs_.size(); ++i) {
-			if (objectManager->GetData<Transform3D>(parentIDs_[i]) == parentTransform_) {
+			if (objectManager->GetData<SakuEngine::Transform3D>(parentIDs_[i]) == parentTransform_) {
 
 				current = static_cast<int>(i);
 				break;
@@ -305,10 +305,10 @@ bool BaseParticleGroup::ImGuiParent() {
 	// 親の設定
 	if (current == 0) {
 
-		SetParent(false, Transform3D());
+		SetParent(false, SakuEngine::Transform3D());
 	} else {
 
-		SetParent(true, *objectManager->GetData<Transform3D>(parentIDs_[current]));
+		SetParent(true, *objectManager->GetData<SakuEngine::Transform3D>(parentIDs_[current]));
 	}
 
 	// Combo操作のリザルトを返す

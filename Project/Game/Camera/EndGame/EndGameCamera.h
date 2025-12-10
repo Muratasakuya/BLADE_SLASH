@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	敵、プレイヤーの撃破後のエンディング用カメラ
 //============================================================================
 class EndGameCamera :
-	public BaseCamera {
+	public SakuEngine::BaseCamera {
 public:
 	//========================================================================
 	//	public Methods
@@ -51,11 +51,11 @@ private:
 	bool disableTransition_;
 
 	// 時間管理
-	StateTimer animationTimer_;
+	SakuEngine::StateTimer animationTimer_;
 
 	// parameters... 一旦簡易アニメーションで作成する
-	Vector3 startPos_;
-	Vector3 targetPos_;
+	SakuEngine::Vector3 startPos_;
+	SakuEngine::Vector3 targetPos_;
 
 	//--------- functions ----------------------------------------------------
 

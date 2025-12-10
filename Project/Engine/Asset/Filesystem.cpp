@@ -1,6 +1,4 @@
-﻿#include "Filesystem.h"
-
-using namespace SakuEngine;
+#include "Filesystem.h"
 
 //============================================================================
 //	Filesystem namespaceMethods

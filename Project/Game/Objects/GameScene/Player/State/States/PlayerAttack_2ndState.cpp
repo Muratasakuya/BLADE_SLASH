@@ -1,4 +1,4 @@
-﻿#include "PlayerAttack_2ndState.h"
+#include "PlayerAttack_2ndState.h"
 
 //============================================================================
 //	include
@@ -20,11 +20,11 @@ PlayerAttack_2ndState::PlayerAttack_2ndState(Player* player) {
 
 	// 剣エフェクト作成
 	// 1段目
-	slash1stEffect_ = std::make_unique<EffectGroup>();
+	slash1stEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	slash1stEffect_->Init("slashEffect1st", "PlayerEffect");
 	slash1stEffect_->LoadJson("GameEffectGroup/Player/playerAttackSlashEffect_0.json");
 	// 2段目
-	slash2ndEffect_ = std::make_unique<EffectGroup>();
+	slash2ndEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	slash2ndEffect_->Init("slashEffect2nd", "PlayerEffect");
 	slash2ndEffect_->LoadJson("GameEffectGroup/Player/playerAttackSlashEffect_1.json");
 
@@ -39,7 +39,7 @@ void PlayerAttack_2ndState::Enter(Player& player) {
 	canExit_ = false;
 
 	// 距離を比較
-	const Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player.GetTranslation();
 
 	// 初期化
 	currentIndex_ = 0;
@@ -78,7 +78,7 @@ void PlayerAttack_2ndState::Update(Player& player) {
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
-		exitTimer_ += GameTimer::GetScaledDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	}
 
 	// 区間補間処理
@@ -128,19 +128,19 @@ void PlayerAttack_2ndState::UpdateAlways(Player& player) {
 	// 剣エフェクトの更新、親の回転を設定する
 	// 1段目
 	slash1stEffect_->SetParentRotation("playerAttackSlash_0",
-		Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
 	slash1stEffect_->Update();
 	// 2段目
 	slash2ndEffect_->SetParentRotation("playerAttackSlash_1",
-		Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
 	slash2ndEffect_->Update();
 }
 
-void PlayerAttack_2ndState::CalcWayPoints(const Player& player, std::array<Vector3, kNumSegments>& dstWayPoints) {
+void PlayerAttack_2ndState::CalcWayPoints(const Player& player, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
 
 	// 目標座標を設定
 	startTranslation_ = player.GetTranslation();
-	Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
+	SakuEngine::Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
 	// プレイヤーのY座標と合わせる
 	enemyPos.y = startTranslation_.y;
 	// 目標座標を敵の方向に設定
@@ -155,27 +155,27 @@ void PlayerAttack_2ndState::CalcWayPoints(const Player& player, std::array<Vecto
 		leftPointAngle_, rightPointAngle_, swayLength, dstWayPoints);
 }
 
-void PlayerAttack_2ndState::CalcWayPointsToTarget(const Vector3& start, const Vector3& target,
-	float leftT, float rightT, float swayLength, std::array<Vector3, kNumSegments>& dstWayPoints) {
+void PlayerAttack_2ndState::CalcWayPointsToTarget(const SakuEngine::Vector3& start, const SakuEngine::Vector3& target,
+	float leftT, float rightT, float swayLength, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
 
-	Vector3 direction = Vector3(target - start).Normalize();
-	Vector3 right = Vector3::Cross(direction, Vector3(0.0f, 1.0f, 0.0f)).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(target - start).Normalize();
+	SakuEngine::Vector3 right = SakuEngine::Vector3::Cross(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)).Normalize();
 
 	// 左右の補間点を計算
-	dstWayPoints[0] = Vector3::Lerp(start, target, leftT) - right * swayLength;  // 左
-	dstWayPoints[1] = Vector3::Lerp(start, target, rightT) + right * swayLength; // 右
+	dstWayPoints[0] = SakuEngine::Vector3::Lerp(start, target, leftT) - right * swayLength;  // 左
+	dstWayPoints[1] = SakuEngine::Vector3::Lerp(start, target, rightT) + right * swayLength; // 右
 	dstWayPoints[2] = target;
 }
 
 void PlayerAttack_2ndState::CalcApproachWayPoints(const Player& player,
-	std::array<Vector3, kNumSegments>& dstWayPoints) {
+	std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
 
 	// プレイヤーの前方向に向かってジグザグ移動させる
 	startTranslation_ = player.GetTranslation();
-	Vector3 forward = player.GetTransform().GetForward().Normalize();
+	SakuEngine::Vector3 forward = player.GetTransform().GetForward().Normalize();
 	forward.y = 0.0f;
 	forward = forward.Normalize();
-	Vector3 target = startTranslation_ + forward * approachForwardDistance_;
+	SakuEngine::Vector3 target = startTranslation_ + forward * approachForwardDistance_;
 	targetTranslation_ = target;
 
 	// 補間先を設定する
@@ -195,14 +195,14 @@ bool PlayerAttack_2ndState::LerpAlongSegments(Player& player) {
 	}
 
 	// 区間更新
-	segmentTimer_ += GameTimer::GetScaledDeltaTime();
+	segmentTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	float t = std::clamp(segmentTimer_ / segmentTime_, 0.0f, 1.0f);
 	t = EasedValue(attackPosEaseType_, t);
 
-	Vector3 segStart = (currentIndex_ == 0) ? startTranslation_ : wayPoints_[currentIndex_ - 1];
-	Vector3 segEnd = wayPoints_[currentIndex_];
+	SakuEngine::Vector3 segStart = (currentIndex_ == 0) ? startTranslation_ : wayPoints_[currentIndex_ - 1];
+	SakuEngine::Vector3 segEnd = wayPoints_[currentIndex_];
 
-	Vector3 pos = Vector3::Lerp(segStart, segEnd, t);
+	SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(segStart, segEnd, t);
 	player.SetTranslation(pos);
 
 	// 補間が終了したら次の区間に進める
@@ -246,13 +246,13 @@ void PlayerAttack_2ndState::ImGui(const Player& player) {
 	// 範囲内
 	CalcWayPoints(player, debugWayPoints_);
 	{
-		LineRenderer* renderer = LineRenderer::GetInstance();
-		Vector3 prev = player.GetTranslation();
+		SakuEngine::LineRenderer* renderer = SakuEngine::LineRenderer::GetInstance();
+		SakuEngine::Vector3 prev = player.GetTranslation();
 		for (auto& p : debugWayPoints_) {
 			p.y = 2.0f;
-			renderer->DrawSphere(8, 2.0f, p, Color::Red());
-			renderer->DrawLine3D(p, p + Vector3(0, 2, 0), Color::White());
-			renderer->DrawLine3D(prev, p, Color::White());
+			renderer->DrawSphere(8, 2.0f, p, SakuEngine::Color::Red());
+			renderer->DrawLine3D(p, p + SakuEngine::Vector3(0, 2, 0), SakuEngine::Color::White());
+			renderer->DrawLine3D(prev, p, SakuEngine::Color::White());
 			prev = p;
 		}
 	}
@@ -266,14 +266,14 @@ void PlayerAttack_2ndState::ImGui(const Player& player) {
 
 	CalcApproachWayPoints(player, debugApproachWayPoints_);
 	{
-		LineRenderer* renderer = LineRenderer::GetInstance();
-		Vector3 prev = player.GetTranslation();
+		SakuEngine::LineRenderer* renderer = SakuEngine::LineRenderer::GetInstance();
+		SakuEngine::Vector3 prev = player.GetTranslation();
 		for (auto& p : debugApproachWayPoints_) {
 
 			p.y = 2.0f;
-			renderer->DrawSphere(8, 2.0f, p, Color::Green());
-			renderer->DrawLine3D(p, p + Vector3(0, 2, 0), Color::White());
-			renderer->DrawLine3D(prev, p, Color::White());
+			renderer->DrawSphere(8, 2.0f, p, SakuEngine::Color::Green());
+			renderer->DrawLine3D(p, p + SakuEngine::Vector3(0, 2, 0), SakuEngine::Color::White());
+			renderer->DrawLine3D(prev, p, SakuEngine::Color::White());
 			prev = p;
 		}
 	}
@@ -281,15 +281,15 @@ void PlayerAttack_2ndState::ImGui(const Player& player) {
 
 void PlayerAttack_2ndState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
-	swayRate_ = JsonAdapter::GetValue<float>(data, "swayRate_");
-	leftPointAngle_ = JsonAdapter::GetValue<float>(data, "leftPointAngle_");
-	rightPointAngle_ = JsonAdapter::GetValue<float>(data, "rightPointAngle_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
+	swayRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "swayRate_");
+	leftPointAngle_ = SakuEngine::JsonAdapter::GetValue<float>(data, "leftPointAngle_");
+	rightPointAngle_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rightPointAngle_");
 
-	slash1stEffectOffset_ = Vector3::FromJson(data.value("slash1stEffectOffset_", Json()));
-	slash2ndEffectOffset_ = Vector3::FromJson(data.value("slash2ndEffectOffset_", Json()));
+	slash1stEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("slash1stEffectOffset_", Json()));
+	slash2ndEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("slash2ndEffectOffset_", Json()));
 
 	targetCameraRotateX_ = data.value("targetCameraRotateX_", 0.0f);
 

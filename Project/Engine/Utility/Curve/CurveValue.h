@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -197,7 +197,7 @@ inline T CurveValue<T>::EvalLinearChain(const std::vector<T>& keys, float t) {
 		const float area = 1.0f / float(division);
 		size_t index = std::min<size_t>(size_t(t / area), division - 1);
 		const float localT = (t - index * area) / area;
-		return Color::Lerp(keys[index], keys[index + 1], localT);
+		return SakuEngine::Color::Lerp(keys[index], keys[index + 1], localT);
 	} else {
 
 		static_assert(!sizeof(T*), "CurveValue: unsupported type for EvalLinearChain");

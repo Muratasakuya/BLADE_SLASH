@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -19,10 +19,10 @@ public:
 	StartGameState(GameContext* context) :IGameSceneState(context) {}
 	~StartGameState() = default;
 	
-	void Init(SceneView* sceneView) override;
+	void Init(SakuEngine::SceneView* sceneView) override;
 
-	void Update(SceneManager* sceneManager) override;
-	void NonActiveUpdate(SceneManager* sceneManager) override;
+	void Update(SakuEngine::SceneManager* sceneManager) override;
+	void NonActiveUpdate(SakuEngine::SceneManager* sceneManager) override;
 
 	void Exit() override;
 
@@ -35,7 +35,7 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 指定の範囲に入ったら次の状態に遷移させる
-	std::unique_ptr<Collider> nextStateEvent_;
+	std::unique_ptr<SakuEngine::Collider> nextStateEvent_;
 
 	//--------- functions ----------------------------------------------------
 

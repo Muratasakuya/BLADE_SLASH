@@ -298,9 +298,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Effect\User\GameEffect.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\GameEffectGroup.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Engine\Effect\User\Helper\GameEffectCommandHelper.cpp">
       <SubType />
     </ClCompile>
@@ -734,12 +731,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyBladeCollision.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyAnimationEffect.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyBladeEffect.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemy.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemyWeapon.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyAttackSign.cpp">
@@ -1085,9 +1076,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\GameEffect.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Engine\Effect\User\GameEffectGroup.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\Methods\EffectCommandRouter.h">
@@ -1617,16 +1605,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Objects\Common\UI\GameUIFocusNavigator.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyAnimationEffect.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyAttackCollision.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyBladeCollision.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyBladeEffect.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemy.h" />

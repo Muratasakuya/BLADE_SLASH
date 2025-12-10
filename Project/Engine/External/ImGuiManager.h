@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -12,29 +12,36 @@
 #include <cstdint>
 #include <string>
 
-//============================================================================
-//	ImGuiManager class
-//	ImGuiの管理クラス、Debug、Developのみで機能する
-//============================================================================
-class ImGuiManager {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+namespace SakuEngine {
 
-	ImGuiManager() = default;
-	~ImGuiManager() = default;
+	// front
+	class SRVDescriptor;
 
-	// ImGui機能の初期化
-	void Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, class SRVDescriptor* srvDescriptor);
+	//============================================================================
+	//	ImGuiManager class
+	//	ImGuiの管理クラス、Debug、Developのみで機能する
+	//============================================================================
+	class ImGuiManager {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	// フレーム開始、終了
-	void Begin();
-	void End();
+		ImGuiManager() = default;
+		~ImGuiManager() = default;
 
-	// 描画
-	void Draw(ID3D12GraphicsCommandList* commandList);
+		// ImGui機能の初期化
+		void Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDescriptor* srvDescriptor);
 
-	// 終了処理
-	void Finalize();
-};
+		// フレーム開始、終了
+		void Begin();
+		void End();
+
+		// 描画
+		void Draw(ID3D12GraphicsCommandList* commandList);
+
+		// 終了処理
+		void Finalize();
+	};
+
+}; // SakuEngine

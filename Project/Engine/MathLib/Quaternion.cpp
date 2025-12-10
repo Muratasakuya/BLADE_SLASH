@@ -1,4 +1,4 @@
-﻿#include "Quaternion.h"
+#include "Quaternion.h"
 
 using namespace SakuEngine;
 
@@ -253,7 +253,7 @@ Quaternion Quaternion::Slerp(Quaternion q0, const Quaternion& q1, float t) {
 
 	if (dot >= 1.0f - FLT_EPSILON) {
 
-		return (1.0f - t) * q0 + t * q1;
+		return q0 * (1.0f - t) + q1 * t;
 	}
 
 	// なす角を求める

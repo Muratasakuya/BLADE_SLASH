@@ -1,4 +1,4 @@
-﻿#include "ParticleCylinderUpdater.h"
+#include "ParticleCylinderUpdater.h"
 
 using namespace SakuEngine;
 
@@ -40,16 +40,16 @@ void ParticleCylinderUpdater::Update(CPUParticle::ParticleData& particle, Easing
 	particle.primitive.cylinder.height = std::lerp(start_.height,
 		target_.height, EasedValue(easingType, particle.progress));
 
-	particle.primitive.cylinder.topColor = Color::Lerp(start_.topColor,
+	particle.primitive.cylinder.topColor = SakuEngine::Color::Lerp(start_.topColor,
 		target_.topColor, EasedValue(easingType, particle.progress));
 
-	particle.primitive.cylinder.bottomColor = Color::Lerp(start_.bottomColor,
+	particle.primitive.cylinder.bottomColor = SakuEngine::Color::Lerp(start_.bottomColor,
 		target_.bottomColor, EasedValue(easingType, particle.progress));
 }
 
 void ParticleCylinderUpdater::ImGui() {
 
-	EnumAdapter<CylinderUVMode>::Combo("UVMode", &uvMode_);
+	SakuEngine::EnumAdapter<CylinderUVMode>::Combo("UVMode", &uvMode_);
 
 	ImGui::DragInt("startDivide", &start_.divide, 1, 3, 32);
 	ImGui::DragInt("targetDivide", &target_.divide, 1, 3, 32);
@@ -91,7 +91,7 @@ void ParticleCylinderUpdater::FromJson(const Json& data) {
 	start_.bottomColor = Color::FromJson(cylinderData.value("startBottomColor", Json()));
 	target_.bottomColor = Color::FromJson(cylinderData.value("targetBottomColor", Json()));
 
-	uvMode_ = EnumAdapter<CylinderUVMode>::FromString(cylinderData.value("uvMode", "None")).value();
+	uvMode_ = SakuEngine::EnumAdapter<CylinderUVMode>::FromString(cylinderData.value("uvMode", "None")).value();
 }
 
 void ParticleCylinderUpdater::ToJson(Json& data) const {
@@ -110,5 +110,5 @@ void ParticleCylinderUpdater::ToJson(Json& data) const {
 	data["cylinder"]["targetTopColor"] = target_.topColor.ToJson();
 	data["cylinder"]["startBottomColor"] = start_.bottomColor.ToJson();
 	data["cylinder"]["targetBottomColor"] = target_.bottomColor.ToJson();
-	data["cylinder"]["uvMode"] = EnumAdapter<CylinderUVMode>::ToString(uvMode_);
+	data["cylinder"]["uvMode"] = SakuEngine::EnumAdapter<CylinderUVMode>::ToString(uvMode_);
 }

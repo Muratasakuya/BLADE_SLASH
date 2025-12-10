@@ -1,4 +1,4 @@
-﻿#include "PlayerAttack_4thState.h"
+#include "PlayerAttack_4thState.h"
 
 //============================================================================
 //	include
@@ -20,13 +20,13 @@ PlayerAttack_4thState::PlayerAttack_4thState(Player* player) {
 
 	// エフェクト作成
 	// 地割れエフェクト
-	groundCrackEffect_ = std::make_unique<EffectGroup>();
+	groundCrackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	groundCrackEffect_->Init("groundCrack", "PlayerEffect");
 	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundCrackEffect.json");
 	groundCrackEmitted_ = false;
 
 	// 回転エフェクト
-	rotationEffect_ = std::make_unique<EffectGroup>();
+	rotationEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	rotationEffect_->Init("rotationEffect", "PlayerEffect");
 	rotationEffect_->LoadJson("GameEffectGroup/Player/playerAttack4thRotateEffect.json");
 
@@ -41,7 +41,7 @@ void PlayerAttack_4thState::Enter(Player& player) {
 	canExit_ = false;
 
 	// 敵が攻撃可能範囲にいるかチェック
-	Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player.GetTranslation();
 	assisted_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
 
 	// 補間座標を設定
@@ -49,7 +49,7 @@ void PlayerAttack_4thState::Enter(Player& player) {
 
 		startPos_ = playerPos;
 
-		Vector3 forward = player.GetTransform().GetForward();
+		SakuEngine::Vector3 forward = player.GetTransform().GetForward();
 		forward.y = 0.0f;
 		forward = forward.Normalize();
 		targetPos_ = startPos_ + forward * moveValue_;
@@ -80,7 +80,7 @@ void PlayerAttack_4thState::Update(Player& player) {
 
 		// 前に前進させる
 		PlayerBaseAttackState::UpdateTimer(moveTimer_);
-		Vector3 pos = Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
+		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
 		player.SetTranslation(pos);
 	}
 
@@ -94,7 +94,7 @@ void PlayerAttack_4thState::Update(Player& player) {
 
 			// 地割れエフェクトの発生
 			// Y座標は固定
-			Vector3 emitPos = player.GetTranslation();
+			SakuEngine::Vector3 emitPos = player.GetTranslation();
 			// 地面に隠れない位置に調整
 			emitPos.y = 1.0f;
 			groundCrackEffect_->Emit(emitPos);
@@ -105,7 +105,7 @@ void PlayerAttack_4thState::Update(Player& player) {
 		// シェイク前にアニメーションを終了させる
 		followCamera_->EndPlayerActionAnim(false);
 
-		exitTimer_ += GameTimer::GetScaledDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 画面シェイクを行わせる
 		followCamera_->SetOverlayState(FollowCameraOverlayState::Shake, true);
 	}
@@ -117,9 +117,9 @@ void PlayerAttack_4thState::UpdateAlways([[maybe_unused]] Player& player) {
 	groundCrackEffect_->Update();
 	// 回転エフェクトの更新
 	// 親の回転を設定する
-	Quaternion offsetRotation =
-		Quaternion::Normalize(Quaternion::EulerToQuaternion(rotateEffectOffsetRotation_));
-	Quaternion rotation = Quaternion::Normalize(Quaternion::Multiply(player.GetRotation(), offsetRotation));
+	SakuEngine::Quaternion offsetRotation =
+		SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::EulerToQuaternion(rotateEffectOffsetRotation_));
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(player.GetRotation(), offsetRotation));
 
 	rotationEffect_->SetParentRotation("player4thAttackRotateSlash", rotation, ParticleUpdateModuleID::Rotation);
 	rotationEffect_->SetParentRotation("player4thAttackRotateLightning", rotation, ParticleUpdateModuleID::Primitive);
@@ -155,12 +155,12 @@ void PlayerAttack_4thState::ImGui(const Player& player) {
 
 void PlayerAttack_4thState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 
-	rotateEffectOffset_ = Vector3::FromJson(data.value("rotateEffectOffset_", Json()));
-	rotateEffectOffsetRotation_ = Vector3::FromJson(data.value("rotateEffectOffsetRotation_", Json()));
+	rotateEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("rotateEffectOffset_", Json()));
+	rotateEffectOffsetRotation_ = SakuEngine::Vector3::FromJson(data.value("rotateEffectOffsetRotation_", Json()));
 
 	PlayerBaseAttackState::ApplyJson(data);
 

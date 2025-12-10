@@ -1,4 +1,4 @@
-﻿#include "StartGameState.h"
+#include "StartGameState.h"
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	StartGameState classMethods
 //============================================================================
 
-void StartGameState::Init(SceneView* sceneView) {
+void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
 	//========================================================================
 	//	postProcess
 	//========================================================================
 
-	PostProcessSystem* postProcessSystem = PostProcessSystem::GetInstance();
+	SakuEngine::PostProcessSystem* postProcessSystem = SakuEngine::PostProcessSystem::GetInstance();
 	postProcessSystem->AddProcess(PostProcessType::RadialBlur);
 	postProcessSystem->AddProcess(PostProcessType::PlayerAfterImage);
 	postProcessSystem->AddProcess(PostProcessType::DepthBasedOutline);
@@ -82,9 +82,9 @@ void StartGameState::Init(SceneView* sceneView) {
 	//	sceneEvent
 	//========================================================================
 
-	nextStateEvent_ = std::make_unique<Collider>();
+	nextStateEvent_ = std::make_unique<SakuEngine::Collider>();
 	// 衝突タイプ設定
-	CollisionBody* body = nextStateEvent_->AddCollider(CollisionShape::AABB().Default(), true);
+	SakuEngine::CollisionBody* body = nextStateEvent_->AddCollider(SakuEngine::CollisionShape::AABB().Default(), true);
 	// タイプ設定
 	body->SetType(ColliderType::Type_Event);
 	body->SetTargetType(ColliderType::Type_Player);
@@ -93,7 +93,7 @@ void StartGameState::Init(SceneView* sceneView) {
 	ApplyJson();
 }
 
-void StartGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
+void StartGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 
 	const GameSceneState currentState = GameSceneState::Start;
 
@@ -115,8 +115,8 @@ void StartGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	//	sceneEvent
 	//========================================================================
 
-	Transform3D transform{};
-	transform.scale = Vector3::AnyInit(1.0f);
+	SakuEngine::Transform3D transform{};
+	transform.scale = SakuEngine::Vector3::AnyInit(1.0f);
 	nextStateEvent_->UpdateAllBodies(transform);
 
 	// イベント範囲内に入ったら次の状態に遷移させる
@@ -126,7 +126,7 @@ void StartGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	}
 }
 
-void StartGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {
+void StartGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 }
 
 void StartGameState::Exit() {
@@ -145,7 +145,7 @@ void StartGameState::ImGui() {
 void StartGameState::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Scene/State/startGameState.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Scene/State/startGameState.json", data)) {
 		return;
 	}
 
@@ -158,5 +158,5 @@ void StartGameState::SaveJson() {
 
 	nextStateEvent_->SaveBodyOffset(data["NextStateEvent"]);
 
-	JsonAdapter::Save("Scene/State/startGameState.json", data);
+	SakuEngine::JsonAdapter::Save("Scene/State/startGameState.json", data);
 }

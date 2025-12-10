@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateScaleModule.h"
+#include "ParticleUpdateScaleModule.h"
 
 using namespace SakuEngine;
 
@@ -18,7 +18,7 @@ void ParticleUpdateScaleModule::SetCommand(const ParticleCommand& command) {
 		if (const auto& scaling = std::get_if<float>(&command.value)) {
 
 			// 補間値と乗算する値、デフォルトで1.0f
-			scalingValue_ = Vector3::AnyInit(*scaling);
+			scalingValue_ = SakuEngine::Vector3::AnyInit(*scaling);
 		}
 	}
 	}
@@ -27,9 +27,9 @@ void ParticleUpdateScaleModule::SetCommand(const ParticleCommand& command) {
 void ParticleUpdateScaleModule::Init() {
 
 	// 初期化値
-	scale_.start = Vector3::AnyInit(1.0f);
-	scale_.target = Vector3::AnyInit(0.0f);
-	scalingValue_ = Vector3::AnyInit(1.0f);
+	scale_.start = SakuEngine::Vector3::AnyInit(1.0f);
+	scale_.target = SakuEngine::Vector3::AnyInit(0.0f);
+	scalingValue_ = SakuEngine::Vector3::AnyInit(1.0f);
 }
 
 void ParticleUpdateScaleModule::Execute(
@@ -39,7 +39,7 @@ void ParticleUpdateScaleModule::Execute(
 	const float lerpT = LoopedT(particle.progress);
 
 	// 色を補間
-	particle.transform.scale = Vector3::Lerp(scale_.start * scalingValue_,
+	particle.transform.scale = SakuEngine::Vector3::Lerp(scale_.start * scalingValue_,
 		scale_.target * scalingValue_,
 		EasedValue(easing_, lerpT));
 }
@@ -63,7 +63,7 @@ Json ParticleUpdateScaleModule::ToJson() {
 
 	data["scale"]["start"] = scale_.start.ToJson();
 	data["scale"]["target"] = scale_.target.ToJson();
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easing_);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easing_);
 
 	return data;
 }
@@ -73,7 +73,7 @@ void ParticleUpdateScaleModule::FromJson(const Json& data) {
 	// ループ
 	ParticleLoopableModule::FromLoopJson(data);
 
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
 	easing_ = easingType.value();
 
 	const auto& scaleData = data["scale"];

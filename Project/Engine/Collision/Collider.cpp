@@ -1,4 +1,4 @@
-﻿#include "Collider.h"
+#include "Collider.h"
 
 using namespace SakuEngine;
 
@@ -30,7 +30,7 @@ Collider::~Collider() {
 	}
 }
 
-void Collider::UpdateAllBodies(const Transform3D& transform) {
+void Collider::UpdateAllBodies(const SakuEngine::Transform3D& transform) {
 
 	if (bodies_.empty()) {
 		return;
@@ -65,7 +65,7 @@ int Collider::ToIndexType(ColliderType type) {
 	return std::countr_zero(static_cast<std::make_unsigned_t<std::underlying_type_t<ColliderType>>>(type)) + 1;
 }
 
-void Collider::UpdateSphereBody(CollisionBody* body, const Transform3D& transform, const CollisionShape::Sphere& offset) {
+void Collider::UpdateSphereBody(CollisionBody* body, const SakuEngine::Transform3D& transform, const CollisionShape::Sphere& offset) {
 
 	// 子か親かで座標を変える
 	Vector3 bodyTranslation = isChild_ ? transform.GetWorldPos() : transform.translation;
@@ -74,7 +74,7 @@ void Collider::UpdateSphereBody(CollisionBody* body, const Transform3D& transfor
 	body->UpdateSphere(CollisionShape::Sphere(center, offset.radius));
 }
 
-void Collider::UpdateAABBBody(CollisionBody* body, const Transform3D& transform, const CollisionShape::AABB& offset) {
+void Collider::UpdateAABBBody(CollisionBody* body, const SakuEngine::Transform3D& transform, const CollisionShape::AABB& offset) {
 
 	// 子か親かで座標を変える
 	Vector3 bodyTranslation = isChild_ ? transform.GetWorldPos() : transform.translation;
@@ -84,7 +84,7 @@ void Collider::UpdateAABBBody(CollisionBody* body, const Transform3D& transform,
 	body->UpdateAABB(CollisionShape::AABB(center, extent));
 }
 
-void Collider::UpdateOBBBody(CollisionBody* body, const Transform3D& transform, const CollisionShape::OBB& offset) {
+void Collider::UpdateOBBBody(CollisionBody* body, const SakuEngine::Transform3D& transform, const CollisionShape::OBB& offset) {
 
 	// 子か親かで座標を変える
 	Vector3 bodyTranslation = isChild_ ? transform.GetWorldPos() : transform.translation;
@@ -95,7 +95,7 @@ void Collider::UpdateOBBBody(CollisionBody* body, const Transform3D& transform, 
 	Quaternion bodyRotation = isChild_ ? Quaternion::FromRotationMatrix(transform.matrix.world) : transform.rotation;
 	Quaternion rotation = (bodyRotation * offset.rotate).Normalize();
 
-	body->UpdateOBB(CollisionShape::OBB(center, size, Vector3::AnyInit(0.0f), rotation));
+	body->UpdateOBB(CollisionShape::OBB(center, size, SakuEngine::Vector3::AnyInit(0.0f), rotation));
 }
 
 CollisionBody* Collider::AddCollider(const CollisionShape::Shapes& shape, bool autoAddOffset) {
@@ -144,7 +144,7 @@ void Collider::ImGui(float itemWidth) {
 
 	ImGui::PushItemWidth(itemWidth);
 
-	ImGui::Text("currentState: %s", EnumAdapter<State>::ToString(currentState_));
+	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));
 
 	for (uint32_t index = 0; index < bodyOffsets_.size(); ++index) {
 
@@ -318,11 +318,11 @@ bool Collider::SetShapeParamFromJson(const std::string& shapeName, const Json& d
 		auto sphere = CollisionShape::Sphere::Default();
 		if (data.contains("center")) {
 
-			sphere.center = JsonAdapter::ToObject<Vector3>(data["center"]);
+			sphere.center = SakuEngine::JsonAdapter::ToObject<Vector3>(data["center"]);
 		}
 		if (data.contains("radius")) {
 
-			sphere.radius = JsonAdapter::GetValue<float>(data, "radius");
+			sphere.radius = SakuEngine::JsonAdapter::GetValue<float>(data, "radius");
 		}
 		bodyOffsets_.emplace_back(sphere);
 		return true;
@@ -331,11 +331,11 @@ bool Collider::SetShapeParamFromJson(const std::string& shapeName, const Json& d
 		auto aabb = CollisionShape::AABB::Default();
 		if (data.contains("center")) {
 
-			aabb.center = JsonAdapter::ToObject<Vector3>(data["center"]);
+			aabb.center = SakuEngine::JsonAdapter::ToObject<Vector3>(data["center"]);
 		}
 		if (data.contains("extent")) {
 
-			aabb.extent = JsonAdapter::ToObject<Vector3>(data["extent"]);
+			aabb.extent = SakuEngine::JsonAdapter::ToObject<Vector3>(data["extent"]);
 		}
 		bodyOffsets_.emplace_back(aabb);
 		return true;
@@ -344,16 +344,16 @@ bool Collider::SetShapeParamFromJson(const std::string& shapeName, const Json& d
 		auto obb = CollisionShape::OBB::Default();
 		if (data.contains("center")) {
 
-			obb.center = JsonAdapter::ToObject<Vector3>(data["center"]);
+			obb.center = SakuEngine::JsonAdapter::ToObject<Vector3>(data["center"]);
 		}
 		if (data.contains("size")) {
 
-			obb.size = JsonAdapter::ToObject<Vector3>(data["size"]);
+			obb.size = SakuEngine::JsonAdapter::ToObject<Vector3>(data["size"]);
 			obb.size.x *= 2.0f;
 		}
 		if (data.contains("rotate")) {
 
-			obb.rotate = JsonAdapter::ToObject<Quaternion>(data["rotate"]);
+			obb.rotate = SakuEngine::JsonAdapter::ToObject<Quaternion>(data["rotate"]);
 		}
 		bodyOffsets_.emplace_back(obb);
 		return true;

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -6,7 +6,7 @@
 #include <Engine/Object/System/Base/ISystem.h>
 
 //============================================================================
-//	Transform3DSystem class
+//	SakuEngine::Transform3DSystem class
 //	3DTransformの更新システム
 //============================================================================
 namespace SakuEngine {

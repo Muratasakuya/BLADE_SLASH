@@ -1,4 +1,4 @@
-﻿#include "GameEffectCommandHelper.h"
+#include "GameEffectCommandHelper.h"
 
 using namespace SakuEngine;
 
@@ -42,7 +42,7 @@ void GameEffectCommandHelper::SendSpawnerRotation(GameEffect& effect, const Matr
 	effect.SendCommand(command);
 }
 
-void GameEffectCommandHelper::SendSpawnerTranslation(GameEffect& effect, const Vector3& translation) {
+void GameEffectCommandHelper::SendSpawnerTranslation(GameEffect& effect, const SakuEngine::Vector3& translation) {
 
 	// 座標設定
 	ParticleCommand command{};
@@ -65,7 +65,7 @@ void GameEffectCommandHelper::SendScaling(GameEffect& effect, float scalingValue
 }
 
 void GameEffectCommandHelper::ApplyAndSend(GameEffect& effect,
-	const Quaternion& parentRotation, const Vector3& localPos) {
+	const Quaternion& parentRotation, const SakuEngine::Vector3& localPos) {
 
 	// 回転を考慮した発生位置を計算
 	const Vector3 emitPos = Quaternion::RotateVector(localPos, parentRotation);
@@ -78,7 +78,7 @@ void GameEffectCommandHelper::ApplyAndSend(GameEffect& effect,
 }
 
 void GameEffectCommandHelper::ApplyAndSend(GameEffect& effect, const Quaternion& parentRotation,
-	const Vector3& localPos, const Vector3& localEuler) {
+	const SakuEngine::Vector3& localPos, const SakuEngine::Vector3& localEuler) {
 
 	// ローカル回転を計算
 	const Quaternion localRotation = Quaternion::EulerToQuaternion(localEuler);
@@ -90,7 +90,7 @@ void GameEffectCommandHelper::ApplyAndSend(GameEffect& effect, const Quaternion&
 	const Vector3 upWorld = Quaternion::RotateVector(upLocal, parentRotation);
 
 	// ワールド回転を計算
-	const Quaternion worldRotateMatrix = Quaternion::LookRotation(forwardWorld, upWorld);
+	const Quaternion worldRotateMatrix = SakuEngine::Quaternion::LookRotation(forwardWorld, upWorld);
 	const Matrix4x4 rotateMatrix = Quaternion::MakeRotateMatrix(worldRotateMatrix);
 
 	// 回転を考慮した発生位置を計算

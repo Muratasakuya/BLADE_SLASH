@@ -1,4 +1,4 @@
-﻿#include "PlayerAfterImageEffect.h"
+#include "PlayerAfterImageEffect.h"
 
 //============================================================================
 //	include
@@ -20,17 +20,17 @@ void PlayerAfterImageEffect::Init(const std::string& fileName) {
 	ApplyJson();
 }
 
-void PlayerAfterImageEffect::Start(std::vector<GameObject3D*>& objects) {
+void PlayerAfterImageEffect::Start(std::vector<SakuEngine::GameObject3D*>& objects) {
 
 	// α値を0.0f、加算合成にする
 	for (auto& object : objects) {
 
 		object->SetAlpha(0.0f);
-		object->SetBlendMode(BlendMode::kBlendModeAdd);
+		object->SetBlendMode(SakuEngine::BlendMode::kBlendModeAdd);
 	}
 
 	// エフェクト開始
-	PostProcessSystem* postProcessSystem = PostProcessSystem::GetInstance();
+	SakuEngine::PostProcessSystem* postProcessSystem = SakuEngine::PostProcessSystem::GetInstance();
 
 	// 残像表現エフェクト
 	postProcessSystem->GetUpdater<PlayerAfterImageUpdater>(PostProcessType::PlayerAfterImage)->Start(color_);
@@ -38,17 +38,17 @@ void PlayerAfterImageEffect::Start(std::vector<GameObject3D*>& objects) {
 	postProcessSystem->GetUpdater<DepthOutlineUpdater>(PostProcessType::DepthBasedOutline)->Start(color_, edgeScale_);
 }
 
-void PlayerAfterImageEffect::End(std::vector<GameObject3D*>& objects) {
+void PlayerAfterImageEffect::End(std::vector<SakuEngine::GameObject3D*>& objects) {
 
 	// α値を1.0fにする、通常の合成に戻す
 	for (auto& object : objects) {
 
 		object->SetAlpha(1.0f);
-		object->SetBlendMode(BlendMode::kBlendModeNormal);
+		object->SetBlendMode(SakuEngine::BlendMode::kBlendModeNormal);
 	}
 
 	// エフェクトリセット
-	PostProcessSystem* postProcessSystem = PostProcessSystem::GetInstance();
+	SakuEngine::PostProcessSystem* postProcessSystem = SakuEngine::PostProcessSystem::GetInstance();
 
 	// 残像表現エフェクト
 	postProcessSystem->GetUpdater<PlayerAfterImageUpdater>(PostProcessType::PlayerAfterImage)->Reset();
@@ -79,11 +79,11 @@ void PlayerAfterImageEffect::ImGui(bool isSeparate) {
 void PlayerAfterImageEffect::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Player/AfterImageEffect/" + fileName_ + ".json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Player/AfterImageEffect/" + fileName_ + ".json", data)) {
 		return;
 	}
 
-	color_ = Color::FromJson(data.value("color", Json()));
+	color_ = SakuEngine::Color::FromJson(data.value("color", Json()));
 	edgeScale_ = data.value("edgeScale", 1.0f);
 }
 
@@ -94,5 +94,5 @@ void PlayerAfterImageEffect::SaveJson() {
 	data["color"] = color_.ToJson();
 	data["edgeScale"] = edgeScale_;
 
-	JsonAdapter::Save("Player/AfterImageEffect/" + fileName_, data);
+	SakuEngine::JsonAdapter::Save("Player/AfterImageEffect/" + fileName_, data);
 }

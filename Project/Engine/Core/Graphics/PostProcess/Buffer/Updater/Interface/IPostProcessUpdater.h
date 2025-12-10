@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -96,13 +96,13 @@ inline std::pair<const void*, size_t> IPostProcessUpdater<T>::GetBufferData() co
 template<typename T>
 inline bool IPostProcessUpdater<T>::LoadFile(Json& data) {
 
-	return JsonAdapter::LoadCheck(GetFileName(), data);
+	return SakuEngine::JsonAdapter::LoadCheck(GetFileName(), data);
 }
 
 template<typename T>
 inline void IPostProcessUpdater<T>::SaveFile(const Json& data) {
 
-	JsonAdapter::Save(GetFileName(), data);
+	SakuEngine::JsonAdapter::Save(GetFileName(), data);
 }
 
 template<typename T>

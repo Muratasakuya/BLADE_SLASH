@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -25,7 +25,7 @@ class SubPlayer;
 //	プレイヤー
 //============================================================================
 class Player :
-	public GameObject3D {
+	public SakuEngine::GameObject3D {
 public:
 	//========================================================================
 	//	public Methods
@@ -49,7 +49,7 @@ public:
 	/*-------- collision ----------*/
 
 	// 衝突コールバック関数
-	void OnCollisionEnter(const CollisionBody* collisionBody) override;
+	void OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) override;
 
 	//--------- accessor -----------------------------------------------------
 
@@ -75,7 +75,7 @@ public:
 	int GetToughness() const { return stats_.toughness; }
 	bool IsDead() const { return stats_.currentHP == 0; }
 	bool IsActiveParry() const { return stateController_->IsActiveParry(); }
-	const Transform3D& GetInitTransform() const { return initTransform_; }
+	const SakuEngine::Transform3D& GetInitTransform() const { return initTransform_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -101,10 +101,10 @@ private:
 	std::unique_ptr<TargetNavigation> targetNavigation_;
 
 	// 回避エフェクト
-	std::unique_ptr<EffectGroup> avoidEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> avoidEffect_;
 
 	// parameters
-	Transform3D initTransform_; // 初期化時の値
+	SakuEngine::Transform3D initTransform_; // 初期化時の値
 	PlayerStats stats_; // ステータス
 
 	// 敵のスタン中の更新になったか

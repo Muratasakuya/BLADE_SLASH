@@ -1,4 +1,4 @@
-﻿#include "GameButton.h"
+#include "GameButton.h"
 
 //============================================================================
 //	include
@@ -106,11 +106,11 @@ void GameButton::DetectCollision() {
 void GameButton::DetectMouseCollision() {
 
 	// 判定
-	hoverNow_ = Collision::RectToMouse(transform_->translation,
+	hoverNow_ = SakuEngine::Collision::RectToMouse(transform_->translation,
 		collisionSize_, transform_->anchorPoint);
 
 	// 入力結果
-	Input* input = Input::GetInstance();
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 	triggerNow_ = hoverNow_ && input->TriggerMouse(mouseButton_);
 	pushNow_ = input->PushMouse(mouseButton_);
 	releaseNow_ = input->ReleaseMouse(mouseButton_);
@@ -159,9 +159,9 @@ void GameButton::ImGui() {
 
 	ImGui::Checkbox("checkCollisionEnable", &checkCollisionEnable_);
 
-	EnumAdapter<GameButtonCollisionType>::Combo("collisionType", &collisionType_);
-	EnumAdapter<GameButtonResponseType>::Combo("responseType", &responseType_);
-	EnumAdapter<MouseButton>::Combo("mouseButton", &mouseButton_);
+	SakuEngine::EnumAdapter<GameButtonCollisionType>::Combo("collisionType", &collisionType_);
+	SakuEngine::EnumAdapter<GameButtonResponseType>::Combo("responseType", &responseType_);
+	SakuEngine::EnumAdapter<MouseButton>::Combo("mouseButton", &mouseButton_);
 
 	ImGui::SeparatorText("Parameters");
 
@@ -191,7 +191,7 @@ void GameButton::ImGui() {
 	if (ImGui::BeginTabBar("Updaters##GameButton")) {
 		for (auto& it : items) {
 
-			const std::string typeLabel = EnumAdapter<GameButtonResponseType>::ToString(it.type);
+			const std::string typeLabel = SakuEngine::EnumAdapter<GameButtonResponseType>::ToString(it.type);
 			if (ImGui::BeginTabItem((typeLabel + "##tab").c_str())) {
 
 				// ID重複対策
@@ -219,18 +219,18 @@ void GameButton::FromJson(const Json& data) {
 	checkCollisionEnable_ = data["checkCollisionEnable_"];
 	collisionSize_ = collisionSize_.FromJson(data["collisionSize_"]);
 
-	const auto& collisionType = EnumAdapter<GameButtonCollisionType>::FromString(data["collisionType_"]);
+	const auto& collisionType = SakuEngine::EnumAdapter<GameButtonCollisionType>::FromString(data["collisionType_"]);
 	collisionType_ = collisionType.value();
 
-	const auto& responseType = EnumAdapter<GameButtonResponseType>::FromString(data["responseType_"]);
+	const auto& responseType = SakuEngine::EnumAdapter<GameButtonResponseType>::FromString(data["responseType_"]);
 	responseType_ = responseType.value();
 
-	const auto& mouseButton = EnumAdapter<MouseButton>::FromString(data["mouseButton_"]);
+	const auto& mouseButton = SakuEngine::EnumAdapter<MouseButton>::FromString(data["mouseButton_"]);
 	mouseButton_ = mouseButton.value();
 
 	for (auto& [type, updater] : responseUpdaters_) {
 
-		const std::string key = EnumAdapter<GameButtonResponseType>::ToString(type);
+		const std::string key = SakuEngine::EnumAdapter<GameButtonResponseType>::ToString(type);
 		if (!data.contains(key)) {
 			continue;
 		}
@@ -243,12 +243,12 @@ void GameButton::ToJson(Json& data) {
 	data["checkCollisionEnable_"] = checkCollisionEnable_;
 	data["collisionSize_"] = collisionSize_.ToJson();
 
-	data["collisionType_"] = EnumAdapter<GameButtonCollisionType>::ToString(collisionType_);
-	data["responseType_"] = EnumAdapter<GameButtonResponseType>::ToString(responseType_);
-	data["mouseButton_"] = EnumAdapter<MouseButton>::ToString(mouseButton_);
+	data["collisionType_"] = SakuEngine::EnumAdapter<GameButtonCollisionType>::ToString(collisionType_);
+	data["responseType_"] = SakuEngine::EnumAdapter<GameButtonResponseType>::ToString(responseType_);
+	data["mouseButton_"] = SakuEngine::EnumAdapter<MouseButton>::ToString(mouseButton_);
 
 	for (const auto& [type, updater] : responseUpdaters_) {
 
-		updater->ToJson(data[EnumAdapter<GameButtonResponseType>::ToString(type)]);
+		updater->ToJson(data[SakuEngine::EnumAdapter<GameButtonResponseType>::ToString(type)]);
 	}
 }

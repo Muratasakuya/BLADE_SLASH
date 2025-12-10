@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	サブプレイヤー
 //============================================================================
 class SubPlayer :
-	public IGameEditor {
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -46,17 +46,17 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// パーツ
-	std::unique_ptr<GameObject3D> body_; // 体、親となる
-	std::unique_ptr<GameObject3D> rightHand_; // 右手
-	std::unique_ptr<GameObject3D> leftHand_;  // 左手
+	std::unique_ptr<SakuEngine::GameObject3D> body_; // 体、親となる
+	std::unique_ptr<SakuEngine::GameObject3D> rightHand_; // 右手
+	std::unique_ptr<SakuEngine::GameObject3D> leftHand_;  // 左手
 
 	// 状態管理
 	std::unique_ptr<SubPlayerStateController> stateController_;
 
 	// パーツ別の初期トランスフォーム
-	Transform3D initBodyTransform_;
-	Transform3D initRightHandTransform_;
-	Transform3D initLeftHandTransform_;
+	SakuEngine::Transform3D initBodyTransform_;
+	SakuEngine::Transform3D initRightHandTransform_;
+	SakuEngine::Transform3D initLeftHandTransform_;
 
 	//--------- functions ----------------------------------------------------
 
@@ -69,5 +69,5 @@ private:
 	void InitState();
 
 	// パーツにトランスフォームをセットする
-	void SetPartsTransform(GameObject3D* parts, const Transform3D& transform);
+	void SetPartsTransform(SakuEngine::GameObject3D* parts, const SakuEngine::Transform3D& transform);
 };

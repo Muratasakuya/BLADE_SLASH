@@ -1,4 +1,4 @@
-﻿#include "AssetEditor.h"
+#include "AssetEditor.h"
 
 using namespace SakuEngine;
 
@@ -443,17 +443,17 @@ D3D12_GPU_DESCRIPTOR_HANDLE AssetEditor::GetIconForEntry(const DirectoryNode& en
 void AssetEditor::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck(baseJsonPath_ + "editorParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(baseJsonPath_ + "editorParameter.json", data)) {
 		return;
 	}
 
-	folderSize_ = JsonAdapter::GetValue<float>(data, "folderSize_");
-	folderSpacing_ = JsonAdapter::GetValue<float>(data, "folderSpacing_");
-	folderNameSpancing_ = JsonAdapter::GetValue<float>(data, "folderNameSpancing_");
-	charScale_ = JsonAdapter::GetValue<float>(data, "charScale_");
-	chidNameOffset_ = JsonAdapter::GetValue<float>(data, "chidNameOffset_");
-	folderOffset_ = JsonAdapter::ToObject<Vector2>(data["folderOffset_"]);
-	loadOverlayOffset_ = JsonAdapter::ToObject<Vector2>(data["loadOverlayOffset_"]);
+	folderSize_ = SakuEngine::JsonAdapter::GetValue<float>(data, "folderSize_");
+	folderSpacing_ = SakuEngine::JsonAdapter::GetValue<float>(data, "folderSpacing_");
+	folderNameSpancing_ = SakuEngine::JsonAdapter::GetValue<float>(data, "folderNameSpancing_");
+	charScale_ = SakuEngine::JsonAdapter::GetValue<float>(data, "charScale_");
+	chidNameOffset_ = SakuEngine::JsonAdapter::GetValue<float>(data, "chidNameOffset_");
+	folderOffset_ = SakuEngine::JsonAdapter::ToObject<Vector2>(data["folderOffset_"]);
+	loadOverlayOffset_ = SakuEngine::JsonAdapter::ToObject<Vector2>(data["loadOverlayOffset_"]);
 }
 
 void AssetEditor::SaveJson() {
@@ -465,8 +465,8 @@ void AssetEditor::SaveJson() {
 	data["folderNameSpancing_"] = folderNameSpancing_;
 	data["charScale_"] = charScale_;
 	data["chidNameOffset_"] = chidNameOffset_;
-	data["folderOffset_"] = JsonAdapter::FromObject<Vector2>(folderOffset_);
-	data["loadOverlayOffset_"] = JsonAdapter::FromObject<Vector2>(loadOverlayOffset_);
+	data["folderOffset_"] = SakuEngine::JsonAdapter::FromObject<Vector2>(folderOffset_);
+	data["loadOverlayOffset_"] = SakuEngine::JsonAdapter::FromObject<Vector2>(loadOverlayOffset_);
 
-	JsonAdapter::Save(baseJsonPath_ + "editorParameter.json", data);
+	SakuEngine::JsonAdapter::Save(baseJsonPath_ + "editorParameter.json", data);
 }

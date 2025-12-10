@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,7 @@
 //	行けない場所を示す十字マークの壁、押し戻し処理はしていない
 //============================================================================
 class FieldCrossMarkWall :
-	public GameObject3D {
+	public SakuEngine::GameObject3D {
 public:
 	//========================================================================
 	//	public Methods
@@ -31,9 +31,9 @@ public:
 	/*-------- collision ----------*/
 
 	// 衝突コールバック関数
-	void OnCollisionEnter([[maybe_unused]] const CollisionBody* collisionBody) override;
-	void OnCollisionStay([[maybe_unused]] const CollisionBody* collisionBody) override;
-	void OnCollisionExit([[maybe_unused]] const CollisionBody* collisionBody) override;
+	void OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) override;
+	void OnCollisionStay(const SakuEngine::CollisionBody* collisionBody) override;
+	void OnCollisionExit(const SakuEngine::CollisionBody* collisionBody) override;
 
 	//--------- accessor -----------------------------------------------------
 
@@ -64,10 +64,10 @@ private:
 	float blinkingSpacing_; // 点滅間隔
 	float blinkTimer_;      // 点滅経過時間
 
-	Color initColor_;    // 初期色
-	Color targetColor_;  // 目標色
-	Color startColor_;   // 補間開始色
-	Color currentColor_; // 現在の値
+	SakuEngine::Color initColor_;    // 初期色
+	SakuEngine::Color targetColor_;  // 目標色
+	SakuEngine::Color startColor_;   // 補間開始色
+	SakuEngine::Color currentColor_; // 現在の値
 
 	float startEmissive_;   // 補間開始発光度
 	float currentEmissive_; // 現在の値

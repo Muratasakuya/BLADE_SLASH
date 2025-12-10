@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -7,12 +7,12 @@
 #include <Engine/Utility/Enum/Direction.h>
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/MathLib/MathUtils.h>
+#include <Engine/Object/Data/Transform.h>
 #include <Game/Camera/Follow/Structures/FollowCameraStructures.h>
 #include <Game/Camera/Follow/Input/FollowCameraInputAction.h>
 
 // front
 class FollowCamera;
-class Transform3D;
 class Player;
 
 //============================================================================
@@ -46,9 +46,9 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetInputMapper(const InputMapper<FollowCameraInputAction>* inputMapper) { inputMapper_ = inputMapper; }
+	void SetInputMapper(const SakuEngine::InputMapper<FollowCameraInputAction>* inputMapper) { inputMapper_ = inputMapper; }
 	void SetPlayer(const Player* player) { player_ = player; }
-	void SetTarget(FollowCameraTargetType type, const Transform3D& target);
+	void SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target);
 	void SetCanExit(bool canExit) { canExit_ = canExit; }
 
 	virtual bool GetCanExit() const { return canExit_; }
@@ -59,9 +59,9 @@ protected:
 
 	//--------- variables ----------------------------------------------------
 
-	const InputMapper<FollowCameraInputAction>* inputMapper_;
+	const SakuEngine::InputMapper<FollowCameraInputAction>* inputMapper_;
 	const Player* player_;
-	std::unordered_map<FollowCameraTargetType, const Transform3D*> targets_;
+	std::unordered_map<FollowCameraTargetType, const SakuEngine::Transform3D*> targets_;
 
 	// 共通parameters
 	bool canExit_ = true; // 遷移可能かどうか

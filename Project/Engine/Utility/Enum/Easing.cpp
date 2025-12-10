@@ -1,6 +1,4 @@
-﻿#include "Easing.h"
-
-using namespace SakuEngine;
+#include "Easing.h"
 
 // imgui
 #include <imgui.h>

@@ -1,4 +1,4 @@
-﻿#include "GameScene.h"
+#include "GameScene.h"
 
 //============================================================================
 //	include
@@ -24,7 +24,7 @@ GameScene::~GameScene() {
 	// シーンを削除するタイミングで停止させる
 	fieldEffect_->Stop();
 	// カメラキーデータをクリア
-	CameraEditor::GetInstance()->ResetAllKeyData();
+	SakuEngine::CameraEditor::GetInstance()->ResetAllKeyData();
 }
 
 void GameScene::InitStates() {
@@ -86,11 +86,11 @@ void GameScene::Init() {
 	fadeSprite_ = std::make_unique<FadeSprite>();
 
 	// フィールドエフェクト
-	fieldEffect_ = std::make_unique<EffectGroup>();
+	fieldEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	fieldEffect_->Init("fieldEffect", "SceneEffect");
 	fieldEffect_->LoadJson("GameEffectGroup/GameScene/sceneFieldEffect.json");
 	// 最初から発生
-	fieldEffect_->Emit(Vector3::AnyInit(0.0f));
+	fieldEffect_->Emit(SakuEngine::Vector3::AnyInit(0.0f));
 
 	//========================================================================
 	//	state
@@ -182,10 +182,10 @@ void GameScene::Update() {
 			ResultGameState* state = static_cast<ResultGameState*>(states_[stateIndex].get());
 			if (state->GetResultSelect() == ResultSelect::Retry) {
 
-				sceneManager_->SetNextScene(Scene::Game, std::move(fadeTransition_));
+				sceneManager_->SetNextScene(SakuEngine::Scene::Game, std::move(fadeTransition_));
 			} else if (state->GetResultSelect() == ResultSelect::Title) {
 
-				sceneManager_->SetNextScene(Scene::Title, std::move(fadeTransition_));
+				sceneManager_->SetNextScene(SakuEngine::Scene::Title, std::move(fadeTransition_));
 			}
 		}
 		break;
@@ -231,7 +231,7 @@ void GameScene::RequestNextState(GameSceneState next) {
 
 void GameScene::ImGui() {
 
-	ImGui::SeparatorText(EnumAdapter<GameSceneState>::ToString(currentState_));
+	ImGui::SeparatorText(SakuEngine::EnumAdapter<GameSceneState>::ToString(currentState_));
 
 	uint32_t stateIndex = static_cast<uint32_t>(currentState_);
 	states_[stateIndex]->ImGui();
@@ -241,7 +241,7 @@ void GameScene::ImGui() {
 	GameSceneState nextState = currentState_;
 
 	// コンボでnextStateを変更
-	if (EnumAdapter<GameSceneState>::Combo("SceneState", &nextState)) {
+	if (SakuEngine::EnumAdapter<GameSceneState>::Combo("SceneState", &nextState)) {
 
 		// 実際に状態が変わったときだけ遷移する
 		if (nextState != currentState_) {

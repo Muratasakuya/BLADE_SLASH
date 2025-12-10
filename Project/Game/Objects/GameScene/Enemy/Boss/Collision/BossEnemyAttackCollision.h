@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	ボスの攻撃の当たり判定
 //============================================================================
 class BossEnemyAttackCollision :
-	public Collider {
+	public SakuEngine::Collider {
 public:
 	//========================================================================
 	//	public Methods
@@ -24,7 +24,7 @@ public:
 	void Init();
 
 	// 衝突判定更新
-	void Update(const Transform3D& transform);
+	void Update(const SakuEngine::Transform3D& transform);
 
 	// エディター
 	void ImGui();
@@ -34,7 +34,7 @@ public:
 	void SaveJson(Json& data);
 
 	// 衝突コールバック関数
-	void OnCollisionEnter(const CollisionBody* collisionBody) override;
+	void OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) override;
 
 	//--------- accessor -----------------------------------------------------
 
@@ -56,8 +56,8 @@ private:
 
 	struct AttackParameter {
 
-		Vector3 centerOffset; // player座標からのオフセット
-		Vector3 size;         // サイズ
+		SakuEngine::Vector3 centerOffset; // player座標からのオフセット
+		SakuEngine::Vector3 size;         // サイズ
 
 		std::vector<TimeWindow> windows;
 	};
@@ -67,7 +67,7 @@ private:
 	// 現在の状態
 	BossEnemyState currentState_;
 
-	CollisionBody* weaponBody_;
+	SakuEngine::CollisionBody* weaponBody_;
 
 	std::unordered_map<BossEnemyState, AttackParameter> table_; // 状態毎の衝突
 

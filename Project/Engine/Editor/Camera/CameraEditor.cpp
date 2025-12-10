@@ -1,4 +1,4 @@
-﻿#include "CameraEditor.h"
+#include "CameraEditor.h"
 
 using namespace SakuEngine;
 
@@ -53,7 +53,7 @@ void CameraEditor::LoadJson(const std::string& fileName, bool isInEditor) {
 
 	// Json読み込み
 	Json data;
-	if (!JsonAdapter::LoadCheck(jsonFileName, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(jsonFileName, data)) {
 		// 読み込めなければエラーにする
 		ASSERT(FALSE, "failed to open file:" + jsonFileName);
 		return;
@@ -68,7 +68,7 @@ void CameraEditor::LoadJson(const std::string& fileName, bool isInEditor) {
 	// キーの名前
 	std::string keyName = data["keyName"];
 	// 同じキーの場合
-	if (Algorithm::Find(keyObjects_, keyName)) {
+	if (SakuEngine::Algorithm::Find(keyObjects_, keyName)) {
 
 		// エディター読み込みの場合は名前に連番をつける
 		if (isInEditor) {
@@ -95,13 +95,13 @@ void CameraEditor::LoadJson(const std::string& fileName, bool isInEditor) {
 	keyObjects_.emplace(keyName, std::move(keyObject));
 
 	// エディター
-	previewMode_ = EnumAdapter<PreviewMode>::FromString(data["previewMode_"]).value();
+	previewMode_ = SakuEngine::EnumAdapter<PreviewMode>::FromString(data["previewMode_"]).value();
 	previewLoopSpacing_ = data.value("previewLoopSpacing_", 1.0f);
 
 	LOG_INFO("loaded CameraKeyData: fileName: [{}]", jsonFileName);
 }
 
-void CameraEditor::SetParentTransform(const std::string& keyName, const Transform3D& parent) {
+void CameraEditor::SetParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent) {
 
 	// 無ければ処理できない
 	auto it = keyObjects_.find(keyName);
@@ -138,7 +138,7 @@ void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey, boo
 		BaseCamera* camera = sceneView_->GetCamera();
 
 		// トランスフォームとfovY
-		const Transform3D& cameraTransform = camera->GetTransform();
+		const SakuEngine::Transform3D& cameraTransform = camera->GetTransform();
 		float fovY = camera->GetFovY();
 		std::vector<KeyframeObject3D::AnyValue> anyValues;
 		anyValues.emplace_back(fovY);
@@ -252,7 +252,7 @@ void CameraEditor::UpdateEditor() {
 		return;
 	}
 	// 存在しないキーでは処理させない
-	if (!Algorithm::Find(keyObjects_, selectedKeyObjectName_)) {
+	if (!SakuEngine::Algorithm::Find(keyObjects_, selectedKeyObjectName_)) {
 		return;
 	}
 
@@ -269,7 +269,7 @@ void CameraEditor::UpdateEditor() {
 		}
 
 		// 現在のキー位置のカメラ情報を取得して反映させる
-		Transform3D transform = keyObjects_[selectedKeyObjectName_]->GetIndexTransform(previewKeyIndex_);
+		SakuEngine::Transform3D transform = keyObjects_[selectedKeyObjectName_]->GetIndexTransform(previewKeyIndex_);
 		float fovY = 0.0f;
 		KeyframeObject3D::AnyValue fovValue = keyObjects_[selectedKeyObjectName_]->GetIndexAnyValue(previewKeyIndex_, addKeyValueFov_);
 		if (const auto& keyFovY = std::get_if<float>(&fovValue)) {
@@ -309,7 +309,7 @@ void CameraEditor::UpdateEditor() {
 		}
 
 		// 経過時間を更新
-		previewLoopTimer_ += GameTimer::GetDeltaTime();
+		previewLoopTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 		// 時間経過後再生
 		if (previewLoopSpacing_ < previewLoopTimer_) {
 
@@ -327,7 +327,7 @@ void CameraEditor::UpdateEditor() {
 void CameraEditor::ApplyToCamera(BaseCamera& camera, const KeyframeObject3D& keyObject) {
 
 	// 現在のキー位置のカメラ情報
-	Transform3D transform = keyObject.GetCurrentTransform();
+	SakuEngine::Transform3D transform = keyObject.GetCurrentTransform();
 
 	float fovY = 0.0f;
 	KeyframeObject3D::AnyValue fovValue = keyObject.GetCurrentAnyValue(addKeyValueFov_);
@@ -422,7 +422,7 @@ void CameraEditor::ImGui() {
 
 void CameraEditor::AddAndSelectKeyObjectMap() {
 
-	ImVec2 areaSize = ImGuiHelper::GetWindowAreaSizeRatio(0.5f, 0.5f);
+	ImVec2 areaSize = SakuEngine::ImGuiHelper::GetWindowAreaSizeRatio(0.5f, 0.5f);
 	const float areaHeight = 128.0f;
 
 	//================================================================================================================
@@ -430,7 +430,7 @@ void CameraEditor::AddAndSelectKeyObjectMap() {
 	//================================================================================================================
 
 	// 左側の枠
-	if (ImGuiHelper::BeginFramedChild("##Add", nullptr, ImVec2(areaSize.x, areaHeight))) {
+	if (SakuEngine::ImGuiHelper::BeginFramedChild("##Add", nullptr, ImVec2(areaSize.x, areaHeight))) {
 
 		ImGui::TextUnformatted("Add Key");
 
@@ -446,7 +446,7 @@ void CameraEditor::AddAndSelectKeyObjectMap() {
 		if (ImGui::Button("Add Key")) {
 
 			// 既に存在しているキーの名前で追加できない
-			if (!inputName.empty() && !Algorithm::Find(keyObjects_, inputName)) {
+			if (!inputName.empty() && !SakuEngine::Algorithm::Find(keyObjects_, inputName)) {
 
 				// キーオブジェクトを生成
 				std::unique_ptr<KeyframeObject3D> object = std::make_unique<KeyframeObject3D>();
@@ -468,13 +468,13 @@ void CameraEditor::AddAndSelectKeyObjectMap() {
 		// 読み込み処理
 		if (ImGui::Button("Load CameraKey")) {
 			std::string outRelPath;
-			if (ImGuiHelper::OpenJsonDialog(outRelPath)) {
+			if (SakuEngine::ImGuiHelper::OpenJsonDialog(outRelPath)) {
 
 				LoadJson(outRelPath, true);
 			}
 		}
 	}
-	ImGuiHelper::EndFramedChild();
+	SakuEngine::ImGuiHelper::EndFramedChild();
 
 	// 同じライン
 	ImGui::SameLine();
@@ -484,7 +484,7 @@ void CameraEditor::AddAndSelectKeyObjectMap() {
 	//================================================================================================================
 
 	// 右側の枠
-	if (ImGuiHelper::BeginFramedChild("##Select", nullptr, ImVec2(areaSize.y, areaHeight))) {
+	if (SakuEngine::ImGuiHelper::BeginFramedChild("##Select", nullptr, ImVec2(areaSize.y, areaHeight))) {
 
 		// キーオブジェクトの選択
 		// stringを配列にまとめる
@@ -515,7 +515,7 @@ void CameraEditor::AddAndSelectKeyObjectMap() {
 		}
 		// リスト選択
 		else {
-			if (ImGuiHelper::SelectableListFromStrings("CameraKey List", &currentIndex, keyNames, 32)) {
+			if (SakuEngine::ImGuiHelper::SelectableListFromStrings("CameraKey List", &currentIndex, keyNames, 32)) {
 				// 選択されたキーオブジェクト名を更新
 				if (currentIndex >= 0 && currentIndex < static_cast<int32_t>(keyNames.size())) {
 
@@ -524,7 +524,7 @@ void CameraEditor::AddAndSelectKeyObjectMap() {
 			}
 		}
 	}
-	ImGuiHelper::EndFramedChild();
+	SakuEngine::ImGuiHelper::EndFramedChild();
 }
 
 void CameraEditor::EditSelectedKeyObject() {
@@ -554,7 +554,7 @@ void CameraEditor::EditSelectedKeyObject() {
 	// 保存処理
 	{
 		std::string outRelPath;
-		if (ImGuiHelper::SaveJsonModal("Save CameraKey", jsonBasePath_.c_str(),
+		if (SakuEngine::ImGuiHelper::SaveJsonModal("Save CameraKey", jsonBasePath_.c_str(),
 			jsonBasePath_.c_str(), jsonSaveState_, outRelPath)) {
 
 			SaveJson(outRelPath);
@@ -574,7 +574,7 @@ void CameraEditor::EditSelectedKeyObject() {
 
 			// モード選択
 			ImGui::Checkbox("isPreViewGameCamera_", &isPreViewGameCamera_);
-			EnumAdapter<PreviewMode>::Combo("PreviewMode", &previewMode_);
+			SakuEngine::EnumAdapter<PreviewMode>::Combo("PreviewMode", &previewMode_);
 
 			ImGui::SeparatorText("Option");
 
@@ -632,10 +632,10 @@ void CameraEditor::SaveJson(const std::string& fileName) {
 	data["keyName"] = selectedKeyObjectName_;
 
 	// エディター
-	data["previewMode_"] = EnumAdapter<PreviewMode>::ToString(previewMode_);
+	data["previewMode_"] = SakuEngine::EnumAdapter<PreviewMode>::ToString(previewMode_);
 	data["previewLoopSpacing_"] = previewLoopSpacing_;
 
-	JsonAdapter::Save(fileName, data);
+	SakuEngine::JsonAdapter::Save(fileName, data);
 
 	LOG_INFO("saved CameraKeyData: fileName: [{}]", fileName);
 }

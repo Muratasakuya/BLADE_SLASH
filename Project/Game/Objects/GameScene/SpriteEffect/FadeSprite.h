@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	画面にフェードイン・フェードアウトをかけるスプライト
 //============================================================================
 class FadeSprite :
-	public GameObject2D {
+	public SakuEngine::GameObject2D {
 public:
 	//========================================================================
 	//	public Methods
@@ -55,9 +55,9 @@ private:
 	bool disableTransition_;
 
 	// タイマー管理
-	StateTimer beginTimer_;
-	StateTimer waitTimer_;
-	StateTimer endTimer_;
+	SakuEngine::StateTimer beginTimer_;
+	SakuEngine::StateTimer waitTimer_;
+	SakuEngine::StateTimer endTimer_;
 
 	//--------- functions ----------------------------------------------------
 

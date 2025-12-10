@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================*/
 //	include
@@ -71,7 +71,7 @@ public:
 //============================================================================*/
 
 template<typename T>
-inline T JsonAdapter::GetValue(const Json& data, const std::string& key) {
+inline T SakuEngine::JsonAdapter::GetValue(const Json& data, const std::string& key) {
 
 	if (data.contains(key)) {
 
@@ -83,13 +83,13 @@ inline T JsonAdapter::GetValue(const Json& data, const std::string& key) {
 }
 
 template<typename T>
-inline Json JsonAdapter::FromObject(const T& obj) {
+inline Json SakuEngine::JsonAdapter::FromObject(const T& obj) {
 
 	return obj.ToJson();
 }
 
 template<typename T>
-inline T JsonAdapter::ToObject(const Json& data) {
+inline T SakuEngine::JsonAdapter::ToObject(const Json& data) {
 
 	return T::FromJson(data);
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -36,8 +36,8 @@ public:
 	void SetCamera(FollowCamera* camera) { camera_ = camera; }
 
 	// 注視点とピボットの座標設定
-	void SetTargetPos(const Vector3& targetPos) { targetPos_ = targetPos; }
-	void SetPivotPos(const Vector3& pivotPos) { pivotPos_ = pivotPos; }
+	void SetTargetPos(const SakuEngine::Vector3& targetPos) { targetPos_ = targetPos; }
+	void SetPivotPos(const SakuEngine::Vector3& pivotPos) { pivotPos_ = pivotPos; }
 
 	// 完全に何も表示しなくさせる
 	void SetDisable(bool isDisable) { isDisable_ = isDisable; }
@@ -57,35 +57,35 @@ private:
 	const FollowCamera* camera_;
 
 	// 表示するオブジェクト
-	std::unique_ptr<GameObject2DArray> objectArray_;
+	std::unique_ptr<SakuEngine::GameObject2DArray> objectArray_;
 
 	// パラメータ
-	Vector3 targetPos_;       // 注視点の座標
-	Vector2 screenTargetPos_; // 画面上の注視点の座標
-	Vector3 pivotPos_;        // ピボットの座標
-	Vector2 screenPivotPos_;  // 画面上のピボットの座標
+	SakuEngine::Vector3 targetPos_;       // 注視点の座標
+	SakuEngine::Vector2 screenTargetPos_; // 画面上の注視点の座標
+	SakuEngine::Vector3 pivotPos_;        // ピボットの座標
+	SakuEngine::Vector2 screenPivotPos_;  // 画面上のピボットの座標
 	float pivotOffsetY_;      // ピボットのYオフセット
 
 	float maxDistanceToTarget_; // 注視点までの最大距離
 	float minDistanceToTarget_; // 注視点までの最小距離
 	EasingType distanceEasingType_;
 
-	float minDistanceScale_;        // 最小距離のスケール
-	float waveCenter_;              // 波の中心
-	float waveAmplitude_;           // 波の振幅
-	StateTimer distanceScaleTimer_; // 距離スケールタイマー
+	float minDistanceScale_; // 最小距離のスケール
+	float waveCenter_;       // 波の中心
+	float waveAmplitude_;    // 波の振幅
+	SakuEngine::StateTimer distanceScaleTimer_; // 距離スケールタイマー
 
 	// 現在のUI角度
 	float currentAngleRadian_;
 
 	// 表示切替タイマー
 	bool isDisplay_;
-	StateTimer alphaTimer_;
+	SakuEngine::StateTimer alphaTimer_;
 
 	// 点滅
 	bool isBlink_;
-	Color targetBlinkColor_;
-	StateTimer blinkColorTimer_;
+	SakuEngine::Color targetBlinkColor_;
+	SakuEngine::StateTimer blinkColorTimer_;
 
 	// カメラ内に注視点があるかチェックを行うか
 	bool inFrustumCheck_;

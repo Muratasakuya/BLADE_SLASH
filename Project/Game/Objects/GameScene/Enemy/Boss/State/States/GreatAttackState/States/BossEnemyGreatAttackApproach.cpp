@@ -1,4 +1,4 @@
-﻿#include "BossEnemyGreatAttackApproach.h"
+#include "BossEnemyGreatAttackApproach.h"
 
 //============================================================================
 //	include
@@ -18,11 +18,11 @@ BossEnemyGreatAttackApproach::BossEnemyGreatAttackApproach() {
 
 	// エフェクト作成
 	// 左から右
-	leftToRightSlashEffect_ = std::make_unique<EffectGroup>();
+	leftToRightSlashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	leftToRightSlashEffect_->Init("leftToRightSlash", "BossEnemyEffect");
 	leftToRightSlashEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackLeftToRightSlashEffect.json");
 	// 右から左
-	rightToLeftSlashEffect_ = std::make_unique<EffectGroup>();
+	rightToLeftSlashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	rightToLeftSlashEffect_->Init("rightToLeftSlash", "BossEnemyEffect");
 	rightToLeftSlashEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackRightToLeftSlashEffect.json");
 }
@@ -80,7 +80,7 @@ void BossEnemyGreatAttackApproach::UpdateApproach() {
 	startMoveAnim_.SetEnd(movePendulum_.GetMaxPos());
 
 	// 座標補間
-	Vector3 newPos = bossEnemy_->GetTranslation();
+	SakuEngine::Vector3 newPos = bossEnemy_->GetTranslation();
 	startMoveAnim_.LerpValue(newPos);
 	bossEnemy_->SetTranslation(newPos);
 
@@ -98,9 +98,9 @@ void BossEnemyGreatAttackApproach::UpdateAttack() {
 
 	// 常にプレイヤーの方を向くようにする
 	// 回転を計算して設定
-	Vector3 direction = Vector3(bossEnemy_->GetTranslation() - player_->GetTranslation()).Normalize();
-	Quaternion rotation = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
-	bossEnemy_->SetRotation(Quaternion::Normalize(rotation));
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(bossEnemy_->GetTranslation() - player_->GetTranslation()).Normalize();
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+	bossEnemy_->SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 
 	// 振り子を更新して振り子位置をセットする
 	movePendulum_.Update();
@@ -127,12 +127,12 @@ void BossEnemyGreatAttackApproach::StartPendulumAnim() {
 	if (prevPendulumReachCount_ != movePendulum_.reachCount) {
 
 		// 方向の基準となるカメラの回転を取得
-		Vector3 backward = followCamera_->GetTransform().GetForward();
+		SakuEngine::Vector3 backward = followCamera_->GetTransform().GetForward();
 		backward.y = 0.0f;
-		Quaternion cameraRotation = Quaternion::LookRotation(backward.Normalize(), Vector3(0.0f, 1.0f, 0.0f));
+		SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(backward.Normalize(), SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
 
 		// 発生座標
-		Vector3 emitPos = movePendulum_.anchor;
+		SakuEngine::Vector3 emitPos = movePendulum_.anchor;
 		// オフセットに回転をかけて加算
 		emitPos += cameraRotation * slashEffectOffset_;
 
@@ -143,7 +143,7 @@ void BossEnemyGreatAttackApproach::StartPendulumAnim() {
 
 			// 親の回転を設定する
 			rightToLeftSlashEffect_->SetParentRotation("bossSlash_4",
-				Quaternion::Normalize(cameraRotation), ParticleUpdateModuleID::Rotation);
+				SakuEngine::Quaternion::Normalize(cameraRotation), ParticleUpdateModuleID::Rotation);
 
 			// 右から左へのエフェクト発生
 			rightToLeftSlashEffect_->Emit(emitPos);
@@ -155,7 +155,7 @@ void BossEnemyGreatAttackApproach::StartPendulumAnim() {
 
 			// 親の回転を設定する
 			leftToRightSlashEffect_->SetParentRotation("bossSlash_5",
-				Quaternion::Normalize(cameraRotation), ParticleUpdateModuleID::Rotation);
+				SakuEngine::Quaternion::Normalize(cameraRotation), ParticleUpdateModuleID::Rotation);
 
 			// 左から右へのエフェクト発生
 			leftToRightSlashEffect_->Emit(emitPos);
@@ -168,12 +168,13 @@ void BossEnemyGreatAttackApproach::StartPendulumAnim() {
 void BossEnemyGreatAttackApproach::UpdateAlways() {
 
 	// 位置、回転を更新する
-	Vector3 forward = followCamera_->GetTransform().GetForward();
+	SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 	forward.y = 0.0f;
-	Quaternion cameraRotation = Quaternion::LookRotation(forward.Normalize(), Vector3(0.0f, 1.0f, 0.0f));
+	SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(forward.Normalize(), SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
 	// X軸回転オフセット
-	cameraRotation = Quaternion::Multiply(cameraRotation, Quaternion::MakeAxisAngle(Vector3(1.0f, 0.0f, 0.0f), pendulumRotateX_));
-	cameraRotation = Quaternion::Normalize(cameraRotation);
+	cameraRotation = SakuEngine::Quaternion::Multiply(cameraRotation,
+		SakuEngine::Quaternion::MakeAxisAngle(SakuEngine::Vector3(1.0f, 0.0f, 0.0f), pendulumRotateX_));
+	cameraRotation = SakuEngine::Quaternion::Normalize(cameraRotation);
 	// カメラのXZ回転は0.0fにしてYの回転のみ反映させる
 	movePendulum_.rotation = cameraRotation;
 	movePendulum_.anchor = player_->GetTranslation() + cameraRotation * pendulumOffset_;
@@ -216,11 +217,11 @@ void BossEnemyGreatAttackApproach::ApplyJson(const Json& data) {
 
 	movePendulum_.FromJson(data.value("MovePendulum", Json()));
 	pendulumRotateX_ = data.value("PendulumRotateX", 0.0f);
-	pendulumOffset_ = Vector3::FromJson(data.value("PendulumOffset", Json()));
+	pendulumOffset_ = SakuEngine::Vector3::FromJson(data.value("PendulumOffset", Json()));
 	pendulumMaxReachCount_ = data.value("PendulumMaxReachCount", 3u);
 	startMoveAnim_.FromJson(data.value("StartMoveAnim", Json()));
 	beginTimer_.FromJson(data.value("BeginTimer", Json()));
-	slashEffectOffset_ = Vector3::FromJson(data.value("SlashEffectOffsetY", Json()));
+	slashEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("SlashEffectOffsetY", Json()));
 }
 
 void BossEnemyGreatAttackApproach::SaveJson(Json& data) {

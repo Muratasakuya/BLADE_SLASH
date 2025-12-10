@@ -1,4 +1,4 @@
-﻿#include "SubPlayerStateController.h"
+#include "SubPlayerStateController.h"
 
 //============================================================================
 //	include
@@ -37,7 +37,8 @@ void SubPlayerStateController::SetBossEnemy(BossEnemy* bossEnemy) {
 	}
 }
 
-void SubPlayerStateController::SetParts(GameObject3D* body, GameObject3D* rightHand, GameObject3D* leftHand) {
+void SubPlayerStateController::SetParts(SakuEngine::GameObject3D* body,
+	SakuEngine::GameObject3D* rightHand, SakuEngine::GameObject3D* leftHand) {
 
 	// 各状態にパーツを設定
 	for (const auto& state : std::views::values(states_)) {
@@ -151,8 +152,8 @@ void SubPlayerStateController::ImGui() {
 
 		SaveJson();
 	}
-	EnumAdapter<SubPlayerState>::Combo("Edit State", &editState_);
-	if (EnumAdapter<SubPlayerState>::Combo("Edit Request State", &editRequestState_)) {
+	SakuEngine::EnumAdapter<SubPlayerState>::Combo("Edit State", &editState_);
+	if (SakuEngine::EnumAdapter<SubPlayerState>::Combo("Edit Request State", &editRequestState_)) {
 
 		// リクエスト状態を設定
 		requestState_ = editRequestState_;
@@ -172,7 +173,7 @@ void SubPlayerStateController::ImGui() {
 void SubPlayerStateController::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("SubPlayer/State/stateParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("SubPlayer/State/stateParameter.json", data)) {
 		return;
 	}
 
@@ -180,7 +181,7 @@ void SubPlayerStateController::ApplyJson() {
 	for (const auto& [state, ptr] : states_) {
 
 		// 存在しないキーでは処理しない
-		const auto& key = EnumAdapter<SubPlayerState>::ToString(state);
+		const auto& key = SakuEngine::EnumAdapter<SubPlayerState>::ToString(state);
 		if (!data.contains(key)) {
 			continue;
 		}
@@ -195,7 +196,7 @@ void SubPlayerStateController::SaveJson() {
 	// 各状態をjson保存
 	for (const auto& [state, ptr] : states_) {
 
-		ptr->SaveJson(data[EnumAdapter<SubPlayerState>::ToString(state)]);
+		ptr->SaveJson(data[SakuEngine::EnumAdapter<SubPlayerState>::ToString(state)]);
 	}
-	JsonAdapter::Save("SubPlayer/State/stateParameter.json", data);
+	SakuEngine::JsonAdapter::Save("SubPlayer/State/stateParameter.json", data);
 }

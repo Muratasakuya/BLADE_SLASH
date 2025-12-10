@@ -1,4 +1,4 @@
-﻿#include "RenderEngine.h"
+#include "RenderEngine.h"
 
 using namespace SakuEngine;
 
@@ -207,7 +207,7 @@ void RenderEngine::UpdateGPUBuffer(SceneView* sceneView, bool enableMesh) {
 
 	const uint32_t renderWidth = multiRenderTextures_[ViewType::Debug]->GetWidth();
 	const uint32_t renderHeigth = multiRenderTextures_[ViewType::Debug]->GetHeight();
-	Vector2 pixelInput = Vector2::AnyInit(0.0f);
+	Vector2 pixelInput = SakuEngine::Vector2::AnyInit(0.0f);
 	if (Input::GetInstance()->IsMouseOnView(InputViewArea::Scene)) {
 
 		pixelInput = Input::GetInstance()->GetMousePosInView(InputViewArea::Scene).value();
@@ -256,7 +256,7 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	if (isDebugEnable) {
 
 		// line描画実行
-		LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::None);
+		SakuEngine::LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::None);
 	}
 
 	// 通常描画処理(シーン遷移中は処理できないようにする)
@@ -271,7 +271,7 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	if (isDebugEnable) {
 
 		// line描画実行、depth無効
-		LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::DepthIgnore);
+		SakuEngine::LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::DepthIgnore);
 	}
 
 	// sprite描画

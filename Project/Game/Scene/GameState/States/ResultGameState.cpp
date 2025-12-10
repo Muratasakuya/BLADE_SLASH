@@ -1,4 +1,4 @@
-﻿#include "ResultGameState.h"
+#include "ResultGameState.h"
 
 //============================================================================
 //	include
@@ -15,7 +15,7 @@ void ResultGameState::Enter() {
 	//	postProcess
 	//========================================================================
 
-	PostProcessSystem* postProcessSystem = PostProcessSystem::GetInstance();
+	SakuEngine::PostProcessSystem* postProcessSystem = SakuEngine::PostProcessSystem::GetInstance();
 	postProcessSystem->ClearProcess();
 	postProcessSystem->AddProcess(PostProcessType::Grayscale);
 
@@ -27,10 +27,10 @@ void ResultGameState::Enter() {
 	context_->result->StartDisplay();
 }
 
-void ResultGameState::Init([[maybe_unused]] SceneView* sceneView) {
+void ResultGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 }
 
-void ResultGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
+void ResultGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 
 	const GameSceneState currentState = GameSceneState::Result;
 
@@ -59,5 +59,5 @@ void ResultGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	}
 }
 
-void ResultGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {
+void ResultGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 }

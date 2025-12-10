@@ -1,4 +1,4 @@
-﻿#include "FollowCameraStateController.h"
+#include "FollowCameraStateController.h"
 
 //============================================================================
 //	include
@@ -30,8 +30,8 @@
 void FollowCameraStateController::Init(FollowCamera& owner) {
 
 	// 入力クラスを初期化
-	Input* input = Input::GetInstance();
-	inputMapper_ = std::make_unique<InputMapper<FollowCameraInputAction>>();
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+	inputMapper_ = std::make_unique<SakuEngine::InputMapper<FollowCameraInputAction>>();
 	inputMapper_->AddDevice(std::make_unique<FollowCameraGamePadInput>(input));
 
 #ifdef _RELEASE
@@ -82,7 +82,7 @@ void FollowCameraStateController::SetPlayer(const Player* player) {
 	}
 }
 
-void FollowCameraStateController::SetTarget(FollowCameraTargetType type, const Transform3D& target) {
+void FollowCameraStateController::SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target) {
 
 	// 各状態にtargetをセット
 	for (const auto& state : std::views::values(states_)) {
@@ -237,11 +237,11 @@ void FollowCameraStateController::ImGui(FollowCamera& owner) {
 	}
 
 	ImGui::SeparatorText("State");
-	EnumAdapter<FollowCameraState>::Combo("##StateCombo", &editingState_);
+	SakuEngine::EnumAdapter<FollowCameraState>::Combo("##StateCombo", &editingState_);
 	states_[editingState_]->ImGui(owner);
 
 	ImGui::SeparatorText("OverlayState");
-	EnumAdapter<FollowCameraOverlayState>::Combo("##OverlayStateCombo", &editingOverlayState_);
+	SakuEngine::EnumAdapter<FollowCameraOverlayState>::Combo("##OverlayStateCombo", &editingOverlayState_);
 	ImGui::Text(std::format("overlayHasValue: {}", overlayState_.has_value()).c_str());
 	overlayStates_[editingOverlayState_]->ImGui(owner);
 	if (ImGui::Button("Apply OverlayState")) {
@@ -253,13 +253,13 @@ void FollowCameraStateController::ImGui(FollowCamera& owner) {
 void FollowCameraStateController::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
 		return;
 	}
 
 	for (const auto& [state, ptr] : states_) {
 
-		const auto& key = EnumAdapter<FollowCameraState>::ToString(state);
+		const auto& key = SakuEngine::EnumAdapter<FollowCameraState>::ToString(state);
 		if (data.contains(key)) {
 
 			ptr->ApplyJson(data[key]);
@@ -267,7 +267,7 @@ void FollowCameraStateController::ApplyJson() {
 	}
 	for (const auto& [state, ptr] : overlayStates_) {
 
-		const auto& key = EnumAdapter<FollowCameraOverlayState>::ToString(state);
+		const auto& key = SakuEngine::EnumAdapter<FollowCameraOverlayState>::ToString(state);
 		if (data.contains(key)) {
 
 			ptr->ApplyJson(data[key]);
@@ -280,12 +280,12 @@ void FollowCameraStateController::SaveJson() {
 	Json data;
 	for (const auto& [state, ptr] : states_) {
 
-		ptr->SaveJson(data[EnumAdapter<FollowCameraState>::ToString(state)]);
+		ptr->SaveJson(data[SakuEngine::EnumAdapter<FollowCameraState>::ToString(state)]);
 	}
 	for (const auto& [state, ptr] : overlayStates_) {
 
-		ptr->SaveJson(data[EnumAdapter<FollowCameraOverlayState>::ToString(state)]);
+		ptr->SaveJson(data[SakuEngine::EnumAdapter<FollowCameraOverlayState>::ToString(state)]);
 	}
 
-	JsonAdapter::Save(kStateJsonPath_, data);
+	SakuEngine::JsonAdapter::Save(kStateJsonPath_, data);
 }

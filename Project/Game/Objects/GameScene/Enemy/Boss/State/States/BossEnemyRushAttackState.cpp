@@ -1,4 +1,4 @@
-﻿#include "BossEnemyRushAttackState.h"
+#include "BossEnemyRushAttackState.h"
 
 //============================================================================
 //	include
@@ -49,12 +49,12 @@ void BossEnemyRushAttackState::Enter(BossEnemy& bossEnemy) {
 	canExit_ = false;
 
 	// 座標設定
-	Vector3 center = player_->GetTranslation();
+	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 0.0f;
-	const Vector3 forward = followCamera_->GetTransform().GetForward();
+	const SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 	startPos_ = bossEnemy.GetTranslation();
-	targetPos_ = Math::RandomPointOnArcInSquare(center, forward,
-		farRadius_, halfAngle_, Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
+	targetPos_ = SakuEngine::Math::RandomPointOnArcInSquare(center, forward,
+		farRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 
 	currentAlpha_ = 1.0f;
 	bossEnemy.SetAlpha(currentAlpha_);
@@ -80,7 +80,7 @@ void BossEnemyRushAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnem
 
 void BossEnemyRushAttackState::Update(BossEnemy& bossEnemy) {
 
-	const float deltaTime = GameTimer::GetScaledDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 	switch (currentState_) {
 	case State::Teleport: {
 
@@ -119,7 +119,7 @@ void BossEnemyRushAttackState::UpdateTeleport(BossEnemy& bossEnemy, float deltaT
 	lerpT = EasedValue(easingType_, lerpT);
 
 	// 座標補完
-	bossEnemy.SetTranslation(Vector3::Lerp(startPos_, targetPos_, lerpT));
+	bossEnemy.SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
 	LookTarget(bossEnemy, player_->GetTranslation());
 
 	const float disappearEnd = fadeOutTime_;           // 消え終わる時間
@@ -184,12 +184,12 @@ void BossEnemyRushAttackState::UpdateCooldown(BossEnemy& bossEnemy, float deltaT
 		bossEnemy.SetNextAnimation("bossEnemy_teleport", false, nextAnimDuration_);
 
 		// 座標設定
-		Vector3 center = player_->GetTranslation();
+		SakuEngine::Vector3 center = player_->GetTranslation();
 		center.y = 0.0f;
-		const Vector3 forward = followCamera_->GetTransform().GetForward();
+		const SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 		startPos_ = bossEnemy.GetTranslation();
-		targetPos_ = Math::RandomPointOnArcInSquare(center, forward,
-			farRadius_, halfAngle_, Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
+		targetPos_ = SakuEngine::Math::RandomPointOnArcInSquare(center, forward,
+			farRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 
 		// playerの方を向かせる
 		LookTarget(bossEnemy, player_->GetTranslation());
@@ -218,24 +218,24 @@ void BossEnemyRushAttackState::UpdateBlade(BossEnemy& bossEnemy) {
 	}
 }
 
-Vector3 BossEnemyRushAttackState::CalcBaseDir(const BossEnemy& bossEnemy) const {
+SakuEngine::Vector3 BossEnemyRushAttackState::CalcBaseDir(const BossEnemy& bossEnemy) const {
 
 	return (player_->GetTranslation() - bossEnemy.GetTranslation()).Normalize();
 }
 
-Vector3 BossEnemyRushAttackState::CalcDivisionBladeDir(const BossEnemy& bossEnemy, uint32_t index) const {
+SakuEngine::Vector3 BossEnemyRushAttackState::CalcDivisionBladeDir(const BossEnemy& bossEnemy, uint32_t index) const {
 
 	const float offset[bladeMaxCount_] = { -divisionOffsetAngle_, 0.0f, divisionOffsetAngle_ };
-	return Math::RotateY(CalcBaseDir(bossEnemy), offset[index] * pi / 180.0f);
+	return SakuEngine::Math::RotateY(CalcBaseDir(bossEnemy), offset[index] * SakuEngine::pi / 180.0f);
 }
 
 void BossEnemyRushAttackState::EmitDivisionBlades(const BossEnemy& bossEnemy) {
 
 	// 発生処理
-	const Vector3 pos = bossEnemy.GetTranslation();
+	const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
 	for (uint32_t i = 0; i < bladeMaxCount_; ++i) {
 
-		const Vector3 velocity = CalcDivisionBladeDir(bossEnemy, i) * divisionBladeMoveSpeed_;
+		const SakuEngine::Vector3 velocity = CalcDivisionBladeDir(bossEnemy, i) * divisionBladeMoveSpeed_;
 		divisionBlades_[i]->EmitEffect(pos, velocity);
 	}
 }
@@ -243,14 +243,9 @@ void BossEnemyRushAttackState::EmitDivisionBlades(const BossEnemy& bossEnemy) {
 void BossEnemyRushAttackState::EmitSingleBlade(const BossEnemy& bossEnemy) {
 
 	// 発生処理
-	const Vector3 pos = bossEnemy.GetTranslation();
-	const Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
+	const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
+	const SakuEngine::Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
 	singleBlade_->EmitEffect(pos, velocity);
-
-	// エフェクトを発生
-	// エフェクト、エンジン機能変更中...
-	/*singleBladeEffect_->EmitEffect(singleBlade_->GetTransform(),
-		singleBladeEffectScalingValue_);*/
 }
 
 void BossEnemyRushAttackState::Exit(BossEnemy& bossEnemy) {
@@ -288,27 +283,27 @@ void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
 		Easing::SelectEasingType(easingType_);
 
 		{
-			const Vector3 bossPos = bossEnemy.GetTranslation();
-			const Vector3 toPlayer = (player_->GetTranslation() - bossPos).Normalize();
-			const float   baseYaw = divisionOffsetAngle_ * (pi / 180.0f);
+			const SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
+			const SakuEngine::Vector3 toPlayer = (player_->GetTranslation() - bossPos).Normalize();
+			const float   baseYaw = divisionOffsetAngle_ * (SakuEngine::pi / 180.0f);
 			const float   angles[bladeMaxCount_] = { -baseYaw, 0.0f, baseYaw };
 
 			for (uint32_t i = 0; i < bladeMaxCount_; ++i) {
-				Vector3 dir = Math::RotateY(toPlayer, angles[i]);
-				Vector3 lineStart = bossPos + Vector3(0.0f, 4.0f, 0.0f);
-				Vector3 lineEnd = lineStart + dir * 128.0f;
+				SakuEngine::Vector3 dir = SakuEngine::Math::RotateY(toPlayer, angles[i]);
+				SakuEngine::Vector3 lineStart = bossPos + SakuEngine::Vector3(0.0f, 4.0f, 0.0f);
+				SakuEngine::Vector3 lineEnd = lineStart + dir * 128.0f;
 
-				LineRenderer::GetInstance()->DrawLine3D(lineStart, lineEnd, Color::Red());
+				SakuEngine::LineRenderer::GetInstance()->DrawLine3D(lineStart, lineEnd, SakuEngine::Color::Red());
 			}
 		}
 
 		{
-			Vector3 center = player_->GetTranslation();
+			SakuEngine::Vector3 center = player_->GetTranslation();
 			center.y = 4.0f;
-			LineRenderer::GetInstance()->DrawArc(8, farRadius_, halfAngle_,
-				center, followCamera_->GetTransform().GetForward(), Color::Red());
-			LineRenderer::GetInstance()->DrawArc(8, nearRadius_, halfAngle_,
-				center, followCamera_->GetTransform().GetForward(), Color::Blue());
+			SakuEngine::LineRenderer::GetInstance()->DrawArc(8, farRadius_, halfAngle_,
+				center, followCamera_->GetTransform().GetForward(), SakuEngine::Color::Red());
+			SakuEngine::LineRenderer::GetInstance()->DrawArc(8, nearRadius_, halfAngle_,
+				center, followCamera_->GetTransform().GetForward(), SakuEngine::Color::Blue());
 		}
 	}
 
@@ -348,26 +343,26 @@ void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
 
 void BossEnemyRushAttackState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	farRadius_ = JsonAdapter::GetValue<float>(data, "farRadius_");
-	nearRadius_ = JsonAdapter::GetValue<float>(data, "nearRadius_");
-	halfAngle_ = JsonAdapter::GetValue<float>(data, "halfAngle_");
-	lerpTime_ = JsonAdapter::GetValue<float>(data, "lerpTime_");
-	attackCoolTime_ = JsonAdapter::GetValue<float>(data, "attackCoolTime_");
-	fadeOutTime_ = JsonAdapter::GetValue<float>(data, "fadeOutTime_");
-	fadeInTime_ = JsonAdapter::GetValue<float>(data, "fadeInTime_");
-	divisionOffsetAngle_ = JsonAdapter::GetValue<float>(data, "divisionOffsetAngle_");
-	divisionBladeMoveSpeed_ = JsonAdapter::GetValue<float>(data, "divisionBladeMoveSpeed_");
-	singleBladeMoveSpeed_ = JsonAdapter::GetValue<float>(data, "singleBladeMoveSpeed_");
-	easingType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "easingType_"));
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	farRadius_ = SakuEngine::JsonAdapter::GetValue<float>(data, "farRadius_");
+	nearRadius_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nearRadius_");
+	halfAngle_ = SakuEngine::JsonAdapter::GetValue<float>(data, "halfAngle_");
+	lerpTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpTime_");
+	attackCoolTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackCoolTime_");
+	fadeOutTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fadeOutTime_");
+	fadeInTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fadeInTime_");
+	divisionOffsetAngle_ = SakuEngine::JsonAdapter::GetValue<float>(data, "divisionOffsetAngle_");
+	divisionBladeMoveSpeed_ = SakuEngine::JsonAdapter::GetValue<float>(data, "divisionBladeMoveSpeed_");
+	singleBladeMoveSpeed_ = SakuEngine::JsonAdapter::GetValue<float>(data, "singleBladeMoveSpeed_");
+	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 	singleBladeEffectScalingValue_ = data.value("singleBladeEffectScalingValue_", 1.0f);
 
 	{
 		Json clampData;
-		if (JsonAdapter::LoadCheck("GameConfig/gameConfig.json", clampData)) {
+		if (SakuEngine::JsonAdapter::LoadCheck("GameConfig/gameConfig.json", clampData)) {
 
-			moveClampSize_ = JsonAdapter::GetValue<float>(clampData["playableArea"], "length");
+			moveClampSize_ = SakuEngine::JsonAdapter::GetValue<float>(clampData["playableArea"], "length");
 		}
 	}
 }

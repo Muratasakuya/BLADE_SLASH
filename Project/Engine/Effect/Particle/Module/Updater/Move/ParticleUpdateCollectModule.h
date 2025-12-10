@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -76,8 +76,8 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// ノイズ生成関数
-	float Noise3(const Vector3& p, uint32_t s) const;
-	float FBm(const Vector3& p, uint32_t s) const;
+	float Noise3(const SakuEngine::Vector3& p, uint32_t s) const;
+	float FBm(const SakuEngine::Vector3& p, uint32_t s) const;
 };
 
 }; // SakuEngine

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -19,10 +19,10 @@ public:
 	BeginGameState(GameContext* context) :IGameSceneState(context){}
 	~BeginGameState() = default;
 
-	void Init(SceneView* sceneView) override;
+	void Init(SakuEngine::SceneView* sceneView) override;
 
-	void Update(SceneManager* sceneManager) override;
-	void NonActiveUpdate(SceneManager* sceneManager) override;
+	void Update(SakuEngine::SceneManager* sceneManager) override;
+	void NonActiveUpdate(SakuEngine::SceneManager* sceneManager) override;
 
 	void ImGui() override;
 
@@ -38,7 +38,7 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 遷移後のプレイヤーの座標
-	Vector3 startPlayerPos_;
+	SakuEngine::Vector3 startPlayerPos_;
 
 	//--------- functions ----------------------------------------------------
 

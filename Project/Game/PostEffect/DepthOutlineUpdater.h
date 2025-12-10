@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	深度ベースの輪郭強調エフェクト
 //============================================================================
 class DepthOutlineUpdater :
-	public IPostProcessUpdater<DepthBasedOutlineForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::DepthBasedOutlineForGPU> {
 public:
 	//========================================================================
 	//	public Methods
@@ -30,7 +30,7 @@ public:
 	void ImGui() override;
 
 	// 色指定して呼びだす
-	void Start(const Color& color, float edgeScale);
+	void Start(const SakuEngine::Color& color, float edgeScale);
 
 	// 呼び出し
 	// 開始

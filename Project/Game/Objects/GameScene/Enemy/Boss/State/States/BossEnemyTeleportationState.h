@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -53,8 +53,8 @@ private:
 	float moveClampSize_; // 移動範囲制限
 
 	// 座標
-	Vector3 startPos_;  // 開始座標
-	Vector3 targetPos_; // 目標座標
+	SakuEngine::Vector3 startPos_;  // 開始座標
+	SakuEngine::Vector3 targetPos_; // 目標座標
 
 	float lerpTimer_;       // 座標補間の際の経過時間
 	float lerpTime_;        // 座標補間にかける時間
@@ -65,5 +65,5 @@ private:
 	float currentAlpha_; // α値
 
 	// 残像エフェクト
-	std::unique_ptr<EffectGroup> afterImageEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> afterImageEffect_;
 };

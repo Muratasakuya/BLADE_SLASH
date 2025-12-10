@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,7 @@
 //	GameLight class
 //============================================================================
 class GameLight :
-	public BasePunctualLight {
+	public SakuEngine::BasePunctualLight {
 public:
 	//========================================================================
 	//	public Methods
@@ -56,12 +56,12 @@ private:
 	State currentState_;
 
 	// 補間時間
-	StateTimer beginUpdateTimer_; // 補間開始タイマー
-	StateTimer endUpdateTimer_;   // 補間終了タイマー
+	SakuEngine::StateTimer beginUpdateTimer_; // 補間開始タイマー
+	SakuEngine::StateTimer endUpdateTimer_;   // 補間終了タイマー
 
 	// 補間する値(スポットライト)
-	LerpValue<Color> color_;
-	LerpValue<Vector3> pos_;
+	LerpValue<SakuEngine::Color> color_;
+	LerpValue<SakuEngine::Vector3> pos_;
 	LerpValue<float> intensity_;
 	LerpValue<float> distance_;
 

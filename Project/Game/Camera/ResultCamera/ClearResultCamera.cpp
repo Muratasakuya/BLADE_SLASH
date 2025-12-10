@@ -1,4 +1,4 @@
-﻿#include "ClearResultCamera.h"
+#include "ClearResultCamera.h"
 
 //============================================================================
 //	include
@@ -46,8 +46,7 @@ void ClearResultCamera::UpdateAnimation() {
 	animationTimer_.Update();
 
 	// 座標を補間
-	transform_.translation = Vector3::Lerp(
-		startPos_, targetPos_, animationTimer_.easedT_);
+	transform_.translation = SakuEngine::Vector3::Lerp(startPos_, targetPos_, animationTimer_.easedT_);
 
 	// 補間が終了したら次に進める
 	if (animationTimer_.IsReached()) {
@@ -61,11 +60,11 @@ void ClearResultCamera::UpdateAnimation() {
 void ClearResultCamera::UpdateRotate() {
 
 	// Y軸回転を加算
-	transform_.eulerRotate.y += rotateSpeed_ * GameTimer::GetDeltaTime();
+	transform_.eulerRotate.y += rotateSpeed_ * SakuEngine::GameTimer::GetDeltaTime();
 
 	// オフセット距離
-	Vector3 offset = Vector3::Transform(Vector3(0.0f, 0.0f, -viewOffset_),
-		Matrix4x4::MakeRotateMatrix(transform_.eulerRotate));
+	SakuEngine::Vector3 offset = SakuEngine::Vector3::Transform(SakuEngine::Vector3(0.0f, 0.0f, -viewOffset_),
+		SakuEngine::Matrix4x4::MakeRotateMatrix(transform_.eulerRotate));
 	// 座標を設定
 	transform_.translation = viewPoint_ + offset;
 }
@@ -77,7 +76,7 @@ void ClearResultCamera::ImGui() {
 		SaveJson();
 	}
 
-	EnumAdapter<State>::Combo("state", &currentState_);
+	SakuEngine::EnumAdapter<State>::Combo("state", &currentState_);
 
 	BaseCamera::ImGui();
 
@@ -112,10 +111,10 @@ void ClearResultCamera::ImGui() {
 	}
 	case ClearResultCamera::State::Rotate: {
 
-		LineRenderer::GetInstance()->DrawSphere(8, 4.0f,
-			viewPoint_, Color::Cyan());
-		LineRenderer::GetInstance()->DrawLine3D(viewPoint_,
-			transform_.translation, Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 4.0f,
+			viewPoint_, SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(viewPoint_,
+			transform_.translation, SakuEngine::Color::Cyan());
 		break;
 	}
 	}
@@ -124,19 +123,19 @@ void ClearResultCamera::ImGui() {
 void ClearResultCamera::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Camera/Clear/resultCameraParam.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Camera/Clear/resultCameraParam.json", data)) {
 		return;
 	}
 
 	animationTimer_.FromJson(data["AnimationTimer"]);
-	startPos_ = Vector3::FromJson(data["startPos_"]);
-	targetPos_ = Vector3::FromJson(data["targetPos_"]);
+	startPos_ = SakuEngine::Vector3::FromJson(data["startPos_"]);
+	targetPos_ = SakuEngine::Vector3::FromJson(data["targetPos_"]);
 
 	rotateSpeed_ = data.value("rotateSpeed_", 0.1f);
 	eulerRotateX_ = data.value("eulerRotateX", 1.0f);
 	fovY_ = data.value("fovY_", 0.1f);
 	farClip_ = data.value("farClip_", 0.1f);
-	viewPoint_ = Vector3::FromJson(data["viewPoint_"]);
+	viewPoint_ = SakuEngine::Vector3::FromJson(data["viewPoint_"]);
 	viewOffset_ = data.value("viewOffset_", 32.0f);
 }
 
@@ -155,5 +154,5 @@ void ClearResultCamera::SaveJson() {
 	data["viewPoint_"] = viewPoint_.ToJson();
 	data["viewOffset_"] = viewOffset_;
 
-	JsonAdapter::Save("Camera/Clear/resultCameraParam.json", data);
+	SakuEngine::JsonAdapter::Save("Camera/Clear/resultCameraParam.json", data);
 }

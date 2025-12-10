@@ -1,4 +1,4 @@
-﻿#include "BossEnemyGreatAttackInOutArea.h"
+#include "BossEnemyGreatAttackInOutArea.h"
 
 //============================================================================
 //	include
@@ -18,21 +18,21 @@ BossEnemyGreatAttackInOutArea::BossEnemyGreatAttackInOutArea() {
 	// 雷攻撃エフェクト
 	for (auto& effect : lightningAttackEffects_) {
 
-		effect = std::make_unique<EffectGroup>();
+		effect = std::make_unique<SakuEngine::EffectGroup>();
 		effect->Init("lightningAttack", "BossEnemyEffect");
 		effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightningAttackEffect.json");
 	}
 
 	// 移動キーフレーム
-	attackKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	attackKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	attackKeyframeObject_->Init("attackKeyframeObject");
 
 	// 大技攻撃目標トランスフォーム
-	grearAttackTargetTransform_ = std::make_unique<Transform3D>();
+	grearAttackTargetTransform_ = std::make_unique<SakuEngine::Transform3D>();
 	grearAttackTargetTransform_->Init();
 
 	// 範囲斬撃エフェクト
-	rangeSlashEffect_ = std::make_unique<EffectGroup>();
+	rangeSlashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	rangeSlashEffect_->Init("rangeSlash", "BossEnemyEffect");
 	rangeSlashEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackRangeSlashEffect.json");
 	emitedRangeSlashEffect_ = false;
@@ -108,7 +108,7 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 			EmitLightningAttack();
 
 			// 一度画面外に飛ばす
-			bossEnemy_->SetTranslation(Vector3(0.0f, -32, 0.0f));
+			bossEnemy_->SetTranslation(SakuEngine::Vector3(0.0f, -32, 0.0f));
 		}
 	}
 }
@@ -153,7 +153,7 @@ void BossEnemyGreatAttackInOutArea::UpdateIn() {
 			attackKeyframeObject_->GetNextKeyIndex() == rangeSlashKeyIndex_) {
 
 			// 発生座標
-			Vector3 emitPos = bossEnemy_->GetTranslation();
+			SakuEngine::Vector3 emitPos = bossEnemy_->GetTranslation();
 			emitPos += attackKeyframeObject_->GetCurrentTransform().rotation * rangeSlashEffectOffset_;
 
 			// 発生済みにする
@@ -166,7 +166,7 @@ void BossEnemyGreatAttackInOutArea::UpdateIn() {
 void BossEnemyGreatAttackInOutArea::EmitLightningAttack() {
 
 	// n番目ごとに進める角度
-	float stepAngle = pi * 2.0f / static_cast<float>(lightningCount_);
+	float stepAngle = SakuEngine::pi * 2.0f / static_cast<float>(lightningCount_);
 
 	// 雷攻撃発生
 	for (uint32_t i = 0; i <= lightningCount_; ++i) {
@@ -177,7 +177,7 @@ void BossEnemyGreatAttackInOutArea::EmitLightningAttack() {
 		float cos = std::cos(angle);
 
 		// 発生位置
-		Vector3 emitPos = Vector3(sin * outAreaRadius_, 0.0f, cos * outAreaRadius_);
+		SakuEngine::Vector3 emitPos = SakuEngine::Vector3(sin * outAreaRadius_, 0.0f, cos * outAreaRadius_);
 
 		// エフェクト発生
 		lightningAttackEffects_[i]->Emit(emitPos);
@@ -203,10 +203,11 @@ void BossEnemyGreatAttackInOutArea::UpdateAlways() {
 		grearAttackTargetTransform_->translation = followCamera_->GetTransform().translation;
 		grearAttackTargetTransform_->translation.y = 0.0f;
 		// 位置、回転を更新する
-		Vector3 forward = followCamera_->GetTransform().GetForward();
+		SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 		forward.y = 0.0f;
-		Quaternion cameraRotation = Quaternion::LookRotation(forward.Normalize(), Vector3(0.0f, 1.0f, 0.0f));
-		grearAttackTargetTransform_->rotation = Quaternion::Normalize(cameraRotation);
+		SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(
+			forward.Normalize(), SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+		grearAttackTargetTransform_->rotation = SakuEngine::Quaternion::Normalize(cameraRotation);
 		// 行列更新
 		grearAttackTargetTransform_->UpdateMatrix();
 	}
@@ -223,7 +224,7 @@ void BossEnemyGreatAttackInOutArea::Exit() {
 
 void BossEnemyGreatAttackInOutArea::ImGui() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	ImGui::SeparatorText("Out");
 
@@ -243,7 +244,7 @@ void BossEnemyGreatAttackInOutArea::ImGui() {
 	lightningAttackTimer_.ImGui("LightningAttackTimer");
 
 	// 円の描画
-	lineRenderer->DrawCircle(lightningCount, outAreaRadius_, Vector3(0.0f, 2.0f, 0.0f), Color::Cyan());
+	lineRenderer->DrawCircle(lightningCount, outAreaRadius_, SakuEngine::Vector3(0.0f, 2.0f, 0.0f), SakuEngine::Color::Cyan());
 
 	ImGui::SeparatorText("In");
 
@@ -285,7 +286,7 @@ void BossEnemyGreatAttackInOutArea::ApplyJson(const Json& data) {
 	lightningCount_ = std::clamp(lightningCount_, uint32_t(0), maxLightningCount_);
 	grearAttackNextAnimTime_ = data.value("grearAttackNextAnimTime_", 5.0f);
 	rangeSlashKeyIndex_ = data.value("rangeSlashKeyIndex_", 8u);
-	rangeSlashEffectOffset_ = Vector3::FromJson(data.value("rangeSlashEffectOffset_", Json()));
+	rangeSlashEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("rangeSlashEffectOffset_", Json()));
 	hideEnemyTimer_.FromJson(data.value("hideEnemyTimer_", Json()));
 	lightningAttackTimer_.FromJson(data.value("lightningAttackTimer_", Json()));
 	attackKeyframeObject_->FromJson(data.value("AttackKeyframeObject", Json()));

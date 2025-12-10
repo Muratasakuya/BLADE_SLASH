@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -56,7 +56,7 @@ private:
 
 		bool isStarted = false;
 		float startProgress;    // 発生させる攻撃進捗
-		DelayedHitstop hitStop; // ヒットストップ
+		SakuEngine::DelayedHitstop hitStop; // ヒットストップ
 	};
 
 	//--------- variables ----------------------------------------------------
@@ -65,25 +65,25 @@ private:
 	State currentState_;
 
 	// 座標移動のキーフレーム
-	std::unique_ptr<KeyframeObject3D> moveKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> moveKeyframeObject_;
 	// ジャンプ移動のキーフレーム
-	std::unique_ptr<KeyframeObject3D> jumpKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> jumpKeyframeObject_;
 	// 空の親トランスフォーム、敵が範囲内にいないときに参照する親
-	Transform3D* moveFrontTransform_;
+	SakuEngine::Transform3D* moveFrontTransform_;
 	// タグ
-	ObjectTag* moveFrontTag_;
+	SakuEngine::ObjectTag* moveFrontTag_;
 	// 敵のトランスフォームの値を補正する用のトランスフォーム
-	Transform3D* fixedEnemyTransform_;
+	SakuEngine::Transform3D* fixedEnemyTransform_;
 	// タグ
-	ObjectTag* fixedEnemyTag_;
+	SakuEngine::ObjectTag* fixedEnemyTag_;
 
 	// 回転の軸
-	Vector3 rotationAxis_;
+	SakuEngine::Vector3 rotationAxis_;
 	// 移動の前座標
-	Vector3 preMovePos_;
+	SakuEngine::Vector3 preMovePos_;
 
 	// 目標への回転
-	Quaternion targetRotation_;
+	SakuEngine::Quaternion targetRotation_;
 
 	// ジャンプ攻撃アニメーションへの遷移時間
 	float nextJumpAnimDuration_;
@@ -99,11 +99,11 @@ private:
 	std::unique_ptr<PlayerAfterImageEffect> afterImageEffect_;
 
 	// 移動エフェクト
-	std::unique_ptr<EffectGroup> moveAtackEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> moveAtackEffect_;
 	float jumpEffectEmitProgress_; // ジャンプエフェクトを発生させるタイミング
 	bool jumpMoveEffectEmitted_ = false;
 	// 地割れエフェクト
-	std::unique_ptr<EffectGroup> groundCrackEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> groundCrackEffect_;
 	bool groundCrackEmitted_ = false;
 
 	//--------- functions ----------------------------------------------------
@@ -113,5 +113,5 @@ private:
 	void UpdateJumpAttack(Player& player);
 
 	// 範囲内チェックを行って補間目標を設定する
-	void SetTargetByRange(KeyframeObject3D& keyObject, const std::string& cameraKeyName);
+	void SetTargetByRange(SakuEngine::KeyframeObject3D& keyObject, const std::string& cameraKeyName);
 };

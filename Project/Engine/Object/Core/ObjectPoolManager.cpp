@@ -1,4 +1,4 @@
-﻿#include "ObjectPoolManager.h"
+#include "ObjectPoolManager.h"
 
 using namespace SakuEngine;
 
@@ -98,7 +98,7 @@ void ObjectPoolManager::SetBit(uint32_t object, bool enable) {
 }
 
 // 各dataを明示的にインスタンス化
-template void ObjectPoolManager::SetBit<class Transform3D>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class SakuEngine::Transform3D>(uint32_t, bool);
 template void ObjectPoolManager::SetBit<struct EffectTransform>(uint32_t, bool);
 template void ObjectPoolManager::SetBit<class Transform2D>(uint32_t, bool);
 template void ObjectPoolManager::SetBit<class Material>(uint32_t, bool);

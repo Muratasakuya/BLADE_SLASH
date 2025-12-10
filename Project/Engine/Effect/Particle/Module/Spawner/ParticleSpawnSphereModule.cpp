@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnSphereModule.h"
+#include "ParticleSpawnSphereModule.h"
 
 using namespace SakuEngine;
 
@@ -80,7 +80,7 @@ void ParticleSpawnSphereModule::DrawEmitter() {
 
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
-	LineRenderer::GetInstance()->DrawSphere(4, emitter_.radius,
+	SakuEngine::LineRenderer::GetInstance()->DrawSphere(4, emitter_.radius,
 		parentTranslation + emitter_.translation, emitterLineColor_);
 }
 
@@ -103,5 +103,5 @@ void ParticleSpawnSphereModule::FromJson(const Json& data) {
 	ICPUParticleSpawnModule::FromCommonJson(data);
 
 	emitter_.radius = data.value("radius", 1.0f);
-	emitter_.translation = Vector3::FromJson(data["translation"]);
+	emitter_.translation = SakuEngine::Vector3::FromJson(data["translation"]);
 }

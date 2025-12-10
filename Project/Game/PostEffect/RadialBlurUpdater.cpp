@@ -1,4 +1,4 @@
-﻿#include "RadialBlurUpdater.h"
+#include "RadialBlurUpdater.h"
 
 //============================================================================
 //	include
@@ -36,7 +36,7 @@ void RadialBlurUpdater::SetAnimationType(SimpleAnimationType type) {
 	}
 }
 
-void RadialBlurUpdater::SetBlurCenter(const Vector2& center) {
+void RadialBlurUpdater::SetBlurCenter(const SakuEngine::Vector2& center) {
 
 	// 目標中心を設定
 	lerpValues_[type_].center.SetEnd(center);
@@ -138,8 +138,8 @@ void RadialBlurUpdater::ImGui() {
 	ImGui::Separator();
 
 	// 値操作する状態を選択
-	EnumAdapter<RadialBlurType>::Combo("Type", &type_);
-	if (EnumAdapter<State>::Combo("State", &currentState_)) {
+	SakuEngine::EnumAdapter<RadialBlurType>::Combo("Type", &type_);
+	if (SakuEngine::EnumAdapter<State>::Combo("State", &currentState_)) {
 		switch (currentState_) {
 		case RadialBlurUpdater::State::None:
 
@@ -186,9 +186,9 @@ void RadialBlurUpdater::ApplyJson() {
 
 	for (auto& [type, value] : lerpValues_) {
 
-		value.center.FromJson(data[EnumAdapter<RadialBlurType>::ToString(type)]["Center"]);
-		value.numSamples.FromJson(data[EnumAdapter<RadialBlurType>::ToString(type)]["NumSamples"]);
-		value.width.FromJson(data[EnumAdapter<RadialBlurType>::ToString(type)]["Width"]);
+		value.center.FromJson(data[SakuEngine::EnumAdapter<RadialBlurType>::ToString(type)]["Center"]);
+		value.numSamples.FromJson(data[SakuEngine::EnumAdapter<RadialBlurType>::ToString(type)]["NumSamples"]);
+		value.width.FromJson(data[SakuEngine::EnumAdapter<RadialBlurType>::ToString(type)]["Width"]);
 	}
 }
 
@@ -198,9 +198,9 @@ void RadialBlurUpdater::SaveJson() {
 
 	for (auto& [type, value] : lerpValues_) {
 
-		value.center.ToJson(data[EnumAdapter<RadialBlurType>::ToString(type)]["Center"]);
-		value.numSamples.ToJson(data[EnumAdapter<RadialBlurType>::ToString(type)]["NumSamples"]);
-		value.width.ToJson(data[EnumAdapter<RadialBlurType>::ToString(type)]["Width"]);
+		value.center.ToJson(data[SakuEngine::EnumAdapter<RadialBlurType>::ToString(type)]["Center"]);
+		value.numSamples.ToJson(data[SakuEngine::EnumAdapter<RadialBlurType>::ToString(type)]["NumSamples"]);
+		value.width.ToJson(data[SakuEngine::EnumAdapter<RadialBlurType>::ToString(type)]["Width"]);
 	}
 
 	SaveFile(data);

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -153,7 +153,7 @@ inline void AnimationChannel<Target, T>::FromJson(const Json& data) {
 	}
 
 	isEnable = data.value("isEnable", true);
-	applyMode = EnumAdapter<AnimationApplyMode>::FromString(data.value("applyMode", "Absolute")).value();
+	applyMode = SakuEngine::EnumAdapter<AnimationApplyMode>::FromString(data.value("applyMode", "Absolute")).value();
 	valueSource->FromJson(data["ValueSource"]);
 }
 
@@ -161,7 +161,7 @@ template<class Target, typename T>
 inline void AnimationChannel<Target, T>::ToJson(Json& data) {
 
 	data["isEnable"] = isEnable;
-	data["applyMode"] = EnumAdapter<AnimationApplyMode>::ToString(applyMode);
+	data["applyMode"] = SakuEngine::EnumAdapter<AnimationApplyMode>::ToString(applyMode);
 	valueSource->ToJson(data["ValueSource"]);
 }
 

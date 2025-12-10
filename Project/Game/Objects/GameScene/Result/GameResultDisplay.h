@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -27,7 +27,7 @@ enum class ResultSelect {
 //	リザルト画面のスプライト表示
 //============================================================================
 class GameResultDisplay :
-	public IGameEditor {
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -72,13 +72,13 @@ private:
 	ResultSelect resultSelect_;
 
 	// 経過時間
-	StateTimer resultTimer_;
+	SakuEngine::StateTimer resultTimer_;
 
 	// 使用するオブジェクト
-	std::unique_ptr<GameObject2D> background_;     // 背景
+	std::unique_ptr<SakuEngine::GameObject2D> background_; // 背景
 	std::unique_ptr<GameTimerDisplay> resultTime_; // 時間表示
-	std::unique_ptr<GameObject2D> glitchArea_;     // グリッチ適応エリア
-	std::unique_ptr<GameObject2D> clearText_;      // クリア文字表示
+	std::unique_ptr<SakuEngine::GameObject2D> glitchArea_; // グリッチ適応エリア
+	std::unique_ptr<SakuEngine::GameObject2D> clearText_; // クリア文字表示
 	std::unique_ptr<GameButton> leftButton_;       // 左ボタン
 	std::unique_ptr<GameButton> rightButton_;      // 右ボタン
 
@@ -88,8 +88,8 @@ private:
 
 	// parameters
 	// BeginTime
-	StateTimer randomDisplayTimer_; // 時間をランダムで表示する時間
-	StateTimer displayWaitTimer_;   // 表示後の待ち時間
+	SakuEngine::StateTimer randomDisplayTimer_; // 時間をランダムで表示する時間
+	SakuEngine::StateTimer displayWaitTimer_;   // 表示後の待ち時間
 	float randomTimeMax_;    // 乱数の最大値
 	int randomSwitchCount_;  // 数字が切り替わる回数
 	int randomSwitchIndex_;  // 現在の切り替え回数
@@ -100,23 +100,23 @@ private:
 	// タイマー
 	float timeResultSizeScale_;   // リザルト表示の際のサイズスケーリング値
 	float timeResultOffsetScale_; // リザルト表示の際のサイズスケーリング値
-	Vector2 timerTranslation_;    // タイマーの座標
+	SakuEngine::Vector2 timerTranslation_;    // タイマーの座標
 	float timerOffsetX_;          // タイマーの間の間隔X
-	Vector2 timerSize_;           // タイマーのサイズ
-	Vector2 timerSymbolSize_;     // タイマーの記号のサイズ
+	SakuEngine::Vector2 timerSize_;           // タイマーのサイズ
+	SakuEngine::Vector2 timerSymbolSize_;     // タイマーの記号のサイズ
 
 	// グリッチ適応エリア
-	Vector2 glitchAreaSize_;
+	SakuEngine::Vector2 glitchAreaSize_;
 
 	// クリア文字
-	std::unique_ptr<SimpleAnimation<Vector2>> clearPosAnim_;
-	std::unique_ptr<SimpleAnimation<Vector2>> clearSizeAnim_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<SakuEngine::Vector2>> clearPosAnim_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<SakuEngine::Vector2>> clearSizeAnim_;
 	// クリアタイム
-	std::unique_ptr<SimpleAnimation<Vector2>> clearTimePosAnim_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<SakuEngine::Vector2>> clearTimePosAnim_;
 	// ボタン
-	std::unique_ptr<SimpleAnimation<Vector2>> leftButtonAnim_;
-	std::unique_ptr<SimpleAnimation<Vector2>> rightButtonAnim_;
-	Vector2 buttonSize_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<SakuEngine::Vector2>> leftButtonAnim_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<SakuEngine::Vector2>> rightButtonAnim_;
+	SakuEngine::Vector2 buttonSize_;
 
 	//--------- functions ----------------------------------------------------
 

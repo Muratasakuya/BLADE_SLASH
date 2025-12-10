@@ -1,4 +1,4 @@
-﻿#include "GameLight.h"
+#include "GameLight.h"
 
 //============================================================================
 //	include
@@ -45,8 +45,8 @@ void GameLight::Update() {
 		beginUpdateTimer_.Update(std::nullopt, false);
 
 		// スポットライト情報を補間
-		light_.spot.color = Color::Lerp(color_.start, color_.end, beginUpdateTimer_.easedT_);
-		light_.spot.pos = Vector3::Lerp(pos_.start, pos_.end, beginUpdateTimer_.easedT_);
+		light_.spot.color = SakuEngine::Color::Lerp(color_.start, color_.end, beginUpdateTimer_.easedT_);
+		light_.spot.pos = SakuEngine::Vector3::Lerp(pos_.start, pos_.end, beginUpdateTimer_.easedT_);
 		light_.spot.intensity = std::lerp(intensity_.start, intensity_.end, beginUpdateTimer_.easedT_);
 		light_.spot.distance = std::lerp(distance_.start, distance_.end, beginUpdateTimer_.easedT_);
 		// 補間が終了次第待ち状態にする
@@ -62,8 +62,8 @@ void GameLight::Update() {
 		endUpdateTimer_.Update(std::nullopt, false);
 
 		// 逆補間して元に戻す
-		light_.spot.color = Color::Lerp(color_.end, color_.start, endUpdateTimer_.easedT_);
-		light_.spot.pos = Vector3::Lerp(pos_.end, pos_.start, endUpdateTimer_.easedT_);
+		light_.spot.color = SakuEngine::Color::Lerp(color_.end, color_.start, endUpdateTimer_.easedT_);
+		light_.spot.pos = SakuEngine::Vector3::Lerp(pos_.end, pos_.start, endUpdateTimer_.easedT_);
 		light_.spot.intensity = std::lerp(intensity_.end, intensity_.start, endUpdateTimer_.easedT_);
 		light_.spot.distance = std::lerp(distance_.end, distance_.start, endUpdateTimer_.easedT_);
 
@@ -112,14 +112,14 @@ void GameLight::DerivedImGui() {
 void GameLight::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("GameLight/lightParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("GameLight/lightParameter.json", data)) {
 		return;
 	}
 
-	color_.start = Color::FromJson(data.value("startColor", Json()));
-	color_.end = Color::FromJson(data.value("endColor", Json()));
-	pos_.start = Vector3::FromJson(data.value("startPos", Json()));
-	pos_.end = Vector3::FromJson(data.value("endPos", Json()));
+	color_.start = SakuEngine::Color::FromJson(data.value("startColor", Json()));
+	color_.end = SakuEngine::Color::FromJson(data.value("endColor", Json()));
+	pos_.start = SakuEngine::Vector3::FromJson(data.value("startPos", Json()));
+	pos_.end = SakuEngine::Vector3::FromJson(data.value("endPos", Json()));
 	intensity_.start = data.value("startIntensity", 0.0f);
 	intensity_.end = data.value("endIntensity", 0.0f);
 	distance_.start = data.value("startDistance", 0.0f);
@@ -129,17 +129,17 @@ void GameLight::ApplyJson() {
 	endUpdateTimer_.FromJson(data.value("endUpdateTimer", Json()));
 
 	// ライトの情報を読み込み
-	light_.directional.color = Color::FromJson(data.value("directionalColor", Json()));
-	light_.directional.direction = Vector3::FromJson(data.value("directionalDirection", Json()));
+	light_.directional.color = SakuEngine::Color::FromJson(data.value("directionalColor", Json()));
+	light_.directional.direction = SakuEngine::Vector3::FromJson(data.value("directionalDirection", Json()));
 	light_.directional.intensity = data.value("directionalIntensity", 0.0f);
 
-	light_.point.color = Color::FromJson(data.value("pointColor", Json()));
-	light_.point.pos = Vector3::FromJson(data.value("pointPos", Json()));
+	light_.point.color = SakuEngine::Color::FromJson(data.value("pointColor", Json()));
+	light_.point.pos = SakuEngine::Vector3::FromJson(data.value("pointPos", Json()));
 	light_.point.intensity = data.value("pointIntensity", 0.0f);
 	light_.point.radius = data.value("pointRadius", 0.0f);
 	light_.point.decay = data.value("pointDecay", 0.0f);
 
-	light_.spot.direction = Vector3::FromJson(data.value("spotDirection", Json()));
+	light_.spot.direction = SakuEngine::Vector3::FromJson(data.value("spotDirection", Json()));
 	light_.spot.decay = data.value("spotDecay", 0.0f);
 	light_.spot.cosAngle = data.value("spotCosAngle", 0.0f);
 	light_.spot.cosFalloffStart = data.value("spotCosFalloffStart", 0.0f);
@@ -177,5 +177,5 @@ void GameLight::SaveJson() {
 	data["spotCosAngle"] = light_.spot.cosAngle;
 	data["spotCosFalloffStart"] = light_.spot.cosFalloffStart;
 
-	JsonAdapter::Save("GameLight/lightParameter.json", data);
+	SakuEngine::JsonAdapter::Save("GameLight/lightParameter.json", data);
 }

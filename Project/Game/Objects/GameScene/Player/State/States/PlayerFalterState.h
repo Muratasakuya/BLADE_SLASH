@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -40,10 +40,10 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 怯みの移動補間時間
-	StateTimer falterTimer_;
+	SakuEngine::StateTimer falterTimer_;
 	// 補間座標
-	Vector3 startPos_;
-	Vector3 targetPos_;
+	SakuEngine::Vector3 startPos_;
+	SakuEngine::Vector3 targetPos_;
 	// 移動距離
 	float moveDistance_;
 

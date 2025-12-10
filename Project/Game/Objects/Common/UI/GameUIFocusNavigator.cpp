@@ -1,4 +1,4 @@
-﻿#include "GameUIFocusNavigator.h"
+#include "GameUIFocusNavigator.h"
 
 //============================================================================
 //	include
@@ -21,8 +21,8 @@ void GameUIFocusNavigator::Init(const std::string& groupName) {
 	groupName_ = groupName;
 
 	// 入力クラスの初期化
-	Input* input = Input::GetInstance();
-	inputMapper_ = std::make_unique<InputMapper<SelectUIInputAction>>();
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+	inputMapper_ = std::make_unique<SakuEngine::InputMapper<SelectUIInputAction>>();
 	inputMapper_->AddDevice(std::make_unique<SelectUIKeyInput>(input));
 	inputMapper_->AddDevice(std::make_unique<SelectUIGamePadInput>(input));
 
@@ -49,19 +49,19 @@ void GameUIFocusNavigator::AddUI() {
 	// 名前設定
 	ui.name = addUIName_.inputText;
 	// 親Transform初期化
-	ui.parentTransform = std::make_unique<Transform2D>();
+	ui.parentTransform = std::make_unique<SakuEngine::Transform2D>();
 	ui.parentTransform->Init(nullptr);
 	// デフォルト値
 	ui.isDefaultFocus = uiList_.empty(); // 最初に作るUIをデフォルトにする
 	ui.state = UIState::Unfocused;
 
 	// スプライトを初期化
-	std::unique_ptr<AnimationObject2D> sprite = std::make_unique<AnimationObject2D>();
+	std::unique_ptr<SakuEngine::AnimationObject2D> sprite = std::make_unique<SakuEngine::AnimationObject2D>();
 
 	// アニメーションのキー登録
-	sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Focused));
-	sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Unfocused));
-	sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Deciding));
+	sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Focused));
+	sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Unfocused));
+	sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Deciding));
 
 	// スプライト初期化
 	sprite->Init("white", addUISpriteName_.inputText, groupName_);
@@ -72,7 +72,7 @@ void GameUIFocusNavigator::AddUI() {
 	ui.sprites.emplace_back(std::move(sprite));
 
 	// 座標初期化
-	ui.ownMapCoordinate = Vector2Int(0, 0);
+	ui.ownMapCoordinate = SakuEngine::Vector2Int(0, 0);
 	ui.entryRules.clear();
 
 	// UIリストに追加
@@ -91,12 +91,12 @@ void GameUIFocusNavigator::AddSprite() {
 
 	UI& ui = uiList_[selectedUIIndex_];
 	// スプライトを初期化
-	std::unique_ptr<AnimationObject2D> sprite = std::make_unique<AnimationObject2D>();
+	std::unique_ptr<SakuEngine::AnimationObject2D> sprite = std::make_unique<SakuEngine::AnimationObject2D>();
 
 	// アニメーションのキー登録
-	sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Focused));
-	sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Unfocused));
-	sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Deciding));
+	sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Focused));
+	sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Unfocused));
+	sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Deciding));
 
 	// スプライト初期化
 	sprite->Init("white", addUISpriteName_.inputText, groupName_);
@@ -234,7 +234,7 @@ void GameUIFocusNavigator::Update(bool isCheckInput) {
 		}
 
 		// 指定方向の座標を計算
-		Vector2Int next = currentCoordinate_;
+		SakuEngine::Vector2Int next = currentCoordinate_;
 		next += DirectionDelta(direction);
 
 		// 指定座標にいるUIを探す
@@ -279,13 +279,13 @@ void GameUIFocusNavigator::Update(bool isCheckInput) {
 		std::string key;
 		if (ui.state == UIState::NowFocused) {
 
-			key = EnumAdapter<UIState>::ToString(UIState::Focused);
+			key = SakuEngine::EnumAdapter<UIState>::ToString(UIState::Focused);
 		} else if (ui.state == UIState::NowUnfocused) {
 
-			key = EnumAdapter<UIState>::ToString(UIState::Unfocused);
+			key = SakuEngine::EnumAdapter<UIState>::ToString(UIState::Unfocused);
 		} else if (ui.state == UIState::Decided) {
 
-			key = EnumAdapter<UIState>::ToString(UIState::Deciding);
+			key = SakuEngine::EnumAdapter<UIState>::ToString(UIState::Deciding);
 		}
 		// キーが入っていれば該当のアニメーションを開始する
 		if (!key.empty()) {
@@ -376,7 +376,7 @@ void GameUIFocusNavigator::StepStates() {
 	}
 }
 
-int GameUIFocusNavigator::FindUIIndexByCoord(const Vector2Int& coordinate) const {
+int GameUIFocusNavigator::FindUIIndexByCoord(const SakuEngine::Vector2Int& coordinate) const {
 
 	// 指定座標にいるUIを探す
 	for (int i = 0; i < static_cast<int>(uiList_.size()); ++i) {
@@ -388,7 +388,7 @@ int GameUIFocusNavigator::FindUIIndexByCoord(const Vector2Int& coordinate) const
 	return -1;
 }
 
-bool GameUIFocusNavigator::CanFocusUIFrom(const UI& ui, const Vector2Int& from, Direction2D direction) const {
+bool GameUIFocusNavigator::CanFocusUIFrom(const UI& ui, const SakuEngine::Vector2Int& from, Direction2D direction) const {
 
 	// 指定方向と座標からフォーカス可能か
 	for (const auto& rule : ui.entryRules) {
@@ -400,24 +400,24 @@ bool GameUIFocusNavigator::CanFocusUIFrom(const UI& ui, const Vector2Int& from, 
 	return false;
 }
 
-Vector2Int GameUIFocusNavigator::DirectionDelta(Direction2D direction) {
+SakuEngine::Vector2Int GameUIFocusNavigator::DirectionDelta(Direction2D direction) {
 
 	// 各方向の座標を返す
 	switch (direction) {
 	case Direction2D::Left: {
-		return Vector2Int(-1, 0);
+		return SakuEngine::Vector2Int(-1, 0);
 	}
 	case Direction2D::Right: {
-		return Vector2Int(1, 0);
+		return SakuEngine::Vector2Int(1, 0);
 	}
 	case Direction2D::Up: {
-		return Vector2Int(0, 1);
+		return SakuEngine::Vector2Int(0, 1);
 	}
 	case Direction2D::Bottom: {
-		return Vector2Int(0, -1);
+		return SakuEngine::Vector2Int(0, -1);
 	}
 	}
-	return Vector2Int(0, 0);
+	return SakuEngine::Vector2Int(0, 0);
 }
 
 void GameUIFocusNavigator::ImGui() {
@@ -431,13 +431,13 @@ void GameUIFocusNavigator::ImGui() {
 	ImGui::PushItemWidth(224.0f);
 
 	// ナビゲーターの状態
-	EnumAdapter<NavigateState>::Combo("currrentState", &currentState_);
+	SakuEngine::EnumAdapter<NavigateState>::Combo("currrentState", &currentState_);
 	ImGui::SeparatorText("Navigator Status");
 	if (0 <= focusedUIIndex_ && focusedUIIndex_ < static_cast<int>(uiList_.size())) {
 
 		const UI& ui = uiList_[focusedUIIndex_];
 		ImGui::Text("Focused UI : %s", ui.name.c_str());
-		ImGui::Text("UI State : %s", EnumAdapter<UIState>::ToString(ui.state));
+		ImGui::Text("UI State : %s", SakuEngine::EnumAdapter<UIState>::ToString(ui.state));
 	}
 
 	if (ImGui::BeginTabBar("GameUIFocusNavigator")) {
@@ -506,11 +506,11 @@ void GameUIFocusNavigator::CheckCurrentMap() {
 				auto* drawList = ImGui::GetWindowDrawList();
 
 				// 枠
-				const bool isCurrent = currentCoordinate_ == Vector2Int(x, y);
+				const bool isCurrent = currentCoordinate_ == SakuEngine::Vector2Int(x, y);
 				drawList->AddRect(p0, p1, isCurrent ? IM_COL32(80, 200, 255, 255) : IM_COL32(80, 80, 80, 255), 0.0f, 0, 1.0f);
 
 				// UI名
-				int index = FindUIIndexByCoord(Vector2Int(x, y));
+				int index = FindUIIndexByCoord(SakuEngine::Vector2Int(x, y));
 				if (index >= 0) {
 
 					const char* nm = uiList_[index].name.c_str();
@@ -528,7 +528,7 @@ void GameUIFocusNavigator::CheckCurrentMap() {
 				// クリックで現在地、フォーカスを変更
 				if (ImGui::IsItemClicked()) {
 
-					currentCoordinate_ = Vector2Int(x, y);
+					currentCoordinate_ = SakuEngine::Vector2Int(x, y);
 					if (0 <= index) {
 
 						SetFocus(index, true);
@@ -554,8 +554,8 @@ void GameUIFocusNavigator::EditUI() {
 	ImGui::BeginChild("UIEditLeftPane", ImVec2(leftW, 0.0f), true);
 	{
 		// 入力欄
-		ImGuiHelper::InputText("UI Name", addUIName_);
-		ImGuiHelper::InputText("Sprite Name", addUISpriteName_);
+		SakuEngine::ImGuiHelper::InputText("UI Name", addUIName_);
+		SakuEngine::ImGuiHelper::InputText("Sprite Name", addUISpriteName_);
 
 		if (ImGui::Button("Add UI")) {
 			// 入力がなければ追加できないようにする
@@ -594,7 +594,7 @@ void GameUIFocusNavigator::EditUI() {
 
 				jsonSaveState_.showPopup = true;
 			}
-			if (ImGuiHelper::SaveJsonModal("Save UI", "GameUIFocusNavigator/UI/",
+			if (SakuEngine::ImGuiHelper::SaveJsonModal("Save UI", "GameUIFocusNavigator/UI/",
 				"GameUIFocusNavigator/UI/", jsonSaveState_, outRefPath)) {
 
 				SaveUI(outRefPath);
@@ -602,7 +602,7 @@ void GameUIFocusNavigator::EditUI() {
 			ImGui::SameLine();
 			if (ImGui::Button("Load UI")) {
 
-				if (ImGuiHelper::OpenJsonDialog(outRefPath)) { LoadUI(outRefPath); }
+				if (SakuEngine::ImGuiHelper::OpenJsonDialog(outRefPath)) { LoadUI(outRefPath); }
 			}
 		}
 
@@ -614,7 +614,7 @@ void GameUIFocusNavigator::EditUI() {
 		}
 
 		int prev = selectedUIIndex_;
-		ImGuiHelper::SelectableListFromStrings("UIList", &selectedUIIndex_, names, 8);
+		SakuEngine::ImGuiHelper::SelectableListFromStrings("UIList", &selectedUIIndex_, names, 8);
 		// UIを切り替えたらSprite選択もリセット
 		if (selectedUIIndex_ != prev) {
 
@@ -637,7 +637,7 @@ void GameUIFocusNavigator::EditUI() {
 			ImGui::SeparatorText(ui.name.c_str());
 
 			// 状態表示
-			ImGui::Text("State: %s", EnumAdapter<UIState>::ToString(ui.state));
+			ImGui::Text("State: %s", SakuEngine::EnumAdapter<UIState>::ToString(ui.state));
 
 			// ボタンで指定UIのフォーカス
 			ImGui::Checkbox("isDefaultFocus", &ui.isDefaultFocus);
@@ -664,7 +664,7 @@ void GameUIFocusNavigator::EditUI() {
 					ImGui::TableSetColumnIndex(1);
 					ImGui::DragInt(("##ey" + std::to_string(i)).c_str(), &ui.entryRules[i].from.y, 1);
 					ImGui::TableSetColumnIndex(2);
-					EnumAdapter<Direction2D>::Combo(("##edir" + std::to_string(i)).c_str(), &ui.entryRules[i].direction);
+					SakuEngine::EnumAdapter<Direction2D>::Combo(("##edir" + std::to_string(i)).c_str(), &ui.entryRules[i].direction);
 					ImGui::TableSetColumnIndex(3);
 					if (ImGui::SmallButton(("Remove##er" + std::to_string(i)).c_str())) {
 
@@ -698,7 +698,7 @@ void GameUIFocusNavigator::EditUI() {
 
 					spriteNames.emplace_back(ui.sprites[i]->GetTag().name);
 				}
-				ImGuiHelper::SelectableListFromStrings("SpriteList", &selectedSpriteIndex_, spriteNames, 4);
+				SakuEngine::ImGuiHelper::SelectableListFromStrings("SpriteList", &selectedSpriteIndex_, spriteNames, 4);
 			}
 		} else {
 
@@ -750,7 +750,7 @@ void GameUIFocusNavigator::EditSprite() {
 void GameUIFocusNavigator::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("GameUIFocusNavigator/" + groupName_ + ".json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("GameUIFocusNavigator/" + groupName_ + ".json", data)) {
 		return;
 	}
 
@@ -763,20 +763,20 @@ void GameUIFocusNavigator::ApplyJson() {
 		UI ui;
 		ui.name = u.value("name", "");
 		ui.isDefaultFocus = u.value("isDefaultFocus", false);
-		ui.ownMapCoordinate = Vector2Int::FromJson(u.value("ownMapCoordinate", Json()));
+		ui.ownMapCoordinate = SakuEngine::Vector2Int::FromJson(u.value("ownMapCoordinate", Json()));
 
 		ui.entryRules.clear();
 		if (u.contains("entryRules")) {
 			for (const auto& r : u["entryRules"]) {
 
 				EntryRule er;
-				er.from = Vector2Int::FromJson(r.value("from", Json()));
-				er.direction = EnumAdapter<Direction2D>::FromString(r.value("direction", "Right")).value();
+				er.from = SakuEngine::Vector2Int::FromJson(r.value("from", Json()));
+				er.direction = SakuEngine::EnumAdapter<Direction2D>::FromString(r.value("direction", "Right")).value();
 				ui.entryRules.emplace_back(er);
 			}
 		}
 
-		ui.parentTransform = std::make_unique<Transform2D>();
+		ui.parentTransform = std::make_unique<SakuEngine::Transform2D>();
 		ui.parentTransform->Init(nullptr);
 		if (u.contains("parentTransform")) {
 
@@ -787,13 +787,13 @@ void GameUIFocusNavigator::ApplyJson() {
 		if (u.contains("sprites")) {
 			for (const auto& s : u["sprites"]) {
 
-				auto sprite = std::make_unique<AnimationObject2D>();
+				auto sprite = std::make_unique<SakuEngine::AnimationObject2D>();
 				sprite->Init("white", "temp", groupName_);
 
 				// アニメーションのキー登録
-				sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Focused));
-				sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Unfocused));
-				sprite->AddAnimationKey(EnumAdapter<UIState>::ToString(UIState::Deciding));
+				sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Focused));
+				sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Unfocused));
+				sprite->AddAnimationKey(SakuEngine::EnumAdapter<UIState>::ToString(UIState::Deciding));
 
 				sprite->SetParent(*ui.parentTransform);
 				sprite->ApplyJsonAndAnimation(s);
@@ -804,7 +804,7 @@ void GameUIFocusNavigator::ApplyJson() {
 		uiList_.emplace_back(std::move(ui));
 	}
 	focusedUIIndex_ = -1;
-	currentCoordinate_ = Vector2Int(0, 0);
+	currentCoordinate_ = SakuEngine::Vector2Int(0, 0);
 }
 
 void GameUIFocusNavigator::SaveJson() {
@@ -821,7 +821,7 @@ void GameUIFocusNavigator::SaveJson() {
 		for (const auto& r : ui.entryRules) {
 
 			u["entryRules"].push_back({ {"from", r.from.ToJson()},
-				{"direction", EnumAdapter<Direction2D>::ToString(r.direction)} });
+				{"direction", SakuEngine::EnumAdapter<Direction2D>::ToString(r.direction)} });
 		}
 
 		Json pt;
@@ -837,13 +837,13 @@ void GameUIFocusNavigator::SaveJson() {
 		}
 		data["UIs"].push_back(u);
 	}
-	JsonAdapter::Save("GameUIFocusNavigator/" + groupName_ + ".json", data);
+	SakuEngine::JsonAdapter::Save("GameUIFocusNavigator/" + groupName_ + ".json", data);
 }
 
 void GameUIFocusNavigator::LoadUI(const std::string& outRelPath) {
 
 	Json u;
-	if (!JsonAdapter::LoadCheck(outRelPath, u)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(outRelPath, u)) {
 		return;
 	}
 
@@ -852,20 +852,20 @@ void GameUIFocusNavigator::LoadUI(const std::string& outRelPath) {
 	ui.isDefaultFocus = u.value("isDefaultFocus", false);
 
 	// 座標
-	ui.ownMapCoordinate = Vector2Int::FromJson(u.value("ownMapCoordinate", Json{}));
+	ui.ownMapCoordinate = SakuEngine::Vector2Int::FromJson(u.value("ownMapCoordinate", Json{}));
 
 	ui.entryRules.clear();
 	if (u.contains("entryRules")) {
 		for (const auto& r : u["entryRules"]) {
 
 			EntryRule er;
-			er.from = Vector2Int::FromJson(r.value("from", Json{}));
-			er.direction = EnumAdapter<Direction2D>::FromString(r.value("direction", "Right")).value();
+			er.from = SakuEngine::Vector2Int::FromJson(r.value("from", Json{}));
+			er.direction = SakuEngine::EnumAdapter<Direction2D>::FromString(r.value("direction", "Right")).value();
 			ui.entryRules.emplace_back(er);
 		}
 	}
 
-	ui.parentTransform = std::make_unique<Transform2D>();
+	ui.parentTransform = std::make_unique<SakuEngine::Transform2D>();
 	ui.parentTransform->Init(nullptr);
 	if (u.contains("parentTransform")) {
 
@@ -877,7 +877,7 @@ void GameUIFocusNavigator::LoadUI(const std::string& outRelPath) {
 	if (u.contains("sprites")) {
 		for (const auto& s : u["sprites"]) {
 
-			auto sp = std::make_unique<AnimationObject2D>();
+			auto sp = std::make_unique<SakuEngine::AnimationObject2D>();
 			sp->Init("white", "temp", groupName_);
 			sp->SetParent(*ui.parentTransform);
 			sp->ApplyJsonAndAnimation(s);
@@ -908,7 +908,7 @@ void GameUIFocusNavigator::SaveUI(const std::string& outRelPath) {
 	for (const auto& r : ui.entryRules) {
 
 		u["entryRules"].push_back({ {"from", r.from.ToJson()},
-			{"direction", EnumAdapter<Direction2D>::ToString(r.direction)} });
+			{"direction", SakuEngine::EnumAdapter<Direction2D>::ToString(r.direction)} });
 	}
 
 	Json pt;
@@ -922,5 +922,5 @@ void GameUIFocusNavigator::SaveUI(const std::string& outRelPath) {
 		sp->SaveJsonAndAnimation(s);
 		u["sprites"].push_back(s);
 	}
-	JsonAdapter::Save(outRelPath, u);
+	SakuEngine::JsonAdapter::Save(outRelPath, u);
 }

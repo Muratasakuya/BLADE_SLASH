@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -14,8 +14,8 @@
 //	ゲームシーン
 //============================================================================
 class GameScene :
-	public IScene,
-	public IGameEditor {
+	public SakuEngine::IScene,
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -59,7 +59,7 @@ private:
 	std::unique_ptr<FadeSprite> fadeSprite_;
 
 	// effects
-	std::unique_ptr<EffectGroup> fieldEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> fieldEffect_;
 
 	//--------- functions ----------------------------------------------------
 

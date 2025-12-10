@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -32,8 +32,8 @@ public:
 	~ObjectAreaChecker() = default;
 
 	// 座標からエリアを判定
-	static ObjectArea CheckArea(const Vector3& pos, const Vector3& origin = Vector3::AnyInit(0.0f));
+	static ObjectArea CheckArea(const SakuEngine::Vector3& pos, const SakuEngine::Vector3& origin = SakuEngine::Vector3::AnyInit(0.0f));
 
 	// エリアごとの向きの値を取得
-	static Vector3 GetAreaDirection(ObjectArea area);
+	static SakuEngine::Vector3 GetAreaDirection(ObjectArea area);
 };

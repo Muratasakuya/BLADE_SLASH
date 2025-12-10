@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -63,19 +63,19 @@ private:
 	static const uint32_t maxLightningCount_ = 32u;
 
 	// 敵の表示を消す
-	StateTimer hideEnemyTimer_;
+	SakuEngine::StateTimer hideEnemyTimer_;
 
 	// 雷攻撃の時間
-	StateTimer lightningAttackTimer_;
+	SakuEngine::StateTimer lightningAttackTimer_;
 
 	// 雷攻撃(警告も)
-	std::array<std::unique_ptr<EffectGroup>, maxLightningCount_> lightningAttackEffects_;
+	std::array<std::unique_ptr<SakuEngine::EffectGroup>, maxLightningCount_> lightningAttackEffects_;
 
 	/*--------- Out State ----------*/
 
 	// 移動攻撃のキーフレーム
-	std::unique_ptr<KeyframeObject3D> attackKeyframeObject_;
-	StateTimer endWaitTimer_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> attackKeyframeObject_;
+	SakuEngine::StateTimer endWaitTimer_;
 
 	// 攻撃アニメーションに入るまでのキーフレーム
 	uint32_t attackKeyframeIndex_;
@@ -87,13 +87,13 @@ private:
 	float grearAttackNextAnimTime_;
 
 	// 最後の攻撃の目標トランスフォーム
-	std::unique_ptr<Transform3D> grearAttackTargetTransform_;
+	std::unique_ptr<SakuEngine::Transform3D> grearAttackTargetTransform_;
 
 	// 範囲斬撃エフェクト
-	std::unique_ptr<EffectGroup> rangeSlashEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> rangeSlashEffect_;
 	bool emitedRangeSlashEffect_; // 発生済みかどうか
 	uint32_t rangeSlashKeyIndex_; // 発生させるキーのインデックス
-	Vector3 rangeSlashEffectOffset_; // エフェクトのオフセット
+	SakuEngine::Vector3 rangeSlashEffectOffset_; // エフェクトのオフセット
 
 	//--------- functions ----------------------------------------------------
 

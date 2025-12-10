@@ -1,4 +1,4 @@
-﻿#include "PlayerStructures.h"
+#include "PlayerStructures.h"
 
 //============================================================================
 //	include
@@ -11,14 +11,14 @@
 
 void PlayerStateCondition::FromJson(const Json& data) {
 
-	coolTime = JsonAdapter::GetValue<float>(data, "coolTime");
-	chainInputTime = JsonAdapter::GetValue<float>(data, "chainInputTime");
+	coolTime = SakuEngine::JsonAdapter::GetValue<float>(data, "coolTime");
+	chainInputTime = SakuEngine::JsonAdapter::GetValue<float>(data, "chainInputTime");
 	isArmor = data.value("isArmor", false);
 	enableInARowForceState = data.value("enableInARowForceState", false);
 
 	auto intsToStates = [](const Json& array) {
 		std::vector<PlayerState> out;
-		for (int vector : JsonAdapter::ToVector<int>(array)) {
+		for (int vector : SakuEngine::JsonAdapter::ToVector<int>(array)) {
 			out.push_back(static_cast<PlayerState>(vector));
 		}
 		return out;
@@ -40,8 +40,8 @@ void PlayerStateCondition::ToJson(Json& data) {
 			output.push_back(static_cast<int>(state));
 		}return output;
 		};
-	data["allowedPreState"] = JsonAdapter::FromVector<int>(statesToInts(allowedPreState));
-	data["interruptableBy"] = JsonAdapter::FromVector<int>(statesToInts(interruptableBy));
+	data["allowedPreState"] = SakuEngine::JsonAdapter::FromVector<int>(statesToInts(allowedPreState));
+	data["interruptableBy"] = SakuEngine::JsonAdapter::FromVector<int>(statesToInts(interruptableBy));
 }
 
 bool PlayerStateCondition::CheckInterruptableByState(PlayerState current) {

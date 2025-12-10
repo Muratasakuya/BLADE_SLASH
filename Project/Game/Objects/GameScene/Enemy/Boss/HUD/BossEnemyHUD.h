@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -59,7 +59,7 @@ private:
 	BossEnemyStats stats_;
 
 	// HP背景
-	std::unique_ptr<GameObject2D> hpBackground_;
+	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;
 	GameCommon::HUDInitParameter hpBackgroundParameter_;
 	// HP残量
 	std::unique_ptr<GameHPBar> hpBar_;
@@ -70,17 +70,17 @@ private:
 	// 撃破靭性値の数字表示
 	std::unique_ptr<GameDigitDisplay> destroyNumDisplay_;
 	GameCommon::HUDInitParameter destroyNumParameter_;
-	Vector2 destroyNumOffset_; // オフセット座標
-	Vector2 destroyNumSize_;   // サイズ
+	SakuEngine::Vector2 destroyNumOffset_; // オフセット座標
+	SakuEngine::Vector2 destroyNumSize_;   // サイズ
 	// 名前文字表示
-	std::unique_ptr<GameObject2D> nameText_;
+	std::unique_ptr<SakuEngine::GameObject2D> nameText_;
 	GameCommon::HUDInitParameter nameTextParameter_;
 	// ダメージ表示
 	std::unique_ptr<GameDisplayDamage> damageDisplay_;
 
 	// フェーズ閾値表示
-	std::unique_ptr<GameObject2DArray> phaseThreshold_;
-	Color disablePhaseThresholdColor_; // 無効時の色
+	std::unique_ptr<SakuEngine::GameObject2DArray> phaseThreshold_;
+	SakuEngine::Color disablePhaseThresholdColor_; // 無効時の色
 
 	// parameters
 	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間

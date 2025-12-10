@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -26,9 +26,9 @@ public:
 	void ImGui(bool isSeparate = true);
 
 	// 色、アウトラインの太さを指定してエフェクトを開始
-	void Start(std::vector<GameObject3D*>& objects);
+	void Start(std::vector<SakuEngine::GameObject3D*>& objects);
 	// 終了
-	void End(std::vector<GameObject3D*>& objects);
+	void End(std::vector<SakuEngine::GameObject3D*>& objects);
 
 	//--------- accessor -----------------------------------------------------
 
@@ -43,7 +43,7 @@ private:
 	std::string fileName_;
 
 	// 色
-	Color color_;
+	SakuEngine::Color color_;
 	// アウトラインの太さ
 	float edgeScale_;
 

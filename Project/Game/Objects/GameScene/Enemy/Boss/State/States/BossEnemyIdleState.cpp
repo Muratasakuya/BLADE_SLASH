@@ -1,4 +1,4 @@
-﻿#include "BossEnemyIdleState.h"
+#include "BossEnemyIdleState.h"
 
 //============================================================================
 //	include
@@ -26,8 +26,8 @@ void BossEnemyIdleState::Update(BossEnemy& bossEnemy) {
 	LookTarget(bossEnemy, player_->GetTranslation());
 
 	// 後ずさりさせる
-	Vector3 bossPos = bossEnemy.GetTranslation();
-	Vector3 backStepVelocity = bossEnemy.GetTransform().GetBack() * backStepSpeed_ * GameTimer::GetScaledDeltaTime();
+	SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 backStepVelocity = bossEnemy.GetTransform().GetBack() * backStepSpeed_ * SakuEngine::GameTimer::GetScaledDeltaTime();
 	bossEnemy.SetTranslation(bossPos + backStepVelocity);
 
 	// animationが終了したら遷移可能にする
@@ -53,9 +53,9 @@ void BossEnemyIdleState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
 
 void BossEnemyIdleState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	backStepSpeed_ = JsonAdapter::GetValue<float>(data, "backStepSpeed_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	backStepSpeed_ = SakuEngine::JsonAdapter::GetValue<float>(data, "backStepSpeed_");
 }
 
 void BossEnemyIdleState::SaveJson(Json& data) {

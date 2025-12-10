@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -71,8 +71,8 @@ private:
 	LerpParameter parryLerp_;
 	LerpParameter attackLerp_;
 
-	Vector3 startPos_;  // 開始座標
-	Vector3 targetPos_; // 目標座標
+	SakuEngine::Vector3 startPos_;  // 開始座標
+	SakuEngine::Vector3 targetPos_; // 目標座標
 
 	float deltaWaitTimer_; // deltaTimeが元に戻るまでの時間経過
 	float deltaWaitTime_;  // deltaTimeが元に戻るまでの時間
@@ -83,12 +83,12 @@ private:
 
 	// パリィエフェクト
 	// ヒットした瞬間
-	std::unique_ptr<EffectGroup> parryHitEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> parryHitEffect_;
 	float parryHitEffectPosY_;
 	// 引きずる剣先
-	std::unique_ptr<EffectGroup> tipScrackEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> tipScrackEffect_;
 	// 攻撃ヒットエフェクト
-	std::unique_ptr<EffectGroup> hitEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> hitEffect_;
 	float hitEffectOffsetY_;
 
 	//--------- functions ----------------------------------------------------
@@ -99,7 +99,7 @@ private:
 	void UpdateAnimation(Player& player);
 
 	// helper
-	Vector3 GetLerpTranslation(LerpParameter& lerp);
-	Vector3 SetLerpValue(Vector3& start, Vector3& target,
+	SakuEngine::Vector3 GetLerpTranslation(LerpParameter& lerp);
+	SakuEngine::Vector3 SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target,
 		const Player& player, float moveDistance, bool isPlayerBase);
 };

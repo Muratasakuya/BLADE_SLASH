@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -75,7 +75,7 @@ private:
 	uint32_t currentComboIndex_;
 	uint32_t prevPhase_;
 	uint32_t prevComboIndex_;
-	StateTimer stateTimer_;
+	SakuEngine::StateTimer stateTimer_;
 
 	// 現在のフェーズ
 	uint32_t currentPhase_;

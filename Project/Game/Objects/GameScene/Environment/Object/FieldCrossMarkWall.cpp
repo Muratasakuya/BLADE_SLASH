@@ -1,4 +1,4 @@
-﻿#include "FieldCrossMarkWall.h"
+#include "FieldCrossMarkWall.h"
 
 //============================================================================
 //	include
@@ -18,7 +18,7 @@ void FieldCrossMarkWall::DerivedInit() {
 
 void FieldCrossMarkWall::Update() {
 
-	const float deltaTime = GameTimer::GetDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 
 	switch (state_) {
 	case State::Idle:
@@ -27,7 +27,7 @@ void FieldCrossMarkWall::Update() {
 
 		lerpTimer_ += deltaTime;
 		const float t = std::min(lerpTimer_ / lerpTime_, 1.0f);
-		currentColor_ = Color::Lerp(startColor_, targetColor_, t);
+		currentColor_ = SakuEngine::Color::Lerp(startColor_, targetColor_, t);
 		currentEmissive_ = std::lerp(startEmissive_, 1.0f, t);
 		if (1.0f <= t) {
 
@@ -47,7 +47,7 @@ void FieldCrossMarkWall::Update() {
 
 		lerpTimer_ += deltaTime;
 		const float t = (std::min)(lerpTimer_ / lerpTime_, 1.0f);
-		currentColor_ = Color::Lerp(startColor_, initColor_, t);
+		currentColor_ = SakuEngine::Color::Lerp(startColor_, initColor_, t);
 		currentEmissive_ = std::lerp(startEmissive_, 0.0f, t);
 		if (1.0f <= t) {
 
@@ -64,7 +64,7 @@ void FieldCrossMarkWall::Update() {
 	Collider::UpdateAllBodies(*transform_);
 }
 
-void FieldCrossMarkWall::OnCollisionEnter([[maybe_unused]] const CollisionBody* collisionBody) {
+void FieldCrossMarkWall::OnCollisionEnter([[maybe_unused]] const SakuEngine::CollisionBody* collisionBody) {
 
 	// 衝突中の場合は処理しない
 	if (state_ == State::Staying || state_ == State::Entering) {
@@ -77,10 +77,10 @@ void FieldCrossMarkWall::OnCollisionEnter([[maybe_unused]] const CollisionBody* 
 	startEmissive_ = currentEmissive_;
 }
 
-void FieldCrossMarkWall::OnCollisionStay([[maybe_unused]] const CollisionBody* collisionBody) {
+void FieldCrossMarkWall::OnCollisionStay([[maybe_unused]] const SakuEngine::CollisionBody* collisionBody) {
 }
 
-void FieldCrossMarkWall::OnCollisionExit([[maybe_unused]] const CollisionBody* collisionBody) {
+void FieldCrossMarkWall::OnCollisionExit([[maybe_unused]] const SakuEngine::CollisionBody* collisionBody) {
 
 	if (state_ == State::Exiting || state_ == State::Idle) {
 		return;
@@ -109,7 +109,7 @@ void FieldCrossMarkWall::DerivedImGui() {
 void FieldCrossMarkWall::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Level/ObjectData/fieldCrossMarkWallParam.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Level/ObjectData/fieldCrossMarkWallParam.json", data)) {
 		return;
 	}
 
@@ -129,5 +129,5 @@ void FieldCrossMarkWall::SaveJson() {
 	data["initColor_"] = initColor_.ToJson();
 	data["targetColor_"] = targetColor_.ToJson();
 
-	JsonAdapter::Save("Level/ObjectData/fieldCrossMarkWallParam.json", data);
+	SakuEngine::JsonAdapter::Save("Level/ObjectData/fieldCrossMarkWallParam.json", data);
 }

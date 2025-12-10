@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -7,7 +7,9 @@
 #include <Game/Scene/GameState/GameSceneState.h>
 
 // front
-class SceneManager;
+namespace SakuEngine {
+	class SceneManager;
+}
 
 //============================================================================
 //	IGameSceneState class
@@ -23,11 +25,11 @@ public:
 	virtual ~IGameSceneState() = default;
 
 	// 初期化
-	virtual void Init(SceneView* sceneView) = 0;
+	virtual void Init(SakuEngine::SceneView* sceneView) = 0;
 
 	// 更新処理
-	virtual void Update(SceneManager* sceneManager) = 0;
-	virtual void NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {}
+	virtual void Update(SakuEngine::SceneManager* sceneManager) = 0;
+	virtual void NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {}
 
 	// 遷移開始時
 	virtual void Enter() {}

@@ -1,4 +1,4 @@
-﻿#include "BossEnemyStunState.h"
+#include "BossEnemyStunState.h"
 
 //============================================================================
 //	include
@@ -62,7 +62,7 @@ void BossEnemyStunState::Update(BossEnemy& bossEnemy) {
 		}
 
 		// stun状態の経過時間を進める
-		toughnessDecreaseTimer_ += GameTimer::GetScaledDeltaTime();
+		toughnessDecreaseTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 経過時間を設定する
 		bossEnemy.SetDecreaseToughnessProgress(toughnessDecreaseTimer_ / toughnessDecreaseTime_);
 		break;
@@ -96,8 +96,8 @@ void BossEnemyStunState::ImGui(const BossEnemy& bossEnemy) {
 
 void BossEnemyStunState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	maxAnimationCount_ = JsonAdapter::GetValue<int>(data, "maxAnimationCount_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	maxAnimationCount_ = SakuEngine::JsonAdapter::GetValue<int>(data, "maxAnimationCount_");
 
 	// animation再生時間の合計
 	// stunUpdateAnimation再生回数 + 最初のstunAnimation再生回数

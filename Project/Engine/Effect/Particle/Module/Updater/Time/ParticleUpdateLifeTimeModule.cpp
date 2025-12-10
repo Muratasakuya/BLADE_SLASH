@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateLifeTimeModule.h"
+#include "ParticleUpdateLifeTimeModule.h"
 
 using namespace SakuEngine;
 
@@ -38,19 +38,19 @@ void ParticleUpdateLifeTimeModule::Execute(
 
 void ParticleUpdateLifeTimeModule::ImGui() {
 
-	EnumAdapter<ParticleLifeEndMode>::Combo("EndMode", &endMode_);
+	SakuEngine::EnumAdapter<ParticleLifeEndMode>::Combo("EndMode", &endMode_);
 }
 
 Json ParticleUpdateLifeTimeModule::ToJson() {
 
 	Json data;
 
-	data["endMode_"] = EnumAdapter<ParticleLifeEndMode>::ToString(endMode_);
+	data["endMode_"] = SakuEngine::EnumAdapter<ParticleLifeEndMode>::ToString(endMode_);
 
 	return data;
 }
 
 void ParticleUpdateLifeTimeModule::FromJson(const Json& data) {
 
-	endMode_ = EnumAdapter<ParticleLifeEndMode>::FromString(data.value("endMode_", "Advance")).value();
+	endMode_ = SakuEngine::EnumAdapter<ParticleLifeEndMode>::FromString(data.value("endMode_", "Advance")).value();
 }

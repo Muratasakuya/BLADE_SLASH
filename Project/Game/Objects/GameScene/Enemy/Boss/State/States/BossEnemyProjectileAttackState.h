@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -51,16 +51,16 @@ private:
 	// 弾の衝突情報
 	struct BulletCollision {
 
-		std::unique_ptr<Collider> collider; // 衝突判定
+		std::unique_ptr<SakuEngine::Collider> collider; // 衝突判定
 
 		bool isActive;         // 有効フラグ
-		Vector3 startPos;      // 発生位置
-		Vector3 targetPos;     // 目標位置
-		StateTimer moveTimer;  // 座標移動タイマー
-		Transform3D transform; // 弾の仮Transform
+		SakuEngine::Vector3 startPos;      // 発生位置
+		SakuEngine::Vector3 targetPos;     // 目標位置
+		SakuEngine::StateTimer moveTimer;  // 座標移動タイマー
+		SakuEngine::Transform3D transform; // 弾の仮Transform
 
 		// 絶対に当たらない座標
-		const Vector3 collisionSafePos_ = Vector3(0.0f, -128.0f, 0.0f);
+		const SakuEngine::Vector3 collisionSafePos_ = SakuEngine::Vector3(0.0f, -128.0f, 0.0f);
 
 		// 初期化
 		void Init();
@@ -85,28 +85,28 @@ private:
 	std::vector<int32_t> launchIndices_;
 
 	// 発生しきる時間、0.0f~1.0fの間に等間隔に発生
-	StateTimer launchTimer_;
+	SakuEngine::StateTimer launchTimer_;
 	// 攻撃が終了するまでの時間、弾の数に応じて変える
 	// 等間隔で弾を発生させる
 	float bulletAttackDuration_;
-	StateTimer attackTimer_;
+	SakuEngine::StateTimer attackTimer_;
 
 	// 真ん中の発生位置のY座標
 	float launchTopPosY_;
 	// 左右の発生位置のオフセット
-	Vector3 launchOffsetPos_;
+	SakuEngine::Vector3 launchOffsetPos_;
 
 	// 実際に発生させる位置
-	std::vector<Vector3> launchPositions_;
+	std::vector<SakuEngine::Vector3> launchPositions_;
 	// 目標位置からのオフセット
 	float targetDistance_;
 
 	// 発生起動エフェクト
-	std::unique_ptr<EffectGroup> launchEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> launchEffect_;
 	// 弾
 	static const uint32_t kMinBulletCount_ = 3;
 	static const uint32_t kMaxBulletCount_ = 5;
-	std::array<std::unique_ptr<EffectGroup>, kMaxBulletCount_> bulletEffects_;
+	std::array<std::unique_ptr<SakuEngine::EffectGroup>, kMaxBulletCount_> bulletEffects_;
 	const std::string bulletParticleNodeKey_ = "bossAttackProjectile";
 	// 弾の衝突判定
 	std::array<BulletCollision, kMaxBulletCount_> bulletColliders_;
@@ -122,8 +122,8 @@ private:
 	// エディター
 	bool isEditMode_ = false;
 	int32_t editingPhase_; // 編集中のフェーズ
-	Vector3 editStartPos_; // デバッグ用開始位置
-	Vector3 editEndPos_;   // デバッグ用終了位置
+	SakuEngine::Vector3 editStartPos_; // デバッグ用開始位置
+	SakuEngine::Vector3 editEndPos_;   // デバッグ用終了位置
 
 	//--------- functions ----------------------------------------------------
 

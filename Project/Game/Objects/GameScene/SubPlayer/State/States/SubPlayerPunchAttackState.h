@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -60,15 +60,15 @@ private:
 	// 攻撃情報
 	struct AttackInfo {
 
-		Vector3 startPos;  // 開始位置
-		Vector3 targetPos; // 目標位置
+		SakuEngine::Vector3 startPos;  // 開始位置
+		SakuEngine::Vector3 targetPos; // 目標位置
 
-		Vector3 chargeStartPos; // 溜め開始位置
-		Vector3 chargeTargetPos; // 溜め目標位置
+		SakuEngine::Vector3 chargeStartPos; // 溜め開始位置
+		SakuEngine::Vector3 chargeTargetPos; // 溜め目標位置
 
 		bool isActive = false;
-		StateTimer timer;   // 攻撃タイマー
-		AnimationLoop loop; // ループ
+		SakuEngine::StateTimer timer;   // 攻撃タイマー
+		SakuEngine::AnimationLoop loop; // ループ
 		float prevRawT = 0.0f;
 	};
 
@@ -82,14 +82,14 @@ private:
 
 	// 各パーツのキーフレーム移動
 	// 体
-	std::unique_ptr<KeyframeObject3D> bodyApproachKeyframeObject_;
-	std::unique_ptr<KeyframeObject3D> bodyLeaveKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> bodyApproachKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> bodyLeaveKeyframeObject_;
 	// 右手
-	std::unique_ptr<KeyframeObject3D> rightHandApproachKeyframeObject_;
-	std::unique_ptr<KeyframeObject3D> rightHandLeaveKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> rightHandApproachKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> rightHandLeaveKeyframeObject_;
 	// 左手
-	std::unique_ptr<KeyframeObject3D> leftHandApproachKeyframeObject_;
-	std::unique_ptr<KeyframeObject3D> leftHandLeaveKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> leftHandApproachKeyframeObject_;
+	std::unique_ptr<SakuEngine::KeyframeObject3D> leftHandLeaveKeyframeObject_;
 
 	// 攻撃に使用する変数
 	uint32_t attackCount_;            // 何回攻撃するか
@@ -97,21 +97,21 @@ private:
 	float attackMoveDistance_;        // 攻撃手の移動距離
 	float bossEnemyOffsetY_;          // ボス敵の高さオフセット
 
-	StateTimer leftHandAttackDelayTimer_; // 手攻撃の遅延、左手を遅延させる
-	StateTimer chargeTimer_;              // 溜め時間
-	StateTimer chargeAttackTimer_;        // 溜め後の攻撃
+	SakuEngine::StateTimer leftHandAttackDelayTimer_; // 手攻撃の遅延、左手を遅延させる
+	SakuEngine::StateTimer chargeTimer_;              // 溜め時間
+	SakuEngine::StateTimer chargeAttackTimer_;        // 溜め後の攻撃
 
 	// 体
 	float bodyOffsetAngleY_;        // 体の向き補正角度Y
-	Quaternion enterBodyRotation_;  // 侵入時の回転
-	Quaternion bodyStartRotation_;  // 開始回転
-	Quaternion bodyTargetRotation_; // 目標回転
+	SakuEngine::Quaternion enterBodyRotation_;  // 侵入時の回転
+	SakuEngine::Quaternion bodyStartRotation_;  // 開始回転
+	SakuEngine::Quaternion bodyTargetRotation_; // 目標回転
 	// 手
 	AttackInfo rightHandAttackInfo_;  // 右手攻撃情報
 	AttackInfo leftHandAttackInfo_;   // 左手攻撃情報
 
 	// ヒットエフェクト
-	std::unique_ptr<EffectGroup> hitEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> hitEffect_;
 
 	//--------- functions ----------------------------------------------------
 
@@ -126,15 +126,15 @@ private:
 	void ResetKeyframeObjects();
 
 	// 補間の更新とトランスフォームの更新
-	void UpdateKeyAndApply(KeyframeObject3D& bodyKeyframe,
-		KeyframeObject3D& rightHandKeyframe, KeyframeObject3D& leftHandKeyframe);
+	void UpdateKeyAndApply(SakuEngine::KeyframeObject3D& bodyKeyframe,
+		SakuEngine::KeyframeObject3D& rightHandKeyframe, SakuEngine::KeyframeObject3D& leftHandKeyframe);
 	// 全ての補間処理が終了したかのチェック
-	bool IsAllKeyframeEnd(KeyframeObject3D& bodyKeyframe,
-		KeyframeObject3D& rightHandKeyframe, KeyframeObject3D& leftHandKeyframe);
+	bool IsAllKeyframeEnd(SakuEngine::KeyframeObject3D& bodyKeyframe,
+		SakuEngine::KeyframeObject3D& rightHandKeyframe, SakuEngine::KeyframeObject3D& leftHandKeyframe);
 
 	// 手の補間
-	void LerpAttackHand(AttackInfo& attackInfo, GameObject3D& hand);
-	void LerpChargeHand(AttackInfo& attackInfo, GameObject3D& hand);
+	void LerpAttackHand(AttackInfo& attackInfo, SakuEngine::GameObject3D& hand);
+	void LerpChargeHand(AttackInfo& attackInfo, SakuEngine::GameObject3D& hand);
 	// 攻撃情報のセットアップ
-	void SetupAttackInfo(AttackInfo& attackInfo, const GameObject3D& hand, bool isAttackHand);
+	void SetupAttackInfo(AttackInfo& attackInfo, const SakuEngine::GameObject3D& hand, bool isAttackHand);
 };

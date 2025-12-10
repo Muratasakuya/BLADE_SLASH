@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -29,18 +29,18 @@ public:
 	virtual ~IGameButtonResponseUpdater() = default;
 
 	// 更新開始
-	virtual void Begin(GameObject2D& object) = 0;
+	virtual void Begin(SakuEngine::GameObject2D& object) = 0;
 
 	// 更新中
-	virtual void ActiveUpdate(GameObject2D& object) = 0;
+	virtual void ActiveUpdate(SakuEngine::GameObject2D& object) = 0;
 	// 非アクティブになったときの更新
-	virtual void InactiveUpdate(GameObject2D& object) = 0;
+	virtual void InactiveUpdate(SakuEngine::GameObject2D& object) = 0;
 
 	// リセット
-	virtual void End(GameObject2D& object) = 0;
+	virtual void End(SakuEngine::GameObject2D& object) = 0;
 
 	// 常に行う更新処理
-	virtual void IdleUpdate(GameObject2D&) = 0;
+	virtual void IdleUpdate(SakuEngine::GameObject2D&) = 0;
 
 	// editor
 	virtual void ImGui() = 0;

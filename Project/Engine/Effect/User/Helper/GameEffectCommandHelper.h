@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -33,7 +33,7 @@ public:
 		const Matrix4x4& rotateMatrix);
 	// 座標の設定
 	static void SendSpawnerTranslation(GameEffect& effect,
-		const Vector3& translation);
+		const SakuEngine::Vector3& translation);
 	// スケーリングの設定
 	static void SendScaling(GameEffect& effect, float scalingValue);
 
@@ -44,10 +44,10 @@ public:
 	// 姿勢計算と発生を同時に行う
 	// 座標
 	static void ApplyAndSend(GameEffect& effect, const Quaternion& parentRotation,
-		const Vector3& localPos);
+		const SakuEngine::Vector3& localPos);
 	// 回転と座標
 	static void ApplyAndSend(GameEffect& effect, const Quaternion& parentRotation,
-		const Vector3& localPos, const Vector3& localEuler);
+		const SakuEngine::Vector3& localPos, const SakuEngine::Vector3& localEuler);
 };
 
 }; // SakuEngine

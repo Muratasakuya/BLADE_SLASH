@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	リザルト画面、クリア時カメラ
 //============================================================================
 class ClearResultCamera :
-	public BaseCamera {
+	public SakuEngine::BaseCamera {
 public:
 	//========================================================================
 	//	public Methods
@@ -50,15 +50,15 @@ private:
 
 	// parameters
 	// Begin
-	StateTimer animationTimer_; // 時間管理
-	Vector3 startPos_;          // 開始座標
-	Vector3 targetPos_;         // 目標座標
+	SakuEngine::StateTimer animationTimer_; // 時間管理
+	SakuEngine::Vector3 startPos_;          // 開始座標
+	SakuEngine::Vector3 targetPos_;         // 目標座標
 
 	// Rotate
 	float rotateSpeed_;  // 回転速度
 	float initRotateX_;  // X軸回転角
 	float eulerRotateX_; // X軸回転角
-	Vector3 viewPoint_;  // 注視点
+	SakuEngine::Vector3 viewPoint_;  // 注視点
 	float viewOffset_;   // 注視点からのオフセット距離
 
 	//--------- functions ----------------------------------------------------

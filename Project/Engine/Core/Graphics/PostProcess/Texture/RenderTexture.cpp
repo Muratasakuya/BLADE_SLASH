@@ -1,4 +1,4 @@
-﻿#include "RenderTexture.h"
+#include "RenderTexture.h"
 
 using namespace SakuEngine;
 
@@ -16,7 +16,7 @@ int RenderTexture::textureCount_ = 0;
 
 void RenderTexture::CreateTextureResource(ComPtr<ID3D12Resource>& resource,
 	uint32_t width, uint32_t height,
-	const Color& color, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags, ID3D12Device* device) {
+	const SakuEngine::Color& color, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags, ID3D12Device* device) {
 
 	// RenderTargetで設定
 	D3D12_RESOURCE_DESC resourceDesc{};
@@ -56,7 +56,7 @@ void RenderTexture::CreateTextureResource(ComPtr<ID3D12Resource>& resource,
 	assert(SUCCEEDED(hr));
 }
 
-void RenderTexture::Create(uint32_t width, uint32_t height, const Color& color,
+void RenderTexture::Create(uint32_t width, uint32_t height, const SakuEngine::Color& color,
 	DXGI_FORMAT format, ID3D12Device* device, RTVDescriptor* rtvDescriptor,
 	SRVDescriptor* srvDescriptor, D3D12_RESOURCE_FLAGS flags) {
 

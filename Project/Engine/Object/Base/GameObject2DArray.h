@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -39,19 +39,19 @@ public:
 
 	// transform
 	// 座標
-	void SetTranslation(const Vector2& translation) { transform_.translation = translation; }
+	void SetTranslation(const SakuEngine::Vector2& translation) { transform_.translation = translation; }
 	// サイズ
-	void SetSize(const Vector2& size) { transform_.size = size; }
-	void SetTextureSize(const Vector2& size) { transform_.textureSize = size; }
-	void SetTextureLeftTop(const Vector2& leftTop) { transform_.textureLeftTop = leftTop; }
+	void SetSize(const SakuEngine::Vector2& size) { transform_.size = size; }
+	void SetTextureSize(const SakuEngine::Vector2& size) { transform_.textureSize = size; }
+	void SetTextureLeftTop(const SakuEngine::Vector2& leftTop) { transform_.textureLeftTop = leftTop; }
 	// スケール
-	void SetSizeScale(const Vector2& sizeScale) { transform_.sizeScale = sizeScale; }
+	void SetSizeScale(const SakuEngine::Vector2& sizeScale) { transform_.sizeScale = sizeScale; }
 	// 回転
 	void SetRotation(float rotation) { transform_.rotation = rotation; }
 
 	// material
 	// 色
-	void SetColor(const Color& color, int32_t index = -1);
+	void SetColor(const SakuEngine::Color& color, int32_t index = -1);
 	void SetAlpha(float alpha, int32_t index = -1);
 
 	// transform

@@ -1,4 +1,4 @@
-﻿#include "PostProcessBufferSize.h"
+#include "PostProcessBufferSize.h"
 
 using namespace SakuEngine;
 
@@ -187,7 +187,7 @@ void GlitchForGPU::ImGui() {
 
 	ImGui::PushItemWidth(itemWidth_);
 
-	time += GameTimer::GetDeltaTime();
+	time += SakuEngine::GameTimer::GetDeltaTime();
 
 	ImGui::Text("currentTime: %.3f", time);
 	ImGui::DragFloat("intensity##GlitchForGPU", &intensity, 0.01f);

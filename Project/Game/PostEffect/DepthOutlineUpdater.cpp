@@ -1,4 +1,4 @@
-﻿#include "DepthOutlineUpdater.h"
+#include "DepthOutlineUpdater.h"
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 
 void DepthOutlineUpdater::Init() {
 
-	bufferData_ = DepthBasedOutlineForGPU{};
+	bufferData_ = SakuEngine::DepthBasedOutlineForGPU{};
 
 	// json適応
 	ApplyJson();
@@ -25,14 +25,14 @@ void DepthOutlineUpdater::Update() {
 	// 常に更新する
 
 	// シーンから受け取った値で更新する
-	bufferData_.projectionInverse = Matrix4x4::Inverse(sceneView_->GetCamera()->GetProjectionMatrix());
+	bufferData_.projectionInverse = SakuEngine::Matrix4x4::Inverse(sceneView_->GetCamera()->GetProjectionMatrix());
 }
 
-void DepthOutlineUpdater::Start(const Color& color, float edgeScale) {
+void DepthOutlineUpdater::Start(const SakuEngine::Color& color, float edgeScale) {
 
 	// 太さ、色を指定
 	bufferData_.edgeScale = edgeScale;
-	bufferData_.color = Vector3(color.r, color.g, color.b);
+	bufferData_.color = SakuEngine::Vector3(color.r, color.g, color.b);
 }
 
 void DepthOutlineUpdater::Reset() {
@@ -59,7 +59,7 @@ void DepthOutlineUpdater::ApplyJson() {
 
 	bufferData_.edgeScale = data.value("edgeScale", 1.0f);
 	bufferData_.threshold = data.value("threshold", 1.0f);
-	bufferData_.color = Vector3::FromJson(data.value("color", Json()));
+	bufferData_.color = SakuEngine::Vector3::FromJson(data.value("color", Json()));
 }
 
 void DepthOutlineUpdater::SaveJson() {

@@ -1,4 +1,4 @@
-﻿#include "BossEnemy.h"
+#include "BossEnemy.h"
 
 //============================================================================
 //	include
@@ -65,8 +65,8 @@ void BossEnemy::InitAnimations() {
 
 void BossEnemy::InitCollision() {
 
-	CollisionBody* body = bodies_.emplace_back(Collider::AddCollider(CollisionShape::OBB().Default()));
-	bodyOffsets_.emplace_back(CollisionShape::OBB().Default());
+	SakuEngine::CollisionBody* body = bodies_.emplace_back(Collider::AddCollider(SakuEngine::CollisionShape::OBB().Default()));
+	bodyOffsets_.emplace_back(SakuEngine::CollisionShape::OBB().Default());
 
 	// タイプ設定
 	body->SetType(ColliderType::Type_BossEnemy);
@@ -113,7 +113,7 @@ void BossEnemy::SetInitTransform() {
 void BossEnemy::CalDistanceToTarget() {
 
 	// 距離レベルを計算
-	Vector3 diff = player_->GetTranslation() - transform_->translation;
+	SakuEngine::Vector3 diff = player_->GetTranslation() - transform_->translation;
 	// 距離
 	const float distance = diff.Length();
 	stats_.currentDistanceToTarget = distance;
@@ -148,8 +148,8 @@ void BossEnemy::DebugCommand() {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	// キルコマンド
-	if (Input::GetInstance()->PushKey(DIK_0)) {
-		if (Input::GetInstance()->TriggerKey(DIK_1)) {
+	if (SakuEngine::Input::GetInstance()->PushKey(DIK_0)) {
+		if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_1)) {
 
 			stats_.currentHP = 0;
 		}
@@ -236,12 +236,12 @@ void BossEnemy::RequestHit() {
 	hudSprites_->SetDamage(damage);
 }
 
-Vector3 BossEnemy::GetWeaponTranslation() const {
+SakuEngine::Vector3 BossEnemy::GetWeaponTranslation() const {
 
 	return weapon_->GetTransform().GetWorldPos();
 }
 
-Quaternion BossEnemy::GetWeaponRotation() const {
+SakuEngine::Quaternion BossEnemy::GetWeaponRotation() const {
 
 	return weapon_->GetTransform().GetWorldRotation();
 }
@@ -251,11 +251,11 @@ int BossEnemy::GetDamage() const {
 	BossEnemyState currentState = stateController_->GetCurrentState();
 
 	// ダメージを与えられる状態か確認してから設定
-	if (Algorithm::Find(stats_.damages, currentState)) {
+	if (SakuEngine::Algorithm::Find(stats_.damages, currentState)) {
 
 		int damage = stats_.damages.at(currentState);
 		// ランダムでダメージを設定
-		damage = RandomGenerator::Generate(damage - stats_.damageRandomRange,
+		damage = SakuEngine::RandomGenerator::Generate(damage - stats_.damageRandomRange,
 			damage + stats_.damageRandomRange);
 		return damage;
 	}
@@ -385,7 +385,7 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 	preSceneState_ = sceneState;
 }
 
-void BossEnemy::OnCollisionEnter(const CollisionBody* collisionBody) {
+void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 
 	// 無効状態の時ダメージを受けない
 	if (hudSprites_->IsDisable()) {
@@ -468,8 +468,8 @@ void BossEnemy::DerivedImGui() {
 
 	ImGui::SeparatorText("Damage");
 
-	EnumAdapter<BossEnemyState>::Combo("EditDamage", &editingState_);
-	ImGui::SeparatorText(EnumAdapter<BossEnemyState>::ToString(editingState_));
+	SakuEngine::EnumAdapter<BossEnemyState>::Combo("EditDamage", &editingState_);
+	ImGui::SeparatorText(SakuEngine::EnumAdapter<BossEnemyState>::ToString(editingState_));
 	ImGui::DragInt("Damage", &stats_.damages[editingState_], 1, 0);
 	ImGui::DragInt("DamageRange", &stats_.damageRandomRange, 1, 0);
 
@@ -492,37 +492,37 @@ void BossEnemy::DerivedImGui() {
 
 	for (auto& [level, distance] : stats_.distanceLevels) {
 
-		const std::string label = EnumAdapter<DistanceLevel>::ToString(level);
+		const std::string label = SakuEngine::EnumAdapter<DistanceLevel>::ToString(level);
 		ImGui::DragFloat(label.c_str(), &distance, 0.1f, 0.0f, 1000.0f);
 	}
 	// 現在の距離
 	ImGui::Text("currentDistanceToTarget: %.2f", stats_.currentDistanceToTarget);
-	ImGui::Text("currentDistanceLevel: %s", EnumAdapter<DistanceLevel>::ToString(stats_.currentDistanceLevel));
+	ImGui::Text("currentDistanceLevel: %s", SakuEngine::EnumAdapter<DistanceLevel>::ToString(stats_.currentDistanceLevel));
 
 	// 距離レベルの描画
 	if (isDrawDistanceLevel_) {
 
 		// 向き
-		Vector3 playerPos = player_->GetTranslation();
-		Vector3 enemyPos = transform_->translation;
+		SakuEngine::Vector3 playerPos = player_->GetTranslation();
+		SakuEngine::Vector3 enemyPos = transform_->translation;
 		// y座標を固定
 		playerPos.y = enemyPos.y = 4.0f;
-		Vector3 direction = Vector3(playerPos - enemyPos).Normalize();
+		SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - enemyPos).Normalize();
 
 		// 距離レベルの描画
 		// Near
-		LineRenderer::GetInstance()->DrawLine3D(enemyPos,
-			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Near], Color::Red());
+		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Near], SakuEngine::Color::Red());
 		// Middle
-		LineRenderer::GetInstance()->DrawLine3D(enemyPos,
-			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Middle], Color::Green());
+		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Middle], SakuEngine::Color::Green());
 		// Far
-		LineRenderer::GetInstance()->DrawLine3D(enemyPos,
-			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Far], Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Far], SakuEngine::Color::Cyan());
 
 		// 今
-		LineRenderer::GetInstance()->DrawLine3D(enemyPos,
-			enemyPos + direction * stats_.currentDistanceToTarget, Color::Yellow());
+		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+			enemyPos + direction * stats_.currentDistanceToTarget, SakuEngine::Color::Yellow());
 	}
 
 	ImGui::Separator();
@@ -619,7 +619,7 @@ void BossEnemy::DerivedImGui() {
 void BossEnemy::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Enemy/Boss/initParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Enemy/Boss/initParameter.json", data)) {
 		return;
 	}
 
@@ -632,23 +632,23 @@ void BossEnemy::ApplyJson() {
 	// 衝突
 	attackCollision_->ApplyJson(data["AttackCollision"]);
 
-	stats_.maxHP = JsonAdapter::GetValue<int>(data, "maxHP");
-	stats_.maxDestroyToughness = JsonAdapter::GetValue<int>(data, "maxDestroyToughness");
+	stats_.maxHP = SakuEngine::JsonAdapter::GetValue<int>(data, "maxHP");
+	stats_.maxDestroyToughness = SakuEngine::JsonAdapter::GetValue<int>(data, "maxDestroyToughness");
 	// 初期化時は最大と同じ値にする
 	stats_.currentHP = stats_.maxHP;
-	stats_.hpThresholds = JsonAdapter::ToVector<int>(data["hpThresholds"]);
+	stats_.hpThresholds = SakuEngine::JsonAdapter::ToVector<int>(data["hpThresholds"]);
 
 	for (const auto& [key, value] : data["Damages"].items()) {
 
 		BossEnemyState state = static_cast<BossEnemyState>(std::stoi(key));
 		stats_.damages[state] = value.get<int>();
 	}
-	stats_.damageRandomRange = JsonAdapter::GetValue<int>(data, "DamageRandomRange");
+	stats_.damageRandomRange = SakuEngine::JsonAdapter::GetValue<int>(data, "DamageRandomRange");
 
 	if (data.contains("DistanceLevels")) {
 		for (const auto& [key, value] : data["DistanceLevels"].items()) {
 
-			DistanceLevel level = EnumAdapter<DistanceLevel>::FromString(key).value();
+			DistanceLevel level = SakuEngine::EnumAdapter<DistanceLevel>::FromString(key).value();
 			stats_.distanceLevels[level] = value.get<float>();
 		}
 	}
@@ -668,7 +668,7 @@ void BossEnemy::SaveJson() {
 	data["maxHP"] = stats_.maxHP;
 	data["maxDestroyToughness"] = stats_.maxDestroyToughness;
 
-	data["hpThresholds"] = JsonAdapter::FromVector<int>(stats_.hpThresholds);
+	data["hpThresholds"] = SakuEngine::JsonAdapter::FromVector<int>(stats_.hpThresholds);
 
 	for (const auto& [state, value] : stats_.damages) {
 
@@ -678,8 +678,8 @@ void BossEnemy::SaveJson() {
 
 	for (const auto& [level, value] : stats_.distanceLevels) {
 
-		data["DistanceLevels"][EnumAdapter<DistanceLevel>::ToString(level)] = value;
+		data["DistanceLevels"][SakuEngine::EnumAdapter<DistanceLevel>::ToString(level)] = value;
 	}
 
-	JsonAdapter::Save("Enemy/Boss/initParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Enemy/Boss/initParameter.json", data);
 }

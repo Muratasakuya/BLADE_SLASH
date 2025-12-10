@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -57,12 +57,12 @@ private:
 	State currentState_;
 
 	// 最初の補間移動
-	SimpleAnimation<Vector3> startMoveAnim_;
+	SakuEngine::SimpleAnimation<SakuEngine::Vector3> startMoveAnim_;
 
 	// 振り子移動
-	ConicalPendulum movePendulum_;
+	SakuEngine::ConicalPendulum movePendulum_;
 	// 振り子の親からのオフセット位置
-	Vector3 pendulumOffset_;
+	SakuEngine::Vector3 pendulumOffset_;
 	// 円錐のX軸回転オフセット
 	float pendulumRotateX_;
 
@@ -71,15 +71,15 @@ private:
 	uint32_t prevPendulumReachCount_;
 
 	// 最初の溜め時間
-	StateTimer beginTimer_;
+	SakuEngine::StateTimer beginTimer_;
 
 	// 剣エフェクト
 	// 左から右
-	std::unique_ptr<EffectGroup> leftToRightSlashEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> leftToRightSlashEffect_;
 	// 右から左
-	std::unique_ptr<EffectGroup> rightToLeftSlashEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> rightToLeftSlashEffect_;
 	// オフセット位置
-	Vector3 slashEffectOffset_;
+	SakuEngine::Vector3 slashEffectOffset_;
 
 	//--------- functions ----------------------------------------------------
 

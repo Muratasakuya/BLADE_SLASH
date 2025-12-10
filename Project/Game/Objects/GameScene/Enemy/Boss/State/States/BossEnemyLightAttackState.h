@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -52,7 +52,7 @@ private:
 	State currentState_;
 
 	// 座標
-	Vector3 startPos_; // 開始座標
+	SakuEngine::Vector3 startPos_; // 開始座標
 
 	// parameters
 	float lerpTimer_;       // 座標補間の際の経過時間

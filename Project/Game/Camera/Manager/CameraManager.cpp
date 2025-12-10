@@ -1,4 +1,4 @@
-﻿#include "CameraManager.h"
+#include "CameraManager.h"
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	CameraManager classMethods
 //============================================================================
 
-void CameraManager::Init(SceneView* sceneView) {
+void CameraManager::Init(SakuEngine::SceneView* sceneView) {
 
 	sceneView_ = nullptr;
 	sceneView_ = sceneView;

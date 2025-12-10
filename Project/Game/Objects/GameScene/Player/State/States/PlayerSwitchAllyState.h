@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -47,7 +47,7 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// デルタタイムのスケール補間時間
-	StateTimer deltaTimeScaleTimer_;
+	SakuEngine::StateTimer deltaTimeScaleTimer_;
 	float deltaTimeScale_ = 1.0f; // 目標スケール
 
 	float switchAllyTimer_; // 現在の経過時間

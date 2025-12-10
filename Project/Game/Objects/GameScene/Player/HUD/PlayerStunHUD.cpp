@@ -1,4 +1,4 @@
-﻿#include "PlayerStunHUD.h"
+#include "PlayerStunHUD.h"
 
 //============================================================================
 //	include
@@ -12,25 +12,25 @@
 void PlayerStunHUD::Init() {
 
 	// 経過率背景
-	progressBarBackground_ = std::make_unique<GameObject2D>();
+	progressBarBackground_ = std::make_unique<SakuEngine::GameObject2D>();
 	progressBarBackground_->Init("stunProgressBarBackground",
 		"stunProgressBarBackground", "PlayerStunHUD");
 
 	// 経過率
-	progressBar_ = std::make_unique<GameObject2D>();
+	progressBar_ = std::make_unique<SakuEngine::GameObject2D>();
 	progressBar_->Init("stunProgressBar", "stunProgressBar", "PlayerStunHUD");
 
 	// 経過率文字
-	chainAttackText_ = std::make_unique<GameObject2D>();
+	chainAttackText_ = std::make_unique<SakuEngine::GameObject2D>();
 	chainAttackText_->Init("CHAINATTACK", "CHAINATTACK", "PlayerStunHUD");
 
 	// アイコン
 	for (uint32_t index = 0; index < iconCount_; ++index) {
 
-		stunChainIcon_[index] = std::make_unique<GameObject2D>();
+		stunChainIcon_[index] = std::make_unique<SakuEngine::GameObject2D>();
 		stunChainIcon_[index]->Init("chainPlayerIcon", "chainPlayerIcon", "PlayerStunHUD");
 
-		stunChainIconRing_[index] = std::make_unique<GameObject2D>();
+		stunChainIconRing_[index] = std::make_unique<SakuEngine::GameObject2D>();
 		stunChainIconRing_[index]->Init("chainPlayerIconRing", "chainPlayerIconRing", "PlayerStunHUD");
 	}
 
@@ -50,10 +50,10 @@ void PlayerStunHUD::Init() {
 	ApplyJson();
 
 	// 最初は表示を切る
-	SetSize(Vector2::AnyInit(0.0f));
+	SetSize(SakuEngine::Vector2::AnyInit(0.0f));
 }
 
-void PlayerStunHUD::SetSize(const Vector2& size) {
+void PlayerStunHUD::SetSize(const SakuEngine::Vector2& size) {
 
 	// 最初は表示を行わない、サイズを0.0fにする
 	progressBarBackground_->SetSize(size);
@@ -75,28 +75,28 @@ void PlayerStunHUD::SetSize(const Vector2& size) {
 
 void PlayerStunHUD::SetTargetSize(float lerpT) {
 
-	const Vector2 zero = Vector2::AnyInit(0.0f);
+	const SakuEngine::Vector2 zero = SakuEngine::Vector2::AnyInit(0.0f);
 
 	// それぞれを目標サイズまで補間する
-	progressBarBackground_->SetSize(Vector2::Lerp(zero, progressBarBackgroundSize_, lerpT));
-	progressBar_->SetSize(Vector2::Lerp(zero, progressBarSize_, lerpT));
-	chainAttackText_->SetSize(Vector2::Lerp(zero, chainAttackTextSize_, lerpT));
+	progressBarBackground_->SetSize(SakuEngine::Vector2::Lerp(zero, progressBarBackgroundSize_, lerpT));
+	progressBar_->SetSize(SakuEngine::Vector2::Lerp(zero, progressBarSize_, lerpT));
+	chainAttackText_->SetSize(SakuEngine::Vector2::Lerp(zero, chainAttackTextSize_, lerpT));
 
 	for (uint32_t index = 0; index < iconCount_; ++index) {
 
-		stunChainIcon_[index]->SetSize(Vector2::Lerp(zero, iconSize_, lerpT));
-		stunChainIconRing_[index]->SetSize(Vector2::Lerp(iconRingSize_, iconSize_, lerpT));
+		stunChainIcon_[index]->SetSize(SakuEngine::Vector2::Lerp(zero, iconSize_, lerpT));
+		stunChainIconRing_[index]->SetSize(SakuEngine::Vector2::Lerp(iconRingSize_, iconSize_, lerpT));
 	}
 
-	Vector2 lerpInputSize = Vector2::Lerp(zero, chainInputSize_, lerpT);
-	Vector2 lerpInputCancelSize = Vector2::Lerp(zero, cancelInputSize_, lerpT);
+	SakuEngine::Vector2 lerpInputSize = SakuEngine::Vector2::Lerp(zero, chainInputSize_, lerpT);
+	SakuEngine::Vector2 lerpInputCancelSize = SakuEngine::Vector2::Lerp(zero, cancelInputSize_, lerpT);
 	keyInput_.SetSize(lerpInputSize);
 	keyInput_.cancel->SetSize(lerpInputCancelSize);
 	gamepadInput_.SetSize(lerpInputSize);
 	gamepadInput_.cancel->SetSize(lerpInputCancelSize);
 
-	restTimerDisplay_->SetTimerSize(Vector2::Lerp(zero, timerSize_, lerpT));
-	restTimerDisplay_->SetSymbolSize(Vector2::Lerp(zero, timerSymbolSize_, lerpT));
+	restTimerDisplay_->SetTimerSize(SakuEngine::Vector2::Lerp(zero, timerSize_, lerpT));
+	restTimerDisplay_->SetSymbolSize(SakuEngine::Vector2::Lerp(zero, timerSymbolSize_, lerpT));
 }
 
 void PlayerStunHUD::SetTargetTranslation(float lerpT) {
@@ -105,37 +105,37 @@ void PlayerStunHUD::SetTargetTranslation(float lerpT) {
 	const float cancelTranslationY = std::lerp(cancelTranslationY_, cancelTranslationY_ + cancelUnderOffsetY_, lerpT);
 
 	// ProgressBar
-	const Vector2 barPos(centerTranslationX_, barTranslationY);
+	const SakuEngine::Vector2 barPos(centerTranslationX_, barTranslationY);
 	progressBarBackground_->SetTranslation(barPos);
 	progressBar_->SetTranslation(barPos);
 	chainAttackText_->SetTranslation(barPos);
 
 	// Timer
 	restTimerDisplay_->SetTranslation(
-		Vector2(timerTranslationX_, std::lerp(timerTranslationY_, timerTranslationY_ + cancelUnderOffsetY_, lerpT)));
+		SakuEngine::Vector2(timerTranslationX_, std::lerp(timerTranslationY_, timerTranslationY_ + cancelUnderOffsetY_, lerpT)));
 
 	// Cancel
-	const Vector2 cancelPos(centerTranslationX_, cancelTranslationY);
+	const SakuEngine::Vector2 cancelPos(centerTranslationX_, cancelTranslationY);
 	keyInput_.cancel->SetTranslation(cancelPos);
 	gamepadInput_.cancel->SetTranslation(cancelPos);
 
 	// 右入力
-	const Vector2 rightPos(centerTranslationX_ + endOffsetX_, cancelTranslationY);
+	const SakuEngine::Vector2 rightPos(centerTranslationX_ + endOffsetX_, cancelTranslationY);
 	keyInput_.rightChain->SetTranslation(rightPos);
 	gamepadInput_.rightChain->SetTranslation(rightPos);
 	stunChainIcon_[0]->SetTranslation(
-		Vector2(centerTranslationX_ + endOffsetX_, barTranslationY));
+		SakuEngine::Vector2(centerTranslationX_ + endOffsetX_, barTranslationY));
 	stunChainIconRing_[0]->SetTranslation(
-		Vector2(centerTranslationX_ + endOffsetX_, barTranslationY));
+		SakuEngine::Vector2(centerTranslationX_ + endOffsetX_, barTranslationY));
 
 	// 左入力
-	const Vector2 leftPos(centerTranslationX_ - endOffsetX_, cancelTranslationY);
+	const SakuEngine::Vector2 leftPos(centerTranslationX_ - endOffsetX_, cancelTranslationY);
 	keyInput_.leftChain->SetTranslation(leftPos);
 	gamepadInput_.leftChain->SetTranslation(leftPos);
 	stunChainIcon_[1]->SetTranslation(
-		Vector2(centerTranslationX_ - endOffsetX_, barTranslationY));
+		SakuEngine::Vector2(centerTranslationX_ - endOffsetX_, barTranslationY));
 	stunChainIconRing_[1]->SetTranslation(
-		Vector2(centerTranslationX_ - endOffsetX_, barTranslationY));
+		SakuEngine::Vector2(centerTranslationX_ - endOffsetX_, barTranslationY));
 }
 
 void PlayerStunHUD::SetAlpha(float alpha) {
@@ -162,7 +162,7 @@ void PlayerStunHUD::SetAlpha(float alpha) {
 
 float PlayerStunHUD::CalcBlinkAlpha(float progress, int blinkCount) {
 
-	return 0.5f * (1.0f + std::cos(progress * blinkCount * pi));
+	return 0.5f * (1.0f + std::cos(progress * blinkCount * SakuEngine::pi));
 }
 
 void PlayerStunHUD::SetVaild() {
@@ -216,7 +216,7 @@ void PlayerStunHUD::UpdateState() {
 void PlayerStunHUD::UpdateBeginAnimation() {
 
 	// 時間を経過させる
-	beginAnimationTimer_ += GameTimer::GetDeltaTime();
+	beginAnimationTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float lerpT = beginAnimationTimer_ / beginAnimationTime_;
 	lerpT = EasedValue(beginAnimationEasingType_, lerpT);
 
@@ -240,7 +240,7 @@ void PlayerStunHUD::UpdateBeginAnimation() {
 void PlayerStunHUD::UpdateCount() {
 
 	// 時間をマイナスしていく
-	restTimer_ -= GameTimer::GetDeltaTime();
+	restTimer_ -= SakuEngine::GameTimer::GetDeltaTime();
 	float progress = restTimer_ / restTime_;
 	// alpha点滅
 	float alpha = CalcBlinkAlpha(progress, restAlphaBlinkingCount_);
@@ -249,7 +249,7 @@ void PlayerStunHUD::UpdateCount() {
 		stunChainIconRing_[index]->SetAlpha(alpha);
 	}
 	// 経過率をサイズで表す
-	progressBar_->SetSize(Vector2(std::lerp(0.0f, progressBarSize_.x, progress), progressBarSize_.y));
+	progressBar_->SetSize(SakuEngine::Vector2(std::lerp(0.0f, progressBarSize_.x, progress), progressBarSize_.y));
 
 	// 経過時間表示の更新処理
 	restTimerDisplay_->Update(restTimer_);
@@ -266,7 +266,7 @@ void PlayerStunHUD::UpdateCount() {
 void PlayerStunHUD::UpdateCancel() {
 
 	// 時間経過を進める
-	cancelTimer_ += GameTimer::GetDeltaTime();
+	cancelTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float lerpT = cancelTimer_ / cancelTime_;
 	float easedT = EasedValue(cancelEasingType_, lerpT);
 
@@ -293,38 +293,38 @@ void PlayerStunHUD::UpdateCancel() {
 void PlayerStunHUD::UpdateLayout() {
 
 	// ProgressBar
-	const Vector2 barPos(centerTranslationX_, barTranslationY_);
+	const SakuEngine::Vector2 barPos(centerTranslationX_, barTranslationY_);
 	progressBarBackground_->SetTranslation(barPos);
 	progressBar_->SetTranslation(barPos);
 	chainAttackText_->SetTranslation(barPos);
 
 	// Timer
-	restTimerDisplay_->SetOffset(Vector2(timerOffsetX_, 0.0f));
+	restTimerDisplay_->SetOffset(SakuEngine::Vector2(timerOffsetX_, 0.0f));
 	restTimerDisplay_->SetTranslation(
-		Vector2(timerTranslationX_, timerTranslationY_));
+		SakuEngine::Vector2(timerTranslationX_, timerTranslationY_));
 
 	// Cancel
-	const Vector2 cancelPos(centerTranslationX_, cancelTranslationY_);
+	const SakuEngine::Vector2 cancelPos(centerTranslationX_, cancelTranslationY_);
 	keyInput_.cancel->SetTranslation(cancelPos);
 	gamepadInput_.cancel->SetTranslation(cancelPos);
 
 	// 右入力
-	const Vector2 rightPos(centerTranslationX_ + endOffsetX_, cancelTranslationY_);
+	const SakuEngine::Vector2 rightPos(centerTranslationX_ + endOffsetX_, cancelTranslationY_);
 	keyInput_.rightChain->SetTranslation(rightPos);
 	gamepadInput_.rightChain->SetTranslation(rightPos);
 	stunChainIcon_[0]->SetTranslation(
-		Vector2(centerTranslationX_ + endOffsetX_, barTranslationY_));
+		SakuEngine::Vector2(centerTranslationX_ + endOffsetX_, barTranslationY_));
 	stunChainIconRing_[0]->SetTranslation(
-		Vector2(centerTranslationX_ + endOffsetX_, barTranslationY_));
+		SakuEngine::Vector2(centerTranslationX_ + endOffsetX_, barTranslationY_));
 
 	// 左入力
-	const Vector2 leftPos(centerTranslationX_ - endOffsetX_, cancelTranslationY_);
+	const SakuEngine::Vector2 leftPos(centerTranslationX_ - endOffsetX_, cancelTranslationY_);
 	keyInput_.leftChain->SetTranslation(leftPos);
 	gamepadInput_.leftChain->SetTranslation(leftPos);
 	stunChainIcon_[1]->SetTranslation(
-		Vector2(centerTranslationX_ - endOffsetX_, barTranslationY_));
+		SakuEngine::Vector2(centerTranslationX_ - endOffsetX_, barTranslationY_));
 	stunChainIconRing_[1]->SetTranslation(
-		Vector2(centerTranslationX_ - endOffsetX_, barTranslationY_));
+		SakuEngine::Vector2(centerTranslationX_ - endOffsetX_, barTranslationY_));
 }
 
 void PlayerStunHUD::UpdateSize() {
@@ -405,7 +405,7 @@ void PlayerStunHUD::ImGui() {
 
 			stunChainIconRing_[index]->SetColor(iconRingColor_);
 			stunChainIconRing_[index]->SetEmissionColor(
-				Vector3(iconRingColor_.r, iconRingColor_.g, iconRingColor_.b));
+				SakuEngine::Vector3(iconRingColor_.r, iconRingColor_.g, iconRingColor_.b));
 			stunChainIconRing_[index]->SetEmissiveIntensity(iconRingEmissive_);
 		}
 	}
@@ -423,37 +423,37 @@ void PlayerStunHUD::ImGui() {
 void PlayerStunHUD::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Player/stunHudParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Player/stunHudParameter.json", data)) {
 		return;
 	}
 
-	restTime_ = JsonAdapter::GetValue<float>(data, "restTime_");
-	beginAnimationTime_ = JsonAdapter::GetValue<float>(data, "beginAnimationTime_");
-	cancelUnderOffsetY_ = JsonAdapter::GetValue<float>(data, "cancelUnderOffsetY_");
-	cancelTime_ = JsonAdapter::GetValue<float>(data, "cancelTime_");
-	timerTranslationX_ = JsonAdapter::GetValue<float>(data, "timerTranslationX_");
-	barTranslationY_ = JsonAdapter::GetValue<float>(data, "barTranslationY_");
-	timerTranslationY_ = JsonAdapter::GetValue<float>(data, "timerTranslationY_");
-	cancelTranslationY_ = JsonAdapter::GetValue<float>(data, "cancelTranslationY_");
-	endOffsetX_ = JsonAdapter::GetValue<float>(data, "endOffsetX_");
-	timerOffsetX_ = JsonAdapter::GetValue<float>(data, "timerOffsetX_");
-	iconRingEmissive_ = JsonAdapter::GetValue<float>(data, "iconRingEmissive_");
+	restTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "restTime_");
+	beginAnimationTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "beginAnimationTime_");
+	cancelUnderOffsetY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "cancelUnderOffsetY_");
+	cancelTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "cancelTime_");
+	timerTranslationX_ = SakuEngine::JsonAdapter::GetValue<float>(data, "timerTranslationX_");
+	barTranslationY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "barTranslationY_");
+	timerTranslationY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "timerTranslationY_");
+	cancelTranslationY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "cancelTranslationY_");
+	endOffsetX_ = SakuEngine::JsonAdapter::GetValue<float>(data, "endOffsetX_");
+	timerOffsetX_ = SakuEngine::JsonAdapter::GetValue<float>(data, "timerOffsetX_");
+	iconRingEmissive_ = SakuEngine::JsonAdapter::GetValue<float>(data, "iconRingEmissive_");
 	beginAnimationEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "beginAnimationEasingType_"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "beginAnimationEasingType_"));
 	cancelEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "cancelEasingType_"));
-	beginAlphaBlinkingCount_ = JsonAdapter::GetValue<int>(data, "beginAlphaBlinkingCount_");
-	restAlphaBlinkingCount_ = JsonAdapter::GetValue<int>(data, "restAlphaBlinkingCount_");
-	timerSize_ = JsonAdapter::ToObject<Vector2>(data["timerSize_"]);
-	timerSymbolSize_ = JsonAdapter::ToObject<Vector2>(data["timerSymbolSize_"]);
-	iconSize_ = JsonAdapter::ToObject<Vector2>(data["iconSize_"]);
-	iconRingSize_ = JsonAdapter::ToObject<Vector2>(data["iconRingSize_"]);
-	progressBarBackgroundSize_ = JsonAdapter::ToObject<Vector2>(data["progressBarBackgroundSize_"]);
-	progressBarSize_ = JsonAdapter::ToObject<Vector2>(data["progressBarSize_"]);
-	chainAttackTextSize_ = JsonAdapter::ToObject<Vector2>(data["chainAttackTextSize_"]);
-	chainInputSize_ = JsonAdapter::ToObject<Vector2>(data["chainInputSize_"]);
-	cancelInputSize_ = JsonAdapter::ToObject<Vector2>(data["cancelInputSize_"]);
-	iconRingColor_ = JsonAdapter::ToObject<Color>(data["iconRingColor_"]);
+		SakuEngine::JsonAdapter::GetValue<int>(data, "cancelEasingType_"));
+	beginAlphaBlinkingCount_ = SakuEngine::JsonAdapter::GetValue<int>(data, "beginAlphaBlinkingCount_");
+	restAlphaBlinkingCount_ = SakuEngine::JsonAdapter::GetValue<int>(data, "restAlphaBlinkingCount_");
+	timerSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["timerSize_"]);
+	timerSymbolSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["timerSymbolSize_"]);
+	iconSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["iconSize_"]);
+	iconRingSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["iconRingSize_"]);
+	progressBarBackgroundSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["progressBarBackgroundSize_"]);
+	progressBarSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["progressBarSize_"]);
+	chainAttackTextSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["chainAttackTextSize_"]);
+	chainInputSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["chainInputSize_"]);
+	cancelInputSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["cancelInputSize_"]);
+	iconRingColor_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Color>(data["iconRingColor_"]);
 
 	// 時間を設定
 	restTimer_ = restTime_;
@@ -467,7 +467,7 @@ void PlayerStunHUD::ApplyJson() {
 
 		stunChainIconRing_[index]->SetColor(iconRingColor_);
 		stunChainIconRing_[index]->SetEmissionColor(
-			Vector3(iconRingColor_.r, iconRingColor_.g, iconRingColor_.b));
+			SakuEngine::Vector3(iconRingColor_.r, iconRingColor_.g, iconRingColor_.b));
 		stunChainIconRing_[index]->SetEmissiveIntensity(iconRingEmissive_);
 	}
 }
@@ -491,34 +491,34 @@ void PlayerStunHUD::SaveJson() {
 	data["iconRingEmissive_"] = iconRingEmissive_;
 	data["beginAnimationEasingType_"] = static_cast<int>(beginAnimationEasingType_);
 	data["cancelEasingType_"] = static_cast<int>(cancelEasingType_);
-	data["timerSize_"] = JsonAdapter::FromObject<Vector2>(timerSize_);
-	data["timerSymbolSize_"] = JsonAdapter::FromObject<Vector2>(timerSymbolSize_);
-	data["iconSize_"] = JsonAdapter::FromObject<Vector2>(iconSize_);
-	data["iconRingSize_"] = JsonAdapter::FromObject<Vector2>(iconRingSize_);
-	data["progressBarBackgroundSize_"] = JsonAdapter::FromObject<Vector2>(progressBarBackgroundSize_);
-	data["progressBarSize_"] = JsonAdapter::FromObject<Vector2>(progressBarSize_);
-	data["chainAttackTextSize_"] = JsonAdapter::FromObject<Vector2>(chainAttackTextSize_);
-	data["chainInputSize_"] = JsonAdapter::FromObject<Vector2>(chainInputSize_);
-	data["cancelInputSize_"] = JsonAdapter::FromObject<Vector2>(cancelInputSize_);
-	data["iconRingColor_"] = JsonAdapter::FromObject<Color>(iconRingColor_);
+	data["timerSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(timerSize_);
+	data["timerSymbolSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(timerSymbolSize_);
+	data["iconSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(iconSize_);
+	data["iconRingSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(iconRingSize_);
+	data["progressBarBackgroundSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(progressBarBackgroundSize_);
+	data["progressBarSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(progressBarSize_);
+	data["chainAttackTextSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(chainAttackTextSize_);
+	data["chainInputSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(chainInputSize_);
+	data["cancelInputSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(cancelInputSize_);
+	data["iconRingColor_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Color>(iconRingColor_);
 
-	JsonAdapter::Save("Player/stunHudParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Player/stunHudParameter.json", data);
 }
 
 void PlayerStunHUD::ChainInput::Init(const std::string& rightTex, const std::string& leftTex,
 	const std::string& cancelTex) {
 
-	rightChain = std::make_unique<GameObject2D>();
+	rightChain = std::make_unique<SakuEngine::GameObject2D>();
 	rightChain->Init(rightTex, rightTex, "PlayerStunHUD");
 
-	leftChain = std::make_unique<GameObject2D>();
+	leftChain = std::make_unique<SakuEngine::GameObject2D>();
 	leftChain->Init(leftTex, leftTex, "PlayerStunHUD");
 
-	cancel = std::make_unique<GameObject2D>();
+	cancel = std::make_unique<SakuEngine::GameObject2D>();
 	cancel->Init(cancelTex, cancelTex, "PlayerStunHUD");
 }
 
-void PlayerStunHUD::ChainInput::SetSize(const Vector2& size) {
+void PlayerStunHUD::ChainInput::SetSize(const SakuEngine::Vector2& size) {
 
 	rightChain->SetSize(size);
 	leftChain->SetSize(size);

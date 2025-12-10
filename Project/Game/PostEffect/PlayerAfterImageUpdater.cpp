@@ -1,4 +1,4 @@
-﻿#include "PlayerAfterImageUpdater.h"
+#include "PlayerAfterImageUpdater.h"
 
 //============================================================================
 //	PlayerAfterImageUpdater classMethods
@@ -16,13 +16,13 @@ void PlayerAfterImageUpdater::Init() {
 void PlayerAfterImageUpdater::Update() {
 }
 
-void PlayerAfterImageUpdater::Start(const Color& color) {
+void PlayerAfterImageUpdater::Start(const SakuEngine::Color& color) {
 
 	// レートを1.0fにしてディザリング処理させる
 	bufferData_.enable = 1;
 	bufferData_.rate = 1.0f;
 	bufferData_.ditherColor = color;
-	bufferData_.emissionColor = Vector3(color.r, color.g, color.b);
+	bufferData_.emissionColor = SakuEngine::Vector3(color.r, color.g, color.b);
 }
 
 void PlayerAfterImageUpdater::Reset() {
@@ -56,8 +56,8 @@ void PlayerAfterImageUpdater::ApplyJson() {
 	}
 
 	bufferData_.divisor = data.value("divisor", 4.0f);
-	bufferData_.ditherColor = Color::FromJson(data.value("ditherColor", Json()));
-	bufferData_.emissionColor = Vector3::FromJson(data.value("emissionColor", Json()));
+	bufferData_.ditherColor = SakuEngine::Color::FromJson(data.value("ditherColor", Json()));
+	bufferData_.emissionColor = SakuEngine::Vector3::FromJson(data.value("emissionColor", Json()));
 	bufferData_.emissionIntensity = data.value("emissionIntensity", 1.0f);
 }
 

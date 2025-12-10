@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -57,13 +57,13 @@ private:
 	struct WeaponParam {
 
 		bool isMoveStart;      // 移動開始フラグ
-		StateTimer moveTimer;  // 共通から値を受け取る
+		SakuEngine::StateTimer moveTimer; // 共通から値を受け取る
 		float moveValue;       // 移動量
 		float rotateSpeed;     // 回転速度
 		float offsetRotationY; // 進行方向のオフセットY回転
-		Vector3 startPos;  // 開始座標(親子付けを外した瞬間のワールド座標)
-		Vector3 targetPos; // 目標座標
-		Vector3 rotation;  // 回転
+		SakuEngine::Vector3 startPos;  // 開始座標(親子付けを外した瞬間のワールド座標)
+		SakuEngine::Vector3 targetPos; // 目標座標
+		SakuEngine::Vector3 rotation;  // 回転
 
 		// 処理進捗
 		float startProgress = 0.0f;
@@ -80,27 +80,27 @@ private:
 
 	// parameters
 	// プレイヤー
-	StateTimer backMoveTimer_; // 後ずさりする時間
+	SakuEngine::StateTimer backMoveTimer_; // 後ずさりする時間
 	float backMoveValue_;      // 後ずさりする距離
-	Vector3 backStartPos_;     // 後ずさり開始座標
-	Vector3 backTargetPos_;    // 後ずさり目標座標
+	SakuEngine::Vector3 backStartPos_;     // 後ずさり開始座標
+	SakuEngine::Vector3 backTargetPos_;    // 後ずさり目標座標
 
-	StateTimer catchSwordTimer_; // 飛ばした剣の場所まで行く時間
-	Vector3 catchTargetPos_;     // 剣の目標座標(2つの剣の間)
+	SakuEngine::StateTimer catchSwordTimer_; // 飛ばした剣の場所まで行く時間
+	SakuEngine::Vector3 catchTargetPos_;     // 剣の目標座標(2つの剣の間)
 
 	// 剣
 	std::unordered_map<PlayerWeaponType, WeaponParam> weaponParams_;
 	// 共通
-	StateTimer weaponMoveTimer_; // 剣が目標座標に行くまでの時間
+	SakuEngine::StateTimer weaponMoveTimer_; // 剣が目標座標に行くまでの時間
 	float bossEnemyDistance_;
 	float weaponPosY_;
 
 	// debug
-	std::unordered_map<PlayerWeaponType, Vector3> debugForward_;
+	std::unordered_map<PlayerWeaponType, SakuEngine::Vector3> debugForward_;
 
 	// 剣を取りに行くダッシュエフェクト
-	std::unique_ptr<EffectGroup> catchDashEffect_;
-	Vector3 dashEffectOffset_;
+	std::unique_ptr<SakuEngine::EffectGroup> catchDashEffect_;
+	SakuEngine::Vector3 dashEffectOffset_;
 
 	// 残像表現エフェクト
 	std::unique_ptr<PlayerAfterImageEffect> afterImageEffect_;
@@ -114,5 +114,5 @@ private:
 
 	// helper
 	void StartMoveWeapon(Player& player, PlayerWeaponType type);
-	Vector3 RotateYOffset(const Vector3& direction, float offsetRotationY);
+	SakuEngine::Vector3 RotateYOffset(const SakuEngine::Vector3& direction, float offsetRotationY);
 };
