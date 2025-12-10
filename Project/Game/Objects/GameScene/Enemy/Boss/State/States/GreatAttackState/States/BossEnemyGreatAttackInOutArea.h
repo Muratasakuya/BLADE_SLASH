@@ -94,6 +94,10 @@ private:
 	bool emitedRangeSlashEffect_; // 発生済みかどうか
 	uint32_t rangeSlashKeyIndex_; // 発生させるキーのインデックス
 	SakuEngine::Vector3 rangeSlashEffectOffset_; // エフェクトのオフセット
+	// 最後の攻撃エフェクト
+	std::unique_ptr<SakuEngine::EffectGroup> lastAttackEffect_;
+	SakuEngine::Vector3 lastAttackEffectOffset_; // エフェクトのオフセット
+	bool emitedLastAttackEffect_; // 発生済みかどうか
 
 	//--------- functions ----------------------------------------------------
 

@@ -6,7 +6,7 @@
                 "count": 2,
                 "delay": 0.0,
                 "duration": 0.0,
-                "interval": 0.15000000596046448
+                "interval": 0.1599999964237213
             },
             "Module": {
                 "LifeEndMode": "Advance",

@@ -36,6 +36,12 @@ BossEnemyGreatAttackInOutArea::BossEnemyGreatAttackInOutArea() {
 	rangeSlashEffect_->Init("rangeSlash", "BossEnemyEffect");
 	rangeSlashEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackRangeSlashEffect.json");
 	emitedRangeSlashEffect_ = false;
+
+	// 最後の攻撃エフェクト
+	lastAttackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
+	lastAttackEffect_->Init("lastAttack", "BossEnemyEffect");
+	lastAttackEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackLastEffect.json");
+	emitedLastAttackEffect_ = false;
 }
 
 void BossEnemyGreatAttackInOutArea::Enter() {
@@ -50,6 +56,7 @@ void BossEnemyGreatAttackInOutArea::Enter() {
 	isPlayedAttackKeyframe_ = false;
 	isPlayedGrearAttackAnim_ = false;
 	emitedRangeSlashEffect_ = false;
+	emitedLastAttackEffect_ = false;
 
 	// ボスの表示を消す
 	parentState_->StopEffects();
@@ -124,6 +131,18 @@ void BossEnemyGreatAttackInOutArea::UpdateIn() {
 
 			canExit_ = true;
 		}
+
+		// 最後の攻撃エフェクト発生
+		if (!emitedLastAttackEffect_) {
+
+			// 発生座標
+			SakuEngine::Vector3 emitPos = bossEnemy_->GetTranslation();
+			emitPos += attackKeyframeObject_->GetCurrentTransform().rotation * lastAttackEffectOffset_;
+
+			// 発生済みにする
+			lastAttackEffect_->Emit(emitPos);
+			emitedLastAttackEffect_ = true;
+		}
 	} else {
 
 		// キーフレーム更新
@@ -192,6 +211,7 @@ void BossEnemyGreatAttackInOutArea::UpdateAlways() {
 		effect->Update();
 	}
 	rangeSlashEffect_->Update();
+	lastAttackEffect_->Update();
 
 	// キーフレーム更新
 	attackKeyframeObject_->UpdateKey();
@@ -264,6 +284,7 @@ void BossEnemyGreatAttackInOutArea::ImGui() {
 		rangeSlashKeyIndex_ = static_cast<uint32_t>(attackKeyframeIndex);
 	}
 	ImGui::DragFloat3("RangeSlashEffectOffset", &rangeSlashEffectOffset_.x, 0.01f);
+	ImGui::DragFloat3("LastAttackEffectOffset", &lastAttackEffectOffset_.x, 0.01f);
 
 	endWaitTimer_.ImGui("EndWaitTimer");
 
@@ -287,6 +308,7 @@ void BossEnemyGreatAttackInOutArea::ApplyJson(const Json& data) {
 	grearAttackNextAnimTime_ = data.value("grearAttackNextAnimTime_", 5.0f);
 	rangeSlashKeyIndex_ = data.value("rangeSlashKeyIndex_", 8u);
 	rangeSlashEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("rangeSlashEffectOffset_", Json()));
+	lastAttackEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("lastAttackEffectOffset_", Json()));
 	hideEnemyTimer_.FromJson(data.value("hideEnemyTimer_", Json()));
 	lightningAttackTimer_.FromJson(data.value("lightningAttackTimer_", Json()));
 	attackKeyframeObject_->FromJson(data.value("AttackKeyframeObject", Json()));
@@ -302,6 +324,7 @@ void BossEnemyGreatAttackInOutArea::SaveJson(Json& data) {
 	data["grearAttackNextAnimTime_"] = grearAttackNextAnimTime_;
 	data["rangeSlashKeyIndex_"] = rangeSlashKeyIndex_;
 	data["rangeSlashEffectOffset_"] = rangeSlashEffectOffset_.ToJson();
+	data["lastAttackEffectOffset_"] = lastAttackEffectOffset_.ToJson();
 	hideEnemyTimer_.ToJson(data["hideEnemyTimer_"]);
 	lightningAttackTimer_.ToJson(data["lightningAttackTimer_"]);
 	attackKeyframeObject_->ToJson(data["AttackKeyframeObject"]);
