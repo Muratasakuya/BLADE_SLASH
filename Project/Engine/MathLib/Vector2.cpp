@@ -45,14 +45,18 @@ Vector2& Vector2::operator/=(const Vector2& v) {
 Vector2 Vector2::operator*(float scalar) const {
 	return Vector2(x * scalar, y * scalar);
 }
-Vector2 operator*(float scalar, const Vector2& v) {
-	return Vector2(v.x * scalar, v.y * scalar);
-}
 Vector2 Vector2::operator/(float scalar) const {
 	return Vector2(x / scalar, y / scalar);
 }
-Vector2 operator/(float scalar, const Vector2& v) {
-	return Vector2(v.x / scalar, v.y / scalar);
+namespace SakuEngine {
+
+	Vector2 operator*(float scalar, const Vector2& v) {
+		return Vector2(v.x * scalar, v.y * scalar);
+	}
+
+	Vector2 operator/(float scalar, const Vector2& v) {
+		return Vector2(v.x / scalar, v.y / scalar);
+	}
 }
 
 Vector2& Vector2::operator*=(float scalar) {

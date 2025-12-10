@@ -102,4 +102,7 @@ namespace SakuEngine {
 		static SakuEngine::Vector3 ClosestPointOnSegment(const SakuEngine::Vector3& point, const SakuEngine::Vector3& origin, const SakuEngine::Vector3& diff);
 	};
 
+	Vector3 operator*(float scalar, const Vector3& v);
+	Vector3 operator-(float scalar, const Vector3& v);
+	Vector3 operator/(float scalar, const Vector3& v);
 }; // SakuEngine

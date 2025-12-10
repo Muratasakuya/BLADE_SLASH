@@ -46,7 +46,7 @@ namespace SakuEngine {
 			SceneView* sceneView);
 
 		// 2点間の3Dラインを追加登録する
-		void DrawLine3D(const SakuEngine::Vector3& pointA, const SakuEngine::Vector3& pointB, const SakuEngine::Color& color,
+		void DrawLine3D(const Vector3& pointA, const Vector3& pointB, const Color& color,
 			LineType type = LineType::None);
 
 		// 蓄積されたラインをGPU転送して描画する
@@ -57,45 +57,45 @@ namespace SakuEngine {
 		//--------- shapes ------------------------------------------------------
 
 		// グリッド線を描画する
-		void DrawGrid(int division, float gridSize, const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawGrid(int division, float gridSize, const Color& color, LineType type = LineType::None);
 		// 端点に球マーカーを付けた線分を描画する
-		void DrawSegment(int division, float radius, const SakuEngine::Vector3& pointA,
-			const SakuEngine::Vector3& pointB, const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawSegment(int division, float radius, const Vector3& pointA,
+			const Vector3& pointB, const Color& color, LineType type = LineType::None);
 
 		// N角形の枠線を描く(3〜12)
 		template <typename T>
-		void DrawPolygon(int polygonCount, const SakuEngine::Vector3& centerPos, float scale,
-			const T& rotation, const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawPolygon(int polygonCount, const Vector3& centerPos, float scale,
+			const T& rotation, const Color& color, LineType type = LineType::None);
 		// 緯度経度分割のワイヤ球を描画
-		void DrawSphere(int division, float radius, const SakuEngine::Vector3& centerPos,
-			const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawSphere(int division, float radius, const Vector3& centerPos,
+			const Color& color, LineType type = LineType::None);
 		// AABBの枠線を描画
-		void DrawAABB(const SakuEngine::Vector3& min, const SakuEngine::Vector3& max,
-			const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawAABB(const Vector3& min, const Vector3& max,
+			const Color& color, LineType type = LineType::None);
 		// XZ平面の円を描画
-		void DrawCircle(int division, float radius, const SakuEngine::Vector3& center,
-			const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawCircle(int division, float radius, const Vector3& center,
+			const Color& color, LineType type = LineType::None);
 		// 方向ベクトルを中心に扇形(弧)を描画
-		void DrawArc(int division, float radius, float halfAngle, const SakuEngine::Vector3& center,
-			const SakuEngine::Vector3& direction, const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawArc(int division, float radius, float halfAngle, const Vector3& center,
+			const Vector3& direction, const Color& color, LineType type = LineType::None);
 		// 正方形を描画
-		void DrawSquare(float length, const SakuEngine::Vector3& center,
-			const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawSquare(float length, const Vector3& center,
+			const Color& color, LineType type = LineType::None);
 		// 矩形を描画
-		void DrawRect(const SakuEngine::Vector2& size, const SakuEngine::Vector3& center,
-			const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawRect(const Vector2& size, const Vector3& center,
+			const Color& color, LineType type = LineType::None);
 		// 上半球のワイヤ描画
 		template <typename T>
-		void DrawHemisphere(int division, float radius, const SakuEngine::Vector3& centerPos,
-			const T& rotation, const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawHemisphere(int division, float radius, const Vector3& centerPos,
+			const T& rotation, const Color& color, LineType type = LineType::None);
 		// OBBの枠線を描画
 		template <typename T>
-		void DrawOBB(const SakuEngine::Vector3& centerPos, const SakuEngine::Vector3& size,
-			const T& rotation, const SakuEngine::Color& color, LineType type = LineType::None);
+		void DrawOBB(const Vector3& centerPos, const Vector3& size,
+			const T& rotation, const Color& color, LineType type = LineType::None);
 		// 円柱/円錐のワイヤ(上下円と側面)を描画
 		template <typename T>
 		void DrawCone(int division, float baseRadius, float topRadius, float height,
-			const SakuEngine::Vector3& centerPos, const T& rotation, const SakuEngine::Color& color, LineType type = LineType::None);
+			const Vector3& centerPos, const T& rotation, const Color& color, LineType type = LineType::None);
 
 		//--------- accessor -----------------------------------------------------
 
@@ -160,54 +160,54 @@ namespace SakuEngine {
 	//============================================================================
 
 	template<typename T>
-	inline void LineRenderer::DrawPolygon(int polygonCount, const SakuEngine::Vector3& centerPos,
-		float scale, const T& rotation, const SakuEngine::Color& color, LineType type) {
+	inline void LineRenderer::DrawPolygon(int polygonCount, const Vector3& centerPos,
+		float scale, const T& rotation, const Color& color, LineType type) {
 
 		if (polygonCount < 3 || polygonCount > 12) {
 			return;
 		}
 
-		std::vector<SakuEngine::Vector3> vertices;
+		std::vector<Vector3> vertices;
 		vertices.reserve(polygonCount);
 
 		// 回転
-		SakuEngine::Matrix4x4 rotationMatrix = Matrix4x4::MakeIdentity4x4();
-		if constexpr (std::is_same_v<T, SakuEngine::Vector3>) {
+		Matrix4x4 rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		if constexpr (std::is_same_v<T, Vector3>) {
 
-			rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Quaternion>) {
+			rotationMatrix = Matrix4x4::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Quaternion>) {
 
-			rotationMatrix = SakuEngine::Quaternion::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Matrix4x4>) {
+			rotationMatrix = Quaternion::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Matrix4x4>) {
 
 			rotationMatrix = rotation;
 		}
 
 		// 各頂点を計算
 		for (int i = 0; i < polygonCount; ++i) {
-			float angle = 2.0f * SakuEngine::pi * static_cast<float>(i) / static_cast<float>(polygonCount);
-			SakuEngine::Vector3 localPos = { std::cos(angle) * scale, 0.0f, std::sin(angle) * scale };
-			SakuEngine::Vector3 worldPos = rotationMatrix.TransformPoint(localPos) + centerPos;
+			float angle = 2.0f * pi * static_cast<float>(i) / static_cast<float>(polygonCount);
+			Vector3 localPos = { std::cos(angle) * scale, 0.0f, std::sin(angle) * scale };
+			Vector3 worldPos = rotationMatrix.TransformPoint(localPos) + centerPos;
 			vertices.push_back(worldPos);
 		}
 
 		// 線を描画
 		for (int i = 0; i < polygonCount; ++i) {
 
-			const SakuEngine::Vector3& start = vertices[i];
-			const SakuEngine::Vector3& end = vertices[(i + 1) % polygonCount];
+			const Vector3& start = vertices[i];
+			const Vector3& end = vertices[(i + 1) % polygonCount];
 			DrawLine3D(start, end, color, type);
 		}
 	}
 
 	template<typename T>
-	inline void LineRenderer::DrawHemisphere(int division, float radius, const SakuEngine::Vector3& centerPos,
-		const T& rotation, const SakuEngine::Color& color, LineType type) {
+	inline void LineRenderer::DrawHemisphere(int division, float radius, const Vector3& centerPos,
+		const T& rotation, const Color& color, LineType type) {
 
-		const float kLatEvery = (SakuEngine::pi / 2.0f) / division; // 緯度
-		const float kLonEvery = 2.0f * SakuEngine::pi / division;   // 経度
+		const float kLatEvery = (pi / 2.0f) / division; // 緯度
+		const float kLonEvery = 2.0f * pi / division;   // 経度
 
-		auto calculatePoint = [&](float lat, float lon) -> SakuEngine::Vector3 {
+		auto calculatePoint = [&](float lat, float lon) -> Vector3 {
 			return {
 				radius * std::cos(lat) * std::cos(lon),
 				radius * std::sin(lat),
@@ -215,14 +215,14 @@ namespace SakuEngine {
 			};
 			};
 
-		SakuEngine::Matrix4x4 rotationMatrix = SakuEngine::Matrix4x4::MakeIdentity4x4();
-		if constexpr (std::is_same_v<T, SakuEngine::Vector3>) {
+		Matrix4x4 rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		if constexpr (std::is_same_v<T, Vector3>) {
 
-			rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Quaternion>) {
+			rotationMatrix = Matrix4x4::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Quaternion>) {
 
 			rotationMatrix = Quaternion::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Matrix4x4>) {
+		} else if constexpr (std::is_same_v<T, Matrix4x4>) {
 
 			rotationMatrix = rotation;
 		}
@@ -232,9 +232,9 @@ namespace SakuEngine {
 			for (int lonIndex = 0; lonIndex < division; ++lonIndex) {
 				float lon = lonIndex * kLonEvery;
 
-				SakuEngine::Vector3 pointA = calculatePoint(lat, lon);
-				SakuEngine::Vector3 pointB = calculatePoint(lat + kLatEvery, lon);
-				SakuEngine::Vector3 pointC = calculatePoint(lat, lon + kLonEvery);
+				Vector3 pointA = calculatePoint(lat, lon);
+				Vector3 pointB = calculatePoint(lat + kLatEvery, lon);
+				Vector3 pointC = calculatePoint(lat, lon + kLonEvery);
 
 				pointA = rotationMatrix.TransformPoint(pointA) + centerPos;
 				pointB = rotationMatrix.TransformPoint(pointB) + centerPos;
@@ -247,36 +247,36 @@ namespace SakuEngine {
 	}
 
 	template<typename T>
-	inline void LineRenderer::DrawOBB(const SakuEngine::Vector3& centerPos, const SakuEngine::Vector3& size,
-		const T& rotation, const SakuEngine::Color& color, LineType type) {
+	inline void LineRenderer::DrawOBB(const Vector3& centerPos, const Vector3& size,
+		const T& rotation, const Color& color, LineType type) {
 
 		const uint32_t vertexNum = 8;
 
-		SakuEngine::Matrix4x4 rotationMatrix = SakuEngine::Matrix4x4::MakeIdentity4x4();
-		if constexpr (std::is_same_v<T, SakuEngine::Vector3>) {
+		Matrix4x4 rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		if constexpr (std::is_same_v<T, Vector3>) {
 
-			rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Quaternion>) {
+			rotationMatrix = Matrix4x4::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Quaternion>) {
 
-			rotationMatrix = SakuEngine::Quaternion::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Matrix4x4>) {
+			rotationMatrix = Quaternion::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Matrix4x4>) {
 
 			rotationMatrix = rotation;
 		}
 
-		SakuEngine::Vector3 vertices[vertexNum];
-		SakuEngine::Vector3 halfSizeX = SakuEngine::Vector3::Transform(SakuEngine::Vector3(1.0f, 0.0f, 0.0f), rotationMatrix) * size.x;
-		SakuEngine::Vector3 halfSizeY = SakuEngine::Vector3::Transform(SakuEngine::Vector3(0.0f, 1.0f, 0.0f), rotationMatrix) * size.y;
-		SakuEngine::Vector3 halfSizeZ = SakuEngine::Vector3::Transform(SakuEngine::Vector3(0.0f, 0.0f, 1.0f), rotationMatrix) * size.z;
+		Vector3 vertices[vertexNum];
+		Vector3 halfSizeX = Vector3::Transform(Vector3(1.0f, 0.0f, 0.0f), rotationMatrix) * size.x;
+		Vector3 halfSizeY = Vector3::Transform(Vector3(0.0f, 1.0f, 0.0f), rotationMatrix) * size.y;
+		Vector3 halfSizeZ = Vector3::Transform(Vector3(0.0f, 0.0f, 1.0f), rotationMatrix) * size.z;
 
-		SakuEngine::Vector3 offsets[vertexNum] = {
+		Vector3 offsets[vertexNum] = {
 			{-1, -1, -1}, {-1,  1, -1}, {1, -1, -1}, {1,  1, -1},
 			{-1, -1,  1}, {-1,  1,  1}, {1, -1,  1}, {1,  1,  1}
 		};
 
 		for (int i = 0; i < vertexNum; ++i) {
 
-			SakuEngine::Vector3 localVertex = offsets[i].x * halfSizeX +
+			Vector3 localVertex = offsets[i].x * halfSizeX +
 				offsets[i].y * halfSizeY +
 				offsets[i].z * halfSizeZ;
 			vertices[i] = centerPos + localVertex;
@@ -299,12 +299,12 @@ namespace SakuEngine {
 
 	template<typename T>
 	inline void LineRenderer::DrawCone(int division, float baseRadius, float topRadius,
-		float height, const SakuEngine::Vector3& centerPos, const T& rotation, const SakuEngine::Color& color, LineType type) {
+		float height, const Vector3& centerPos, const T& rotation, const Color& color, LineType type) {
 
-		const float kAngleStep = 2.0f * SakuEngine::pi / division;
+		const float kAngleStep = 2.0f * pi / division;
 
-		std::vector<SakuEngine::Vector3> baseCircle;
-		std::vector<SakuEngine::Vector3> topCircle;
+		std::vector<Vector3> baseCircle;
+		std::vector<Vector3> topCircle;
 
 		// 基底円と上面円の計算
 		for (int i = 0; i <= division; ++i) {
@@ -314,14 +314,14 @@ namespace SakuEngine {
 			topCircle.emplace_back(topRadius * std::cos(angle), height, topRadius * std::sin(angle));
 		}
 
-		SakuEngine::Matrix4x4 rotationMatrix = SakuEngine::Matrix4x4::MakeIdentity4x4();
-		if constexpr (std::is_same_v<T, SakuEngine::Vector3>) {
+		Matrix4x4 rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		if constexpr (std::is_same_v<T, Vector3>) {
 
-			rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Quaternion>) {
+			rotationMatrix = Matrix4x4::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Quaternion>) {
 
-			rotationMatrix = SakuEngine::Quaternion::MakeRotateMatrix(rotation);
-		} else if constexpr (std::is_same_v<T, SakuEngine::Matrix4x4>) {
+			rotationMatrix = Quaternion::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Matrix4x4>) {
 
 			rotationMatrix = rotation;
 		}
@@ -329,10 +329,10 @@ namespace SakuEngine {
 		for (int i = 0; i < division; ++i) {
 
 			// 円周上の点を回転＆平行移動
-			SakuEngine::Vector3 baseA = rotationMatrix.TransformPoint(baseCircle[i]) + centerPos;
-			SakuEngine::Vector3 baseB = rotationMatrix.TransformPoint(baseCircle[i + 1]) + centerPos;
-			SakuEngine::Vector3 topA = rotationMatrix.TransformPoint(topCircle[i]) + centerPos;
-			SakuEngine::Vector3 topB = rotationMatrix.TransformPoint(topCircle[i + 1]) + centerPos;
+			Vector3 baseA = rotationMatrix.TransformPoint(baseCircle[i]) + centerPos;
+			Vector3 baseB = rotationMatrix.TransformPoint(baseCircle[i + 1]) + centerPos;
+			Vector3 topA = rotationMatrix.TransformPoint(topCircle[i]) + centerPos;
+			Vector3 topB = rotationMatrix.TransformPoint(topCircle[i + 1]) + centerPos;
 
 			// 円の描画
 			DrawLine3D(baseA, baseB, color, type);

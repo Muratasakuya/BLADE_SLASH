@@ -14,6 +14,7 @@ using namespace SakuEngine;
 #include <Engine/Object/Data/ObjectTag.h>
 #include <Engine/Object/Data/Sprite.h>
 #include <Engine/Object/Data/MeshRender.h>
+#include <Engine/Object/Data/Skybox.h>
 
 //============================================================================
 //	ObjectPoolManager classMethods

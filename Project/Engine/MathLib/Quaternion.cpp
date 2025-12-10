@@ -28,8 +28,12 @@ Quaternion Quaternion::operator-() const {
 	return { -x, -y, -z, -w };
 }
 
-Quaternion operator*(float scalar, const Quaternion& q) {
-	return { scalar * q.x,scalar * q.y ,scalar * q.z ,scalar * q.w };
+namespace SakuEngine {
+
+	Quaternion operator*(float scalar, const Quaternion& q) {
+
+		return { scalar * q.x,scalar * q.y ,scalar * q.z ,scalar * q.w };
+	}
 }
 
 Quaternion Quaternion::operator*(float scalar) const {

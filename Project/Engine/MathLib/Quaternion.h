@@ -97,4 +97,5 @@ namespace SakuEngine {
 		static Quaternion ExtractTwistX(const Quaternion& qNorm);
 	};
 
+	Quaternion operator*(float scalar, const Quaternion& q);
 }; // SakuEngine

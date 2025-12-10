@@ -37,10 +37,7 @@ namespace SakuEngine {
 		Vector2& operator/=(const Vector2& v);
 
 		Vector2 operator*(float scalar) const;
-		friend Vector2 operator*(float scalar, const Vector2& v);
-
 		Vector2 operator/(float scalar) const;
-		friend Vector2 operator/(float scalar, const Vector2& v);
 
 		Vector2& operator*=(float scalar);
 
@@ -98,4 +95,6 @@ namespace SakuEngine {
 		static Vector2Int FromJson(const Json& data);
 	};
 
+	Vector2 operator*(float scalar, const Vector2& v);
+	Vector2 operator/(float scalar, const Vector2& v);
 }; // SakuEngine
