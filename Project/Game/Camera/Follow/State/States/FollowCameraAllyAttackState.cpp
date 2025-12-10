@@ -1,4 +1,4 @@
-﻿#include "FollowCameraAllyAttackState.h"
+#include "FollowCameraAllyAttackState.h"
 
 //============================================================================
 //	include
@@ -23,15 +23,15 @@ void FollowCameraAllyAttackState::Enter([[maybe_unused]] FollowCamera& followCam
 void FollowCameraAllyAttackState::Update(FollowCamera& followCamera) {
 
 	// 味方に追従していく処理
-	Vector3 rotation = followCamera.GetTransform().eulerRotate;
-	Vector3 translation = followCamera.GetTransform().translation;
-	Vector3 offset{};
+	SakuEngine::Vector3 rotation = followCamera.GetTransform().eulerRotate;
+	SakuEngine::Vector3 translation = followCamera.GetTransform().translation;
+	SakuEngine::Vector3 offset{};
 
 	// 補間先の座標を補完割合に応じて補間する
-	interTarget_ = Vector3::Lerp(interTarget_, targets_[FollowCameraTargetType::PlayerAlly]->GetWorldPos(), lerpRate_);
+	interTarget_ = SakuEngine::Vector3::Lerp(interTarget_, targets_[FollowCameraTargetType::PlayerAlly]->GetWorldPos(), lerpRate_);
 
-	Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateMatrix(rotation);
-	offset = Vector3::TransferNormal(offsetTranslation_, rotateMatrix);
+	SakuEngine::Matrix4x4 rotateMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
+	offset = SakuEngine::Vector3::TransferNormal(offsetTranslation_, rotateMatrix);
 
 	// offset分座標をずらす
 	translation = interTarget_ + offset;
@@ -50,7 +50,7 @@ void FollowCameraAllyAttackState::Update(FollowCamera& followCamera) {
 	}
 
 	// 画角を補間する(元の画角に戻していく)
-	fovYLerpTimer_ += GameTimer::GetDeltaTime();
+	fovYLerpTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float lerpT = fovYLerpTimer_ / fovYLerpTime_;
 	lerpT = EasedValue(fovYLerpEasingType_, lerpT);
 
@@ -78,11 +78,11 @@ void FollowCameraAllyAttackState::ImGui([[maybe_unused]] const FollowCamera& fol
 
 void FollowCameraAllyAttackState::ApplyJson(const Json& data) {
 
-	offsetTranslation_ = JsonAdapter::ToObject<Vector3>(data["offsetTranslation_"]);
-	lerpRate_ = JsonAdapter::GetValue<float>(data, "lerpRate_");
-	fovYLerpTime_ = JsonAdapter::GetValue<float>(data, "fovYLerpTime_");
+	offsetTranslation_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(data["offsetTranslation_"]);
+	lerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpRate_");
+	fovYLerpTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fovYLerpTime_");
 	fovYLerpEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "fovYLerpEasingType_"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "fovYLerpEasingType_"));
 }
 
 void FollowCameraAllyAttackState::SaveJson(Json& data) {
@@ -90,5 +90,5 @@ void FollowCameraAllyAttackState::SaveJson(Json& data) {
 	data["fovYLerpTime_"] = fovYLerpTime_;
 	data["lerpRate_"] = lerpRate_;
 	data["fovYLerpEasingType_"] = static_cast<int>(fovYLerpEasingType_);
-	data["offsetTranslation_"] = JsonAdapter::FromObject<Vector3>(offsetTranslation_);
+	data["offsetTranslation_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector3>(offsetTranslation_);
 }

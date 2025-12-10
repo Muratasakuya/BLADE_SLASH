@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -70,13 +70,13 @@ private:
 
 	// エフェクト
 	// オーラエフェクト、チャージ終了後から
-	std::unique_ptr<EffectGroup> bossAuraEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> bossAuraEffect_;
 	// ボスの残像エフェクト
-	std::unique_ptr<EffectGroup> bossAfterImageEffect_;
-	std::unique_ptr<EffectGroup> bossWeaponAfterImageEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> bossAfterImageEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> bossWeaponAfterImageEffect_;
 	bool isEmitAuraEffect_ = false;
 	// 雷攻撃(警告も)
-	std::unique_ptr<EffectGroup> lightningAttackEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> lightningAttackEffect_;
 
 	//--------- functions ----------------------------------------------------
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -41,14 +41,14 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// フェード用
-	std::unique_ptr<GameObject2D> fadeSprite_;
+	std::unique_ptr<SakuEngine::GameObject2D> fadeSprite_;
 	// ロード中用
-	std::unique_ptr<GameObject2D> loadSprite_;
+	std::unique_ptr<SakuEngine::GameObject2D> loadSprite_;
 
 	// タイマー管理
-	StateTimer beginTimer_;
-	StateTimer waitTimer_;
-	StateTimer endTimer_;
+	SakuEngine::StateTimer beginTimer_;
+	SakuEngine::StateTimer waitTimer_;
+	SakuEngine::StateTimer endTimer_;
 
 	//--------- functions ----------------------------------------------------
 

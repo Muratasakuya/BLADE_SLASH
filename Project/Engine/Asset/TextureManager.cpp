@@ -1,4 +1,4 @@
-﻿#include "TextureManager.h"
+#include "TextureManager.h"
 
 using namespace SakuEngine;
 
@@ -307,7 +307,7 @@ void TextureManager::CreateAndUpload(const std::string& identifier,
 
 bool TextureManager::Search(const std::string& textureName) {
 
-	return Algorithm::Find(textures_, textureName);
+	return SakuEngine::Algorithm::Find(textures_, textureName);
 }
 
 const D3D12_GPU_DESCRIPTOR_HANDLE& TextureManager::GetGPUHandle(const std::string textureName) const {

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -44,8 +44,8 @@ private:
 	float lerpTime_;  // 遷移時間
 	EasingType lerpEasingType_;
 
-	Vector3 offsetTranslation_; // 追従相手との距離
-	Vector3 interTarget_;       // 追従中間target位置
+	SakuEngine::Vector3 offsetTranslation_; // 追従相手との距離
+	SakuEngine::Vector3 interTarget_;       // 追従中間target位置
 	float lerpRate_;            // 補間割合
 
 	std::optional<float> startFovY_; // 開始画角

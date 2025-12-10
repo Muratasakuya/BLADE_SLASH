@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -48,12 +48,12 @@ private:
 
 	// parameters
 	// 座標補間を行わないときの処理
-	StateTimer moveTimer_;
+	SakuEngine::StateTimer moveTimer_;
 	float moveValue_;   // 移動量
-	Vector3 startPos_;  // 開始座標
-	Vector3 targetPos_; // 目標座標
+	SakuEngine::Vector3 startPos_;  // 開始座標
+	SakuEngine::Vector3 targetPos_; // 目標座標
 
 	// 剣エフェクト
-	std::unique_ptr<EffectGroup> slashEffect_;
-	Vector3 slashEffectOffset_; // 発生位置のオフセット
+	std::unique_ptr<SakuEngine::EffectGroup> slashEffect_;
+	SakuEngine::Vector3 slashEffectOffset_; // 発生位置のオフセット
 };

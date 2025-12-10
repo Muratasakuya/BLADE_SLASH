@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -27,7 +27,7 @@ class Player;
 //	ボスクラス
 //============================================================================
 class BossEnemy :
-	public GameObject3D {
+	public SakuEngine::GameObject3D {
 public:
 	//========================================================================
 	//	public Methods
@@ -48,7 +48,7 @@ public:
 	/*-------- collision ----------*/
 
 	// 衝突コールバック関数
-	void OnCollisionEnter([[maybe_unused]] const CollisionBody* collisionBody) override;
+	void OnCollisionEnter([[maybe_unused]] const SakuEngine::CollisionBody* collisionBody) override;
 
 	/*---------- parry ------------*/
 
@@ -72,8 +72,8 @@ public:
 	BossEnemyAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
 	BossEnemyHUD* GetHUD() const { return hudSprites_.get(); }
 
-	Vector3 GetWeaponTranslation() const;
-	Quaternion GetWeaponRotation() const;
+	SakuEngine::Vector3 GetWeaponTranslation() const;
+	SakuEngine::Quaternion GetWeaponRotation() const;
 	void SetWeaponRejection(bool isRejection) { weapon_->SetIsRejection(isRejection); }
 	BossEnemyState GetCurrentState() const { return stateController_->GetCurrentState(); }
 
@@ -110,7 +110,7 @@ private:
 	std::unique_ptr<BossEnemyStartAnimation> startAnimation_;
 
 	// parameters
-	Transform3D initTransform_; // 初期化時の値
+	SakuEngine::Transform3D initTransform_; // 初期化時の値
 	BossEnemyStats stats_;      // ステータス
 	uint32_t parryTimingTickets_ = 0;
 

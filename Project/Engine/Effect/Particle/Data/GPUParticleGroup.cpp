@@ -1,4 +1,4 @@
-﻿#include "GPUParticleGroup.h"
+#include "GPUParticleGroup.h"
 
 using namespace SakuEngine;
 
@@ -117,7 +117,7 @@ void GPUParticleGroup::Update() {
 void GPUParticleGroup::FrequencyEmit() {
 
 	// 時間を進める
-	frequencyTime_ += GameTimer::GetDeltaTime();
+	frequencyTime_ += SakuEngine::GameTimer::GetDeltaTime();
 	// 発生間隔を過ぎたら発生させる
 	if (frequency_ <= frequencyTime_) {
 
@@ -212,7 +212,7 @@ void GPUParticleGroup::UpdateEmitter() {
 			emitter_.hemisphere.rotationMatrix = setRotationMatrix_.value();
 		} else {
 
-			emitter_.hemisphere.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+			emitter_.hemisphere.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 		}
 
 		ParticleEmitterHemisphere emitter{};
@@ -230,7 +230,7 @@ void GPUParticleGroup::UpdateEmitter() {
 			emitter_.box.rotationMatrix = setRotationMatrix_.value();
 		} else {
 
-			emitter_.box.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+			emitter_.box.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 		}
 
 		ParticleEmitterBox emitter{};
@@ -248,7 +248,7 @@ void GPUParticleGroup::UpdateEmitter() {
 			emitter_.cone.rotationMatrix = setRotationMatrix_.value();
 		} else {
 
-			emitter_.cone.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+			emitter_.cone.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 		}
 
 		// スケーリング見送り
@@ -295,20 +295,20 @@ void GPUParticleGroup::ImGui(ID3D12Device* device) {
 			const float imageSize = 88.0f;
 
 			// 使用しているtextureの名前を表示
-			ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
+			SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
 				(ImTextureID)asset_->GetGPUHandle(textureName_).ptr, { imageSize, imageSize });
 
-			std::string textureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+			std::string textureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 			if (!textureName.empty()) {
 
 				// textureを設定
 				textureName_ = textureName;
 			}
 			ImGui::SameLine();
-			ImGuiHelper::ImageButtonWithLabel("noiseTexture", noiseTextureName_,
+			SakuEngine::ImGuiHelper::ImageButtonWithLabel("noiseTexture", noiseTextureName_,
 				(ImTextureID)asset_->GetGPUHandle(noiseTextureName_).ptr, { imageSize, imageSize });
 
-			std::string noiseTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+			std::string noiseTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 			if (!noiseTextureName.empty()) {
 
 				// textureを設定
@@ -317,7 +317,7 @@ void GPUParticleGroup::ImGui(ID3D12Device* device) {
 
 			ImGui::Separator();
 
-			EnumAdapter<BlendMode>::Combo("blendMode", &blendMode_);
+			SakuEngine::EnumAdapter<BlendMode>::Combo("blendMode", &blendMode_);
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("Common")) {
@@ -351,12 +351,12 @@ void GPUParticleGroup::ImGui(ID3D12Device* device) {
 		}
 		if (ImGui::BeginTabItem("PostProcess")) {
 
-			ImGuiHelper::EditPostProcessMask(emitter_.common.postProcessMask);
+			SakuEngine::ImGuiHelper::EditPostProcessMask(emitter_.common.postProcessMask);
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("Updater")) {
 
-			EnumAdapter<GPUParticle::UpdateType>::Combo("type", &updateType_);
+			SakuEngine::EnumAdapter<GPUParticle::UpdateType>::Combo("type", &updateType_);
 
 			// noise選択中
 			if (updateType_ == GPUParticle::UpdateType::Noise) {
@@ -405,7 +405,7 @@ D3D12_GPU_VIRTUAL_ADDRESS GPUParticleGroup::GetEmitterShapeBufferAdress() const 
 void GPUParticleGroup::SelectEmitter(ID3D12Device* device) {
 
 	ParticleEmitterShape preShape = emitter_.shape;
-	if (EnumAdapter<ParticleEmitterShape>::Combo("emitterShape", &emitter_.shape)) {
+	if (SakuEngine::EnumAdapter<ParticleEmitterShape>::Combo("emitterShape", &emitter_.shape)) {
 
 		// まだbufferが作成されていなければ作成する
 		switch (emitter_.shape) {
@@ -513,9 +513,9 @@ Json GPUParticleGroup::ToJson() const {
 	//	GroupParameters
 	//============================================================================
 
-	data["primitive"] = EnumAdapter<ParticlePrimitiveType>::ToString(primitiveBuffer_.type);
-	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
-	data["updateType"] = EnumAdapter<GPUParticle::UpdateType>::ToString(updateType_);
+	data["primitive"] = SakuEngine::EnumAdapter<ParticlePrimitiveType>::ToString(primitiveBuffer_.type);
+	data["blendMode"] = SakuEngine::EnumAdapter<BlendMode>::ToString(blendMode_);
+	data["updateType"] = SakuEngine::EnumAdapter<GPUParticle::UpdateType>::ToString(updateType_);
 
 	data["textureName"] = textureName_;
 	data["modelName_"] = modelName_;
@@ -535,7 +535,7 @@ Json GPUParticleGroup::ToJson() const {
 	//============================================================================
 
 	data["emitterRotation"] = emitterRotation_.ToJson();
-	data["emitterShape"] = EnumAdapter<ParticleEmitterShape>::ToString(emitter_.shape);
+	data["emitterShape"] = SakuEngine::EnumAdapter<ParticleEmitterShape>::ToString(emitter_.shape);
 
 	data["common"]["count"] = emitter_.common.count;
 	data["common"]["lifeTime"] = emitter_.common.lifeTime;
@@ -577,11 +577,11 @@ void GPUParticleGroup::FromJson(const Json& data) {
 	//	GroupParameters
 	//============================================================================
 
-	const auto& primitive = EnumAdapter<ParticlePrimitiveType>::FromString(data["primitive"]);
+	const auto& primitive = SakuEngine::EnumAdapter<ParticlePrimitiveType>::FromString(data["primitive"]);
 	primitiveBuffer_.type = primitive.value();
-	const auto& blendMode = EnumAdapter<BlendMode>::FromString(data["blendMode"]);
+	const auto& blendMode = SakuEngine::EnumAdapter<BlendMode>::FromString(data["blendMode"]);
 	blendMode_ = blendMode.value();
-	const auto& updateType = EnumAdapter<GPUParticle::UpdateType>::FromString(data["updateType"]);
+	const auto& updateType = SakuEngine::EnumAdapter<GPUParticle::UpdateType>::FromString(data["updateType"]);
 	updateType_ = updateType.value();
 
 	textureName_ = data.value("textureName", "circle");
@@ -602,7 +602,7 @@ void GPUParticleGroup::FromJson(const Json& data) {
 	//============================================================================
 
 	emitterRotation_ = emitterRotation_.FromJson(data["emitterRotation"]);
-	const auto& emitterShape = EnumAdapter<ParticleEmitterShape>::FromString(data["emitterShape"]);
+	const auto& emitterShape = SakuEngine::EnumAdapter<ParticleEmitterShape>::FromString(data["emitterShape"]);
 	emitter_.shape = emitterShape.value();
 
 	const auto& commonData = data["common"];

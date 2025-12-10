@@ -1,4 +1,4 @@
-﻿#include "BossEnemyHUD.h"
+#include "BossEnemyHUD.h"
 
 //============================================================================
 //	include
@@ -16,7 +16,7 @@
 void BossEnemyHUD::InitSprite() {
 
 	// HP背景
-	hpBackground_ = std::make_unique<GameObject2D>();
+	hpBackground_ = std::make_unique<SakuEngine::GameObject2D>();
 	hpBackground_->Init("enemyHPBackground", "hpBackground", "BossEnemyHUD");
 
 	// HP残量
@@ -32,7 +32,7 @@ void BossEnemyHUD::InitSprite() {
 	destroyNumDisplay_->Init(2, "toughnessNumber", "destroyNum", "BossEnemyHUD");
 
 	// 名前文字表示
-	nameText_ = std::make_unique<GameObject2D>();
+	nameText_ = std::make_unique<SakuEngine::GameObject2D>();
 	nameText_->Init("bossName", "bossName", "BossEnemyHUD");
 
 	// ダメージ表示
@@ -40,7 +40,7 @@ void BossEnemyHUD::InitSprite() {
 	damageDisplay_->Init("enemyDamageNumber", "BossEnemyHUD", 8, 4);
 
 	// フェーズ閾値表示
-	phaseThreshold_ = std::make_unique<GameObject2DArray>();
+	phaseThreshold_ = std::make_unique<SakuEngine::GameObject2DArray>();
 	phaseThreshold_->Init();
 	// フェーズ閾値のスプライトを追加
 	phaseThreshold_->Add("barThresholdFrame", "phaseThreshold", "BossEnemyHUD"); // 枠
@@ -116,7 +116,7 @@ void BossEnemyHUD::UpdateAlpha() {
 	}
 
 	// 時間を進める
-	returnAlphaTimer_ += GameTimer::GetDeltaTime();
+	returnAlphaTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float alpha = returnAlphaTimer_ / returnAlphaTime_;
 	alpha = EasedValue(returnAlphaEasingType_, alpha);
 	alpha = std::clamp(alpha, 0.0f, 1.0f);
@@ -161,7 +161,7 @@ void BossEnemyHUD::UpdatePhaseThresholdPos() {
 	float thresholdRatio = std::clamp(lastThreshold / 100.0f, 0.0f, 1.0f);
 
 	// HPバーのTransform取得
-	const Transform2D& barT = hpBar_->GetTransform();
+	const SakuEngine::Transform2D& barT = hpBar_->GetTransform();
 
 	// 実際の描画幅
 	float barWidth = barT.size.x * barT.sizeScale.x;
@@ -172,7 +172,7 @@ void BossEnemyHUD::UpdatePhaseThresholdPos() {
 	float thresholdX = barRight - barWidth * thresholdRatio;
 
 	// Yは現在の値を維持してXだけ更新
-	Vector2 phasePos = phaseThreshold_->GetTransform().translation;
+	SakuEngine::Vector2 phasePos = phaseThreshold_->GetTransform().translation;
 	phasePos.x = thresholdX;
 	phaseThreshold_->SetTranslation(phasePos);
 }
@@ -248,7 +248,7 @@ void BossEnemyHUD::ImGui() {
 void BossEnemyHUD::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Enemy/Boss/hudParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Enemy/Boss/hudParameter.json", data)) {
 		return;
 	}
 
@@ -270,9 +270,9 @@ void BossEnemyHUD::ApplyJson() {
 	nameTextParameter_.ApplyJson(data["nameText"]);
 	GameCommon::SetInitParameter(*nameText_, nameTextParameter_);
 
-	returnAlphaTime_ = JsonAdapter::GetValue<float>(data, "returnAlphaTime_");
+	returnAlphaTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "returnAlphaTime_");
 	returnAlphaEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
 
 	damageDisplay_->ApplyJson(data);
 
@@ -297,5 +297,5 @@ void BossEnemyHUD::SaveJson() {
 
 	phaseThreshold_->ToJson(data["phaseThreshold_"]);
 
-	JsonAdapter::Save("Enemy/Boss/hudParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Enemy/Boss/hudParameter.json", data);
 }

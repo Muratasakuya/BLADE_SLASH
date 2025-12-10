@@ -1,4 +1,4 @@
-﻿#include "Framework.h"
+#include "Framework.h"
 
 using namespace SakuEngine;
 
@@ -131,7 +131,7 @@ Framework::Framework() {
 	// module初期化
 
 	Input::GetInstance()->Init(winApp_.get());
-	LineRenderer::GetInstance()->Init(device, dxCommand->GetCommandList(),
+	SakuEngine::LineRenderer::GetInstance()->Init(device, dxCommand->GetCommandList(),
 		srvDescriptor, shaderCompiler, sceneView_.get());
 	AssetEditor::GetInstance()->Init(asset_.get());
 	CameraEditor::GetInstance()->Init(sceneView_.get());
@@ -298,7 +298,7 @@ void Framework::EndRequest() {
 	// scene遷移依頼
 	sceneManager_->SwitchScene();
 	// lineReset
-	LineRenderer::GetInstance()->ResetLine();
+	SakuEngine::LineRenderer::GetInstance()->ResetLine();
 }
 
 void Framework::Finalize() {
@@ -309,7 +309,7 @@ void Framework::Finalize() {
 	graphicsPlatform_->Finalize(winApp_->GetHwnd());
 	renderEngine_->Finalize();
 	Input::GetInstance()->Finalize();
-	LineRenderer::GetInstance()->Finalize();
+	SakuEngine::LineRenderer::GetInstance()->Finalize();
 
 	sceneManager_.reset();
 

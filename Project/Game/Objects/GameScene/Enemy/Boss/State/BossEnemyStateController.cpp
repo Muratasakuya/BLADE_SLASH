@@ -1,4 +1,4 @@
-﻿#include "BossEnemyStateController.h"
+#include "BossEnemyStateController.h"
 
 //============================================================================
 //	include
@@ -179,7 +179,7 @@ void BossEnemyStateController::UpdatePhase(const BossEnemy& owner) {
 		}
 	}
 	// 入力で強制遷移
-	if (Input::GetInstance()->TriggerKey(DIK_F8)) {
+	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_F8)) {
 
 		prevPhase_ = currentPhase_;
 		currentComboIndex_ = 0;
@@ -380,7 +380,7 @@ void BossEnemyStateController::ChooseNextState(const BossEnemyPhase& phase) {
 			} else {
 
 				// ランダムで選択する
-				int randomIndex = RandomGenerator::Generate(0, static_cast<int>(source.size() - 1));
+				int randomIndex = SakuEngine::RandomGenerator::Generate(0, static_cast<int>(source.size() - 1));
 				currentComboIndex_ = std::clamp(source[randomIndex], 0, maxComboCount);
 			}
 			++tryCount;
@@ -497,8 +497,8 @@ void BossEnemyStateController::ImGui(const BossEnemy& bossEnemy) {
 	}
 
 	// 各stateの値を調整
-	EnumAdapter<BossEnemyState>::Combo("EditState", &editingState_);
-	ImGui::SeparatorText(EnumAdapter<BossEnemyState>::ToString(editingState_));
+	SakuEngine::EnumAdapter<BossEnemyState>::Combo("EditState", &editingState_);
+	ImGui::SeparatorText(SakuEngine::EnumAdapter<BossEnemyState>::ToString(editingState_));
 	if (const auto& state = states_[editingState_].get()) {
 
 		state->ImGui(bossEnemy);
@@ -541,7 +541,7 @@ void BossEnemyStateController::EditStateTable() {
 	//--------------------------------------------------------------------
 
 	ImGui::Checkbox("disableTransitions", &disableTransitions_);
-	ImGui::Text("currentState: %s", EnumAdapter<BossEnemyState>::GetEnumName(static_cast<uint32_t>(current_)));
+	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<BossEnemyState>::GetEnumName(static_cast<uint32_t>(current_)));
 
 	if (ImGui::Button("SaveJson...stateParameter.json")) {
 
@@ -618,7 +618,7 @@ void BossEnemyStateController::EditStateTable() {
 
 				bool clicked = false;
 				DrawHighlighted(isCurrentState, kHighlight, [&] {
-					clicked = ImGui::Button(EnumAdapter<BossEnemyState>::GetEnumName(stateId), buttonSize); });
+					clicked = ImGui::Button(SakuEngine::EnumAdapter<BossEnemyState>::GetEnumName(stateId), buttonSize); });
 				if (clicked) {
 
 					combo.sequence.erase(combo.sequence.begin() + seqIdx);
@@ -632,7 +632,7 @@ void BossEnemyStateController::EditStateTable() {
 
 						const int payload = static_cast<int>(seqIdx);
 						ImGui::SetDragDropPayload("SeqReorder", &payload, sizeof(int));
-						ImGui::Text("%s", EnumAdapter<BossEnemyState>::GetEnumName(stateId));
+						ImGui::Text("%s", SakuEngine::EnumAdapter<BossEnemyState>::GetEnumName(stateId));
 						ImGui::EndDragDropSource();
 					}
 					if (ImGui::BeginDragDropTarget()) {
@@ -673,7 +673,7 @@ void BossEnemyStateController::EditStateTable() {
 			ImGui::TableNextColumn();
 
 			ImGui::PushItemWidth(buttonSize.x);
-			EnumAdapter<BossEnemyTeleportType>::Combo("##TeleportType", &combo.teleportType);
+			SakuEngine::EnumAdapter<BossEnemyTeleportType>::Combo("##TeleportType", &combo.teleportType);
 
 			ImGui::PopItemWidth();
 
@@ -688,7 +688,7 @@ void BossEnemyStateController::EditStateTable() {
 					bool checked = (std::ranges::find(combo.requiredDistanceLevels, level)
 						!= combo.requiredDistanceLevels.end());
 					ImGui::PushID(id++);
-					if (ImGui::Checkbox(EnumAdapter<DistanceLevel>::ToString(level), &checked)) {
+					if (ImGui::Checkbox(SakuEngine::EnumAdapter<DistanceLevel>::ToString(level), &checked)) {
 						if (checked) {
 							combo.requiredDistanceLevels.push_back(level);
 						} else {
@@ -713,7 +713,7 @@ void BossEnemyStateController::EditStateTable() {
 
 				static BossEnemyState selectedState = BossEnemyState::Idle;
 				const std::string addLabel = "##" + std::to_string(comboIdx);
-				if (EnumAdapter<BossEnemyState>::Combo(addLabel.c_str(), &selectedState)) {
+				if (SakuEngine::EnumAdapter<BossEnemyState>::Combo(addLabel.c_str(), &selectedState)) {
 
 					const BossEnemyState newState = static_cast<BossEnemyState>(selectedState);
 					if (std::ranges::find(combo.sequence, newState) == combo.sequence.end()) {
@@ -863,10 +863,10 @@ void BossEnemyStateController::ApplyJson() {
 	// state
 	{
 		Json data;
-		if (JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
+		if (SakuEngine::JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
 			for (auto& [state, ptr] : states_) {
 
-				const auto& key = EnumAdapter<BossEnemyState>::ToString(state);
+				const auto& key = SakuEngine::EnumAdapter<BossEnemyState>::ToString(state);
 				if (!data.contains(key)) {
 					continue;
 				}
@@ -878,7 +878,7 @@ void BossEnemyStateController::ApplyJson() {
 	// tabel
 	{
 		Json data;
-		if (JsonAdapter::LoadCheck(kStateTableJsonPath_, data)) {
+		if (SakuEngine::JsonAdapter::LoadCheck(kStateTableJsonPath_, data)) {
 
 			stateTable_.FromJson(data);
 		} else {
@@ -903,10 +903,10 @@ void BossEnemyStateController::SaveJson() {
 		Json data;
 		for (auto& [state, ptr] : states_) {
 
-			ptr->SaveJson(data[EnumAdapter<BossEnemyState>::ToString(state)]);
+			ptr->SaveJson(data[SakuEngine::EnumAdapter<BossEnemyState>::ToString(state)]);
 		}
 
-		JsonAdapter::Save(kStateJsonPath_, data);
+		SakuEngine::JsonAdapter::Save(kStateJsonPath_, data);
 	}
 
 	// table
@@ -914,6 +914,6 @@ void BossEnemyStateController::SaveJson() {
 		Json data;
 		stateTable_.ToJson(data);
 
-		JsonAdapter::Save(kStateTableJsonPath_, data);
+		SakuEngine::JsonAdapter::Save(kStateTableJsonPath_, data);
 	}
 }

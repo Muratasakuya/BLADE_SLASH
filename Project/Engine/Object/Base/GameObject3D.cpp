@@ -1,4 +1,4 @@
-﻿#include "GameObject3D.h"
+#include "GameObject3D.h"
 
 using namespace SakuEngine;
 
@@ -19,7 +19,7 @@ void GameObject3D::Init(const std::string& modelName, const std::string& name,
 	objectId_ = objectManager_->CreateObjects(modelName, name, groupName, animationName);
 
 	// data取得
-	transform_ = objectManager_->GetData<Transform3D>(objectId_);
+	transform_ = objectManager_->GetData<SakuEngine::Transform3D>(objectId_);
 	materials_ = objectManager_->GetData<Material, true>(objectId_);
 	meshRender_ = objectManager_->GetData<MeshRender>(objectId_);
 	tag_ = objectManager_->GetData<ObjectTag>(objectId_);
@@ -194,7 +194,7 @@ Vector3 GameObject3D::GetJointWorldPos(const std::string& jointName) const {
 	const Skeleton& skeleton = animation_->GetSkeleton();
 
 	// 指定されたjointNameの骨が存在するか確認
-	if (!Algorithm::Find(skeleton.jointMap, jointName)) {
+	if (!SakuEngine::Algorithm::Find(skeleton.jointMap, jointName)) {
 		return Vector3();
 	}
 	// jointNameに対応するindexを取得
@@ -235,14 +235,14 @@ void GameObject3D::UpdateMatrix() {
 	transform_->UpdateMatrix();
 }
 
-void GameObject3D::SetSRT(const Transform3D& transform) {
+void GameObject3D::SetSRT(const SakuEngine::Transform3D& transform) {
 
 	transform_->translation = transform.translation;
 	transform_->rotation = transform.rotation;
 	transform_->scale = transform.scale;
 }
 
-void GameObject3D::SetParent(const Transform3D& parent, bool isNull) {
+void GameObject3D::SetParent(const SakuEngine::Transform3D& parent, bool isNull) {
 
 	if (isNull) {
 
@@ -253,12 +253,12 @@ void GameObject3D::SetParent(const Transform3D& parent, bool isNull) {
 	transform_->parent = &parent;
 }
 
-const Transform3D* GameObject3D::GetJointTransform(const std::string& jointName) const {
+const SakuEngine::Transform3D* GameObject3D::GetJointTransform(const std::string& jointName) const {
 
 	return animation_ ? animation_->FindJointTransform(jointName) : nullptr;
 }
 
-void GameObject3D::SetColor(const Color& color, std::optional<uint32_t> meshIndex) {
+void GameObject3D::SetColor(const SakuEngine::Color& color, std::optional<uint32_t> meshIndex) {
 
 	// meshIndexが設定されている場合のみ指定して設定
 	if (meshIndex.has_value()) {

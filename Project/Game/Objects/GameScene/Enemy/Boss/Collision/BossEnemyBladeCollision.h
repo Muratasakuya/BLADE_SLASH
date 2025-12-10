@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	敵が出す刃の当たり判定
 //============================================================================
 class BossEnemyBladeCollision :
-	public Collider {
+	public SakuEngine::Collider {
 public:
 	//========================================================================
 	//	public Methods
@@ -32,9 +32,9 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 発生させて動かす
-	void EmitEffect(const Vector3& emitPos, const Vector3& velocity);
+	void EmitEffect(const SakuEngine::Vector3& emitPos, const SakuEngine::Vector3& velocity);
 
-	const BaseTransform& GetTransform() const { return transform_; }
+	const SakuEngine::BaseTransform& GetTransform() const { return transform_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -47,13 +47,13 @@ private:
 	std::string fileName_;
 
 	// collisionに渡す値
-	Transform3D transform_;
+	SakuEngine::Transform3D transform_;
 
 	bool isEmit_;      // 発生させたかどうか
-	Vector3 velocity_; // 移動速度(方向も含む)
+	SakuEngine::Vector3 velocity_; // 移動速度(方向も含む)
 
 	// parameters
-	Vector3 scale_;   // 大きさ
+	SakuEngine::Vector3 scale_;   // 大きさ
 	float lifeTimer_; // 生存時間の経過時間
 	float lifeTime_;  // 生存時間
 

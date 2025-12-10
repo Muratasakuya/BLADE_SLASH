@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -40,7 +40,7 @@ public:
 	ID3D12Resource* GetOutputTextureResource() const { return outputTextureResource_.Get(); }
 
 	// 出力テクスチャのサイズを取得する
-	const Vector2& GetTextureSize() const { return textureSize_; }
+	const SakuEngine::Vector2& GetTextureSize() const { return textureSize_; }
 
 	// 出力テクスチャのUAV/SRVハンドルを取得する
 	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAVGPUHandle() const { return uavGPUHandle_; }

@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnBoxModule.h"
+#include "ParticleSpawnBoxModule.h"
 
 using namespace SakuEngine;
 
@@ -48,7 +48,7 @@ Vector3 ParticleSpawnBoxModule::GetRandomPoint() const {
 void ParticleSpawnBoxModule::UpdateEmitter() {
 
 	// 回転を更新
-	emitter_.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+	emitter_.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 }
 
 void ParticleSpawnBoxModule::Execute(std::list<CPUParticle::ParticleData>& particles) {
@@ -93,7 +93,7 @@ void ParticleSpawnBoxModule::DrawEmitter() {
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
 
-	LineRenderer::GetInstance()->DrawOBB(parentTranslation + emitter_.translation,
+	SakuEngine::LineRenderer::GetInstance()->DrawOBB(parentTranslation + emitter_.translation,
 		emitter_.size, emitter_.rotationMatrix, emitterLineColor_);
 }
 
@@ -117,8 +117,8 @@ void ParticleSpawnBoxModule::FromJson(const Json& data) {
 	// 共通設定
 	ICPUParticleSpawnModule::FromCommonJson(data);
 
-	emitterRotation_ = Vector3::FromJson(data["emitterRotation"]);
+	emitterRotation_ = SakuEngine::Vector3::FromJson(data["emitterRotation"]);
 
-	emitter_.size = Vector3::FromJson(data["size"]);
-	emitter_.translation = Vector3::FromJson(data["translation"]);
+	emitter_.size = SakuEngine::Vector3::FromJson(data["size"]);
+	emitter_.translation = SakuEngine::Vector3::FromJson(data["translation"]);
 }

@@ -1,4 +1,4 @@
-﻿#include "GameButtonBlinkingUpdater.h"
+#include "GameButtonBlinkingUpdater.h"
 
 //============================================================================
 //	include
@@ -10,23 +10,23 @@
 //	GameButtonBlinkingUpdater classMethods
 //============================================================================
 
-void GameButtonBlinkingUpdater::Begin([[maybe_unused]] GameObject2D& object) {
+void GameButtonBlinkingUpdater::Begin([[maybe_unused]] SakuEngine::GameObject2D& object) {
 
 	// 初期化値
-	beginColor_ = Color::White();
+	beginColor_ = SakuEngine::Color::White();
 }
 
-void GameButtonBlinkingUpdater::ActiveUpdate(GameObject2D& object) {
+void GameButtonBlinkingUpdater::ActiveUpdate(SakuEngine::GameObject2D& object) {
 
 	// 時間に応じて補間させる
-	loopTimer_ += GameTimer::GetDeltaTime();
+	loopTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float t = loopTimer_ / loopSpacing_;
 	// ループ
 	float loopedT = animationLoop_.LoopedT(t);
 	float easedT = EasedValue(loopEasing_, loopedT);
 
 	// 色補間
-	object.SetColor(Color::Lerp(startColor_, targetColor_, easedT));
+	object.SetColor(SakuEngine::Color::Lerp(startColor_, targetColor_, easedT));
 
 	// サイズは最大まで行ったら補間しない
 	if (loopSpacing_ < loopTimer_) {
@@ -41,19 +41,19 @@ void GameButtonBlinkingUpdater::ActiveUpdate(GameObject2D& object) {
 	object.SetSize(baseSize_ * std::lerp(smallScale_, maxScale_, easedT));
 }
 
-void GameButtonBlinkingUpdater::InactiveUpdate(GameObject2D& object) {
+void GameButtonBlinkingUpdater::InactiveUpdate(SakuEngine::GameObject2D& object) {
 
-	endTimer_ += GameTimer::GetDeltaTime();
+	endTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float t = endTimer_ / endTime_;
 	float easedT = EasedValue(endEasing_, t);
 
 	// サイズ補間
 	object.SetSize(baseSize_ * std::lerp(maxScale_, smallScale_, easedT));
 	// 色補間
-	object.SetColor(Color::Lerp(targetColor_, startColor_, easedT));
+	object.SetColor(SakuEngine::Color::Lerp(targetColor_, startColor_, easedT));
 }
 
-void GameButtonBlinkingUpdater::End(GameObject2D& object) {
+void GameButtonBlinkingUpdater::End(SakuEngine::GameObject2D& object) {
 
 	// リセット
 	loopTimer_ = 0.0f;
@@ -69,7 +69,7 @@ bool GameButtonBlinkingUpdater::IsInactiveFinished() const {
 	return endTime_ <= endTimer_;
 }
 
-void GameButtonBlinkingUpdater::IdleUpdate([[maybe_unused]] GameObject2D& object) {
+void GameButtonBlinkingUpdater::IdleUpdate([[maybe_unused]] SakuEngine::GameObject2D& object) {
 }
 
 void GameButtonBlinkingUpdater::ImGui() {
@@ -101,11 +101,11 @@ void GameButtonBlinkingUpdater::FromJson(const Json& data) {
 	baseSize_ = baseSize_.FromJson(data.value("baseSize_", Json{}));
 
 	{
-		const auto& easing = EnumAdapter<EasingType>::FromString(data["loopEasing_"]);
+		const auto& easing = SakuEngine::EnumAdapter<EasingType>::FromString(data["loopEasing_"]);
 		loopEasing_ = easing.value();
 	}
 	{
-		const auto& easing = EnumAdapter<EasingType>::FromString(data["endEasing_"]);
+		const auto& easing = SakuEngine::EnumAdapter<EasingType>::FromString(data["endEasing_"]);
 		endEasing_ = easing.value();
 	}
 
@@ -125,8 +125,8 @@ void GameButtonBlinkingUpdater::ToJson(Json& data) {
 	data["startColor_"] = startColor_.ToJson();
 	data["targetColor_"] = targetColor_.ToJson();
 
-	data["loopEasing_"] = EnumAdapter<EasingType>::ToString(loopEasing_);
-	data["endEasing_"] = EnumAdapter<EasingType>::ToString(endEasing_);
+	data["loopEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(loopEasing_);
+	data["endEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(endEasing_);
 
 	animationLoop_.ToLoopJson(data["colorLoop"]);
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -52,17 +52,17 @@ public:
 	void RenderFrustum();
 
 	// 自動フォーカス開始
-	void StartAutoFocus(bool isFocus, const Vector3& target);
+	void StartAutoFocus(bool isFocus, const SakuEngine::Vector3& target);
 
 	//--------- accessor -----------------------------------------------------
 
 	// 親の設定、特定のキーにのみ設定
-	void SetEditorParentTransform(const std::string& keyName, const Transform3D& parent);
+	void SetEditorParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent);
 
-	void SetParent(const Transform3D* parent) { transform_.parent = parent; };
-	void SetTranslation(const Vector3& translation) { transform_.translation = translation; }
+	void SetParent(const SakuEngine::Transform3D* parent) { transform_.parent = parent; };
+	void SetTranslation(const SakuEngine::Vector3& translation) { transform_.translation = translation; }
 	void SetRotation(const Quaternion& rotation) { transform_.rotation = rotation; }
-	void SetEulerRotation(const Vector3& eulerRotation) { transform_.eulerRotate = eulerRotation; }
+	void SetEulerRotation(const SakuEngine::Vector3& eulerRotation) { transform_.eulerRotate = eulerRotation; }
 	void SetFovY(float fovY) { fovY_ = fovY; }
 	void SetIsUpdateEditor(bool isUpdateEditor) { isUpdateEditor_ = isUpdateEditor; }
 
@@ -72,7 +72,7 @@ public:
 	bool IsUpdateDebugView() const { return updateDebugView_; }
 	bool IsUpdateEditor() const { return isUpdateEditor_; }
 
-	const Transform3D& GetTransform() const { return transform_; }
+	const SakuEngine::Transform3D& GetTransform() const { return transform_; }
 
 	const Matrix4x4& GetViewMatrix() const { return viewMatrix_; }
 	const Matrix4x4& GetProjectionMatrix() const { return projectionMatrix_; }
@@ -92,7 +92,7 @@ protected:
 	float farClip_;
 	float aspectRatio_;
 
-	Transform3D transform_;
+	SakuEngine::Transform3D transform_;
 
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 projectionMatrix_;

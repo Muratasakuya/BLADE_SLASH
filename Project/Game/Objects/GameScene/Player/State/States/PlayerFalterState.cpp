@@ -1,4 +1,4 @@
-﻿#include "PlayerFalterState.h"
+#include "PlayerFalterState.h"
 
 //============================================================================
 //	include
@@ -22,16 +22,16 @@ void PlayerFalterState::Enter(Player& player) {
 	player.SetNextAnimation("player_falter", false, nextAnimDuration_);
 
 	// 向き
-	Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
 
 	//補間座標を設定
 	startPos_ = player.GetTranslation();
 	targetPos_ = startPos_ + direction * moveDistance_;
 
 	// 敵の方向を向かせる
-	player.SetRotation(Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f)));
+	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)));
 
-	GameTimer::StartHitStop(hitStopTime_, 0.0f);
+	SakuEngine::GameTimer::StartHitStop(hitStopTime_, 0.0f);
 
 	// カメラの向きを補正させる
 	followCamera_->StartLookToTarget(FollowCameraTargetType::Player,
@@ -45,7 +45,7 @@ void PlayerFalterState::Update(Player& player) {
 	// 時間を更新
 	falterTimer_.Update();
 	// 座標を補間
-	player.SetTranslation(Vector3::Lerp(startPos_, targetPos_, falterTimer_.easedT_));
+	player.SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, falterTimer_.easedT_));
 
 	// 補間終了、アニメーション後状態を終了する
 	if (falterTimer_.IsReached() && player.IsAnimationFinished()) {

@@ -1,4 +1,4 @@
-﻿#include "GameCommonStructures.h"
+#include "GameCommonStructures.h"
 
 //============================================================================
 //	include
@@ -33,7 +33,7 @@ void GameCommon::HUDInitParameter::SaveJson(Json& data) {
 	data["translation"] = translation.ToJson();
 }
 
-void GameCommon::SetInitParameter(GameObject2D& sprite, const  GameCommon::HUDInitParameter& parameter) {
+void GameCommon::SetInitParameter(SakuEngine::GameObject2D& sprite, const  GameCommon::HUDInitParameter& parameter) {
 
 	sprite.SetTranslation(parameter.translation);
 }

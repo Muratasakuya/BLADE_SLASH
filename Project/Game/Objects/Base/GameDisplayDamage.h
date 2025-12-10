@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -26,7 +26,7 @@ public:
 		uint32_t damageDisplayMaxNum, uint32_t damageDigitMaxNum);
 
 	// 3Dオブジェクトの座標をスクリーン座標に変換してダメージ表示を更新
-	void Update(const GameObject3D& object, const BaseCamera& camera);
+	void Update(const SakuEngine::GameObject3D& object, const SakuEngine::BaseCamera& camera);
 
 	// エディター
 	void ImGui();
@@ -37,7 +37,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetSpriteLayer(SpriteLayer layer);
+	void SetSpriteLayer(SakuEngine::SpriteLayer layer);
 
 	void SetDamage(int damage);
 	void SetAlpha(float alpha);
@@ -52,7 +52,7 @@ private:
 	struct DamagePopup {
 
 		std::unique_ptr<GameDigitDisplay> digits;
-		Vector2 basePos; // 表示座標
+		SakuEngine::Vector2 basePos; // 表示座標
 		float timer;     // 表示時間経過
 		float outTimer;  // 消えるときの時間経過
 		bool active;     // 表示している間
@@ -80,9 +80,9 @@ private:
 	float bossScreenPosOffsetY_; // スクリーン座標のYオフセット
 	float maxDamageEmissive_;    // 最大発光度
 
-	Vector2 damageDisplayPosRandomRange_; // ダメージ表示のランダム範囲
-	Vector2 damageDisplayMaxSize_;        // ダメージ表示の最大サイズ
-	Vector2 damageDisplaySize_;           // ダメージ表示のサイズ
+	SakuEngine::Vector2 damageDisplayPosRandomRange_; // ダメージ表示のランダム範囲
+	SakuEngine::Vector2 damageDisplayMaxSize_;        // ダメージ表示の最大サイズ
+	SakuEngine::Vector2 damageDisplaySize_;           // ダメージ表示のサイズ
 	EasingType damageDisplayEasingType_;  // ダメージ表示のイージングタイプ
 	EasingType damageOutEasingType_;      // 消えるときのイージングタイプ
 };

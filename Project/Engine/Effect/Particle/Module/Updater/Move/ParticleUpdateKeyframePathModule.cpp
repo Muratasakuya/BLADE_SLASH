@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateKeyframePathModule.h"
+#include "ParticleUpdateKeyframePathModule.h"
 
 using namespace SakuEngine;
 
@@ -46,7 +46,7 @@ void ParticleUpdateKeyframePathModule::SetCommand(const ParticleCommand& command
 void ParticleUpdateKeyframePathModule::Init() {
 
 	// 初期化値
-	parentTranslation_ = Vector3::AnyInit(0.0f);
+	parentTranslation_ = SakuEngine::Vector3::AnyInit(0.0f);
 	parentRotation_ = Quaternion::Identity();
 
 	isDrawKeyframe_ = true;
@@ -186,7 +186,7 @@ Vector3 ParticleUpdateKeyframePathModule::GetTangent(float t) const {
 void ParticleUpdateKeyframePathModule::ImGui() {
 
 	// 補間タイプ
-	EnumAdapter<LerpKeyframe::Type>::Combo("Type", &type_);
+	SakuEngine::EnumAdapter<LerpKeyframe::Type>::Combo("Type", &type_);
 	ImGui::Checkbox("isDrawKeyframe", &isDrawKeyframe_);
 
 	{
@@ -246,16 +246,16 @@ void ParticleUpdateKeyframePathModule::ImGui() {
 
 			float t = static_cast<float>(i) / static_cast<float>(division);
 			Vector3 currentTranslation = LerpKeyframe::GetValue<Vector3>(keys_, t, type_);
-			LineRenderer::GetInstance()->DrawLine3D(
-				prevTranslation, currentTranslation, Color::Cyan());
+			SakuEngine::LineRenderer::GetInstance()->DrawLine3D(
+				prevTranslation, currentTranslation, SakuEngine::Color::Cyan());
 			prevTranslation = currentTranslation;
 		}
 
 		for (const auto& key : keys_) {
 
 			// キー位置に球を描画
-			LineRenderer::GetInstance()->DrawSphere(6, 0.8f, key,
-				Color::Cyan());
+			SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, key,
+				SakuEngine::Color::Cyan());
 		}
 	}
 }
@@ -264,12 +264,12 @@ Json ParticleUpdateKeyframePathModule::ToJson() {
 
 	Json data;
 
-	data["type_"] = EnumAdapter<LerpKeyframe::Type>::ToString(type_);
+	data["type_"] = SakuEngine::EnumAdapter<LerpKeyframe::Type>::ToString(type_);
 	data["isDrawKeyframe_"] = isDrawKeyframe_;
 
 	data["startSwirlRadius"] = swirlRadius_.start;
 	data["targetSwirlRadius"] = swirlRadius_.target;
-	data["swirlRadiusEasing_"] = EnumAdapter<EasingType>::ToString(swirlRadiusEasing_);
+	data["swirlRadiusEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(swirlRadiusEasing_);
 	data["swirlTurns_"] = swirlTurns_;
 	data["swirlPhase_"] = swirlPhase_;
 
@@ -291,7 +291,7 @@ Json ParticleUpdateKeyframePathModule::ToJson() {
 
 void ParticleUpdateKeyframePathModule::FromJson(const Json& data) {
 
-	type_ = EnumAdapter<LerpKeyframe::Type>::FromString(data.value("type_", "Linear")).value();
+	type_ = SakuEngine::EnumAdapter<LerpKeyframe::Type>::FromString(data.value("type_", "Linear")).value();
 
 	Init();
 
@@ -299,7 +299,7 @@ void ParticleUpdateKeyframePathModule::FromJson(const Json& data) {
 
 	swirlRadius_.start = data.value("startSwirlRadius", swirlRadius_.start);
 	swirlRadius_.target = data.value("targetSwirlRadius", swirlRadius_.target);
-	swirlRadiusEasing_ = EnumAdapter<EasingType>::FromString(data.value("swirlRadiusEasing_", "Linear")).value();
+	swirlRadiusEasing_ = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("swirlRadiusEasing_", "Linear")).value();
 	swirlTurns_ = data.value("swirlTurns_", swirlTurns_);
 	swirlPhase_ = data.value("swirlPhase_", swirlPhase_);
 
@@ -313,7 +313,7 @@ void ParticleUpdateKeyframePathModule::FromJson(const Json& data) {
 	if (data.contains("keys") && data["keys"].is_array()) {
 		for (const auto& keyJson : data["keys"]) {
 
-			keys_.push_back(Vector3::FromJson(keyJson));
+			keys_.push_back(SakuEngine::Vector3::FromJson(keyJson));
 		}
 	}
 }

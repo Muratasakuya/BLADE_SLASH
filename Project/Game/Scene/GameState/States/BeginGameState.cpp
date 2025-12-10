@@ -1,4 +1,4 @@
-﻿#include "BeginGameState.h"
+#include "BeginGameState.h"
 
 //============================================================================
 //	include
@@ -10,16 +10,16 @@
 //	BeginGameState classMethods
 //============================================================================
 
-void BeginGameState::Init([[maybe_unused]] SceneView* sceneView) {
+void BeginGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 
 	// ゲーム開始時のカメラアニメーションデータを読み込み
-	CameraEditor::GetInstance()->LoadJson("Scene/startGameCamera.json");
+	SakuEngine::CameraEditor::GetInstance()->LoadJson("Scene/startGameCamera.json");
 
 	// json適応
 	ApplyJson();
 }
 
-void BeginGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
+void BeginGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 
 	const GameSceneState currentState = GameSceneState::BeginGame;
 
@@ -40,7 +40,7 @@ void BeginGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	//========================================================================
 
 	// ボスの登場演出が終了したらゲーム開始
-	if (CameraEditor::GetInstance()->IsAnimFinished()) {
+	if (SakuEngine::CameraEditor::GetInstance()->IsAnimFinished()) {
 
 		context_->fadeSprite->Start();
 		// 遷移処理
@@ -53,7 +53,7 @@ void BeginGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	}
 }
 
-void BeginGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {
+void BeginGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 }
 
 void BeginGameState::Enter() {
@@ -68,7 +68,7 @@ void BeginGameState::Enter() {
 	context_->player->SetTranslation(startPlayerPos_);
 
 	// カメラのアニメーション開始
-	CameraEditor::GetInstance()->StartAnim("startGameCamera", false);
+	SakuEngine::CameraEditor::GetInstance()->StartAnim("startGameCamera", false);
 }
 
 void BeginGameState::Exit() {
@@ -88,18 +88,18 @@ void BeginGameState::ImGui() {
 	}
 
 	ImGui::DragFloat3("startPlayerPos", &startPlayerPos_.x, 0.1f);
-	LineRenderer::GetInstance()->DrawSphere(8, 8.0f, startPlayerPos_,
-		Color::Red());
+	SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 8.0f, startPlayerPos_,
+		SakuEngine::Color::Red());
 }
 
 void BeginGameState::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Scene/State/beginGameState.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Scene/State/beginGameState.json", data)) {
 		return;
 	}
 
-	startPlayerPos_ = Vector3::FromJson(data["startPlayerPos_"]);
+	startPlayerPos_ = SakuEngine::Vector3::FromJson(data["startPlayerPos_"]);
 }
 
 void BeginGameState::SaveJson() {
@@ -108,5 +108,5 @@ void BeginGameState::SaveJson() {
 
 	data["startPlayerPos_"] = startPlayerPos_.ToJson();
 
-	JsonAdapter::Save("Scene/State/beginGameState.json", data);
+	SakuEngine::JsonAdapter::Save("Scene/State/beginGameState.json", data);
 }

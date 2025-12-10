@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -42,9 +42,9 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 各パーツ
-	void SetBody(GameObject3D* body) { body_ = body; }
-	void SetRightHand(GameObject3D* rightHand) { rightHand_ = rightHand; }
-	void SetLeftHand(GameObject3D* leftHand) { leftHand_ = leftHand; }
+	void SetBody(SakuEngine::GameObject3D* body) { body_ = body; }
+	void SetRightHand(SakuEngine::GameObject3D* rightHand) { rightHand_ = rightHand; }
+	void SetLeftHand(SakuEngine::GameObject3D* leftHand) { leftHand_ = leftHand; }
 
 	// ボス敵
 	void SetBossEnemy(BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
@@ -60,9 +60,9 @@ protected:
 	BossEnemy* bossEnemy_;
 
 	// 状態遷移先相手の各パーツ
-	GameObject3D* body_;      // 体
-	GameObject3D* rightHand_; // 右手
-	GameObject3D* leftHand_;  // 左手
+	SakuEngine::GameObject3D* body_;      // 体
+	SakuEngine::GameObject3D* rightHand_; // 右手
+	SakuEngine::GameObject3D* leftHand_;  // 左手
 
 	// 状態の処理が終了したか
 	bool canExit_ = false;

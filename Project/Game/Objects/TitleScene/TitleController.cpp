@@ -1,4 +1,4 @@
-﻿#include "TitleController.h"
+#include "TitleController.h"
 
 //============================================================================
 //	include
@@ -88,7 +88,7 @@ void TitleController::ImGui() {
 void TitleController::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Title/titleController.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Title/titleController.json", data)) {
 		return;
 	}
 
@@ -101,5 +101,5 @@ void TitleController::SaveJson() {
 
 	background_->ToJson(data["Background"]);
 
-	JsonAdapter::Save("Title/titleController.json", data);
+	SakuEngine::JsonAdapter::Save("Title/titleController.json", data);
 }

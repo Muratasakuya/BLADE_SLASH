@@ -1,4 +1,4 @@
-﻿#include "SceneBuilder.h"
+#include "SceneBuilder.h"
 
 using namespace SakuEngine;
 
@@ -128,7 +128,7 @@ Json SceneBuilder::LoadObjectFile(const std::string& identifier) {
 
 	Json data;
 	const std::string& newIdentifier = Algorithm::RemoveAfterUnderscore(identifier);
-	if (!JsonAdapter::LoadCheck(jsonPath_ + newIdentifier + ".json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(jsonPath_ + newIdentifier + ".json", data)) {
 
 		// 読み込めなかった場合空のJsonを返す
 		return Json();
@@ -252,7 +252,7 @@ void SceneBuilder::RecieveFile() {
 
 	ImGui::Button("Load File", buttonSize_);
 	if (ImGui::BeginDragDropTarget()) {
-		if (const auto* payload = ImGuiHelper::DragDropPayload(PendingType::None)) {
+		if (const auto* payload = SakuEngine::ImGuiHelper::DragDropPayload(PendingType::None)) {
 
 			// 名前の設定
 			// 読み込めたら作成させる

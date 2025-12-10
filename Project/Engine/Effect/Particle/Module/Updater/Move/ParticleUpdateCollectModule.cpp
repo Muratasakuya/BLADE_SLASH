@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateCollectModule.h"
+#include "ParticleUpdateCollectModule.h"
 
 using namespace SakuEngine;
 
@@ -32,7 +32,7 @@ void ParticleUpdateCollectModule::Init() {
 	noiseOctaves_ = 3;
 	noiseFrequency_ = 0.5f;
 	noiseTimeScale_ = 0.3f;
-	noiseAmp_ = Vector3::AnyInit(0.2f);
+	noiseAmp_ = SakuEngine::Vector3::AnyInit(0.2f);
 	noiseFalloffPow_ = 1.0f;
 	noiseSeed_ = 1337u;
 }
@@ -52,7 +52,7 @@ void ParticleUpdateCollectModule::Execute(
 	case ParticleUpdateCollectModule::CollectMode::Straight: {
 
 		// 発生位置への補間
-		Vector3 lerpPos = Vector3::Lerp(particle.spawnTranlation, targetPos_,
+		Vector3 lerpPos = SakuEngine::Vector3::Lerp(particle.spawnTranlation, targetPos_,
 			EasedValue(moveEasing_, particle.progress));
 
 		// 座標を設定
@@ -65,7 +65,7 @@ void ParticleUpdateCollectModule::Execute(
 		float t = EasedValue(moveEasing_, particle.progress);
 
 		// 直線のベース位置
-		Vector3 basePos = Vector3::Lerp(particle.spawnTranlation, targetPos_, t);
+		Vector3 basePos = SakuEngine::Vector3::Lerp(particle.spawnTranlation, targetPos_, t);
 
 		// ノイズをサンプルする座標
 		Vector3 sample = basePos * noiseFrequency_ + Vector3(0.0f, noiseTimeScale_ * particle.currentTime, 0.0f);
@@ -87,8 +87,8 @@ void ParticleUpdateCollectModule::Execute(
 
 void ParticleUpdateCollectModule::ImGui() {
 
-	EnumAdapter<CollectMode>::Combo("CollectMode", &collectMode_);
-	EnumAdapter<EasingType>::Combo("EasingType", &moveEasing_);
+	SakuEngine::EnumAdapter<CollectMode>::Combo("CollectMode", &collectMode_);
+	SakuEngine::EnumAdapter<EasingType>::Combo("EasingType", &moveEasing_);
 	ImGui::Checkbox("isAlignXZToTarget", &isAlignXZToTarget_);
 
 	ImGui::DragFloat3("targetPos", &targetPos_.x, 0.01f);
@@ -108,8 +108,8 @@ Json ParticleUpdateCollectModule::ToJson() {
 
 	Json data;
 
-	data["collectMode_"] = EnumAdapter<CollectMode>::ToString(collectMode_);
-	data["moveEasing_"] = EnumAdapter<EasingType>::ToString(moveEasing_);
+	data["collectMode_"] = SakuEngine::EnumAdapter<CollectMode>::ToString(collectMode_);
+	data["moveEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(moveEasing_);
 	data["isAlignXZToTarget_"] = isAlignXZToTarget_;
 	data["targetPos_"] = targetPos_.ToJson();
 
@@ -127,8 +127,8 @@ void ParticleUpdateCollectModule::FromJson(const Json& data) {
 
 	Init();
 
-	collectMode_ = EnumAdapter<CollectMode>::FromString(data.value("collectMode_", "Straight")).value();
-	moveEasing_ = EnumAdapter<EasingType>::FromString(data.value("moveEasing_", "Linear")).value();
+	collectMode_ = SakuEngine::EnumAdapter<CollectMode>::FromString(data.value("collectMode_", "Straight")).value();
+	moveEasing_ = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("moveEasing_", "Linear")).value();
 	isAlignXZToTarget_ = data.value("isAlignXZToTarget_", false);
 	targetPos_.FromJson(data.value("targetPos_", Json()));
 
@@ -140,7 +140,7 @@ void ParticleUpdateCollectModule::FromJson(const Json& data) {
 	noiseSeed_ = data.value("noiseSeed_", 0u);
 }
 
-float ParticleUpdateCollectModule::Noise3(const Vector3& p, uint32_t s) const {
+float ParticleUpdateCollectModule::Noise3(const SakuEngine::Vector3& p, uint32_t s) const {
 
 	const int X = (int)std::floor(p.x);
 	const int Y = (int)std::floor(p.y);
@@ -169,7 +169,7 @@ float ParticleUpdateCollectModule::Noise3(const Vector3& p, uint32_t s) const {
 	return std::lerp(y0, y1, uz) * 2.0f - 1.0f;
 }
 
-float ParticleUpdateCollectModule::FBm(const Vector3& p, uint32_t s) const {
+float ParticleUpdateCollectModule::FBm(const SakuEngine::Vector3& p, uint32_t s) const {
 
 	float a = 1.0f;
 	float f = 1.0f;

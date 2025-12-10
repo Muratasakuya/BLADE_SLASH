@@ -1,4 +1,4 @@
-﻿#include "PlayerAttackCollision.h"
+#include "PlayerAttackCollision.h"
 
 //============================================================================
 //	include
@@ -20,8 +20,8 @@
 void PlayerAttackCollision::Init() {
 
 	// 形状初期化
-	weaponBody_ = bodies_.emplace_back(Collider::AddCollider(CollisionShape::OBB().Default()));
-	bodyOffsets_.emplace_back(CollisionShape::OBB().Default());
+	weaponBody_ = bodies_.emplace_back(Collider::AddCollider(SakuEngine::CollisionShape::OBB().Default()));
+	bodyOffsets_.emplace_back(SakuEngine::CollisionShape::OBB().Default());
 
 	// タイプ設定
 	// 最初は無効状態
@@ -29,7 +29,7 @@ void PlayerAttackCollision::Init() {
 	weaponBody_->SetTargetType(ColliderType::Type_BossEnemy);
 }
 
-void PlayerAttackCollision::Update(const Transform3D& transform) {
+void PlayerAttackCollision::Update(const SakuEngine::Transform3D& transform) {
 
 	if (!currentParameter_) {
 		return;
@@ -49,7 +49,7 @@ void PlayerAttackCollision::Update(const Transform3D& transform) {
 		currentParameter_->windows.end(),
 		[t = currentTimer_](const TimeWindow& window) {
 			return window.on <= t && t < window.off; });
-	reHitTimer_ = (std::max)(0.0f, reHitTimer_ - GameTimer::GetDeltaTime());
+	reHitTimer_ = (std::max)(0.0f, reHitTimer_ - SakuEngine::GameTimer::GetDeltaTime());
 
 	// 遷移可能な状態の時のみ武器状態にする
 	if (isAttack && reHitTimer_ <= 0.0f) {
@@ -58,9 +58,9 @@ void PlayerAttackCollision::Update(const Transform3D& transform) {
 		if (currentParameter_) {
 
 			// 状態別で形状の値を設定
-			auto& offset = std::get<CollisionShape::OBB>(bodyOffsets_.front());
+			auto& offset = std::get<SakuEngine::CollisionShape::OBB>(bodyOffsets_.front());
 
-			const Vector3 offsetWorld =
+			const SakuEngine::Vector3 offsetWorld =
 				transform.GetRight() * currentParameter_->centerOffset.x +
 				transform.GetUp() * currentParameter_->centerOffset.y +
 				transform.GetForward() * currentParameter_->centerOffset.z;
@@ -72,13 +72,13 @@ void PlayerAttackCollision::Update(const Transform3D& transform) {
 		weaponBody_->SetType(ColliderType::Type_None);
 
 		// 当たらないようにする
-		auto& offset = std::get<CollisionShape::OBB>(bodyOffsets_.front());
-		offset.center = Vector3(0.0f, -128.0f, 0.0f);
-		offset.size = Vector3::AnyInit(0.0f);
+		auto& offset = std::get<SakuEngine::CollisionShape::OBB>(bodyOffsets_.front());
+		offset.center = SakuEngine::Vector3(0.0f, -128.0f, 0.0f);
+		offset.size = SakuEngine::Vector3::AnyInit(0.0f);
 	}
 
 	// 時間を進める
-	currentTimer_ += GameTimer::GetScaledDeltaTime();
+	currentTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(transform);
@@ -87,7 +87,7 @@ void PlayerAttackCollision::Update(const Transform3D& transform) {
 void PlayerAttackCollision::SetEnterState(PlayerState state) {
 
 	currentTimer_ = 0.0f;
-	if (Algorithm::Find(table_, state)) {
+	if (SakuEngine::Algorithm::Find(table_, state)) {
 
 		currentParameter_ = &table_[state];
 		reHitTimer_ = 0.0f;
@@ -97,7 +97,7 @@ void PlayerAttackCollision::SetEnterState(PlayerState state) {
 	weaponBody_->SetType(ColliderType::Type_None);
 }
 
-void PlayerAttackCollision::OnCollisionEnter(const CollisionBody* collisionBody) {
+void PlayerAttackCollision::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 
 	if (currentParameter_ == NULL) {
 		return;
@@ -109,15 +109,15 @@ void PlayerAttackCollision::OnCollisionEnter(const CollisionBody* collisionBody)
 		reHitTimer_ = currentParameter_->hitInterval;
 
 		// ヒットストップを発生させる
-		GameTimer::StartHitStop(currentParameter_->waitTime, currentParameter_->timeScale);
+		SakuEngine::GameTimer::StartHitStop(currentParameter_->waitTime, currentParameter_->timeScale);
 	}
 }
 
 void PlayerAttackCollision::ImGui() {
 
-	ImGui::Text("currentType: %s", EnumAdapter<ColliderType>::ToString(weaponBody_->GetType()));
+	ImGui::Text("currentType: %s", SakuEngine::EnumAdapter<ColliderType>::ToString(weaponBody_->GetType()));
 
-	EnumAdapter<PlayerState>::Combo("EditDamage", &editingState_);
+	SakuEngine::EnumAdapter<PlayerState>::Combo("EditDamage", &editingState_);
 	AttackParameter& parameter = table_[editingState_];
 
 	ImGui::Separator();
@@ -141,7 +141,7 @@ void PlayerAttackCollision::ImGui() {
 
 	if (edit) {
 
-		auto& offset = std::get<CollisionShape::OBB>(bodyOffsets_.front());
+		auto& offset = std::get<SakuEngine::CollisionShape::OBB>(bodyOffsets_.front());
 		offset.center = parameter.centerOffset;
 		offset.size = parameter.size;
 	}
@@ -157,13 +157,13 @@ void PlayerAttackCollision::ApplyJson(const Json& data) {
 		}
 		AttackParameter parameter;
 
-		parameter.centerOffset = JsonAdapter::ToObject<Vector3>(value["centerOffset"]);
-		parameter.size = JsonAdapter::ToObject<Vector3>(value["size"]);
+		parameter.centerOffset = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(value["centerOffset"]);
+		parameter.size = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(value["size"]);
 		parameter.hitInterval = value.value("hitInterval", 0.0f);
 		parameter.timeScale = value.value("timeScale", 1.0f);
 		parameter.waitTime = value.value("waitTime", 0.08f);
 		parameter.lerpSpeed = value.value("lerpSpeed", 1.0f);
-		parameter.timeScaleEasing = EnumAdapter<EasingType>::FromString(value.value("timeScaleEasing", "Linear")).value();
+		parameter.timeScaleEasing = SakuEngine::EnumAdapter<EasingType>::FromString(value.value("timeScaleEasing", "Linear")).value();
 		parameter.hitInterval = value.value("hitInterval", 0.0f);
 		parameter.isEnemyBased = value.value("isEnemyBased", false);
 
@@ -193,14 +193,14 @@ void PlayerAttackCollision::SaveJson(Json& data) {
 			continue;
 		}
 
-		Json& value = data[EnumAdapter<PlayerState>::ToString(state)];
-		value["centerOffset"] = JsonAdapter::FromObject(parameter.centerOffset);
-		value["size"] = JsonAdapter::FromObject(parameter.size);
+		Json& value = data[SakuEngine::EnumAdapter<PlayerState>::ToString(state)];
+		value["centerOffset"] = SakuEngine::JsonAdapter::FromObject(parameter.centerOffset);
+		value["size"] = SakuEngine::JsonAdapter::FromObject(parameter.size);
 		value["hitInterval"] = parameter.hitInterval;
 		value["timeScale"] = parameter.timeScale;
 		value["waitTime"] = parameter.waitTime;
 		value["lerpSpeed"] = parameter.lerpSpeed;
-		value["timeScaleEasing"] = EnumAdapter<EasingType>::ToString(parameter.timeScaleEasing);
+		value["timeScaleEasing"] = SakuEngine::EnumAdapter<EasingType>::ToString(parameter.timeScaleEasing);
 		value["isEnemyBased"] = parameter.isEnemyBased;
 
 		Json windowData = Json::array();
@@ -220,7 +220,7 @@ void PlayerAttackCollision::SaveJson(Json& data) {
 PlayerState PlayerAttackCollision::GetPlayerStateFromName(const std::string& name) {
 
 	for (int i = 0; i < static_cast<int>(PlayerState::StunAttack) + 1; ++i) {
-		if (name == EnumAdapter<PlayerState>::GetEnumName(i)) {
+		if (name == SakuEngine::EnumAdapter<PlayerState>::GetEnumName(i)) {
 
 			return static_cast<PlayerState>(i);
 		}

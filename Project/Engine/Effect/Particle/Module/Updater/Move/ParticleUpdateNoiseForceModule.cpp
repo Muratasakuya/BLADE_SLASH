@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateNoiseForceModule.h"
+#include "ParticleUpdateNoiseForceModule.h"
 
 using namespace SakuEngine;
 
@@ -30,7 +30,7 @@ void ParticleUpdateNoiseForceModule::Init() {
 	damping_ = 0.0f;
 	seed_ = 1337;
 	anchorToSpawn_ = true;
-	offsetAmp_ = Vector3::AnyInit(0.2f);
+	offsetAmp_ = SakuEngine::Vector3::AnyInit(0.2f);
 }
 
 void ParticleUpdateNoiseForceModule::Execute(
@@ -62,7 +62,7 @@ void ParticleUpdateNoiseForceModule::Execute(
 
 void ParticleUpdateNoiseForceModule::ImGui() {
 
-	EnumAdapter<NoiseMode>::Combo("mode", &mode_);
+	SakuEngine::EnumAdapter<NoiseMode>::Combo("mode", &mode_);
 	ImGui::DragInt("octaves", &octaves_, 1, 1, 8);
 	ImGui::DragFloat("frequency", &frequency_, 0.01f, 0.01f, 10.0f);
 	ImGui::DragFloat("timeScale", &timeScale_, 0.01f, 0.0f, 5.0f);
@@ -103,10 +103,10 @@ void ParticleUpdateNoiseForceModule::FromJson(const Json& data) {
 	damping_ = data.value("damping_", 0.0f);
 	seed_ = data.value("seed_", 1337);
 	anchorToSpawn_ = data.value("anchorToSpawn_", true);
-	offsetAmp_ = Vector3::FromJson(data.value("offsetAmp_", Json()));
+	offsetAmp_ = SakuEngine::Vector3::FromJson(data.value("offsetAmp_", Json()));
 }
 
-float ParticleUpdateNoiseForceModule::Noise3(const Vector3& p, uint32_t s) const {
+float ParticleUpdateNoiseForceModule::Noise3(const SakuEngine::Vector3& p, uint32_t s) const {
 
 	const int X = (int)floorf(p.x), Y = (int)floorf(p.y), Z = (int)floorf(p.z);
 	const float fx = p.x - X, fy = p.y - Y, fz = p.z - Z;
@@ -124,7 +124,7 @@ float ParticleUpdateNoiseForceModule::Noise3(const Vector3& p, uint32_t s) const
 	return std::lerp(y0, y1, uz) * 2.0f - 1.0f;
 }
 
-float ParticleUpdateNoiseForceModule::FBm(const Vector3& p, uint32_t s) const {
+float ParticleUpdateNoiseForceModule::FBm(const SakuEngine::Vector3& p, uint32_t s) const {
 
 	float a = 1.0f, f = 1.0f, sum = 0.0f, norm = 0.0f;
 	for (int i = 0; i < octaves_; i++) {
@@ -135,7 +135,7 @@ float ParticleUpdateNoiseForceModule::FBm(const Vector3& p, uint32_t s) const {
 	return sum / (std::max)(1e-6f, norm);
 }
 
-Vector3 ParticleUpdateNoiseForceModule::GradNoise(const Vector3& p, uint32_t s) const {
+Vector3 ParticleUpdateNoiseForceModule::GradNoise(const SakuEngine::Vector3& p, uint32_t s) const {
 
 	const float eps = 0.01f;
 	const float nx1 = FBm(Vector3(p.x + eps, p.y, p.z), s), nx0 = FBm(Vector3(p.x - eps, p.y, p.z), s);
@@ -144,12 +144,12 @@ Vector3 ParticleUpdateNoiseForceModule::GradNoise(const Vector3& p, uint32_t s) 
 	return Vector3((nx1 - nx0) / (2 * eps), (ny1 - ny0) / (2 * eps), (nz1 - nz0) / (2 * eps));
 }
 
-Vector3 ParticleUpdateNoiseForceModule::CurlNoise(const Vector3& p) const {
+Vector3 ParticleUpdateNoiseForceModule::CurlNoise(const SakuEngine::Vector3& p) const {
 
 	const float eps = 0.01f;
-	auto n1 = [&](const Vector3& q) { return FBm(q, seed_ + 17u); };
-	auto n2 = [&](const Vector3& q) { return FBm(q, seed_ + 37u); };
-	auto n3 = [&](const Vector3& q) { return FBm(q, seed_ + 59u); };
+	auto n1 = [&](const SakuEngine::Vector3& q) { return FBm(q, seed_ + 17u); };
+	auto n2 = [&](const SakuEngine::Vector3& q) { return FBm(q, seed_ + 37u); };
+	auto n3 = [&](const SakuEngine::Vector3& q) { return FBm(q, seed_ + 59u); };
 	// 中心差分で curl(F) = (∂Fz/∂y-∂Fy/∂z, ∂Fx/∂z-∂Fz/∂x, ∂Fy/∂x-∂Fx/∂y)
 	float dFz_dy = (n3(p + Vector3(0, eps, 0)) - n3(p - Vector3(0, eps, 0))) / (2 * eps);
 	float dFy_dz = (n2(p + Vector3(0, 0, eps)) - n2(p - Vector3(0, 0, eps))) / (2 * eps);

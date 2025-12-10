@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -12,7 +12,7 @@
 //	グレースケールの更新
 //============================================================================
 class GrayscaleUpdater :
-	public IPostProcessUpdater<GrayscaleForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::GrayscaleForGPU> {
 public:
 	//========================================================================
 	//	public Methods
@@ -69,10 +69,10 @@ private:
 	State currentState_;
 
 	// グレースケールの割合アニメーション(0.0f~1.0f)
-	SimpleAnimation<float> rateAnimation_;
+	SakuEngine::SimpleAnimation<float> rateAnimation_;
 
 	// 補間終了後の待ち時間
-	StateTimer waitGrayTimer_;
+	SakuEngine::StateTimer waitGrayTimer_;
 
 	//--------- functions ----------------------------------------------------
 

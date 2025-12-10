@@ -1,4 +1,4 @@
-﻿#include "Vector2.h"
+#include "Vector2.h"
 
 using namespace SakuEngine;
 
@@ -45,14 +45,18 @@ Vector2& Vector2::operator/=(const Vector2& v) {
 Vector2 Vector2::operator*(float scalar) const {
 	return Vector2(x * scalar, y * scalar);
 }
-Vector2 operator*(float scalar, const Vector2& v) {
-	return Vector2(v.x * scalar, v.y * scalar);
-}
 Vector2 Vector2::operator/(float scalar) const {
 	return Vector2(x / scalar, y / scalar);
 }
-Vector2 operator/(float scalar, const Vector2& v) {
-	return Vector2(v.x / scalar, v.y / scalar);
+namespace SakuEngine {
+
+	Vector2 operator*(float scalar, const Vector2& v) {
+		return Vector2(v.x * scalar, v.y * scalar);
+	}
+
+	Vector2 operator/(float scalar, const Vector2& v) {
+		return Vector2(v.x / scalar, v.y / scalar);
+	}
 }
 
 Vector2& Vector2::operator*=(float scalar) {
@@ -84,7 +88,7 @@ Json Vector2::ToJson() const {
 	return Json{ {"x", x}, {"y", y} };
 }
 
-Vector2 Vector2::FromJson(const Json& data) {
+Vector2 SakuEngine::Vector2::FromJson(const Json& data) {
 
 	if (data.empty()) {
 		return Vector2{};
@@ -108,7 +112,7 @@ float Vector2::Length() const {
 	return std::sqrtf(x * x + y * y);
 }
 
-Vector2 Vector2::Normalize() const {
+Vector2 SakuEngine::Vector2::Normalize() const {
 	float length = this->Length();
 	if (length == 0.0f) {
 		return Vector2(0.0f, 0.0f);
@@ -116,16 +120,16 @@ Vector2 Vector2::Normalize() const {
 	return Vector2(x / length, y / length);
 }
 
-Vector2 Vector2::AnyInit(float value) {
+Vector2 SakuEngine::Vector2::AnyInit(float value) {
 
 	return Vector2(value, value);
 }
 
-float Vector2::Length(const Vector2& v) {
+float Vector2::Length(const SakuEngine::Vector2& v) {
 	return std::sqrtf(v.x * v.x + v.y * v.y);
 }
 
-Vector2 Vector2::Normalize(const Vector2& v) {
+Vector2 SakuEngine::Vector2::Normalize(const SakuEngine::Vector2& v) {
 
 	float length = Vector2::Length(v);
 	if (length == 0.0f) {
@@ -134,7 +138,7 @@ Vector2 Vector2::Normalize(const Vector2& v) {
 	return Vector2(v.x / length, v.y / length);
 }
 
-Vector2 Vector2::Lerp(const Vector2& v0, const Vector2& v1, float t) {
+Vector2 SakuEngine::Vector2::Lerp(const SakuEngine::Vector2& v0, const SakuEngine::Vector2& v1, float t) {
 
 	return Vector2(std::lerp(v0.x, v1.x, t), std::lerp(v0.y, v1.y, t));
 }

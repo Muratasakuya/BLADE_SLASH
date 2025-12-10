@@ -1,4 +1,4 @@
-﻿#include "PlayerAttack_1stState.h"
+#include "PlayerAttack_1stState.h"
 
 //============================================================================
 //	include
@@ -18,7 +18,7 @@ PlayerAttack_1stState::PlayerAttack_1stState(Player* player) {
 	player_ = player;
 
 	// 剣エフェクト作成
-	slashEffect_ = std::make_unique<EffectGroup>();
+	slashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	slashEffect_->Init("slashEffect1st", "PlayerEffect");
 	slashEffect_->LoadJson("GameEffectGroup/Player/playerAttackSlashEffect_0.json");
 
@@ -32,7 +32,7 @@ void PlayerAttack_1stState::Enter(Player& player) {
 	canExit_ = false;
 
 	// 敵が攻撃可能範囲にいるかチェック
-	const Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player.GetTranslation();
 	// 補間座標を設定
 	if (!CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
 
@@ -73,7 +73,7 @@ void PlayerAttack_1stState::Update(Player& player) {
 
 		// 前に前進させる
 		PlayerBaseAttackState::UpdateTimer(moveTimer_);
-		Vector3 pos = Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
+		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
 		player.SetTranslation(pos);
 	}
 
@@ -82,7 +82,7 @@ void PlayerAttack_1stState::Update(Player& player) {
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
-		exitTimer_ += GameTimer::GetScaledDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	}
 }
 
@@ -90,7 +90,7 @@ void PlayerAttack_1stState::UpdateAlways(Player& player) {
 
 	// 剣エフェクトの更新、親の回転を設定する
 	slashEffect_->SetParentRotation("playerAttackSlash_0",
-		Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
 	slashEffect_->Update();
 }
 
@@ -118,11 +118,11 @@ void PlayerAttack_1stState::ImGui(const Player& player) {
 
 void PlayerAttack_1stState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 
-	slashEffectOffset_ = Vector3::FromJson(data.value("slashEffectOffset_", Json()));
+	slashEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("slashEffectOffset_", Json()));
 
 	PlayerBaseAttackState::ApplyJson(data);
 

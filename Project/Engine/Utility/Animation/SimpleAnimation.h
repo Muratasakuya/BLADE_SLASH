@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -157,7 +157,7 @@ inline void SimpleAnimation<T>::LerpValue(T& value) {
 	// 値の補間処理
 	if constexpr (std::is_same_v<T, Color>) {
 
-		value = Color::Lerp(from, to, easedT);
+		value = SakuEngine::Color::Lerp(from, to, easedT);
 	} else {
 
 		value = Algorithm::Lerp<T>(from, to, easedT);

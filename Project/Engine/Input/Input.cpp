@@ -1,4 +1,4 @@
-﻿#include "Input.h"
+#include "Input.h"
 
 using namespace SakuEngine;
 
@@ -104,7 +104,7 @@ namespace {
 
 Input* Input::instance_ = nullptr;
 
-void Input::SetViewRect(InputViewArea viewArea, const Vector2& dstPos, Vector2 dstSize) {
+void Input::SetViewRect(InputViewArea viewArea, const SakuEngine::Vector2& dstPos, Vector2 dstSize) {
 
 	viewRects_[viewArea].dstPos = dstPos;
 	viewRects_[viewArea].dstSize = dstSize;
@@ -213,7 +213,7 @@ bool Input::PushGamepadButton(GamePadButtons button, const std::source_location&
 	LogEnterStayExit(now, prev, index,
 		gpStartTime_, gpStayLogged_,
 		[&] { return MakeCallerTag(location, "GamePadButtons:"); },
-		[&] { return EnumAdapter<GamePadButtons>::ToString(button); });
+		[&] { return SakuEngine::EnumAdapter<GamePadButtons>::ToString(button); });
 
 	return now;
 }
@@ -223,7 +223,7 @@ bool Input::TriggerGamepadButton(GamePadButtons button, const std::source_locati
 	if (trigger) {
 
 		LOG_INFO("{}", MakeCallerTag(location,
-			"TriggerGamepadButton:" + std::string(EnumAdapter<GamePadButtons>::ToString(button))));
+			"TriggerGamepadButton:" + std::string(SakuEngine::EnumAdapter<GamePadButtons>::ToString(button))));
 	}
 
 	return trigger;
@@ -433,11 +433,11 @@ void Input::Init(WinApp* winApp) {
 	hr = mouse_->Acquire();
 
 	// 初期化値
-	viewRects_[InputViewArea::Game].dstPos = Vector2::AnyInit(0.0f);
-	viewRects_[InputViewArea::Game].dstSize = Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Game].dstPos = SakuEngine::Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Game].dstSize = SakuEngine::Vector2::AnyInit(0.0f);
 	viewRects_[InputViewArea::Game].srcSize = Vector2(Config::kWindowWidthf, Config::kWindowHeightf);
-	viewRects_[InputViewArea::Scene].dstPos = Vector2::AnyInit(0.0f);
-	viewRects_[InputViewArea::Scene].dstSize = Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Scene].dstPos = SakuEngine::Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Scene].dstSize = SakuEngine::Vector2::AnyInit(0.0f);
 	viewRects_[InputViewArea::Scene].srcSize = Vector2(Config::kWindowWidthf, Config::kWindowHeightf);
 }
 

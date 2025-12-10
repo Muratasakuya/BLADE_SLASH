@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -45,6 +45,6 @@ private:
 	EasingType easingType_;
 	float moveDistance_; // 移動距離
 
-	Vector3 startPos_;  // 開始座標
-	Vector3 targetPos_; // 目標座標
+	SakuEngine::Vector3 startPos_;  // 開始座標
+	SakuEngine::Vector3 targetPos_; // 目標座標
 };

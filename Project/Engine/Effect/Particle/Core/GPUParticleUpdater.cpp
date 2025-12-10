@@ -1,4 +1,4 @@
-﻿#include "GPUParticleUpdater.h"
+#include "GPUParticleUpdater.h"
 
 using namespace SakuEngine;
 
@@ -49,7 +49,7 @@ void GPUParticleUpdater::Update(GPUParticleGroup& group, DxCommand* dxCommand) {
 void GPUParticleUpdater::BeginUpdate() {
 
 	// 時間の更新
-	perFrame_.deltaTime = GameTimer::GetDeltaTime();
+	perFrame_.deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 	perFrame_.time += perFrame_.deltaTime;
 
 	// buffer転送
@@ -65,7 +65,7 @@ void GPUParticleUpdater::InitPipelines(ID3D12Device8* device,
 	for (uint32_t index = 0; index < kUpdateTypeCount; ++index) {
 
 		// 更新の種類の名前を取得
-		const char* typeName = EnumAdapter<GPUParticle::UpdateType>::GetEnumName(index);
+		const char* typeName = SakuEngine::EnumAdapter<GPUParticle::UpdateType>::GetEnumName(index);
 		std::string jsonFile = std::string(typeName) + "UpdateParticle.json";
 
 		auto& pipeline = updatePipelines_[index];
@@ -76,7 +76,7 @@ void GPUParticleUpdater::InitPipelines(ID3D12Device8* device,
 	for (uint32_t index = 0; index < kEmitterShapeCount; ++index) {
 
 		// 形状の名前を取得
-		const char* shapeName = EnumAdapter<ParticleEmitterShape>::GetEnumName(index);
+		const char* shapeName = SakuEngine::EnumAdapter<ParticleEmitterShape>::GetEnumName(index);
 		std::string jsonFile = "Emit" + std::string(shapeName) + "Particle.json";
 
 		auto& pipeline = emitPipelines_[index];

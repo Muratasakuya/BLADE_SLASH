@@ -1,4 +1,4 @@
-﻿#include "EffectScene.h"
+#include "EffectScene.h"
 
 //============================================================================
 //	include
@@ -18,18 +18,18 @@ void EffectScene::Init() {
 	//========================================================================
 
 	// 初期化時にのみ作成できる
-	PostProcessSystem::GetInstance()->Create({ PostProcessType::RadialBlur,PostProcessType::Bloom });
+	SakuEngine::PostProcessSystem::GetInstance()->Create({ PostProcessType::RadialBlur,PostProcessType::Bloom });
 
 	//========================================================================
 	//	scene
 	//========================================================================
 
 	// カメラの設定
-	camera3D_ = std::make_unique<BaseCamera>();
+	camera3D_ = std::make_unique<SakuEngine::BaseCamera>();
 	sceneView_->SetGameCamera(camera3D_.get());
 
 	// ライトの設定
-	light_ = std::make_unique<BasePunctualLight>();
+	light_ = std::make_unique<SakuEngine::BasePunctualLight>();
 	light_->Init();
 	sceneView_->SetLight(light_.get());
 }
@@ -38,5 +38,5 @@ void EffectScene::Update() {
 
 	camera3D_->UpdateView();
 
-	LineRenderer::GetInstance()->DrawGrid(32, 32.0f, Color::White());
+	SakuEngine::LineRenderer::GetInstance()->DrawGrid(32, 32.0f, SakuEngine::Color::White());
 }

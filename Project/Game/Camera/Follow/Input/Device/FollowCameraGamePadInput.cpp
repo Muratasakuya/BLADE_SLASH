@@ -1,4 +1,4 @@
-﻿#include "FollowCameraGamePadInput.h"
+#include "FollowCameraGamePadInput.h"
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 
 float FollowCameraGamePadInput::GetVector(FollowCameraInputAction axis) const {
 
-	const Vector2 value = Input::GetInstance()->GetRightStickVal() * 1.0f / 32767.0f;
+	const SakuEngine::Vector2 value = SakuEngine::Input::GetInstance()->GetRightStickVal() * 1.0f / 32767.0f;
 	switch (axis) {
 	case FollowCameraInputAction::RotateX: {
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //	グリッチエフェクトの更新
 //============================================================================
 class GlitchUpdater :
-	public IPostProcessUpdater<GlitchForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::GlitchForGPU> {
 public:
 	//========================================================================
 	//	public Methods
@@ -62,8 +62,8 @@ private:
 	bool isAutoReomoveProcess_ = true;
 
 	// 時間経過
-	StateTimer timer_;            // 1処理にかかる時間
-	StateTimer convergenceTimer_; // ランダム発生間隔
+	SakuEngine::StateTimer timer_;            // 1処理にかかる時間
+	SakuEngine::StateTimer convergenceTimer_; // ランダム発生間隔
 	int maxRandomCount_; // ランダム処理回数
 	int currentCount_;   // 処理回数
 	float startIntencityRange_;  // 開始時の強度の範囲

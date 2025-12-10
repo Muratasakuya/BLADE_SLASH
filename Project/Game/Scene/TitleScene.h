@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -18,8 +18,8 @@
 //	タイトルシーン
 //============================================================================
 class TitleScene :
-	public IScene,
-	public IGameEditor {
+	public SakuEngine::IScene,
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -45,6 +45,6 @@ private:
 
 	// scene
 	std::unique_ptr<TitleViewCamera> titleViewCamera_;
-	std::unique_ptr<BasePunctualLight> light_;
+	std::unique_ptr<SakuEngine::BasePunctualLight> light_;
 	std::unique_ptr<FadeTransition> fadeTransition_;
 };

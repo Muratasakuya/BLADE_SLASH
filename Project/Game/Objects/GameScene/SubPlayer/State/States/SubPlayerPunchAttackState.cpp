@@ -1,4 +1,4 @@
-﻿#include "SubPlayerPunchAttackState.h"
+#include "SubPlayerPunchAttackState.h"
 
 //============================================================================
 //	include
@@ -13,19 +13,19 @@ SubPlayerPunchAttackState::SubPlayerPunchAttackState() {
 
 	// 各パーツのキーフレーム移動の生成
 	// 体
-	bodyApproachKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	bodyApproachKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	bodyApproachKeyframeObject_->Init("subPlayerPunchBodyApproachKey");
-	bodyLeaveKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	bodyLeaveKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	bodyLeaveKeyframeObject_->Init("subPlayerPunchBodyLeaveKey");
 	// 右手
-	rightHandApproachKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	rightHandApproachKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	rightHandApproachKeyframeObject_->Init("subPlayerPunchRightHandApproachKey");
-	rightHandLeaveKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	rightHandLeaveKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	rightHandLeaveKeyframeObject_->Init("subPlayerPunchRightHandLeaveKey");
 	// 左手
-	leftHandApproachKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	leftHandApproachKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	leftHandApproachKeyframeObject_->Init("subPlayerPunchLeftHandApproachKey");
-	leftHandLeaveKeyframeObject_ = std::make_unique<KeyframeObject3D>();
+	leftHandLeaveKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
 	leftHandLeaveKeyframeObject_->Init("subPlayerPunchLeftHandLeaveKey");
 
 	// 追加のキー情報を追加
@@ -37,7 +37,7 @@ SubPlayerPunchAttackState::SubPlayerPunchAttackState() {
 	leftHandLeaveKeyframeObject_->AddKeyValue(AnyMold::Color, addKeyColor);
 
 	// ヒットエフェクトの生成
-	hitEffect_ = std::make_unique<EffectGroup>();
+	hitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	hitEffect_->Init("punchHitEffect", "SubPlayerEffect");
 	hitEffect_->LoadJson("GameEffectGroup/SubPlayer/subPlayerPunchHitEffect.json");
 }
@@ -54,8 +54,8 @@ void SubPlayerPunchAttackState::Enter() {
 	leftHandApproachKeyframeObject_->StartLerp();
 
 	// 親子付け解除
-	rightHand_->SetParent(Transform3D(), true);
-	leftHand_->SetParent(Transform3D(), true);
+	rightHand_->SetParent(SakuEngine::Transform3D(), true);
+	leftHand_->SetParent(SakuEngine::Transform3D(), true);
 }
 
 void SubPlayerPunchAttackState::Update() {
@@ -92,11 +92,11 @@ void SubPlayerPunchAttackState::UpdateApproach() {
 
 		// 攻撃状態の補間処理を開始
 		// 体
-		Quaternion plusRotation = Quaternion::MakeAxisAngle(Vector3(0.0f, 1.0f, 0.0f), bodyOffsetAngleY_);
-		Quaternion minusRotation = Quaternion::MakeAxisAngle(Vector3(0.0f, 1.0f, 0.0f), -bodyOffsetAngleY_);
+		SakuEngine::Quaternion plusRotation = SakuEngine::Quaternion::MakeAxisAngle(SakuEngine::Vector3(0.0f, 1.0f, 0.0f), bodyOffsetAngleY_);
+		SakuEngine::Quaternion minusRotation = SakuEngine::Quaternion::MakeAxisAngle(SakuEngine::Vector3(0.0f, 1.0f, 0.0f), -bodyOffsetAngleY_);
 		enterBodyRotation_ = body_->GetRotation();
-		bodyStartRotation_ = Quaternion::Normalize(Quaternion::Multiply(plusRotation, enterBodyRotation_));
-		bodyTargetRotation_ = Quaternion::Normalize(Quaternion::Multiply(minusRotation, enterBodyRotation_));
+		bodyStartRotation_ = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(plusRotation, enterBodyRotation_));
+		bodyTargetRotation_ = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(minusRotation, enterBodyRotation_));
 		// 左手
 		SetupAttackInfo(leftHandAttackInfo_, *leftHand_, false);
 		// 右手
@@ -128,11 +128,11 @@ void SubPlayerPunchAttackState::UpdateAttack() {
 
 		// 体の回転を補間
 		float currentT = leftHandAttackInfo_.loop.LoopedT(leftHandAttackInfo_.timer.t_);
-		Quaternion rotation = Quaternion::Slerp(bodyStartRotation_,
+		SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Slerp(bodyStartRotation_,
 			bodyTargetRotation_, EasedValue(leftHandAttackInfo_.timer.easeingType_, currentT));
 
 		// 回転を適応
-		body_->SetRotation(Quaternion::Normalize(rotation));
+		body_->SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 		return;
 	}
 	// 補間終了
@@ -158,13 +158,13 @@ void SubPlayerPunchAttackState::UpdateAttack() {
 	// 溜め後の攻撃補間、逆向きに補間する
 	// 右手
 	{
-		Vector3 lerpPos = Vector3::Lerp(rightHandAttackInfo_.chargeTargetPos,
+		SakuEngine::Vector3 lerpPos = SakuEngine::Vector3::Lerp(rightHandAttackInfo_.chargeTargetPos,
 			rightHandAttackInfo_.chargeStartPos, chargeAttackTimer_.easedT_);
 		rightHand_->SetTranslation(lerpPos);
 	}
 	// 左手
 	{
-		Vector3 lerpPos = Vector3::Lerp(leftHandAttackInfo_.chargeTargetPos,
+		SakuEngine::Vector3 lerpPos = SakuEngine::Vector3::Lerp(leftHandAttackInfo_.chargeTargetPos,
 			leftHandAttackInfo_.chargeStartPos, chargeAttackTimer_.easedT_);
 		leftHand_->SetTranslation(lerpPos);
 	}
@@ -174,7 +174,7 @@ void SubPlayerPunchAttackState::UpdateAttack() {
 
 		// 回転を設定
 		hitEffect_->SetParentRotation("subPlayerPunchHitEffect",
-			Quaternion::Normalize(leftHand_->GetRotation()), ParticleUpdateModuleID::Rotation);
+			SakuEngine::Quaternion::Normalize(leftHand_->GetRotation()), ParticleUpdateModuleID::Rotation);
 
 		// ヒットエフェクト発生
 		hitEffect_->Emit(leftHand_->GetTransform().GetWorldPos());
@@ -254,8 +254,8 @@ void SubPlayerPunchAttackState::ResetKeyframeObjects() {
 	leftHandLeaveKeyframeObject_->Reset();
 }
 
-void SubPlayerPunchAttackState::UpdateKeyAndApply(KeyframeObject3D& bodyKeyframe,
-	KeyframeObject3D& rightHandKeyframe, KeyframeObject3D& leftHandKeyframe) {
+void SubPlayerPunchAttackState::UpdateKeyAndApply(SakuEngine::KeyframeObject3D& bodyKeyframe,
+	SakuEngine::KeyframeObject3D& rightHandKeyframe, SakuEngine::KeyframeObject3D& leftHandKeyframe) {
 
 	// 補間の更新
 	bodyKeyframe.SelfUpdate();
@@ -268,13 +268,13 @@ void SubPlayerPunchAttackState::UpdateKeyAndApply(KeyframeObject3D& bodyKeyframe
 	leftHand_->SetSRT(leftHandKeyframe.GetCurrentTransform());
 
 	// 色
-	body_->SetColor(std::get<Color>(bodyKeyframe.GetCurrentAnyValue(addKeyColor)));
-	rightHand_->SetColor(std::get<Color>(rightHandKeyframe.GetCurrentAnyValue(addKeyColor)));
-	leftHand_->SetColor(std::get<Color>(leftHandKeyframe.GetCurrentAnyValue(addKeyColor)));
+	body_->SetColor(std::get<SakuEngine::Color>(bodyKeyframe.GetCurrentAnyValue(addKeyColor)));
+	rightHand_->SetColor(std::get<SakuEngine::Color>(rightHandKeyframe.GetCurrentAnyValue(addKeyColor)));
+	leftHand_->SetColor(std::get<SakuEngine::Color>(leftHandKeyframe.GetCurrentAnyValue(addKeyColor)));
 }
 
-bool SubPlayerPunchAttackState::IsAllKeyframeEnd(KeyframeObject3D& bodyKeyframe,
-	KeyframeObject3D& rightHandKeyframe, KeyframeObject3D& leftHandKeyframe) {
+bool SubPlayerPunchAttackState::IsAllKeyframeEnd(SakuEngine::KeyframeObject3D& bodyKeyframe,
+	SakuEngine::KeyframeObject3D& rightHandKeyframe, SakuEngine::KeyframeObject3D& leftHandKeyframe) {
 
 	// 全ての補間処理が終了したかのチェック
 	if (!bodyKeyframe.IsUpdating() &&
@@ -285,7 +285,7 @@ bool SubPlayerPunchAttackState::IsAllKeyframeEnd(KeyframeObject3D& bodyKeyframe,
 	return false;
 }
 
-void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, GameObject3D& hand) {
+void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, SakuEngine::GameObject3D& hand) {
 
 	// アクティブな時のみ補間
 	if (!attackInfo.isActive) {
@@ -300,7 +300,7 @@ void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, GameObjec
 	float currentT = attackInfo.loop.LoopedT(attackInfo.timer.t_);
 
 	// 座標を補間
-	Vector3 lerpPos = Vector3::Lerp(attackInfo.startPos,
+	SakuEngine::Vector3 lerpPos = SakuEngine::Vector3::Lerp(attackInfo.startPos,
 		attackInfo.targetPos, EasedValue(attackInfo.timer.easeingType_, currentT));
 
 	// トランスフォームに適応
@@ -311,7 +311,7 @@ void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, GameObjec
 
 		// 回転を設定
 		hitEffect_->SetParentRotation("subPlayerPunchHitEffect",
-			Quaternion::Normalize(hand.GetRotation()), ParticleUpdateModuleID::Rotation);
+			SakuEngine::Quaternion::Normalize(hand.GetRotation()), ParticleUpdateModuleID::Rotation);
 
 		// ヒットエフェクト発生
 		hitEffect_->Emit(hand.GetTransform().GetWorldPos());
@@ -322,7 +322,7 @@ void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, GameObjec
 	attackInfo.prevRawT = attackInfo.timer.t_;
 }
 
-void SubPlayerPunchAttackState::LerpChargeHand(AttackInfo& attackInfo, GameObject3D& hand) {
+void SubPlayerPunchAttackState::LerpChargeHand(AttackInfo& attackInfo, SakuEngine::GameObject3D& hand) {
 
 	// 溜め時間が終了していれば補間しない
 	if (chargeTimer_.IsReached()) {
@@ -330,7 +330,7 @@ void SubPlayerPunchAttackState::LerpChargeHand(AttackInfo& attackInfo, GameObjec
 	}
 
 	// 座標を補間
-	Vector3 lerpPos = Vector3::Lerp(attackInfo.chargeStartPos,
+	SakuEngine::Vector3 lerpPos = SakuEngine::Vector3::Lerp(attackInfo.chargeStartPos,
 		attackInfo.chargeTargetPos, chargeTimer_.easedT_);
 
 	// トランスフォームに適応
@@ -338,13 +338,13 @@ void SubPlayerPunchAttackState::LerpChargeHand(AttackInfo& attackInfo, GameObjec
 }
 
 void SubPlayerPunchAttackState::SetupAttackInfo(AttackInfo& attackInfo,
-	const GameObject3D& hand, bool isAttackHand) {
+	const SakuEngine::GameObject3D& hand, bool isAttackHand) {
 
 	// 敵への向き
-	Vector3 handPos = hand.GetTransform().GetWorldPos();
-	Vector3 bossEnemyPos = bossEnemy_->GetTranslation();
+	SakuEngine::Vector3 handPos = hand.GetTransform().GetWorldPos();
+	SakuEngine::Vector3 bossEnemyPos = bossEnemy_->GetTranslation();
 	bossEnemyPos.y = bossEnemyOffsetY_;
-	Vector3 direction = Vector3(bossEnemyPos - handPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(bossEnemyPos - handPos).Normalize();
 
 	// 補間座標を設定する
 	// 開始位置

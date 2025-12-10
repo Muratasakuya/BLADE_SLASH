@@ -1,4 +1,4 @@
-﻿#include "AnimationObject2D.h"
+#include "AnimationObject2D.h"
 
 using namespace SakuEngine;
 
@@ -28,17 +28,17 @@ void AnimationObject2D::AddAnimationKey(const std::string& key) {
 	// 座標
 	translationChannels_[key].valueSource = std::make_unique<LerpValueSource<Vector2>>();
 	translationChannels_[key].getter = [](const AnimationObject2D& object) { return object.GetTranslation(); };
-	translationChannels_[key].setter = [](AnimationObject2D& object, const Vector2& value) { object.SetTranslation(value); };
+	translationChannels_[key].setter = [](AnimationObject2D& object, const SakuEngine::Vector2& value) { object.SetTranslation(value); };
 
 	// サイズ
 	sizeChannels_[key].valueSource = std::make_unique<LerpValueSource<Vector2>>();
 	sizeChannels_[key].getter = [](const AnimationObject2D& object) { return object.GetSize(); };
-	sizeChannels_[key].setter = [](AnimationObject2D& object, const Vector2& value) { object.SetSize(value); };
+	sizeChannels_[key].setter = [](AnimationObject2D& object, const SakuEngine::Vector2& value) { object.SetSize(value); };
 
 	// スケール
 	scaleChannels_[key].valueSource = std::make_unique<LerpValueSource<Vector2>>();
 	scaleChannels_[key].getter = [](const AnimationObject2D& object) { return object.GetTransform().sizeScale; };
-	scaleChannels_[key].setter = [](AnimationObject2D& object, const Vector2& value) { object.SetSizeScale(value); };
+	scaleChannels_[key].setter = [](AnimationObject2D& object, const SakuEngine::Vector2& value) { object.SetSizeScale(value); };
 
 	// 回転
 	rotationChannels_[key].valueSource = std::make_unique<LerpValueSource<float>>();
@@ -48,7 +48,7 @@ void AnimationObject2D::AddAnimationKey(const std::string& key) {
 	// 色
 	colorChannels_[key].valueSource = std::make_unique<LerpValueSource<Color>>();
 	colorChannels_[key].getter = [](const AnimationObject2D& object) { return object.GetColor(); };
-	colorChannels_[key].setter = [](AnimationObject2D& object, const Color& value) { object.SetColor(value); };
+	colorChannels_[key].setter = [](AnimationObject2D& object, const SakuEngine::Color& value) { object.SetColor(value); };
 
 	// アルファ
 	alphaChannels_[key].valueSource = std::make_unique<LerpValueSource<float>>();
@@ -78,7 +78,7 @@ void AnimationObject2D::UpdateAnimations() {
 void AnimationObject2D::StartAnimations(const std::string& key) {
 
 	// 存在しないキーでは処理しない
-	if (!Algorithm::Find(animationKeys_, key)) {
+	if (!SakuEngine::Algorithm::Find(animationKeys_, key)) {
 		return;
 	}
 
@@ -105,7 +105,7 @@ void AnimationObject2D::DerivedImGui() {
 		return;
 	}
 
-	ImGuiHelper::ComboFromStrings("Animation Keys", &selectedAnimationKeyIndex_,
+	SakuEngine::ImGuiHelper::ComboFromStrings("Animation Keys", &selectedAnimationKeyIndex_,
 		animationKeys_, static_cast<int32_t>(animationKeys_.size() + 1));
 
 	ImGui::Separator();
@@ -132,7 +132,7 @@ void AnimationObject2D::ToggleAnimationActiveState(bool isActive) {
 	std::string key = animationKeys_[selectedAnimationKeyIndex_];
 	const char* label = isActive ? "Active" : "Inactive";
 
-	if (EnumAdapter<AnimationType>::Combo(label, &editEnableAnimationType_)) {
+	if (SakuEngine::EnumAdapter<AnimationType>::Combo(label, &editEnableAnimationType_)) {
 		switch (editEnableAnimationType_) {
 		case AnimationObject2D::AnimationType::Translation:
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -48,7 +48,7 @@ public:
 	//--------- functions ----------------------------------------------------
 	
 	// 前処理、発生、停止判定を行う
-	void Update(const Vector3& worldPos, const EffectQueryGroupAliveFn& queryFn);
+	void Update(const SakuEngine::Vector3& worldPos, const EffectQueryGroupAliveFn& queryFn);
 
 	// リセット
 	void Reset();

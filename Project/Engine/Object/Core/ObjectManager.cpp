@@ -1,4 +1,4 @@
-﻿#include "ObjectManager.h"
+#include "ObjectManager.h"
 
 using namespace SakuEngine;
 
@@ -59,7 +59,7 @@ void ObjectManager::Init(ID3D12Device* device, Asset* asset, DxCommand* dxComman
 	systemManager_ = std::make_unique<SystemManager>();
 
 	// system登録
-	systemManager_->AddSystem<Transform3DSystem>();
+	systemManager_->AddSystem<SakuEngine::Transform3DSystem>();
 	systemManager_->AddSystem<Transform2DSystem>();
 	systemManager_->AddSystem<AnimationSystem>();
 	systemManager_->AddSystem<MaterialSystem>();
@@ -92,7 +92,7 @@ uint32_t ObjectManager::CreateObjects(const std::string& modelName,
 	// object作成
 	uint32_t object = BuildEmptyobject(name, groupName);
 	// 必要なdataを作成
-	auto* transform = objectPoolManager_->AddData<Transform3D>(object);
+	auto* transform = objectPoolManager_->AddData<SakuEngine::Transform3D>(object);
 	auto* materialsPtr = objectPoolManager_->AddData<Material, true>(object);
 	auto* meshRender = objectPoolManager_->AddData<MeshRender>(object);
 

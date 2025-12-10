@@ -1,4 +1,4 @@
-﻿#include "StateTimer.h"
+#include "StateTimer.h"
 
 using namespace SakuEngine;
 
@@ -18,7 +18,7 @@ using namespace SakuEngine;
 void StateTimer::Update(const std::optional<float>& target, bool isUseScaledDeltaTime) {
 
 	float endTarget = target.has_value() ? target.value() : target_;
-	current_ += isUseScaledDeltaTime ? GameTimer::GetScaledDeltaTime() : GameTimer::GetDeltaTime();
+	current_ += isUseScaledDeltaTime ? SakuEngine::GameTimer::GetScaledDeltaTime() : SakuEngine::GameTimer::GetDeltaTime();
 	t_ = std::clamp(current_ / endTarget, 0.0f, 1.0f);
 	easedT_ = EasedValue(easeingType_, t_);
 }
@@ -61,12 +61,12 @@ void StateTimer::FromJson(const Json& data) {
 
 	target_ = data.value("target_", 0.8f);
 
-	const auto& easing = EnumAdapter<EasingType>::FromString(data.value("easeingType_", "EaseInSine"));
+	const auto& easing = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easeingType_", "EaseInSine"));
 	easeingType_ = easing.value();
 }
 
 void StateTimer::ToJson(Json& data) {
 
 	data["target_"] = target_;
-	data["easeingType_"] = EnumAdapter<EasingType>::ToString(easeingType_);
+	data["easeingType_"] = SakuEngine::EnumAdapter<EasingType>::ToString(easeingType_);
 }

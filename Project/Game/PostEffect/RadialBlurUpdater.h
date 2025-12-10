@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -23,7 +23,7 @@ enum class RadialBlurType {
 //	ラジアルブラーの更新、中心からぼかす
 //============================================================================
 class RadialBlurUpdater :
-	public IPostProcessUpdater<RadialBlurForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::RadialBlurForGPU> {
 public:
 	//========================================================================
 	//	public Methods
@@ -57,7 +57,7 @@ public:
 	void StartReturnState();
 
 	// ブラーの中心を設定
-	void SetBlurCenter(const Vector2& center);
+	void SetBlurCenter(const SakuEngine::Vector2& center);
 	// 自動で元に戻るようにするか設定
 	void SetIsAutoReturn(bool isAuto) { isAutoReturn_ = isAuto; }
 
@@ -82,9 +82,9 @@ private:
 	struct LerpRadialBlur {
 
 		// 補間してデータに渡す
-		SimpleAnimation<Vector2> center;
-		SimpleAnimation<int> numSamples;
-		SimpleAnimation<float> width;
+		SakuEngine::SimpleAnimation<SakuEngine::Vector2> center;
+		SakuEngine::SimpleAnimation<int> numSamples;
+		SakuEngine::SimpleAnimation<float> width;
 	};
 
 	//--------- variables ----------------------------------------------------

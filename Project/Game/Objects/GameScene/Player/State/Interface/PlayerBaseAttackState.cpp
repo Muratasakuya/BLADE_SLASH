@@ -1,4 +1,4 @@
-﻿#include "PlayerBaseAttackState.h"
+#include "PlayerBaseAttackState.h"
 
 //============================================================================
 //	include
@@ -12,7 +12,7 @@
 //	PlayerBaseAttackState classMethods
 //============================================================================
 
-void PlayerBaseAttackState::UpdateTimer(StateTimer& timer) {
+void PlayerBaseAttackState::UpdateTimer(SakuEngine::StateTimer& timer) {
 
 	// 外部による更新がないときのみ
 	if (!externalActive_) {
@@ -24,18 +24,18 @@ void PlayerBaseAttackState::UpdateTimer(StateTimer& timer) {
 void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
 
 	// 時間経過
-	attackPosLerpTimer_ += GameTimer::GetScaledDeltaTime();
+	attackPosLerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	float lerpT = std::clamp(attackPosLerpTimer_ / attackPosLerpTime_, 0.0f, 1.0f);
 	lerpT = EasedValue(attackPosEaseType_, lerpT);
 
 	// 座標、距離を取得
-	Vector3 playerPos = player.GetTranslation();
-	Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
+	SakuEngine::Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
 	// y座標を合わせる
 	enemyPos.y = playerPos.y;
 	// プレイヤーとボス敵の距離、向きを取得
 	float distance = PlayerIState::GetDistanceToBossEnemy();
-	Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
 
 	// 補間先を設定
 	if (onceTarget) {
@@ -43,27 +43,27 @@ void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
 			!targetRotation_.has_value()) {
 
 			targetTranslation_ = enemyPos - direction * attackOffsetTranslation_;
-			targetRotation_ = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
+			targetRotation_ = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
 		}
 	} else {
 
 		targetTranslation_ = enemyPos - direction * attackOffsetTranslation_;
-		targetRotation_ = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
+		targetRotation_ = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
 	}
 
 	// 指定円の中に敵がいれば敵の座標まで補間する
 	if (CheckInRange(attackPosLerpCircleRange_, distance)) {
 
 		// 補間先
-		Vector3 translation = Vector3::Lerp(playerPos, *targetTranslation_, std::clamp(lerpT, 0.0f, 1.0f));
+		SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(playerPos, *targetTranslation_, std::clamp(lerpT, 0.0f, 1.0f));
 		player.SetTranslation(translation);
 	}
 
 	// 指定円の中に敵がいれば敵の方向に向かせる
 	if (CheckInRange(attackLookAtCircleRange_, distance)) {
 
-		Quaternion currentRotation = player.GetRotation();
-		player.SetRotation(Quaternion::Slerp(currentRotation, *targetRotation_, std::clamp(rotationLerpRate_, 0.0f, 1.0f)));
+		SakuEngine::Quaternion currentRotation = player.GetRotation();
+		player.SetRotation(SakuEngine::Quaternion::Slerp(currentRotation, *targetRotation_, std::clamp(rotationLerpRate_, 0.0f, 1.0f)));
 	}
 }
 
@@ -79,47 +79,47 @@ bool PlayerBaseAttackState::CheckInRange(float range, float distance) {
 	return result;
 }
 
-Vector3 PlayerBaseAttackState::GetPlayerOffsetPos(
-	const Player& player, const Vector3& offsetTranslation) const {
+SakuEngine::Vector3 PlayerBaseAttackState::GetPlayerOffsetPos(
+	const Player& player, const SakuEngine::Vector3& offsetTranslation) const {
 
-	Vector3 offset = Vector3::Transform(offsetTranslation,
-		Quaternion::MakeRotateMatrix(player.GetRotation()));
+	SakuEngine::Vector3 offset = SakuEngine::Vector3::Transform(offsetTranslation,
+		SakuEngine::Quaternion::MakeRotateMatrix(player.GetRotation()));
 
 	return player.GetTranslation() + offset;
 }
 
-Matrix4x4 PlayerBaseAttackState::GetPlayerOffsetRotation(
-	const Player& player, const Vector3& offsetRotation) const {
+SakuEngine::Matrix4x4 PlayerBaseAttackState::GetPlayerOffsetRotation(
+	const Player& player, const SakuEngine::Vector3& offsetRotation) const {
 
 	// playerの回転
-	Matrix4x4 playerRotation = Quaternion::MakeRotateMatrix(player.GetRotation());
+	SakuEngine::Matrix4x4 playerRotation = SakuEngine::Quaternion::MakeRotateMatrix(player.GetRotation());
 	// オフセット回転
-	Matrix4x4 offsetMatrix = Matrix4x4::MakeRotateMatrix(offsetRotation);
+	SakuEngine::Matrix4x4 offsetMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(offsetRotation);
 
 	return playerRotation * offsetMatrix;
 }
 
-void PlayerBaseAttackState::SetTimerByOverall(StateTimer& timer, float overall,
+void PlayerBaseAttackState::SetTimerByOverall(SakuEngine::StateTimer& timer, float overall,
 	float start, float end, EasingType easing) {
 
-	timer.t_ = Algorithm::MapOverallToLocal(overall, start, end);
+	timer.t_ = SakuEngine::Algorithm::MapOverallToLocal(overall, start, end);
 	timer.easedT_ = EasedValue(easing, timer.t_);
 }
 
 void PlayerBaseAttackState::DrawAttackOffset(const Player& player) {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	// 座標、距離を取得
-	Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player.GetTranslation();
 	playerPos.y = 2.0f;
-	Vector3 enemyPos = bossEnemy_->GetTranslation();
+	SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	enemyPos.y = 2.0f;
-	Vector3 direction = (enemyPos - playerPos).Normalize();
-	Vector3 target = enemyPos - direction * attackOffsetTranslation_;
+	SakuEngine::Vector3 direction = (enemyPos - playerPos).Normalize();
+	SakuEngine::Vector3 target = enemyPos - direction * attackOffsetTranslation_;
 
-	lineRenderer->DrawLine3D(playerPos, target, Color::Red());
-	lineRenderer->DrawSphere(8, 2.0f, target, Color::Red());
+	lineRenderer->DrawLine3D(playerPos, target, SakuEngine::Color::Red());
+	lineRenderer->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
 }
 
 void PlayerBaseAttackState::ResetTarget() {
@@ -140,21 +140,21 @@ void PlayerBaseAttackState::ImGui(const Player& player) {
 
 	DrawAttackOffset(player);
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
-	Vector3 center = player.GetTranslation();
+	SakuEngine::Vector3 center = player.GetTranslation();
 	center.y = 2.0f;
-	lineRenderer->DrawCircle(8, attackPosLerpCircleRange_, center, Color::Red());
-	lineRenderer->DrawCircle(8, attackLookAtCircleRange_, center, Color::Blue());
+	lineRenderer->DrawCircle(8, attackPosLerpCircleRange_, center, SakuEngine::Color::Red());
+	lineRenderer->DrawCircle(8, attackLookAtCircleRange_, center, SakuEngine::Color::Blue());
 }
 
 void PlayerBaseAttackState::ApplyJson(const Json& data) {
 
-	attackPosLerpCircleRange_ = JsonAdapter::GetValue<float>(data, "attackPosLerpCircleRange_");
-	attackLookAtCircleRange_ = JsonAdapter::GetValue<float>(data, "attackLookAtCircleRange_");
-	attackOffsetTranslation_ = JsonAdapter::GetValue<float>(data, "attackOffsetTranslation_");
-	attackPosLerpTime_ = JsonAdapter::GetValue<float>(data, "attackPosLerpTime_");
-	attackPosEaseType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "attackPosEaseType_"));
+	attackPosLerpCircleRange_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackPosLerpCircleRange_");
+	attackLookAtCircleRange_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackLookAtCircleRange_");
+	attackOffsetTranslation_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackOffsetTranslation_");
+	attackPosLerpTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackPosLerpTime_");
+	attackPosEaseType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "attackPosEaseType_"));
 }
 
 void PlayerBaseAttackState::SaveJson(Json& data) {

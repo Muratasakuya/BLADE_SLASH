@@ -1,4 +1,4 @@
-﻿#include "PipelineState.h"
+#include "PipelineState.h"
 
 using namespace SakuEngine;
 
@@ -288,7 +288,7 @@ void PipelineState::BuildBlendStateForMode(D3D12_BLEND_DESC& outDesc, BlendMode 
 DXGI_FORMAT PipelineState::GetFormatFromString(const std::string& name) const {
 
 	std::string fullName = "DXGI_FORMAT_" + name;
-	return EnumAdapter<DXGI_FORMAT>::FromString(fullName).value();
+	return SakuEngine::EnumAdapter<DXGI_FORMAT>::FromString(fullName).value();
 }
 
 ID3D12PipelineState* PipelineState::GetGraphicsPipeline(BlendMode blendMode) const {

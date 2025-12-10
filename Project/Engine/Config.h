@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -30,8 +30,8 @@ namespace  Config {
 	const constexpr float kWindowHeightf = static_cast<float>(kWindowHeight);
 
 	// clearColor
-	const float kWindowClearColor[] = { Color::Convert(0x181818ff).r,
-		Color::Convert(0x181818ff).g, Color::Convert(0x181818ff).b, 1.0f };
+	const float kWindowClearColor[] = { SakuEngine::Color::Convert(0x181818ff).r,
+		SakuEngine::Color::Convert(0x181818ff).g, SakuEngine::Color::Convert(0x181818ff).b, 1.0f };
 	// shadowMap...値が大きい方が精度が上がる
 	const constexpr uint32_t kShadowMapSize = 128;
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -18,7 +18,7 @@ class SceneView;
 //	カメラのキーフレーム制御を行い反映させるエディター
 //============================================================================
 class CameraEditor :
-	public IGameEditor {
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
@@ -52,7 +52,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 親の設定、特定のキーにのみ設定
-	void SetParentTransform(const std::string& keyName, const Transform3D& parent);
+	void SetParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent);
 
 	// singleton
 	static CameraEditor* GetInstance();

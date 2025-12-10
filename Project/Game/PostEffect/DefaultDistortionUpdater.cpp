@@ -1,4 +1,4 @@
-﻿#include "DefaultDistortionUpdater.h"
+#include "DefaultDistortionUpdater.h"
 
 //============================================================================
 //	include
@@ -22,10 +22,10 @@ void DefaultDistortionUpdater::Init() {
 void DefaultDistortionUpdater::Update() {
 
 	// UVの更新
-	bufferData_.uvTransform = Matrix4x4::MakeAffineMatrix(
-		Vector3(scale_.x, scale_.y, 1.0f),
-		Vector3(0.0f, 0.0f, rotationZ_),
-		Vector3(translation_.x, translation_.y, 0.0f));
+	bufferData_.uvTransform = SakuEngine::Matrix4x4::MakeAffineMatrix(
+		SakuEngine::Vector3(scale_.x, scale_.y, 1.0f),
+		SakuEngine::Vector3(0.0f, 0.0f, rotationZ_),
+		SakuEngine::Vector3(translation_.x, translation_.y, 0.0f));
 }
 
 void DefaultDistortionUpdater::ImGui() {
@@ -36,9 +36,9 @@ void DefaultDistortionUpdater::ImGui() {
 	// テクスチャ選択
 	// 表示サイズ
 	const float imageSize = 88.0f;
-	ImGuiHelper::ImageButtonWithLabel("texture", processTextureName_,
+	SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", processTextureName_,
 		(ImTextureID)asset_->GetGPUHandle(processTextureName_).ptr, { imageSize, imageSize });
-	std::string dragTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+	std::string dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 	if (!dragTextureName.empty()) {
 
 		// textureを設定
@@ -69,8 +69,8 @@ void DefaultDistortionUpdater::ApplyJson() {
 	bufferData_.bias = data["bias"].get<float>();
 	bufferData_.strength = data["strength"].get<float>();
 
-	translation_ = Vector2::FromJson(data["translation"]);
-	scale_ = Vector2::FromJson(data["scale"]);
+	translation_ = SakuEngine::Vector2::FromJson(data["translation"]);
+	scale_ = SakuEngine::Vector2::FromJson(data["scale"]);
 	rotationZ_ = data["rotationZ"].get<float>();
 }
 

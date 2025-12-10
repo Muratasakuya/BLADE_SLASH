@@ -1,4 +1,4 @@
-﻿#include "EndGameCamera.h"
+#include "EndGameCamera.h"
 
 //============================================================================
 //	include
@@ -48,7 +48,7 @@ void EndGameCamera::UpdateAnimation() {
 	animationTimer_.Update();
 
 	// 座標を補間
-	transform_.translation = Vector3::Lerp(
+	transform_.translation = SakuEngine::Vector3::Lerp(
 		startPos_, targetPos_, animationTimer_.easedT_);
 
 	// 補間が終了したら次に進める
@@ -68,7 +68,7 @@ void EndGameCamera::ImGui() {
 
 	ImGui::Checkbox("updateDebugView", &updateDebugView_);
 	ImGui::Checkbox("disableTransition", &disableTransition_);
-	EnumAdapter<State>::Combo("state", &currentState_);
+	SakuEngine::EnumAdapter<State>::Combo("state", &currentState_);
 
 	ImGui::DragFloat3("startPos", &startPos_.x, 0.1f);
 	ImGui::DragFloat3("targetPos", &targetPos_.x, 0.1f);
@@ -79,13 +79,13 @@ void EndGameCamera::ImGui() {
 void EndGameCamera::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Camera/EndGame/animationParam.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Camera/EndGame/animationParam.json", data)) {
 		return;
 	}
 
 	animationTimer_.FromJson(data["AnimationTimer"]);
-	startPos_ = Vector3::FromJson(data["startPos_"]);
-	targetPos_ = Vector3::FromJson(data["targetPos_"]);
+	startPos_ = SakuEngine::Vector3::FromJson(data["startPos_"]);
+	targetPos_ = SakuEngine::Vector3::FromJson(data["targetPos_"]);
 }
 
 void EndGameCamera::SaveJson() {
@@ -96,5 +96,5 @@ void EndGameCamera::SaveJson() {
 	data["startPos_"] = startPos_.ToJson();
 	data["targetPos_"] = targetPos_.ToJson();
 
-	JsonAdapter::Save("Camera/EndGame/animationParam.json", data);
+	SakuEngine::JsonAdapter::Save("Camera/EndGame/animationParam.json", data);
 }

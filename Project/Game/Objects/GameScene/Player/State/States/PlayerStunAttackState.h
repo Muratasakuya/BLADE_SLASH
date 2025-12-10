@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -62,17 +62,17 @@ private:
 	// プレイヤーの攻撃補間
 	float bossEnemyDistance_; // ボスとの距離
 	float moveDistance_;      // 移動距離
-	Vector3 startPlayerPos_;
-	Vector3 targetPlayerPos_;
-	StateTimer playerMoveTimer_;
+	SakuEngine::Vector3 startPlayerPos_;
+	SakuEngine::Vector3 targetPlayerPos_;
+	SakuEngine::StateTimer playerMoveTimer_;
 
 	// ヒットストップ
 	bool isHitStopStart_ = false;
 	float startHitStopProgress_;
-	DelayedHitstop hitStop_;
+	SakuEngine::DelayedHitstop hitStop_;
 
 	// ヒットエフェクト
-	std::unique_ptr<EffectGroup> hitEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> hitEffect_;
 	float hitEffectOffsetY_;
 
 	//--------- functions ----------------------------------------------------

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -42,8 +42,8 @@ protected:
 	EasingType attackPosEaseType_;   // 座標補間に使用するイージングの種類
 
 	// 補間目標
-	std::optional<Vector3> targetTranslation_;
-	std::optional<Quaternion> targetRotation_;
+	std::optional<SakuEngine::Vector3> targetTranslation_;
+	std::optional<SakuEngine::Quaternion> targetRotation_;
 
 	// 同期
 	bool externalActive_ = false; // エディターと同期中か
@@ -61,14 +61,14 @@ protected:
 	void ResetTarget();
 
 	// update
-	void UpdateTimer(StateTimer& timer);
+	void UpdateTimer(SakuEngine::StateTimer& timer);
 	void AttackAssist(Player& player, bool onceTarget = false);
 
 	// helper
 	bool CheckInRange(float range, float distance);
-	Vector3 GetPlayerOffsetPos(const Player& player, const Vector3& offsetTranslation) const;
-	Matrix4x4 GetPlayerOffsetRotation(const Player& player, const Vector3& offsetRotation) const;
-	void SetTimerByOverall(StateTimer& timer, float overall,
+	SakuEngine::Vector3 GetPlayerOffsetPos(const Player& player, const SakuEngine::Vector3& offsetTranslation) const;
+	SakuEngine::Matrix4x4 GetPlayerOffsetRotation(const Player& player, const SakuEngine::Vector3& offsetRotation) const;
+	void SetTimerByOverall(SakuEngine::StateTimer& timer, float overall,
 		float start, float end, EasingType easing);
 
 	// debug

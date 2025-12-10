@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateRotationModule.h"
+#include "ParticleUpdateRotationModule.h"
 
 using namespace SakuEngine;
 
@@ -40,19 +40,19 @@ void ParticleUpdateRotationModule::SetCommand(const ParticleCommand& command) {
 	}
 }
 
-static Quaternion MakeTwist(const Quaternion& rotation, const Vector3& axisN) {
+static Quaternion MakeTwist(const Quaternion& rotation, const SakuEngine::Vector3& axisN) {
 
 	// rotationのベクトル部を軸へ射影して、軸回りのツイストを取り出す
 	Vector3 axis = axisN.Normalize();
 	Vector3 v = { rotation.x, rotation.y, rotation.z };
 	Vector3 projection = axis * Vector3::Dot(v, axis);
 	Quaternion twist{ projection.x, projection.y, projection.z, rotation.w };
-	return Quaternion::Normalize(twist);
+	return SakuEngine::Quaternion::Normalize(twist);
 }
 
 void ParticleUpdateRotationModule::ToAxisAngle(const Quaternion& rotation, Vector3& axis, float& angle) {
 
-	Quaternion normalizedRotate = Quaternion::Normalize(rotation);
+	Quaternion normalizedRotate = SakuEngine::Quaternion::Normalize(rotation);
 	angle = 2.0f * std::acos(std::clamp(normalizedRotate.w, -1.0f, 1.0f)); // 0, 2π
 	const float sin = std::sqrt((std::max)(
 		0.0f, 1.0f - normalizedRotate.w * normalizedRotate.w)); // sin(angle/2)
@@ -78,8 +78,8 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 	}
 	case UpdateType::Slerp: {
 
-		const Quaternion start = Quaternion::Normalize(lerpRotation_.start);
-		const Quaternion target = Quaternion::Normalize(lerpRotation_.target);
+		const Quaternion start = SakuEngine::Quaternion::Normalize(lerpRotation_.start);
+		const Quaternion target = SakuEngine::Quaternion::Normalize(lerpRotation_.target);
 
 		// 回転差分
 		const Quaternion delta = Quaternion::Multiply(Quaternion::Inverse(start), target);
@@ -99,8 +99,8 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 		angle += 2.0f * pi * static_cast<float>(slerpExtraTurns_);
 
 		const float t = EasedValue(easing_, particle.progress);
-		Quaternion step = Quaternion::MakeAxisAngle(axis, angle * t);
-		return Quaternion::Normalize(Quaternion::Multiply(start, step));
+		Quaternion step = SakuEngine::Quaternion::MakeAxisAngle(axis, angle * t);
+		return SakuEngine::Quaternion::Normalize(Quaternion::Multiply(start, step));
 	}
 	case UpdateType::AngularVelocity: {
 
@@ -108,9 +108,9 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 		Quaternion rotation = particle.rotation;
 		Vector3 axis = angleAxis_.Normalize();
 		// 軸回転させた後の回転を計算
-		Quaternion angleRotation = Quaternion::Normalize(
-			Quaternion::MakeAxisAngle(axis, angleSpeedRadian_ * deltaTime));
-		return Quaternion::Normalize(rotation * angleRotation);
+		Quaternion angleRotation = SakuEngine::Quaternion::Normalize(
+			SakuEngine::Quaternion::MakeAxisAngle(axis, angleSpeedRadian_ * deltaTime));
+		return SakuEngine::Quaternion::Normalize(rotation * angleRotation);
 	}
 	case UpdateType::LookToVelocity: {
 
@@ -120,7 +120,7 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 
 			return particle.rotation;
 		}
-		return Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
+		return SakuEngine::Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
 	}
 	}
 	return particle.rotation;
@@ -140,15 +140,15 @@ Quaternion ParticleUpdateRotationModule::LockAxis(const Quaternion& rotation) co
 	// 元の姿勢をSwing * Twistに分解してTwistの角度を置き換える
 	Quaternion twist = MakeTwist(rotation, axis);
 	Quaternion swing = Quaternion::Multiply(rotation, Quaternion::Inverse(twist));
-	Quaternion fixedTwist = Quaternion::MakeAxisAngle(axis, lockAxisAngle_);
-	return Quaternion::Normalize(Quaternion::Multiply(swing, fixedTwist));
+	Quaternion fixedTwist = SakuEngine::Quaternion::MakeAxisAngle(axis, lockAxisAngle_);
+	return SakuEngine::Quaternion::Normalize(Quaternion::Multiply(swing, fixedTwist));
 }
 
 void ParticleUpdateRotationModule::UpdateMatrix(
 	CPUParticle::ParticleData& particle, const Quaternion& rotation) {
 
 	// 親の回転を掛ける
-	particle.rotation = Quaternion::Normalize(
+	particle.rotation = SakuEngine::Quaternion::Normalize(
 		Quaternion::Multiply(parentRotation_, rotation));
 
 	// 全軸ビルボード処理
@@ -186,9 +186,9 @@ void ParticleUpdateRotationModule::Execute(
 
 void ParticleUpdateRotationModule::ImGui() {
 
-	EnumAdapter<ParticleBillboardType>::Combo("billboardType", &billboardType_);
-	EnumAdapter<UpdateType>::Combo("updateType", &updateType_);
-	EnumAdapter<LockAxisType>::Combo("lockAxisType", &lockAxisType_);
+	SakuEngine::EnumAdapter<ParticleBillboardType>::Combo("billboardType", &billboardType_);
+	SakuEngine::EnumAdapter<UpdateType>::Combo("updateType", &updateType_);
+	SakuEngine::EnumAdapter<LockAxisType>::Combo("lockAxisType", &lockAxisType_);
 
 	switch (updateType_) {
 	case UpdateType::LockRotation:
@@ -196,12 +196,12 @@ void ParticleUpdateRotationModule::ImGui() {
 		if (ImGui::DragFloat3("eulerLockRotation", &eulerLockRotation_.x, 0.01f)) {
 
 			lockRotation_ = Quaternion::EulerToQuaternion(eulerLockRotation_);
-			lockRotation_ = Quaternion::Normalize(lockRotation_);
+			lockRotation_ = SakuEngine::Quaternion::Normalize(lockRotation_);
 		}
 
 		if (ImGui::DragFloat4("lockRotation", &lockRotation_.x, 0.01f)) {
 
-			lockRotation_ = Quaternion::Normalize(lockRotation_);
+			lockRotation_ = SakuEngine::Quaternion::Normalize(lockRotation_);
 			eulerLockRotation_ = lockRotation_.ToEulerAngles(lockRotation_);
 		}
 		break;
@@ -209,11 +209,11 @@ void ParticleUpdateRotationModule::ImGui() {
 
 		if (ImGui::DragFloat4("startRotation", &lerpRotation_.start.x, 0.01f)) {
 
-			lerpRotation_.start = Quaternion::Normalize(lerpRotation_.start);
+			lerpRotation_.start = SakuEngine::Quaternion::Normalize(lerpRotation_.start);
 		}
 		if (ImGui::DragFloat4("targetRotation", &lerpRotation_.target.x, 0.01f)) {
 
-			lerpRotation_.target = Quaternion::Normalize(lerpRotation_.target);
+			lerpRotation_.target = SakuEngine::Quaternion::Normalize(lerpRotation_.target);
 		}
 		ImGui::DragInt("extraTurns", &slerpExtraTurns_, 1, 0, 20);
 		ImGui::Checkbox("preferLongArc", &slerpPreferLongArc_);
@@ -240,10 +240,10 @@ Json ParticleUpdateRotationModule::ToJson() {
 	Json data;
 
 	data["lockRotation"] = lockRotation_.ToJson();
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easing_);
-	data["billboardType"] = EnumAdapter<ParticleBillboardType>::ToString(billboardType_);
-	data["updateType"] = EnumAdapter<UpdateType>::ToString(updateType_);
-	data["lockAxisType"] = EnumAdapter<LockAxisType>::ToString(lockAxisType_);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easing_);
+	data["billboardType"] = SakuEngine::EnumAdapter<ParticleBillboardType>::ToString(billboardType_);
+	data["updateType"] = SakuEngine::EnumAdapter<UpdateType>::ToString(updateType_);
+	data["lockAxisType"] = SakuEngine::EnumAdapter<LockAxisType>::ToString(lockAxisType_);
 
 	// 回転
 	data["lerpRotation"]["start"] = lerpRotation_.start.ToJson();
@@ -263,23 +263,23 @@ void ParticleUpdateRotationModule::FromJson(const Json& data) {
 
 	lockRotation_ = Quaternion::FromJson(data.value("lockRotation", Json()));
 
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", "EaseInSine"));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", "EaseInSine"));
 	easing_ = easingType.value();
 
-	const auto& billboardType = EnumAdapter<ParticleBillboardType>::FromString(data.value("billboardType", "All"));
+	const auto& billboardType = SakuEngine::EnumAdapter<ParticleBillboardType>::FromString(data.value("billboardType", "All"));
 	billboardType_ = billboardType.value();
 
-	const auto& updateType = EnumAdapter<UpdateType>::FromString(data.value("updateType", "Slerp"));
+	const auto& updateType = SakuEngine::EnumAdapter<UpdateType>::FromString(data.value("updateType", "Slerp"));
 	updateType_ = updateType.value();
 
-	const auto& lockAxisType = EnumAdapter<LockAxisType>::FromString(data.value("lockAxisType", "None"));
+	const auto& lockAxisType = SakuEngine::EnumAdapter<LockAxisType>::FromString(data.value("lockAxisType", "None"));
 	lockAxisType_ = lockAxisType.value();
 
 	// 回転
 	const auto& lerpData = data["lerpRotation"];
 	lerpRotation_.start = Quaternion::FromJson(lerpData["start"]);
 	lerpRotation_.target = Quaternion::FromJson(lerpData["target"]);
-	angleAxis_ = Vector3::FromJson(data["angleAxis_"]);
+	angleAxis_ = SakuEngine::Vector3::FromJson(data["angleAxis_"]);
 	angleSpeedRadian_ = data.value("angleSpeedRadian_", 0.0f);
 	slerpExtraTurns_ = data.value("slerpExtraTurns_", 0);
 	slerpPreferLongArc_ = data.value("slerpPreferLongArc_", false);

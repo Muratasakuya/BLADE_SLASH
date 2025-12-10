@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -71,10 +71,10 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// ノイズ値の生成
-	float Noise3(const Vector3& p, uint32_t s) const;      // ノイズ生成
-	float FBm(const Vector3& p, uint32_t s) const;         // オクターブ合成
-	Vector3 GradNoise(const Vector3& p, uint32_t s) const; // ∇fBm
-	Vector3 CurlNoise(const Vector3& p) const;             // ∇×(fBm1,fBm2,fBm3)
+	float Noise3(const SakuEngine::Vector3& p, uint32_t s) const;      // ノイズ生成
+	float FBm(const SakuEngine::Vector3& p, uint32_t s) const;         // オクターブ合成
+	Vector3 GradNoise(const SakuEngine::Vector3& p, uint32_t s) const; // ∇fBm
+	Vector3 CurlNoise(const SakuEngine::Vector3& p) const;             // ∇×(fBm1,fBm2,fBm3)
 };
 
 }; // SakuEngine

@@ -1,4 +1,4 @@
-﻿#include "InstancedMeshBuffer.h"
+#include "InstancedMeshBuffer.h"
 
 using namespace SakuEngine;
 
@@ -145,7 +145,7 @@ void InstancedMeshBuffer::Create(IMesh* mesh,
 	const std::string& name, uint32_t numInstance) {
 
 	// すでにある場合は作成しない
-	if (Algorithm::Find(meshGroups_, name)) {
+	if (SakuEngine::Algorithm::Find(meshGroups_, name)) {
 		return;
 	}
 

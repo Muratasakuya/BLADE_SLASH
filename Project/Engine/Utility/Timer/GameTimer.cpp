@@ -1,4 +1,4 @@
-﻿#include "GameTimer.h"
+#include "GameTimer.h"
 
 using namespace SakuEngine;
 
@@ -204,7 +204,7 @@ void GameTimer::EndDrawCount() {
 	AddMeasurement(drawTimes_, drawMeasure_.resultSeconds.count());
 }
 
-float GameTimer::GetTotalTime() {
+float SakuEngine::GameTimer::GetTotalTime() {
 
 	auto now = std::chrono::steady_clock::now();
 	std::chrono::duration<float> elapsed = now - startTime_;

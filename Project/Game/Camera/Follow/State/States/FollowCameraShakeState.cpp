@@ -1,4 +1,4 @@
-﻿#include "FollowCameraShakeState.h"
+#include "FollowCameraShakeState.h"
 
 //============================================================================
 //	include
@@ -22,8 +22,8 @@ void FollowCameraShakeState::Enter([[maybe_unused]] FollowCamera& followCamera) 
 
 void FollowCameraShakeState::Update(FollowCamera& followCamera) {
 
-	shakeTimer_ += GameTimer::GetScaledDeltaTime();
-	const Transform3D& transform = followCamera.GetTransform();
+	shakeTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
+	const SakuEngine::Transform3D& transform = followCamera.GetTransform();
 
 	// シェイクの残り時間を計算
 	if (shakeTimer_ >= shakeTime_) {
@@ -36,14 +36,14 @@ void FollowCameraShakeState::Update(FollowCamera& followCamera) {
 	float intensity = std::lerp(shakeXZIntensity_, 0.0f, lerpT);
 	float offsetYIntensity = std::lerp(shakeOffsetYIntensity_, 0.0f, lerpT);
 
-	float offsetX = RandomGenerator::Generate(-1.0f, 1.0f) * intensity;
-	float offsetY = RandomGenerator::Generate(-1.0f, 1.0f) * (intensity + offsetYIntensity);
-	float offsetZ = RandomGenerator::Generate(-1.0f, 1.0f) * intensity;
+	float offsetX = SakuEngine::RandomGenerator::Generate(-1.0f, 1.0f) * intensity;
+	float offsetY = SakuEngine::RandomGenerator::Generate(-1.0f, 1.0f) * (intensity + offsetYIntensity);
+	float offsetZ = SakuEngine::RandomGenerator::Generate(-1.0f, 1.0f) * intensity;
 
-	Vector3 forward = transform.GetForward();
-	Vector3 right = transform.GetRight();
+	SakuEngine::Vector3 forward = transform.GetForward();
+	SakuEngine::Vector3 right = transform.GetRight();
 
-	Vector3 translation = transform.translation + (forward * offsetZ) + (right * offsetX);
+	SakuEngine::Vector3 translation = transform.translation + (forward * offsetZ) + (right * offsetX);
 	translation.y += offsetY;
 
 	// 座標を設定
@@ -69,10 +69,10 @@ void FollowCameraShakeState::ImGui([[maybe_unused]] const FollowCamera& followCa
 
 void FollowCameraShakeState::ApplyJson(const Json& data) {
 
-	shakeXZIntensity_ = JsonAdapter::GetValue<float>(data, "shakeXZIntensity_");
-	shakeOffsetYIntensity_ = JsonAdapter::GetValue<float>(data, "shakeOffsetYIntensity_");
-	shakeTime_ = JsonAdapter::GetValue<float>(data, "shakeTime_");
-	shakeEasingType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "shakeEasingType_"));
+	shakeXZIntensity_ = SakuEngine::JsonAdapter::GetValue<float>(data, "shakeXZIntensity_");
+	shakeOffsetYIntensity_ = SakuEngine::JsonAdapter::GetValue<float>(data, "shakeOffsetYIntensity_");
+	shakeTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "shakeTime_");
+	shakeEasingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "shakeEasingType_"));
 }
 
 void FollowCameraShakeState::SaveJson(Json& data) {

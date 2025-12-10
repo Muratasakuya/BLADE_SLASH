@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================*/
 //	include
@@ -26,9 +26,9 @@ public:
 	static T Generate(T min, T max);
 
 	// Vector3
-	static Vector3 Generate(const Vector3& min, const Vector3& max);
+	static SakuEngine::Vector3 Generate(const SakuEngine::Vector3& min, const SakuEngine::Vector3& max);
 	// Color
-	static Color Generate(const Color& min, const Color& max);
+	static Color Generate(const SakuEngine::Color& min, const SakuEngine::Color& max);
 };
 
 template<typename T>

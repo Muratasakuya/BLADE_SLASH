@@ -1,4 +1,4 @@
-﻿#include "SubPlayer.h"
+#include "SubPlayer.h"
 
 //============================================================================
 //	include
@@ -13,13 +13,13 @@ void SubPlayer::InitParts() {
 
 	// 各パーツの初期化
 	// 体
-	body_ = std::make_unique<GameObject3D>();
+	body_ = std::make_unique<SakuEngine::GameObject3D>();
 	body_->Init("subPlayerBody", "subPlayerBody", "SubPlayer");
 	// 右手
-	rightHand_ = std::make_unique<GameObject3D>();
+	rightHand_ = std::make_unique<SakuEngine::GameObject3D>();
 	rightHand_->Init("subPlayerHand", "subPlayerRightHand", "SubPlayer");
 	// 左手
-	leftHand_ = std::make_unique<GameObject3D>();
+	leftHand_ = std::make_unique<SakuEngine::GameObject3D>();
 	leftHand_->Init("subPlayerHand", "subPlayerLeftHand", "SubPlayer");
 
 	// 手の親は体
@@ -41,7 +41,7 @@ void SubPlayer::InitState() {
 	stateController_->SetParts(body_.get(), rightHand_.get(), leftHand_.get());
 }
 
-void SubPlayer::SetPartsTransform(GameObject3D* parts, const Transform3D& transform) {
+void SubPlayer::SetPartsTransform(SakuEngine::GameObject3D* parts, const SakuEngine::Transform3D& transform) {
 
 	// SRTを設定
 	parts->SetTranslation(transform.translation);
@@ -119,7 +119,7 @@ bool SubPlayer::IsFinishPunchAttack() const {
 void SubPlayer::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("SubPlayer/mainParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("SubPlayer/mainParameter.json", data)) {
 		return;
 	}
 
@@ -146,5 +146,5 @@ void SubPlayer::SaveJson() {
 	initRightHandTransform_.ToJson(data["InitRightHandTransform"]);
 	initLeftHandTransform_.ToJson(data["InitLeftHandTransform"]);
 
-	JsonAdapter::Save("SubPlayer/mainParameter.json", data);
+	SakuEngine::JsonAdapter::Save("SubPlayer/mainParameter.json", data);
 }

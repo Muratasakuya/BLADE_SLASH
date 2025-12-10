@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -64,8 +64,8 @@ private:
 	// 入力状態に応じて変化するsprite
 	struct InputStateSprite {
 
-		std::unique_ptr<GameObject2D> staticSprite;
-		std::unordered_map<InputType, std::unique_ptr<GameObject2D>> dynamicSprites;
+		std::unique_ptr<SakuEngine::GameObject2D> staticSprite;
+		std::unordered_map<InputType, std::unique_ptr<SakuEngine::GameObject2D>> dynamicSprites;
 
 		uint32_t index; // spriteを左から並べた時の順番
 
@@ -80,11 +80,11 @@ private:
 
 		void ChangeDynamicSprite(InputType type);
 
-		void SetTranslation(const Vector2& leftSpriteTranslation,
+		void SetTranslation(const SakuEngine::Vector2& leftSpriteTranslation,
 			float dynamicSpriteOffsetY, float operateSpriteSpancingX);
 
-		void SetSize(const Vector2& staticSpriteSize,
-			const Vector2& dynamicSpriteSize_);
+		void SetSize(const SakuEngine::Vector2& staticSpriteSize,
+			const SakuEngine::Vector2& dynamicSpriteSize_);
 
 		void SetAlpha(InputType type, float alpha);
 	};
@@ -93,12 +93,12 @@ private:
 	struct Suggest {
 
 		// 表示スプライト
-		std::unique_ptr<GameObject2D> sprite;
+		std::unique_ptr<SakuEngine::GameObject2D> sprite;
 
 		// アニメーション
-		SimpleAnimation<Vector2> sizeAnim;
-		SimpleAnimation<Color> colorAnim;
-		SimpleAnimation<float> emissiveAnim;
+		SakuEngine::SimpleAnimation<SakuEngine::Vector2> sizeAnim;
+		SakuEngine::SimpleAnimation<SakuEngine::Color> colorAnim;
+		SakuEngine::SimpleAnimation<float> emissiveAnim;
 	};
 
 	//--------- variables ----------------------------------------------------
@@ -115,7 +115,7 @@ private:
 	//----------- stats ------------------------//
 
 	// HP背景
-	std::unique_ptr<GameObject2D> hpBackground_;
+	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;
 	GameCommon::HUDInitParameter hpBackgroundParameter_;
 	// HP残量
 	std::unique_ptr<GameHPBar> hpBar_;
@@ -125,7 +125,7 @@ private:
 	GameCommon::HUDInitParameter skilBarParameter_;
 
 	// 名前文字表示
-	std::unique_ptr<GameObject2D> nameText_;
+	std::unique_ptr<SakuEngine::GameObject2D> nameText_;
 	GameCommon::HUDInitParameter nameTextParameter_;
 
 	// ダメージ表示
@@ -144,26 +144,26 @@ private:
 	InputStateSprite parry_;  // パリィ
 
 	// 入力に応じたリアクション
-	SimpleAnimation<Vector2> inputReactSizeAnim_; // サイズ
-	SimpleAnimation<Color> inputReactColorAnim_;  // 色
+	SakuEngine::SimpleAnimation<SakuEngine::Vector2> inputReactSizeAnim_; // サイズ
+	SakuEngine::SimpleAnimation<SakuEngine::Color> inputReactColorAnim_;  // 色
 	// 入力リアクションさせる状態
 	PlayerState inputReactState_;
 
 	// parameters
-	Vector2 leftSpriteTranslation_; // 左端のsprite座標
+	SakuEngine::Vector2 leftSpriteTranslation_; // 左端のsprite座標
 	float dynamicSpriteOffsetY_;    // 入力状態に応じて変化するspriteのオフセットY座標
 	float operateSpriteSpancingX_;  // indexに応じてオフセットをかける
 	// それぞれのspriteのサイズ
-	Vector2 staticSpriteSize_;
-	Vector2 dynamicSpriteSize_;
+	SakuEngine::Vector2 staticSpriteSize_;
+	SakuEngine::Vector2 dynamicSpriteSize_;
 	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間
 	float returnAlphaTime_;  // alpha値を元に戻すときの時間
 	EasingType returnAlphaEasingType_;
 	// 入力示唆
 	bool isInputSuggestActive_;    // 入力示唆アニメーションが有効かどうか
 	bool endDelayInputSuggest_;    // 遅延時間が終わったかどうか
-	StateTimer inputSuggestDelay_; // 表示遅延時間、初期発生時
-	Vector3 inputSuggestEmissionColor_; // 入力示唆の発光色
+	SakuEngine::StateTimer inputSuggestDelay_; // 表示遅延時間、初期発生時
+	SakuEngine::Vector3 inputSuggestEmissionColor_; // 入力示唆の発光色
 
 	bool isDisable_;   // 無効状態かどうか
 	bool returnVaild_; // 再度有効にする

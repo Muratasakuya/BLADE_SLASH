@@ -1,4 +1,4 @@
-﻿#include "RandomGenerator.h"
+#include "RandomGenerator.h"
 
 using namespace SakuEngine;
 
@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	RandomGenerator classMethods
 //============================================================================
 
-Vector3 RandomGenerator::Generate(const Vector3& min, const Vector3& max) {
+Vector3 RandomGenerator::Generate(const SakuEngine::Vector3& min, const SakuEngine::Vector3& max) {
 
 	return Vector3{
 	Generate(min.x, max.x),
@@ -14,7 +14,7 @@ Vector3 RandomGenerator::Generate(const Vector3& min, const Vector3& max) {
 	Generate(min.z, max.z) };
 }
 
-Color RandomGenerator::Generate(const Color& min, const Color& max) {
+Color RandomGenerator::Generate(const SakuEngine::Color& min, const SakuEngine::Color& max) {
 
 	return Color{
 		Generate(min.r, max.r),

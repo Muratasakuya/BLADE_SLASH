@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -14,7 +14,7 @@ class BossEnemy;
 //	任意の場所に設置できる壁衝突判定、押し戻し処理を行う
 //============================================================================
 class FieldWallCollision :
-	public Collider {
+	public SakuEngine::Collider {
 public:
 	//========================================================================
 	//	public Methods
@@ -32,7 +32,7 @@ public:
 	/*-------- collision ----------*/
 
 	// 衝突コールバック関数
-	void OnCollisionStay(const CollisionBody* collisionBody) override;
+	void OnCollisionStay(const SakuEngine::CollisionBody* collisionBody) override;
 
 	// editor
 	void ImGui(uint32_t index);
@@ -58,7 +58,7 @@ private:
 
 	//--------- functions ----------------------------------------------------
 
-	CollisionShape::AABB GetWorldAABB() const;
-	CollisionShape::AABB MakeAABBProxy(const CollisionBody* other);
-	Vector3 ComputePushVector(const CollisionShape::AABB& wall, const CollisionShape::AABB& actor);
+	SakuEngine::CollisionShape::AABB GetWorldAABB() const;
+	SakuEngine::CollisionShape::AABB MakeAABBProxy(const SakuEngine::CollisionBody* other);
+	SakuEngine::Vector3 ComputePushVector(const SakuEngine::CollisionShape::AABB& wall, const SakuEngine::CollisionShape::AABB& actor);
 };

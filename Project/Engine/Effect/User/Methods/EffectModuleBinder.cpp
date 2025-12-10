@@ -1,4 +1,4 @@
-﻿#include "EffectModuleBinder.h"
+#include "EffectModuleBinder.h"
 
 using namespace SakuEngine;
 
@@ -12,7 +12,7 @@ using namespace SakuEngine;
 //============================================================================
 
 void EffectModuleBinder::ApplyPreEmit(ParticleSystem* system,
-	const EffectModuleSetting& module, const Vector3& worldPos, const EffectCommandContext& context) {
+	const EffectModuleSetting& module, const SakuEngine::Vector3& worldPos, const EffectCommandContext& context) {
 
 	// 無効な場合は処理しない
 	if (!system) {
@@ -84,7 +84,7 @@ void EffectModuleBinder::ApplyPreEmit(ParticleSystem* system,
 }
 
 void EffectModuleBinder::ApplyUpdate(ParticleSystem* system, const EffectModuleSetting& module,
-	const Vector3& parentTranslation, const Quaternion& parentRotation,
+	const SakuEngine::Vector3& parentTranslation, const Quaternion& parentRotation,
 	[[maybe_unused]] const EffectCommandContext& context) {
 
 	// 無効な場合は処理しない

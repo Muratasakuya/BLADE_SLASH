@@ -1,4 +1,4 @@
-﻿#include "Vector3.h"
+#include "Vector3.h"
 
 using namespace SakuEngine;
 
@@ -44,24 +44,41 @@ Vector3& Vector3::operator*=(const Vector3& v) {
 	z *= v.z;
 	return *this;
 }
+namespace SakuEngine {
+
+	Vector3 operator*(float scalar, const Vector3& v) {
+		return Vector3(
+			scalar * v.x,
+			scalar * v.y,
+			scalar * v.z
+		);
+	}
+
+	Vector3 operator-(float scalar, const Vector3& v) {
+		return Vector3(
+			scalar - v.x,
+			scalar - v.y,
+			scalar - v.z
+		);
+	}
+
+	Vector3 operator/(float scalar, const Vector3& v) {
+		return Vector3(
+			scalar / v.x,
+			scalar / v.y,
+			scalar / v.z
+		);
+	}
+}
 
 Vector3 Vector3::operator-(float scalar) const {
 	return Vector3(x - scalar, y - scalar, z - scalar);
 }
-Vector3 operator-(float scalar, const Vector3& v) {
-	return Vector3(v.x - scalar, v.y - scalar, v.z - scalar);
-}
 Vector3 Vector3::operator*(float scalar) const {
 	return Vector3(x * scalar, y * scalar, z * scalar);
 }
-Vector3 operator*(float scalar, const Vector3& v) {
-	return Vector3(v.x * scalar, v.y * scalar, v.z * scalar);
-}
 Vector3 Vector3::operator/(float scalar) const {
 	return Vector3(x / scalar, y / scalar, z / scalar);
-}
-Vector3 operator/(float scalar, const Vector3& v) {
-	return Vector3(v.x / scalar, v.y / scalar, v.z / scalar);
 }
 
 Vector3& Vector3::operator+=(float scalar) {
@@ -263,7 +280,7 @@ Vector3 Vector3::Projection(const Vector3& v0, const Vector3& v1) {
 	Vector3 vector{};
 
 	Vector3 nomalizedV1 = Normalize(v1);
-	vector = Dot(v0, nomalizedV1) * nomalizedV1;
+	vector = nomalizedV1 * Dot(v0, nomalizedV1);
 
 	return vector;
 }

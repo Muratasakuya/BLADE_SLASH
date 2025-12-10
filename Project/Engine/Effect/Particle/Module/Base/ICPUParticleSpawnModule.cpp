@@ -1,4 +1,4 @@
-﻿#include "ICPUParticleSpawnModule.h"
+#include "ICPUParticleSpawnModule.h"
 
 using namespace SakuEngine;
 
@@ -146,7 +146,7 @@ void ICPUParticleSpawnModule::ShareCommonParam(ICPUParticleSpawnModule* other) {
 		SetParent(true, *other->parentTransform_);
 	} else {
 
-		SetParent(false, Transform3D());
+		SetParent(false, SakuEngine::Transform3D());
 	}
 }
 
@@ -162,7 +162,7 @@ void ICPUParticleSpawnModule::ImGuiRenderParam(bool hasTrailModule) {
 
 		ImGui::DragInt("samplerType##none", &textureInfo_.samplerType, 1, 0, 1);
 		ImGui::SameLine();
-		ImGui::Text("    : %s", EnumAdapter<ParticleCommon::SamplerType>::GetEnumName(textureInfo_.samplerType));
+		ImGui::Text("    : %s", SakuEngine::EnumAdapter<ParticleCommon::SamplerType>::GetEnumName(textureInfo_.samplerType));
 	}
 	if (!hasTrailModule) {
 		return;
@@ -177,7 +177,7 @@ void ICPUParticleSpawnModule::ImGuiRenderParam(bool hasTrailModule) {
 
 		ImGui::DragInt("samplerType##trail", &trailTextureInfo_.samplerType, 1, 0, 1);
 		ImGui::SameLine();
-		ImGui::Text("    : %s", EnumAdapter<ParticleCommon::SamplerType>::GetEnumName(trailTextureInfo_.samplerType));
+		ImGui::Text("    : %s", SakuEngine::EnumAdapter<ParticleCommon::SamplerType>::GetEnumName(trailTextureInfo_.samplerType));
 	}
 }
 
@@ -189,7 +189,7 @@ void ICPUParticleSpawnModule::ImGuiPrimitiveParam() {
 		ImGui::DragFloat2("size", &primitive_.plane.size.x, 0.01f);
 		ImGui::DragFloat2("pivot", &primitive_.plane.pivot.x, 0.01f);
 
-		if (EnumAdapter<ParticlePlaneType>::Combo("planeType", &planeType_)) {
+		if (SakuEngine::EnumAdapter<ParticlePlaneType>::Combo("planeType", &planeType_)) {
 
 			primitive_.plane.mode = static_cast<uint32_t>(planeType_);
 		}
@@ -244,10 +244,10 @@ void ICPUParticleSpawnModule::DragAndDropTexture(bool isTrail) {
 	// 表示サイズ
 	const float imageSize = 88.0f;
 	{
-		ImGuiHelper::ImageButtonWithLabel("texture", textureName,
+		SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName,
 			(ImTextureID)asset_->GetGPUHandle(textureName).ptr, { imageSize, imageSize });
 
-		std::string dragTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+		std::string dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 		if (!dragTextureName.empty()) {
 
 			// textureを設定
@@ -258,10 +258,10 @@ void ICPUParticleSpawnModule::DragAndDropTexture(bool isTrail) {
 	}
 	ImGui::SameLine();
 	{
-		ImGuiHelper::ImageButtonWithLabel("noiseTexture", noiseTextureName,
+		SakuEngine::ImGuiHelper::ImageButtonWithLabel("noiseTexture", noiseTextureName,
 			(ImTextureID)asset_->GetGPUHandle(noiseTextureName).ptr, { imageSize, imageSize });
 
-		std::string dragNoiseTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+		std::string dragNoiseTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 		if (!dragNoiseTextureName.empty()) {
 
 			// textureを設定
@@ -308,14 +308,14 @@ void ICPUParticleSpawnModule::ToCommonJson(Json& data) {
 	//	PrimitiveParameters
 	//============================================================================
 
-	data[key]["primitive"]["shape"] = EnumAdapter<ParticlePrimitiveType>::ToString(primitive_.type);
+	data[key]["primitive"]["shape"] = SakuEngine::EnumAdapter<ParticlePrimitiveType>::ToString(primitive_.type);
 
 	switch (primitive_.type) {
 	case ParticlePrimitiveType::Plane:
 
 		data[key]["primitive"]["plane"]["size"] = primitive_.plane.size.ToJson();
 		data[key]["primitive"]["plane"]["pivot"] = primitive_.plane.pivot.ToJson();
-		data[key]["primitive"]["plane"]["mode"] = EnumAdapter<ParticlePlaneType>::ToString(planeType_);
+		data[key]["primitive"]["plane"]["mode"] = SakuEngine::EnumAdapter<ParticlePlaneType>::ToString(planeType_);
 		break;
 	case ParticlePrimitiveType::Ring:
 
@@ -403,7 +403,7 @@ void ICPUParticleSpawnModule::FromCommonJson(const Json& data) {
 	//============================================================================
 
 	const auto& primitive = data[key]["primitive"];
-	const auto& shape = EnumAdapter<ParticlePrimitiveType>::FromString(primitive["shape"]);
+	const auto& shape = SakuEngine::EnumAdapter<ParticlePrimitiveType>::FromString(primitive["shape"]);
 	primitive_.type = shape.value();
 
 	switch (primitive_.type) {
@@ -412,7 +412,7 @@ void ICPUParticleSpawnModule::FromCommonJson(const Json& data) {
 		primitive_.plane.size = primitive_.plane.size.FromJson(primitive["plane"]["size"]);
 		primitive_.plane.pivot = primitive_.plane.pivot.FromJson(primitive["plane"]["pivot"]);
 
-		const auto& planeType = EnumAdapter<ParticlePlaneType>::FromString(primitive["plane"]["mode"]);
+		const auto& planeType = SakuEngine::EnumAdapter<ParticlePlaneType>::FromString(primitive["plane"]["mode"]);
 		primitive_.plane.mode = static_cast<uint32_t>(planeType.value());
 		planeType_ = static_cast<ParticlePlaneType>(primitive_.plane.mode);
 		break;

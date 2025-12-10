@@ -1,4 +1,4 @@
-﻿#include "BossEnemyStrongAttackState.h"
+#include "BossEnemyStrongAttackState.h"
 
 //============================================================================
 //	include
@@ -20,11 +20,11 @@ BossEnemyStrongAttackState::BossEnemyStrongAttackState(BossEnemy& bossEnemy) {
 
 	// 剣エフェクト作成
 	// 強攻撃エフェクト
-	strongSlash_.effect = std::make_unique<EffectGroup>();
+	strongSlash_.effect = std::make_unique<SakuEngine::EffectGroup>();
 	strongSlash_.effect->Init("strongAttackSlash", "BossEnemyEffect");
 	strongSlash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyStrongAttackEffect.json");
 	// 弱攻撃エフェクト
-	lightSlash_.effect = std::make_unique<EffectGroup>();
+	lightSlash_.effect = std::make_unique<SakuEngine::EffectGroup>();
 	lightSlash_.effect->Init("lightAttackSlash", "BossEnemyEffect");
 	lightSlash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightAttackEffect_1.json");
 
@@ -45,9 +45,9 @@ void BossEnemyStrongAttackState::Enter(BossEnemy& bossEnemy) {
 	canExit_ = false;
 
 	// 攻撃予兆を出す
-	Vector3 sign = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 sign = bossEnemy.GetTranslation();
 	sign.y = 2.0f;
-	attackSign_->Emit(Math::ProjectToScreen(sign, *followCamera_));
+	attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
 
 	// パリィ可能にする
 	bossEnemy.ResetParryTiming();
@@ -96,9 +96,9 @@ void BossEnemyStrongAttackState::UpdateAlways(BossEnemy& bossEnemy) {
 void BossEnemyStrongAttackState::UpdateParrySign(BossEnemy& bossEnemy) {
 
 	// 目標座標を常に更新する
-	const Vector3 playerPos = player_->GetTranslation();
-	Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
-	Vector3 target = playerPos - direction * attackOffsetTranslation_;
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
+	SakuEngine::Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 	LookTarget(bossEnemy, playerPos);
 
@@ -149,7 +149,7 @@ void BossEnemyStrongAttackState::UpdateAttack2nd(BossEnemy& bossEnemy) {
 	// animationが終了したら経過時間を進める
 	if (bossEnemy.IsAnimationFinished()) {
 
-		exitTimer_ += GameTimer::GetScaledDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 時間経過が過ぎたら遷移可能
 		if (exitTime_ < exitTimer_) {
 
@@ -186,9 +186,9 @@ void BossEnemyStrongAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
 void BossEnemyStrongAttackState::LerpTranslation(BossEnemy& bossEnemy) {
 
 	// 目標座標計算
-	const Vector3 playerPos = player_->GetTranslation();
-	Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
-	Vector3 target = playerPos - direction * attackOffsetTranslation_;
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
+	SakuEngine::Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 
 	if (!reachedPlayer_) {
@@ -197,17 +197,17 @@ void BossEnemyStrongAttackState::LerpTranslation(BossEnemy& bossEnemy) {
 		LookTarget(bossEnemy, playerPos);
 
 		// 補間時間を進める
-		lerpTimer_ += GameTimer::GetScaledDeltaTime();
+		lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		float lerpT = std::clamp(lerpTimer_ / attack2ndLerpTime_, 0.0f, 1.0f);
 		lerpT = EasedValue(easingType_, lerpT);
 
 		// 補間
-		Vector3 newPos = Vector3::Lerp(startPos_, target, lerpT);
+		SakuEngine::Vector3 newPos = SakuEngine::Vector3::Lerp(startPos_, target, lerpT);
 		bossEnemy.SetTranslation(newPos);
 
 		// プレイヤーに十分近づいたら補間しない
 		// xとzの距離を見る
-		Vector2 distanceXZ = Vector2(playerPos.x - newPos.x, playerPos.z - newPos.z);
+		SakuEngine::Vector2 distanceXZ = SakuEngine::Vector2(playerPos.x - newPos.x, playerPos.z - newPos.z);
 		if (distanceXZ.Length() <= std::fabs(attackOffsetTranslation_)) {
 
 			reachedPlayer_ = true;
@@ -251,29 +251,29 @@ void BossEnemyStrongAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEne
 
 	// 座標を設定
 	// 座標を設定
-	Vector3 start = bossEnemy.GetTranslation();
-	const Vector3 playerPos = player_->GetTranslation();
-	Vector3 direction = (start - playerPos).Normalize();
-	Vector3 target = playerPos - direction * attackOffsetTranslation_;
+	SakuEngine::Vector3 start = bossEnemy.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
+	SakuEngine::Vector3 direction = (start - playerPos).Normalize();
+	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 2.0f;
-	LineRenderer::GetInstance()->DrawSphere(8, 2.0f, target, Color::Red());
+	SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
 
 	ImGui::Text(std::format("(playerPos - start).Length(): {}", (playerPos - start).Length()).c_str());
 }
 
 void BossEnemyStrongAttackState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
 	attack2ndAnimDuration_ = data.value("attack2ndAnimDuration_", 0.4f);
 	attack2ndLerpTime_ = data.value("attack2ndLerpTime_", 0.4f);
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
 
-	attackOffsetTranslation_ = JsonAdapter::GetValue<float>(data, "attackOffsetTranslation_");
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
-	easingType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "easingType_"));
+	attackOffsetTranslation_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackOffsetTranslation_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
+	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 
-	strongSlash_.effectOffset = Vector3::FromJson(data.value("strongSlashOffset", Json()));
-	lightSlash_.effectOffset = Vector3::FromJson(data.value("lightSlashOffset", Json()));
+	strongSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("strongSlashOffset", Json()));
+	lightSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("lightSlashOffset", Json()));
 }
 
 void BossEnemyStrongAttackState::SaveJson(Json& data) {

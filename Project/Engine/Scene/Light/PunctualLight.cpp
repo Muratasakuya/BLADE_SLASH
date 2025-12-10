@@ -1,4 +1,4 @@
-﻿#include "PunctualLight.h"
+#include "PunctualLight.h"
 
 using namespace SakuEngine;
 
@@ -15,7 +15,7 @@ using namespace SakuEngine;
 
 void DirectionalLight::Init() {
 
-	color = Color::White();
+	color = SakuEngine::Color::White();
 	direction = { 0.0f,-1.0f,0.0f };
 	intensity = 1.4f;
 }
@@ -38,7 +38,7 @@ void DirectionalLight::ImGui(float itemWidth) {
 
 void PointLight::Init() {
 
-	color = Color::White();
+	color = SakuEngine::Color::White();
 	pos = { 0.0f,8.0f,0.0f };
 	radius = 5.0f;
 	intensity = 0.8f;
@@ -62,7 +62,7 @@ void PointLight::ImGui(float itemWidth) {
 
 void SpotLight::Init() {
 
-	color = Color::White();
+	color = SakuEngine::Color::White();
 	pos = { 0.0f,8.0f,0.0f };
 	distance = 10.0f;
 	intensity = 0.8f;

@@ -1,4 +1,4 @@
-﻿#include "SkinnedAnimation.h"
+#include "SkinnedAnimation.h"
 
 using namespace SakuEngine;
 
@@ -80,7 +80,7 @@ void SkinnedAnimation::Update(const Matrix4x4& worldMatrix) {
 	//========================================================================
 	// 通常のAnimation再生
 	//========================================================================
-	float deltaTime = GameTimer::GetScaledDeltaTime() * playbackSpeed_;
+	float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime() * playbackSpeed_;
 	auto& currentTimer = currentAnimationTimers_[updateModeIndex_];
 	if (!inTransition_) {
 		if (updateMode_ == ObjectUpdateMode::None) {
@@ -130,7 +130,7 @@ void SkinnedAnimation::Update(const Matrix4x4& worldMatrix) {
 	else {
 
 		// 遷移時間を進める
-		transitionTimer_ += GameTimer::GetScaledDeltaTime();
+		transitionTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		float alpha = transitionTimer_ / transitionDuration_;
 		if (alpha > 1.0f) {
 
@@ -184,7 +184,7 @@ void SkinnedAnimation::ImGui(float itemSize) {
 		ImGui::Text("RepeatCount: %d", repeatCount_);
 		ImGui::DragFloat("playbackSpeed", &playbackSpeed_, 0.01f);
 		ImGui::Text("duration: %.3f", animationData_[currentAnimationName_].duration);
-		EnumAdapter<ObjectUpdateMode>::Combo("UpdateMode", &updateMode_);
+		SakuEngine::EnumAdapter<ObjectUpdateMode>::Combo("UpdateMode", &updateMode_);
 	}
 	ImGui::Separator();
 
@@ -370,9 +370,9 @@ void SkinnedAnimation::BlendAnimation(Skeleton& skeleton, const AnimationData& o
 		}
 
 		// αブレンド
-		Vector3 posBlend = Vector3::Lerp(posOld, posNext, alpha);
-		Quaternion rotBlend = Quaternion::Slerp(rotOld, rotNext, alpha);
-		Vector3 sclBlend = Vector3::Lerp(sclOld, sclNext, alpha);
+		Vector3 posBlend = SakuEngine::Vector3::Lerp(posOld, posNext, alpha);
+		Quaternion rotBlend = SakuEngine::Quaternion::Slerp(rotOld, rotNext, alpha);
+		Vector3 sclBlend = SakuEngine::Vector3::Lerp(sclOld, sclNext, alpha);
 
 		jointOld.transform.translation = posBlend;
 		jointOld.transform.rotation = rotBlend;
@@ -438,13 +438,13 @@ void SkinnedAnimation::DebugDrawBone(const Matrix4x4& worldMatrix) {
 	constexpr float kRatioTop = 0.02f;
 	constexpr float kRatioBase = 0.088f;
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	// jointの描画
 	std::vector<Vector3> worldPos(skeleton_.joints.size());
 	for (size_t i = 0; i < skeleton_.joints.size(); ++i) {
 
-		worldPos[i] = Vector3::Transform(Vector3::AnyInit(0.0f),
+		worldPos[i] = SakuEngine::Vector3::Transform(SakuEngine::Vector3::AnyInit(0.0f),
 			skeleton_.joints[i].skeletonSpaceMatrix * worldMatrix);
 		lineRenderer->DrawSphere(kDivision, 0.32f, worldPos[i], Color::Green(), LineType::DepthIgnore);
 	}
@@ -479,7 +479,7 @@ void SkinnedAnimation::DebugDrawBone(const Matrix4x4& worldMatrix) {
 void SkinnedAnimation::SetAnimationData(const std::string& animationName) {
 
 	// 登録済みの場合は処理しない
-	if (Algorithm::Find(animationData_, animationName)) {
+	if (SakuEngine::Algorithm::Find(animationData_, animationName)) {
 		return;
 	}
 
@@ -501,7 +501,7 @@ void SkinnedAnimation::SetAnimationData(const std::string& animationName) {
 void SkinnedAnimation::SetKeyframeEvent(const std::string& fileName) {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck(fileName, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(fileName, data)) {
 		return;
 	}
 
@@ -678,7 +678,7 @@ std::vector<std::string> SkinnedAnimation::GetAnimationNames() const {
 	return names;
 }
 
-const Transform3D* SkinnedAnimation::FindJointTransform(const std::string& name) const {
+const SakuEngine::Transform3D* SkinnedAnimation::FindJointTransform(const std::string& name) const {
 
 	auto it = skeleton_.jointMap.find(name);
 	return (it == skeleton_.jointMap.end()) ? nullptr : &skeleton_.joints[it->second].transform;

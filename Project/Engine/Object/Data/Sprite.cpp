@@ -1,4 +1,4 @@
-﻿#include "Sprite.h"
+#include "Sprite.h"
 
 using namespace SakuEngine;
 
@@ -61,19 +61,19 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 	// 左下
 	vertexData_[0].pos = Vector2(left, bottom) + transform.vertexOffset_[0];
 	vertexData_[0].texcoord = { texLeft,texBottom };
-	vertexData_[0].color = Color::White();
+	vertexData_[0].color = SakuEngine::Color::White();
 	// 左上
 	vertexData_[1].pos = Vector2(left, top) + transform.vertexOffset_[1];
 	vertexData_[1].texcoord = { texLeft,texTop };
-	vertexData_[1].color = Color::White();
+	vertexData_[1].color = SakuEngine::Color::White();
 	// 右下
 	vertexData_[2].pos = Vector2(right, bottom) + transform.vertexOffset_[2];
 	vertexData_[2].texcoord = { texRight,texBottom };
-	vertexData_[2].color = Color::White();
+	vertexData_[2].color = SakuEngine::Color::White();
 	// 右上
 	vertexData_[3].pos = Vector2(right, top) + transform.vertexOffset_[3];
 	vertexData_[3].texcoord = { texRight,texTop };
-	vertexData_[3].color = Color::White();
+	vertexData_[3].color = SakuEngine::Color::White();
 
 	// GPUデータ転送
 	vertexBuffer_.TransferData(vertexData_);
@@ -149,9 +149,9 @@ void Sprite::ImGui(float itemSize) {
 	// テクスチャ選択
 	// 表示サイズ
 	const float imageSize = 88.0f;
-	ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
+	SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
 		(ImTextureID)asset_->GetGPUHandle(textureName_).ptr, { imageSize, imageSize });
-	std::string dragTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+	std::string dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 	if (!dragTextureName.empty()) {
 
 		// textureを設定
@@ -159,15 +159,15 @@ void Sprite::ImGui(float itemSize) {
 	}
 
 	ImGui::Checkbox("postProccessEnable", &postProccessEnable_);
-	EnumAdapter<SpriteLayer>::Combo("SpriteLayer", &layer_);
+	SakuEngine::EnumAdapter<SpriteLayer>::Combo("SpriteLayer", &layer_);
 	ImGui::Separator();
 
 	// 現在のlayerIndex_から「基準カテゴリ(base)」を復元
 	SpriteLayerIndex base = SpriteLayerIndex::None;
 	uint16_t baseVal = 0;
-	for (uint32_t i = 0; i < EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
+	for (uint32_t i = 0; i < SakuEngine::EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
 
-		SpriteLayerIndex v = EnumAdapter<SpriteLayerIndex>::GetValue(i);
+		SpriteLayerIndex v = SakuEngine::EnumAdapter<SpriteLayerIndex>::GetValue(i);
 		uint16_t vv = static_cast<uint16_t>(v);
 		if (vv <= layerIndex_) {
 			base = v;
@@ -177,8 +177,8 @@ void Sprite::ImGui(float itemSize) {
 
 	// 次のカテゴリ境界(>baseVal で最小の値)を探索
 	uint16_t nextBoundary = (std::numeric_limits<uint16_t>::max)();
-	for (uint32_t i = 0; i < EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
-		uint16_t vv = static_cast<uint16_t>(EnumAdapter<SpriteLayerIndex>::GetValue(i));
+	for (uint32_t i = 0; i < SakuEngine::EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
+		uint16_t vv = static_cast<uint16_t>(SakuEngine::EnumAdapter<SpriteLayerIndex>::GetValue(i));
 		if (vv > baseVal && vv < nextBoundary) {
 			nextBoundary = vv;
 		}
@@ -189,14 +189,14 @@ void Sprite::ImGui(float itemSize) {
 
 	// カテゴリ選択 + カテゴリ内順序
 	bool changed = false;
-	changed |= EnumAdapter<SpriteLayerIndex>::Combo("Layer Index", &base);
+	changed |= SakuEngine::EnumAdapter<SpriteLayerIndex>::Combo("Layer Index", &base);
 
 	// カテゴリ変更されたら基準値を更新して上限も再計算
 	baseVal = static_cast<uint16_t>(base);
 	nextBoundary = (std::numeric_limits<uint16_t>::max)();
-	for (uint32_t i = 0; i < EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
+	for (uint32_t i = 0; i < SakuEngine::EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
 
-		uint16_t vv = static_cast<uint16_t>(EnumAdapter<SpriteLayerIndex>::GetValue(i));
+		uint16_t vv = static_cast<uint16_t>(SakuEngine::EnumAdapter<SpriteLayerIndex>::GetValue(i));
 		if (vv > baseVal && vv < nextBoundary) {
 			nextBoundary = vv;
 		}
@@ -223,7 +223,7 @@ void Sprite::ImGui(float itemSize) {
 
 	ImGui::Separator();
 
-	EnumAdapter<BlendMode>::Combo("BlendMode", &blendMode_);
+	SakuEngine::EnumAdapter<BlendMode>::Combo("BlendMode", &blendMode_);
 
 	ImGui::PopItemWidth();
 }
@@ -232,18 +232,18 @@ void Sprite::ToJson(Json& data) {
 
 	data["textureName"] = textureName_;
 	data["postProccessEnable_"] = postProccessEnable_;
-	data["layer"] = EnumAdapter<SpriteLayer>::ToString(layer_);
+	data["layer"] = SakuEngine::EnumAdapter<SpriteLayer>::ToString(layer_);
 	data["layerIndex"] = layerIndex_;
-	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
+	data["blendMode"] = SakuEngine::EnumAdapter<BlendMode>::ToString(blendMode_);
 }
 
 void Sprite::FromJson(const Json& data) {
 
 	postProccessEnable_ = data.value("postProccessEnable_", false);
 	textureName_ = data["textureName"].get<std::string>();
-	layer_ = EnumAdapter<SpriteLayer>::FromString(data["layer"].get<std::string>()).value();
+	layer_ = SakuEngine::EnumAdapter<SpriteLayer>::FromString(data["layer"].get<std::string>()).value();
 	layerIndex_ = data["layerIndex"].get<uint16_t>();
-	blendMode_ = EnumAdapter<BlendMode>::FromString(data["blendMode"].get<std::string>()).value();
+	blendMode_ = SakuEngine::EnumAdapter<BlendMode>::FromString(data["blendMode"].get<std::string>()).value();
 }
 
 const D3D12_GPU_DESCRIPTOR_HANDLE& Sprite::GetTextureGPUHandle() const {

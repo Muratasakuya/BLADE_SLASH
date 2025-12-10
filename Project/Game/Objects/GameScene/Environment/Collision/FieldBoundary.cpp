@@ -1,4 +1,4 @@
-﻿#include "FieldBoundary.h"
+#include "FieldBoundary.h"
 
 //============================================================================
 //	include
@@ -50,7 +50,7 @@ void FieldBoundary::ControlTargetMove() {
 	float clampSize = moveClampLength_ / 2.0f;
 
 	// プレイヤー
-	Vector3 translation = player_->GetTranslation();
+	SakuEngine::Vector3 translation = player_->GetTranslation();
 	translation.x = std::clamp(translation.x, -clampSize, clampSize);
 	translation.z = std::clamp(translation.z, -clampSize, clampSize);
 	player_->SetTranslation(translation);
@@ -62,8 +62,8 @@ void FieldBoundary::ControlTargetMove() {
 	bossEnemy_->SetTranslation(translation);
 
 	// 線
-	LineRenderer::GetInstance()->DrawSquare(moveClampLength_,
-		Vector3(0.0f, 2.0f, 0.0f), Color::Yellow());
+	SakuEngine::LineRenderer::GetInstance()->DrawSquare(moveClampLength_,
+		SakuEngine::Vector3(0.0f, 2.0f, 0.0f), SakuEngine::Color::Yellow());
 }
 
 void FieldBoundary::ImGui() {
@@ -104,7 +104,7 @@ void FieldBoundary::ImGui() {
 void FieldBoundary::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Level/fieldCollisionCollection.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Level/fieldCollisionCollection.json", data)) {
 		return;
 	}
 
@@ -123,9 +123,9 @@ void FieldBoundary::ApplyJson() {
 	// config
 	{
 		data.clear();
-		if (JsonAdapter::LoadCheck("GameConfig/gameConfig.json", data)) {
+		if (SakuEngine::JsonAdapter::LoadCheck("GameConfig/gameConfig.json", data)) {
 
-			moveClampLength_ = JsonAdapter::GetValue<float>(data["playableArea"], "length");
+			moveClampLength_ = SakuEngine::JsonAdapter::GetValue<float>(data["playableArea"], "length");
 		}
 	}
 }
@@ -142,6 +142,6 @@ void FieldBoundary::SaveJson() {
 			data.push_back(std::move(one));
 		}
 
-		JsonAdapter::Save("Level/FieldWallCollisionCollection.json", data);
+		SakuEngine::JsonAdapter::Save("Level/FieldWallCollisionCollection.json", data);
 	}
 }

@@ -1,4 +1,4 @@
-﻿#include "BossEnemyGreatAttackState.h"
+#include "BossEnemyGreatAttackState.h"
 
 //============================================================================
 //	include
@@ -26,20 +26,20 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 
 	// エフェクト作成
 	// オーラエフェクト
-	bossAuraEffect_ = std::make_unique<EffectGroup>();
+	bossAuraEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	bossAuraEffect_->Init("bossAuraEffect", "BossEnemyEffect");
 	bossAuraEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackBossAuraEffect.json");
 	// ボス残像エフェクト
 	// 本体
-	bossAfterImageEffect_ = std::make_unique<EffectGroup>();
+	bossAfterImageEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	bossAfterImageEffect_->Init("bossAfterImageEffect", "BossEnemyEffect");
 	bossAfterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackAfterImageEffect.json");
 	// 武器
-	bossWeaponAfterImageEffect_ = std::make_unique<EffectGroup>();
+	bossWeaponAfterImageEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	bossWeaponAfterImageEffect_->Init("bossWeaponAfterImageEffect", "BossEnemyEffect");
 	bossWeaponAfterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyGreatAttackWeaponAfterImageEffect.json");
 	// 雷攻撃
-	lightningAttackEffect_ = std::make_unique<EffectGroup>();
+	lightningAttackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	lightningAttackEffect_->Init("lightningAttack", "BossEnemyEffect");
 	lightningAttackEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightningAttackEffect.json");
 }
@@ -61,7 +61,7 @@ void BossEnemyGreatAttackState::Enter(BossEnemy& bossEnemy) {
 	// 親を設定
 	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy.GetTransform());
 	// エフェクト発生
-	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+	bossAuraEffect_->Emit(SakuEngine::Vector3::AnyInit(0.0f));
 	isEmitAuraEffect_ = true;
 
 	// 表示を消す
@@ -150,8 +150,8 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
-	ImGui::Text("currentState: %s", EnumAdapter<State>::ToString(currentState_));
-	EnumAdapter<State>::Combo("State", &editState_);
+	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));
+	SakuEngine::EnumAdapter<State>::Combo("State", &editState_);
 
 	ImGui::Separator();
 	states_[editState_]->ImGui();
@@ -165,7 +165,7 @@ void BossEnemyGreatAttackState::ApplyJson(const Json& data) {
 
 	for (const auto& [state, ptr] : states_) {
 
-		auto key = EnumAdapter<State>::ToString(state);
+		auto key = SakuEngine::EnumAdapter<State>::ToString(state);
 		if (!ptr || !data.contains(key)) {
 			continue;
 		}
@@ -178,7 +178,7 @@ void BossEnemyGreatAttackState::SaveJson(Json& data) {
 
 	for (const auto& [state, ptr] : states_) {
 
-		auto key = EnumAdapter<State>::ToString(state);
+		auto key = SakuEngine::EnumAdapter<State>::ToString(state);
 		ptr->SaveJson(data[key]);
 	}
 }
@@ -186,7 +186,7 @@ void BossEnemyGreatAttackState::SaveJson(Json& data) {
 void BossEnemyGreatAttackState::StartEffects() {
 
 	// エフェクト発生
-	bossAuraEffect_->Emit(Vector3::AnyInit(0.0f));
+	bossAuraEffect_->Emit(SakuEngine::Vector3::AnyInit(0.0f));
 	isEmitAuraEffect_ = true;
 }
 

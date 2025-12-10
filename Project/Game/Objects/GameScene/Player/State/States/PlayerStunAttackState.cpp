@@ -1,4 +1,4 @@
-﻿#include "PlayerStunAttackState.h"
+#include "PlayerStunAttackState.h"
 
 //============================================================================
 //	include
@@ -17,7 +17,7 @@
 PlayerStunAttackState::PlayerStunAttackState() {
 
 	// ヒットエフェクト作成
-	hitEffect_ = std::make_unique<EffectGroup>();
+	hitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	hitEffect_->Init("stunAttackHit", "PlayerEffect");
 	hitEffect_->LoadJson("GameEffectGroup/Player/playerHitEffect_0.json");
 }
@@ -82,8 +82,8 @@ void PlayerStunAttackState::UpdateSubPlayerAttack(Player& player) {
 		player.SetNextAnimation("player_stunAttack", false, nextAnimDuration_);
 
 		// 敵の前方ベクトル方向
-		Vector3 bossPos = bossEnemy_->GetTranslation();
-		Vector3 bossForward = bossEnemy_->GetTransform().GetForward();
+		SakuEngine::Vector3 bossPos = bossEnemy_->GetTranslation();
+		SakuEngine::Vector3 bossForward = bossEnemy_->GetTransform().GetForward();
 		// プレイヤーの攻撃位置を設定
 		// 開始位置、ボスの位置から移動距離分離す
 		startPlayerPos_ = bossPos + bossForward * moveDistance_;
@@ -95,12 +95,12 @@ void PlayerStunAttackState::UpdateSubPlayerAttack(Player& player) {
 
 		// 敵の方に向ける
 		// プレイヤーからボス敵への方向を取得
-		Vector3 playerPos = player.GetTranslation();
+		SakuEngine::Vector3 playerPos = player.GetTranslation();
 		playerPos.y = 0.0f;
 		bossPos.y = 0.0f;
-		Vector3 direction = Vector3(bossPos - playerPos).Normalize();
-		Quaternion rotation = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
-		player.SetRotation(Quaternion::Normalize(rotation));
+		SakuEngine::Vector3 direction = SakuEngine::Vector3(bossPos - playerPos).Normalize();
+		SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+		player.SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 		player.UpdateMatrix();
 
 		// プレイヤー攻撃用のカメラアニメーション開始
@@ -120,7 +120,7 @@ void PlayerStunAttackState::UpdatePlayerAttack(Player& player) {
 	playerMoveTimer_.Update();
 
 	// プレイヤーの位置補間
-	Vector3 lerpPos = Vector3::Lerp(startPlayerPos_, targetPlayerPos_, playerMoveTimer_.easedT_);
+	SakuEngine::Vector3 lerpPos = SakuEngine::Vector3::Lerp(startPlayerPos_, targetPlayerPos_, playerMoveTimer_.easedT_);
 
 	// 位置を設定
 	player.SetTranslation(lerpPos);
@@ -134,7 +134,7 @@ void PlayerStunAttackState::UpdatePlayerAttack(Player& player) {
 		hitStop_.Start();
 
 		// ヒットエフェクト発生
-		Vector3 hitEffectPos = targetPlayerPos_;
+		SakuEngine::Vector3 hitEffectPos = targetPlayerPos_;
 		hitEffectPos.y = hitEffectOffsetY_;
 		hitEffect_->Emit(hitEffectPos);
 	}
@@ -142,7 +142,7 @@ void PlayerStunAttackState::UpdatePlayerAttack(Player& player) {
 	// 時間経過で状態終了
 	if (playerMoveTimer_.IsReached()) {
 
-		exitTimer_ += GameTimer::GetDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	}
 }
 
@@ -176,7 +176,7 @@ void PlayerStunAttackState::ImGui([[maybe_unused]] const Player& player) {
 
 void PlayerStunAttackState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
 	bossEnemyDistance_ = data.value("bossEnemyDistance_", 1.0f);
 	moveDistance_ = data.value("moveDistance_", 1.0f);
 	exitTime_ = data.value("exitTime_", 1.0f);

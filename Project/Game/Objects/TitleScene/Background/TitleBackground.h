@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -41,10 +41,10 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 背景
-	std::unique_ptr<GameObject2D> background_;
+	std::unique_ptr<SakuEngine::GameObject2D> background_;
 
 	// タイトルの名前
-	std::unique_ptr<GameObject2D> titleName_;
+	std::unique_ptr<SakuEngine::GameObject2D> titleName_;
 
 	//--------- functions ----------------------------------------------------
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -34,7 +34,7 @@ public:
 	void Init(ID3D12Device8* device, DxShaderCompiler* shaderCompiler, SRVDescriptor* srvDescriptor);
 
 	// カメラ/入力/テクスチャサイズ等のピック条件を更新する
-	void Update(SceneView* sceneView, const Vector2& textureSize, const Vector2& input);
+	void Update(SceneView* sceneView, const SakuEngine::Vector2& textureSize, const SakuEngine::Vector2& input);
 
 	// GPUでピッキングを実行し、読み戻しまで行う
 	void Execute(DxCommand* dxCommand, ID3D12Resource* tlasResource);

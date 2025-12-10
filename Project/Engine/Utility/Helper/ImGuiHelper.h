@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -43,11 +43,11 @@ namespace detail {
 		}
 	}
 
-	inline std::string format_value(const Vector2& v, int precision) {
+	inline std::string format_value(const SakuEngine::Vector2& v, int precision) {
 
 		return std::format("({:.{}f}, {:.{}f})", v.x, precision, v.y, precision);
 	}
-	inline std::string format_value(const Vector3& v, int precision) {
+	inline std::string format_value(const SakuEngine::Vector3& v, int precision) {
 
 		return std::format("({:.{}f}, {:.{}f}, {:.{}f})",
 			v.x, precision, v.y, precision, v.z, precision);
@@ -147,7 +147,7 @@ public:
 //============================================================================
 
 template<typename T>
-inline bool ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
+inline bool SakuEngine::ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
 	const T& container, std::string* outSelectedKey, int popupMaxHeightInItems) {
 
 	std::vector<const char*> itemNames;
@@ -175,7 +175,7 @@ inline bool ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
 }
 
 template<typename T>
-inline bool ImGuiHelper::SelectableListFromKeys(const char* label, int* currentIndex,
+inline bool SakuEngine::ImGuiHelper::SelectableListFromKeys(const char* label, int* currentIndex,
 	const T& container, std::string* outSelectedKey, int heightInItems) {
 
 	std::vector<std::string> keys;
@@ -193,7 +193,7 @@ inline bool ImGuiHelper::SelectableListFromKeys(const char* label, int* currentI
 }
 
 template<typename T>
-inline void ImGuiHelper::ValueText(const char* label, const T& value, int precision) {
+inline void SakuEngine::ImGuiHelper::ValueText(const char* label, const T& value, int precision) {
 
 	using detail::format_value;
 	const std::string stringValue = format_value(value, precision);
@@ -201,7 +201,7 @@ inline void ImGuiHelper::ValueText(const char* label, const T& value, int precis
 }
 
 template<typename T>
-inline bool ImGuiHelper::DragFloat(const char* label, T& value, float speed, float minValue, float maxValue) {
+inline bool SakuEngine::ImGuiHelper::DragFloat(const char* label, T& value, float speed, float minValue, float maxValue) {
 
 	bool edited = false;
 	if constexpr (detail::Arithmetic<T>) {

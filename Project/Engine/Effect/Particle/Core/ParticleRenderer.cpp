@@ -1,4 +1,4 @@
-﻿#include "ParticleRenderer.h"
+#include "ParticleRenderer.h"
 
 using namespace SakuEngine;
 
@@ -40,11 +40,11 @@ void ParticleRenderer::InitPipelines(ID3D12Device8* device,
 	for (uint32_t typeIndex = 0; typeIndex < kParticleTypeCount; ++typeIndex) {
 
 		// タイプの名前を取得
-		const char* typeName = EnumAdapter<ParticleType>::GetEnumName(typeIndex);
+		const char* typeName = SakuEngine::EnumAdapter<ParticleType>::GetEnumName(typeIndex);
 		for (uint32_t primitiveIndex = 0; primitiveIndex < kPrimitiveCount; ++primitiveIndex) {
 
 			// 形状の名前を取得
-			const char* shapeName = EnumAdapter<ParticlePrimitiveType>::GetEnumName(primitiveIndex);
+			const char* shapeName = SakuEngine::EnumAdapter<ParticlePrimitiveType>::GetEnumName(primitiveIndex);
 			std::string jsonFile = std::string(typeName) + "Particle" + std::string(shapeName) + ".json";
 
 			// 作成

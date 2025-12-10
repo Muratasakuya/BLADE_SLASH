@@ -1,4 +1,4 @@
-﻿#include "PlayerParryState.h"
+#include "PlayerParryState.h"
 
 //============================================================================
 //	include
@@ -22,15 +22,15 @@ PlayerParryState::PlayerParryState() {
 
 	// エフェクト作成
 	// ヒットした瞬間
-	parryHitEffect_ = std::make_unique<EffectGroup>();
+	parryHitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	parryHitEffect_->Init("parryHitEffect", "PlayerEffect");
 	parryHitEffect_->LoadJson("GameEffectGroup/Player/playerParryHitEffect.json");
 	// 引きずる剣先
-	tipScrackEffect_ = std::make_unique<EffectGroup>();
+	tipScrackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	tipScrackEffect_->Init("parryTipScrachEffect", "PlayerEffect");
 	tipScrackEffect_->LoadJson("GameEffectGroup/Player/playerParryTipScrachEffect.json");
 	// 攻撃ヒットエフェクト
-	hitEffect_ = std::make_unique<EffectGroup>();
+	hitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	hitEffect_->Init("parryAttackHit", "PlayerEffect");
 	hitEffect_->LoadJson("GameEffectGroup/Player/playerHitEffect_0.json");
 }
@@ -41,18 +41,18 @@ void PlayerParryState::Enter(Player& player) {
 	player.SetNextAnimation("player_parry", false, nextAnimDuration_);
 
 	// 座標、向きを計算
-	Vector3 direction = SetLerpValue(startPos_, targetPos_,
+	SakuEngine::Vector3 direction = SetLerpValue(startPos_, targetPos_,
 		player, parryLerp_.moveDistance, true);
 	direction.y = 0.0f;
 	direction = direction.Normalize();
 
 	// 敵の方向を向かせる
-	player.SetRotation(Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f)));
+	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)));
 	// 左手の武器を反転
 	player.SetReverseWeapon(true, PlayerWeaponType::Left);
 
 	// ヒットストップ開始
-	GameTimer::StartHitStop(deltaWaitTime_, 0.0f);
+	SakuEngine::GameTimer::StartHitStop(deltaWaitTime_, 0.0f);
 
 	// パリィ用のカメラアニメーションを設定
 	followCamera_->StartPlayerActionAnim(PlayerState::Parry);
@@ -102,7 +102,7 @@ void PlayerParryState::UpdateAlways(Player& player) {
 void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
 
 	// 時間経過を進める
-	deltaWaitTimer_ += GameTimer::GetDeltaTime();
+	deltaWaitTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	// 時間経過が過ぎたら元に戻させる
 	if (deltaWaitTime_ < deltaWaitTimer_) {
 
@@ -111,7 +111,7 @@ void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
 
 			// 左手にエフェクトを発生させる
 			// 発生座標
-			Vector3 effectPos = player.GetJointWorldPos("leftHand");
+			SakuEngine::Vector3 effectPos = player.GetJointWorldPos("leftHand");
 			effectPos.y = parryHitEffectPosY_;
 			parryHitEffect_->Emit(effectPos);
 
@@ -125,7 +125,7 @@ void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
 			blur->SetIsAutoReturn(true);
 
 			// 腕の入りをスクリーン座標に変換して0.0f~1.0fの正規化する
-			Vector2 screenPos = Math::ProjectToScreen(
+			SakuEngine::Vector2 screenPos = SakuEngine::Math::ProjectToScreen(
 				player.GetWeapon(PlayerWeaponType::Left)->GetTransform().GetWorldPos(), *followCamera_).Normalize();
 			blur->SetBlurCenter(screenPos);
 
@@ -142,7 +142,7 @@ void PlayerParryState::UpdateLerpTranslation(Player& player) {
 	}
 
 	// 座標を補間
-	Vector3 translation = GetLerpTranslation(parryLerp_);
+	SakuEngine::Vector3 translation = GetLerpTranslation(parryLerp_);
 
 	// 座標を設定
 	player.SetTranslation(translation);
@@ -213,7 +213,7 @@ void PlayerParryState::UpdateAnimation(Player& player) {
 	case RequestState::AttackAnimation: {
 
 		// 座標補間を行う
-		Vector3 translation = GetLerpTranslation(attackLerp_);
+		SakuEngine::Vector3 translation = GetLerpTranslation(attackLerp_);
 
 		// 座標を設定
 		player.SetTranslation(translation);
@@ -224,7 +224,7 @@ void PlayerParryState::UpdateAnimation(Player& player) {
 			request_ = std::nullopt;
 			
 			// 攻撃ヒットエフェクトを発生させる
-			Vector3 hitEffectPos = targetPos_;
+			SakuEngine::Vector3 hitEffectPos = targetPos_;
 			hitEffectPos.y = hitEffectOffsetY_;
 			hitEffect_->Emit(hitEffectPos);
 		}
@@ -233,15 +233,15 @@ void PlayerParryState::UpdateAnimation(Player& player) {
 	}
 }
 
-Vector3 PlayerParryState::GetLerpTranslation(LerpParameter& lerp) {
+SakuEngine::Vector3 PlayerParryState::GetLerpTranslation(LerpParameter& lerp) {
 
 	// 時間を進める
-	lerp.timer += GameTimer::GetScaledDeltaTime();
+	lerp.timer += SakuEngine::GameTimer::GetScaledDeltaTime();
 	float lerpT = std::clamp(lerp.timer / lerp.time, 0.0f, 1.0f);
 	lerpT = EasedValue(lerp.easingType, lerpT);
 
 	// 座標を補間
-	Vector3 translation = Vector3::Lerp(startPos_, targetPos_, lerpT);
+	SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT);
 
 	if (lerp.time < lerp.timer) {
 
@@ -250,15 +250,15 @@ Vector3 PlayerParryState::GetLerpTranslation(LerpParameter& lerp) {
 	return translation;
 }
 
-Vector3 PlayerParryState::SetLerpValue(Vector3& start, Vector3& target,
+SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target,
 	const Player& player, float moveDistance, bool isPlayerBase) {
 
-	Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player.GetTranslation();
 	playerPos.y = 0.0f;
-	Vector3 enemyPos = bossEnemy_->GetTranslation();
+	SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	enemyPos.y = 0.0f;
 	// 向き
-	Vector3 direction = enemyPos - playerPos;
+	SakuEngine::Vector3 direction = enemyPos - playerPos;
 	direction = direction.Normalize();
 
 	// 補間座標を設定する
@@ -300,10 +300,10 @@ void PlayerParryState::ImGui(const Player& player) {
 	ImGui::DragFloat("parryHitEffectPosY", &parryHitEffectPosY_, 0.01f);
 	ImGui::DragFloat("hitEffectOffsetY", &hitEffectOffsetY_, 0.01f);
 
-	ImGuiHelper::ValueText<Vector3>("stratPos", startPos_);
-	ImGuiHelper::ValueText<Vector3>("targetPos", targetPos_);
+	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("stratPos", startPos_);
+	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("targetPos", targetPos_);
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	ImGui::SeparatorText("Parry: RED");
 
@@ -312,15 +312,15 @@ void PlayerParryState::ImGui(const Player& player) {
 	Easing::SelectEasingType(parryLerp_.easingType, "Parry");
 
 	{
-		Vector3 start{};
-		Vector3 target{};
-		Vector3 translation = SetLerpValue(start, target,
+		SakuEngine::Vector3 start{};
+		SakuEngine::Vector3 target{};
+		SakuEngine::Vector3 translation = SetLerpValue(start, target,
 			player, parryLerp_.moveDistance, true);
 		start.y = 2.0f;
 		target.y = 2.0f;
 
 		lineRenderer->DrawLine3D(
-			start, target, Color::Red());
+			start, target, SakuEngine::Color::Red());
 	}
 
 	ImGui::SeparatorText("Attack: YELLOW");
@@ -330,36 +330,36 @@ void PlayerParryState::ImGui(const Player& player) {
 	Easing::SelectEasingType(attackLerp_.easingType, "Attack");
 
 	{
-		Vector3 start{};
-		Vector3 target{};
-		Vector3 translation = SetLerpValue(start, target,
+		SakuEngine::Vector3 start{};
+		SakuEngine::Vector3 target{};
+		SakuEngine::Vector3 translation = SetLerpValue(start, target,
 			player, attackLerp_.moveDistance, false);
 		start.y = 2.0f;
 		target.y = 2.0f;
 
 		lineRenderer->DrawLine3D(
-			start, target, Color(0.0f, 1.0f, 1.0f, 1.0f));
+			start, target, SakuEngine::Color(0.0f, 1.0f, 1.0f, 1.0f));
 	}
 }
 
 void PlayerParryState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	deltaWaitTime_ = JsonAdapter::GetValue<float>(data, "deltaWaitTime_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	deltaWaitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "deltaWaitTime_");
 	deltaLerpSpeed_ = data.value("deltaLerpSpeed_", 8.0f);
 	cameraLookRate_ = data.value("cameraLookRate_", 1.0f);
 	parryHitEffectPosY_ = data.value("parryEffectPosY_", 4.0f);
 	hitEffectOffsetY_ = data.value("hitEffectOffsetY_", 4.0f);
 
-	parryLerp_.time = JsonAdapter::GetValue<float>(data, "parryLerp_.time");
-	parryLerp_.moveDistance = JsonAdapter::GetValue<float>(data, "parryLerp_.moveDistance");
+	parryLerp_.time = SakuEngine::JsonAdapter::GetValue<float>(data, "parryLerp_.time");
+	parryLerp_.moveDistance = SakuEngine::JsonAdapter::GetValue<float>(data, "parryLerp_.moveDistance");
 	parryLerp_.easingType = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "parryLerp_.easingType"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "parryLerp_.easingType"));
 
-	attackLerp_.time = JsonAdapter::GetValue<float>(data, "attackLerp_.time");
-	attackLerp_.moveDistance = JsonAdapter::GetValue<float>(data, "attackLerp_.moveDistance");
+	attackLerp_.time = SakuEngine::JsonAdapter::GetValue<float>(data, "attackLerp_.time");
+	attackLerp_.moveDistance = SakuEngine::JsonAdapter::GetValue<float>(data, "attackLerp_.moveDistance");
 	attackLerp_.easingType = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "attackLerp_.easingType"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "attackLerp_.easingType"));
 }
 
 void PlayerParryState::SaveJson(Json& data) {

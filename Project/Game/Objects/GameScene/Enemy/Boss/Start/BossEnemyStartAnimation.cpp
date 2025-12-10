@@ -1,4 +1,4 @@
-﻿#include "BossEnemyStartAnimation.h"
+#include "BossEnemyStartAnimation.h"
 
 //============================================================================
 //	include
@@ -42,7 +42,7 @@ void BossEnemyStartAnimation::Update(BossEnemy& bossEnemy) {
 	}
 
 	// 座標補間更新
-	Vector3 lerpTranslation = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 lerpTranslation = bossEnemy.GetTranslation();
 	posAnimation_.LerpValue(lerpTranslation);
 
 	// 座標を設定
@@ -86,7 +86,7 @@ void BossEnemyStartAnimation::ImGui(BossEnemy& bossEnemy) {
 void BossEnemyStartAnimation::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Enemy/Boss/startAnimationParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Enemy/Boss/startAnimationParameter.json", data)) {
 		return;
 	}
 
@@ -101,5 +101,5 @@ void BossEnemyStartAnimation::SaveJson() {
 	posAnimation_.ToJson(data["PosAnimation"]);
 
 	delayTimer_.ToJson(data["DelayTimer"]);
-	JsonAdapter::Save("Enemy/Boss/startAnimationParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Enemy/Boss/startAnimationParameter.json", data);
 }

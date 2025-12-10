@@ -1,4 +1,4 @@
-﻿#include "PlayerSwitchAllyState.h"
+#include "PlayerSwitchAllyState.h"
 
 //============================================================================
 //	include
@@ -49,7 +49,7 @@ void PlayerSwitchAllyState::Enter(Player& player) {
 	blur->SetIsAutoReturn(false);
 
 	// プレイヤーの位置を中心にする
-	Vector2 screenPos = Math::ProjectToScreen(
+	SakuEngine::Vector2 screenPos = SakuEngine::Math::ProjectToScreen(
 		player.GetTranslation(), *followCamera_).Normalize();
 	blur->SetBlurCenter(screenPos);
 }
@@ -60,10 +60,10 @@ void PlayerSwitchAllyState::Update(Player& player) {
 	deltaTimeScaleTimer_.Update(std::nullopt, false);
 	float deltaScale = std::lerp(1.0f, deltaTimeScale_, deltaTimeScaleTimer_.easedT_);
 	// スケーリング値を設定
-	GameTimer::SetExternalTimeScale(deltaScale);
+	SakuEngine::GameTimer::SetExternalTimeScale(deltaScale);
 
 	// 入力受付待ち
-	switchAllyTimer_ += GameTimer::GetDeltaTime();
+	switchAllyTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float t = switchAllyTimer_ / switchAllyTime_;
 
 	// 入力状態の確認
@@ -113,7 +113,7 @@ void PlayerSwitchAllyState::Exit([[maybe_unused]] Player& player) {
 
 	// リセット
 	// 時間スケールを元の値に戻す
-	GameTimer::ClearExternalTimeScale();
+	SakuEngine::GameTimer::ClearExternalTimeScale();
 	switchAllyTimer_ = 0.0f;
 	canExit_ = false;
 	deltaTimeScaleTimer_.Reset();
@@ -135,8 +135,8 @@ void PlayerSwitchAllyState::ImGui([[maybe_unused]] const Player& player) {
 
 void PlayerSwitchAllyState::ApplyJson(const Json& data) {
 
-	switchAllyTime_ = JsonAdapter::GetValue<float>(data, "switchAllyTime_");
-	JsonAdapter::GetValue<int>(data, "deltaTimeScaleEasingType_");
+	switchAllyTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "switchAllyTime_");
+	SakuEngine::JsonAdapter::GetValue<int>(data, "deltaTimeScaleEasingType_");
 
 	deltaTimeScale_ = data.value("deltaTimeScale_", 1.0f);
 	deltaTimeScaleTimer_.FromJson(data.value("deltaTimeScaleTimer_", Json()));

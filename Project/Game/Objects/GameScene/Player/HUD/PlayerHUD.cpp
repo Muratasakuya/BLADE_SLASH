@@ -1,4 +1,4 @@
-﻿#include "PlayerHUD.h"
+#include "PlayerHUD.h"
 
 //============================================================================
 //	include
@@ -16,7 +16,7 @@
 void PlayerHUD::InitSprite() {
 
 	// HP背景
-	hpBackground_ = std::make_unique<GameObject2D>();
+	hpBackground_ = std::make_unique<SakuEngine::GameObject2D>();
 	hpBackground_->Init("playerHPBackground", "hpBackground", "PlayerHUD");
 
 	// HP残量
@@ -28,7 +28,7 @@ void PlayerHUD::InitSprite() {
 	skilBar_->Init("playerSkilBar", "whiteAlphaGradation_1", "destroyBar", "PlayerHUD");
 
 	// 名前文字表示
-	nameText_ = std::make_unique<GameObject2D>();
+	nameText_ = std::make_unique<SakuEngine::GameObject2D>();
 	nameText_->Init("playerName", "playerName", "PlayerHUD");
 
 	// キーボード操作とパッド操作のtextureの名前を格納する
@@ -59,7 +59,7 @@ void PlayerHUD::InitSprite() {
 	damageDisplay_->Init("playerDamageNumber", "BossEnemyHUD", 4, 3);
 
 	// input状態を取得
-	inputType_ = Input::GetInstance()->GetType();
+	inputType_ = SakuEngine::Input::GetInstance()->GetType();
 	preInputType_ = inputType_;
 
 	// 最初の表示状態を設定
@@ -72,7 +72,7 @@ void PlayerHUD::InitSprite() {
 	for (auto& inputSuggest : inputSuggests_) {
 
 		// 作成
-		inputSuggest.sprite = std::make_unique<GameObject2D>();
+		inputSuggest.sprite = std::make_unique<SakuEngine::GameObject2D>();
 		inputSuggest.sprite->Init("inputSuggestRing", "inputSuggest", "PlayerHUD");
 
 		// 最初は非表示
@@ -120,7 +120,7 @@ void PlayerHUD::SetValid() {
 void PlayerHUD::Update(const Player& player) {
 
 	// input状態を取得
-	inputType_ = Input::GetInstance()->GetType();
+	inputType_ = SakuEngine::Input::GetInstance()->GetType();
 
 	// sprite更新
 	UpdateSprite(player);
@@ -156,7 +156,7 @@ void PlayerHUD::UpdateAlpha() {
 	}
 
 	// 時間を進める
-	returnAlphaTimer_ += GameTimer::GetDeltaTime();
+	returnAlphaTimer_ += SakuEngine::GameTimer::GetDeltaTime();
 	float alpha = returnAlphaTimer_ / returnAlphaTime_;
 	alpha = EasedValue(returnAlphaEasingType_, alpha);
 	alpha = std::clamp(alpha, 0.0f, 1.0f);
@@ -240,7 +240,7 @@ void PlayerHUD::StartInputReactAnim(PlayerState state) {
 		skil_.isActiveInput = true;
 		// パリィ入力のUIサイズを元に戻す
 		// 入力画像は2倍する
-		parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+		parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
 		// 攻撃入力のUIサイズを元に戻す
 		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
 	} else if (inputReactState_ == PlayerState::Parry) {
@@ -263,7 +263,7 @@ void PlayerHUD::StartInputReactAnim(PlayerState state) {
 		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
 		// パリィ入力のUIサイズを元に戻す
 		// 入力画像は2倍する
-		parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+		parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
 	} else {
 		// それ以外の状態なら処理しない
 		return;
@@ -296,12 +296,12 @@ void PlayerHUD::UpdateInputSuggest() {
 	for (auto& inputSuggest : inputSuggests_) {
 
 		// サイズ
-		Vector2 size = inputSuggest.sprite->GetSize();
+		SakuEngine::Vector2 size = inputSuggest.sprite->GetSize();
 		inputSuggest.sizeAnim.LerpValue(size);
 		inputSuggest.sprite->SetSize(size);
 
 		// α値
-		Color color = inputSuggest.sprite->GetColor();
+		SakuEngine::Color color = inputSuggest.sprite->GetColor();
 		inputSuggest.colorAnim.LerpValue(color);
 		inputSuggest.sprite->SetColor(color);
 		inputSuggest.sprite->SetEmissionColor(inputSuggestEmissionColor_);
@@ -330,8 +330,8 @@ void PlayerHUD::UpdateInputReactAnim() {
 		return;
 	}
 
-	Vector2 size{};
-	Color color{};
+	SakuEngine::Vector2 size{};
+	SakuEngine::Color color{};
 	switch (inputReactState_) {
 	case PlayerState::SkilAttack: {
 
@@ -385,14 +385,14 @@ void PlayerHUD::UpdateInputReactAnim() {
 		case PlayerState::SkilAttack: {
 
 			skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-			skil_.staticSprite->SetColor(Color::White());
+			skil_.staticSprite->SetColor(SakuEngine::Color::White());
 			break;
 		}
 		case PlayerState::Parry: {
 
 			// 入力画像は2倍する
-			parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
-			parry_.staticSprite->SetColor(Color::White());
+			parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+			parry_.staticSprite->SetColor(SakuEngine::Color::White());
 			break;
 		}
 		case PlayerState::Attack_1st:
@@ -401,7 +401,7 @@ void PlayerHUD::UpdateInputReactAnim() {
 		case PlayerState::Attack_4th:
 
 			attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-			attack_.staticSprite->SetColor(Color::White());
+			attack_.staticSprite->SetColor(SakuEngine::Color::White());
 			break;
 		}
 		inputReactSizeAnim_.Reset();
@@ -458,7 +458,7 @@ void PlayerHUD::SetAllOperateSize() {
 
 
 	// 入力画像は2倍する
-	parry_.SetSize(staticSpriteSize_, Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
+	parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
 }
 
 void PlayerHUD::ImGui() {
@@ -597,7 +597,7 @@ void PlayerHUD::ImGui() {
 void PlayerHUD::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Player/hudParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Player/hudParameter.json", data)) {
 		return;
 	}
 
@@ -618,11 +618,11 @@ void PlayerHUD::ApplyJson() {
 	leftSpriteTranslation_ = leftSpriteTranslation_.FromJson(data["leftSpriteTranslation"]);
 	staticSpriteSize_ = leftSpriteTranslation_.FromJson(data["staticSpriteSize"]);
 	dynamicSpriteSize_ = leftSpriteTranslation_.FromJson(data["dynamicSpriteSize"]);
-	dynamicSpriteOffsetY_ = JsonAdapter::GetValue<float>(data, "dynamicSpriteOffsetY");
-	operateSpriteSpancingX_ = JsonAdapter::GetValue<float>(data, "operateSpriteSpancingX");
-	returnAlphaTime_ = JsonAdapter::GetValue<float>(data, "returnAlphaTime_");
+	dynamicSpriteOffsetY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "dynamicSpriteOffsetY");
+	operateSpriteSpancingX_ = SakuEngine::JsonAdapter::GetValue<float>(data, "operateSpriteSpancingX");
+	returnAlphaTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "returnAlphaTime_");
 	returnAlphaEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
 
 	inputSuggests_.front().sizeAnim.FromJson(data.value("inputSuggestFrontSizeAnim", Json()));
 	inputSuggests_.front().colorAnim.FromJson(data.value("inputSuggestFrontcolorAnim", Json()));
@@ -631,7 +631,7 @@ void PlayerHUD::ApplyJson() {
 	inputSuggests_.back().colorAnim.FromJson(data.value("inputSuggestBackcolorAnim", Json()));
 	inputSuggests_.back().emissiveAnim.FromJson(data.value("inputSuggestBackEmissiveAnim", Json()));
 	inputSuggestDelay_.FromJson(data.value("inputSuggestDelay", Json()));
-	inputSuggestEmissionColor_ = Vector3::FromJson(data.value("inputSuggestEmissionColor", Json()));
+	inputSuggestEmissionColor_ = SakuEngine::Vector3::FromJson(data.value("inputSuggestEmissionColor", Json()));
 
 	inputReactSizeAnim_.FromJson(data.value("inputReactSizeAnim", Json()));
 	inputReactColorAnim_.FromJson(data.value("inputReactColorAnim", Json()));
@@ -671,7 +671,7 @@ void PlayerHUD::SaveJson() {
 	inputReactSizeAnim_.ToJson(data["inputReactSizeAnim"]);
 	inputReactColorAnim_.ToJson(data["inputReactColorAnim"]);
 
-	JsonAdapter::Save("Player/hudParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Player/hudParameter.json", data);
 }
 
 void PlayerHUD::InputStateSprite::Init(uint32_t spriteIndex, const std::string& staticSpriteTextureName,
@@ -680,13 +680,13 @@ void PlayerHUD::InputStateSprite::Init(uint32_t spriteIndex, const std::string& 
 	index = spriteIndex;
 
 	// 変化しないspriteの初期化
-	staticSprite = std::make_unique<GameObject2D>();
+	staticSprite = std::make_unique<SakuEngine::GameObject2D>();
 	staticSprite->Init(staticSpriteTextureName, staticSpriteTextureName, groupName);
 
 	// 変化するspriteをタイプごとに初期化
 	for (auto& [type, texture] : dynamicSpritesTextureName) {
 
-		dynamicSprites[type] = std::make_unique<GameObject2D>();
+		dynamicSprites[type] = std::make_unique<SakuEngine::GameObject2D>();
 		dynamicSprites[type]->Init(texture, texture, groupName);
 	}
 }
@@ -705,23 +705,23 @@ void PlayerHUD::InputStateSprite::ChangeDynamicSprite(InputType type) {
 	}
 }
 
-void PlayerHUD::InputStateSprite::SetTranslation(const Vector2& leftSpriteTranslation,
+void PlayerHUD::InputStateSprite::SetTranslation(const SakuEngine::Vector2& leftSpriteTranslation,
 	float dynamicSpriteOffsetY, float operateSpriteSpancingX) {
 
 	// X座標
 	float translationX = leftSpriteTranslation.x + index * operateSpriteSpancingX;
 
 	// 座標を設定
-	staticSprite->SetTranslation(Vector2(translationX, leftSpriteTranslation.y));
+	staticSprite->SetTranslation(SakuEngine::Vector2(translationX, leftSpriteTranslation.y));
 
 	dynamicSprites[InputType::Keyboard]->SetTranslation(
-		Vector2(translationX, leftSpriteTranslation.y + dynamicSpriteOffsetY));
+		SakuEngine::Vector2(translationX, leftSpriteTranslation.y + dynamicSpriteOffsetY));
 	dynamicSprites[InputType::GamePad]->SetTranslation(
-		Vector2(translationX, leftSpriteTranslation.y + dynamicSpriteOffsetY));
+		SakuEngine::Vector2(translationX, leftSpriteTranslation.y + dynamicSpriteOffsetY));
 }
 
-void PlayerHUD::InputStateSprite::SetSize(const Vector2& staticSpriteSize,
-	const Vector2& dynamicSpriteSize_) {
+void PlayerHUD::InputStateSprite::SetSize(const SakuEngine::Vector2& staticSpriteSize,
+	const SakuEngine::Vector2& dynamicSpriteSize_) {
 
 	// サイズ設定
 	staticSprite->SetSize(staticSpriteSize);

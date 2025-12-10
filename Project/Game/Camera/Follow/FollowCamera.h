@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -14,7 +14,7 @@
 //	追従カメラ
 //============================================================================
 class FollowCamera :
-	public BaseCamera {
+	public SakuEngine::BaseCamera {
 public:
 	//========================================================================
 	//	public Methods
@@ -36,7 +36,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	void SetPlayer(const Player* player) { stateController_->SetPlayer(player); }
-	void SetTarget(FollowCameraTargetType type, const Transform3D& target);
+	void SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target);
 	void SetFovY(float fovY) { fovY_ = fovY; }
 	void SetState(FollowCameraState state);
 	void SetOverlayState(FollowCameraOverlayState state, bool isStart);
@@ -64,16 +64,16 @@ private:
 
 	// 状態の管理
 	std::unique_ptr<FollowCameraStateController> stateController_;
-	std::unordered_map<FollowCameraTargetType, const Transform3D*> targets_;
+	std::unordered_map<FollowCameraTargetType, const SakuEngine::Transform3D*> targets_;
 
 	// 視点を注視点に向ける処理
 	bool lookStart_ = false;         // 補間開始するか
 	bool  lookAlwaysTarget_ = false; // trueの間ずっと向ける
 	float lookTargetLerpRate_; // フレーム補間割合
 	std::pair<FollowCameraTargetType, FollowCameraTargetType> lookPair_;
-	Quaternion lookToStart_;  // 補間開始時の回転
-	std::optional<Quaternion> lookToTarget_; // 補間目標の回転
-	StateTimer lookTimer_;   // 補間までの時間
+	SakuEngine::Quaternion lookToStart_;  // 補間開始時の回転
+	std::optional<SakuEngine::Quaternion> lookToTarget_; // 補間目標の回転
+	SakuEngine::StateTimer lookTimer_;   // 補間までの時間
 	float lookTimerRate_;    // 目標時間の倍速率
 	float targetXRotation_;  // 目標X回転
 	std::optional<float> anyTargetXRotation_;
@@ -94,7 +94,7 @@ private:
 	void UpdateLookAlwaysTarget();
 
 	// helper
-	Quaternion GetTargetRotation() const;
+	SakuEngine::Quaternion GetTargetRotation() const;
 
 	// json
 	void ApplyJson();

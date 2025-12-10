@@ -1,11 +1,10 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Collision/BossEnemyBladeCollision.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Effect/BossEnemyBladeEffect.h>
 
 //============================================================================
 //	BossEnemyChargeAttackState class
@@ -49,8 +48,6 @@ private:
 	std::unique_ptr<BossEnemyBladeCollision> singleBlade_;
 	float singleBladeMoveSpeed_; // 刃の進む速度
 	// エフェクト
-	// エフェクト、エンジン機能変更中...
-	//std::unique_ptr<BossEnemySingleBladeEffect> singleBladeEffect_;
 	float singleBladeEffectScalingValue_;
 
 	//--------- functions ----------------------------------------------------
@@ -59,5 +56,5 @@ private:
 	void UpdateBlade(BossEnemy& bossEnemy);
 
 	// helper
-	Vector3 CalcBaseDir(const BossEnemy& bossEnemy) const;
+	SakuEngine::Vector3 CalcBaseDir(const BossEnemy& bossEnemy) const;
 };

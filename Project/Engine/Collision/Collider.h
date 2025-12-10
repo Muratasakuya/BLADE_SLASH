@@ -101,10 +101,10 @@ namespace SakuEngine {
 
 		//--------- functions ----------------------------------------------------
 
-		// Transform3Dとオフセットから各形状のワールド情報を計算して更新する
-		void UpdateSphereBody(CollisionBody* body, const Transform3D& transform, const CollisionShape::Sphere& offset);
-		void UpdateAABBBody(CollisionBody* body, const Transform3D& transform, const CollisionShape::AABB& offset);
-		void UpdateOBBBody(CollisionBody* body, const Transform3D& transform, const CollisionShape::OBB& offset);
+		// SakuEngine::Transform3Dとオフセットから各形状のワールド情報を計算して更新する
+		void UpdateSphereBody(CollisionBody* body, const SakuEngine::Transform3D& transform, const CollisionShape::Sphere& offset);
+		void UpdateAABBBody(CollisionBody* body, const SakuEngine::Transform3D& transform, const CollisionShape::AABB& offset);
+		void UpdateOBBBody(CollisionBody* body, const SakuEngine::Transform3D& transform, const CollisionShape::OBB& offset);
 
 		// 形状名/パラメータをjsonから読み取り、bodyOffsets_へ追加する
 		bool SetShapeParamFromJson(const std::string& shapeName, const Json& data);

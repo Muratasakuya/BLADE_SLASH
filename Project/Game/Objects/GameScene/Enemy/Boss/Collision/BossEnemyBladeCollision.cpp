@@ -1,4 +1,4 @@
-﻿#include "BossEnemyBladeCollision.h"
+#include "BossEnemyBladeCollision.h"
 
 //============================================================================
 //	include
@@ -20,8 +20,8 @@ void BossEnemyBladeCollision::Init(const std::string& typeName) {
 	fileName_ = "Enemy/Boss/" + typeName_ + ".json";
 
 	// 形状初期化
-	bodies_.emplace_back(Collider::AddCollider(CollisionShape::OBB().Default()));
-	bodyOffsets_.emplace_back(CollisionShape::OBB().Default());
+	bodies_.emplace_back(Collider::AddCollider(SakuEngine::CollisionShape::OBB().Default()));
+	bodyOffsets_.emplace_back(SakuEngine::CollisionShape::OBB().Default());
 
 	// タイプ設定
 	bodies_.front()->SetType(ColliderType::Type_BossBlade);
@@ -37,7 +37,7 @@ void BossEnemyBladeCollision::Init(const std::string& typeName) {
 	ApplyJson();
 }
 
-void BossEnemyBladeCollision::EmitEffect(const Vector3& emitPos, const Vector3& velocity) {
+void BossEnemyBladeCollision::EmitEffect(const SakuEngine::Vector3& emitPos, const SakuEngine::Vector3& velocity) {
 
 	// 発生させる
 	isEmit_ = true;
@@ -50,8 +50,8 @@ void BossEnemyBladeCollision::EmitEffect(const Vector3& emitPos, const Vector3& 
 	transform_.translation = emitPos;
 
 	// 進行方向に回転を設定する
-	Vector3 direction = Vector3(velocity_.x, 0.0f, velocity_.z).Normalize();
-	transform_.rotation = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(velocity_.x, 0.0f, velocity_.z).Normalize();
+	transform_.rotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
 
 	// transformを元に戻す
 	transform_.scale = scale_;
@@ -78,7 +78,7 @@ void BossEnemyBladeCollision::Update() {
 void BossEnemyBladeCollision::UpdateMove() {
 
 	// 速度を加算していく
-	transform_.translation += velocity_ * GameTimer::GetScaledDeltaTime();
+	transform_.translation += velocity_ * SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 行列更新
 	transform_.UpdateMatrix();
@@ -87,14 +87,14 @@ void BossEnemyBladeCollision::UpdateMove() {
 void BossEnemyBladeCollision::UpdateLifeTime() {
 
 	// 時間を進める
-	lifeTimer_ += GameTimer::GetScaledDeltaTime();
+	lifeTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 時間が経過しきったら衝突しないように消す
 	if (lifeTime_ < lifeTimer_) {
 
 		isEmit_ = false;
 		lifeTimer_ = 0.0f;
-		transform_.scale = Vector3::AnyInit(0.0f);
+		transform_.scale = SakuEngine::Vector3::AnyInit(0.0f);
 		transform_.translation.y = outsideTranslationY_;
 	}
 }
@@ -130,13 +130,13 @@ void BossEnemyBladeCollision::ImGui() {
 void BossEnemyBladeCollision::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck(fileName_, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(fileName_, data)) {
 		return;
 	}
 
-	lifeTime_ = JsonAdapter::GetValue<float>(data, "lifeTime_");
-	outsideTranslationY_ = JsonAdapter::GetValue<float>(data, "outsideTranslationY_");
-	scale_ = JsonAdapter::ToObject<Vector3>(data["scale_"]);
+	lifeTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lifeTime_");
+	outsideTranslationY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "outsideTranslationY_");
+	scale_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(data["scale_"]);
 
 	transform_.translation.y = outsideTranslationY_;
 	Collider::UpdateAllBodies(transform_);
@@ -148,7 +148,7 @@ void BossEnemyBladeCollision::SaveJson() {
 
 	data["lifeTime_"] = lifeTime_;
 	data["outsideTranslationY_"] = outsideTranslationY_;
-	data["scale_"] = JsonAdapter::FromObject<Vector3>(scale_);
+	data["scale_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector3>(scale_);
 
-	JsonAdapter::Save(fileName_, data);
+	SakuEngine::JsonAdapter::Save(fileName_, data);
 }

@@ -1,10 +1,10 @@
-﻿#include "ObjectAreaChecker.h"
+#include "ObjectAreaChecker.h"
 
 //============================================================================
 //	ObjectAreaChecker classMethods
 //============================================================================
 
-ObjectArea ObjectAreaChecker::CheckArea(const Vector3& pos, const Vector3& origin) {
+ObjectArea ObjectAreaChecker::CheckArea(const SakuEngine::Vector3& pos, const SakuEngine::Vector3& origin) {
 
 	ObjectArea area;
 	// 右側、原点よりx座標が大きい
@@ -34,26 +34,26 @@ ObjectArea ObjectAreaChecker::CheckArea(const Vector3& pos, const Vector3& origi
 	return area;
 }
 
-Vector3 ObjectAreaChecker::GetAreaDirection(ObjectArea area) {
+SakuEngine::Vector3 ObjectAreaChecker::GetAreaDirection(ObjectArea area) {
 
 	// エリアごとの向きの値を取得
-	Vector3 direction{};
+	SakuEngine::Vector3 direction{};
 	switch (area) {
 	case ObjectArea::RightFront:
 
-		direction = Vector3(1.0f, 0.0f, 1.0f);
+		direction = SakuEngine::Vector3(1.0f, 0.0f, 1.0f);
 		break;
 	case ObjectArea::LeftFront:
 
-		direction = Vector3(-1.0f, 0.0f, 1.0f);
+		direction = SakuEngine::Vector3(-1.0f, 0.0f, 1.0f);
 		break;
 	case ObjectArea::RightBack:
 
-		direction = Vector3(1.0f, 0.0f, -1.0f);
+		direction = SakuEngine::Vector3(1.0f, 0.0f, -1.0f);
 		break;
 	case ObjectArea::LeftBack:
 
-		direction = Vector3(-1.0f, 0.0f, -1.0f);
+		direction = SakuEngine::Vector3(-1.0f, 0.0f, -1.0f);
 		break;
 	}
 	direction = direction.Normalize();

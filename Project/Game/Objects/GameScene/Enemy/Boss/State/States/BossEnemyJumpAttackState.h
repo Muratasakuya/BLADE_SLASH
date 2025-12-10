@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -53,11 +53,11 @@ private:
 	State currentState_;
 
 	// 座標の補間、XとZだけ
-	SimpleAnimation<Vector3> lerpTranslationXZ_;
+	SakuEngine::SimpleAnimation<SakuEngine::Vector3> lerpTranslationXZ_;
 	float targetDistance_; // プレイヤーから離す距離
 	// Y座標のジャンプ補間
 	const uint32_t jumpKeyframeCount_ = 4;
-	std::vector<Vector3> jumpKeyframes_;
+	std::vector<SakuEngine::Vector3> jumpKeyframes_;
 	EasingType jumpEasing_;
 
 	// 剣エフェクト

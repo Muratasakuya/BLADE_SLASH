@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -63,12 +63,12 @@ protected:
 	struct SlashEffect {
 
 		// エフェクト本体
-		std::unique_ptr<EffectGroup> effect;
+		std::unique_ptr<SakuEngine::EffectGroup> effect;
 		// ノードの名前
 		std::string effectNodeName;
 
 		// 発生位置のオフセット
-		Vector3 effectOffset;
+		SakuEngine::Vector3 effectOffset;
 
 		// 発生
 		void Emit(BossEnemy& bossEnemy);
@@ -92,5 +92,5 @@ protected:
 
 	// helper
 	// ボスがtargetを見る
-	void LookTarget(BossEnemy& bossEnemy, const Vector3& target);
+	void LookTarget(BossEnemy& bossEnemy, const SakuEngine::Vector3& target);
 };

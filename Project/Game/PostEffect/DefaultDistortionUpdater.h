@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,7 @@
 //	デフォルトの歪み更新
 //============================================================================
 class DefaultDistortionUpdater :
-	public IPostProcessUpdater<DefaultDistortionForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::DefaultDistortionForGPU> {
 public:
 	//========================================================================
 	//	public Methods
@@ -47,8 +47,8 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// UVの更新を行う
-	Vector2 translation_; // 座標
-	Vector2 scale_;       // スケール
+	SakuEngine::Vector2 translation_; // 座標
+	SakuEngine::Vector2 scale_;       // スケール
 	float rotationZ_;     // Z回転
 
 	//--------- functions ----------------------------------------------------

@@ -1,4 +1,4 @@
-﻿#include "GamecButtonFocusNavigator.h"
+#include "GamecButtonFocusNavigator.h"
 
 //============================================================================
 //	include
@@ -83,7 +83,7 @@ void GamecButtonFocusNavigator::ApplyVisuals() {
 
 void GamecButtonFocusNavigator::Update() {
 
-	Input* input = Input::GetInstance();
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 
 	// マウス(キーボード操作も含む)かパッド操作か判定
 	const auto type = input->GetType();

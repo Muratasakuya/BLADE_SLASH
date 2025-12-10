@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnCircleModule.h"
+#include "ParticleSpawnCircleModule.h"
 
 using namespace SakuEngine;
 
@@ -194,7 +194,7 @@ void ParticleSpawnCircleModule::UpdateAdvanceProgressive(uint32_t emitCount) {
 }
 
 Vector3 ParticleSpawnCircleModule::GetVelocity(
-	uint32_t index, uint32_t emitCount, const Vector3& direction) const {
+	uint32_t index, uint32_t emitCount, const SakuEngine::Vector3& direction) const {
 
 	// 速度を取得
 	const float speed = moveSpeed_.GetValue();
@@ -354,7 +354,7 @@ void ParticleSpawnCircleModule::DrawEmitter() {
 	}
 
 	// 円を描画
-	LineRenderer* renderer = LineRenderer::GetInstance();
+	LineRenderer* renderer = SakuEngine::LineRenderer::GetInstance();
 	Vector3 center = parentTranslation + translation_;
 	float step = 2.0f * pi / static_cast<float>((std::max)(3, circleDivision_));
 	for (int i = 0; i < circleDivision_; ++i) {
@@ -367,15 +367,15 @@ void ParticleSpawnCircleModule::DrawEmitter() {
 	}
 
 	// 角度レンジの線を描画
-	auto DrawRayAtDegree = [&](float degree, float length, const Color& color) {
+	auto DrawRayAtDegree = [&](float degree, float length, const SakuEngine::Color& color) {
 
 		float rad = degree * radian;
 		Vector3 direction = rotation_ * Vector3(std::cos(rad), 0.0f, std::sin(rad));
 		renderer->DrawLine3D(center, center + direction * length, color); };
 	// 最小角度
-	DrawRayAtDegree(angleMin_, radius_ * 1.1f, Color::Cyan());
+	DrawRayAtDegree(angleMin_, radius_ * 1.1f, SakuEngine::Color::Cyan());
 	// 最大角度
-	DrawRayAtDegree(angleMax_, radius_ * 1.1f, Color::Cyan());
+	DrawRayAtDegree(angleMax_, radius_ * 1.1f, SakuEngine::Color::Cyan());
 }
 
 void ParticleSpawnCircleModule::ImGui() {
@@ -384,13 +384,13 @@ void ParticleSpawnCircleModule::ImGui() {
 	ImGui::DragFloat3("translation", &translation_.x, 0.01f);
 	if (ImGui::DragFloat4("rotation", &rotation_.x, 0.01f)) {
 
-		rotation_ = Quaternion::Normalize(rotation_);
+		rotation_ = SakuEngine::Quaternion::Normalize(rotation_);
 	}
 
 	ImGui::SeparatorText("Angle");
 
-	EnumAdapter<SpawnMode>::Combo("SpawnMode", &mode_);
-	EnumAdapter<VelocityMode>::Combo("VelocityMode", &velocityMode_);
+	SakuEngine::EnumAdapter<SpawnMode>::Combo("SpawnMode", &mode_);
+	SakuEngine::EnumAdapter<VelocityMode>::Combo("VelocityMode", &velocityMode_);
 
 	ImGui::DragFloat("angleMinDeg", &angleMin_, 0.1f, 0.0f, 360.0f);
 	ImGui::DragFloat("angleMaxDeg", &angleMax_, 0.1f, 0.0f, 360.0f);
@@ -414,8 +414,8 @@ Json ParticleSpawnCircleModule::ToJson() {
 	data["translation"] = translation_.ToJson();
 	data["rotation"] = rotation_.ToJson();
 
-	data["mode"] = EnumAdapter<SpawnMode>::ToString(mode_);
-	data["velocityMode_"] = EnumAdapter<VelocityMode>::ToString(velocityMode_);
+	data["mode"] = SakuEngine::EnumAdapter<SpawnMode>::ToString(mode_);
+	data["velocityMode_"] = SakuEngine::EnumAdapter<VelocityMode>::ToString(velocityMode_);
 	data["angleMin_"] = angleMin_;
 	data["angleMax_"] = angleMax_;
 	data["clockwise_"] = clockwise_;
@@ -430,11 +430,11 @@ void ParticleSpawnCircleModule::FromJson(const Json& data) {
 	ICPUParticleSpawnModule::FromCommonJson(data);
 
 	radius_ = data.value("radius", 2.0f);
-	translation_ = Vector3::FromJson(data.value("translation", Json()));
+	translation_ = SakuEngine::Vector3::FromJson(data.value("translation", Json()));
 	rotation_ = Quaternion::FromJson(data.value("rotation", Json()));
 
-	mode_ = EnumAdapter<SpawnMode>::FromString(data.value("mode", "Random")).value();
-	velocityMode_ = EnumAdapter<VelocityMode>::FromString(data.value("velocityMode_", "Normal")).value();
+	mode_ = SakuEngine::EnumAdapter<SpawnMode>::FromString(data.value("mode", "Random")).value();
+	velocityMode_ = SakuEngine::EnumAdapter<VelocityMode>::FromString(data.value("velocityMode_", "Normal")).value();
 	angleMin_ = data.value("angleMin_", 0.0f);
 	angleMax_ = data.value("angleMax_", 360.0f);
 	clockwise_ = data.value("clockwise_", false);

@@ -1,4 +1,4 @@
-﻿#include "EffectGroup.h"
+#include "EffectGroup.h"
 
 using namespace SakuEngine;
 
@@ -248,7 +248,7 @@ void EffectGroup::Update() {
 		if (node.emit.mode != EffectEmitMode::Manual && 0.0f < node.runtime.startOffsetRemain) {
 
 			// 残りを減算
-			node.runtime.startOffsetRemain -= GameTimer::GetScaledDeltaTime();
+			node.runtime.startOffsetRemain -= SakuEngine::GameTimer::GetScaledDeltaTime();
 			// まだ残っていれば次フレームで処理させる
 			if (0.0f < node.runtime.startOffsetRemain) {
 				continue;
@@ -281,7 +281,7 @@ void EffectGroup::ImGui() {
 		}
 		if (ImGui::BeginTabItem("Anchor")) {
 
-			ImGuiHelper::SelectTagTarget("Parent", &parentAnchorId_, &parentAnchorName_);
+			SakuEngine::ImGuiHelper::SelectTagTarget("Parent", &parentAnchorId_, &parentAnchorName_);
 			ImGui::Text("selected: %s (%u)", parentAnchorName_.c_str(), parentAnchorId_);
 			ImGui::EndTabItem();
 		}
@@ -328,7 +328,7 @@ void EffectGroup::AddParticleSystem() {
 	if (ImGui::Button("Load")) {
 
 		std::string fileName;
-		if (ImGuiHelper::OpenJsonDialog(fileName)) {
+		if (SakuEngine::ImGuiHelper::OpenJsonDialog(fileName)) {
 
 			EffectNode node{};
 
@@ -354,7 +354,7 @@ void EffectGroup::SelectParticleSystem() {
 	}
 
 	// ノードをすべて表示
-	ImGuiHelper::SelectableListFromStrings("Nodes", &selectNodeIndex_,
+	SakuEngine::ImGuiHelper::SelectableListFromStrings("Nodes", &selectNodeIndex_,
 		GetNodeNames(), displaySystemCount_);
 }
 
@@ -397,7 +397,7 @@ void EffectGroup::EditNode() {
 		// 発生設定
 		if (ImGui::BeginTabItem("EmitSetting")) {
 
-			EnumAdapter<EffectEmitMode>::Combo("EmitMode", &node.emit.mode);
+			SakuEngine::EnumAdapter<EffectEmitMode>::Combo("EmitMode", &node.emit.mode);
 			ImGui::DragInt("count", &node.emit.count);
 			ImGui::DragFloat("delay", &node.emit.delay, 0.01f);
 			ImGui::DragFloat("interval", &node.emit.interval, 0.01f);
@@ -407,7 +407,7 @@ void EffectGroup::EditNode() {
 		// 停止設定
 		if (ImGui::BeginTabItem("StopSetting")) {
 
-			EnumAdapter<EffectStopCondition>::Combo("StopCondition", &node.stop.condition);
+			SakuEngine::EnumAdapter<EffectStopCondition>::Combo("StopCondition", &node.stop.condition);
 			if (node.stop.condition == EffectStopCondition::OnParticleEmpty) {
 
 				// 参照ノード
@@ -415,7 +415,7 @@ void EffectGroup::EditNode() {
 				auto names = GetNodeNames();
 				// 選択ノードのインデックスを範囲内に収める
 				selectedNode = std::clamp(selectedNode, 0, nodeSize - 1);
-				ImGuiHelper::SelectableListFromStrings("Systems", &selectedNode, names, nodeSize + 1);
+				SakuEngine::ImGuiHelper::SelectableListFromStrings("Systems", &selectedNode, names, nodeSize + 1);
 				if (0 <= selectedNode && selectedNode < nodeSize) {
 
 					node.stop.emptyRef.nodeKey = nodes_[selectedNode].key;
@@ -429,7 +429,7 @@ void EffectGroup::EditNode() {
 					// 参照グループのインデックスを範囲内に収める
 					int groupIndex = (std::max)(0, node.stop.emptyRef.groupIndex);
 					groupIndex = (std::min)(groupIndex, groupCount - 1);
-					ImGuiHelper::SelectableListFromStrings("Groups", &groupIndex, groupNames, groupCount + 1);
+					SakuEngine::ImGuiHelper::SelectableListFromStrings("Groups", &groupIndex, groupNames, groupCount + 1);
 					// 参照グループのインデックスを設定
 					node.stop.emptyRef.groupIndex = groupIndex;
 				}
@@ -441,8 +441,8 @@ void EffectGroup::EditNode() {
 
 			// ランタイム寿命動作
 			ImGui::Checkbox("sendLifeEndMode", &node.module.sendLifeEndMode);
-			EnumAdapter<ParticleLifeEndMode>::Combo("LifeEndMode", &node.module.lifeEndMode);
-			EnumAdapter<EffectPosePreset>::Combo("PosePreset", &node.module.posePreset);
+			SakuEngine::EnumAdapter<ParticleLifeEndMode>::Combo("LifeEndMode", &node.module.lifeEndMode);
+			SakuEngine::EnumAdapter<EffectPosePreset>::Combo("PosePreset", &node.module.posePreset);
 
 			// 発生モジュール
 			{
@@ -450,14 +450,14 @@ void EffectGroup::EditNode() {
 
 				// 座標
 				ImGui::Checkbox("sendSpawnerTranslation", &node.module.sendSpawnerTranslation);
-				EnumAdapter<EffectPosOption>::Combo("posOption", &node.module.posOption);
+				SakuEngine::EnumAdapter<EffectPosOption>::Combo("posOption", &node.module.posOption);
 				ImGui::DragFloat3("spawnPos", &node.module.spawnPos.x, 0.01f);
 
 				ImGui::Separator();
 
 				// 回転
 				ImGui::Checkbox("sendSpawnerRotation", &node.module.sendSpawnerRotation);
-				EnumAdapter<EffectRotateOption>::Combo("spawnRotateOption", &node.module.spawnRotateOption);
+				SakuEngine::EnumAdapter<EffectRotateOption>::Combo("spawnRotateOption", &node.module.spawnRotateOption);
 				ImGui::DragFloat3("spawnRotate", &node.module.spawnRotate.x, 0.01f);
 
 				ImGui::Separator();
@@ -470,7 +470,7 @@ void EffectGroup::EditNode() {
 
 			// 更新回転
 			ImGui::Checkbox("sendUpdaterRotation", &node.module.sendUpdaterRotation);
-			EnumAdapter<EffectUpdateRotateOption>::Combo("updateRotateOption", &node.module.updateRotateOption);
+			SakuEngine::EnumAdapter<EffectUpdateRotateOption>::Combo("updateRotateOption", &node.module.updateRotateOption);
 			ImGui::DragFloat3("updateRotate", &node.module.updateRotate.x, 0.01f);
 
 			ImGui::Separator();
@@ -490,7 +490,7 @@ void EffectGroup::EditNode() {
 		}
 		if (ImGui::BeginTabItem("Sequencer")) {
 
-			EnumAdapter<EffectSequencerStartCondition>::Combo("Condition", &node.sequencer.startAfter.condition);
+			SakuEngine::EnumAdapter<EffectSequencerStartCondition>::Combo("Condition", &node.sequencer.startAfter.condition);
 			ImGui::DragFloat("startOffset", &node.sequencer.startOffset, 0.01f);
 			ImGui::EndTabItem();
 		}
@@ -595,7 +595,7 @@ void EffectGroup::SaveAndLoad() {
 	if (ImGui::Button("Load")) {
 
 		std::string fileName;
-		if (ImGuiHelper::OpenJsonDialog(fileName)) {
+		if (SakuEngine::ImGuiHelper::OpenJsonDialog(fileName)) {
 
 			LoadJson(fileName);
 		}
@@ -603,7 +603,7 @@ void EffectGroup::SaveAndLoad() {
 	// 保存処理
 	{
 		std::string fileName;
-		if (ImGuiHelper::SaveJsonModal("Save CameraParam", baseJsonPath_.c_str(),
+		if (SakuEngine::ImGuiHelper::SaveJsonModal("Save CameraParam", baseJsonPath_.c_str(),
 			baseJsonPath_.c_str(), jsonSaveState_, fileName)) {
 
 			SaveJson(fileName);
@@ -630,7 +630,7 @@ void EffectGroup::EditLayout() {
 void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck(fileName, data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(fileName, data)) {
 		return;
 	}
 
@@ -660,7 +660,7 @@ void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 			// Emit
 			if (auto emit = nodeData.find("Emit"); emit != nodeData.end()) {
 
-				node.emit.mode = EnumAdapter<EffectEmitMode>::FromString(emit->value("Mode", "Once")).value();
+				node.emit.mode = SakuEngine::EnumAdapter<EffectEmitMode>::FromString(emit->value("Mode", "Once")).value();
 				node.emit.count = emit->value("count", 1);
 				node.emit.delay = emit->value("delay", 0.0f);
 				node.emit.interval = emit->value("interval", 0.0f);
@@ -670,7 +670,7 @@ void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 			// Stop
 			if (auto stop = nodeData.find("Stop"); stop != nodeData.end()) {
 
-				node.stop.condition = EnumAdapter<EffectStopCondition>::FromString(stop->value("Condition", "None")).value();
+				node.stop.condition = SakuEngine::EnumAdapter<EffectStopCondition>::FromString(stop->value("Condition", "None")).value();
 				node.stop.emptyRef.nodeKey = stop->value("emptyNodeKey", "");
 				node.stop.emptyRef.groupIndex = stop->value("emptyGroupIndex", -1);
 			}
@@ -678,8 +678,8 @@ void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 			// Module
 			if (auto module = nodeData.find("Module"); module != nodeData.end()) {
 
-				node.module.lifeEndMode = EnumAdapter<ParticleLifeEndMode>::FromString(module->value("LifeEndMode", "Advance")).value();
-				node.module.posePreset = EnumAdapter<EffectPosePreset>::FromString(module->value("PosePreset", "None")).value();
+				node.module.lifeEndMode = SakuEngine::EnumAdapter<ParticleLifeEndMode>::FromString(module->value("LifeEndMode", "Advance")).value();
+				node.module.posePreset = SakuEngine::EnumAdapter<EffectPosePreset>::FromString(module->value("PosePreset", "None")).value();
 				node.module.spawnPos = Vector3::FromJson(module->value("spawnPos", Json()));
 				node.module.spawnRotate = Vector3::FromJson(module->value("spawnRotate", Json()));
 				node.module.updateRotate = Vector3::FromJson(module->value("updateRotate", Json()));
@@ -692,9 +692,9 @@ void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 				node.module.sendUpdaterLightning = module->value("sendUpdaterLightning", false);
 				node.module.sendLifeEndMode = module->value("sendLifeEndMode", false);
 				// オプション
-				node.module.posOption = EnumAdapter<EffectPosOption>::FromString(module->value("posOption", "World")).value();
-				node.module.spawnRotateOption = EnumAdapter<EffectRotateOption>::FromString(module->value("spawnRotateOption", "None")).value();
-				node.module.updateRotateOption = EnumAdapter<EffectUpdateRotateOption>::FromString(module->value("updateRotateOption", "None")).value();
+				node.module.posOption = SakuEngine::EnumAdapter<EffectPosOption>::FromString(module->value("posOption", "World")).value();
+				node.module.spawnRotateOption = SakuEngine::EnumAdapter<EffectRotateOption>::FromString(module->value("spawnRotateOption", "None")).value();
+				node.module.updateRotateOption = SakuEngine::EnumAdapter<EffectUpdateRotateOption>::FromString(module->value("updateRotateOption", "None")).value();
 				// スケール
 				node.module.spawnerScaleEnable = module->value("spawnerScaleEnable", false);
 				node.module.spawnerScaleValue = module->value("spawnerScaleValue", 1.0f);
@@ -706,7 +706,7 @@ void EffectGroup::LoadJson(const std::string& fileName, bool isEveryCreare) {
 			node.sequencer.startOffset = nodeData.value("startOffset", 0.0f);
 			if (auto after = nodeData.find("StartAfter"); after != nodeData.end()) {
 
-				node.sequencer.startAfter.condition = EnumAdapter<EffectSequencerStartCondition>::FromString(after->value("Condition", "None")).value();
+				node.sequencer.startAfter.condition = SakuEngine::EnumAdapter<EffectSequencerStartCondition>::FromString(after->value("Condition", "None")).value();
 				node.sequencer.startAfter.emptyRef.nodeKey = after->value("nodeKey", "");
 				node.sequencer.startAfter.emptyRef.groupIndex = after->value("groupIndex", -1);
 			}
@@ -741,7 +741,7 @@ void EffectGroup::SaveJson(const std::string& filePath) {
 		// Emit
 		{
 			Json emit;
-			emit["Mode"] = EnumAdapter<EffectEmitMode>::ToString(node.emit.mode);
+			emit["Mode"] = SakuEngine::EnumAdapter<EffectEmitMode>::ToString(node.emit.mode);
 			emit["count"] = node.emit.count;
 			emit["delay"] = node.emit.delay;
 			emit["interval"] = node.emit.interval;
@@ -752,7 +752,7 @@ void EffectGroup::SaveJson(const std::string& filePath) {
 		// Stop
 		{
 			Json stop;
-			stop["Condition"] = EnumAdapter<EffectStopCondition>::ToString(node.stop.condition);
+			stop["Condition"] = SakuEngine::EnumAdapter<EffectStopCondition>::ToString(node.stop.condition);
 			stop["emptyNodeKey"] = node.stop.emptyRef.nodeKey;
 			stop["emptyGroupIndex"] = node.stop.emptyRef.groupIndex;
 			nodeData["Stop"] = stop;
@@ -761,8 +761,8 @@ void EffectGroup::SaveJson(const std::string& filePath) {
 		// Module
 		{
 			Json module;
-			module["LifeEndMode"] = EnumAdapter<ParticleLifeEndMode>::ToString(node.module.lifeEndMode);
-			module["PosePreset"] = EnumAdapter<EffectPosePreset>::ToString(node.module.posePreset);
+			module["LifeEndMode"] = SakuEngine::EnumAdapter<ParticleLifeEndMode>::ToString(node.module.lifeEndMode);
+			module["PosePreset"] = SakuEngine::EnumAdapter<EffectPosePreset>::ToString(node.module.posePreset);
 			module["spawnPos"] = node.module.spawnPos.ToJson();
 			module["spawnRotate"] = node.module.spawnRotate.ToJson();
 			module["updateRotate"] = node.module.updateRotate.ToJson();
@@ -775,9 +775,9 @@ void EffectGroup::SaveJson(const std::string& filePath) {
 			module["sendUpdaterLightning"] = node.module.sendUpdaterLightning;
 			module["sendLifeEndMode"] = node.module.sendLifeEndMode;
 			// オプション
-			module["posOption"] = EnumAdapter<EffectPosOption>::ToString(node.module.posOption);
-			module["spawnRotateOption"] = EnumAdapter<EffectRotateOption>::ToString(node.module.spawnRotateOption);
-			module["updateRotateOption"] = EnumAdapter<EffectUpdateRotateOption>::ToString(node.module.updateRotateOption);
+			module["posOption"] = SakuEngine::EnumAdapter<EffectPosOption>::ToString(node.module.posOption);
+			module["spawnRotateOption"] = SakuEngine::EnumAdapter<EffectRotateOption>::ToString(node.module.spawnRotateOption);
+			module["updateRotateOption"] = SakuEngine::EnumAdapter<EffectUpdateRotateOption>::ToString(node.module.updateRotateOption);
 			// スケール
 			module["spawnerScaleEnable"] = node.module.spawnerScaleEnable;
 			module["spawnerScaleValue"] = node.module.spawnerScaleValue;
@@ -790,7 +790,7 @@ void EffectGroup::SaveJson(const std::string& filePath) {
 		nodeData["startOffset"] = node.sequencer.startOffset;
 		{
 			Json after;
-			after["Condition"] = EnumAdapter<EffectSequencerStartCondition>::ToString(node.sequencer.startAfter.condition);
+			after["Condition"] = SakuEngine::EnumAdapter<EffectSequencerStartCondition>::ToString(node.sequencer.startAfter.condition);
 			after["nodeKey"] = node.sequencer.startAfter.emptyRef.nodeKey;
 			after["groupIndex"] = node.sequencer.startAfter.emptyRef.groupIndex;
 			nodeData["StartAfter"] = after;
@@ -800,13 +800,13 @@ void EffectGroup::SaveJson(const std::string& filePath) {
 	}
 	data["Nodes"] = nodes;
 
-	JsonAdapter::Save(filePath, data);
+	SakuEngine::JsonAdapter::Save(filePath, data);
 }
 
 void EffectGroup::ApplyLayout() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck(baseJsonPath_ + "Layout/editorLayout.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(baseJsonPath_ + "Layout/editorLayout.json", data)) {
 		return;
 	}
 
@@ -821,7 +821,7 @@ void EffectGroup::SaveLayout() {
 	data["leftChildWidth_"] = leftChildWidth_;
 	data["displaySystemCount_"] = displaySystemCount_;
 
-	JsonAdapter::Save(baseJsonPath_ + "Layout/editorLayout.json", data);
+	SakuEngine::JsonAdapter::Save(baseJsonPath_ + "Layout/editorLayout.json", data);
 }
 
 std::vector<std::string> EffectGroup::GetNodeNames() const {

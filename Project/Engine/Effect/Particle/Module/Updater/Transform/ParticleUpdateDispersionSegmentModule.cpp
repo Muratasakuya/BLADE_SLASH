@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateDispersionSegmentModule.h"
+#include "ParticleUpdateDispersionSegmentModule.h"
 
 using namespace SakuEngine;
 
@@ -32,11 +32,11 @@ void ParticleUpdateDispersionSegmentModule::Init() {
 	segmentParams_.origin = Vector3(-4.0f, 0.0f, 0.0f);
 	segmentParams_.target = Vector3(4.0f, 0.0f, 0.0f);
 	circleParams_.radius = 4.0f;
-	rectParams_.size = Vector2::AnyInit(8.0f);
+	rectParams_.size = SakuEngine::Vector2::AnyInit(8.0f);
 
 	divisionCount_ = 2u;
 	delay_ = 0.2f;
-	targetPosRange_ = Vector3::AnyInit(1.0f);
+	targetPosRange_ = SakuEngine::Vector3::AnyInit(1.0f);
 	targetSize = 1.0f;
 }
 
@@ -90,7 +90,7 @@ void ParticleUpdateDispersionSegmentModule::Execute(
 			const float hz = rectParams_.size.y * 0.5f;
 			const float tx = (std::abs(dir.x) < 1e-6f) ? FLT_MAX : hx / std::abs(dir.x);
 			const float tz = (std::abs(dir.z) < 1e-6f) ? FLT_MAX : hz / std::abs(dir.z);
-			const float tMax = std::min(tx, tz);
+			const float tMax = (std::min)(tx, tz);
 			return baseCenter + dir * (tMax * layerT);
 		}
 		}
@@ -151,12 +151,12 @@ void ParticleUpdateDispersionSegmentModule::ImGui() {
 
 	ImGui::SeparatorText("Shape");
 
-	EnumAdapter<Shape>::Combo("Shape", &shape_);
+	SakuEngine::EnumAdapter<Shape>::Combo("Shape", &shape_);
 
 	ImGui::DragFloat3("centerPos", &centerPos_.x, 0.01f);
 
 	// 形状ごとのパラメータ表示、線描画
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 	switch (shape_) {
 	case ParticleUpdateDispersionSegmentModule::Shape::Segment:
 
@@ -165,21 +165,21 @@ void ParticleUpdateDispersionSegmentModule::ImGui() {
 
 		// 中心位置からの線分を描画
 		lineRenderer->DrawSegment(6, 0.1f, centerPos_ + segmentParams_.origin,
-			centerPos_ + segmentParams_.target, Color::Cyan());
+			centerPos_ + segmentParams_.target, SakuEngine::Color::Cyan());
 		break;
 	case ParticleUpdateDispersionSegmentModule::Shape::Circle:
 
 		ImGui::DragFloat("radius", &circleParams_.radius, 0.01f);
 
 		// 中心位置からの円を描画
-		lineRenderer->DrawCircle(6, circleParams_.radius, centerPos_, Color::Cyan());
+		lineRenderer->DrawCircle(6, circleParams_.radius, centerPos_, SakuEngine::Color::Cyan());
 		break;
 	case ParticleUpdateDispersionSegmentModule::Shape::Rect:
 
 		ImGui::DragFloat2("size", &rectParams_.size.x, 0.01f);
 
 		// 中心位置からの矩形を描画
-		lineRenderer->DrawRect(rectParams_.size, centerPos_, Color::Cyan());
+		lineRenderer->DrawRect(rectParams_.size, centerPos_, SakuEngine::Color::Cyan());
 		break;
 	}
 }
@@ -188,17 +188,17 @@ void ParticleUpdateDispersionSegmentModule::FromJson(const Json& data) {
 
 	Init();
 
-	shape_ = EnumAdapter<Shape>::FromString(data.value("shape_", "Segment")).value();
-	centerPos_ = Vector3::FromJson(data.value("centerPos_", Json()));
-	segmentParams_.origin = Vector3::FromJson(data.value("segmentParams_.origin", Json()));
-	segmentParams_.target = Vector3::FromJson(data.value("segmentParams_.target", Json()));
+	shape_ = SakuEngine::EnumAdapter<Shape>::FromString(data.value("shape_", "Segment")).value();
+	centerPos_ = SakuEngine::Vector3::FromJson(data.value("centerPos_", Json()));
+	segmentParams_.origin = SakuEngine::Vector3::FromJson(data.value("segmentParams_.origin", Json()));
+	segmentParams_.target = SakuEngine::Vector3::FromJson(data.value("segmentParams_.target", Json()));
 	circleParams_.radius = data.value("circleParams_.radius", Json());
-	rectParams_.size = Vector2::FromJson(data.value("rectParams_.size", Json()));
+	rectParams_.size = SakuEngine::Vector2::FromJson(data.value("rectParams_.size", Json()));
 
 	isRefSpawnPos_ = data.value("isRefSpawnPos_", true);
 	divisionCount_ = data.value("divisionCount_", 1u);
 	delay_ = data.value("delay_", 0.2f);
-	targetPosRange_ = Vector3::FromJson(data.value("targetPosRange_", Json()));
+	targetPosRange_ = SakuEngine::Vector3::FromJson(data.value("targetPosRange_", Json()));
 	targetSize = data.value("targetSize", 1.0f);
 }
 
@@ -206,7 +206,7 @@ Json ParticleUpdateDispersionSegmentModule::ToJson() {
 
 	Json data;
 
-	data["shape_"] = EnumAdapter<Shape>::ToString(shape_);
+	data["shape_"] = SakuEngine::EnumAdapter<Shape>::ToString(shape_);
 	data["centerPos_"] = centerPos_.ToJson();
 	data["segmentParams_.origin"] = segmentParams_.origin.ToJson();
 	data["segmentParams_.target"] = segmentParams_.target.ToJson();

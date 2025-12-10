@@ -1,4 +1,4 @@
-﻿#include "TitleBackground.h"
+#include "TitleBackground.h"
 
 //============================================================================
 //	TitleBackground classMethods
@@ -9,11 +9,11 @@ void TitleBackground::Init() {
 	// 使用するスプライトの初期化
 
 	// 背景
-	background_ = std::make_unique<GameObject2D>();
+	background_ = std::make_unique<SakuEngine::GameObject2D>();
 	background_->Init("white", "background", "Title");
 
 	// タイトルの名前
-	titleName_ = std::make_unique<GameObject2D>();
+	titleName_ = std::make_unique<SakuEngine::GameObject2D>();
 	titleName_->Init("titleName", "titleName", "Title");
 }
 

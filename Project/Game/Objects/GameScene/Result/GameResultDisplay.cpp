@@ -1,4 +1,4 @@
-﻿#include "GameResultDisplay.h"
+#include "GameResultDisplay.h"
 
 //============================================================================
 //	include
@@ -19,10 +19,10 @@ void GameResultDisplay::Init() {
 
 	// スプライト初期化
 	// 背景
-	background_ = std::make_unique<GameObject2D>();
+	background_ = std::make_unique<SakuEngine::GameObject2D>();
 	background_->Init("bgCheckerboard", "background", "GameResultDisplay");
 	background_->SetCenterTranslation();
-	background_->SetSize(Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
+	background_->SetSize(SakuEngine::Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
 	background_->SetUVScaleX(96.0f);
 	background_->SetUVScaleY(80.0f);
 	// グレースケールを適応
@@ -32,7 +32,7 @@ void GameResultDisplay::Init() {
 	background_->SetAlpha(0.0f);
 
 	// グリッチ適応エリア
-	glitchArea_ = std::make_unique<GameObject2D>();
+	glitchArea_ = std::make_unique<SakuEngine::GameObject2D>();
 	glitchArea_->Init("bgCheckerboard", "glitchArea", "GameResultDisplay");
 	glitchArea_->SetCenterTranslation();
 	// 最初は表示しない
@@ -52,7 +52,7 @@ void GameResultDisplay::Init() {
 	resultTime_->SetPostProcessEnable(true);
 
 	// クリア文字表示
-	clearText_ = std::make_unique<GameObject2D>();
+	clearText_ = std::make_unique<SakuEngine::GameObject2D>();
 	clearText_->Init("clearText", "clearText", "GameResultDisplay");
 	clearText_->SetEmissiveIntensity(1.72f);
 	// 最初は表示しない
@@ -92,11 +92,11 @@ void GameResultDisplay::Init() {
 void GameResultDisplay::InitAnimations() {
 
 	// アニメーションの初期化
-	clearPosAnim_ = std::make_unique<SimpleAnimation<Vector2>>();
-	clearSizeAnim_ = std::make_unique<SimpleAnimation<Vector2>>();
-	clearTimePosAnim_ = std::make_unique<SimpleAnimation<Vector2>>();
-	leftButtonAnim_ = std::make_unique<SimpleAnimation<Vector2>>();
-	rightButtonAnim_ = std::make_unique<SimpleAnimation<Vector2>>();
+	clearPosAnim_ = std::make_unique<SakuEngine::SimpleAnimation<SakuEngine::Vector2>>();
+	clearSizeAnim_ = std::make_unique<SakuEngine::SimpleAnimation<SakuEngine::Vector2>>();
+	clearTimePosAnim_ = std::make_unique<SakuEngine::SimpleAnimation<SakuEngine::Vector2>>();
+	leftButtonAnim_ = std::make_unique<SakuEngine::SimpleAnimation<SakuEngine::Vector2>>();
+	rightButtonAnim_ = std::make_unique<SakuEngine::SimpleAnimation<SakuEngine::Vector2>>();
 }
 
 void GameResultDisplay::InitNavigator() {
@@ -129,13 +129,13 @@ void GameResultDisplay::StartDisplay() {
 	// 表示する
 	currentState_ = State::BeginTime;
 	resultTime_->SetAlpha(1.0f);
-	background_->SetColor(Color(0.034f, 0.034f, 0.034f, 0.741f));
+	background_->SetColor(SakuEngine::Color(0.034f, 0.034f, 0.034f, 0.741f));
 	glitchArea_->SetAlpha(0.001f);
 	randomDisplayTimer_.Reset();
 	randomSwitchIndex_ = 0;
 
 	// 最初の乱数値
-	lastRandomTime_ = RandomGenerator::Generate<float>(0.0f, randomTimeMax_);
+	lastRandomTime_ = SakuEngine::RandomGenerator::Generate<float>(0.0f, randomTimeMax_);
 
 	// 次の切り替え閾値
 	auto calcThreshold = [&](int index) {
@@ -144,7 +144,7 @@ void GameResultDisplay::StartDisplay() {
 	nextSwitchT_ = (randomSwitchCount_ > 0) ? calcThreshold(0) : 1.0f;
 
 	// グリッチを発生させる
-	PostProcessSystem::GetInstance()->Start(PostProcessType::Glitch);
+	SakuEngine::PostProcessSystem::GetInstance()->Start(PostProcessType::Glitch);
 }
 
 void GameResultDisplay::Update() {
@@ -198,7 +198,7 @@ void GameResultDisplay::UpdateBeginTime() {
 	while (randomSwitchIndex_ < randomSwitchCount_ && progress >= nextSwitchT_) {
 
 		// 区間内で新しい乱数をセット
-		lastRandomTime_ = RandomGenerator::Generate<float>(min, max);
+		lastRandomTime_ = SakuEngine::RandomGenerator::Generate<float>(min, max);
 		++randomSwitchIndex_;
 		nextSwitchT_ = (randomSwitchIndex_ < randomSwitchCount_) ?
 			calcThreshold(randomSwitchIndex_) : 1.0f;
@@ -221,7 +221,7 @@ void GameResultDisplay::UpdateBeginTime() {
 			glitchArea_->SetAlpha(0.0f);
 
 			resultTime_->SetAlpha(0.0f);
-			resultTime_->SetOffset(Vector2(timerOffsetX_ / timeResultOffsetScale_, 0.0f));
+			resultTime_->SetOffset(SakuEngine::Vector2(timerOffsetX_ / timeResultOffsetScale_, 0.0f));
 			resultTime_->SetTimerSize(timerSize_ / timeResultSizeScale_);
 			resultTime_->SetSymbolSize(timerSymbolSize_ / timeResultSizeScale_);
 		}
@@ -245,17 +245,17 @@ void GameResultDisplay::UpdateResult() {
 
 	// クリア文字
 	{
-		Vector2 lerpPos{};
+		SakuEngine::Vector2 lerpPos{};
 		clearPosAnim_->LerpValue(lerpPos);
 		clearText_->SetTranslation(lerpPos);
 
-		Vector2 lerpSize{};
+		SakuEngine::Vector2 lerpSize{};
 		clearSizeAnim_->LerpValue(lerpSize);
 		clearText_->SetSize(lerpSize);
 	}
 	// クリア時間
 	{
-		Vector2 lerpPos{};
+		SakuEngine::Vector2 lerpPos{};
 		clearTimePosAnim_->LerpValue(lerpPos);
 		resultTime_->SetTranslation(lerpPos);
 		resultTime_->SetAlpha(EasedValue(EasingType::EaseInExpo, clearTimePosAnim_->GetProgress()));
@@ -264,7 +264,7 @@ void GameResultDisplay::UpdateResult() {
 	// ボタン
 	{
 		// 左
-		Vector2 lerpPos{};
+		SakuEngine::Vector2 lerpPos{};
 		leftButtonAnim_->LerpValue(lerpPos);
 		leftButton_->SetTranslation(lerpPos);
 		leftButton_->SetAlpha(EasedValue(EasingType::EaseInExpo, leftButtonAnim_->GetProgress()));
@@ -288,7 +288,7 @@ void GameResultDisplay::UpdateResult() {
 
 void GameResultDisplay::UpdateInputGamepad() {
 
-	const auto& type = Input::GetInstance()->GetType();
+	const auto& type = SakuEngine::Input::GetInstance()->GetType();
 	const bool nowGamepad = (type != InputType::Keyboard);
 
 	if (!nowGamepad) {
@@ -337,7 +337,7 @@ void GameResultDisplay::ImGui() {
 	ImGui::DragFloat("randomSwitchBias", &randomSwitchBias_, 0.05f);
 	ImGui::Text("switch %d / %d", randomSwitchIndex_, randomSwitchCount_);
 
-	if (EnumAdapter<State>::Combo("currentState", &currentState_)) {
+	if (SakuEngine::EnumAdapter<State>::Combo("currentState", &currentState_)) {
 		if (currentState_ == State::BeginTime) {
 
 			clearPosAnim_->Reset();
@@ -350,7 +350,7 @@ void GameResultDisplay::ImGui() {
 			displayWaitTimer_.Reset();
 			randomSwitchIndex_ = 0;
 			// 最初の乱数値
-			lastRandomTime_ = RandomGenerator::Generate<float>(0.0f, randomTimeMax_);
+			lastRandomTime_ = SakuEngine::RandomGenerator::Generate<float>(0.0f, randomTimeMax_);
 
 			// 次の切り替え閾値
 			auto calcThreshold = [&](int index) {
@@ -362,13 +362,13 @@ void GameResultDisplay::ImGui() {
 			glitchArea_->SetSize(glitchAreaSize_);
 
 			resultTime_->SetAlpha(1.0f);
-			resultTime_->SetOffset(Vector2(timerOffsetX_, 0.0f));
+			resultTime_->SetOffset(SakuEngine::Vector2(timerOffsetX_, 0.0f));
 			resultTime_->SetTranslation(timerTranslation_);
 			resultTime_->SetTimerSize(timerSize_);
 			resultTime_->SetSymbolSize(timerSymbolSize_);
 
 			// グリッチを発生させる
-			PostProcessSystem::GetInstance()->Start(PostProcessType::Glitch);
+			SakuEngine::PostProcessSystem::GetInstance()->Start(PostProcessType::Glitch);
 		}
 	}
 
@@ -384,7 +384,7 @@ void GameResultDisplay::ImGui() {
 		}
 		if (ImGui::DragFloat("timerOffsetX", &timerOffsetX_, 0.1f)) {
 
-			resultTime_->SetOffset(Vector2(timerOffsetX_, 0.0f));
+			resultTime_->SetOffset(SakuEngine::Vector2(timerOffsetX_, 0.0f));
 		}
 		if (ImGui::DragFloat2("timerSize", &timerSize_.x, 0.1f)) {
 
@@ -437,26 +437,26 @@ void GameResultDisplay::ImGui() {
 void GameResultDisplay::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Result/resultDisplay.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Result/resultDisplay.json", data)) {
 		return;
 	}
 
-	timerTranslation_ = Vector2::FromJson(data.value("timerTranslation_", Json()));
+	timerTranslation_ = SakuEngine::Vector2::FromJson(data.value("timerTranslation_", Json()));
 	timerOffsetX_ = data.value("timerOffsetX_", 4.0f);
 	randomTimeMax_ = data.value("randomTimeMax_", 4.0f);
 	randomSwitchCount_ = data.value("randomSwitchCount_", 10);
 	randomSwitchBias_ = data.value("randomSwitchBias_", 1.5f);
 	timeResultOffsetScale_ = data.value("timeResultOffsetScale_", 1.5f);
 	timeResultSizeScale_ = data.value("timeResultSizeScale_", 1.5f);
-	timerSize_ = Vector2::FromJson(data.value("timerSize_", Json()));
-	timerSymbolSize_ = Vector2::FromJson(data.value("timerSymbolSize_", Json()));
-	buttonSize_ = Vector2::FromJson(data.value("buttonSize_", Json()));
-	glitchAreaSize_ = Vector2::FromJson(data.value("glitchAreaSize_", Json()));
+	timerSize_ = SakuEngine::Vector2::FromJson(data.value("timerSize_", Json()));
+	timerSymbolSize_ = SakuEngine::Vector2::FromJson(data.value("timerSymbolSize_", Json()));
+	buttonSize_ = SakuEngine::Vector2::FromJson(data.value("buttonSize_", Json()));
+	glitchAreaSize_ = SakuEngine::Vector2::FromJson(data.value("glitchAreaSize_", Json()));
 	randomDisplayTimer_.FromJson(data["RandomDisplayTime"]);
 	displayWaitTimer_.FromJson(data.value("DisplayWaitTime", Json()));
 
 	// 値を適応
-	resultTime_->SetOffset(Vector2(timerOffsetX_, 0.0f));
+	resultTime_->SetOffset(SakuEngine::Vector2(timerOffsetX_, 0.0f));
 	resultTime_->SetTranslation(timerTranslation_);
 	resultTime_->SetTimerSize(timerSize_);
 	resultTime_->SetSymbolSize(timerSymbolSize_);
@@ -502,5 +502,5 @@ void GameResultDisplay::SaveJson() {
 	leftButton_->ToJson(data["LeftButton"]);
 	rightButton_->ToJson(data["RightButton"]);
 
-	JsonAdapter::Save("Result/resultDisplay.json", data);
+	SakuEngine::JsonAdapter::Save("Result/resultDisplay.json", data);
 }

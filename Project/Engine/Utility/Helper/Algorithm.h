@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -88,7 +88,7 @@ namespace Algorithm {
 
 	// 数学値を文字列を返す
 	std::string ToStringQuaternion(const Quaternion& q);
-	std::string ToStringVector3(const Vector3& v);
+	std::string ToStringVector3(const SakuEngine::Vector3& v);
 
 	//========================================================================
 	//	Find

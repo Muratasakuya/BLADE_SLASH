@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -79,7 +79,7 @@ private:
 	const std::string kStateJsonPath_ = "Player/stateParameter.json";
 
 	// 入力
-	std::unique_ptr<InputMapper<PlayerInputAction>> inputMapper_;
+	std::unique_ptr<SakuEngine::InputMapper<PlayerInputAction>> inputMapper_;
 	// ステータス
 	PlayerStats stats_;
 	// パリィ処理

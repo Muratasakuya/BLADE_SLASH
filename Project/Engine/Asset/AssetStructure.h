@@ -61,7 +61,7 @@ namespace SakuEngine {
 	//----------------------------------------------------------------------------
 	struct Node {
 
-		Transform3D transform;
+		SakuEngine::Transform3D transform;
 		Matrix4x4 localMatrix;
 		std::string name;
 		std::vector<Node> children;
@@ -180,7 +180,7 @@ namespace SakuEngine {
 	//----------------------------------------------------------------------------
 	struct Joint {
 
-		Transform3D transform;
+		SakuEngine::Transform3D transform;
 		bool isParentTransform;
 
 		Matrix4x4 localMatrix;

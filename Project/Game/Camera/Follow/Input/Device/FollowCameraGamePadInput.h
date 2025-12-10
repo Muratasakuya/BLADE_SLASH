@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	ゲームパッド入力
 //============================================================================
 class FollowCameraGamePadInput :
-	public IInputDevice<FollowCameraInputAction> {
+	public SakuEngine::IInputDevice<FollowCameraInputAction> {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	FollowCameraGamePadInput(Input* input) { input_ = input; }
+	FollowCameraGamePadInput(SakuEngine::Input* input) { input_ = input; }
 	~FollowCameraGamePadInput() = default;
 
 	//--------- accessor -----------------------------------------------------

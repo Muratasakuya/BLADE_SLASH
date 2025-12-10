@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -54,14 +54,14 @@ private:
 
 	State currentState_;
 
-	Vector3 move_;    // 移動量
+	SakuEngine::Vector3 move_; // 移動量
 	float moveSpeed_; // 移動速度
 	float sustainTimer_; // 最高速を維持する時間経過
 	float sustainTime_;  // 最高速を維持する時間
 
 	// ダッシュの速度補間
-	std::unique_ptr<SimpleAnimation<float>> accelLerp_;
-	std::unique_ptr<SimpleAnimation<float>> decelLerp_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<float>> accelLerp_;
+	std::unique_ptr<SakuEngine::SimpleAnimation<float>> decelLerp_;
 
 	//--------- functions ----------------------------------------------------
 

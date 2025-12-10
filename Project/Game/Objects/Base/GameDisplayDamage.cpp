@@ -1,4 +1,4 @@
-﻿#include "GameDisplayDamage.h"
+#include "GameDisplayDamage.h"
 
 //============================================================================
 //	include
@@ -32,7 +32,7 @@ void GameDisplayDamage::Init(const std::string& textureName, const std::string& 
 	}
 }
 
-void GameDisplayDamage::SetSpriteLayer(SpriteLayer layer) {
+void GameDisplayDamage::SetSpriteLayer(SakuEngine::SpriteLayer layer) {
 
 	for (uint32_t index = 0; index < damageDisplayMaxNum_; ++index) {
 
@@ -53,9 +53,9 @@ void GameDisplayDamage::SetAlpha(float alpha) {
 	}
 }
 
-void GameDisplayDamage::Update(const GameObject3D& object, const BaseCamera& camera) {
+void GameDisplayDamage::Update(const SakuEngine::GameObject3D& object, const SakuEngine::BaseCamera& camera) {
 
-	const float deltaTime = GameTimer::GetDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 
 	// ダメージを受けている間のみ更新
 	while (!receivedDamages_.empty()) {
@@ -76,12 +76,12 @@ void GameDisplayDamage::Update(const GameObject3D& object, const BaseCamera& cam
 		it->outTimer = 0.0f;
 
 		// スクリーン座標を取得
-		Vector2 bossScreen = it->digits->ProjectToScreen(object.GetTranslation(), camera);
-		Vector2 randomOffset{
-			RandomGenerator::Generate(-damageDisplayPosRandomRange_.x,damageDisplayPosRandomRange_.x),
-			RandomGenerator::Generate(-damageDisplayPosRandomRange_.y,damageDisplayPosRandomRange_.y)
+		SakuEngine::Vector2 bossScreen = it->digits->ProjectToScreen(object.GetTranslation(), camera);
+		SakuEngine::Vector2 randomOffset{
+			SakuEngine::RandomGenerator::Generate(-damageDisplayPosRandomRange_.x,damageDisplayPosRandomRange_.x),
+			SakuEngine::RandomGenerator::Generate(-damageDisplayPosRandomRange_.y,damageDisplayPosRandomRange_.y)
 		};
-		it->basePos = Vector2(bossScreen.x,
+		it->basePos = SakuEngine::Vector2(bossScreen.x,
 			bossScreen.y + bossScreenPosOffsetY_) + randomOffset;
 
 		// 表示する桁の更新
@@ -91,7 +91,7 @@ void GameDisplayDamage::Update(const GameObject3D& object, const BaseCamera& cam
 
 		// 表示しない
 		if (!popup.active) {
-			popup.digits->SetSize(Vector2::AnyInit(0.0f));
+			popup.digits->SetSize(SakuEngine::Vector2::AnyInit(0.0f));
 			continue;
 		}
 
@@ -107,7 +107,7 @@ void GameDisplayDamage::Update(const GameObject3D& object, const BaseCamera& cam
 				localT = std::clamp(localT, 0.0f, 1.0f);
 				float eased = EasedValue(damageDisplayEasingType_, localT);
 
-				Vector2 size = Vector2::Lerp(damageDisplayMaxSize_,
+				SakuEngine::Vector2 size = SakuEngine::Vector2::Lerp(damageDisplayMaxSize_,
 					damageDisplaySize_, eased);
 				popup.digits->SetDigitSize(i, size);
 
@@ -130,7 +130,7 @@ void GameDisplayDamage::Update(const GameObject3D& object, const BaseCamera& cam
 			popup.outTimer += deltaTime;
 			float outT = std::clamp(popup.outTimer / damageOutTime_, 0.0f, 1.0f);
 			float eased = EasedValue(damageOutEasingType_, outT);
-			Vector2 size = Vector2::Lerp(damageDisplaySize_, Vector2::AnyInit(0.0f), eased);
+			SakuEngine::Vector2 size = SakuEngine::Vector2::Lerp(damageDisplaySize_, SakuEngine::Vector2::AnyInit(0.0f), eased);
 			for (uint32_t i = 0; i < damageDigitMaxNum_; ++i) {
 
 				popup.digits->SetDigitSize(i, size);
@@ -143,7 +143,7 @@ void GameDisplayDamage::Update(const GameObject3D& object, const BaseCamera& cam
 		}
 
 		// 座標設定
-		popup.digits->SetTranslation(popup.basePos, Vector2(damageDisplaySize_.x + damageNumSpacing_, 0.0f));
+		popup.digits->SetTranslation(popup.basePos, SakuEngine::Vector2(damageDisplaySize_.x + damageNumSpacing_, 0.0f));
 	}
 }
 
@@ -166,20 +166,20 @@ void GameDisplayDamage::ImGui() {
 
 void GameDisplayDamage::ApplyJson(const Json& data) {
 
-	damageDisplayTime_ = JsonAdapter::GetValue<float>(data, "damageDisplayTime_");
-	damageOutTime_ = JsonAdapter::GetValue<float>(data, "damageOutTime_");
-	damageNumSpacing_ = JsonAdapter::GetValue<float>(data, "damageNumSpacing_");
-	digitDisplayInterval_ = JsonAdapter::GetValue<float>(data, "digitDisplayInterval_");
-	bossScreenPosOffsetY_ = JsonAdapter::GetValue<float>(data, "bossScreenPosOffsetY_");
-	maxDamageEmissive_ = JsonAdapter::GetValue<float>(data, "maxDamageEmissive_");
-	damageStayTime_ = JsonAdapter::GetValue<float>(data, "damageStayTime_");
-	damageDisplayPosRandomRange_ = JsonAdapter::ToObject<Vector2>(data["damageDisplayPosRandomRange_"]);
-	damageDisplayMaxSize_ = JsonAdapter::ToObject<Vector2>(data["damageDisplayMaxSize_"]);
-	damageDisplaySize_ = JsonAdapter::ToObject<Vector2>(data["damageDisplaySize_"]);
+	damageDisplayTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "damageDisplayTime_");
+	damageOutTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "damageOutTime_");
+	damageNumSpacing_ = SakuEngine::JsonAdapter::GetValue<float>(data, "damageNumSpacing_");
+	digitDisplayInterval_ = SakuEngine::JsonAdapter::GetValue<float>(data, "digitDisplayInterval_");
+	bossScreenPosOffsetY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "bossScreenPosOffsetY_");
+	maxDamageEmissive_ = SakuEngine::JsonAdapter::GetValue<float>(data, "maxDamageEmissive_");
+	damageStayTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "damageStayTime_");
+	damageDisplayPosRandomRange_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["damageDisplayPosRandomRange_"]);
+	damageDisplayMaxSize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["damageDisplayMaxSize_"]);
+	damageDisplaySize_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["damageDisplaySize_"]);
 	damageDisplayEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "damageDisplayEasingType_"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "damageDisplayEasingType_"));
 	damageOutEasingType_ = static_cast<EasingType>(
-		JsonAdapter::GetValue<int>(data, "damageOutEasingType_"));
+		SakuEngine::JsonAdapter::GetValue<int>(data, "damageOutEasingType_"));
 
 	totalAppearDuration_ = damageDisplayTime_ + digitDisplayInterval_ * (damageDigitMaxNum_ - 1);
 }
@@ -193,9 +193,9 @@ void GameDisplayDamage::SaveJson(Json& data) {
 	data["bossScreenPosOffsetY_"] = bossScreenPosOffsetY_;
 	data["maxDamageEmissive_"] = maxDamageEmissive_;
 	data["damageStayTime_"] = damageStayTime_;
-	data["damageDisplayPosRandomRange_"] = JsonAdapter::FromObject<Vector2>(damageDisplayPosRandomRange_);
-	data["damageDisplayMaxSize_"] = JsonAdapter::FromObject<Vector2>(damageDisplayMaxSize_);
-	data["damageDisplaySize_"] = JsonAdapter::FromObject<Vector2>(damageDisplaySize_);
+	data["damageDisplayPosRandomRange_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(damageDisplayPosRandomRange_);
+	data["damageDisplayMaxSize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(damageDisplayMaxSize_);
+	data["damageDisplaySize_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(damageDisplaySize_);
 	data["damageDisplayEasingType_"] = static_cast<int>(damageDisplayEasingType_);
 	data["damageOutEasingType_"] = static_cast<int>(damageOutEasingType_);
 }

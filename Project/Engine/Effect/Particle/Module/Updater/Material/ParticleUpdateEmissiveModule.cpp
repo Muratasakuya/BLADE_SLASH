@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateEmissiveModule.h"
+#include "ParticleUpdateEmissiveModule.h"
 
 using namespace SakuEngine;
 
@@ -17,8 +17,8 @@ void ParticleUpdateEmissiveModule::Init() {
 	intencity_.start = 1.0f;
 	intencity_.target = 1.0f;
 
-	color_.start = Vector3::AnyInit(1.0f);
-	color_.target = Vector3::AnyInit(1.0f);
+	color_.start = SakuEngine::Vector3::AnyInit(1.0f);
+	color_.target = SakuEngine::Vector3::AnyInit(1.0f);
 }
 
 void ParticleUpdateEmissiveModule::Execute(
@@ -28,7 +28,7 @@ void ParticleUpdateEmissiveModule::Execute(
 	particle.material.emissiveIntecity = std::lerp(
 		intencity_.start, intencity_.target, EasedValue(easingType_, particle.progress));
 	// 色
-	particle.material.emissionColor = Vector3::Lerp(
+	particle.material.emissionColor = SakuEngine::Vector3::Lerp(
 		color_.start, color_.target, EasedValue(easingType_, particle.progress));
 }
 
@@ -55,14 +55,14 @@ Json ParticleUpdateEmissiveModule::ToJson() {
 	data["color"]["start"] = color_.start.ToJson();
 	data["color"]["target"] = color_.target.ToJson();
 
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easingType_);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easingType_);
 
 	return data;
 }
 
 void ParticleUpdateEmissiveModule::FromJson(const Json& data) {
 
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
 	easingType_ = easingType.value();
 
 	// 発光度

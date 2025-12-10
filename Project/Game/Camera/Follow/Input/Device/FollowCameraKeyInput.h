@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	キーボード入力
 //============================================================================
 class FollowCameraKeyInput :
-	public IInputDevice<FollowCameraInputAction> {
+	public SakuEngine::IInputDevice<FollowCameraInputAction> {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	FollowCameraKeyInput(Input* input) { input_ = input; }
+	FollowCameraKeyInput(SakuEngine::Input* input) { input_ = input; }
 	~FollowCameraKeyInput() = default;
 
 	//--------- accessor -----------------------------------------------------

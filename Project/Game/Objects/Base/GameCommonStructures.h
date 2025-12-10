@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -8,7 +8,9 @@
 // c++
 #include <string>
 // front
-class GameObject2D;
+namespace SakuEngine {
+	class GameObject2D;
+}
 
 //============================================================================
 //	GameCommonStructures class
@@ -19,7 +21,7 @@ namespace GameCommon {
 	// HUDの初期化値
 	struct HUDInitParameter {
 
-		Vector2 translation; // 座標
+		SakuEngine::Vector2 translation; // 座標
 
 		// imgui
 		bool ImGui(const std::string& label);
@@ -29,5 +31,5 @@ namespace GameCommon {
 		void SaveJson(Json& data);
 	};
 
-	void SetInitParameter(GameObject2D& sprite, const  GameCommon::HUDInitParameter& parameter);
+	void SetInitParameter(SakuEngine::GameObject2D& sprite, const  GameCommon::HUDInitParameter& parameter);
 }

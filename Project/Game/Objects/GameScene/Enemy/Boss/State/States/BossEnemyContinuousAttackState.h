@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -51,7 +51,7 @@ private:
 	// 状態
 	State currentState_;
 
-	Vector3 startPos_; // 開始座標
+	SakuEngine::Vector3 startPos_; // 開始座標
 	uint32_t keyEventIndex_;
 
 	// parameters

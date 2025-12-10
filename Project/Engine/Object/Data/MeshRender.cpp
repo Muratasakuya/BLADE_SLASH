@@ -1,4 +1,4 @@
-﻿#include "MeshRender.h"
+#include "MeshRender.h"
 
 using namespace SakuEngine;
 
@@ -26,22 +26,22 @@ void MeshRender::ImGui(float itemSize) {
 	ImGui::PushItemWidth(itemSize);
 
 	ImGui::Text("modelName: %s", modelName.c_str());
-	EnumAdapter<MeshRenderView>::Combo("RenderView", &renderView);
-	EnumAdapter<BlendMode>::Combo("BlendMode", &blendMode);
+	SakuEngine::EnumAdapter<MeshRenderView>::Combo("RenderView", &renderView);
+	SakuEngine::EnumAdapter<BlendMode>::Combo("BlendMode", &blendMode);
 
 	ImGui::PopItemWidth();
 }
 
 void MeshRender::FromJson(const Json& data) {
 
-	renderView = EnumAdapter<MeshRenderView>::FromString(
+	renderView = SakuEngine::EnumAdapter<MeshRenderView>::FromString(
 		data.value("renderView", "Both")).value();
-	blendMode = EnumAdapter<BlendMode>::FromString(
+	blendMode = SakuEngine::EnumAdapter<BlendMode>::FromString(
 		data.value("blendMode", "kBlendModeNormal")).value();
 }
 
 void MeshRender::ToJson(Json& data) {
 
-	data["renderView"] = EnumAdapter<MeshRenderView>::ToString(renderView);
-	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode);
+	data["renderView"] = SakuEngine::EnumAdapter<MeshRenderView>::ToString(renderView);
+	data["blendMode"] = SakuEngine::EnumAdapter<BlendMode>::ToString(blendMode);
 }

@@ -1,4 +1,4 @@
-﻿#include "ParticlePhase.h"
+#include "ParticlePhase.h"
 
 using namespace SakuEngine;
 
@@ -239,7 +239,7 @@ void ParticlePhase::ImGui() {
 		//============================================================================
 		if (ImGui::BeginTabItem("PostProcess")) {
 
-			ImGuiHelper::EditPostProcessMask(postProcessMask_);
+			SakuEngine::ImGuiHelper::EditPostProcessMask(postProcessMask_);
 			ImGui::EndTabItem();
 		}
 
@@ -248,7 +248,7 @@ void ParticlePhase::ImGui() {
 		//============================================================================
 		if (ImGui::BeginTabItem("Spawner")) {
 
-			if (EnumAdapter<ParticleSpawnModuleID>::Combo("Spawner", &selectSpawnModule_)) {
+			if (SakuEngine::EnumAdapter<ParticleSpawnModuleID>::Combo("Spawner", &selectSpawnModule_)) {
 
 				SetSpawner(selectSpawnModule_);
 			}
@@ -268,11 +268,11 @@ void ParticlePhase::ImGui() {
 				ImGui::OpenPopup("AddUpdater");
 			}
 			if (ImGui::BeginPopup("AddUpdater")) {
-				for (int i = 0; i < EnumAdapter<ParticleUpdateModuleID>::GetEnumCount(); ++i) {
-					if (ImGui::Selectable(EnumAdapter<ParticleUpdateModuleID>::GetEnumName(i))) {
+				for (int i = 0; i < SakuEngine::EnumAdapter<ParticleUpdateModuleID>::GetEnumCount(); ++i) {
+					if (ImGui::Selectable(SakuEngine::EnumAdapter<ParticleUpdateModuleID>::GetEnumName(i))) {
 
 						// 追加
-						AddUpdater(EnumAdapter<ParticleUpdateModuleID>::GetValue(i));
+						AddUpdater(SakuEngine::EnumAdapter<ParticleUpdateModuleID>::GetValue(i));
 						selectedUpdater_ = static_cast<int>(updaters_.size()) - 1;
 					}
 				}
@@ -386,7 +386,7 @@ Json ParticlePhase::ToJson() const {
 	//	SpawnerParameters
 	//============================================================================
 
-	data["spawn"]["type"] = EnumAdapter<ParticleSpawnModuleID>::ToString(currentSpawnId_);
+	data["spawn"]["type"] = SakuEngine::EnumAdapter<ParticleSpawnModuleID>::ToString(currentSpawnId_);
 	data["spawn"]["params"] = spawner_->ToJson();
 
 	//============================================================================
@@ -396,7 +396,7 @@ Json ParticlePhase::ToJson() const {
 	for (auto& updater : updaters_) {
 
 		data["updaters"].push_back({
-			{"type",   EnumAdapter<ParticleUpdateModuleID>::ToString(updater->GetID())},
+			{"type",   SakuEngine::EnumAdapter<ParticleUpdateModuleID>::ToString(updater->GetID())},
 			{"params", updater->ToJson()} });
 	}
 	return data;
@@ -417,7 +417,7 @@ void ParticlePhase::FromJson(const Json& data) {
 	//	SpawnerParameters
 	//============================================================================
 
-	const auto& spawnID = EnumAdapter<ParticleSpawnModuleID>::FromString(data["spawn"]["type"]);
+	const auto& spawnID = SakuEngine::EnumAdapter<ParticleSpawnModuleID>::FromString(data["spawn"]["type"]);
 	SetSpawner(spawnID.value());
 
 	spawner_->FromJson(data["spawn"]["params"]);
@@ -429,7 +429,7 @@ void ParticlePhase::FromJson(const Json& data) {
 	updaters_.clear();
 	for (auto& updateData : data["updaters"]) {
 
-		const auto& updateID = EnumAdapter<ParticleUpdateModuleID>::FromString(updateData["type"]);
+		const auto& updateID = SakuEngine::EnumAdapter<ParticleUpdateModuleID>::FromString(updateData["type"]);
 		AddUpdater(updateID.value());
 		updaters_.back()->FromJson(updateData["params"]);
 	}

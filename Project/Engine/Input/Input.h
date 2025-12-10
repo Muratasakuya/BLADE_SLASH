@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -79,7 +79,7 @@ public:
 	float GetDeadZone() const { return deadZone_; }
 
 	// view
-	void SetViewRect(InputViewArea viewArea, const Vector2& dstPos, Vector2 dstSize);
+	void SetViewRect(InputViewArea viewArea, const SakuEngine::Vector2& dstPos, Vector2 dstSize);
 	bool IsMouseOnView(InputViewArea viewArea) const;
 	std::optional<Vector2> GetMousePosInView(InputViewArea viewArea) const;
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -44,14 +44,14 @@ private:
 
 	struct ChainInput {
 
-		std::unique_ptr<GameObject2D> rightChain; // 切り替え入力: 右
-		std::unique_ptr<GameObject2D> leftChain;  // 切り替え入力: 左
-		std::unique_ptr<GameObject2D> cancel;     // キャンセル入力
+		std::unique_ptr<SakuEngine::GameObject2D> rightChain; // 切り替え入力: 右
+		std::unique_ptr<SakuEngine::GameObject2D> leftChain;  // 切り替え入力: 左
+		std::unique_ptr<SakuEngine::GameObject2D> cancel;     // キャンセル入力
 
 		void Init(const std::string& rightTex, const std::string& leftTex,
 			const std::string& cancelTex);
 
-		void SetSize(const Vector2& size);
+		void SetSize(const SakuEngine::Vector2& size);
 	};
 
 	enum class State {
@@ -69,17 +69,17 @@ private:
 
 	// 切り替え先アイコン表示
 	static const uint32_t iconCount_ = 2;
-	std::array<std::unique_ptr<GameObject2D>, iconCount_> stunChainIcon_;
+	std::array<std::unique_ptr<SakuEngine::GameObject2D>, iconCount_> stunChainIcon_;
 	// アイコンの周りの円
-	std::array<std::unique_ptr<GameObject2D>, iconCount_>  stunChainIconRing_;
+	std::array<std::unique_ptr<SakuEngine::GameObject2D>, iconCount_>  stunChainIconRing_;
 
 	// 入力表示
 	ChainInput keyInput_;     // キー表示
 	ChainInput gamepadInput_; // パッド表示
 
-	std::unique_ptr<GameObject2D> progressBarBackground_; // 経過率背景
-	std::unique_ptr<GameObject2D> progressBar_;           // 経過率
-	std::unique_ptr<GameObject2D> chainAttackText_;       // 文字
+	std::unique_ptr<SakuEngine::GameObject2D> progressBarBackground_; // 経過率背景
+	std::unique_ptr<SakuEngine::GameObject2D> progressBar_;           // 経過率
+	std::unique_ptr<SakuEngine::GameObject2D> chainAttackText_;       // 文字
 
 	float restTimer_; // 時間経過
 	float restTime_;  // スタン選択時間
@@ -106,18 +106,18 @@ private:
 	float timerOffsetX_;       // タイマーの間の間隔X
 
 	// サイズ
-	Vector2 iconSize_;     // アイコンのサイズ
-	Vector2 iconRingSize_; // アイコンリングのサイズ
-	Vector2 progressBarBackgroundSize_; // 経過率の背景サイズ
-	Vector2 progressBarSize_;           // 経過率のサイズ
-	Vector2 chainAttackTextSize_;       // 文字サイズ
-	Vector2 chainInputSize_;  // 入力キーのサイズ
-	Vector2 cancelInputSize_; // キャンセルのサイズ
-	Vector2 timerSize_;       // タイマーのサイズ
-	Vector2 timerSymbolSize_; // タイマーの記号のサイズ
+	SakuEngine::Vector2 iconSize_;     // アイコンのサイズ
+	SakuEngine::Vector2 iconRingSize_; // アイコンリングのサイズ
+	SakuEngine::Vector2 progressBarBackgroundSize_; // 経過率の背景サイズ
+	SakuEngine::Vector2 progressBarSize_;           // 経過率のサイズ
+	SakuEngine::Vector2 chainAttackTextSize_;       // 文字サイズ
+	SakuEngine::Vector2 chainInputSize_;  // 入力キーのサイズ
+	SakuEngine::Vector2 cancelInputSize_; // キャンセルのサイズ
+	SakuEngine::Vector2 timerSize_;       // タイマーのサイズ
+	SakuEngine::Vector2 timerSymbolSize_; // タイマーの記号のサイズ
 
 	// 色
-	Color iconRingColor_;
+	SakuEngine::Color iconRingColor_;
 	float iconRingEmissive_;
 
 	// test
@@ -139,7 +139,7 @@ private:
 	void UpdateCancel();
 
 	// helper
-	void SetSize(const Vector2& size);
+	void SetSize(const SakuEngine::Vector2& size);
 	void SetTargetSize(float lerpT);
 	void SetTargetTranslation(float lerpT);
 	void SetAlpha(float alpha);

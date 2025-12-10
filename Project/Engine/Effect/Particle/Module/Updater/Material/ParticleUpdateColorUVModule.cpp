@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateColorUVModule.h"
+#include "ParticleUpdateColorUVModule.h"
 
 using namespace SakuEngine;
 
@@ -16,9 +16,9 @@ void ParticleUpdateColorUVModule::Init() {
 	// 初期化値
 	updateType_ = UpdateType::Lerp;
 
-	scale_.start = Vector3::AnyInit(1.0f);
-	scale_.target = Vector3::AnyInit(1.0f);
-	pivot_ = Vector2::AnyInit(0.5f);
+	scale_.start = SakuEngine::Vector3::AnyInit(1.0f);
+	scale_.target = SakuEngine::Vector3::AnyInit(1.0f);
+	pivot_ = SakuEngine::Vector2::AnyInit(0.5f);
 }
 
 void ParticleUpdateColorUVModule::Execute(
@@ -30,11 +30,11 @@ void ParticleUpdateColorUVModule::Execute(
 	case ParticleUpdateColorUVModule::UpdateType::Lerp:
 
 		// UV座標補間
-		translation = Vector3::Lerp(translation_.start,
+		translation = SakuEngine::Vector3::Lerp(translation_.start,
 			translation_.target, EasedValue(easing_, particle.progress));
 
 		// スケール
-		scale = Vector3::Lerp(scale_.start,
+		scale = SakuEngine::Vector3::Lerp(scale_.start,
 			scale_.target, EasedValue(easing_, particle.progress));
 		break;
 	case ParticleUpdateColorUVModule::UpdateType::Scroll:
@@ -45,7 +45,7 @@ void ParticleUpdateColorUVModule::Execute(
 		translation.y += scrollValue_.y;
 
 		// スケール
-		scale = Vector3::Lerp(scale_.start,
+		scale = SakuEngine::Vector3::Lerp(scale_.start,
 			scale_.target, EasedValue(easing_, particle.progress));
 		break;
 	case UpdateType::Serial: {
@@ -66,14 +66,14 @@ void ParticleUpdateColorUVModule::Execute(
 
 	// uvMatrixの更新
 	Vector3 pivot = Vector3(pivot_.x, pivot_.y, 0.0f);
-	Vector3 translationWithPivot = translation + pivot - Vector3::Transform(pivot, scaleRotateMatrix);
+	Vector3 translationWithPivot = translation + pivot - SakuEngine::Vector3::Transform(pivot, scaleRotateMatrix);
 	particle.material.colorUVTransform = Matrix4x4::MakeAffineMatrix(
 		scale, Vector3(0.0f, 0.0f, rotationZ), translationWithPivot);
 }
 
 void ParticleUpdateColorUVModule::ImGui() {
 
-	EnumAdapter<UpdateType>::Combo("updateType", &updateType_);
+	SakuEngine::EnumAdapter<UpdateType>::Combo("updateType", &updateType_);
 
 	ImGui::SeparatorText("Translation");
 
@@ -112,8 +112,8 @@ Json ParticleUpdateColorUVModule::ToJson() {
 
 	Json data;
 
-	data["updateType"] = EnumAdapter<UpdateType>::ToString(updateType_);
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easing_);
+	data["updateType"] = SakuEngine::EnumAdapter<UpdateType>::ToString(updateType_);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easing_);
 
 	data["translation"]["start"] = translation_.start.ToJson();
 	data["translation"]["target"] = translation_.target.ToJson();
@@ -135,10 +135,10 @@ Json ParticleUpdateColorUVModule::ToJson() {
 
 void ParticleUpdateColorUVModule::FromJson(const Json& data) {
 
-	const auto& updateType = EnumAdapter<UpdateType>::FromString(data.value("updateType", ""));
+	const auto& updateType = SakuEngine::EnumAdapter<UpdateType>::FromString(data.value("updateType", ""));
 	updateType_ = updateType.value();
 
-	const auto& easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
+	const auto& easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", ""));
 	easing_ = easingType.value();
 
 	const auto& translationData = data["translation"];
@@ -150,7 +150,7 @@ void ParticleUpdateColorUVModule::FromJson(const Json& data) {
 		pivot_ = pivot_.FromJson(data["pivot"]);
 	} else {
 
-		pivot_ = Vector2::AnyInit(0.5f);
+		pivot_ = SakuEngine::Vector2::AnyInit(0.5f);
 	}
 
 	if (data.contains("rotation")) {
@@ -161,8 +161,8 @@ void ParticleUpdateColorUVModule::FromJson(const Json& data) {
 
 	if (data.contains("scale")) {
 
-		scale_.start = Vector3::FromJson(data["scale"]["start"]);
-		scale_.target = Vector3::FromJson(data["scale"]["target"]);
+		scale_.start = SakuEngine::Vector3::FromJson(data["scale"]["start"]);
+		scale_.target = SakuEngine::Vector3::FromJson(data["scale"]["target"]);
 	}
 
 	scrollValue_ = scrollValue_.FromJson(data["scrollValue"]);

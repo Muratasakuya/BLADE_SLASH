@@ -1,4 +1,4 @@
-﻿#include "TargetNavigation.h"
+#include "TargetNavigation.h"
 
 //============================================================================
 //	include
@@ -14,7 +14,7 @@
 void TargetNavigation::Init() {
 
 	// オブジェクト配列初期化
-	objectArray_ = std::make_unique<GameObject2DArray>();
+	objectArray_ = std::make_unique<SakuEngine::GameObject2DArray>();
 	objectArray_->Init();
 
 	// オブジェクト追加
@@ -49,7 +49,7 @@ void TargetNavigation::CheckInCamera() {
 	}
 
 	// ワールド座標のtargetPosをビュー射影行列でNDC(-1～1)に変換
-	Vector3 ndc = Vector3::Transform(targetPos_, camera_->GetViewProjectionMatrix());
+	SakuEngine::Vector3 ndc = SakuEngine::Vector3::Transform(targetPos_, camera_->GetViewProjectionMatrix());
 
 	// カメラ範囲内かチェック
 	bool inFrustum =
@@ -73,7 +73,7 @@ void TargetNavigation::UpdateBlink(float alpha) {
 	// falseの時は処理しない
 	if (!isBlink_) {
 		blinkColorTimer_.Reset();
-		objectArray_->SetColor(Color::White(alpha));
+		objectArray_->SetColor(SakuEngine::Color::White(alpha));
 		return;
 	}
 
@@ -86,7 +86,7 @@ void TargetNavigation::UpdateBlink(float alpha) {
 	}
 
 	// 色更新
-	Color color = Color::Lerp(Color::White(), targetBlinkColor_, blinkColorTimer_.easedT_);
+	SakuEngine::Color color = SakuEngine::Color::Lerp(SakuEngine::Color::White(), targetBlinkColor_, blinkColorTimer_.easedT_);
 	color.a = alpha;
 	objectArray_->SetColor(color);
 }
@@ -113,45 +113,45 @@ void TargetNavigation::Update() {
 	}
 
 	// ピボットのYオフセット適応
-	Vector3 pivotPos = pivotPos_;
+	SakuEngine::Vector3 pivotPos = pivotPos_;
 	pivotPos.y = pivotOffsetY_;
 
 	// 視点と注視点のビュー変換座標取得
-	Matrix4x4 view = camera_->GetViewMatrix();
-	Vector3 pivotView = Vector3::Transform(pivotPos, view);
-	Vector3 targetView = Vector3::Transform(targetPos_, view);
+	SakuEngine::Matrix4x4 view = camera_->GetViewMatrix();
+	SakuEngine::Vector3 pivotView = SakuEngine::Vector3::Transform(pivotPos, view);
+	SakuEngine::Vector3 targetView = SakuEngine::Vector3::Transform(targetPos_, view);
 	// ビュー空間での差分
-	Vector3 diffView = targetView - pivotView;
+	SakuEngine::Vector3 diffView = targetView - pivotView;
 
 	// 向き
-	Vector2 direction = Vector2(diffView.x, -diffView.z).Normalize();
+	SakuEngine::Vector2 direction = SakuEngine::Vector2(diffView.x, -diffView.z).Normalize();
 
 	// スクリーン座標に変換
-	screenPivotPos_ = Math::ProjectToScreen(pivotPos, *camera_);
-	screenTargetPos_ = Math::ProjectToScreen(targetPos_, *camera_);
+	screenPivotPos_ = SakuEngine::Math::ProjectToScreen(pivotPos, *camera_);
+	screenTargetPos_ = SakuEngine::Math::ProjectToScreen(targetPos_, *camera_);
 
 	// 現在の角度を計算
 	currentAngleRadian_ = std::atan2(direction.y, direction.x);
 	// 90度回転させてオフセット
-	currentAngleRadian_ += pi * 0.5f;
+	currentAngleRadian_ += SakuEngine::pi * 0.5f;
 
 	// 矢印の表示距離(0.0f ~ piのなかで0.0fで最大、piで最小になるようにする)
 	float distance = std::lerp(minDistanceToTarget_, maxDistanceToTarget_,
-		EasedValue(distanceEasingType_, 1.0f - std::fabs(Math::WrapPi(currentAngleRadian_)) / pi));
+		EasedValue(distanceEasingType_, 1.0f - std::fabs(SakuEngine::Math::WrapPi(currentAngleRadian_)) / SakuEngine::pi));
 
 	// 画面内に注視点がある場合は矢印の位置を制限する
-	Vector2 screenDiff = screenTargetPos_ - screenPivotPos_;
-	float screenLen = Vector2::Length(screenDiff);
+	SakuEngine::Vector2 screenDiff = screenTargetPos_ - screenPivotPos_;
+	float screenLen = SakuEngine::Vector2::Length(screenDiff);
 	if (screenLen > 1.0f && distance > screenLen) {
 		distance = screenLen;
 	}
 
 	// 距離スケールの位相
-	float phase = distanceScaleTimer_.t_ * pi * 2.0f;
+	float phase = distanceScaleTimer_.t_ * SakuEngine::pi * 2.0f;
 	float distanceScale = minDistanceScale_ + (1.0f - minDistanceScale_) * waveCenter_ + waveAmplitude_ * std::cos(phase);
 
 	// 位置
-	Vector2 pos = screenPivotPos_ + direction * distance * distanceScale;
+	SakuEngine::Vector2 pos = screenPivotPos_ + direction * distance * distanceScale;
 
 	// 座標と回転を設定
 	objectArray_->SetTranslation(pos);
@@ -183,7 +183,7 @@ void TargetNavigation::ImGui() {
 			}
 
 			// ワールド座標のtargetPosをビュー射影行列でNDC(-1～1)に変換
-			Vector3 ndc = Vector3::Transform(targetPos_, camera_->GetViewProjectionMatrix());
+			SakuEngine::Vector3 ndc = SakuEngine::Vector3::Transform(targetPos_, camera_->GetViewProjectionMatrix());
 
 			// カメラ範囲内かチェック
 			bool inFrustum =
@@ -230,7 +230,7 @@ void TargetNavigation::ImGui() {
 void TargetNavigation::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Player/targetNavigationParameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Player/targetNavigationParameter.json", data)) {
 		return;
 	}
 
@@ -245,8 +245,8 @@ void TargetNavigation::ApplyJson() {
 	distanceScaleTimer_.FromJson(data.value("distanceScaleTimer_", Json()));
 	alphaTimer_.FromJson(data.value("alphaTimer_", Json()));
 	blinkColorTimer_.FromJson(data.value("blinkColorTimer_", Json()));
-	targetBlinkColor_ = Color::FromJson(data.value("targetBlinkColor_", Json()));
-	distanceEasingType_ = EnumAdapter<EasingType>::FromString(data.value("distanceEasingType_", "Linear")).value();
+	targetBlinkColor_ = SakuEngine::Color::FromJson(data.value("targetBlinkColor_", Json()));
+	distanceEasingType_ = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("distanceEasingType_", "Linear")).value();
 }
 
 void TargetNavigation::SaveJson() {
@@ -264,7 +264,7 @@ void TargetNavigation::SaveJson() {
 	alphaTimer_.ToJson(data["alphaTimer_"]);
 	blinkColorTimer_.ToJson(data["blinkColorTimer_"]);
 	data["targetBlinkColor_"] = targetBlinkColor_.ToJson();
-	data["distanceEasingType_"] = EnumAdapter<EasingType>::ToString(distanceEasingType_);
+	data["distanceEasingType_"] = SakuEngine::EnumAdapter<EasingType>::ToString(distanceEasingType_);
 
-	JsonAdapter::Save("Player/targetNavigationParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Player/targetNavigationParameter.json", data);
 }

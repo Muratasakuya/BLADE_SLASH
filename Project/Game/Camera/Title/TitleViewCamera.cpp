@@ -1,4 +1,4 @@
-﻿#include "TitleViewCamera.h"
+#include "TitleViewCamera.h"
 
 //============================================================================
 //	include
@@ -23,11 +23,11 @@ void TitleViewCamera::Init() {
 void TitleViewCamera::Update() {
 
 	// Y軸回転を加算
-	transform_.eulerRotate.y += rotateSpeed_ * GameTimer::GetDeltaTime();
+	transform_.eulerRotate.y += rotateSpeed_ * SakuEngine::GameTimer::GetDeltaTime();
 
 	// オフセット距離
-	Vector3 offset = Vector3::Transform(Vector3(0.0f, 0.0f, -viewOffset_),
-		Matrix4x4::MakeRotateMatrix(transform_.eulerRotate));
+	SakuEngine::Vector3 offset = SakuEngine::Vector3::Transform(SakuEngine::Vector3(0.0f, 0.0f, -viewOffset_),
+		SakuEngine::Matrix4x4::MakeRotateMatrix(transform_.eulerRotate));
 	// 座標を設定
 	transform_.translation = viewPoint_ + offset;
 
@@ -54,16 +54,16 @@ void TitleViewCamera::ImGui() {
 	ImGui::DragFloat3("viewPoint", &viewPoint_.x, 0.1f);
 	ImGui::DragFloat3("viewOffset", &viewOffset_, 0.1f);
 
-	LineRenderer::GetInstance()->DrawSphere(8, 4.0f,
-		viewPoint_, Color::Cyan());
-	LineRenderer::GetInstance()->DrawLine3D(viewPoint_,
-		transform_.translation, Color::Cyan());
+	SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 4.0f,
+		viewPoint_, SakuEngine::Color::Cyan());
+	SakuEngine::LineRenderer::GetInstance()->DrawLine3D(viewPoint_,
+		transform_.translation, SakuEngine::Color::Cyan());
 }
 
 void TitleViewCamera::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Camera/Title/titleViewCameraParam.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Camera/Title/titleViewCameraParam.json", data)) {
 		return;
 	}
 
@@ -72,7 +72,7 @@ void TitleViewCamera::ApplyJson() {
 	transform_.eulerRotate.x = eulerRotateX_;
 	fovY_ = data.value("fovY_", 0.1f);
 	farClip_ = data.value("farClip_", 0.1f);
-	viewPoint_ = Vector3::FromJson(data["viewPoint_"]);
+	viewPoint_ = SakuEngine::Vector3::FromJson(data["viewPoint_"]);
 	viewOffset_ = data.value("viewOffset_", 32.0f);
 }
 
@@ -87,5 +87,5 @@ void TitleViewCamera::SaveJson() {
 	data["viewPoint_"] = viewPoint_.ToJson();
 	data["viewOffset_"] = viewOffset_;
 
-	JsonAdapter::Save("Camera/Title/titleViewCameraParam.json", data);
+	SakuEngine::JsonAdapter::Save("Camera/Title/titleViewCameraParam.json", data);
 }

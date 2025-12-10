@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -45,8 +45,8 @@ struct ParticleEmitterCommon {
 		lifeTime = 1.0f;
 		moveSpeed = 1.0f;
 
-		scale = Vector3::AnyInit(0.4f);
-		color = Color::White();
+		scale = SakuEngine::Vector3::AnyInit(0.4f);
+		color = SakuEngine::Color::White();
 
 		// デフォルトでかけるポストプロセス
 		postProcessMask = Bit_Bloom | Bit_RadialBlur | Bit_Glitch | Bit_Vignette;
@@ -64,7 +64,7 @@ struct ParticleEmitterSphere {
 	void Init() {
 
 		radius = 2.0f;
-		translation = Vector3::AnyInit(0.0f);
+		translation = SakuEngine::Vector3::AnyInit(0.0f);
 	}
 };
 
@@ -79,7 +79,7 @@ struct ParticleEmitterHemisphere {
 	void Init() {
 
 		radius = 2.0f;
-		translation = Vector3::AnyInit(0.0f);
+		translation = SakuEngine::Vector3::AnyInit(0.0f);
 		rotationMatrix = Matrix4x4::MakeIdentity4x4();
 	}
 };
@@ -97,8 +97,8 @@ struct ParticleEmitterBox {
 
 	void Init() {
 
-		size = Vector3::AnyInit(2.0f);
-		translation = Vector3::AnyInit(0.0f);
+		size = SakuEngine::Vector3::AnyInit(2.0f);
+		translation = SakuEngine::Vector3::AnyInit(0.0f);
 		rotationMatrix = Matrix4x4::MakeIdentity4x4();
 	}
 };
@@ -122,7 +122,7 @@ struct ParticleEmitterCone {
 		topRadius = 1.6f;
 		height = 1.6f;
 
-		translation = Vector3::AnyInit(0.0f);
+		translation = SakuEngine::Vector3::AnyInit(0.0f);
 		rotationMatrix = Matrix4x4::MakeIdentity4x4();
 	}
 };

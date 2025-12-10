@@ -1,4 +1,4 @@
-﻿#include "FollowCameraKeyInput.h"
+#include "FollowCameraKeyInput.h"
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 
 float FollowCameraKeyInput::GetVector(FollowCameraInputAction axis) const {
 
-	const Vector2 value = input_->GetMouseMoveValue();
+	const SakuEngine::Vector2 value = input_->GetMouseMoveValue();
 	if (axis == FollowCameraInputAction::RotateX) {
 
 		return value.x;

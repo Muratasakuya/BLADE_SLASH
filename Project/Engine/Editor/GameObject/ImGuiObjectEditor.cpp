@@ -1,4 +1,4 @@
-﻿#include "ImGuiObjectEditor.h"
+#include "ImGuiObjectEditor.h"
 
 using namespace SakuEngine;
 
@@ -78,7 +78,7 @@ void ImGuiObjectEditor::SelectObject() {
 
 bool ImGuiObjectEditor::Is3D(uint32_t object) const {
 
-	return objectManager_->GetData<Transform3D>(object) != nullptr ||
+	return objectManager_->GetData<SakuEngine::Transform3D>(object) != nullptr ||
 		objectManager_->GetData<EffectTransform>(object) != nullptr ||
 		objectManager_->GetData<Skybox>(object) != nullptr;
 }
@@ -181,7 +181,7 @@ void ImGuiObjectEditor::DrawManipulateGizmo(const GizmoContext& context) {
 		is3D = true;
 
 		// nullチェック
-		if (!objectManager_->GetData<Transform3D>(id)) {
+		if (!objectManager_->GetData<SakuEngine::Transform3D>(id)) {
 			return;
 		}
 	} else if (selected2D_) {
@@ -205,7 +205,7 @@ void ImGuiObjectEditor::DrawManipulateGizmo(const GizmoContext& context) {
 	float model[16];
 	if (is3D) {
 
-		Transform3D* transform = objectManager_->GetData<Transform3D>(id);
+		SakuEngine::Transform3D* transform = objectManager_->GetData<SakuEngine::Transform3D>(id);
 		Math::ToColumnMajor(Matrix4x4::Transpose(transform->matrix.world), model);
 	} else {
 
@@ -225,7 +225,7 @@ void ImGuiObjectEditor::DrawManipulateGizmo(const GizmoContext& context) {
 		ImGuizmo::DecomposeMatrixToComponents(model, translate, rotate, scale);
 		if (is3D) {
 
-			Transform3D* transform = objectManager_->GetData<Transform3D>(id);
+			SakuEngine::Transform3D* transform = objectManager_->GetData<SakuEngine::Transform3D>(id);
 
 			// マニュピレーターで変更したワールドを取得
 			Matrix4x4 newWorldMatrix = Matrix4x4::MakeIdentity4x4();
@@ -289,7 +289,7 @@ void ImGuiObjectEditor::DrawManipulateGizmo(const GizmoContext& context) {
 				R.m[0][1] = cy.x; R.m[1][1] = cy.y; R.m[2][1] = cy.z;
 				R.m[0][2] = cz.x; R.m[1][2] = cz.y; R.m[2][2] = cz.z;
 			}
-			transform->rotation = Quaternion::Normalize(Quaternion::FromRotationMatrix(R));
+			transform->rotation = SakuEngine::Quaternion::Normalize(Quaternion::FromRotationMatrix(R));
 			transform->eulerRotate = Quaternion::ToEulerAngles(transform->rotation);
 
 			// スケールを設定
@@ -344,7 +344,7 @@ void ImGuiObjectEditor::EditObjects() {
 		return;
 	}
 	const auto* tag = tagSystem_->Tags().at(id);
-	if (tag->name != "skybox" && Algorithm::Find(objectsMap_, id)) {
+	if (tag->name != "skybox" && SakuEngine::Algorithm::Find(objectsMap_, id)) {
 
 		objectsMap_[id].value()->ImGui();
 		return;
@@ -413,7 +413,7 @@ void ImGuiObjectEditor::ObjectsInformation() {
 
 void ImGuiObjectEditor::ObjectsTransform() {
 
-	auto* transform = objectManager_->GetData<Transform3D>(*CurrentInfo3D());
+	auto* transform = objectManager_->GetData<SakuEngine::Transform3D>(*CurrentInfo3D());
 	transform->ImGui(itemWidth_);
 }
 
@@ -490,7 +490,7 @@ void ImGuiObjectEditor::EditObject2D() {
 		}
 
 		if (ImGui::BeginTabItem("Derived")) {
-			if (Algorithm::Find(objectsMap_, id)) {
+			if (SakuEngine::Algorithm::Find(objectsMap_, id)) {
 
 				objectsMap_[id].value()->DerivedImGui();
 			}

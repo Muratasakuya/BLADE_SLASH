@@ -1,4 +1,4 @@
-﻿#include "PlayerAvoidSatate.h"
+#include "PlayerAvoidSatate.h"
 
 //============================================================================
 //	include
@@ -22,17 +22,17 @@ void PlayerAvoidSatate::Enter(Player& player) {
 
 	player.SetNextAnimation("player_avoid", false, nextAnimDuration_);
 
-	const Vector3 playerPos = player.GetTranslation();
-	const Vector3 enemyPos = bossEnemy_->GetTranslation();
+	const SakuEngine::Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	// 向き
-	Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
 
 	// 補間座標を設定する
 	startPos_ = playerPos;
 	targetPos_ = playerPos + direction * moveDistance_;
 
 	// 敵の方向を向かせる
-	player.SetRotation(Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f)));
+	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)));
 
 	// 回避開始
 	isAvoidance_ = true;
@@ -43,12 +43,12 @@ void PlayerAvoidSatate::Enter(Player& player) {
 void PlayerAvoidSatate::Update(Player& player) {
 
 	// 時間を進める
-	lerpTimer_ += GameTimer::GetScaledDeltaTime();
+	lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	float lerpT = lerpTimer_ / lerpTime_;
 	lerpT = EasedValue(easingType_, lerpT);
 
 	// 座標を補間
-	Vector3 translation = Vector3::Lerp(startPos_, targetPos_, lerpT);
+	SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT);
 
 	// 座標を設定
 	player.SetTranslation(translation);
@@ -81,27 +81,27 @@ void PlayerAvoidSatate::ImGui(const Player& player) {
 	ImGui::DragFloat("moveDistance", &moveDistance_, 0.1f);
 	Easing::SelectEasingType(easingType_);
 
-	const Vector3 playerPos = player.GetTranslation();
-	const Vector3 enemyPos = bossEnemy_->GetTranslation();
+	const SakuEngine::Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	// 向き
-	Vector3 direction = (enemyPos - playerPos).Normalize();
+	SakuEngine::Vector3 direction = (enemyPos - playerPos).Normalize();
 
 	// 補間座標を設定する
-	Vector3 startPos = playerPos;
-	Vector3 targetPos = playerPos + direction * moveDistance_;
+	SakuEngine::Vector3 startPos = playerPos;
+	SakuEngine::Vector3 targetPos = playerPos + direction * moveDistance_;
 	startPos.y = 4.0f;
 	targetPos.y = 4.0f;
 
-	LineRenderer::GetInstance()->DrawLine3D(
-		startPos, targetPos, Color::Red());
+	SakuEngine::LineRenderer::GetInstance()->DrawLine3D(
+		startPos, targetPos, SakuEngine::Color::Red());
 }
 
 void PlayerAvoidSatate::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	lerpTime_ = JsonAdapter::GetValue<float>(data, "lerpTime_");
-	moveDistance_ = JsonAdapter::GetValue<float>(data, "moveDistance_");
-	easingType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "easingType_"));
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	lerpTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpTime_");
+	moveDistance_ = SakuEngine::JsonAdapter::GetValue<float>(data, "moveDistance_");
+	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 }
 
 void PlayerAvoidSatate::SaveJson(Json& data) {

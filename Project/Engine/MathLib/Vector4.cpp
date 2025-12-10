@@ -1,4 +1,4 @@
-﻿#include "Vector4.h"
+#include "Vector4.h"
 
 using namespace SakuEngine;
 
@@ -78,29 +78,29 @@ void Vector4::Init() {
 //	Color classMethods
 //============================================================================*/
 
-Color Color::operator+(const Color& other) const {
+Color Color::operator+(const SakuEngine::Color& other) const {
 	return Color(r + other.r, g + other.g, b + other.b, a + other.a);
 }
-Color Color::operator-(const Color& other) const {
+Color Color::operator-(const SakuEngine::Color& other) const {
 	return Color(r - other.r, g - other.g, b - other.b, a - other.a);
 }
-Color Color::operator*(const Color& other) const {
+Color Color::operator*(const SakuEngine::Color& other) const {
 	return Color(r * other.r, g * other.g, b * other.b, a * other.a);
 }
-Color Color::operator/(const Color& other) const {
+Color Color::operator/(const SakuEngine::Color& other) const {
 	return Color(r / other.r, g / other.g, b / other.b, a / other.a);
 }
 
 Color Color::operator-(float scalar) const {
 	return Color(r - scalar, g - scalar, b - scalar, a - scalar);
 }
-Color operator-(float scalar, const Color& v) {
+Color operator-(float scalar, const SakuEngine::Color& v) {
 	return Color(v.r - scalar, v.g - scalar, v.b - scalar, v.a - scalar);
 }
 Color Color::operator*(float scalar) const {
 	return Color(r * scalar, g * scalar, b * scalar, a * scalar);
 }
-Color operator*(float scalar, const Color& v) {
+Color operator*(float scalar, const SakuEngine::Color& v) {
 	return v * scalar;
 }
 
@@ -123,7 +123,7 @@ Color Color::ToLinear() const {
 	return Color(SRGBToLinear(r), SRGBToLinear(g), SRGBToLinear(b), a);
 }
 
-Color Color::White(float alpha) {
+Color SakuEngine::Color::White(float alpha) {
 
 	return Color(1.0f, 1.0f, 1.0f, alpha);
 }
@@ -148,7 +148,7 @@ Color Color::Yellow(float alpha) {
 	return Color(1.0f, 1.0f, 0.0f, alpha);
 }
 
-Color Color::Cyan(float alpha) {
+Color SakuEngine::Color::Cyan(float alpha) {
 
 	return Color(0.0f, 1.0f, 1.0f, alpha);
 }
@@ -158,7 +158,7 @@ Color Color::Magenta(float alpha) {
 	return Color(1.0f, 0.0f, 1.0f, alpha);
 }
 
-Color Color::Lerp(const Color& color0, const Color& color1, float t) {
+Color SakuEngine::Color::Lerp(const SakuEngine::Color& color0, const SakuEngine::Color& color1, float t) {
 
 	float clampedT = std::clamp(t, 0.0f, 1.0f);
 	return Color(std::lerp(color0.r, color1.r, clampedT),

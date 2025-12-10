@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -40,9 +40,9 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetOffsetTranslation(const Vector3& translation);
+	void SetOffsetTranslation(const SakuEngine::Vector3& translation);
 
-	const Vector3& GetOffsetTranslation() const { return offsetTranslation_; }
+	const SakuEngine::Vector3& GetOffsetTranslation() const { return offsetTranslation_; }
 
 	// ブレンド処理が終了しているか
 	bool IsFinishedHandoffBlend() const;
@@ -62,21 +62,21 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	Vector2 smoothedInput_; // 入力の値補間用
+	SakuEngine::Vector2 smoothedInput_; // 入力の値補間用
 	float defaultFovY_;
 	float fovYLerpRate_; // fov補間割合
 
 	// parameters
-	Vector3 offsetTranslation_; // 追従相手との距離
-	Vector3 interTarget_;       // 追従中間target位置
+	SakuEngine::Vector3 offsetTranslation_; // 追従相手との距離
+	SakuEngine::Vector3 interTarget_;       // 追従中間target位置
 
 	float lerpRate_;           // 補間割合
 	float inputLerpRate_;      // 入力補間割合
-	Vector2 mouseSensitivity_; // マウス感度
-	Vector2 padSensitivity_;   // パッド操作の感度
+	SakuEngine::Vector2 mouseSensitivity_; // マウス感度
+	SakuEngine::Vector2 padSensitivity_;   // パッド操作の感度
 
-	Vector3 defaultOffset_;  // 初期化時のオフセット
-	Vector3 offsetLerpRate_; // 補間割合
+	SakuEngine::Vector3 defaultOffset_;  // 初期化時のオフセット
+	SakuEngine::Vector3 offsetLerpRate_; // 補間割合
 
 	// 回転の設定
 	float rotateZLerpRate_;        // z回転補間割合
@@ -89,5 +89,5 @@ private:
 	float handoffBlendT_ = 1.0f; // 補間値
 	float handoffBlendSpeed_;    // 補間速度
 	// 補間アニメーション終了直後のオフセット位置
-	Vector3 handoffDefault_;
+	SakuEngine::Vector3 handoffDefault_;
 };

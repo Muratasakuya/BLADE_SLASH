@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateTranslateModule.h"
+#include "ParticleUpdateTranslateModule.h"
 
 using namespace SakuEngine;
 
@@ -50,6 +50,6 @@ Json ParticleUpdateTranslateModule::ToJson() {
 
 void ParticleUpdateTranslateModule::FromJson(const Json& data) {
 
-	translation_ = Vector3::FromJson(data.value("translation_", Json()));
+	translation_ = SakuEngine::Vector3::FromJson(data.value("translation_", Json()));
 	dragValue_ = data.value("dragValue_", 0.01f);
 }

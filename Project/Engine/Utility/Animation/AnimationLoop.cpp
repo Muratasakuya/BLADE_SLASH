@@ -1,4 +1,4 @@
-﻿#include "AnimationLoop.h"
+#include "AnimationLoop.h"
 
 using namespace SakuEngine;
 
@@ -45,7 +45,7 @@ void AnimationLoop::ImGuiLoopParam(bool isSeparate) {
 
 		loopCount_ = static_cast<uint32_t>(loopCount);
 	}
-	EnumAdapter<AnimationLoopType>::Combo("loopType", &loopType_);
+	SakuEngine::EnumAdapter<AnimationLoopType>::Combo("loopType", &loopType_);
 }
 
 void AnimationLoop::ToLoopJson(Json& data) {
@@ -53,7 +53,7 @@ void AnimationLoop::ToLoopJson(Json& data) {
 	const std::string key = "loop";
 
 	data[key]["loopCount"] = loopCount_;
-	data[key]["type"] = EnumAdapter<AnimationLoopType>::ToString(loopType_);
+	data[key]["type"] = SakuEngine::EnumAdapter<AnimationLoopType>::ToString(loopType_);
 }
 
 void AnimationLoop::FromLoopJson(const Json& data) {
@@ -63,7 +63,7 @@ void AnimationLoop::FromLoopJson(const Json& data) {
 
 		loopCount_ = data[key].value("loopCount", 1);
 
-		const auto& type = EnumAdapter<AnimationLoopType>::FromString(data[key]["type"]);
+		const auto& type = SakuEngine::EnumAdapter<AnimationLoopType>::FromString(data[key]["type"]);
 		loopType_ = type.value();
 	} else {
 

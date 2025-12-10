@@ -1,4 +1,4 @@
-﻿#include "FollowCameraReturnDefaultRotate.h"
+#include "FollowCameraReturnDefaultRotate.h"
 
 //============================================================================
 //	include
@@ -22,12 +22,12 @@ FollowCameraReturnDefaultRotate::FollowCameraReturnDefaultRotate() {
 
 void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
 
-	Quaternion currentRotation = Quaternion::Normalize(followCamera.GetTransform().rotation);
+	SakuEngine::Quaternion currentRotation = SakuEngine::Quaternion::Normalize(followCamera.GetTransform().rotation);
 
 	// 現在のx軸回転が閾値以上なら処理しない
 	// ローカルX軸を取り出して角度を計算
-	startTwistX_ = Quaternion::ExtractTwistX(Quaternion::Normalize(followCamera.GetTransform().rotation));
-	const float currentAngleX = Math::AngleFromTwist(startTwistX_, Math::Axis::X);
+	startTwistX_ = SakuEngine::Quaternion::ExtractTwistX(SakuEngine::Quaternion::Normalize(followCamera.GetTransform().rotation));
+	const float currentAngleX = SakuEngine::Math::AngleFromTwist(startTwistX_, SakuEngine::Math::Axis::X);
 
 	// しきい値以上なら処理しない
 	if (lerpThreshold_ <= currentAngleX) {
@@ -40,7 +40,7 @@ void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
 	lerpTimer_.Reset();
 
 	// プレイヤーのの状態に応じて目標時間を設定、なければデフォルト
-	if (Algorithm::Find(targetTime_, player_->GetCurrentState())) {
+	if (SakuEngine::Algorithm::Find(targetTime_, player_->GetCurrentState())) {
 
 		requestTargetTime_ = targetTime_[player_->GetCurrentState()];
 	}
@@ -49,7 +49,7 @@ void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
 void FollowCameraReturnDefaultRotate::Update(FollowCamera& followCamera) {
 
 	// カメラ入力があれば処理を終了する
-	Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
+	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
 		inputMapper_->GetVector(FollowCameraInputAction::RotateY));
 	if (rawInput.Length() > std::numeric_limits<float>::epsilon()) {
 
@@ -62,19 +62,19 @@ void FollowCameraReturnDefaultRotate::Update(FollowCamera& followCamera) {
 
 	// 補間処理
 	// y、z軸は維持した状態でx軸を補間する
-	Quaternion currentRotation = Quaternion::Normalize(followCamera.GetTransform().rotation);
-	Quaternion twistX = Quaternion::ExtractTwistX(currentRotation);
-	Quaternion inverseTwistX = Quaternion::Inverse(twistX);
-	Quaternion swing = Quaternion::Normalize(currentRotation * inverseTwistX);
+	SakuEngine::Quaternion currentRotation = SakuEngine::Quaternion::Normalize(followCamera.GetTransform().rotation);
+	SakuEngine::Quaternion twistX = SakuEngine::Quaternion::ExtractTwistX(currentRotation);
+	SakuEngine::Quaternion inverseTwistX = SakuEngine::Quaternion::Inverse(twistX);
+	SakuEngine::Quaternion swing = SakuEngine::Quaternion::Normalize(currentRotation * inverseTwistX);
 
 	// 目標のx回転
-	const Quaternion targetRotationX = Quaternion::Normalize(
-		Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), targetRotateX_));
-	const Quaternion lerpRotationX =
-		Quaternion::Slerp(startTwistX_, targetRotationX, lerpTimer_.easedT_);
+	const SakuEngine::Quaternion targetRotationX = SakuEngine::Quaternion::Normalize(
+		SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), targetRotateX_));
+	const SakuEngine::Quaternion lerpRotationX =
+		SakuEngine::Quaternion::Slerp(startTwistX_, targetRotationX, lerpTimer_.easedT_);
 
 	// 元のyz軸の回転と補間後のx軸回転を合成する
-	const Quaternion rotation = Quaternion::Normalize(swing * lerpRotationX);
+	const SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Normalize(swing * lerpRotationX);
 
 	// 値を設定
 	followCamera.SetRotation(rotation);
@@ -108,7 +108,7 @@ void FollowCameraReturnDefaultRotate::ImGui([[maybe_unused]] const FollowCamera&
 
 	for (auto& [state, value] : targetTime_) {
 
-		const char* name = EnumAdapter<PlayerState>::ToString(state);
+		const char* name = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 
 		ImGui::PushID(name);
 
@@ -132,7 +132,7 @@ void FollowCameraReturnDefaultRotate::ApplyJson(const Json& data) {
 	if (data.contains("TargetTime")) {
 		for (auto& [state, value] : targetTime_) {
 
-			const char* key = EnumAdapter<PlayerState>::ToString(state);
+			const char* key = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 			if (data["TargetTime"].contains(key)) {
 
 				value = data["TargetTime"][key];
@@ -150,7 +150,7 @@ void FollowCameraReturnDefaultRotate::SaveJson(Json& data) {
 
 	for (const auto& [state, value] : targetTime_) {
 
-		const char* key = EnumAdapter<PlayerState>::ToString(state);
+		const char* key = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 		data["TargetTime"][key] = value;
 	}
 }

@@ -1,4 +1,4 @@
-﻿#include "LineRenderer.h"
+#include "LineRenderer.h"
 
 using namespace SakuEngine;
 

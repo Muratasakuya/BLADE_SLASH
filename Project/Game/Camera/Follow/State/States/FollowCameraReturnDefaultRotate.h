@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -41,13 +41,13 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 補間
-	Quaternion startTwistX_;    // 開始時のx軸
-	Quaternion targetRotation_; // 目標
+	SakuEngine::Quaternion startTwistX_;    // 開始時のx軸
+	SakuEngine::Quaternion targetRotation_; // 目標
 
 	// 時間、プレイヤーの状態に応じて目標時間を変える
 	std::unordered_map<PlayerState, float> targetTime_;
 	std::optional<float> requestTargetTime_;
-	StateTimer lerpTimer_;
+	SakuEngine::StateTimer lerpTimer_;
 
 	// x軸回転
 	float startRotateX_;  // 開始x軸

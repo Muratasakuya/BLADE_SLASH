@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -27,7 +27,7 @@ public:
 	~RenderTexture() = default;
 
 	// 指定サイズ/形式/初期クリア色でテクスチャを作成し、RTVとSRV(UAV)を生成する
-	void Create(uint32_t width, uint32_t height, const Color& color,
+	void Create(uint32_t width, uint32_t height, const SakuEngine::Color& color,
 		DXGI_FORMAT format, ID3D12Device* device, RTVDescriptor* rtvDescriptor, SRVDescriptor* srvDescriptor,
 		D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
@@ -60,7 +60,7 @@ private:
 
 	// 内部ヘルパ: リソースを確保し、必要に応じクリア値を設定する
 	void CreateTextureResource(ComPtr<ID3D12Resource>& resource, uint32_t width, uint32_t height,
-		const Color& color, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags, ID3D12Device* device);
+		const SakuEngine::Color& color, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags, ID3D12Device* device);
 };
 
 //============================================================================

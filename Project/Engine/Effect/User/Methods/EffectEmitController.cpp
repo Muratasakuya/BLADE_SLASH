@@ -1,4 +1,4 @@
-﻿#include "EffectEmitController.h"
+#include "EffectEmitController.h"
 
 using namespace SakuEngine;
 
@@ -60,7 +60,7 @@ bool EffectEmitController::Tick(const EffectEmitSetting& emit, EffectNodeRuntime
 	}
 
 	// デルタタイム
-	const float deltaTime = GameTimer::GetScaledDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 時間を進める
 	runtime->timer += deltaTime;

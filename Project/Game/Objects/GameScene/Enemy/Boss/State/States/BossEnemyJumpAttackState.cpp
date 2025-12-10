@@ -1,4 +1,4 @@
-﻿#include "BossEnemyJumpAttackState.h"
+#include "BossEnemyJumpAttackState.h"
 
 //============================================================================
 //	include
@@ -22,12 +22,12 @@ BossEnemyJumpAttackState::BossEnemyJumpAttackState(BossEnemy& bossEnemy) {
 
 		// iでオフセット
 		float posY = offsetY * static_cast<float>(i);
-		jumpKeyframes_.emplace_back(Vector3(0.0f, posY, 0.0f));
+		jumpKeyframes_.emplace_back(SakuEngine::Vector3(0.0f, posY, 0.0f));
 	}
 	canExit_ = false;
 
 	// 剣エフェクト作成
-	slash_.effect = std::make_unique<EffectGroup>();
+	slash_.effect = std::make_unique<SakuEngine::EffectGroup>();
 	slash_.effect->Init("jumpAttackSlash", "BossEnemyEffect");
 	slash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyJumpAttackEffect_0.json");
 
@@ -45,9 +45,9 @@ void BossEnemyJumpAttackState::Enter(BossEnemy& bossEnemy) {
 	currentState_ = State::Pre;
 
 	// 攻撃予兆を出す
-	Vector3 sign = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 sign = bossEnemy.GetTranslation();
 	sign.y = 2.0f;
-	attackSign_->Emit(Math::ProjectToScreen(sign, *followCamera_));
+	attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
 
 	// パリィ可能にする
 	bossEnemy.ResetParryTiming();
@@ -105,7 +105,7 @@ void BossEnemyJumpAttackState::UpdateJump(BossEnemy& bossEnemy) {
 	}
 
 	// 座標を補間
-	Vector3 translation = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 translation = bossEnemy.GetTranslation();
 	lerpTranslationXZ_.LerpValue(translation);
 
 	// Y座標をジャンプ補間、Y座標のみ返す補間
@@ -142,15 +142,15 @@ void BossEnemyJumpAttackState::SetLerpTranslation(const BossEnemy& bossEnemy) {
 	// 開始座標
 	lerpTranslationXZ_.SetStart(bossEnemy.GetTranslation());
 	// 終了座標
-	Vector3 playerPos = player_->GetTranslation();
-	Vector3 direction = Vector3(playerPos - bossEnemy.GetTranslation()).Normalize();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy.GetTranslation()).Normalize();
 	lerpTranslationXZ_.SetEnd(playerPos - direction * targetDistance_);
 
 	for (uint32_t i = 0; i < jumpKeyframeCount_; ++i) {
 
 		// 分割した時のt値
 		float t = static_cast<float>(i) / static_cast<float>(jumpKeyframeCount_ - 1);
-		Vector3 translation = Vector3::Lerp(lerpTranslationXZ_.GetStart(), lerpTranslationXZ_.GetEnd(), t);
+		SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(lerpTranslationXZ_.GetStart(), lerpTranslationXZ_.GetEnd(), t);
 		jumpKeyframes_[i].x = translation.x;
 		jumpKeyframes_[i].z = translation.z;
 	}
@@ -159,7 +159,7 @@ void BossEnemyJumpAttackState::SetLerpTranslation(const BossEnemy& bossEnemy) {
 void BossEnemyJumpAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
 
 	ImGui::Text(std::format("canEixt: {}", canExit_).c_str());
-	ImGui::Text("currentState: %s", EnumAdapter<State>::ToString(currentState_));
+	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.01f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.01f);
@@ -174,17 +174,17 @@ void BossEnemyJumpAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy
 
 		ImGui::PushID(index);
 
-		Vector3& keyframe = jumpKeyframes_[index];
+		SakuEngine::Vector3& keyframe = jumpKeyframes_[index];
 		const std::string key = "Keyframe: " + std::to_string(index);
 
 		ImGui::DragFloat3(key.c_str(), &keyframe.x, 0.01f);
 
-		LineRenderer::GetInstance()->DrawSphere(6, 1.0f, keyframe, Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 1.0f, keyframe, SakuEngine::Color::Cyan());
 
 		ImGui::PopID();
 	}
 
-	EnumAdapter<EasingType>::Combo("JumpEasing", &jumpEasing_);
+	SakuEngine::EnumAdapter<EasingType>::Combo("JumpEasing", &jumpEasing_);
 
 	// 補間座標の設定
 	SetLerpTranslation(bossEnemy);
@@ -197,13 +197,13 @@ void BossEnemyJumpAttackState::ApplyJson(const Json& data) {
 	targetDistance_ = data.value("targetDistance_", 0.08f);
 	lerpTranslationXZ_.FromJson(data.value("LerpTranslationXZ", Json()));
 
-	jumpEasing_ = EnumAdapter<EasingType>::FromString(data.value("jumpEasing_", "Linear")).value();
+	jumpEasing_ = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("jumpEasing_", "Linear")).value();
 	for (uint32_t i = 0; i < jumpKeyframeCount_; ++i) {
 
-		jumpKeyframes_[i] = Vector3::FromJson(data["JumpKeyframes"][i]);
+		jumpKeyframes_[i] = SakuEngine::Vector3::FromJson(data["JumpKeyframes"][i]);
 	}
 
-	slash_.effectOffset = Vector3::FromJson(data.value("slashEffectOffset_", Json()));
+	slash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("slashEffectOffset_", Json()));
 }
 
 void BossEnemyJumpAttackState::SaveJson(Json& data) {
@@ -213,7 +213,7 @@ void BossEnemyJumpAttackState::SaveJson(Json& data) {
 	data["targetDistance_"] = targetDistance_;
 	lerpTranslationXZ_.ToJson(data["LerpTranslationXZ"]);
 
-	data["jumpEasing_"] = EnumAdapter<EasingType>::ToString(jumpEasing_);
+	data["jumpEasing_"] = SakuEngine::EnumAdapter<EasingType>::ToString(jumpEasing_);
 	for (uint32_t i = 0; i < jumpKeyframeCount_; ++i) {
 
 		data["JumpKeyframes"][i] = jumpKeyframes_[i].ToJson();

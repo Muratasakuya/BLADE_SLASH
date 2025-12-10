@@ -1,4 +1,4 @@
-﻿#include "FadeTransition.h"
+#include "FadeTransition.h"
 
 //============================================================================
 //	include
@@ -12,24 +12,24 @@
 
 void FadeTransition::Init() {
 
-	fadeSprite_ = std::make_unique<GameObject2D>();
+	fadeSprite_ = std::make_unique<SakuEngine::GameObject2D>();
 	fadeSprite_->Init("white", "transitionSprite", "Scene");
 	fadeSprite_->SetPostProcessEnable(true);
 	fadeSprite_->SetPostProcessMask(Bit_CRTDisplay);
 	// シーンが切り替わっても破棄しない
 	fadeSprite_->SetDestroyOnLoad(false);
-	fadeSprite_->SetSpriteLayerIndex(SpriteLayerIndex::SceneTransition, 0);
+	fadeSprite_->SetSpriteLayerIndex(SakuEngine::SpriteLayerIndex::SceneTransition, 0);
 
 	// fade初期設定
 	fadeSprite_->SetCenterTranslation();
-	fadeSprite_->SetSize(Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
-	fadeSprite_->SetColor(Color::Convert(0x04040400));
+	fadeSprite_->SetSize(SakuEngine::Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
+	fadeSprite_->SetColor(SakuEngine::Color::Convert(0x04040400));
 
-	loadSprite_ = std::make_unique<GameObject2D>();
+	loadSprite_ = std::make_unique<SakuEngine::GameObject2D>();
 	loadSprite_->Init("nowLoading", "nowLoading", "Scene");
 	// シーンが切り替わっても破棄しない
 	loadSprite_->SetDestroyOnLoad(false);
-	loadSprite_->SetSpriteLayerIndex(SpriteLayerIndex::SceneTransition, 1);
+	loadSprite_->SetSpriteLayerIndex(SakuEngine::SpriteLayerIndex::SceneTransition, 1);
 	// 初期設定
 	loadSprite_->SetCenterTranslation();
 	loadSprite_->SetAlpha(0.0f);
@@ -109,7 +109,7 @@ void FadeTransition::ImGui() {
 void FadeTransition::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Scene/Transition/fadeTransition.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Scene/Transition/fadeTransition.json", data)) {
 		return;
 	}
 
@@ -126,5 +126,5 @@ void FadeTransition::SaveJson() {
 	waitTimer_.ToJson(data["waitTimer_"]);
 	endTimer_.ToJson(data["endTimer_"]);
 
-	JsonAdapter::Save("Scene/Transition/fadeTransition.json", data);
+	SakuEngine::JsonAdapter::Save("Scene/Transition/fadeTransition.json", data);
 }

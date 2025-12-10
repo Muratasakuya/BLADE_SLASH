@@ -1,4 +1,4 @@
-﻿#include "ParticleSpawnConeModule.h"
+#include "ParticleSpawnConeModule.h"
 
 using namespace SakuEngine;
 
@@ -53,13 +53,13 @@ Vector3 ParticleSpawnConeModule::GetFacePoint(float radius, float height) const 
 void ParticleSpawnConeModule::UpdateEmitter() {
 
 	// 回転を更新
-	emitter_.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+	emitter_.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 }
 
 void ParticleSpawnConeModule::Execute(std::list<CPUParticle::ParticleData>& particles) {
 
 	uint32_t emitCount = emitCount_.GetValue();
-	emitter_.rotationMatrix = Matrix4x4::MakeRotateMatrix(emitterRotation_);
+	emitter_.rotationMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(emitterRotation_);
 
 	for (uint32_t index = 0; index < emitCount; ++index) {
 
@@ -107,7 +107,7 @@ void ParticleSpawnConeModule::DrawEmitter() {
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
 
-	LineRenderer::GetInstance()->DrawCone(
+	SakuEngine::LineRenderer::GetInstance()->DrawCone(
 		8, emitter_.baseRadius, emitter_.topRadius, emitter_.height,
 		parentTranslation + emitter_.translation, emitter_.rotationMatrix, emitterLineColor_);
 }
@@ -134,10 +134,10 @@ void ParticleSpawnConeModule::FromJson(const Json& data) {
 	// 共通設定
 	ICPUParticleSpawnModule::FromCommonJson(data);
 
-	emitterRotation_ = Vector3::FromJson(data["emitterRotation"]);
+	emitterRotation_ = SakuEngine::Vector3::FromJson(data["emitterRotation"]);
 
 	emitter_.baseRadius = data.value("baseRadius", 1.0f);
 	emitter_.topRadius = data.value("topRadius", 0.5f);
 	emitter_.height = data.value("height", 1.0f);
-	emitter_.translation = Vector3::FromJson(data["translation"]);
+	emitter_.translation = SakuEngine::Vector3::FromJson(data["translation"]);
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -18,205 +18,205 @@
 //============================================================================
 namespace SakuEngine {
 
-class BaseTransform {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class BaseTransform {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	BaseTransform() = default;
-	virtual ~BaseTransform() = default;
+		BaseTransform() = default;
+		virtual ~BaseTransform() = default;
 
-	// 初期化
-	void Init();
+		// 初期化
+		void Init();
 
-	// 行列更新
-	void UpdateMatrix();
+		// 行列更新
+		void UpdateMatrix();
 
-	// エディター
-	bool ImGui(float itemSize);
+		// エディター
+		bool ImGui(float itemSize);
 
-	// json
-	void ToJson(Json& data);
-	void FromJson(const Json& data);
+		// json
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	// matrixからワールド座標、向きを取得
-	Vector3 GetWorldScale() const;       // ワールドスケール
-	Quaternion GetWorldRotation() const; // ワールド回転
-	Vector3 GetWorldPos() const;         // ワールド座標
+		// matrixからワールド座標、向きを取得
+		Vector3 GetWorldScale() const;       // ワールドスケール
+		Quaternion GetWorldRotation() const; // ワールド回転
+		Vector3 GetWorldPos() const;         // ワールド座標
 
-	Vector3 GetForward() const;
+		Vector3 GetForward() const;
 
-	Vector3 GetBack() const;
+		Vector3 GetBack() const;
 
-	Vector3 GetRight() const;
+		Vector3 GetRight() const;
 
-	Vector3 GetLeft() const;
+		Vector3 GetLeft() const;
 
-	Vector3 GetUp() const;
+		Vector3 GetUp() const;
 
-	Vector3 GetDown() const;
+		Vector3 GetDown() const;
 
-	// 変更があったかどうか
-	bool IsDirty() const { return isDirty_; }
-	void SetIsDirty(bool isDirty);
+		// 変更があったかどうか
+		bool IsDirty() const { return isDirty_; }
+		void SetIsDirty(bool isDirty);
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// 拡縮
-	Vector3 scale;
+		// 拡縮
+		Vector3 scale;
 
-	// 回転
-	Quaternion rotation;
-	Vector3 eulerRotate;
+		// 回転
+		Quaternion rotation;
+		Vector3 eulerRotate;
 
-	// 座標
-	Vector3 translation;
-	Vector3 offsetTranslation;
+		// 座標
+		Vector3 translation;
+		Vector3 offsetTranslation;
 
-	TransformationMatrix matrix;
-	const BaseTransform* parent = nullptr;
+		TransformationMatrix matrix;
+		const BaseTransform* parent = nullptr;
 
-	// 行列強制更新フラグ
-	bool isCompulsion_ = false;
-	// 親のスケールの影響を受けないかどうか
-	bool isIgnoreParentScale = false;
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// 行列強制更新フラグ
+		bool isCompulsion_ = false;
+		// 親のスケールの影響を受けないかどうか
+		bool isIgnoreParentScale = false;
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	Vector3 prevScale;
-	Quaternion prevRotation;
-	Vector3 prevTranslation;
-	Vector3 prevOffsetTranslation;
+		Vector3 prevScale;
+		Quaternion prevRotation;
+		Vector3 prevTranslation;
+		Vector3 prevOffsetTranslation;
 
-	// 変更があったかどうかのフラグ
-	bool isDirty_;
-};
+		// 変更があったかどうかのフラグ
+		bool isDirty_;
+	};
 
-//============================================================================
-//	Transform3D class
-//	3DTransformクラス
-//============================================================================
-class Transform3D :
-	public BaseTransform {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	Transform3D class
+	//	3DTransformクラス
+	//============================================================================
+	class Transform3D :
+		public BaseTransform {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	Transform3D() = default;
-	~Transform3D() = default;
+		Transform3D() = default;
+		~Transform3D() = default;
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	void SetInstancingName(const std::string& name) { meshInstancingName_ = name; }
-	const std::string& GetInstancingName() const { return meshInstancingName_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		void SetInstancingName(const std::string& name) { meshInstancingName_ = name; }
+		const std::string& GetInstancingName() const { return meshInstancingName_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// meshInstancing用の名前
-	std::string meshInstancingName_;
-};
+		// meshInstancing用の名前
+		std::string meshInstancingName_;
+	};
 
-//============================================================================
-//	EffectTransform class
-//	エフェクト用Transform
-//============================================================================
-struct EffectTransform {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	EffectTransform class
+	//	エフェクト用Transform
+	//============================================================================
+	struct EffectTransform {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	void Init();
+		void Init();
 
-	void ImGui(float itemSize);
+		void ImGui(float itemSize);
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// 回転
-	Quaternion rotation;
-	Vector3 eulerRotate;
+		// 回転
+		Quaternion rotation;
+		Vector3 eulerRotate;
 
-	// 座標
-	Vector3 translation;
-};
+		// 座標
+		Vector3 translation;
+	};
 
-//============================================================================
-//	Transform2D class
-//	2DTransformクラス
-//============================================================================
-class Transform2D {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	Transform2D class
+	//	2DTransformクラス
+	//============================================================================
+	class Transform2D {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	Transform2D() = default;
-	~Transform2D() = default;
+		Transform2D() = default;
+		~Transform2D() = default;
 
-	void Init(ID3D12Device* device);
+		void Init(ID3D12Device* device);
 
-	void UpdateMatrix();
+		void UpdateMatrix();
 
-	void ImGui(float itemSize, float buttonSize = 32.0f);
+		void ImGui(float itemSize, float buttonSize = 32.0f);
 
-	// json
-	void ToJson(Json& data);
-	void FromJson(const Json& data);
+		// json
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	// 画面の中心に設定
-	void SetCenterPos();
+		// 画面の中心に設定
+		void SetCenterPos();
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	Vector2 translation;
-	float rotation;
+		Vector2 translation;
+		float rotation;
 
-	Vector2 size;           // 表示サイズ
-	Vector2 sizeScale;      // スケール
-	Vector2 anchorPoint;    // アンカーポイント
+		Vector2 size;           // 表示サイズ
+		Vector2 sizeScale;      // スケール
+		Vector2 anchorPoint;    // アンカーポイント
 
-	Vector2 textureLeftTop; // テクスチャ左上座標
-	Vector2 textureSize;    // テクスチャ切り出しサイズ
+		Vector2 textureLeftTop; // テクスチャ左上座標
+		Vector2 textureSize;    // テクスチャ切り出しサイズ
 
-	// 0: 左下
-	// 1: 左上
-	// 2: 右下
-	// 3: 右上
-	std::array<Vector2, 4> vertexOffset_; // 頂点オフセット
+		// 0: 左下
+		// 1: 左上
+		// 2: 右下
+		// 3: 右上
+		std::array<Vector2, 4> vertexOffset_; // 頂点オフセット
 
-	Matrix4x4 matrix;
+		Matrix4x4 matrix;
 
-	const Transform2D* parent = nullptr;
+		const Transform2D* parent = nullptr;
 
-	// 親がいてもその場で回転するかどうか
-	bool rotateAroundSelfWhenParented = true;
+		// 親がいてもその場で回転するかどうか
+		bool rotateAroundSelfWhenParented = true;
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	const DxConstBuffer<Matrix4x4>& GetBuffer() const { return buffer_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		const DxConstBuffer<Matrix4x4>& GetBuffer() const { return buffer_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// buffer
-	DxConstBuffer<Matrix4x4> buffer_;
-};
+		// buffer
+		DxConstBuffer<Matrix4x4> buffer_;
+	};
 
 }; // SakuEngine

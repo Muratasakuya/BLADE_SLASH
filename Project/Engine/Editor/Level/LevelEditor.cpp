@@ -1,4 +1,4 @@
-﻿#include "LevelEditor.h"
+#include "LevelEditor.h"
 
 using namespace SakuEngine;
 
@@ -34,7 +34,7 @@ void LevelEditor::SaveObject(GameObject3D* object) {
 		// materialを保存
 		object->SaveMaterial(data);
 
-		JsonAdapter::Save(jsonPath_ + identifier + ".json", data);
+		SakuEngine::JsonAdapter::Save(jsonPath_ + identifier + ".json", data);
 	}
 }
 

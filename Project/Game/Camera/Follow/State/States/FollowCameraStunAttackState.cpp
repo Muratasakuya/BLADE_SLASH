@@ -1,4 +1,4 @@
-﻿#include "FollowCameraStunAttackState.h"
+#include "FollowCameraStunAttackState.h"
 
 //============================================================================
 //	include
@@ -17,15 +17,15 @@ void FollowCameraStunAttackState::Update(FollowCamera& followCamera) {
 
 	// プレイヤーに追従していく処理
 	// 味方に追従していく処理
-	Vector3 rotation = followCamera.GetTransform().eulerRotate;
-	Vector3 translation = followCamera.GetTransform().translation;
-	Vector3 offset{};
+	SakuEngine::Vector3 rotation = followCamera.GetTransform().eulerRotate;
+	SakuEngine::Vector3 translation = followCamera.GetTransform().translation;
+	SakuEngine::Vector3 offset{};
 
 	// 補間先の座標を補完割合に応じて補間する
-	interTarget_ = Vector3::Lerp(interTarget_, targets_[FollowCameraTargetType::Player]->GetWorldPos(), lerpRate_);
+	interTarget_ = SakuEngine::Vector3::Lerp(interTarget_, targets_[FollowCameraTargetType::Player]->GetWorldPos(), lerpRate_);
 
-	Matrix4x4 rotateMatrix = Matrix4x4::MakeRotateMatrix(rotation);
-	offset = Vector3::TransferNormal(offsetTranslation_, rotateMatrix);
+	SakuEngine::Matrix4x4 rotateMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(rotation);
+	offset = SakuEngine::Vector3::TransferNormal(offsetTranslation_, rotateMatrix);
 
 	// offset分座標をずらす
 	translation = interTarget_ + offset;
@@ -48,12 +48,12 @@ void FollowCameraStunAttackState::ImGui([[maybe_unused]] const FollowCamera& fol
 
 void FollowCameraStunAttackState::ApplyJson(const Json& data) {
 
-	lerpRate_ = JsonAdapter::GetValue<float>(data, "lerpRate_");
-	offsetTranslation_ = JsonAdapter::ToObject<Vector3>(data["offsetTranslation_"]);
+	lerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpRate_");
+	offsetTranslation_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(data["offsetTranslation_"]);
 }
 
 void FollowCameraStunAttackState::SaveJson(Json& data) {
 
 	data["lerpRate_"] = lerpRate_;
-	data["offsetTranslation_"] = JsonAdapter::FromObject<Vector3>(offsetTranslation_);
+	data["offsetTranslation_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector3>(offsetTranslation_);
 }

@@ -1,4 +1,4 @@
-﻿#include "BossEnemyTeleportationState.h"
+#include "BossEnemyTeleportationState.h"
 
 //============================================================================
 //	include
@@ -16,7 +16,7 @@
 BossEnemyTeleportationState::BossEnemyTeleportationState() {
 
 	// 残像エフェクト初期化
-	afterImageEffect_ = std::make_unique<EffectGroup>();
+	afterImageEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	afterImageEffect_->Init("teleportAfterImageEffect", "BossEnemyEffect");
 	afterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyTeleportAfterImageEffect.json");
 }
@@ -26,21 +26,21 @@ void BossEnemyTeleportationState::Enter(BossEnemy& bossEnemy) {
 	bossEnemy.SetNextAnimation("bossEnemy_teleport", true, nextAnimDuration_);
 
 	// 座標を設定
-	Vector3 center = player_->GetTranslation();
+	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 0.0f;
-	const Vector3 forward = followCamera_->GetTransform().GetForward();
+	const SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 	startPos_ = bossEnemy.GetTranslation();
 	// 弧上の座標を取得
 	if (type_ == BossEnemyTeleportType::Far) {
 
-		targetPos_ = Math::RandomPointOnArcInSquare(center,
+		targetPos_ = SakuEngine::Math::RandomPointOnArcInSquare(center,
 			followCamera_->GetTransform().GetForward(),
-			farRadius_, halfAngle_, Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
+			farRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 	} else if (type_ == BossEnemyTeleportType::Near) {
 
-		targetPos_ = Math::RandomPointOnArcInSquare(center,
+		targetPos_ = SakuEngine::Math::RandomPointOnArcInSquare(center,
 			followCamera_->GetTransform().GetForward(),
-			nearRadius_, halfAngle_, Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
+			nearRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 	}
 
 	currentAlpha_ = 1.0f;
@@ -51,15 +51,15 @@ void BossEnemyTeleportationState::Enter(BossEnemy& bossEnemy) {
 
 void BossEnemyTeleportationState::Update(BossEnemy& bossEnemy) {
 
-	lerpTimer_ += GameTimer::GetScaledDeltaTime();
+	lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	float lerpT = std::clamp(lerpTimer_ / lerpTime_, 0.0f, 1.0f);
 	lerpT = EasedValue(easingType_, lerpT);
 
 	// 座標補間
-	bossEnemy.SetTranslation(Vector3::Lerp(startPos_, targetPos_, lerpT));
+	bossEnemy.SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
 
 	// playerの方を向かせる
-	Vector3 playerPos = player_->GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	playerPos.y = 0.0f;
 	LookTarget(bossEnemy, playerPos);
 
@@ -98,7 +98,7 @@ void BossEnemyTeleportationState::UpdateAlways(BossEnemy& bossEnemy) {
 
 	// 残像エフェクト更新、回転を設定する
 	afterImageEffect_->SetParentRotation("bossAfterImage",
-		Quaternion::Normalize(bossEnemy.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(bossEnemy.GetRotation()), ParticleUpdateModuleID::Rotation);
 	afterImageEffect_->Update();
 }
 
@@ -127,31 +127,31 @@ void BossEnemyTeleportationState::ImGui([[maybe_unused]] const BossEnemy& bossEn
 	ImGui::DragFloat("fadeInTime", &fadeInTime_, 0.01f);
 	Easing::SelectEasingType(easingType_);
 
-	Vector3 center = player_->GetTranslation();
+	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 4.0f;
-	LineRenderer::GetInstance()->DrawArc(8, farRadius_, halfAngle_,
-		center, followCamera_->GetTransform().GetForward(), Color::Red());
-	LineRenderer::GetInstance()->DrawArc(8, nearRadius_, halfAngle_,
-		center, followCamera_->GetTransform().GetForward(), Color::Blue());
+	SakuEngine::LineRenderer::GetInstance()->DrawArc(8, farRadius_, halfAngle_,
+		center, followCamera_->GetTransform().GetForward(), SakuEngine::Color::Red());
+	SakuEngine::LineRenderer::GetInstance()->DrawArc(8, nearRadius_, halfAngle_,
+		center, followCamera_->GetTransform().GetForward(), SakuEngine::Color::Blue());
 }
 
 void BossEnemyTeleportationState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	farRadius_ = JsonAdapter::GetValue<float>(data, "farRadius_");
-	nearRadius_ = JsonAdapter::GetValue<float>(data, "nearRadius_");
-	halfAngle_ = JsonAdapter::GetValue<float>(data, "halfAngle_");
-	lerpTime_ = JsonAdapter::GetValue<float>(data, "lerpTime_");
-	fadeOutTime_ = JsonAdapter::GetValue<float>(data, "fadeOutTime_");
-	fadeInTime_ = JsonAdapter::GetValue<float>(data, "fadeInTime_");
-	easingType_ = static_cast<EasingType>(JsonAdapter::GetValue<int>(data, "easingType_"));
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	farRadius_ = SakuEngine::JsonAdapter::GetValue<float>(data, "farRadius_");
+	nearRadius_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nearRadius_");
+	halfAngle_ = SakuEngine::JsonAdapter::GetValue<float>(data, "halfAngle_");
+	lerpTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpTime_");
+	fadeOutTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fadeOutTime_");
+	fadeInTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fadeInTime_");
+	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 
 	{
 		Json clampData;
-		if (JsonAdapter::LoadCheck("GameConfig/gameConfig.json", clampData)) {
+		if (SakuEngine::JsonAdapter::LoadCheck("GameConfig/gameConfig.json", clampData)) {
 
-			moveClampSize_ = JsonAdapter::GetValue<float>(clampData["playableArea"], "length");
+			moveClampSize_ = SakuEngine::JsonAdapter::GetValue<float>(clampData["playableArea"], "length");
 		}
 	}
 }

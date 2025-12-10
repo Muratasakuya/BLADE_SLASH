@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -48,16 +48,16 @@ private:
 
 	// parameters
 	// 座標補間を行わないときの処理
-	StateTimer moveTimer_;
+	SakuEngine::StateTimer moveTimer_;
 	float moveValue_;   // 移動量
-	Vector3 startPos_;  // 開始座標
-	Vector3 targetPos_; // 目標座標
+	SakuEngine::Vector3 startPos_;  // 開始座標
+	SakuEngine::Vector3 targetPos_; // 目標座標
 
 	// 地割れエフェクト
-	std::unique_ptr<EffectGroup> groundCrackEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> groundCrackEffect_;
 	bool groundCrackEmitted_ = false;
 	// 回転エフェクト
-	std::unique_ptr<EffectGroup> rotationEffect_;
-	Vector3 rotateEffectOffset_;
-	Vector3 rotateEffectOffsetRotation_;
+	std::unique_ptr<SakuEngine::EffectGroup> rotationEffect_;
+	SakuEngine::Vector3 rotateEffectOffset_;
+	SakuEngine::Vector3 rotateEffectOffsetRotation_;
 };

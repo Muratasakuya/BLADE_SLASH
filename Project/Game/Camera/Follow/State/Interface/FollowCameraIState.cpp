@@ -1,4 +1,4 @@
-﻿#include "FollowCameraIState.h"
+#include "FollowCameraIState.h"
 
 //============================================================================
 //	include
@@ -11,7 +11,7 @@
 //============================================================================
 
 void FollowCameraIState::SetTarget(FollowCameraTargetType type,
-	const Transform3D& target) {
+	const SakuEngine::Transform3D& target) {
 
 	targets_[type] = &target;
 }

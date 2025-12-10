@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -30,8 +30,8 @@ struct TransformationMatrix {
 	Matrix4x4 world;
 	Matrix4x4 worldInverseTranspose;
 
-	void Update(const BaseTransform* parent, const Vector3& scale,
-		const Quaternion& rotation, const Vector3& translation, bool isIgnoreParentScale,
+	void Update(const BaseTransform* parent, const SakuEngine::Vector3& scale,
+		const Quaternion& rotation, const SakuEngine::Vector3& translation, bool isIgnoreParentScale,
 		const std::optional<Matrix4x4>& billboardMatrix = std::nullopt);
 };
 

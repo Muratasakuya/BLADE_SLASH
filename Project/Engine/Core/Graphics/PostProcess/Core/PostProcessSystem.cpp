@@ -1,4 +1,4 @@
-﻿#include "PostProcessSystem.h"
+#include "PostProcessSystem.h"
 
 using namespace SakuEngine;
 #include "PostProcessSystem.h"
@@ -41,8 +41,8 @@ void PostProcessSystem::Finalize() {
 void PostProcessSystem::AddProcess(PostProcessType process) {
 
 	// 追加
-	if (Algorithm::Find(initProcesses_, process, true) &&
-		!Algorithm::Find(activeProcesses_, process, false)) {
+	if (SakuEngine::Algorithm::Find(initProcesses_, process, true) &&
+		!SakuEngine::Algorithm::Find(activeProcesses_, process, false)) {
 
 		activeProcesses_.push_back(process);
 	}
@@ -51,7 +51,7 @@ void PostProcessSystem::AddProcess(PostProcessType process) {
 void PostProcessSystem::RemoveProcess(PostProcessType process) {
 
 	// 削除
-	if (Algorithm::Find(activeProcesses_, process, true)) {
+	if (SakuEngine::Algorithm::Find(activeProcesses_, process, true)) {
 
 		activeProcesses_.erase(std::remove(activeProcesses_.begin(),
 			activeProcesses_.end(), process), activeProcesses_.end());
@@ -69,7 +69,7 @@ void PostProcessSystem::InputProcessTexture(
 	const std::string& textureName, PostProcessType process) {
 
 	// texture設定
-	if (Algorithm::Find(initProcesses_, process, true)) {
+	if (SakuEngine::Algorithm::Find(initProcesses_, process, true)) {
 
 		processors_[process]->SetProcessTexureGPUHandle(asset_->GetGPUHandle(textureName));
 	}
@@ -95,7 +95,7 @@ void PostProcessSystem::RemoveUpdater(PostProcessType type) {
 
 void PostProcessSystem::Start(PostProcessType type) {
 
-	if (Algorithm::Find(updaters_, type)) {
+	if (SakuEngine::Algorithm::Find(updaters_, type)) {
 
 		updaters_[type]->Start();
 	}
@@ -103,7 +103,7 @@ void PostProcessSystem::Start(PostProcessType type) {
 
 void PostProcessSystem::Stop(PostProcessType type) {
 
-	if (Algorithm::Find(updaters_, type)) {
+	if (SakuEngine::Algorithm::Find(updaters_, type)) {
 
 		updaters_[type]->Stop();
 	}
@@ -111,7 +111,7 @@ void PostProcessSystem::Stop(PostProcessType type) {
 
 void PostProcessSystem::Reset(PostProcessType type) {
 
-	if (Algorithm::Find(updaters_, type)) {
+	if (SakuEngine::Algorithm::Find(updaters_, type)) {
 
 		updaters_[type]->Reset();
 	}
@@ -304,12 +304,12 @@ void PostProcessSystem::ImGui() {
 
 	ImGui::SetWindowFontScale(0.72f);
 
-	using EA = EnumAdapter<PostProcessType>;
+	using EA = SakuEngine::EnumAdapter<PostProcessType>;
 	if (ImGui::BeginChild("##checklist", ImVec2(192.0f, 0.0f), true)) {
 		ImGui::TextDisabled("Available");
 		for (auto process : initProcesses_) {
 
-			bool enabled = Algorithm::Find(activeProcesses_, process, false);
+			bool enabled = SakuEngine::Algorithm::Find(activeProcesses_, process, false);
 			if (ImGui::Checkbox(EA::ToString(process), &enabled)) {
 
 				enabled ? AddProcess(process) : RemoveProcess(process);
@@ -384,7 +384,7 @@ void PostProcessSystem::ImGui() {
 			ImGui::PopID();
 
 			// updaterがあれば下に表示する
-			if (Algorithm::Find(updaters_, process)) {
+			if (SakuEngine::Algorithm::Find(updaters_, process)) {
 
 				ImGui::SeparatorText("Updater");
 				ImGui::PushID("updaterParam");

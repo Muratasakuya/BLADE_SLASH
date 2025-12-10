@@ -1,4 +1,4 @@
-﻿#include "ParticleLoopableModule.h"
+#include "ParticleLoopableModule.h"
 
 using namespace SakuEngine;
 
@@ -16,7 +16,7 @@ void ParticleLoopableModule::ImGuiLoopParam() {
 	ImGui::SeparatorText("Loop");
 
 	ImGui::DragInt("loopCount", &loopCount_, 1, 1, 64);
-	EnumAdapter<ParticleLoop::Type>::Combo("loopType", &loopType_);
+	SakuEngine::EnumAdapter<ParticleLoop::Type>::Combo("loopType", &loopType_);
 }
 
 void ParticleLoopableModule::ToLoopJson(Json& data) {
@@ -24,7 +24,7 @@ void ParticleLoopableModule::ToLoopJson(Json& data) {
 	const std::string key = "loop";
 
 	data[key]["loopCount"] = loopCount_;
-	data[key]["type"] = EnumAdapter<ParticleLoop::Type>::ToString(loopType_);
+	data[key]["type"] = SakuEngine::EnumAdapter<ParticleLoop::Type>::ToString(loopType_);
 }
 
 void ParticleLoopableModule::FromLoopJson(const Json& data) {
@@ -34,7 +34,7 @@ void ParticleLoopableModule::FromLoopJson(const Json& data) {
 
 		loopCount_ = data[key].value("loopCount", 1);
 
-		const auto& type = EnumAdapter<ParticleLoop::Type>::FromString(data[key]["type"]);
+		const auto& type = SakuEngine::EnumAdapter<ParticleLoop::Type>::FromString(data[key]["type"]);
 		loopType_ = type.value();
 	} else {
 

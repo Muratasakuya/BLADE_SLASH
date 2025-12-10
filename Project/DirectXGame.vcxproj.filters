@@ -630,9 +630,6 @@
     <ClCompile Include="Engine\Effect\User\GameEffect.cpp">
       <Filter>Engine\Effect\User</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\GameEffectGroup.cpp">
-      <Filter>Engine\Effect\User</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Effect\User\Helper\GameEffectCommandHelper.cpp">
       <Filter>Engine\Effect\User\Helper</Filter>
     </ClCompile>
@@ -1128,12 +1125,6 @@
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyBladeCollision.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyAnimationEffect.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyBladeEffect.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemy.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Entity</Filter>
     </ClCompile>
@@ -1516,9 +1507,6 @@
       <Filter>Engine\Effect\User</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\GameEffect.h">
-      <Filter>Engine\Effect\User</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Effect\User\GameEffectGroup.h">
       <Filter>Engine\Effect\User</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\Methods\EffectCommandRouter.h">
@@ -2124,17 +2112,11 @@
     <ClInclude Include="Game\Objects\Common\UI\GameUIFocusNavigator.h">
       <Filter>Game\Objects\Common\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyAnimationEffect.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyAttackCollision.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyBladeCollision.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Effect\BossEnemyBladeEffect.h">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemy.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Entity</Filter>

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -11,13 +11,13 @@
 //	UI選択用キーボード入力
 //============================================================================
 class SelectUIKeyInput :
-	public IInputDevice<SelectUIInputAction> {
+	public SakuEngine::IInputDevice<SelectUIInputAction> {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	SelectUIKeyInput(Input* input) { input_ = input; }
+	SelectUIKeyInput(SakuEngine::Input* input) { input_ = input; }
 	~SelectUIKeyInput() = default;
 
 	//--------- accessor -----------------------------------------------------

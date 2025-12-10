@@ -1,4 +1,4 @@
-﻿#include "SelectUIGamePadInput.h"
+#include "SelectUIGamePadInput.h"
 
 //============================================================================
 //	include
@@ -12,7 +12,7 @@
 float SelectUIGamePadInput::GetVector(SelectUIInputAction axis) const {
 
 	// 左スティック入力
-	const Vector2 value = input_->GetLeftStickVal();
+	const SakuEngine::Vector2 value = input_->GetLeftStickVal();
 	switch (axis) {
 	case SelectUIInputAction::Up:
 	case SelectUIInputAction::Down: {

@@ -1,4 +1,4 @@
-﻿#include "BossEnemyRequestFalter.h"
+#include "BossEnemyRequestFalter.h"
 
 //============================================================================
 //	include
@@ -20,13 +20,13 @@ void BossEnemyRequestFalter::Init(const BossEnemy* bossEnemy, const Player* play
 	player_ = player;
 
 	// マップ追加
-	for (const auto& state : EnumAdapter<BossEnemyState>::GetEnumArray()) {
+	for (const auto& state : SakuEngine::EnumAdapter<BossEnemyState>::GetEnumArray()) {
 
-		allowFalterBossInfos_.emplace(EnumAdapter<BossEnemyState>::FromString(state).value(), BossEnemyStateInfo{ false });
+		allowFalterBossInfos_.emplace(SakuEngine::EnumAdapter<BossEnemyState>::FromString(state).value(), BossEnemyStateInfo{ false });
 	}
-	for (const auto& state : EnumAdapter<PlayerState>::GetEnumArray()) {
+	for (const auto& state : SakuEngine::EnumAdapter<PlayerState>::GetEnumArray()) {
 
-		falterPlayerInfos_.emplace(EnumAdapter<PlayerState>::FromString(state).value(), PlayerStateInfo{ false });
+		falterPlayerInfos_.emplace(SakuEngine::EnumAdapter<PlayerState>::FromString(state).value(), PlayerStateInfo{ false });
 	}
 
 	// カウント初期化
@@ -176,7 +176,7 @@ void BossEnemyRequestFalter::ImGui() {
 
 		for (auto& [state, info] : allowFalterBossInfos_) {
 
-			const char* name = EnumAdapter<BossEnemyState>::ToString(state);
+			const char* name = SakuEngine::EnumAdapter<BossEnemyState>::ToString(state);
 			std::string label = std::string(name) + " :isAllowAll";
 			ImGui::Checkbox(label.c_str(), &info.isAllowAll);
 			label = std::string(name) + " :isAllow";
@@ -194,7 +194,7 @@ void BossEnemyRequestFalter::ImGui() {
 
 		for (auto& [state, info] : falterPlayerInfos_) {
 
-			const char* name = EnumAdapter<PlayerState>::ToString(state);
+			const char* name = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 			std::string label = std::string(name) + " :isForce";
 			ImGui::Checkbox(label.c_str(), &info.isForce);
 			label = std::string(name) + " :isDisableState";
@@ -207,7 +207,7 @@ void BossEnemyRequestFalter::ImGui() {
 void BossEnemyRequestFalter::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("Enemy/Boss/requestFalter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Enemy/Boss/requestFalter.json", data)) {
 		return;
 	}
 
@@ -228,7 +228,7 @@ void BossEnemyRequestFalter::ApplyJson() {
 		for (auto it = bossStates.begin(); it != bossStates.end(); ++it) {
 
 			const std::string& name = it.key();
-			auto enumOpt = EnumAdapter<BossEnemyState>::FromString(name);
+			auto enumOpt = SakuEngine::EnumAdapter<BossEnemyState>::FromString(name);
 			if (!enumOpt) {
 				continue;
 			}
@@ -251,7 +251,7 @@ void BossEnemyRequestFalter::ApplyJson() {
 		for (auto it = playerStates.begin(); it != playerStates.end(); ++it) {
 
 			const std::string& name = it.key();
-			auto enumOpt = EnumAdapter<PlayerState>::FromString(name);
+			auto enumOpt = SakuEngine::EnumAdapter<PlayerState>::FromString(name);
 			if (!enumOpt) {
 				continue;
 			}
@@ -280,7 +280,7 @@ void BossEnemyRequestFalter::SaveJson() {
 	auto& bossStates = data["allowFalterBossStates"];
 	for (const auto& [state, info] : allowFalterBossInfos_) {
 
-		const char* name = EnumAdapter<BossEnemyState>::ToString(state);
+		const char* name = SakuEngine::EnumAdapter<BossEnemyState>::ToString(state);
 		bossStates[name]["isAllow"] = info.isAllow;
 		bossStates[name]["isAllowAll"] = info.isAllowAll;
 	}
@@ -289,10 +289,10 @@ void BossEnemyRequestFalter::SaveJson() {
 	auto& playerStates = data["forceFalterPlayerStates"];
 	for (const auto& [state, info] : falterPlayerInfos_) {
 
-		const char* name = EnumAdapter<PlayerState>::ToString(state);
+		const char* name = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
 		playerStates[name]["isForce"] = info.isForce;
 		playerStates[name]["isDisableState"] = info.isDisableState;
 	}
 
-	JsonAdapter::Save("Enemy/Boss/requestFalter.json", data);
+	SakuEngine::JsonAdapter::Save("Enemy/Boss/requestFalter.json", data);
 }

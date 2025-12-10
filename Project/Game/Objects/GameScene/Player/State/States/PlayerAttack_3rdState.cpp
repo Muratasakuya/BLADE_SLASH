@@ -1,4 +1,4 @@
-﻿#include "PlayerAttack_3rdState.h"
+#include "PlayerAttack_3rdState.h"
 
 //============================================================================
 //	include
@@ -20,11 +20,11 @@ PlayerAttack_3rdState::PlayerAttack_3rdState(Player* player) {
 	player_ = player;
 
 	// debug
-	debugForward_.emplace(PlayerWeaponType::Left, Vector3::AnyInit(0.0f));
-	debugForward_.emplace(PlayerWeaponType::Right, Vector3::AnyInit(0.0f));
+	debugForward_.emplace(PlayerWeaponType::Left, SakuEngine::Vector3::AnyInit(0.0f));
+	debugForward_.emplace(PlayerWeaponType::Right, SakuEngine::Vector3::AnyInit(0.0f));
 
 	// ダッシュエフェクト作成
-	catchDashEffect_ = std::make_unique<EffectGroup>();
+	catchDashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	catchDashEffect_->Init("catchDashEffect", "PlayerEffect");
 	catchDashEffect_->LoadJson("GameEffectGroup/Player/playerCatchDashEffect.json");
 
@@ -43,7 +43,7 @@ void PlayerAttack_3rdState::Enter(Player& player) {
 
 	// 敵が攻撃可能範囲にいるかチェック
 	assisted_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
-	Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
 	// 補間先がいなければ正面向き
 	if (!assisted_) {
 
@@ -75,7 +75,7 @@ void PlayerAttack_3rdState::Update(Player& player) {
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
-		exitTimer_ += GameTimer::GetScaledDeltaTime();
+		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	}
 
 	// プレイヤーの補間処理
@@ -114,7 +114,7 @@ void PlayerAttack_3rdState::LerpWeapon(Player& player, PlayerWeaponType type) {
 	PlayerBaseAttackState::UpdateTimer(weaponParams_[type].moveTimer);
 
 	// 補間座標を剣に設定
-	Vector3 pos = Vector3::Lerp(weaponParams_[type].startPos,
+	SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(weaponParams_[type].startPos,
 		weaponParams_[type].targetPos, weaponParams_[type].moveTimer.easedT_);
 	player.GetWeapon(type)->SetTranslation(pos);
 
@@ -132,18 +132,18 @@ void PlayerAttack_3rdState::LerpWeapon(Player& player, PlayerWeaponType type) {
 	case PlayerWeaponType::Left:
 
 		// 回転
-		weaponParams_[type].rotation.z = pi / 2.0f;
+		weaponParams_[type].rotation.z = SakuEngine::pi / 2.0f;
 		weaponParams_[type].rotation.y += weaponParams_[type].rotateSpeed;
-		player.GetWeapon(type)->SetRotation(Quaternion::Normalize(
-			Quaternion::EulerToQuaternion(weaponParams_[type].rotation)));
+		player.GetWeapon(type)->SetRotation(SakuEngine::Quaternion::Normalize(
+			SakuEngine::Quaternion::EulerToQuaternion(weaponParams_[type].rotation)));
 		break;
 	case PlayerWeaponType::Right:
 
 		// 回転
-		weaponParams_[type].rotation.x = pi / 2.0f;
+		weaponParams_[type].rotation.x = SakuEngine::pi / 2.0f;
 		weaponParams_[type].rotation.y += weaponParams_[type].rotateSpeed;
-		player.GetWeapon(type)->SetRotation(Quaternion::Normalize(
-			Quaternion::EulerToQuaternion(weaponParams_[type].rotation)));
+		player.GetWeapon(type)->SetRotation(SakuEngine::Quaternion::Normalize(
+			SakuEngine::Quaternion::EulerToQuaternion(weaponParams_[type].rotation)));
 		break;
 	}
 }
@@ -159,7 +159,7 @@ void PlayerAttack_3rdState::LerpPlayer(Player& player) {
 		// 時間を進める
 		PlayerBaseAttackState::UpdateTimer(backMoveTimer_);
 		// 座標を補間
-		Vector3 pos = Vector3::Lerp(backStartPos_, backTargetPos_,
+		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backStartPos_, backTargetPos_,
 			backMoveTimer_.easedT_);
 		player.SetTranslation(pos);
 
@@ -175,7 +175,7 @@ void PlayerAttack_3rdState::LerpPlayer(Player& player) {
 		// 時間を進める
 		PlayerBaseAttackState::UpdateTimer(catchSwordTimer_);
 		// 座標を補間
-		Vector3 pos = Vector3::Lerp(backTargetPos_, catchTargetPos_,
+		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backTargetPos_, catchTargetPos_,
 			catchSwordTimer_.easedT_);
 		player.SetTranslation(pos);
 
@@ -225,13 +225,13 @@ void PlayerAttack_3rdState::UpdateAnimKeyEvent(Player& player) {
 
 		// ダッシュエフェクトの発生
 		catchDashEffect_->SetParentRotation("playerAttack3rdDashEffect",
-			Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+			SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
 		catchDashEffect_->SetParentRotation("playerAttack3rdDashEffect",
-			Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Primitive);
+			SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Primitive);
 		catchDashEffect_->Emit(player_->GetTranslation() + (player.GetRotation() * dashEffectOffset_));
 
 		// 残像表現エフェクト開始
-		std::vector<GameObject3D*> objects = {
+		std::vector<SakuEngine::GameObject3D*> objects = {
 			&player,
 			player.GetWeapon(PlayerWeaponType::Left),
 			player.GetWeapon(PlayerWeaponType::Right)
@@ -245,7 +245,7 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	// α値を下げる
 	player.GetWeapon(type)->SetAlpha(0.5f);
 	// 剣の親子付けを解除する
-	player.GetWeapon(type)->SetParent(Transform3D(), true);
+	player.GetWeapon(type)->SetParent(SakuEngine::Transform3D(), true);
 	// この時点のワールド座標を補間開始座標にする
 	weaponParams_[type].startPos =
 		player.GetWeapon(type)->GetTransform().GetWorldPos();
@@ -258,7 +258,7 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	if (assisted_) {
 
 		// Y軸回転オフセットをかける
-		Vector3 rotated = RotateYOffset(player.GetTransform().GetForward(),
+		SakuEngine::Vector3 rotated = RotateYOffset(player.GetTransform().GetForward(),
 			weaponParams_[type].offsetRotationY).Normalize();
 
 		// 敵を中心に一定距離だけオフセット
@@ -270,12 +270,12 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	} else {
 
 		// 前方ベクトル
-		Vector3 forward = Quaternion::RotateVector(Vector3(0.0f, 0.0f, 1.0f), player.GetRotation());
+		SakuEngine::Vector3 forward = SakuEngine::Quaternion::RotateVector(SakuEngine::Vector3(0.0f, 0.0f, 1.0f), player.GetRotation());
 		forward.y = 0.0f;
 		forward = forward.Normalize();
 
 		// Y軸回転オフセットをかける
-		Vector3 rotated = RotateYOffset(forward, weaponParams_[type].offsetRotationY / 6.0f);
+		SakuEngine::Vector3 rotated = RotateYOffset(forward, weaponParams_[type].offsetRotationY / 6.0f);
 
 		// 目標座標
 		weaponParams_[type].targetPos = player.GetTranslation() + rotated * weaponParams_[type].moveValue;
@@ -297,12 +297,12 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	weaponParams_[type].endProgress = std::clamp(currentProgress + spanLength, 0.0f, 1.0f);
 }
 
-Vector3 PlayerAttack_3rdState::RotateYOffset(const Vector3& direction, float offsetRotationY) {
+SakuEngine::Vector3 PlayerAttack_3rdState::RotateYOffset(const SakuEngine::Vector3& direction, float offsetRotationY) {
 
 	float cos = std::cos(offsetRotationY);
 	float sin = std::sin(offsetRotationY);
 
-	Vector3 rotated{};
+	SakuEngine::Vector3 rotated{};
 	rotated.x = direction.x * cos - direction.z * sin;
 	rotated.y = 0.0f;
 	rotated.z = direction.x * sin + direction.z * cos;
@@ -313,7 +313,7 @@ Vector3 PlayerAttack_3rdState::RotateYOffset(const Vector3& direction, float off
 void PlayerAttack_3rdState::Exit(Player& player) {
 
 	// 残像表現エフェクト終了
-	std::vector<GameObject3D*> objects = {
+	std::vector<SakuEngine::GameObject3D*> objects = {
 		&player,
 		player.GetWeapon(PlayerWeaponType::Left),
 		player.GetWeapon(PlayerWeaponType::Right)
@@ -367,7 +367,7 @@ void PlayerAttack_3rdState::ImGui(const Player& player) {
 
 		ImGui::PushID(static_cast<uint32_t>(type));
 
-		ImGui::SeparatorText(EnumAdapter<PlayerWeaponType>::ToString(type));
+		ImGui::SeparatorText(SakuEngine::EnumAdapter<PlayerWeaponType>::ToString(type));
 
 		ImGui::Text(std::format("isMoveStart: {}", param.isMoveStart).c_str());
 		ImGui::DragFloat("moveValue", &param.moveValue, 0.1f);
@@ -378,25 +378,25 @@ void PlayerAttack_3rdState::ImGui(const Player& player) {
 		ImGui::PopID();
 
 		// 飛ばされる予定の剣の位置
-		Vector3 rotated = RotateYOffset(player.GetTransform().GetForward(),
+		SakuEngine::Vector3 rotated = RotateYOffset(player.GetTransform().GetForward(),
 			param.offsetRotationY);
-		Vector3 target = bossEnemy_->GetTranslation() + rotated * bossEnemyDistance_;
+		SakuEngine::Vector3 target = bossEnemy_->GetTranslation() + rotated * bossEnemyDistance_;
 		target.y = weaponPosY_;
 
-		LineRenderer::GetInstance()->DrawSphere(6,
-			8.0f, target, Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6,
+			8.0f, target, SakuEngine::Color::Cyan());
 	}
 }
 
 void PlayerAttack_3rdState::ApplyJson(const Json& data) {
 
-	nextAnimDuration_ = JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
-	rotationLerpRate_ = JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
-	exitTime_ = JsonAdapter::GetValue<float>(data, "exitTime_");
-	bossEnemyDistance_ = JsonAdapter::GetValue<float>(data, "bossEnemyDistance_");
-	weaponPosY_ = JsonAdapter::GetValue<float>(data, "weaponPosY_");
+	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
+	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
+	bossEnemyDistance_ = SakuEngine::JsonAdapter::GetValue<float>(data, "bossEnemyDistance_");
+	weaponPosY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "weaponPosY_");
 
-	dashEffectOffset_ = Vector3::FromJson(data.value("dashEffectOffset_", Json()));
+	dashEffectOffset_ = SakuEngine::Vector3::FromJson(data.value("dashEffectOffset_", Json()));
 
 	PlayerBaseAttackState::ApplyJson(data);
 
@@ -411,7 +411,7 @@ void PlayerAttack_3rdState::ApplyJson(const Json& data) {
 	if (data.contains("Weapon")) {
 		for (auto& [type, param] : weaponParams_) {
 
-			const auto& key = EnumAdapter<PlayerWeaponType>::ToString(type);
+			const auto& key = SakuEngine::EnumAdapter<PlayerWeaponType>::ToString(type);
 			param.moveValue = data["Weapon"][key]["moveValue"];
 			param.rotateSpeed = data["Weapon"][key].value("rotateSpeed", 1.0f);
 			param.offsetRotationY = data["Weapon"][key]["offsetRotationY"];
@@ -439,7 +439,7 @@ void PlayerAttack_3rdState::SaveJson(Json& data) {
 
 	for (auto& [type, param] : weaponParams_) {
 
-		const auto& key = EnumAdapter<PlayerWeaponType>::ToString(type);
+		const auto& key = SakuEngine::EnumAdapter<PlayerWeaponType>::ToString(type);
 		data["Weapon"][key]["moveValue"] = param.moveValue;
 		data["Weapon"][key]["rotateSpeed"] = param.rotateSpeed;
 		data["Weapon"][key]["offsetRotationY"] = param.offsetRotationY;

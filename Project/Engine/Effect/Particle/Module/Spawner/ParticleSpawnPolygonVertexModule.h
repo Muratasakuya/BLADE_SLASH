@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -107,7 +107,7 @@ private:
 
 	// N頂点の多角形頂点を計算
 	std::vector<Vector3> CalcVertices() const;
-	std::vector<Vector3> CalcVertices(float scale, const Vector3& rotation) const;
+	std::vector<Vector3> CalcVertices(float scale, const SakuEngine::Vector3& rotation) const;
 
 	// 1インスタンスの発生処理
 	void SpawnInstance();

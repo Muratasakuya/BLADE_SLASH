@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,7 @@
 //	プレイヤーの残像表現エフェクトの更新
 //============================================================================
 class PlayerAfterImageUpdater :
-	public IPostProcessUpdater<PlayerAfterImageForGPU> {
+	public SakuEngine::IPostProcessUpdater<SakuEngine::PlayerAfterImageForGPU> {
 public:
 	//========================================================================
 	//	public Methods
@@ -29,7 +29,7 @@ public:
 	void ImGui() override;
 
 	// 色指定して呼びだす
-	void Start(const Color& color);
+	void Start(const SakuEngine::Color& color);
 
 	// 呼び出し
 	// 開始

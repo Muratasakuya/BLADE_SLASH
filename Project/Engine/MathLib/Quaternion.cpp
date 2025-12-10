@@ -1,4 +1,4 @@
-﻿#include "Quaternion.h"
+#include "Quaternion.h"
 
 using namespace SakuEngine;
 
@@ -28,8 +28,12 @@ Quaternion Quaternion::operator-() const {
 	return { -x, -y, -z, -w };
 }
 
-Quaternion operator*(float scalar, const Quaternion& q) {
-	return { scalar * q.x,scalar * q.y ,scalar * q.z ,scalar * q.w };
+namespace SakuEngine {
+
+	Quaternion operator*(float scalar, const Quaternion& q) {
+
+		return { scalar * q.x,scalar * q.y ,scalar * q.z ,scalar * q.w };
+	}
 }
 
 Quaternion Quaternion::operator*(float scalar) const {
@@ -253,7 +257,7 @@ Quaternion Quaternion::Slerp(Quaternion q0, const Quaternion& q1, float t) {
 
 	if (dot >= 1.0f - FLT_EPSILON) {
 
-		return (1.0f - t) * q0 + t * q1;
+		return q0 * (1.0f - t) + q1 * t;
 	}
 
 	// なす角を求める

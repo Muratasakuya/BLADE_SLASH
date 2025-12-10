@@ -1,4 +1,4 @@
-﻿#include "ParticlePlaneUpdater.h"
+#include "ParticlePlaneUpdater.h"
 
 using namespace SakuEngine;
 
@@ -25,26 +25,26 @@ void ParticlePlaneUpdater::Update(CPUParticle::ParticleData& particle, EasingTyp
 	particle.primitive.plane.mode = start_.mode;
 	particle.primitive.plane.mode = target_.mode;
 
-	particle.primitive.plane.size = Vector2::Lerp(start_.size,
+	particle.primitive.plane.size = SakuEngine::Vector2::Lerp(start_.size,
 		target_.size, EasedValue(easingType, particle.progress));
 
-	particle.primitive.plane.pivot = Vector2::Lerp(start_.pivot,
+	particle.primitive.plane.pivot = SakuEngine::Vector2::Lerp(start_.pivot,
 		target_.pivot, EasedValue(easingType, particle.progress));
 
 	// 頂点カラーを更新
-	particle.primitive.plane.leftTopVertexColor = Color::Lerp(
+	particle.primitive.plane.leftTopVertexColor = SakuEngine::Color::Lerp(
 		start_.leftTopVertexColor,
 		target_.leftTopVertexColor,
 		EasedValue(easingType, particle.progress));
-	particle.primitive.plane.rightTopVertexColor = Color::Lerp(
+	particle.primitive.plane.rightTopVertexColor = SakuEngine::Color::Lerp(
 		start_.rightTopVertexColor,
 		target_.rightTopVertexColor,
 		EasedValue(easingType, particle.progress));
-	particle.primitive.plane.leftBottomVertexColor = Color::Lerp(
+	particle.primitive.plane.leftBottomVertexColor = SakuEngine::Color::Lerp(
 		start_.leftBottomVertexColor,
 		target_.leftBottomVertexColor,
 		EasedValue(easingType, particle.progress));
-	particle.primitive.plane.rightBottomVertexColor = Color::Lerp(
+	particle.primitive.plane.rightBottomVertexColor = SakuEngine::Color::Lerp(
 		start_.rightBottomVertexColor,
 		target_.rightBottomVertexColor,
 		EasedValue(easingType, particle.progress));
@@ -70,7 +70,7 @@ void ParticlePlaneUpdater::ImGui() {
 	ImGui::ColorEdit4("startRightBottomVertexColor", &start_.rightBottomVertexColor.r);
 	ImGui::ColorEdit4("targetRightBottomVertexColor", &target_.rightBottomVertexColor.r);
 
-	if (EnumAdapter<ParticlePlaneType>::Combo("planeType", &planeType_)) {
+	if (SakuEngine::EnumAdapter<ParticlePlaneType>::Combo("planeType", &planeType_)) {
 
 		start_.mode = static_cast<uint32_t>(planeType_);
 		target_.mode = static_cast<uint32_t>(planeType_);
@@ -85,7 +85,7 @@ void ParticlePlaneUpdater::FromJson(const Json& data) {
 	start_.pivot = start_.pivot.FromJson(planeData["startPivot"]);
 	target_.pivot = target_.pivot.FromJson(planeData["targetPivot"]);
 
-	const auto& planeType = EnumAdapter<ParticlePlaneType>::FromString(data["plane"]["mode"]);
+	const auto& planeType = SakuEngine::EnumAdapter<ParticlePlaneType>::FromString(data["plane"]["mode"]);
 	start_.mode = static_cast<uint32_t>(planeType.value());
 	target_.mode = static_cast<uint32_t>(planeType.value());
 	planeType_ = planeType.value();
@@ -106,7 +106,7 @@ void ParticlePlaneUpdater::ToJson(Json& data) const {
 	data["plane"]["targetSize"] = target_.size.ToJson();
 	data["plane"]["startPivot"] = start_.pivot.ToJson();
 	data["plane"]["targetPivot"] = target_.pivot.ToJson();
-	data["plane"]["mode"] = EnumAdapter<ParticlePlaneType>::ToString(planeType_);
+	data["plane"]["mode"] = SakuEngine::EnumAdapter<ParticlePlaneType>::ToString(planeType_);
 
 	data["plane"]["startLeftTopVertexColor"] = start_.leftTopVertexColor.ToJson();
 	data["plane"]["targetLeftTopVertexColor"] = target_.leftTopVertexColor.ToJson();

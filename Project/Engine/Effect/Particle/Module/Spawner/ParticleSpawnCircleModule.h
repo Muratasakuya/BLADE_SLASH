@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -92,7 +92,7 @@ private:
 	// 角度を進める
 	void UpdateAdvanceProgressive(uint32_t emitCount);
 	// 速度取得
-	Vector3 GetVelocity(uint32_t index, uint32_t emitCount, const Vector3& direction) const;
+	Vector3 GetVelocity(uint32_t index, uint32_t emitCount, const SakuEngine::Vector3& direction) const;
 };
 
 }; // SakuEngine

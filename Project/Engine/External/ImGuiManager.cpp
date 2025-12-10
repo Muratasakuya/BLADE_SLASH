@@ -1,4 +1,6 @@
-﻿#include "ImGuiManager.h"
+#include "ImGuiManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

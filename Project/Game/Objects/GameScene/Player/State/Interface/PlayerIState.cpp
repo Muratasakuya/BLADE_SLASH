@@ -1,4 +1,4 @@
-﻿#include "PlayerIState.h"
+#include "PlayerIState.h"
 
 //============================================================================
 //	include
@@ -14,36 +14,36 @@
 PlayerIState::PlayerIState() {
 
 	postProcess_ = nullptr;
-	postProcess_ = PostProcessSystem::GetInstance();
+	postProcess_ = SakuEngine::PostProcessSystem::GetInstance();
 }
 
-void PlayerIState::SetRotateToDirection(Player& player, const Vector3& move) {
+void PlayerIState::SetRotateToDirection(Player& player, const SakuEngine::Vector3& move) {
 
-	Vector3 direction = Vector3(move.x, 0.0f, move.z).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(move.x, 0.0f, move.z).Normalize();
 
 	if (direction.Length() <= epsilon_) {
 		return;
 	}
 
 	// 向きを計算
-	Quaternion targetRotation = Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
-	Quaternion rotation = player.GetRotation();
-	rotation = Quaternion::Slerp(rotation, targetRotation, rotationLerpRate_);
+	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+	SakuEngine::Quaternion rotation = player.GetRotation();
+	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation, rotationLerpRate_);
 	player.SetRotation(rotation);
 }
 
-Vector3 PlayerIState::GetPlayerFixedYPos() const {
+SakuEngine::Vector3 PlayerIState::GetPlayerFixedYPos() const {
 
-	Vector3 translation = player_->GetTranslation();
+	SakuEngine::Vector3 translation = player_->GetTranslation();
 	// Y座標を固定
 	translation.y = 0.0f;
 
 	return translation;
 }
 
-Vector3 PlayerIState::GetBossEnemyFixedYPos() const {
+SakuEngine::Vector3 PlayerIState::GetBossEnemyFixedYPos() const {
 
-	Vector3 translation = bossEnemy_->GetTranslation();
+	SakuEngine::Vector3 translation = bossEnemy_->GetTranslation();
 	// Y座標を固定
 	translation.y = 0.0f;
 
@@ -53,13 +53,13 @@ Vector3 PlayerIState::GetBossEnemyFixedYPos() const {
 float PlayerIState::GetDistanceToBossEnemy() const {
 
 	// プレイヤーとボス敵の距離を取得
-	float distance = Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Length();
+	float distance = SakuEngine::Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Length();
 	return distance;
 }
 
-Vector3 PlayerIState::GetDirectionToBossEnemy() const {
+SakuEngine::Vector3 PlayerIState::GetDirectionToBossEnemy() const {
 
 	// プレイヤーからボス敵への方向を取得
-	Vector3 direction = Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Normalize();
 	return direction;
 }

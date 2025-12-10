@@ -1,4 +1,4 @@
-﻿#include "GameTimerDisplay.h"
+#include "GameTimerDisplay.h"
 
 //============================================================================
 //	GameTimerDisplay classMethods
@@ -17,7 +17,7 @@ void GameTimerDisplay::Init(const std::string& pattern, const std::string& digit
 	for (const auto& cPattern : pattern) {
 
 		Element element;
-		element.sprite = std::make_unique<GameObject2D>();
+		element.sprite = std::make_unique<SakuEngine::GameObject2D>();
 		std::string tag = name + "_" + std::to_string(++index);
 
 		// 数字の場合の作成処理
@@ -28,8 +28,8 @@ void GameTimerDisplay::Init(const std::string& pattern, const std::string& digit
 			element.sprite->Init(digits, tag, groupName);
 			element.sprite->SetSize(digitSize_);
 			element.sprite->SetTextureSize(digitSize_);
-			element.sprite->SetTextureLeftTop(Vector2::AnyInit(0.0f));
-			offsets_.emplace_back(Vector2(cursorX, 0.0f));
+			element.sprite->SetTextureLeftTop(SakuEngine::Vector2::AnyInit(0.0f));
+			offsets_.emplace_back(SakuEngine::Vector2(cursorX, 0.0f));
 
 			// 次の数字にオフセットを取る
 			cursorX += digitSize_.x + space;
@@ -46,13 +46,13 @@ void GameTimerDisplay::Init(const std::string& pattern, const std::string& digit
 			auto it = charIndex_.find(cPattern);
 			if (it != charIndex_.end()) {
 
-				element.sprite->SetTextureLeftTop(Vector2(symbolSize_.x * it->second, 0.0f));
+				element.sprite->SetTextureLeftTop(SakuEngine::Vector2(symbolSize_.x * it->second, 0.0f));
 			} else {
 
 				// 何の記号でない場合エラー
-				ASSERT(FALSE, cPattern + ": this symbol is Unusable");
+				SakuEngine::ASSERT(FALSE, cPattern + ": this symbol is Unusable");
 			}
-			offsets_.emplace_back(Vector2(cursorX, 0.0f));
+			offsets_.emplace_back(SakuEngine::Vector2(cursorX, 0.0f));
 
 			// 次の数字にオフセットを取る
 			cursorX += symbolSize_.x + space;
@@ -91,11 +91,11 @@ void GameTimerDisplay::Update(float second) {
 		}
 
 		int digit = digitsString[pos++] - '0';
-		element.sprite->SetTextureLeftTop(Vector2(digitSize_.x * digit, 0.0f));
+		element.sprite->SetTextureLeftTop(SakuEngine::Vector2(digitSize_.x * digit, 0.0f));
 	}
 }
 
-void GameTimerDisplay::SetSpriteLayer(SpriteLayer layer) {
+void GameTimerDisplay::SetSpriteLayer(SakuEngine::SpriteLayer layer) {
 
 	for (size_t i = 0; i < elements_.size(); ++i) {
 
@@ -103,7 +103,7 @@ void GameTimerDisplay::SetSpriteLayer(SpriteLayer layer) {
 	}
 }
 
-void GameTimerDisplay::SetTranslation(const Vector2& translation) {
+void GameTimerDisplay::SetTranslation(const SakuEngine::Vector2& translation) {
 
 	for (size_t i = 0; i < elements_.size(); ++i) {
 
@@ -111,15 +111,15 @@ void GameTimerDisplay::SetTranslation(const Vector2& translation) {
 	}
 }
 
-void GameTimerDisplay::SetOffset(const Vector2& offset) {
+void GameTimerDisplay::SetOffset(const SakuEngine::Vector2& offset) {
 
 	for (size_t i = 0; i < offsets_.size(); ++i) {
 
-		offsets_[i] = baseOffsets_[i] + Vector2(offset.x * i, offset.y);
+		offsets_[i] = baseOffsets_[i] + SakuEngine::Vector2(offset.x * i, offset.y);
 	}
 }
 
-void GameTimerDisplay::SetElementOffset(uint32_t index, const Vector2& offset) {
+void GameTimerDisplay::SetElementOffset(uint32_t index, const SakuEngine::Vector2& offset) {
 
 	if (index < offsets_.size()) {
 
@@ -127,7 +127,7 @@ void GameTimerDisplay::SetElementOffset(uint32_t index, const Vector2& offset) {
 	}
 }
 
-void GameTimerDisplay::SetElementSize(uint32_t index, const Vector2& size) {
+void GameTimerDisplay::SetElementSize(uint32_t index, const SakuEngine::Vector2& size) {
 
 	if (index < elements_.size()) {
 
@@ -135,7 +135,7 @@ void GameTimerDisplay::SetElementSize(uint32_t index, const Vector2& size) {
 	}
 }
 
-void GameTimerDisplay::SetTimerSize(const Vector2& size) {
+void GameTimerDisplay::SetTimerSize(const SakuEngine::Vector2& size) {
 
 	for (size_t i = 0; i < elements_.size(); ++i) {
 		if (elements_[i].isDigit) {
@@ -145,7 +145,7 @@ void GameTimerDisplay::SetTimerSize(const Vector2& size) {
 	}
 }
 
-void GameTimerDisplay::SetSymbolSize(const Vector2& size) {
+void GameTimerDisplay::SetSymbolSize(const SakuEngine::Vector2& size) {
 
 	for (size_t i = 0; i < elements_.size(); ++i) {
 		if (!elements_[i].isDigit) {
@@ -182,9 +182,9 @@ void GameTimerDisplay::SetPostProcessEnable(bool enable) {
 void GameTimerDisplay::GetDigitSize(const std::string& name) {
 
 	// 仮作成して画像サイズを取得して破棄する
-	std::unique_ptr<GameObject2D> dummy = std::make_unique<GameObject2D>();
+	std::unique_ptr<SakuEngine::GameObject2D> dummy = std::make_unique<SakuEngine::GameObject2D>();
 	dummy->Init(name, name + "Dummy", "DummyGroup");
-	const Vector2 textureSize = dummy->GetTextureSize();
+	const SakuEngine::Vector2 textureSize = dummy->GetTextureSize();
 	digitSize_ = { textureSize.x / 10.0f, textureSize.y };
 
 	// 画像サイズを取得したので破棄
@@ -194,9 +194,9 @@ void GameTimerDisplay::GetDigitSize(const std::string& name) {
 void GameTimerDisplay::GetSymbolSize(const std::string& name) {
 
 	// 仮作成して画像サイズを取得して破棄する
-	std::unique_ptr<GameObject2D> dummy = std::make_unique<GameObject2D>();
+	std::unique_ptr<SakuEngine::GameObject2D> dummy = std::make_unique<SakuEngine::GameObject2D>();
 	dummy->Init(name, name + "Dummy", "DummyGroup");
-	const Vector2 textureSize = dummy->GetTextureSize();
+	const SakuEngine::Vector2 textureSize = dummy->GetTextureSize();
 	symbolSize_ = { textureSize.x / static_cast<float>(charIndex_.size()),textureSize.y };
 
 	// 画像サイズを取得したので破棄

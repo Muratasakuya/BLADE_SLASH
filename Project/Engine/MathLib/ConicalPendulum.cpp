@@ -1,4 +1,4 @@
-﻿#include "ConicalPendulum.h"
+#include "ConicalPendulum.h"
 
 using namespace SakuEngine;
 
@@ -39,7 +39,7 @@ void ConicalPendulum::Reset(bool isStartMin) {
 
 		// minAngleからmaxAngle
 		angle = minAngle;
-		angularVelocity = 1.0f; 
+		angularVelocity = 1.0f;
 	} else {
 
 		// maxAngleからminAngle
@@ -101,7 +101,7 @@ void ConicalPendulum::Update() {
 		angularVelocity = -angularSpeed;
 	}
 	// 角度を更新
-	angle += angularVelocity * GameTimer::GetDeltaTime();
+	angle += angularVelocity * SakuEngine::GameTimer::GetDeltaTime();
 	if (angle > maxAngle) {
 
 		// ここで反転
@@ -161,17 +161,17 @@ void ConicalPendulum::Update() {
 
 void ConicalPendulum::DrawDebugLine() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	// 支点から現在位置への線を描画
-	lineRenderer->DrawLine3D(anchor, currentPos, Color::Cyan());
+	lineRenderer->DrawLine3D(anchor, currentPos, SakuEngine::Color::Cyan());
 
 	// アンカー位置、現在位置を球で描画
-	lineRenderer->DrawSphere(6, 0.4f, anchor, Color::Cyan());
-	lineRenderer->DrawSphere(6, 0.4f, currentPos, Color::Cyan());
+	lineRenderer->DrawSphere(6, 0.4f, anchor, SakuEngine::Color::Cyan());
+	lineRenderer->DrawSphere(6, 0.4f, currentPos, SakuEngine::Color::Cyan());
 	// 最小角度位置と最大角度位置を球で描画
-	lineRenderer->DrawSphere(6, 0.4f, GetMinPos(), Color::Cyan());
-	lineRenderer->DrawSphere(6, 0.4f, GetMaxPos(), Color::Cyan());
+	lineRenderer->DrawSphere(6, 0.4f, GetMinPos(), SakuEngine::Color::Cyan());
+	lineRenderer->DrawSphere(6, 0.4f, GetMaxPos(), SakuEngine::Color::Cyan());
 
 	// 円錐振り子の円の半径と高さ
 	float radius = std::sin(halfApexAngle) * length;
@@ -247,8 +247,8 @@ void ConicalPendulum::FromJson(const Json& data) {
 		return;
 	}
 
-	anchor = Vector3::FromJson(data.value("anchor", Json()));
-	currentPos = Vector3::FromJson(data.value("currentPos", Json()));
+	anchor = SakuEngine::Vector3::FromJson(data.value("anchor", Json()));
+	currentPos = SakuEngine::Vector3::FromJson(data.value("currentPos", Json()));
 	length = data["length"];
 	halfApexAngle = data["halfApexAngle"];
 	angle = data["angle"];
@@ -256,7 +256,7 @@ void ConicalPendulum::FromJson(const Json& data) {
 	moveSpeed = data.value("moveSpeed", 1.0f);
 	minAngle = data["minAngle"];
 	maxAngle = data["maxAngle"];
-	easingType = EnumAdapter<EasingType>::FromString(data.value("easingType", "Linear")).value();
+	easingType = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType", "Linear")).value();
 }
 
 void ConicalPendulum::ToJson(Json& data) {
@@ -270,5 +270,5 @@ void ConicalPendulum::ToJson(Json& data) {
 	data["moveSpeed"] = moveSpeed;
 	data["minAngle"] = minAngle;
 	data["maxAngle"] = maxAngle;
-	data["easingType"] = EnumAdapter<EasingType>::ToString(easingType);
+	data["easingType"] = SakuEngine::EnumAdapter<EasingType>::ToString(easingType);
 }

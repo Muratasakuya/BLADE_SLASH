@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -41,7 +41,7 @@ public:
 		SRVDescriptor* srvDescriptor, uint32_t width, uint32_t height);
 
 	// 色バッファを追加し、プライマリを設定する
-	void AddColorTarget(DXGI_FORMAT format, const Color& color);
+	void AddColorTarget(DXGI_FORMAT format, const SakuEngine::Color& color);
 	// マスク用バッファを追加する
 	void AddMaskTarget(DXGI_FORMAT format);
 
@@ -77,7 +77,7 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// 内部ヘルパ: 指定フォーマット/クリア色で1アタッチメントを追加する
-	void AddAttachment(DXGI_FORMAT format, const Color& color);
+	void AddAttachment(DXGI_FORMAT format, const SakuEngine::Color& color);
 };
 
 }; // SakuEngine

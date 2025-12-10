@@ -1,4 +1,4 @@
-﻿#include "SerialUVScroll.h"
+#include "SerialUVScroll.h"
 
 using namespace SakuEngine;
 
@@ -152,19 +152,19 @@ void SerialUVScroll::ImGui() {
 	{
 		ImGui::SeparatorText("Traverse");
 
-		if (EnumAdapter<StartCorner>::Combo("StartCorner", &startCorner_)) {
+		if (SakuEngine::EnumAdapter<StartCorner>::Combo("StartCorner", &startCorner_)) {
 
 			dirty_ = true;
 		}
-		if (EnumAdapter<HorizontalDirection>::Combo("Horizontal", &horizontal_)) {
+		if (SakuEngine::EnumAdapter<HorizontalDirection>::Combo("Horizontal", &horizontal_)) {
 
 			dirty_ = true;
 		}
-		if (EnumAdapter<VerticalDirection>::Combo("Vertical", &vertical_)) {
+		if (SakuEngine::EnumAdapter<VerticalDirection>::Combo("Vertical", &vertical_)) {
 
 			dirty_ = true;
 		}
-		if (EnumAdapter<Traverse>::Combo("Traverse", &traverse_)) {
+		if (SakuEngine::EnumAdapter<Traverse>::Combo("Traverse", &traverse_)) {
 
 			dirty_ = true;
 		}
@@ -214,10 +214,10 @@ void SerialUVScroll::FromJson(const Json& data) {
 	gapSize_.x = data["gapSize_.x"];
 	gapSize_.y = data["gapSize_.y"];
 
-	startCorner_ = EnumAdapter<StartCorner>::FromString(data["startCorner_"]).value();
-	horizontal_ = EnumAdapter<HorizontalDirection>::FromString(data["horizontal_"]).value();
-	vertical_ = EnumAdapter<VerticalDirection>::FromString(data["vertical_"]).value();
-	traverse_ = EnumAdapter<Traverse>::FromString(data["traverse_"]).value();
+	startCorner_ = SakuEngine::EnumAdapter<StartCorner>::FromString(data["startCorner_"]).value();
+	horizontal_ = SakuEngine::EnumAdapter<HorizontalDirection>::FromString(data["horizontal_"]).value();
+	vertical_ = SakuEngine::EnumAdapter<VerticalDirection>::FromString(data["vertical_"]).value();
+	traverse_ = SakuEngine::EnumAdapter<Traverse>::FromString(data["traverse_"]).value();
 	horizontalCounts_ = data["horizontalCounts_"].get<std::vector<int>>();
 }
 
@@ -237,9 +237,9 @@ void SerialUVScroll::ToJson(Json& data) const {
 	data["gapSize_.x"] = gapSize_.x;
 	data["gapSize_.y"] = gapSize_.y;
 
-	data["startCorner_"] = EnumAdapter<StartCorner>::ToString(startCorner_);
-	data["horizontal_"] = EnumAdapter<HorizontalDirection>::ToString(horizontal_);
-	data["vertical_"] = EnumAdapter<VerticalDirection>::ToString(vertical_);
-	data["traverse_"] = EnumAdapter<Traverse>::ToString(traverse_);
+	data["startCorner_"] = SakuEngine::EnumAdapter<StartCorner>::ToString(startCorner_);
+	data["horizontal_"] = SakuEngine::EnumAdapter<HorizontalDirection>::ToString(horizontal_);
+	data["vertical_"] = SakuEngine::EnumAdapter<VerticalDirection>::ToString(vertical_);
+	data["traverse_"] = SakuEngine::EnumAdapter<Traverse>::ToString(traverse_);
 	data["horizontalCounts_"] = horizontalCounts_;
 }

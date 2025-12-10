@@ -1,4 +1,4 @@
-﻿#include "CPUParticleGroup.h"
+#include "CPUParticleGroup.h"
 
 using namespace SakuEngine;
 
@@ -86,7 +86,7 @@ void CPUParticleGroup::Update() {
 
 void CPUParticleGroup::FrequencyEmit() {
 
-	const float deltaTime = GameTimer::GetDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 
 	for (auto& phase : phases_) {
 
@@ -130,7 +130,7 @@ void CPUParticleGroup::UpdatePhase() {
 		return;
 	}
 
-	const float deltaTime = GameTimer::GetDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 
 	// particleの数を最大数に制限する
 	if (createParticleInstanceCount_ < particles_.size()) {
@@ -190,7 +190,7 @@ void CPUParticleGroup::UpdatePhase() {
 							// 描画するかしないかでスケールを設定
 							// trueならそのまま、falseなら0.0f
 							it->transform.scale = trailModule->IsLifeEndDrawOrigin() ?
-								it->transform.scale : Vector3::AnyInit(0.0f);
+								it->transform.scale : SakuEngine::Vector3::AnyInit(0.0f);
 						} else {
 
 							it = particles_.erase(it);
@@ -234,7 +234,7 @@ void CPUParticleGroup::UpdatePhase() {
 					// 描画するかしないかでスケールを設定
 					// trueならそのまま、falseなら0.0f
 					it->transform.scale = trailModule->IsLifeEndDrawOrigin() ?
-						it->transform.scale : Vector3::AnyInit(0.0f);
+						it->transform.scale : SakuEngine::Vector3::AnyInit(0.0f);
 				} else {
 
 					it = particles_.erase(it);
@@ -535,7 +535,7 @@ void CPUParticleGroup::ImGui() {
 
 		ImGui::PushItemWidth(160.0f);
 
-		EnumAdapter<BlendMode>::Combo("blendMode", &blendMode_);
+		SakuEngine::EnumAdapter<BlendMode>::Combo("blendMode", &blendMode_);
 		ImGui::DragInt("gameMaxParticleCount", &gameMaxParticleCount_, 1, 0, kMaxCPUParticles);
 
 		phases_[selectedPhase_]->ImGui();
@@ -553,8 +553,8 @@ Json CPUParticleGroup::ToJson() const {
 	//	GroupParameters
 	//============================================================================
 
-	data["primitive"] = EnumAdapter<ParticlePrimitiveType>::ToString(primitiveBuffer_.type);
-	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
+	data["primitive"] = SakuEngine::EnumAdapter<ParticlePrimitiveType>::ToString(primitiveBuffer_.type);
+	data["blendMode"] = SakuEngine::EnumAdapter<BlendMode>::ToString(blendMode_);
 
 	data["textureName"] = textureName_;
 	data["modelName"] = modelName_;
@@ -577,9 +577,9 @@ void CPUParticleGroup::FromJson(const Json& data, Asset* asset) {
 	//	GroupParameters
 	//============================================================================
 
-	const auto& primitive = EnumAdapter<ParticlePrimitiveType>::FromString(data["primitive"]);
+	const auto& primitive = SakuEngine::EnumAdapter<ParticlePrimitiveType>::FromString(data["primitive"]);
 	primitiveBuffer_.type = primitive.value();
-	const auto& blendMode = EnumAdapter<BlendMode>::FromString(data["blendMode"]);
+	const auto& blendMode = SakuEngine::EnumAdapter<BlendMode>::FromString(data["blendMode"]);
 	blendMode_ = blendMode.value();
 
 	textureName_ = data.value("textureName", "circle");

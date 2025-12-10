@@ -1,4 +1,4 @@
-﻿#include "FadeSprite.h"
+#include "FadeSprite.h"
 
 //============================================================================
 //	include
@@ -15,8 +15,8 @@ void FadeSprite::DerivedInit() {
 
 	// 初期設定
 	SetCenterTranslation();
-	SetSize(Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
-	SetColor(Color::Convert(0x02020200));
+	SetSize(SakuEngine::Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
+	SetColor(SakuEngine::Color::Convert(0x02020200));
 
 	// json適応
 	ApplyJson();
@@ -96,7 +96,7 @@ void FadeSprite::DerivedImGui() {
 		SaveJson();
 	}
 
-	EnumAdapter<State>::Combo("currentState", &currentState_);
+	SakuEngine::EnumAdapter<State>::Combo("currentState", &currentState_);
 	ImGui::Checkbox("disableTransition", &disableTransition_);
 
 	beginTimer_.ImGui("Begin");
@@ -107,7 +107,7 @@ void FadeSprite::DerivedImGui() {
 void FadeSprite::ApplyJson() {
 
 	Json data;
-	if (!JsonAdapter::LoadCheck("SpriteEffect/fadeSprite.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("SpriteEffect/fadeSprite.json", data)) {
 		return;
 	}
 
@@ -124,5 +124,5 @@ void FadeSprite::SaveJson() {
 	waitTimer_.ToJson(data["waitTimer_"]);
 	endTimer_.ToJson(data["endTimer_"]);
 
-	JsonAdapter::Save("SpriteEffect/fadeSprite.json", data);
+	SakuEngine::JsonAdapter::Save("SpriteEffect/fadeSprite.json", data);
 }

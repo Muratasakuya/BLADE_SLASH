@@ -1,4 +1,4 @@
-﻿#include "MeshRegistry.h"
+#include "MeshRegistry.h"
 
 using namespace SakuEngine;
 
@@ -26,7 +26,7 @@ void MeshRegistry::RegisterMesh(const std::string& modelName,
 	bool isSkinned, uint32_t numInstance) {
 
 	// 作成済みの場合生成しない
-	if (Algorithm::Find(meshes_, modelName)) {
+	if (SakuEngine::Algorithm::Find(meshes_, modelName)) {
 		return;
 	}
 

@@ -1,13 +1,13 @@
-﻿#include "EndGameState.h"
+#include "EndGameState.h"
 
 //============================================================================
 //	EndGameState classMethods
 //============================================================================
 
-void EndGameState::Init([[maybe_unused]] SceneView* sceneView) {
+void EndGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 }
 
-void EndGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
+void EndGameState::Update([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 
 	const GameSceneState currentState = GameSceneState::EndGame;
 
@@ -28,5 +28,5 @@ void EndGameState::Update([[maybe_unused]] SceneManager* sceneManager) {
 	}
 }
 
-void EndGameState::NonActiveUpdate([[maybe_unused]] SceneManager* sceneManager) {
+void EndGameState::NonActiveUpdate([[maybe_unused]] SakuEngine::SceneManager* sceneManager) {
 }

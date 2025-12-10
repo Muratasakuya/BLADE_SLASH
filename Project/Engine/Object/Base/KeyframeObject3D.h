@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -50,7 +50,7 @@ public:
 	void ToJson(Json& data);
 
 	// 補間開始、初期値が入っていれば最初のキーにする
-	void StartLerp(const std::optional<Transform3D>& transform = std::nullopt,
+	void StartLerp(const std::optional<SakuEngine::Transform3D>& transform = std::nullopt,
 		const std::optional<std::vector<AnyValue>>& anyValues = std::nullopt);
 	// 補間のリセット、終了
 	void Reset();
@@ -61,23 +61,23 @@ public:
 	//--------- accessor ----------------------------------------------------
 
 	// 親の設定
-	void SetParent(const std::string& name, const Transform3D& parent);
+	void SetParent(const std::string& name, const SakuEngine::Transform3D& parent);
 
 	// 再生中かどうか
 	bool IsUpdating() const { return currentState_ == State::Updating; }
 
 	// 最初、最後のキーのトランスフォームを返す
-	const Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
-	const Transform3D& GetLastKeyTransform() const { return keys_.back().transform; }
+	const SakuEngine::Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
+	const SakuEngine::Transform3D& GetLastKeyTransform() const { return keys_.back().transform; }
 
 	// 指定インデックス番目のトランスフォームを返す
-	const Transform3D& GetIndexTransform(uint32_t index) const;
-	const Transform3D& GetIndexKeyTransform(uint32_t index) const;
+	const SakuEngine::Transform3D& GetIndexTransform(uint32_t index) const;
+	const SakuEngine::Transform3D& GetIndexKeyTransform(uint32_t index) const;
 	// 指定インデックス番目の任意の型の現在の値を返す
 	AnyValue GetIndexAnyValue(uint32_t index, const std::string& name) const;
 
 	// 現在のトランスフォームを返す
-	const Transform3D& GetCurrentTransform() const { return currentTransform_; }
+	const SakuEngine::Transform3D& GetCurrentTransform() const { return currentTransform_; }
 	// 追加されている任意の型の現在の値を返す
 	AnyValue GetCurrentAnyValue(const std::string& name) const;
 
@@ -117,7 +117,7 @@ private:
 	// キー情報
 	struct Key {
 
-		Transform3D transform; // トランスフォーム
+		SakuEngine::Transform3D transform; // トランスフォーム
 		float time;            // 時間
 		EasingType easeType;   // イージング
 
@@ -129,7 +129,7 @@ private:
 	struct Runtime {
 
 		bool hasStartKey = false;              // スタート値を使うかどうか
-		Transform3D startTransform;            // スタート時のTransform
+		SakuEngine::Transform3D startTransform;            // スタート時のTransform
 		std::vector<AnyValue> startAnyValues;  // スタート時の任意値
 	};
 
@@ -158,7 +158,7 @@ private:
 
 	// 親トランスフォーム、回転と座標
 	std::string parentName_;
-	const Transform3D* parent_ = nullptr;
+	const SakuEngine::Transform3D* parent_ = nullptr;
 
 	// キー情報
 	std::vector<Key> keys_;
@@ -166,7 +166,7 @@ private:
 	std::vector<AnyTrack> anyTracks_;
 
 	// 現在のトランスフォーム
-	Transform3D currentTransform_;
+	SakuEngine::Transform3D currentTransform_;
 	// 現在の任意な型の値
 	std::vector<AnyValue> currentAnyValues_;
 
@@ -199,7 +199,7 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// キーオブジェクトの作成
-	std::unique_ptr<GameObject3D> CreateKeyObject(const Transform3D& transform);
+	std::unique_ptr<GameObject3D> CreateKeyObject(const SakuEngine::Transform3D& transform);
 
 	// キートランスフォームの取得
 	std::vector<Vector3> GetScales() const;

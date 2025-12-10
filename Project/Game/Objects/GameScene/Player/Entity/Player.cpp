@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+#include "Player.h"
 
 //============================================================================
 //	include
@@ -65,8 +65,8 @@ void Player::InitAnimations() {
 void Player::InitCollision() {
 
 	// OBBで設定
-	CollisionBody* body = bodies_.emplace_back(Collider::AddCollider(CollisionShape::OBB().Default()));
-	bodyOffsets_.emplace_back(CollisionShape::OBB().Default());
+	SakuEngine::CollisionBody* body = bodies_.emplace_back(Collider::AddCollider(SakuEngine::CollisionShape::OBB().Default()));
+	bodyOffsets_.emplace_back(SakuEngine::CollisionShape::OBB().Default());
 
 	// タイプ設定
 	body->SetType(ColliderType::Type_Player);
@@ -102,7 +102,7 @@ void Player::InitHUD() {
 void Player::InitEffects() {
 
 	// 回避エフェクトの初期化
-	avoidEffect_ = std::make_unique<EffectGroup>();
+	avoidEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	avoidEffect_->Init("avoidEffect", "PlayerEffect");
 	avoidEffect_->LoadJson("GameEffectGroup/Player/playerAvoidEffect.json");
 }
@@ -177,22 +177,22 @@ void Player::SetReverseWeapon(bool isReverse, PlayerWeaponType type) {
 	if (isReverse) {
 		if (type == PlayerWeaponType::Left) {
 
-			leftWeapon_->SetRotation(Quaternion::MakeAxisAngle(
-				Vector3(1.0f, 0.0f, 0.0f), pi));
+			leftWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
+				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), SakuEngine::pi));
 		} else {
 
-			rightWeapon_->SetRotation(Quaternion::MakeAxisAngle(
-				Vector3(1.0f, 0.0f, 0.0f), pi));
+			rightWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
+				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), SakuEngine::pi));
 		}
 	} else {
 		if (type == PlayerWeaponType::Left) {
 
-			leftWeapon_->SetRotation(Quaternion::MakeAxisAngle(
-				Vector3(1.0f, 0.0f, 0.0f), 0.0f));
+			leftWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
+				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 		} else {
 
-			rightWeapon_->SetRotation(Quaternion::MakeAxisAngle(
-				Vector3(1.0f, 0.0f, 0.0f), 0.0f));
+			rightWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
+				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 		}
 	}
 }
@@ -237,11 +237,11 @@ int Player::GetDamage() const {
 	PlayerState currentState = stateController_->GetCurrentState();
 
 	// ダメージを与えられる状態か確認してから設定
-	if (Algorithm::Find(stats_.damages, currentState)) {
+	if (SakuEngine::Algorithm::Find(stats_.damages, currentState)) {
 
 		int damage = stats_.damages.at(currentState);
 		// ランダムでダメージを設定
-		damage = RandomGenerator::Generate(damage - stats_.damageRandomRange,
+		damage = SakuEngine::RandomGenerator::Generate(damage - stats_.damageRandomRange,
 			damage + stats_.damageRandomRange);
 		return damage;
 	}
@@ -284,7 +284,7 @@ void Player::Update() {
 	avoidEffect_->Update();
 
 	// 入力で攻撃を無効化できるようにする
-	if (Input::GetInstance()->TriggerKey(DIK_F9)) {
+	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_F9)) {
 
 		isInvincible_ = !isInvincible_;
 	}
@@ -353,7 +353,7 @@ void Player::CheckBossEnemyParry() {
 	}
 }
 
-void Player::OnCollisionEnter(const CollisionBody* collisionBody) {
+void Player::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 
 	// パリィ処理中なら攻撃を受けない
 	if (stateController_->IsActiveParry()) {
@@ -368,9 +368,9 @@ void Player::OnCollisionEnter(const CollisionBody* collisionBody) {
 		if (stateController_->IsAvoidance()) {
 
 			// 回避エフェクトを出す
-			PostProcessSystem::GetInstance()->Start(PostProcessType::Grayscale);
+			SakuEngine::PostProcessSystem::GetInstance()->Start(PostProcessType::Grayscale);
 
-			Vector3 playerPos = transform_->translation;
+			SakuEngine::Vector3 playerPos = transform_->translation;
 			avoidEffect_->Emit(playerPos);
 			return;
 		}
@@ -409,9 +409,9 @@ void Player::DerivedImGui() {
 			ImGui::DragInt("Cur SP", &stats_.currentSkilPoint, 1, 0, stats_.maxSkilPoint);
 
 			// 各stateダメージの値を調整
-			EnumAdapter<PlayerState>::Combo("EditDamage", &editingState_);
+			SakuEngine::EnumAdapter<PlayerState>::Combo("EditDamage", &editingState_);
 
-			ImGui::SeparatorText(EnumAdapter<PlayerState>::ToString(editingState_));
+			ImGui::SeparatorText(SakuEngine::EnumAdapter<PlayerState>::ToString(editingState_));
 			ImGui::DragInt("Damage", &stats_.damages[editingState_], 1, 0);
 			ImGui::DragInt("DamageRange", &stats_.damageRandomRange, 1, 0);
 			ImGui::DragInt("toughness", &stats_.toughness, 1, 0);
@@ -478,7 +478,7 @@ void Player::ClampInitPosY() {
 
 void Player::ApplyJson() {
 
-	if (!JsonAdapter::LoadCheck("Player/initParameter.json", cacheJsonData_)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck("Player/initParameter.json", cacheJsonData_)) {
 		return;
 	}
 
@@ -495,8 +495,8 @@ void Player::ApplyJson() {
 	// 衝突
 	attackCollision_->ApplyJson(cacheJsonData_["AttackCollision"]);
 
-	stats_.maxHP = JsonAdapter::GetValue<int>(cacheJsonData_, "maxHP");
-	stats_.maxSkilPoint = JsonAdapter::GetValue<int>(cacheJsonData_, "maxSkilPoint");
+	stats_.maxHP = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxHP");
+	stats_.maxSkilPoint = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxSkilPoint");
 	// 初期化時は最大と同じ値にする
 	stats_.currentHP = stats_.maxHP;
 	stats_.currentSkilPoint = stats_.maxSkilPoint;
@@ -507,8 +507,8 @@ void Player::ApplyJson() {
 		stats_.damages[state] = value.get<int>();
 	}
 
-	stats_.damageRandomRange = JsonAdapter::GetValue<int>(cacheJsonData_, "DamageRandomRange");
-	stats_.toughness = JsonAdapter::GetValue<int>(cacheJsonData_, "toughness");
+	stats_.damageRandomRange = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "DamageRandomRange");
+	stats_.toughness = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "toughness");
 }
 
 void Player::SaveJson() {
@@ -536,5 +536,5 @@ void Player::SaveJson() {
 	data["DamageRandomRange"] = stats_.damageRandomRange;
 	data["toughness"] = stats_.toughness;
 
-	JsonAdapter::Save("Player/initParameter.json", data);
+	SakuEngine::JsonAdapter::Save("Player/initParameter.json", data);
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -40,8 +40,8 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// parameters
-	Vector3 offsetTranslation_; // 追従相手との距離
-	Vector3 interTarget_;       // 追従中間target位置
+	SakuEngine::Vector3 offsetTranslation_; // 追従相手との距離
+	SakuEngine::Vector3 interTarget_;       // 追従中間target位置
 	float lerpRate_;            // 補間割合
 
 	float fovYLerpTimer_; // 画角遷移経過時間

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -19,10 +19,10 @@ public:
 	PauseState(GameContext* context) :IGameSceneState(context) {}
 	~PauseState() = default;
 
-	void Init(SceneView* sceneView) override;
+	void Init(SakuEngine::SceneView* sceneView) override;
 
-	void Update(SceneManager* sceneManager) override;
-	void NonActiveUpdate(SceneManager* sceneManager) override;
+	void Update(SakuEngine::SceneManager* sceneManager) override;
+	void NonActiveUpdate(SakuEngine::SceneManager* sceneManager) override;
 private:
 	//========================================================================
 	//	private Methods

@@ -1,4 +1,4 @@
-﻿#include "CRTDisplayUpdater.h"
+#include "CRTDisplayUpdater.h"
 
 //============================================================================
 //	include
@@ -22,7 +22,7 @@ void CRTDisplayUpdater::Start() {
 void CRTDisplayUpdater::Update() {
 
 	// 時間の更新
-	bufferData_.time += GameTimer::GetScaledDeltaTime();
+	bufferData_.time += SakuEngine::GameTimer::GetScaledDeltaTime();
 }
 
 void CRTDisplayUpdater::ImGui() {
@@ -32,7 +32,7 @@ void CRTDisplayUpdater::ImGui() {
 
 	ImGui::PushItemWidth(192.0f);
 
-	EnumAdapter<State>::Combo("currentState", &currentState_);
+	SakuEngine::EnumAdapter<State>::Combo("currentState", &currentState_);
 
 	bufferData_.ImGui();
 
@@ -46,7 +46,7 @@ void CRTDisplayUpdater::ApplyJson() {
 		return;
 	}
 
-	bufferData_.resolution = Vector2::FromJson(data.value("resolution", Json()));
+	bufferData_.resolution = SakuEngine::Vector2::FromJson(data.value("resolution", Json()));
 	bufferData_.barrel = data.value("barrel", bufferData_.barrel);
 	bufferData_.zoom = data.value("zoom", bufferData_.zoom);
 	bufferData_.cornerRadius = data.value("cornerRadius", bufferData_.cornerRadius);

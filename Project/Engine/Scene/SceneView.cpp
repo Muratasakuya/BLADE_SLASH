@@ -1,4 +1,4 @@
-﻿#include "SceneView.h"
+#include "SceneView.h"
 
 using namespace SakuEngine;
 
@@ -200,7 +200,7 @@ void SceneView::SetGameCamera(BaseCamera* gameCamera) {
 void SceneView::AddSceneCamera(const std::string& name, BaseCamera* sceneCamera) {
 
 	// すでに追加済みの場合追加できない
-	if (Algorithm::Find(sceneCameras_, name)) {
+	if (SakuEngine::Algorithm::Find(sceneCameras_, name)) {
 		return;
 	}
 
@@ -216,7 +216,7 @@ void SceneView::SetLight(BasePunctualLight* gameLight) {
 
 void SceneView::DisplayPointLight() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 	const auto& light = punctualLight_.value();
 
 	// 規定値
@@ -239,7 +239,7 @@ void SceneView::DisplayPointLight() {
 
 void SceneView::DisplaySpotLight() {
 
-	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 	const auto& light = punctualLight_.value();
 
 	const float coneLength = 2.0f;

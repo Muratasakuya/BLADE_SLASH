@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -26,10 +26,10 @@ public:
 
 	// 発生前にモジュールに設定を適応する
 	static void ApplyPreEmit(ParticleSystem* system, const EffectModuleSetting& module,
-		const Vector3& worldPos, const EffectCommandContext& context);
+		const SakuEngine::Vector3& worldPos, const EffectCommandContext& context);
 	// 更新時にモジュールに設定を適応する
 	static void ApplyUpdate(ParticleSystem* system, const EffectModuleSetting& module,
-		const Vector3& parentTranslation, const Quaternion& parentRotation,
+		const SakuEngine::Vector3& parentTranslation, const Quaternion& parentRotation,
 		const EffectCommandContext& context);
 
 	// 引き数で受け取った値でコマンドを作成して返す

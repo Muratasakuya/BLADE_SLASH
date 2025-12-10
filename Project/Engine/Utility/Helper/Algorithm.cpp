@@ -1,4 +1,4 @@
-﻿#include "Algorithm.h"
+#include "Algorithm.h"
 
 using namespace SakuEngine;
 
@@ -107,7 +107,7 @@ std::string Algorithm::ToStringQuaternion(const Quaternion& q) {
 	return oss.str();
 }
 
-std::string Algorithm::ToStringVector3(const Vector3& v) {
+std::string Algorithm::ToStringVector3(const SakuEngine::Vector3& v) {
 
 	std::ostringstream oss;
 	oss << "(" << v.x << ", " << v.y << ", " << v.z << ")";

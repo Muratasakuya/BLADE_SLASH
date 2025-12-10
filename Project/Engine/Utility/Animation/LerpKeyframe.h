@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -49,9 +49,9 @@ namespace LerpKeyframe {
 		T value{};
 
 		// Quaternionの場合はSlerpを使う
-		if constexpr (std::is_same_v<T, Quaternion>) {
+		if constexpr (std::is_same_v<T, SakuEngine::Quaternion>) {
 
-			value = Quaternion::Slerp(a, b, t);
+			value = SakuEngine::Quaternion::Slerp(a, b, t);
 		} else {
 
 			value = a + LerpKeyframe::Multiply((b - a), t);
@@ -245,6 +245,6 @@ namespace LerpKeyframe {
 	//============================================================================
 
 	// 線を描画
-	void DrawKeyframeLine(const std::vector<Vector3>& points,
+	void DrawKeyframeLine(const std::vector<SakuEngine::Vector3>& points,
 		LerpKeyframe::Type type, bool isConnectEnds);
 }

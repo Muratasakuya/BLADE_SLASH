@@ -1,4 +1,4 @@
-﻿#include "Matrix4x4.h"
+#include "Matrix4x4.h"
 
 using namespace SakuEngine;
 
@@ -246,7 +246,7 @@ Matrix4x4 Matrix4x4::MakeIdentity4x4() {
 	return matrix;
 }
 
-Matrix4x4 Matrix4x4::MakeScaleMatrix(const Vector3& scale) {
+Matrix4x4 Matrix4x4::MakeScaleMatrix(const SakuEngine::Vector3& scale) {
 
 	Matrix4x4 scaleMatrix = {
 		scale.x, 0.0f, 0.0f ,0.0f,
@@ -302,7 +302,7 @@ Matrix4x4 Matrix4x4::MakeRollMatrix(float radian) {
 	return rollMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeRotateMatrix(const Vector3& rotate) {
+Matrix4x4 SakuEngine::Matrix4x4::MakeRotateMatrix(const SakuEngine::Vector3& rotate) {
 
 	Matrix4x4 pitchMatrix = MakePitchMatrix(rotate.x);	// X軸回転行列
 	Matrix4x4 yawMatrix = MakeYawMatrix(rotate.y);		// Y軸回転行列
@@ -313,7 +313,7 @@ Matrix4x4 Matrix4x4::MakeRotateMatrix(const Vector3& rotate) {
 	return rotateMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeTranslateMatrix(const Vector3& translate) {
+Matrix4x4 Matrix4x4::MakeTranslateMatrix(const SakuEngine::Vector3& translate) {
 
 	Matrix4x4 translateMatrix = {
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -325,7 +325,7 @@ Matrix4x4 Matrix4x4::MakeTranslateMatrix(const Vector3& translate) {
 	return translateMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+Matrix4x4 Matrix4x4::MakeAffineMatrix(const SakuEngine::Vector3& scale, const SakuEngine::Vector3& rotate, const SakuEngine::Vector3& translate) {
 
 	Matrix4x4 matrix = {};
 
@@ -428,7 +428,7 @@ Matrix4x4 Matrix4x4::MakeViewportMatrix(float left, float top, float width, floa
 }
 
 // 任意軸アフィン変換
-Matrix4x4 Matrix4x4::MakeAxisAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) {
+Matrix4x4 Matrix4x4::MakeAxisAffineMatrix(const SakuEngine::Vector3& scale, const Quaternion& rotate, const SakuEngine::Vector3& translate) {
 
 	Matrix4x4 matrix = {};
 
@@ -442,7 +442,7 @@ Matrix4x4 Matrix4x4::MakeAxisAffineMatrix(const Vector3& scale, const Quaternion
 	return matrix;
 }
 
-Vector3 Matrix4x4::TransformPoint(const Vector3& point) const {
+Vector3 Matrix4x4::TransformPoint(const SakuEngine::Vector3& point) const {
 
 	// 4次元ベクトル (x, y, z, w) を作成
 	float x = point.x * m[0][0] + point.y * m[0][1] + point.z * m[0][2] + m[0][3];

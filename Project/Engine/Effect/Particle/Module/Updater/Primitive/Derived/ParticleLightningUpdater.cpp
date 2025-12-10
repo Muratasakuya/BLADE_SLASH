@@ -1,4 +1,4 @@
-﻿#include "ParticleLightningUpdater.h"
+#include "ParticleLightningUpdater.h"
 
 using namespace SakuEngine;
 
@@ -61,7 +61,7 @@ void ParticleLightningUpdater::Init() {
 	isDrawDebugPoint_ = false;
 	isRefSpawnPos_ = false;
 	parentRotation_ = Quaternion::Identity();
-	parentTranslation_ = Vector3::AnyInit(0.0f);
+	parentTranslation_ = SakuEngine::Vector3::AnyInit(0.0f);
 }
 
 void ParticleLightningUpdater::Update(CPUParticle::ParticleData& particle, EasingType easingType) {
@@ -79,12 +79,12 @@ void ParticleLightningUpdater::Update(CPUParticle::ParticleData& particle, Easin
 		return T; };
 
 	// ローカル * 親回転からワールドの順で変換
-	auto ToWorld = [&](const Vector3& local) {
+	auto ToWorld = [&](const SakuEngine::Vector3& local) {
 		return (parentRotation_ * local) + GetT(); };
 
 	// ローカル値を補間
-	const Vector3 localStart = Vector3::Lerp(start_.start, target_.start, EasedValue(easingType, lifeProgress));
-	const Vector3 localEnd = Vector3::Lerp(start_.end, target_.end, EasedValue(easingType, lifeProgress));
+	const Vector3 localStart = SakuEngine::Vector3::Lerp(start_.start, target_.start, EasedValue(easingType, lifeProgress));
+	const Vector3 localEnd = SakuEngine::Vector3::Lerp(start_.end, target_.end, EasedValue(easingType, lifeProgress));
 
 	// 親回転を適用してから平行移動
 	lightning.start = ToWorld(localStart);
@@ -117,7 +117,7 @@ void ParticleLightningUpdater::Update(CPUParticle::ParticleData& particle, Easin
 	lightning.angle = std::lerp(start_.angle, target_.angle, EasedValue(easingType, lifeProgress));
 
 	// 経過時間の更新
-	lightning.time += GameTimer::GetScaledDeltaTime();
+	lightning.time += SakuEngine::GameTimer::GetScaledDeltaTime();
 }
 
 void ParticleLightningUpdater::ImGui() {
@@ -150,19 +150,19 @@ void ParticleLightningUpdater::ImGui() {
 	ImGui::DragFloat("startAngle", &start_.angle, 1.0f, -180.0f, 180.0f);
 	ImGui::DragFloat("targetAngle", &target_.angle, 1.0f, -180.0f, 180.0f);
 
-	ImGuiHelper::DragUint32("startNodeCount", start_.nodeCount, 64);
-	ImGuiHelper::DragUint32("targetNodeCount", target_.nodeCount, 64);
+	SakuEngine::ImGuiHelper::DragUint32("startNodeCount", start_.nodeCount, 64);
+	SakuEngine::ImGuiHelper::DragUint32("targetNodeCount", target_.nodeCount, 64);
 
 	ImGui::DragFloat("startSeed", &start_.seed, 1.0f, 0.0f, 6000.0f);
 	ImGui::DragFloat("targetSeed", &target_.seed, 1.0f, 0.0f, 6000.0f);
 
 	if (isDrawDebugPoint_) {
 
-		LineRenderer::GetInstance()->DrawSphere(6, 0.8f, start_.start, Color::Cyan());
-		LineRenderer::GetInstance()->DrawSphere(6, 0.8f, target_.start, Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, start_.start, SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, target_.start, SakuEngine::Color::Cyan());
 
-		LineRenderer::GetInstance()->DrawSphere(6, 0.8f, start_.end, Color::Red());
-		LineRenderer::GetInstance()->DrawSphere(6, 0.8f, target_.end, Color::Red());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, start_.end, Color::Red());
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, target_.end, Color::Red());
 	}
 }
 
@@ -179,11 +179,11 @@ void ParticleLightningUpdater::FromJson(const Json& data) {
 	isLookAtEnd_ = lightningData.value("isLookAtEnd", isLookAtEnd_);
 	isRefSpawnPos_ = lightningData.value("isRefSpawnPos_", isRefSpawnPos_);
 
-	start_.start = Vector3::FromJson(lightningData["startStart"]);
-	target_.start = Vector3::FromJson(lightningData["targetStart"]);
+	start_.start = SakuEngine::Vector3::FromJson(lightningData["startStart"]);
+	target_.start = SakuEngine::Vector3::FromJson(lightningData["targetStart"]);
 
-	start_.end = Vector3::FromJson(lightningData["startEnd"]);
-	target_.end = Vector3::FromJson(lightningData["targetEnd"]);
+	start_.end = SakuEngine::Vector3::FromJson(lightningData["startEnd"]);
+	target_.end = SakuEngine::Vector3::FromJson(lightningData["targetEnd"]);
 
 	start_.width = lightningData.value("startWidth", start_.width);
 	target_.width = lightningData.value("targetWidth", target_.width);
