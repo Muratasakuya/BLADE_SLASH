@@ -76,17 +76,41 @@ Get-ChildItem -Path $TargetDirectory -Filter "*.h" -Recurse | ForEach-Object {
     } else {
         Write-Host "  Namespace insert position: before class (line $($insertLineIndex + 1))"
     }
-    
+
+    # ----------- ここから // front 処理を追加 -----------
+    # Look for an existing "// front" comment before insert position
+    $frontCommentIndex = -1
+    for ($i = 0; $i -lt $insertLineIndex; $i++) {
+        if ($lines[$i] -match '^\s*//\s*front\s*$') {
+            $frontCommentIndex = $i
+            Write-Host "  Detected '// front' at line $($i + 1)"
+            break
+        }
+    }
+    # ----------- ここまで追加 --------------------------
+
     $newLines = @()
     
-    # Add lines before insert position
+    # Add lines before insert position (skip original "// front" if found)
     if ($insertLineIndex -gt 0) {
-        $newLines += $lines[0..($insertLineIndex - 1)]
+        for ($i = 0; $i -lt $insertLineIndex; $i++) {
+            if ($i -eq $frontCommentIndex) {
+                # skip original // front
+                continue
+            }
+            $newLines += $lines[$i]
+        }
     }
     
     # Add namespace
     $newLines += "namespace $NamespaceName {"
     $newLines += ""
+
+    # If there was a "// front" comment, reinsert it inside the namespace
+    if ($frontCommentIndex -ne -1) {
+        $newLines += "// front"
+        $newLines += ""
+    }
     
     # Add lines from insert position to end
     $newLines += $lines[$insertLineIndex..($lines.Count - 1)]

@@ -38,6 +38,8 @@ enum class ParticleBillboardType {
 //	Common
 //============================================================================
 
+namespace SakuEngine {
+
 namespace ParticleCommon {
 
 	// samplerの種類
@@ -305,3 +307,5 @@ namespace CPUParticle {
 		ParticleCommon::PrimitiveData<false> primitive;
 	};
 }
+
+}; // SakuEngine

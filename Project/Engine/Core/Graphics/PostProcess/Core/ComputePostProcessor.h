@@ -16,6 +16,8 @@
 //	ComputePostProcessor class
 //	計算シェーダ用の出力テクスチャ(UAV/SRV)を用意し、ポストプロセス入力/出力を仲介する。
 //============================================================================
+namespace SakuEngine {
+
 class ComputePostProcessor {
 public:
 	//========================================================================
@@ -67,3 +69,5 @@ private:
 	// UAVとして使用可能な2Dテクスチャを確保する
 	void CreateTextureResource(ID3D12Device* device, uint32_t width, uint32_t height);
 };
+
+}; // SakuEngine

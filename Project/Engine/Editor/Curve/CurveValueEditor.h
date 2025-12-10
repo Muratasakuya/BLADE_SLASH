@@ -13,6 +13,8 @@
 //	CurveValueEditor class
 //	0.0f～1.0fの範囲で変化するカーブ値を編集するエディター
 //============================================================================
+namespace SakuEngine {
+
 class CurveValueEditor {
 public:
 	//========================================================================
@@ -70,3 +72,5 @@ private:
 	CurveValueEditor(const CurveValueEditor&) = delete;
 	CurveValueEditor& operator=(const CurveValueEditor&) = delete;
 };
+
+}; // SakuEngine

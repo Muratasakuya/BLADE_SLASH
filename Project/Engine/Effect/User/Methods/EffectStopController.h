@@ -12,6 +12,8 @@
 //	EffectStopController class
 //	停止条件をチェックし、停止すべきかどうかを判定する
 //============================================================================
+namespace SakuEngine {
+
 class EffectStopController {
 public:
 	//========================================================================
@@ -25,3 +27,5 @@ public:
 	bool ShouldStop(const EffectStopSetting& stop, const EffectEmitSetting& emit,
 		const EffectNodeRuntime& runtime, const EffectQueryGroupAliveFn& queryFn) const;
 };
+
+}; // SakuEngine

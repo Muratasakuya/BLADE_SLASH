@@ -20,6 +20,8 @@ enum class AnimationLoopType {
 //	AnimationLoop class
 //	0.0f~1.0fの範囲でループ制御
 //============================================================================
+namespace SakuEngine {
+
 class AnimationLoop {
 public:
 	//========================================================================
@@ -61,3 +63,5 @@ private:
 	uint32_t loopCount_ = 1;      // 回数
 	AnimationLoopType loopType_; // 種類
 };
+
+}; // SakuEngine

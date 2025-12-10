@@ -16,6 +16,8 @@
 //	DxDevice class
 //	DXGIファクトリ/アダプタ選定とD3D12デバイス生成を行い、デバイス取得を提供する。
 //============================================================================
+namespace SakuEngine {
+
 class DxDevice {
 public:
 	//========================================================================
@@ -51,3 +53,5 @@ private:
 	// 内部ヘルパ: ワイド文字列をUTF-8へ変換する
 	std::string WStringToString(const std::wstring& wstr);
 };
+
+}; // SakuEngine

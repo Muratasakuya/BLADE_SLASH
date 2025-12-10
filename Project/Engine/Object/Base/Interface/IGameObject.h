@@ -15,7 +15,10 @@
 #include <string>
 #include <optional>
 #include <cstdint>
+namespace SakuEngine {
+
 // front
+
 class ObjectManager;
 
 //============================================================================
@@ -73,3 +76,5 @@ protected:
 	// imgui
 	const float itemWidth_ = 224.0f;
 };
+
+}; // SakuEngine

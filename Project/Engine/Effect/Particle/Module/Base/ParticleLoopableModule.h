@@ -10,6 +10,8 @@
 //	ParticleLoopableModule class
 //	パーティクルのループ制御が可能なモジュールの基底クラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleLoopableModule {
 public:
 	//========================================================================
@@ -41,3 +43,5 @@ protected:
 	void ToLoopJson(Json& data);
 	void FromLoopJson(const Json& data);
 };
+
+}; // SakuEngine

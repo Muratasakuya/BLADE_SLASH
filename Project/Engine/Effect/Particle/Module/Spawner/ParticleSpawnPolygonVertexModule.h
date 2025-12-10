@@ -10,6 +10,8 @@
 //	ParticleSpawnPolygonVertexModule class
 //	多角形頂点発生モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleSpawnPolygonVertexModule :
 	public ICPUParticleSpawnModule {
 public:
@@ -111,3 +113,5 @@ private:
 	void SpawnInstance();
 	void EmitForInstance(PolygonInstance& instance, std::list<CPUParticle::ParticleData>& particles);
 };
+
+}; // SakuEngine

@@ -17,6 +17,8 @@
 //	Assert class
 //	デバッグ/リリースで動作を切り替えるアサートユーティリティ。ログ出力と停止/終了を行う。
 //============================================================================
+namespace SakuEngine {
+
 class Assert {
 public:
 	//========================================================================
@@ -40,3 +42,5 @@ public:
 //	macro definition
 //============================================================================
 #define ASSERT(condition, message) Assert::AssertHandler(condition, message, __FUNCTION__)
+
+}; // SakuEngine

@@ -17,6 +17,8 @@
 //============================================================================
 //	SceneBuilder class
 //============================================================================
+namespace SakuEngine {
+
 class SceneBuilder {
 public:
 	//========================================================================
@@ -106,3 +108,5 @@ inline bool SceneBuilder::CheckCollisionValid(const GameObject3D& object) {
 
 	return (... || (dynamic_cast<const Ts*>(&object) != nullptr));
 }
+
+}; // SakuEngine

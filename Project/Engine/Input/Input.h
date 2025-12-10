@@ -18,7 +18,10 @@
 #include <array>
 #include <cassert>
 #include <source_location>
+namespace SakuEngine {
+
 // front
+
 class WinApp;
 
 //============================================================================
@@ -168,3 +171,5 @@ private:
 	Input(const Input&) = delete;
 	Input& operator=(const Input&) = delete;
 };
+
+}; // SakuEngine

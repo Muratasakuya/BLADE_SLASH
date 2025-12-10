@@ -21,6 +21,8 @@ enum class ParticleEmitterShape {
 	Count,
 };
 
+namespace SakuEngine {
+
 struct ParticleEmitterCommon {
 
 	int32_t count;
@@ -165,3 +167,5 @@ struct ParticleEmitterBufferData {
 	// コーン状
 	DxConstBuffer<ParticleEmitterCone> cone;
 };
+
+}; // SakuEngine

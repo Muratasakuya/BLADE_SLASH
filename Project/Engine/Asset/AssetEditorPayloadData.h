@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	AssetEditorPayloadData
@@ -16,8 +16,12 @@ enum class PendingType {
 	Model
 };
 // ドラッグ開始時に渡す簡易ペイロード(種類と名前のみ)
-struct DragPayload {
+namespace SakuEngine {
 
-	PendingType type; // タイプ
-	char name[260];   // 名前
-};
+	struct DragPayload {
+
+		PendingType type; // タイプ
+		char name[260];   // 名前
+	};
+
+}; // SakuEngine

@@ -10,6 +10,8 @@
 //============================================================================
 //	ObjectTag structure
 //============================================================================
+namespace SakuEngine {
+
 struct ObjectTag {
 
 	uint32_t objectID;         // objectのID、重複しない
@@ -18,3 +20,5 @@ struct ObjectTag {
 	std::string groupName;     // objectの所属しているgroupの名前
 	bool destroyOnLoad = true; // 全破棄時に破棄しないか
 };
+
+}; // SakuEngine

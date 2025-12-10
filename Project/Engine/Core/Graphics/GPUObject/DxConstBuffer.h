@@ -17,6 +17,8 @@
 //	DxConstBuffer class
 //	汎用定数バッファ(CBV)の生成/マップ/転送を行うテンプレートラッパー。
 //============================================================================
+namespace SakuEngine {
+
 template<typename T>
 class DxConstBuffer {
 public:
@@ -77,3 +79,5 @@ inline void DxConstBuffer<T>::TransferData(const T& data) {
 		std::memcpy(mappedData_, &data, sizeof(T));
 	}
 }
+
+}; // SakuEngine

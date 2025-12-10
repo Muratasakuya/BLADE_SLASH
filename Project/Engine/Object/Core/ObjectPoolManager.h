@@ -10,6 +10,8 @@
 //	ObjectPoolManager class
 //	各型のObjectPoolとアーキタイプを統括し、追加/削除/参照とデバッグを提供する。
 //============================================================================
+namespace SakuEngine {
+
 class ObjectPoolManager :
 	public IGameEditor {
 public:
@@ -128,3 +130,5 @@ inline size_t ObjectPoolManager::GetTypeID() {
 
 	return TypeIDHolder<T>::value;
 }
+
+}; // SakuEngine

@@ -20,6 +20,8 @@
 //	ImGuiHelper structures
 //============================================================================
 
+namespace SakuEngine {
+
 namespace detail {
 
 	template<class T>
@@ -235,3 +237,5 @@ inline bool ImGuiHelper::DragFloat(const char* label, T& value, float speed, flo
 	}
 	return edited;
 }
+
+}; // SakuEngine

@@ -14,6 +14,8 @@
 //	GameObject3D class
 //	3Dオブジェクトの基底クラス
 //============================================================================
+namespace SakuEngine {
+
 class GameObject3D :
 	public IGameObject,
 	public Collider {
@@ -142,3 +144,5 @@ private:
 	void MeshRenderImGui();
 	void AnimationImGui();
 };
+
+}; // SakuEngine

@@ -10,6 +10,8 @@
 //	ParticleUpdateLifeTimeModule class
 //	寿命を更新するモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateLifeTimeModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -52,3 +54,5 @@ private:
 	// デフォルトで次のフェーズに進む
 	ParticleLifeEndMode endMode_ = ParticleLifeEndMode::Advance;
 };
+
+}; // SakuEngine

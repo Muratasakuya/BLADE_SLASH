@@ -10,6 +10,8 @@
 //	TopLevelAS class
 //	TLAS(シーンインスタンス)の構築/更新と、インスタンス記述バッファ管理を行う。
 //============================================================================
+namespace SakuEngine {
+
 class TopLevelAS {
 public:
 	//========================================================================
@@ -55,3 +57,5 @@ private:
 	// 4x4行列からDXRの3x4行列へ転置コピーする
 	void CopyMatrix3x4(float(&dst)[3][4], const Matrix4x4& src);
 };
+
+}; // SakuEngine

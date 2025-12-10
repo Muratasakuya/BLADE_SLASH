@@ -11,6 +11,8 @@
 //	MaterialSystem class
 //	3Dマテリアル設定の更新を行うシステム
 //============================================================================
+namespace SakuEngine {
+
 class MaterialSystem :
 	public ISystem {
 public:
@@ -49,3 +51,5 @@ public:
 
 	void Update(ObjectPoolManager& ObjectPoolManager) override;
 };
+
+}; // SakuEngine

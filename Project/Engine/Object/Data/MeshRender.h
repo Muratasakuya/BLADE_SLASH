@@ -11,6 +11,8 @@
 //	MeshRender class
 //	描画設定をRendererに伝えるためのデータ
 //============================================================================
+namespace SakuEngine {
+
 class MeshRender {
 public:
 	//========================================================================
@@ -41,3 +43,5 @@ public:
 	// ブレンドモード
 	BlendMode blendMode;
 };
+
+}; // SakuEngine

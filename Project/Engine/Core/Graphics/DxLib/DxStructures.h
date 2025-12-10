@@ -18,6 +18,8 @@
 //============================================================================
 
 // 描画先の情報
+namespace SakuEngine {
+
 struct RenderTarget {
 
 	uint32_t width;
@@ -66,3 +68,5 @@ namespace UVAddress {
 	// imgui選択
 	void SelectUVAddressMode(UVAddressMode& adressMode, const std::string& label = "label");
 }
+
+}; // SakuEngine

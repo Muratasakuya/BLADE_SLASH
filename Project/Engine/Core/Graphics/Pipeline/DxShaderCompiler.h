@@ -13,6 +13,8 @@
 // json
 #include <Externals/nlohmann/json.hpp>
 // namespace using
+namespace SakuEngine {
+
 namespace fs = std::filesystem;
 using Json = nlohmann::json;
 
@@ -56,3 +58,5 @@ private:
 	ComPtr<IDxcCompiler3> dxcCompiler_;
 	ComPtr<IDxcIncludeHandler> includeHandler_;
 };
+
+}; // SakuEngine

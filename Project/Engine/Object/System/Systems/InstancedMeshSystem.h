@@ -16,7 +16,10 @@
 // c++
 #include <unordered_set>
 #include <xatomic.h>
+namespace SakuEngine {
+
 // front
+
 class DxCommand;
 class Asset;
 class RaytracingScene;
@@ -104,3 +107,5 @@ private:
 	std::atomic<uint32_t> pendingJobs_{};
 	std::atomic<uint32_t> runningJobs_{};
 };
+
+}; // SakuEngine

@@ -9,6 +9,8 @@
 //	SRVDescriptor class
 //	シェーダリソース/アンオーダードアクセスのビュー(SRV/UAV)を生成・管理する。
 //============================================================================
+namespace SakuEngine {
+
 class SRVDescriptor :
 	public BaseDescriptor {
 public:
@@ -35,3 +37,5 @@ public:
 	// 最大SRV数を取得する
 	uint32_t GetMaxSRVCount() const { return maxDescriptorCount_; }
 };
+
+}; // SakuEngine

@@ -14,6 +14,8 @@ using Json = nlohmann::json;
 //============================================================================
 //	Vector2 class
 //============================================================================
+namespace SakuEngine {
+
 class Vector2 final {
 public:
 
@@ -95,3 +97,5 @@ public:
 	Json ToJson() const;
 	static Vector2Int FromJson(const Json& data);
 };
+
+}; // SakuEngine

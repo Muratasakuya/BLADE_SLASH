@@ -15,7 +15,10 @@
 // c++
 #include <vector>
 #include <unordered_map>
+namespace SakuEngine {
+
 // front
+
 class SRVDescriptor;
 class SceneView;
 class DxCommand;
@@ -181,3 +184,5 @@ inline T* PostProcessSystem::GetUpdater(PostProcessType type) const {
 	}
 	return dynamic_cast<T*>(updaters_.at(type).get());
 }
+
+}; // SakuEngine

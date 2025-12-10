@@ -1,5 +1,7 @@
 ﻿#include "MultiRenderTexture.h"
 
+using namespace SakuEngine;
+
 //============================================================================
 //	MultiRenderTexture classMethods
 //============================================================================

@@ -11,7 +11,10 @@
 // c++
 #include <cstdint>
 #include <string>
+namespace SakuEngine {
+
 // front
+
 class BaseTransform;
 
 //============================================================================
@@ -93,3 +96,5 @@ struct SpriteMaterialForGPU {
 	void Init();
 	void ImGui();
 };
+
+}; // SakuEngine

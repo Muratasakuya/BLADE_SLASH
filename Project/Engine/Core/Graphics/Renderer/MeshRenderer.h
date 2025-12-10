@@ -11,7 +11,10 @@
 // c++
 #include <memory>
 #include <ranges>
+namespace SakuEngine {
+
 // front
+
 class SRVDescriptor;
 class DxCommand;
 class RenderTexture;
@@ -72,3 +75,5 @@ private:
 	// スキンドメッシュの頂点バッファを元の状態に戻す(描画後)
 	void EndSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand);
 };
+
+}; // SakuEngine

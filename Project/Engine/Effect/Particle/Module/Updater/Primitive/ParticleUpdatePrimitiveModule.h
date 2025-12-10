@@ -12,6 +12,8 @@
 //	ParticleUpdatePrimitiveModule class
 //	プリミティブ形状に基づいてパーティクルを更新するモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdatePrimitiveModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -57,3 +59,5 @@ private:
 
 	EasingType easingType_;
 };
+
+}; // SakuEngine

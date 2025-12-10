@@ -7,7 +7,10 @@
 #include <Engine/Effect/Particle/Structures/ParticleStructures.h>
 #include <Engine/Effect/Particle/Structures/ParticleEmitterStructures.h>
 
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 
 //============================================================================
@@ -101,3 +104,5 @@ private:
 	std::vector<uint32_t> parentIDs_;
 	std::vector<std::string> parentNames_;
 };
+
+}; // SakuEngine

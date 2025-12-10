@@ -13,7 +13,10 @@
 #include <Externals/DirectXTex/DirectXTex.h>
 // c++
 #include <string>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -122,3 +125,5 @@ private:
 	// バッファ作成
 	void InitBuffer(ID3D12Device* device);
 };
+
+}; // SakuEngine

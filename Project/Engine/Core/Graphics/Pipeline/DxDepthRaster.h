@@ -15,6 +15,8 @@ using Json = nlohmann::json;
 //	DxDepthRaster class
 //	ラスタライザ/深度ステンシルの各種フラグをJSONから読み取り、記述を構築する。
 //============================================================================
+namespace SakuEngine {
+
 class DxDepthRaster {
 public:
 	//========================================================================
@@ -27,3 +29,5 @@ public:
 	void Create(const Json& json, D3D12_RASTERIZER_DESC& rasterizerDesc,
 		D3D12_DEPTH_STENCIL_DESC& depthStencilDesc);
 };
+
+}; // SakuEngine

@@ -5,7 +5,10 @@
 //============================================================================
 #include <Engine/Effect/User/Methods/EffectStructures.h>
 
+namespace SakuEngine {
+
 // front
+
 class ParticleSystem;
 
 //============================================================================
@@ -48,3 +51,5 @@ inline ParticleCommand EffectModuleBinder::MakeCommand(
 	command.value = value;
 	return command;
 }
+
+}; // SakuEngine

@@ -12,6 +12,8 @@
 //	IMesh class
 //	メッシュ共通インターフェース。GPU頂点/インデックス等の転送IFを定義する。
 //============================================================================
+namespace SakuEngine {
+
 class IMesh {
 public:
 	//========================================================================
@@ -207,3 +209,5 @@ private:
 	void CreateBuffer(ID3D12Device* device, const ResourceMesh<EffectMeshVertex>& resource, uint32_t numInstance);
 	void TransferBuffer(const ResourceMesh<EffectMeshVertex>& resource);
 };
+
+}; // SakuEngine

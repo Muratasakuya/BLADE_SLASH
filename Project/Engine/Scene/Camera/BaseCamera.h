@@ -15,6 +15,8 @@
 //	BaseCamera class
 //	カメラの基底クラス、継承しなくてもこのクラスを使ってカメラを実装できる
 //============================================================================
+namespace SakuEngine {
+
 class BaseCamera {
 public:
 	//========================================================================
@@ -129,3 +131,5 @@ namespace CameraLog {
 	// ログ出力
 	void Output(const std::string& msg);
 }
+
+}; // SakuEngine

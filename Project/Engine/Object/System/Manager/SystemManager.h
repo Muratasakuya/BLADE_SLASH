@@ -14,6 +14,8 @@
 //	SystemManager class
 //	オブジェクトデータのシステムを管理するマネージャ
 //============================================================================
+namespace SakuEngine {
+
 class SystemManager {
 public:
 	//========================================================================
@@ -66,3 +68,5 @@ inline T* SystemManager::GetSystem() const {
 	}
 	return nullptr;
 }
+
+}; // SakuEngine

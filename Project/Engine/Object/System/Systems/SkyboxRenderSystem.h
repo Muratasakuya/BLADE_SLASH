@@ -13,6 +13,8 @@
 //	SkyboxRenderSystem class
 //	スカイボックスの描画を行うシステム
 //============================================================================
+namespace SakuEngine {
+
 class SkyboxRenderSystem :
 	public ISystem {
 public:
@@ -46,3 +48,5 @@ private:
 
 	bool isCreated_;
 };
+
+}; // SakuEngine

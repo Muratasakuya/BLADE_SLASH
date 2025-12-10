@@ -13,6 +13,8 @@
 //	AnimationObject2D class
 //	アニメーション機能を持つ2Dオブジェクトの基底クラス
 //============================================================================
+namespace SakuEngine {
+
 class AnimationObject2D :
 	public GameObject2D {
 public:
@@ -119,3 +121,5 @@ inline void AnimationObject2D::ShowChannel(
 		channel.ImGui(headerLabel);
 	}
 }
+
+}; // SakuEngine

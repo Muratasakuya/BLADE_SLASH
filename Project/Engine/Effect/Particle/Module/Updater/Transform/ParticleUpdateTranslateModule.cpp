@@ -1,5 +1,7 @@
 ﻿#include "ParticleUpdateTranslateModule.h"
 
+using namespace SakuEngine;
+
 //============================================================================
 //	ParticleUpdateTranslateModule classMethods
 //============================================================================

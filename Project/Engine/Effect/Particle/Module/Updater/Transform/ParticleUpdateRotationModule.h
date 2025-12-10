@@ -9,6 +9,8 @@
 //	ParticleUpdateRotationModule class
 //	回転を更新するモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateRotationModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -100,3 +102,5 @@ private:
 	Quaternion LockAxis(const Quaternion& rotation) const;
 	void UpdateMatrix(CPUParticle::ParticleData& particle, const Quaternion& rotation);
 };
+
+}; // SakuEngine

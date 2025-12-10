@@ -9,6 +9,8 @@
 //	DebugCamera class
 //	マウス操作で自由に動かせる3Dカメラ
 //============================================================================
+namespace SakuEngine {
+
 class DebugCamera :
 	public BaseCamera {
 public:
@@ -42,3 +44,5 @@ private:
 	// 移動
 	void Move();
 };
+
+}; // SakuEngine

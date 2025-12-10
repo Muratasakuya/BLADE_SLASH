@@ -27,6 +27,8 @@ using Json = nlohmann::json;
 //	PipelineState class
 //	JSON定義からGraphics/ComputeのPSOとRootSignatureを構築・保持し、ブレンド別PSO取得APIを提供する。
 //============================================================================
+namespace SakuEngine {
+
 class PipelineState {
 public:
 	//========================================================================
@@ -141,3 +143,5 @@ inline void PipelineState::CreatePipelinesForBlendModes(const std::string& fileN
 		Make(BlendMode::kBlendModeNormal);
 	}
 }
+
+}; // SakuEngine

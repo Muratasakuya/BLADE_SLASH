@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -52,64 +52,68 @@ inline ColliderType& operator&=(ColliderType& lhs, ColliderType rhs) {
 //	CollisionBody  class
 //	単一の衝突形状とタイプ/ターゲット設定、当たりコールバックを保持する最小単位。
 //============================================================================
-class CollisionBody {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+namespace SakuEngine {
 
-	//--------- functions ----------------------------------------------------
+	class CollisionBody {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	CollisionBody() = default;
-	~CollisionBody() = default;
+		//--------- functions ----------------------------------------------------
 
-	// コールバックを安全に発火させる(Enter/Stay/Exit)
-	void TriggerOnCollisionEnter(CollisionBody* collider);
-	void TriggerOnCollisionStay(CollisionBody* collider);
-	void TriggerOnCollisionExit(CollisionBody* collider);
+		CollisionBody() = default;
+		~CollisionBody() = default;
 
-	// 当たり時に呼ばれるコールバック関数を設定する
-	void SetOnCollisionEnter(std::function<void(CollisionBody*)> onCollisionEnter) { onEnter_ = onCollisionEnter; }
-	void SetOnCollisionStay(std::function<void(CollisionBody*)> onCollisionEnter) { onStay_ = onCollisionEnter; }
-	void SetOnCollisionExit(std::function<void(CollisionBody*)> onCollisionEnter) { onExit_ = onCollisionEnter; }
+		// コールバックを安全に発火させる(Enter/Stay/Exit)
+		void TriggerOnCollisionEnter(CollisionBody* collider);
+		void TriggerOnCollisionStay(CollisionBody* collider);
+		void TriggerOnCollisionExit(CollisionBody* collider);
 
-	// 形状タイプに応じて内部形状を更新する(不一致ならASSERT)
-	void UpdateSphere(const CollisionShape::Sphere& sphere);
-	void UpdateAABB(const CollisionShape::AABB& aabb);
-	void UpdateOBB(const CollisionShape::OBB& obb);
+		// 当たり時に呼ばれるコールバック関数を設定する
+		void SetOnCollisionEnter(std::function<void(CollisionBody*)> onCollisionEnter) { onEnter_ = onCollisionEnter; }
+		void SetOnCollisionStay(std::function<void(CollisionBody*)> onCollisionEnter) { onStay_ = onCollisionEnter; }
+		void SetOnCollisionExit(std::function<void(CollisionBody*)> onCollisionEnter) { onExit_ = onCollisionEnter; }
 
-	//--------- accessor -----------------------------------------------------
+		// 形状タイプに応じて内部形状を更新する(不一致ならASSERT)
+		void UpdateSphere(const CollisionShape::Sphere& sphere);
+		void UpdateAABB(const CollisionShape::AABB& aabb);
+		void UpdateOBB(const CollisionShape::OBB& obb);
 
-	// 形状/タイプ/ターゲットを設定・取得する
+		//--------- accessor -----------------------------------------------------
 
-	void SetShape(const CollisionShape::Shapes& shape) { shape_ = shape; }
+		// 形状/タイプ/ターゲットを設定・取得する
 
-	void SetType(ColliderType type) { type_ = type; }
-	void SetTargetType(ColliderType target) { targetType_ = target; }
+		void SetShape(const CollisionShape::Shapes& shape) { shape_ = shape; }
 
-	ColliderType GetType() const { return type_; }
-	ColliderType GetTargetType() const { return targetType_; }
+		void SetType(ColliderType type) { type_ = type; }
+		void SetTargetType(ColliderType target) { targetType_ = target; }
 
-	const CollisionShape::Shapes& GetShape() const { return shape_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		ColliderType GetType() const { return type_; }
+		ColliderType GetTargetType() const { return targetType_; }
 
-	//--------- using --------------------------------------------------------
+		const CollisionShape::Shapes& GetShape() const { return shape_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	// 当たりコールバックのシグネチャ
-	using CollisionCallback = std::function<void(CollisionBody*)>;
+		//--------- using --------------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		// 当たりコールバックのシグネチャ
+		using CollisionCallback = std::function<void(CollisionBody*)>;
 
-	// コールバック関数
-	CollisionCallback onEnter_ = nullptr;
-	CollisionCallback onStay_ = nullptr;
-	CollisionCallback onExit_ = nullptr;
+		//--------- variables ----------------------------------------------------
 
-	ColliderType type_;       // 自身の衝突タイプ
-	ColliderType targetType_; // 衝突相手のタイプ
+		// コールバック関数
+		CollisionCallback onEnter_ = nullptr;
+		CollisionCallback onStay_ = nullptr;
+		CollisionCallback onExit_ = nullptr;
 
-	CollisionShape::Shapes shape_; // 衝突判定を行う形状
-};
+		ColliderType type_;       // 自身の衝突タイプ
+		ColliderType targetType_; // 衝突相手のタイプ
+
+		CollisionShape::Shapes shape_; // 衝突判定を行う形状
+	};
+
+}; // SakuEngine

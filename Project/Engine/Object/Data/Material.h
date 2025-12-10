@@ -8,7 +8,10 @@
 #include <Engine/Utility/Animation/SimpleAnimation.h>
 #include <Engine/MathLib/MathUtils.h>
 
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -159,3 +162,5 @@ private:
 	// buffer
 	DxConstBuffer<SpriteMaterialForGPU> buffer_;
 };
+
+}; // SakuEngine

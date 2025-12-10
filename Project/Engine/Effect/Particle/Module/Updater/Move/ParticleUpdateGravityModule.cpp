@@ -1,5 +1,7 @@
 ﻿#include "ParticleUpdateGravityModule.h"
 
+using namespace SakuEngine;
+
 //============================================================================
 //	ParticleUpdateGravityModule classMethods
 //============================================================================

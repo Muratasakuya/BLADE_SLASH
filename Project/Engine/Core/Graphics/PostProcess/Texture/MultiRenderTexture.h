@@ -12,6 +12,8 @@
 //	MultiRenderTexture class
 //	複数のRenderTexture(RTV)を束ねたMRTを管理し、生成/追加/参照を提供する。
 //============================================================================
+namespace SakuEngine {
+
 class MultiRenderTexture {
 private:
 	//========================================================================
@@ -77,3 +79,5 @@ private:
 	// 内部ヘルパ: 指定フォーマット/クリア色で1アタッチメントを追加する
 	void AddAttachment(DXGI_FORMAT format, const Color& color);
 };
+
+}; // SakuEngine

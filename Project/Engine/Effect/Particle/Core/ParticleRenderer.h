@@ -9,7 +9,10 @@
 
 // c++
 #include <array>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 class SRVDescriptor;
 class DxShaderCompiler;
@@ -87,3 +90,5 @@ private:
 	void BeginSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand);
 	void EndSkinnedTransition(bool debugEnable, uint32_t meshIndex, IMesh* mesh, DxCommand* dxCommand);
 };
+
+}; // SakuEngine

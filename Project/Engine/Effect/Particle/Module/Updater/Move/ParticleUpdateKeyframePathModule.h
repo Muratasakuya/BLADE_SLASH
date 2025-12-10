@@ -10,6 +10,8 @@
 //	ParticleUpdateKeyframePathModule class
 //	引いたキーフレームに沿って移動するモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateKeyframePathModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -79,3 +81,5 @@ private:
 	// helper
 	Vector3 GetTangent(float t) const;
 };
+
+}; // SakuEngine

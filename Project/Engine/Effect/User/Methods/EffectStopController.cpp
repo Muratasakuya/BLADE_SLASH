@@ -1,5 +1,7 @@
 ﻿#include "EffectStopController.h"
 
+using namespace SakuEngine;
+
 //============================================================================
 //	EffectStopController classMethods
 //============================================================================

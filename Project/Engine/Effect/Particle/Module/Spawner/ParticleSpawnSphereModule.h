@@ -9,6 +9,8 @@
 //	ParticleSpawnSphereModule class
 //	球発生モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleSpawnSphereModule :
 	public ICPUParticleSpawnModule {
 public:
@@ -54,3 +56,5 @@ private:
 	// ランダムな方向ベクトルを取得
 	Vector3 GetRandomDirection() const;
 };
+
+}; // SakuEngine

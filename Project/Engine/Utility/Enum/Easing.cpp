@@ -1,5 +1,7 @@
 ﻿#include "Easing.h"
 
+using namespace SakuEngine;
+
 // imgui
 #include <imgui.h>
 

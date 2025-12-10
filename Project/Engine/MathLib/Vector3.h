@@ -15,7 +15,10 @@
 // using
 using Json = nlohmann::json;
 
+namespace SakuEngine {
+
 // front
+
 template <typename tValue>
 struct Keyframe;
 class Matrix4x4;
@@ -104,3 +107,5 @@ public:
 	static Vector3 ClosestPointOnRay(const Vector3& point, const Vector3& origin, const Vector3& diff);
 	static Vector3 ClosestPointOnSegment(const Vector3& point, const Vector3& origin, const Vector3& diff);
 };
+
+}; // SakuEngine

@@ -11,7 +11,10 @@
 #include <dxgi1_6.h>
 // c++
 #include <array>
+namespace SakuEngine {
+
 // front
+
 class RTVDescriptor;
 class DxDevice;
 class DxCommand;
@@ -60,3 +63,5 @@ private:
 	std::array<ComPtr<ID3D12Resource>, kBufferCount> resources_;
 	std::array<D3D12_CPU_DESCRIPTOR_HANDLE, kBufferCount> rtvHandles_;
 };
+
+}; // SakuEngine

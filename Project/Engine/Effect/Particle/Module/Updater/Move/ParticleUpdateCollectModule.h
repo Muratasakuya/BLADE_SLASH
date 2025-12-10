@@ -9,6 +9,8 @@
 //	ParticleUpdateCollectModule class
 //	目標に集まる動きをさせる更新モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateCollectModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -77,3 +79,5 @@ private:
 	float Noise3(const Vector3& p, uint32_t s) const;
 	float FBm(const Vector3& p, uint32_t s) const;
 };
+
+}; // SakuEngine

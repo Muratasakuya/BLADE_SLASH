@@ -9,6 +9,8 @@
 //	EffectEmitController class
 //	EmitModeに基づく発生状態の制御、発生タイミングの管理
 //============================================================================
+namespace SakuEngine {
+
 class EffectEmitController {
 public:
 	//========================================================================
@@ -29,3 +31,5 @@ public:
 	// 現在の設定とランタイムから、発生させるかどうかを判定して返す
 	bool Tick(const EffectEmitSetting& emit, EffectNodeRuntime* runtime);
 };
+
+}; // SakuEngine

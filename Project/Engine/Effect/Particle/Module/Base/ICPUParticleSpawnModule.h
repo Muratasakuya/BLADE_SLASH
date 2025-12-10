@@ -11,7 +11,10 @@
 #include <imgui.h>
 // c++
 #include <list>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -109,3 +112,5 @@ private:
 	// editor
 	void DragAndDropTexture(bool isTrail);
 };
+
+}; // SakuEngine

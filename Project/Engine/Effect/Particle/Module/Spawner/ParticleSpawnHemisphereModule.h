@@ -9,6 +9,8 @@
 //	ParticleSpawnHemisphereModule class
 //	半球型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleSpawnHemisphereModule :
 	public ICPUParticleSpawnModule {
 public:
@@ -56,3 +58,5 @@ private:
 	// ランダムな方向ベクトルを取得
 	Vector3 GetRandomDirection() const;
 };
+
+}; // SakuEngine

@@ -9,6 +9,8 @@
 //	ParticleSpawnBoxModule class
 //	箱型発生モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleSpawnBoxModule :
 	public ICPUParticleSpawnModule {
 public:
@@ -56,3 +58,5 @@ private:
 	// 箱の中のランダムな点を取得
 	Vector3 GetRandomPoint() const;
 };
+
+}; // SakuEngine

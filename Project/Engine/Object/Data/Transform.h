@@ -16,6 +16,8 @@
 //	BaseTransform class
 //	3DTransformの基底クラス
 //============================================================================
+namespace SakuEngine {
+
 class BaseTransform {
 public:
 	//========================================================================
@@ -216,3 +218,5 @@ private:
 	// buffer
 	DxConstBuffer<Matrix4x4> buffer_;
 };
+
+}; // SakuEngine

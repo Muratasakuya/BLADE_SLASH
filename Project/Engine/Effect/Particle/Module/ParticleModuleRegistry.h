@@ -14,6 +14,8 @@
 //	ParticleModuleRegistry class
 //	パーティクルモジュールの登録、生成を行うクラス
 //============================================================================
+namespace SakuEngine {
+
 template<class Base, class EnumT>
 class ParticleModuleRegistry {
 public:
@@ -98,3 +100,5 @@ inline std::vector<const char*> ParticleModuleRegistry<Base, EnumT>::GetNames() 
 	}
 	return names;
 }
+
+}; // SakuEngine

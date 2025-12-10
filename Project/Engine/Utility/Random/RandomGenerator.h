@@ -14,6 +14,8 @@
 //	RandomGenerator class
 //	ランダム生成を行う、minがmaxより大きい場合は自動で入れ替える
 //============================================================================*/
+namespace SakuEngine {
+
 class RandomGenerator {
 public:
 	//========================================================================*/
@@ -56,3 +58,5 @@ inline T RandomGenerator::Generate(T min, T max) {
 		return dist(gen);
 	}
 }
+
+}; // SakuEngine

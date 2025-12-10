@@ -19,7 +19,10 @@
 #include <Engine/Core/Graphics/Renderer/MeshRenderer.h>
 #include <Engine/Core/Graphics/Renderer/SpriteRenderer.h>
 
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 class WinApp;
 class ObjectManager;
@@ -159,3 +162,5 @@ private:
 	// 深度バッファをSRVとして参照できるようにする
 	void CreateDepthSRV();
 };
+
+}; // SakuEngine

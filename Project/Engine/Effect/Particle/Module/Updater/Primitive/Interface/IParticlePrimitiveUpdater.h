@@ -12,6 +12,8 @@
 //	IParticlePrimitiveUpdater class
 //	プリミティブ形状の更新インターフェース
 //============================================================================
+namespace SakuEngine {
+
 class IParticlePrimitiveUpdater {
 public:
 	//========================================================================
@@ -40,3 +42,5 @@ public:
 	// プリミティブ形状の種類を取得
 	virtual ParticlePrimitiveType GetType() = 0;
 };
+
+}; // SakuEngine

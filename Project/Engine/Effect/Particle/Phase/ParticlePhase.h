@@ -10,7 +10,10 @@
 // c++
 #include <memory>
 #include <vector>
+namespace SakuEngine {
+
 // front
+
 class ParticleUpdateLifeTimeModule;
 class ParticleUpdateTrailModule;
 
@@ -102,3 +105,5 @@ private:
 	ParticleSpawnModuleID selectSpawnModule_;
 	int selectedUpdater_ = -1;
 };
+
+}; // SakuEngine

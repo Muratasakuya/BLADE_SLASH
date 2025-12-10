@@ -9,6 +9,8 @@
 //	ParticleTestMeshUpdater class
 //	テッシュメッシュ型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleTestMeshUpdater :
 	public BaseParticlePrimitiveUpdater<TestMeshForGPU> {
 public:
@@ -41,3 +43,5 @@ private:
 
 	ParticlePlaneType planeType_;
 };
+
+}; // SakuEngine

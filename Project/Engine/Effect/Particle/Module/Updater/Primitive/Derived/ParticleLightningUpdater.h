@@ -9,6 +9,8 @@
 //	ParticleLightningUpdater class
 //	雷型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleLightningUpdater :
 	public BaseParticlePrimitiveUpdater<LightningForGPU> {
 public:
@@ -54,3 +56,5 @@ private:
 	// 開始地点と終了地点をデバッグ表示するか
 	bool isDrawDebugPoint_;
 };
+
+}; // SakuEngine

@@ -5,7 +5,10 @@
 //============================================================================
 #include <Engine/Effect/Particle/Module/Base/ICPUParticleUpdateModule.h>
 
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 
 //============================================================================
@@ -82,3 +85,5 @@ private:
 	int subdivPerSegment_; // ノード間のサブ分割数
 	float uvTileLength_;   // タイル長
 };
+
+}; // SakuEngine

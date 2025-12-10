@@ -11,6 +11,8 @@
 //	ParticleSpawnModuleUpdater
 //	多角形頂点発生モジュールの更新クラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticlePolygonVertexUpdater {
 public:
 	//========================================================================
@@ -62,3 +64,5 @@ private:
 	// 回転
 	LerpValue<Vector3> rotation_;
 };
+
+}; // SakuEngine

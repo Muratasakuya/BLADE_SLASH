@@ -16,7 +16,10 @@
 // imgui
 #include <imgui.h>
 #include <ImGuizmo.h>
+namespace SakuEngine {
+
 // front
+
 class TagSystem;
 class ObjectManager;
 class IGameObject;
@@ -163,3 +166,5 @@ private:
 	void Object2DTransform();
 	void Object2DMaterial();
 };
+
+}; // SakuEngine

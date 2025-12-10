@@ -13,6 +13,8 @@
 //	MeshletStructures
 //============================================================================
 
+namespace SakuEngine {
+
 struct MeshInstanceData {
 
 	uint32_t meshletCount;
@@ -95,3 +97,5 @@ struct ResourceMesh {
 		return *this;
 	}
 };
+
+}; // SakuEngine

@@ -13,6 +13,8 @@
 //	GameEditorManager class
 //	IGameEditorを継承したエディターの管理を行う
 //============================================================================
+namespace SakuEngine {
+
 class GameEditorManager {
 public:
 	//========================================================================
@@ -54,3 +56,5 @@ private:
 
 	std::optional<uint32_t> selectedIndex_ = std::nullopt;
 };
+
+}; // SakuEngine

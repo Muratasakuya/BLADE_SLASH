@@ -5,7 +5,10 @@
 //============================================================================
 #include <Engine/Effect/Particle/Command/ParticleCommand.h>
 
+namespace SakuEngine {
+
 // front
+
 class GameEffect;
 class BaseCamera;
 
@@ -46,3 +49,5 @@ public:
 	static void ApplyAndSend(GameEffect& effect, const Quaternion& parentRotation,
 		const Vector3& localPos, const Vector3& localEuler);
 };
+
+}; // SakuEngine

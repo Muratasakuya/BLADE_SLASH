@@ -5,7 +5,10 @@
 //============================================================================
 #include <Engine/MathLib/Vector3.h>
 
+namespace SakuEngine {
+
 // front
+
 class Quaternion;
 
 //============================================================================
@@ -72,3 +75,5 @@ public:
 	Vector3 GetTranslationValue() const;
 	Vector3 GetRotationValue() const;
 };
+
+}; // SakuEngine

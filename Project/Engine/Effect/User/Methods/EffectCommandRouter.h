@@ -5,7 +5,10 @@
 //============================================================================
 #include <Engine/Effect/Particle/Command/ParticleCommand.h>
 
+namespace SakuEngine {
+
 // front
+
 class ParticleSystem;
 
 //============================================================================
@@ -24,3 +27,5 @@ public:
 	// システム全体にコマンドを送る
 	static void Send(ParticleSystem* system, const ParticleCommand& command);
 };
+
+}; // SakuEngine

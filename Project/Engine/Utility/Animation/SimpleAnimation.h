@@ -30,6 +30,8 @@ enum class SimpleAnimationType {
 //	SimpleAnimation class
 //	startからendまで補間するシンプルなアニメーション
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class SimpleAnimation {
 public:
@@ -321,3 +323,5 @@ inline void SimpleAnimation<T>::ToJson(Json& data) {
 		data["move_.end"] = move_.end.ToJson();
 	}
 }
+
+}; // SakuEngine

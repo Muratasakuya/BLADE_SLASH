@@ -9,6 +9,8 @@
 //	ParticleUpdateNoiseForceModule class
 //	有機的なノイズの力を加えるモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateNoiseForceModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -74,3 +76,5 @@ private:
 	Vector3 GradNoise(const Vector3& p, uint32_t s) const; // ∇fBm
 	Vector3 CurlNoise(const Vector3& p) const;             // ∇×(fBm1,fBm2,fBm3)
 };
+
+}; // SakuEngine

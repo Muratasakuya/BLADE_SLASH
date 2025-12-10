@@ -14,6 +14,8 @@
 //============================================================================
 
 // 平行光源
+namespace SakuEngine {
+
 struct DirectionalLight {
 
 	Color color;
@@ -110,3 +112,5 @@ private:
 
 	const float itemWidth_ = 224.0f;
 };
+
+}; // SakuEngine

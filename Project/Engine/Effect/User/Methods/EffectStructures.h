@@ -53,6 +53,8 @@ enum class EffectSequencerStartCondition {
 };
 
 // 依存の参照先
+namespace SakuEngine {
+
 struct EffectDependencyReference {
 
 	std::string nodeKey; // 参照先ノード
@@ -169,3 +171,5 @@ struct EffectModuleSetting {
 	bool updaterScaleEnable = false;
 	float updaterScaleValue = 1.0f;
 };
+
+}; // SakuEngine

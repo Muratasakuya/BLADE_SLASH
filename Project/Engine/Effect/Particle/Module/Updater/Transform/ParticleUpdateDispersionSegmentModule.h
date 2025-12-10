@@ -9,6 +9,8 @@
 //	ParticleUpdateDispersionSegmentModule class
 //	外側に広がるようにサイズの線分補間を行うモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateDispersionSegmentModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -91,3 +93,5 @@ private:
 	//--------- functions ----------------------------------------------------
 
 };
+
+}; // SakuEngine

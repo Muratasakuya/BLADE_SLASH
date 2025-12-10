@@ -7,7 +7,10 @@
 
 // data
 #include <Engine/Object/Data/Sprite.h>
+namespace SakuEngine {
+
 // front
+
 class BaseCamera;
 
 //============================================================================
@@ -130,3 +133,5 @@ private:
 
 	std::string uniqueName_;
 };
+
+}; // SakuEngine

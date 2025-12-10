@@ -9,6 +9,8 @@
 //	Camera2D class
 //	2D視点カメラ
 //============================================================================
+namespace SakuEngine {
+
 class Camera2D :
 	public BaseCamera {
 public:
@@ -25,3 +27,5 @@ public:
 
 	void ImGui() override;
 };
+
+}; // SakuEngine

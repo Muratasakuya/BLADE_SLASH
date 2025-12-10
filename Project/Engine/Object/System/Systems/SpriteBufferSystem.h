@@ -6,7 +6,10 @@
 #include <Engine/Object/System/Base/ISystem.h>
 #include <Engine/Object/Data/Sprite.h>
 
+namespace SakuEngine {
+
 // front
+
 class Transform2D;
 class SpriteMaterial;
 
@@ -51,3 +54,5 @@ private:
 
 	std::unordered_map<SpriteLayer, std::vector<SpriteData>> spriteDataMap_;
 };
+
+}; // SakuEngine

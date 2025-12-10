@@ -10,6 +10,8 @@
 //============================================================================
 //	ConicalPendulum struct
 //============================================================================
+namespace SakuEngine {
+
 struct ConicalPendulum {
 public:
 	//========================================================================
@@ -66,3 +68,5 @@ public:
 	void FromJson(const Json& data);
 	void ToJson(Json& data);
 };
+
+}; // SakuEngine

@@ -8,6 +8,8 @@
 //	DitherForGPU
 //	ベイヤー行列等によるディザ設定のGPU定数を保持し、UI編集に対応する。
 //----------------------------------------------------------------------------
+namespace SakuEngine {
+
 struct DitherForGPU {
 
 	int pattern[4][4] = {
@@ -23,3 +25,5 @@ struct DitherForGPU {
 	void Init();
 	void ImGui();
 };
+
+}; // SakuEngine

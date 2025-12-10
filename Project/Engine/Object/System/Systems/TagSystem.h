@@ -14,6 +14,8 @@
 //	TagSystem class
 //	オブジェクトの所属しているグループ、タグ名を管理するシステム
 //============================================================================
+namespace SakuEngine {
+
 class TagSystem :
 	public ISystem {
 public:
@@ -57,3 +59,5 @@ private:
 	// 名前からベースネームと番号を分離する
 	std::string SplitBaseNameAndNumber(const std::string& name, int& number);
 };
+
+}; // SakuEngine

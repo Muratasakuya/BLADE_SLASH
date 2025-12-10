@@ -19,6 +19,8 @@ using Json = nlohmann::json;
 //	DxRootSignature class
 //	Descriptorテーブル/CBV/SRV/UAV/サンプラ構成をJSONから解釈してRootSignatureを生成する。
 //============================================================================
+namespace SakuEngine {
+
 class DxRootSignature {
 public:
 	//========================================================================
@@ -32,3 +34,5 @@ public:
 	void Create(const std::string& fileName, const Json& json, ID3D12Device* device,
 		class SRVDescriptor* srvDescriptor, ComPtr<ID3D12RootSignature>& rootSignature);
 };
+
+}; // SakuEngine

@@ -13,6 +13,8 @@
 //	ICPUParticleModule class
 //	CPUパーティクルモジュールの基底クラス
 //============================================================================
+namespace SakuEngine {
+
 class ICPUParticleModule {
 public:
 	//========================================================================
@@ -36,3 +38,5 @@ public:
 
 	virtual const char* GetName() const = 0;
 };
+
+}; // SakuEngine

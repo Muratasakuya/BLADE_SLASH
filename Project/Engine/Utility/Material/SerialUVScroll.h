@@ -12,6 +12,8 @@
 //	SerialUVScroll class
 //	連番画像のUVスクロール処理
 //============================================================================
+namespace SakuEngine {
+
 class SerialUVScroll {
 public:
 	//========================================================================
@@ -116,3 +118,5 @@ private:
 	// 総フレーム数を取得
 	uint32_t GetTotalFrames() const { return static_cast<uint32_t>(path_.size()); }
 };
+
+}; // SakuEngine

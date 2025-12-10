@@ -14,6 +14,8 @@
 //	AccelerationStructureBuffer class
 //	DXRのBLAS/TLAS構築で使用するバッファ(UAV/UPLOAD等)を生成・保持する薄いラッパー。
 //============================================================================
+namespace SakuEngine {
+
 class AccelerationStructureBuffer {
 public:
 	//========================================================================
@@ -42,3 +44,5 @@ private:
 
 	ComPtr<ID3D12Resource> resource_;
 };
+
+}; // SakuEngine

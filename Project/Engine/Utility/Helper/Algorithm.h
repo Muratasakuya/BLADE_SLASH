@@ -20,6 +20,8 @@
 //	Algorithm namespace
 //	汎用アルゴリズム(列挙→配列化／文字列処理／探索／補間／範囲判定)を提供する。
 //============================================================================
+namespace SakuEngine {
+
 namespace Algorithm {
 
 	//========================================================================
@@ -157,3 +159,5 @@ namespace Algorithm {
 	// overallが[start,end]の閉区間内にあるか判定する
 	bool InRangeOverall(float overall, float start, float end);
 }
+
+}; // SakuEngine

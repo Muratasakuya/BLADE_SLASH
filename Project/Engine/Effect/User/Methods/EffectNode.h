@@ -6,7 +6,10 @@
 #include <Engine/Effect/User/Methods/EffectEmitController.h>
 #include <Engine/Effect/User/Methods/EffectStopController.h>
 
+namespace SakuEngine {
+
 // front
+
 class ParticleSystem;
 
 //============================================================================
@@ -50,3 +53,5 @@ public:
 	// リセット
 	void Reset();
 };
+
+}; // SakuEngine

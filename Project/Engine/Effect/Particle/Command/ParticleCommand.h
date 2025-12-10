@@ -52,6 +52,8 @@ enum class ParticleLifeEndMode {
 };
 
 // 特定のIDの指定
+namespace SakuEngine {
+
 struct ParticleCommandFilter {
 
 	std::optional<ParticleUpdateModuleID> updaterId;
@@ -70,3 +72,5 @@ struct ParticleCommand {
 	ParticleCommandFilter filter; // 更新モジュールの指定
 	ParticleCommandValue  value;  // コマンドに合わせた渡す値
 };
+
+}; // SakuEngine

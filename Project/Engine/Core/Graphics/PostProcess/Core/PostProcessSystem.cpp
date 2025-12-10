@@ -1,4 +1,6 @@
 ﻿#include "PostProcessSystem.h"
+
+using namespace SakuEngine;
 #include "PostProcessSystem.h"
 
 //============================================================================

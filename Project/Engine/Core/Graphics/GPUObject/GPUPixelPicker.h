@@ -9,7 +9,10 @@
 #include <Engine/Core/Graphics/GPUObject/DxStructuredBuffer.h>
 #include <Engine/MathLib/MathUtils.h>
 
+namespace SakuEngine {
+
 // front
+
 class SRVDescriptor;
 class DxCommand;
 class SceneView;
@@ -81,3 +84,5 @@ private:
 	// 内部ヘルパ: 現在のピック対象情報をCBVへ設定する
 	void SetPickObject();
 };
+
+}; // SakuEngine

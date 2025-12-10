@@ -9,6 +9,8 @@
 //	ParticleUpdateTranslateModule class
 //	座標をパーティクルに渡すモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateTranslateModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -55,3 +57,5 @@ private:
 	//--------- functions ----------------------------------------------------
 
 };
+
+}; // SakuEngine

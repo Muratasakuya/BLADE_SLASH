@@ -25,6 +25,8 @@ enum class AnimationApplyMode {
 //	AnimationChannel class
 //	値の適用処理を行うチャネル
 //============================================================================
+namespace SakuEngine {
+
 template <class Target, typename T>
 struct AnimationChannel {
 public:
@@ -162,3 +164,5 @@ inline void AnimationChannel<Target, T>::ToJson(Json& data) {
 	data["applyMode"] = EnumAdapter<AnimationApplyMode>::ToString(applyMode);
 	valueSource->ToJson(data["ValueSource"]);
 }
+
+}; // SakuEngine

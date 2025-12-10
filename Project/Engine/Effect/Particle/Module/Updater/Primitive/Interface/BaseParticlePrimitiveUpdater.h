@@ -9,6 +9,8 @@
 //	BaseParticlePrimitiveUpdater class
 //	パーティクルのプリミティブ更新基底クラス
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class BaseParticlePrimitiveUpdater :
 	public IParticlePrimitiveUpdater {
@@ -30,3 +32,5 @@ protected:
 	T start_;
 	T target_;
 };
+
+}; // SakuEngine

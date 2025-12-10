@@ -8,7 +8,10 @@
 // c++
 #include <string>
 #include <unordered_map>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -53,3 +56,5 @@ private:
 	// meshletの作成
 	ResourceMesh<MeshVertex> CreateMeshlet(const std::string& modelName);
 };
+
+}; // SakuEngine
