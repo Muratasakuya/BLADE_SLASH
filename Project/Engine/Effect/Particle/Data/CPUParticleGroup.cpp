@@ -1,4 +1,6 @@
-#include "CPUParticleGroup.h"
+﻿#include "CPUParticleGroup.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

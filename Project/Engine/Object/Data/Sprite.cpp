@@ -1,4 +1,6 @@
-#include "Sprite.h"
+﻿#include "Sprite.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

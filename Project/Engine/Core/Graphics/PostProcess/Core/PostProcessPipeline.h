@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,7 +9,10 @@
 // c++
 #include <memory>
 #include <array>
+namespace SakuEngine {
+
 // front
+
 class SRVDescriptor;
 class DxShaderCompiler;
 
@@ -51,3 +54,5 @@ private:
 
 	std::array<std::unique_ptr<PipelineState>, kPostProcessCount> pipelines_;
 };
+
+}; // SakuEngine

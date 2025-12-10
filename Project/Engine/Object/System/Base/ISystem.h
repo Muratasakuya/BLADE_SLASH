@@ -1,11 +1,14 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectPool.h>
 
+namespace SakuEngine {
+
 // front
+
 class ObjectPoolManager;
 
 //============================================================================
@@ -26,3 +29,5 @@ public:
 	// タイプシグネチャでフィルタリングされたオブジェクトの更新
 	virtual void Update(ObjectPoolManager& ObjectPoolManager) = 0;
 };
+
+}; // SakuEngine

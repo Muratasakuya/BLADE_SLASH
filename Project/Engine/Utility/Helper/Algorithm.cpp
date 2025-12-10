@@ -1,4 +1,6 @@
-#include "Algorithm.h"
+﻿#include "Algorithm.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	Algorithm define

@@ -1,4 +1,6 @@
-#include "AnimationManager.h"
+﻿#include "AnimationManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

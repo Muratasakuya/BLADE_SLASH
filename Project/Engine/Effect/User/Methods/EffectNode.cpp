@@ -1,4 +1,6 @@
-#include "EffectNode.h"
+﻿#include "EffectNode.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

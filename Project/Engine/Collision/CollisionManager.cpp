@@ -1,4 +1,6 @@
-#include "CollisionManager.h"
+﻿#include "CollisionManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

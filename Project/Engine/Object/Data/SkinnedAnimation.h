@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,10 @@
 #include <execution>
 #include <ranges> 
 
-// front 
+namespace SakuEngine {
+
+// front
+
 class Asset;
 
 //============================================================================
@@ -176,3 +179,5 @@ private:
 		int totalFrames, float barWidth, float barHeight);
 	void DebugDrawBone(const Matrix4x4& worldMatrix);
 };
+
+}; // SakuEngine

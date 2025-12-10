@@ -1,4 +1,6 @@
-#include "DxUploadCommand.h"
+﻿#include "DxUploadCommand.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

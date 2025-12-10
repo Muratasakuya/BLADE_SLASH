@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,6 +10,8 @@
 //	ICPUParticleUpdateModule class
 //	CPUパーティクル更新モジュール基底
 //============================================================================
+namespace SakuEngine {
+
 class ICPUParticleUpdateModule :
 	public ICPUParticleModule,
 	public ParticleLoopableModule {
@@ -30,3 +32,5 @@ public:
 
 	virtual ParticleUpdateModuleID GetID() const = 0;
 };
+
+}; // SakuEngine

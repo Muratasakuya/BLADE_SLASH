@@ -1,4 +1,6 @@
-#include "CollisionBody.h"
+﻿#include "CollisionBody.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	Collider classMethods

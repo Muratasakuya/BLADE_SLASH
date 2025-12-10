@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,6 +10,8 @@
 //	ParticleUpdateAlphaReferenceModule class
 //	α値の閾値の更新モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateAlphaReferenceModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -54,3 +56,5 @@ private:
 
 	EasingType easing_;
 };
+
+}; // SakuEngine

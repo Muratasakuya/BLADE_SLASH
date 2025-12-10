@@ -1,4 +1,6 @@
-#include "Collider.h"
+﻿#include "Collider.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

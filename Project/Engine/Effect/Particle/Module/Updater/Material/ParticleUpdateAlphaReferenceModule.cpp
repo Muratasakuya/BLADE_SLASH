@@ -1,4 +1,6 @@
-#include "ParticleUpdateAlphaReferenceModule.h"
+﻿#include "ParticleUpdateAlphaReferenceModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

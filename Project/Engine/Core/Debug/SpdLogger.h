@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -24,6 +24,8 @@
 //	SpdLogger class
 //	コンソール/ファイル(MSVC)への複数シンク出力をまとめるロガー。初期化と各種ログAPIを提供する。
 //============================================================================
+namespace SakuEngine {
+
 class SpdLogger {
 public:
 	//========================================================================
@@ -143,3 +145,5 @@ private:
 #define CONCAT(a,b) CONCAT_INNER(a,b)
 #define LOG_SCOPE_MS_THIS() ::ScopedMsLog CONCAT(_scopems_, __LINE__)(SPDLOG_FUNCTION)
 #define LOG_SCOPE_MS_LABEL(label) ::ScopedMsLog CONCAT(_scopems_, __LINE__)(label)
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "TransformSystem.h"
+﻿#include "TransformSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

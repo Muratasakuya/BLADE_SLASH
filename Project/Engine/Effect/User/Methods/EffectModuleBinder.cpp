@@ -1,4 +1,6 @@
-#include "EffectModuleBinder.h"
+﻿#include "EffectModuleBinder.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

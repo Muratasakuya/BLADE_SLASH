@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleUpdateVelocityModule class
 //	速度を加算して移動させるモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateVelocityModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -43,3 +45,5 @@ private:
 	//--------- variables ----------------------------------------------------
 
 };
+
+}; // SakuEngine

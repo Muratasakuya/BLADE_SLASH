@@ -1,4 +1,6 @@
-#include "ParticleUpdateKeyframePathModule.h"
+﻿#include "ParticleUpdateKeyframePathModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

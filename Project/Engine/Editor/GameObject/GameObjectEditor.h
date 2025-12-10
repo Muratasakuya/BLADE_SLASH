@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -6,7 +6,10 @@
 #include <Engine/Editor/Base/IGameEditor.h>
 #include <Engine/Object/Base/GameObject3D.h>
 
+namespace SakuEngine {
+
 // front
+
 class ObjectManager;
 class Asset;
 
@@ -107,3 +110,5 @@ private:
 	// objectクラスタイプの選択
 	void SelectObjectClassType(objectClassType& classType);
 };
+
+}; // SakuEngine

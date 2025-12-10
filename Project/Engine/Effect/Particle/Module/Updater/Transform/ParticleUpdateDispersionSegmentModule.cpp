@@ -1,4 +1,6 @@
-#include "ParticleUpdateDispersionSegmentModule.h"
+﻿#include "ParticleUpdateDispersionSegmentModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

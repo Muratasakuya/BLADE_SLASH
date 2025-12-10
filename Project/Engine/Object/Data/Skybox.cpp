@@ -1,4 +1,6 @@
-#include "Skybox.h"
+﻿#include "Skybox.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

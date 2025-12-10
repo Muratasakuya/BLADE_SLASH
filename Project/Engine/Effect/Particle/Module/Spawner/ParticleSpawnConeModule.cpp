@@ -1,4 +1,6 @@
-#include "ParticleSpawnConeModule.h"
+﻿#include "ParticleSpawnConeModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

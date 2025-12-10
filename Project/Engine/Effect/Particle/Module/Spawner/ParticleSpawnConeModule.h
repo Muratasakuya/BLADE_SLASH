@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleSpawnConeModule class
 //	コーン型発生モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleSpawnConeModule :
 	public ICPUParticleSpawnModule {
 public:
@@ -56,3 +58,5 @@ private:
 	// コーンの面上の点を取得
 	Vector3 GetFacePoint(float radius, float height) const;
 };
+
+}; // SakuEngine

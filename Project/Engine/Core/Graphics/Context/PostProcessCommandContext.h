@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -14,6 +14,8 @@
 //	PostProcessCommandContext class
 //	ポストプロセス用のコマンド設定/発行を管理する。
 //============================================================================
+namespace SakuEngine {
+
 class PostProcessCommandContext {
 public:
 	//========================================================================
@@ -29,3 +31,5 @@ public:
 		const D3D12_GPU_DESCRIPTOR_HANDLE& inputTextureGPUHandle,
 		const D3D12_GPU_DESCRIPTOR_HANDLE& inputMaskTextureGPUHandle);
 };
+
+}; // SakuEngine

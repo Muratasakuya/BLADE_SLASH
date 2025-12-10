@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,10 @@
 // c++
 #include <array>
 #include <cstdint>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 class SRVDescriptor;
 class DxShaderCompiler;
@@ -76,3 +79,5 @@ private:
 	// 更新
 	void DispatchUpdate(const GPUParticleGroup& group, DxCommand* dxCommand);
 };
+
+}; // SakuEngine

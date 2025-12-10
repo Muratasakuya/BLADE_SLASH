@@ -1,4 +1,6 @@
-#include "SRVDescriptor.h"
+﻿#include "SRVDescriptor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

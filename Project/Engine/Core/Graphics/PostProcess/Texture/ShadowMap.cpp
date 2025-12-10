@@ -1,4 +1,6 @@
-#include "ShadowMap.h"
+﻿#include "ShadowMap.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

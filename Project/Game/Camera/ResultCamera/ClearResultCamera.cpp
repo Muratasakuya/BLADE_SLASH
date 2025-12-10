@@ -1,4 +1,4 @@
-#include "ClearResultCamera.h"
+﻿#include "ClearResultCamera.h"
 
 //============================================================================
 //	include

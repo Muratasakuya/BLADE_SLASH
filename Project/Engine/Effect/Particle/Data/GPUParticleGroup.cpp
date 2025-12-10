@@ -1,4 +1,6 @@
-#include "GPUParticleGroup.h"
+﻿#include "GPUParticleGroup.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -12,7 +12,10 @@
 #include <optional>
 #include <string>
 #include <unordered_set>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 class DxCommand;
 
@@ -109,3 +112,5 @@ inline T* ObjectManager::GetSystem() const {
 
 	return systemManager_->GetSystem<T>();
 }
+
+}; // SakuEngine

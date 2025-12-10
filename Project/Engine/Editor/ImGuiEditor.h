@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -13,7 +13,10 @@
 // c++
 #include <unordered_map>
 #include <optional>
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 class Asset;
 
@@ -127,3 +130,5 @@ private:
 	void SetInputArea(InputViewArea viewArea, const ImVec2& imMin, const ImVec2& imSize);
 	void DrawDescriptorUsageBar(const char* label, const BaseDescriptor* descriptor);
 };
+
+}; // SakuEngine

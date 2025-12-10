@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -12,6 +12,8 @@
 //	DxStructuredBuffer class
 //	SRV/UAV用の構造化バッファを生成し、データ転送とハンドル提供を行う。
 //============================================================================
+namespace SakuEngine {
+
 template<typename T>
 class DxStructuredBuffer {
 public:
@@ -141,3 +143,5 @@ inline D3D12_UNORDERED_ACCESS_VIEW_DESC DxStructuredBuffer<T>::GetUAVDesc(UINT i
 
 	return uavDesc;
 }
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "SceneTransition.h"
+﻿#include "SceneTransition.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

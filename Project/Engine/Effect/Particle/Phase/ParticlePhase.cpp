@@ -1,4 +1,6 @@
-#include "ParticlePhase.h"
+﻿#include "ParticlePhase.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

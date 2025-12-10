@@ -1,4 +1,6 @@
-#include "ParticleManager.h"
+﻿#include "ParticleManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

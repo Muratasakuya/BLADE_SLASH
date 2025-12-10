@@ -1,4 +1,6 @@
-#include "KeyframeObject3D.h"
+﻿#include "KeyframeObject3D.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

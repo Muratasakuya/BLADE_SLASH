@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -22,6 +22,8 @@ enum class ParticleValueType {
 	Random
 };
 // 定数
+namespace SakuEngine {
+
 template<typename T>
 struct ParticleConstantValue {
 
@@ -278,3 +280,5 @@ inline void ParticleValue<T>::SaveJson(Json& data, const std::string& name) {
 		data[name]["randomMax"] = JsonAdapter::FromObject<Color>(random.max);
 	}
 }
+
+}; // SakuEngine

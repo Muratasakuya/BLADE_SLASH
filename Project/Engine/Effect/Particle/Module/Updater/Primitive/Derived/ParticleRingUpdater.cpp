@@ -1,4 +1,6 @@
-#include "ParticleRingUpdater.h"
+﻿#include "ParticleRingUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

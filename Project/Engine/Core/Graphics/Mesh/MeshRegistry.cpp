@@ -1,4 +1,6 @@
-#include "MeshRegistry.h"
+﻿#include "MeshRegistry.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

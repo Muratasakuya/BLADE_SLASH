@@ -1,4 +1,6 @@
-#include "IScene.h"
+﻿#include "IScene.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	IScene classMethods

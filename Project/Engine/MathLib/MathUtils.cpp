@@ -1,4 +1,6 @@
-#include "MathUtils.h"
+﻿#include "MathUtils.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

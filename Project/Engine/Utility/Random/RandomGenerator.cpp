@@ -1,4 +1,6 @@
-#include "RandomGenerator.h"
+﻿#include "RandomGenerator.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	RandomGenerator classMethods

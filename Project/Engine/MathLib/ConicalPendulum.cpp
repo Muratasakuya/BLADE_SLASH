@@ -1,4 +1,6 @@
-#include "ConicalPendulum.h"
+﻿#include "ConicalPendulum.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

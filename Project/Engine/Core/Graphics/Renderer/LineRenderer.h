@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,10 @@
 
 // c++
 #include <memory>
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 class SRVDescriptor;
 class DxShaderCompiler;
@@ -339,3 +342,5 @@ inline void LineRenderer::DrawCone(int division, float baseRadius, float topRadi
 		DrawLine3D(baseA, topA, color, type);
 	}
 }
+
+}; // SakuEngine

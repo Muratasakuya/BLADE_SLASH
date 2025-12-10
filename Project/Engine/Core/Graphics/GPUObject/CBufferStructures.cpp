@@ -1,4 +1,6 @@
-#include "CBufferStructures.h"
+﻿#include "CBufferStructures.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

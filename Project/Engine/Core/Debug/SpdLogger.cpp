@@ -1,4 +1,6 @@
-#include "SpdLogger.h"
+﻿#include "SpdLogger.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	SpdLogger classMethods

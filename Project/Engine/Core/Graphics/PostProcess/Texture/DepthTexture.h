@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,7 +10,10 @@
 // c++
 #include <cstdint>
 
+namespace SakuEngine {
+
 // front
+
 class DSVDescriptor;
 class SRVDescriptor;
 
@@ -50,3 +53,5 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvCPUHandle_; // DSV
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGPUHandle_; // SRV
 };
+
+}; // SakuEngine

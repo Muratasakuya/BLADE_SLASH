@@ -1,4 +1,4 @@
-#include "GameTimerDisplay.h"
+﻿#include "GameTimerDisplay.h"
 
 //============================================================================
 //	GameTimerDisplay classMethods

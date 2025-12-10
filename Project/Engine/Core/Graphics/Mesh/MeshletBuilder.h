@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -17,6 +17,8 @@
 //	MeshletBuilder class
 //	モデルデータからメッシュ/メッシュレットを生成し、頂点配列の最適化を行う。
 //============================================================================
+namespace SakuEngine {
+
 class MeshletBuilder {
 public:
 	//========================================================================
@@ -56,3 +58,5 @@ private:
 	// エフェクト用メッシュレットを生成し、描画用のまとまりとして登録する
 	void CreateEffectMeshlet(ResourceMesh<EffectMeshVertex>& destinationMesh);
 };
+
+}; // SakuEngine

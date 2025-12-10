@@ -1,4 +1,6 @@
-#include "TopLevelAS.h"
+﻿#include "TopLevelAS.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	TopLevelAS classMethods

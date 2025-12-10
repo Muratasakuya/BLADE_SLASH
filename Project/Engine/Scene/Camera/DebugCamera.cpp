@@ -1,4 +1,6 @@
-#include "DebugCamera.h"
+﻿#include "DebugCamera.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

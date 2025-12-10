@@ -1,4 +1,6 @@
-#include "ParticleUpdateLifeTimeModule.h"
+﻿#include "ParticleUpdateLifeTimeModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

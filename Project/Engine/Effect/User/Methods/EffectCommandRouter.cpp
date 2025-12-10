@@ -1,4 +1,6 @@
-#include "EffectCommandRouter.h"
+﻿#include "EffectCommandRouter.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

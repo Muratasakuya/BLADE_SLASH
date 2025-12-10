@@ -1,4 +1,4 @@
-#include "PauseState.h"
+﻿#include "PauseState.h"
 
 //============================================================================
 //	PauseState classMethods

@@ -1,4 +1,6 @@
-#include "DxBlendState.h"
+﻿#include "DxBlendState.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	DxBlendState classMethods

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -7,7 +7,10 @@
 
 // c++
 #include <vector>
+namespace SakuEngine {
+
 // front
+
 class IMesh;
 
 //============================================================================
@@ -63,3 +66,5 @@ private:
 
 	bool allowUpdate_;
 };
+
+}; // SakuEngine

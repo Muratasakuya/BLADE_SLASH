@@ -1,4 +1,4 @@
-#include "FadeTransition.h"
+﻿#include "FadeTransition.h"
 
 //============================================================================
 //	include

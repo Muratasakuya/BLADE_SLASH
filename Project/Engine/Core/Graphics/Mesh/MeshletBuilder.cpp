@@ -1,4 +1,6 @@
-#include "MeshletBuilder.h"
+﻿#include "MeshletBuilder.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	MeshletBuilder classMethods

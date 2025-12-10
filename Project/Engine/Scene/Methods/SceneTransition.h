@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -12,6 +12,8 @@
 //	SceneTransition class
 //	セットされたITransitionを使ってシーン遷移を行う
 //============================================================================
+namespace SakuEngine {
+
 class SceneTransition {
 public:
 	//========================================================================
@@ -63,3 +65,5 @@ private:
 	// 遷移を行うクラス
 	std::unique_ptr<ITransition> transition_;
 };
+
+}; // SakuEngine

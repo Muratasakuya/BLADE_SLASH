@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -20,6 +20,8 @@ using Json = nlohmann::json;
 //	DxInputLayout class
 //	頂点入力レイアウト(D3D12_INPUT_LAYOUT_DESC)をJSON定義から構築する。
 //============================================================================
+namespace SakuEngine {
+
 class DxInputLayout {
 public:
 	//========================================================================
@@ -32,3 +34,5 @@ public:
 	// JSONの設定に基づき、Rasterizer/DepthStencil各記述を作成する
 	void Create(const Json& json, std::optional<D3D12_INPUT_LAYOUT_DESC>& desc);
 };
+
+}; // SakuEngine

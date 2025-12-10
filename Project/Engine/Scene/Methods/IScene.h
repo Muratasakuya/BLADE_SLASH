@@ -1,10 +1,13 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 class SceneManager;
 
@@ -56,3 +59,5 @@ protected:
 
 	bool isFinishGame_ = false;;
 };
+
+}; // SakuEngine

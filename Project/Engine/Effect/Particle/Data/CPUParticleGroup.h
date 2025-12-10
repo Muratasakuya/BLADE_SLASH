@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,6 +10,8 @@
 //	CPUParticleGroup class
 //	CPUのパーティクル処理をまとめたグループ
 //============================================================================
+namespace SakuEngine {
+
 class CPUParticleGroup :
 	public BaseParticleGroup {
 public:
@@ -119,3 +121,5 @@ private:
 	void ResizeTransferData(uint32_t size);
 	void AddPhase();
 };
+
+}; // SakuEngine

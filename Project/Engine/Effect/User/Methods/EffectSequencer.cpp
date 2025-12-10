@@ -1,4 +1,6 @@
-#include "EffectSequencer.h"
+﻿#include "EffectSequencer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,6 @@
-#include "Matrix4x4.h"
+﻿#include "Matrix4x4.h"
+
+using namespace SakuEngine;
 
 //============================================================================*/
 //	include

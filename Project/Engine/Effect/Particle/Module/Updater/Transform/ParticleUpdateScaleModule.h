@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleUpdateScaleModule class
 //	スケールを更新するモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateScaleModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -51,3 +53,5 @@ private:
 
 	EasingType easing_;
 };
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -27,6 +27,8 @@
 //	SceneView class
 //	シーンの環境を更新、提供するクラス
 //============================================================================
+namespace SakuEngine {
+
 class SceneView :
 	public IGameEditor {
 public:
@@ -105,3 +107,5 @@ private:
 	void DisplayPointLight();
 	void DisplaySpotLight();
 };
+
+}; // SakuEngine

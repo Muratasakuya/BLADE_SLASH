@@ -1,4 +1,6 @@
-#include "ParticleRenderer.h"
+﻿#include "ParticleRenderer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	GPUParticleUpdater classMethods

@@ -1,4 +1,6 @@
-#include "DelayedHitstop.h"
+﻿#include "DelayedHitstop.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

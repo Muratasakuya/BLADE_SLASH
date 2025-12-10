@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -20,6 +20,8 @@ enum class ParticleEmitterShape {
 	Cone,
 	Count,
 };
+
+namespace SakuEngine {
 
 struct ParticleEmitterCommon {
 
@@ -165,3 +167,5 @@ struct ParticleEmitterBufferData {
 	// コーン状
 	DxConstBuffer<ParticleEmitterCone> cone;
 };
+
+}; // SakuEngine

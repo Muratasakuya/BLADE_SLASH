@@ -1,4 +1,6 @@
-#include "SerialUVScroll.h"
+﻿#include "SerialUVScroll.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,6 +10,8 @@
 //	DerivedBuffer class
 //	GPU転送データ、ImGui関数で値の調整ができる
 //============================================================================
+
+namespace SakuEngine {
 
 class GrayscaleForGPU {
 public:
@@ -368,3 +370,5 @@ public:
 
 	Matrix4x4 uvTransform = Matrix4x4::MakeIdentity4x4();
 };
+
+}; // SakuEngine

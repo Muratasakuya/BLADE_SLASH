@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -30,6 +30,8 @@ enum class ParticlePlaneType {
 };
 
 // 平面
+namespace SakuEngine {
+
 struct PlaneForGPU {
 
 	Vector2 size;
@@ -218,3 +220,5 @@ struct TestMeshForGPU {
 		mode = 0;
 	}
 };
+
+}; // SakuEngine

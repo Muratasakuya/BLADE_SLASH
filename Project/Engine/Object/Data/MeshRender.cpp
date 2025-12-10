@@ -1,4 +1,6 @@
-#include "MeshRender.h"
+﻿#include "MeshRender.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

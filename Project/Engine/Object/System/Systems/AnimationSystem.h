@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	AnimationSystem class
 //	アニメーションデータの更新
 //============================================================================
+namespace SakuEngine {
+
 class AnimationSystem :
 	public ISystem {
 public:
@@ -23,3 +25,5 @@ public:
 
 	void Update(ObjectPoolManager& ObjectPoolManager) override;
 };
+
+}; // SakuEngine

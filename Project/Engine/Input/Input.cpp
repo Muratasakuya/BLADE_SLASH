@@ -1,4 +1,6 @@
-#include "Input.h"
+﻿#include "Input.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

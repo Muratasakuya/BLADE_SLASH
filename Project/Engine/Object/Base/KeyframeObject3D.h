@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,6 +11,8 @@
 //	KeyframeObject3D class
 //	キーフレーム補間オブジェクト
 //============================================================================
+namespace SakuEngine {
+
 class KeyframeObject3D {
 public:
 	//========================================================================
@@ -244,3 +246,5 @@ inline T KeyframeObject3D::GetLerpedAnyValue(uint32_t trackIndex, float currentT
 	T result = LerpKeyframe::GetValue<T>(values, currentT, lerpType_);
 	return result;
 }
+
+}; // SakuEngine

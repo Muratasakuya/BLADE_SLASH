@@ -1,4 +1,6 @@
-#include "TrailEffectRenderer.h"
+﻿#include "TrailEffectRenderer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	TrailEffectRenderer classMethods

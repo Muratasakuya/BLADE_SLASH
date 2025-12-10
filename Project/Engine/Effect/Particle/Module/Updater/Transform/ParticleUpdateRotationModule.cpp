@@ -1,4 +1,6 @@
-#include "ParticleUpdateRotationModule.h"
+﻿#include "ParticleUpdateRotationModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

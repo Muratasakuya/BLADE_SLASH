@@ -1,4 +1,6 @@
-#include "GraphicsPlatform.h"
+﻿#include "GraphicsPlatform.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

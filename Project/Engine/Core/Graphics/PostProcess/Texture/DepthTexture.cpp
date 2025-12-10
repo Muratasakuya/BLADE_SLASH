@@ -1,4 +1,6 @@
-#include "DepthTexture.h"
+﻿#include "DepthTexture.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //  include

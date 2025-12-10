@@ -1,4 +1,6 @@
-#include "AccelerationStructureBuffer.h"
+﻿#include "AccelerationStructureBuffer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	AccelerationStructureBuffer classMethods

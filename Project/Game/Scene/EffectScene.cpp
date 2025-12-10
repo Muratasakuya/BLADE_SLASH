@@ -1,4 +1,4 @@
-#include "EffectScene.h"
+﻿#include "EffectScene.h"
 
 //============================================================================
 //	include

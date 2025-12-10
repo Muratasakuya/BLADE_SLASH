@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleUpdateColorModule class
 //	色の更新を行うモジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateColorModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -48,3 +50,5 @@ private:
 
 	EasingType easing;
 };
+
+}; // SakuEngine

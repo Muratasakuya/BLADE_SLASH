@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,6 +10,8 @@
 //============================================================================
 //	ParticleUpdateNoiseUVModule class
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateNoiseUVModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -72,3 +74,5 @@ private:
 	EasingType easing_;
 	UpdateType updateType_;
 };
+
+}; // SakuEngine

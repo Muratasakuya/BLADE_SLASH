@@ -1,4 +1,6 @@
-#include "DxShaderCompiler.h"
+﻿#include "DxShaderCompiler.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

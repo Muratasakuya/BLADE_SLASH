@@ -1,4 +1,6 @@
-#include "DxStructures.h"
+﻿#include "DxStructures.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	Transform3DSystem class
 //	3DTransformの更新システム
 //============================================================================
+namespace SakuEngine {
+
 class Transform3DSystem :
 	public ISystem {
 public:
@@ -42,3 +44,5 @@ public:
 
 	void Update(ObjectPoolManager& ObjectPoolManager) override;
 };
+
+}; // SakuEngine

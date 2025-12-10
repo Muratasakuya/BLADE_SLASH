@@ -1,4 +1,6 @@
-#include "EffectEmitController.h"
+﻿#include "EffectEmitController.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

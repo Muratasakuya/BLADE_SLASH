@@ -1,4 +1,4 @@
-#include "BossEnemyStructures.h"
+﻿#include "BossEnemyStructures.h"
 
 //============================================================================
 //	BossEnemyStructures classMethods

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleSpawnCircleModule class
 //	円発生モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleSpawnCircleModule :
 	public ICPUParticleSpawnModule {
 public:
@@ -92,3 +94,5 @@ private:
 	// 速度取得
 	Vector3 GetVelocity(uint32_t index, uint32_t emitCount, const Vector3& direction) const;
 };
+
+}; // SakuEngine

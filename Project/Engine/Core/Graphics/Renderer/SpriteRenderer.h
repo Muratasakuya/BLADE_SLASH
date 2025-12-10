@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,10 @@
 // c++
 #include <array>
 #include <memory>
+namespace SakuEngine {
+
 // front
+
 class DxCommand;
 class SceneConstBuffer;
 class SRVDescriptor;
@@ -59,3 +62,5 @@ private:
 
 	std::unordered_map<RenderMode, std::unique_ptr<PipelineState>> pipelines_;
 };
+
+}; // SakuEngine

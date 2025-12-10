@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -8,7 +8,10 @@
 #include <d3d12.h>
 // c++
 #include <cstdint>
+namespace SakuEngine {
+
 // front
+
 class DxCommand;
 
 //============================================================================
@@ -28,3 +31,5 @@ public:
 	void DispatchMesh(ID3D12GraphicsCommandList6* commandList,
 		UINT instanceCount, uint32_t meshIndex, class IMesh* mesh);
 };
+
+}; // SakuEngine

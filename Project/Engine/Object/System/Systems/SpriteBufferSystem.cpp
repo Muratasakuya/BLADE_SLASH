@@ -1,4 +1,6 @@
-#include "SpriteBufferSystem.h"
+﻿#include "SpriteBufferSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

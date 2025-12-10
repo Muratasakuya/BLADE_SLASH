@@ -1,4 +1,6 @@
-#include "ParticleUpdateTrailModule.h"
+﻿#include "ParticleUpdateTrailModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

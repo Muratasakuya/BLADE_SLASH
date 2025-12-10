@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -18,6 +18,8 @@
 //	EnumAdapter class
 //	magic_enumを利用したenumをstringやindexに変換するアダプター
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class EnumAdapter {
 public:
@@ -96,3 +98,5 @@ public:
 		return changed;
 	}
 };
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "Vector4.h"
+﻿#include "Vector4.h"
+
+using namespace SakuEngine;
 
 //============================================================================*/
 //	namespace

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleCylinderUpdater class
 //	円柱型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleCylinderUpdater :
 	public BaseParticlePrimitiveUpdater<CylinderForGPU> {
 public:
@@ -43,3 +45,5 @@ private:
 	// UVモード
 	CylinderUVMode uvMode_;
 };
+
+}; // SakuEngine

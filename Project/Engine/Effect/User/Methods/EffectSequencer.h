@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -13,6 +13,8 @@
 //============================================================================
 
 // 
+namespace SakuEngine {
+
 struct EffectNodeSignals {
 
 	bool started = false;      // ノードが一度でも起動したか
@@ -41,3 +43,5 @@ public:
 		const std::unordered_map<std::string, EffectNodeSignals>& signals,
 		const EffectQueryGroupAliveFn& queryFn);
 };
+
+}; // SakuEngine

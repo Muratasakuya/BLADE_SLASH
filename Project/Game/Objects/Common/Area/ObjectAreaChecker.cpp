@@ -1,4 +1,4 @@
-#include "ObjectAreaChecker.h"
+﻿#include "ObjectAreaChecker.h"
 
 //============================================================================
 //	ObjectAreaChecker classMethods

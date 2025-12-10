@@ -1,4 +1,6 @@
-#include "AnimationSystem.h"
+﻿#include "AnimationSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

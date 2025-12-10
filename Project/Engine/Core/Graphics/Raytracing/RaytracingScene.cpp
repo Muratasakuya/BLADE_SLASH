@@ -1,4 +1,6 @@
-#include "RaytracingScene.h"
+﻿#include "RaytracingScene.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

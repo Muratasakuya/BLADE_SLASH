@@ -1,4 +1,6 @@
-#include "SceneFactory.h"
+﻿#include "SceneFactory.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

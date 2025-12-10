@@ -1,4 +1,6 @@
-#include "SystemManager.h"
+﻿#include "SystemManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

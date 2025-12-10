@@ -1,4 +1,6 @@
-#include "ParticleSpawnPolygonVertexModule.h"
+﻿#include "ParticleSpawnPolygonVertexModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

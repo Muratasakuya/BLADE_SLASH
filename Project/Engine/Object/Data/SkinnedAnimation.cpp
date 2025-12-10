@@ -1,4 +1,6 @@
-#include "SkinnedAnimation.h"
+﻿#include "SkinnedAnimation.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

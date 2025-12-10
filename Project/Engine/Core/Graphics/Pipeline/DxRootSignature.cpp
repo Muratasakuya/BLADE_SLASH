@@ -1,4 +1,6 @@
-#include "DxRootSignature.h"
+﻿#include "DxRootSignature.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

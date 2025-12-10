@@ -1,4 +1,4 @@
-#include "PlayerAfterImageEffect.h"
+﻿#include "PlayerAfterImageEffect.h"
 
 //============================================================================
 //	include

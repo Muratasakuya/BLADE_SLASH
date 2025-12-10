@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -15,6 +15,8 @@
 //	SceneConstBuffer class
 //	シーン共通の各種定数バッファ(CBV)をまとめ、セットコマンドを提供する。
 //============================================================================
+namespace SakuEngine {
+
 class SceneConstBuffer {
 public:
 	//========================================================================
@@ -70,3 +72,5 @@ private:
 	DxConstBuffer<ParticleCommon::PerViewForGPU> perViewBuffer_;
 	DxConstBuffer<ParticleCommon::PerViewForGPU> debugScenePerViewBuffer_;
 };
+
+}; // SakuEngine

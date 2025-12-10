@@ -1,4 +1,6 @@
-#include "ObjectPoolManager.h"
+﻿#include "ObjectPoolManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

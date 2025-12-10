@@ -1,4 +1,6 @@
-#include "IndexBuffer.h"
+﻿#include "IndexBuffer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	IndexBuffer classMethods

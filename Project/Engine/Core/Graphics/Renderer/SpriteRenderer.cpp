@@ -1,4 +1,6 @@
-#include "SpriteRenderer.h"
+﻿#include "SpriteRenderer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

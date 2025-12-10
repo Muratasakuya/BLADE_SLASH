@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================*/
 //	include
@@ -21,6 +21,8 @@
 //	JsonAdapter class
 //	jsonの保存、読み込み、変換を行うアダプター
 //============================================================================*/
+namespace SakuEngine {
+
 class JsonAdapter {
 public:
 	//========================================================================*/
@@ -138,3 +140,5 @@ inline std::array<T, N> JsonAdapter::ToArray(const Json& data) {
 	}
 	return arr;
 }
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	IPostProcessBuffer class
 //	ポストプロセス用定数バッファの共通インターフェース。更新/描画用のアクセスを提供。
 //============================================================================
+namespace SakuEngine {
+
 class IPostProcessBuffer {
 public:
 	//========================================================================
@@ -125,3 +127,5 @@ inline ID3D12Resource* PostProcessBuffer<T>::GetResource() const {
 
 	return DxConstBuffer<T>::GetResource();
 }
+
+}; // SakuEngine

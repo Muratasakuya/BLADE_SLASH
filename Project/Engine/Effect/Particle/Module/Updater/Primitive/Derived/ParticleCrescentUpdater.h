@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleCrescentUpdater class
 //	三日月型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleCrescentUpdater :
 	public BaseParticlePrimitiveUpdater<CrescentForGPU> {
 public:
@@ -33,3 +35,5 @@ public:
 
 	ParticlePrimitiveType GetType() override { return ParticlePrimitiveType::Crescent; }
 };
+
+}; // SakuEngine

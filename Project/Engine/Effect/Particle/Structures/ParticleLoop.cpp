@@ -1,4 +1,6 @@
-#include "ParticleLoop.h"
+﻿#include "ParticleLoop.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	ParticleLoop classMethods

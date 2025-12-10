@@ -1,4 +1,6 @@
-#include "AssetEditor.h"
+﻿#include "AssetEditor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#include "PlayerAfterImageUpdater.h"
+﻿#include "PlayerAfterImageUpdater.h"
 
 //============================================================================
 //	PlayerAfterImageUpdater classMethods

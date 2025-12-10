@@ -1,4 +1,4 @@
-#include "GrayscaleUpdater.h"
+﻿#include "GrayscaleUpdater.h"
 
 //============================================================================
 //	GrayscaleUpdater classMethods

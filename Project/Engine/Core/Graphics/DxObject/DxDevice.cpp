@@ -1,4 +1,6 @@
-#include "DxDevice.h"
+﻿#include "DxDevice.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

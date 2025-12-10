@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	IValueSource class
 //	処理(補間など...)した値を取得するためのインターフェース
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class IValueSource {
 public:
@@ -41,3 +43,5 @@ public:
 	virtual void FromJson(const Json& data) = 0;
 	virtual void ToJson(Json& data) = 0;
 };
+
+}; // SakuEngine

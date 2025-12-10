@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -6,7 +6,10 @@
 
 // c++
 #include <typeinfo>
+namespace SakuEngine {
+
 // front
+
 class Input;
 
 // enumのみに制約をかける
@@ -44,3 +47,5 @@ protected:
 
 	Input* input_;
 };
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "BaseDescriptor.h"
+﻿#include "BaseDescriptor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

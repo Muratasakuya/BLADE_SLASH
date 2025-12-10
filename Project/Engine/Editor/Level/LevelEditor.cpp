@@ -1,4 +1,6 @@
-#include "LevelEditor.h"
+﻿#include "LevelEditor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

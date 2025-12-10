@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticlePlaneUpdater class
 //	平面型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticlePlaneUpdater :
 	public BaseParticlePrimitiveUpdater<PlaneForGPU> {
 public:
@@ -41,3 +43,5 @@ private:
 
 	ParticlePlaneType planeType_;
 };
+
+}; // SakuEngine

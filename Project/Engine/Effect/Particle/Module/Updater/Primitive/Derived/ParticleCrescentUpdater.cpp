@@ -1,4 +1,6 @@
-#include "ParticleCrescentUpdater.h"
+﻿#include "ParticleCrescentUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

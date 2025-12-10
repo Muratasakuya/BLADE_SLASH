@@ -1,4 +1,6 @@
-#include "DxDepthRaster.h"
+﻿#include "DxDepthRaster.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	DxDepthRaster classMethods

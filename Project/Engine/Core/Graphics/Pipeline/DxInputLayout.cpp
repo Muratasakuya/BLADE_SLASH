@@ -1,4 +1,6 @@
-#include "DxInputLayout.h"
+﻿#include "DxInputLayout.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	DxInputLayout classMethods

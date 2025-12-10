@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -12,6 +12,8 @@
 //	ParticleManager class
 //	CPU/GPUパーティクルシステムの管理
 //============================================================================
+namespace SakuEngine {
+
 class ParticleManager :
 	public IGameEditor {
 public:
@@ -97,3 +99,5 @@ private:
 	ParticleManager(const ParticleManager&) = delete;
 	ParticleManager& operator=(const ParticleManager&) = delete;
 };
+
+}; // SakuEngine

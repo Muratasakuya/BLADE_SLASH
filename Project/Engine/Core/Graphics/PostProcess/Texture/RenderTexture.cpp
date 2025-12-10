@@ -1,4 +1,6 @@
-#include "RenderTexture.h"
+﻿#include "RenderTexture.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

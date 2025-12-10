@@ -1,4 +1,6 @@
-#include "SceneView.h"
+﻿#include "SceneView.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

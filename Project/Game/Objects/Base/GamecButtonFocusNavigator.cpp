@@ -1,4 +1,4 @@
-#include "GamecButtonFocusNavigator.h"
+﻿#include "GamecButtonFocusNavigator.h"
 
 //============================================================================
 //	include

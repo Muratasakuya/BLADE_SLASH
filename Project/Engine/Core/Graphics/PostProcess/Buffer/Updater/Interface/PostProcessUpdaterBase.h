@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,7 +9,10 @@
 #include <utility>
 #include <string>
 #include <cstddef>
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 class Asset;
 
@@ -67,3 +70,5 @@ protected:
 	SceneView* sceneView_;
 	Asset* asset_;
 };
+
+}; // SakuEngine

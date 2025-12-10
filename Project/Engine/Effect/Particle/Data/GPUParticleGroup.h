@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -6,7 +6,10 @@
 #include <Engine/Effect/Particle/Data/Base/BaseParticleGroup.h>
 #include <Engine/Effect/Particle/Command/ParticleCommand.h>
 
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -136,3 +139,5 @@ private:
 	// editor
 	void SelectEmitter(ID3D12Device* device);
 };
+
+}; // SakuEngine

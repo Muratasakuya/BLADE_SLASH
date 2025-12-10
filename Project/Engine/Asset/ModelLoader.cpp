@@ -1,4 +1,6 @@
-#include "ModelLoader.h"
+﻿#include "ModelLoader.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

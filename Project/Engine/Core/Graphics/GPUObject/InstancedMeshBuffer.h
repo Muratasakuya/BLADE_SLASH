@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,10 @@
 #include <Engine/Object/Data/SkinnedAnimation.h>
 #include <Engine/Core/Graphics/Mesh/Mesh.h>
 
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -103,3 +106,5 @@ private:
 	// スキンメッシュ用のバッファ群を生成する
 	void CreateSkinnedMeshBuffers(const std::string& name);
 };
+
+}; // SakuEngine

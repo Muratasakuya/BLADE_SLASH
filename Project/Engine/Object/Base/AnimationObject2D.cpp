@@ -1,4 +1,6 @@
-#include "AnimationObject2D.h"
+﻿#include "AnimationObject2D.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

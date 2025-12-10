@@ -1,4 +1,6 @@
-#include "GPUTrailEffectUpdater.h"
+﻿#include "GPUTrailEffectUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	GPUTrailEffectUpdater classMethods

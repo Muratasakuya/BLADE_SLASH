@@ -1,4 +1,6 @@
-#include "Vector2.h"
+﻿#include "Vector2.h"
+
+using namespace SakuEngine;
 
 //============================================================================*/
 //	Vector2 classMethods

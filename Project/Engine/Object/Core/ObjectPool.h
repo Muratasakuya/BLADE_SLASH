@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -24,6 +24,8 @@ using Archetype = std::bitset<kMaxDataTypes>;
 //	IObjectPool class
 //	各プール共通のIFを定義し、削除/デバッグ操作を提供する。
 //============================================================================
+namespace SakuEngine {
+
 class IObjectPool {
 public:
 	//========================================================================
@@ -232,3 +234,5 @@ inline void ObjectPool<T, kMultiple>::RemoveImpl(uint32_t object) {
 	objectToIndex_.erase(it);
 	freeList_.push_back(index);
 }
+
+}; // SakuEngine

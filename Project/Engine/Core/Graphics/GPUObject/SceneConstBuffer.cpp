@@ -1,4 +1,6 @@
-#include "SceneConstBuffer.h"
+﻿#include "SceneConstBuffer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

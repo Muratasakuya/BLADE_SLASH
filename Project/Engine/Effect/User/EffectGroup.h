@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,6 +11,8 @@
 //	EffectGroup class
 //	複数のパーティクルシステムをゲーム上でまとめて扱う
 //============================================================================
+namespace SakuEngine {
+
 class EffectGroup :
 	public IGameObject {
 public:
@@ -130,3 +132,5 @@ private:
 	// ノード配列の名前を取得
 	std::vector<std::string> GetNodeNames() const;
 };
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "MeshCommandContext.h"
+﻿#include "MeshCommandContext.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

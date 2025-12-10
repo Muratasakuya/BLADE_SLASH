@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -16,6 +16,8 @@ using Json = nlohmann::json;
 //============================================================================
 //	Vector4 class
 //============================================================================
+namespace SakuEngine {
+
 class Vector4 final {
 public:
 
@@ -96,3 +98,5 @@ public:
 
 	static Color Lerp(const Color& color0, const Color& color1, float t);
 };
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "CurveValueEditor.h"
+﻿#include "CurveValueEditor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

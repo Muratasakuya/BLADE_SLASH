@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -17,6 +17,8 @@
 //	RayTracingInstance
 //	TLASのD3D12_RAYTRACING_INSTANCE_DESCに対応するアプリ側インスタンス情報。
 //----------------------------------------------------------------------------
+namespace SakuEngine {
+
 struct RayTracingInstance {
 
 	Matrix4x4 matrix;
@@ -37,3 +39,5 @@ struct RaySceneForGPU {
 	float rayMin; // 飛ばす最小位置
 	float rayMax; // 飛ばす距離
 };
+
+}; // SakuEngine

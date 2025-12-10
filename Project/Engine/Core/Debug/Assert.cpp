@@ -1,4 +1,6 @@
-#include "Assert.h"
+﻿#include "Assert.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

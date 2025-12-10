@@ -1,4 +1,6 @@
-#include "WinApp.h"
+﻿#include "WinApp.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

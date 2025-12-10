@@ -1,4 +1,6 @@
-#include "InstancedMeshSystem.h"
+﻿#include "InstancedMeshSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -7,7 +7,10 @@
 #include <Engine/Object/Base/KeyframeObject3D.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 
+namespace SakuEngine {
+
 // front
+
 class SceneView;
 
 //============================================================================
@@ -139,3 +142,5 @@ private:
 	CameraEditor(const CameraEditor&) = delete;
 	CameraEditor& operator=(const CameraEditor&) = delete;
 };
+
+}; // SakuEngine

@@ -13,74 +13,78 @@
 //	AssetAsyncQueue を監視するワーカースレッド。
 //	キューからジョブを取り出し、ユーザー定義処理で逐次実行する
 //============================================================================
-template<class T>
-class AssetLoadWorker {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+namespace SakuEngine {
 
-	AssetLoadWorker() = default;
-	~AssetLoadWorker();
+	template<class T>
+	class AssetLoadWorker {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	// ワーカースレッドを起動し、PopBlockで得たジョブをprocessで処理
-	void Start(std::function<void(T&&)> process);
+		AssetLoadWorker() = default;
+		~AssetLoadWorker();
 
-	// ワーカースレッドを停止(stop設定＋ダミージョブ投入)しjoinまで行う
-	void Stop();
+		// ワーカースレッドを起動し、PopBlockで得たジョブをprocessで処理
+		void Start(std::function<void(T&&)> process);
 
-	//--------- accessor -----------------------------------------------------
+		// ワーカースレッドを停止(stop設定＋ダミージョブ投入)しjoinまで行う
+		void Stop();
 
-	// ジョブ投入用：内部キューへの参照を返す
-	AssetAsyncQueue<T>& RefAsyncQueue() { return queue_; }
-	// 監視用：内部キュー(const)の参照を返す
-	const AssetAsyncQueue<T>& GetAsyncQueue() const { return queue_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- accessor -----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		// ジョブ投入用：内部キューへの参照を返す
+		AssetAsyncQueue<T>& RefAsyncQueue() { return queue_; }
+		// 監視用：内部キュー(const)の参照を返す
+		const AssetAsyncQueue<T>& GetAsyncQueue() const { return queue_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	AssetAsyncQueue<T> queue_;
-	std::atomic_bool stop_;
-	std::thread thread_;
-};
+		//--------- variables ----------------------------------------------------
 
-//============================================================================
-//	AssetLoadWorker templateMethods
-//============================================================================
+		AssetAsyncQueue<T> queue_;
+		std::atomic_bool stop_;
+		std::thread thread_;
+	};
 
-template<class T>
-inline AssetLoadWorker<T>::~AssetLoadWorker() {
+	//============================================================================
+	//	AssetLoadWorker templateMethods
+	//============================================================================
 
-	// 起動しているスレッドを終了させる
-	Stop();
-}
+	template<class T>
+	inline AssetLoadWorker<T>::~AssetLoadWorker() {
 
-template<class T>
-inline void AssetLoadWorker<T>::Start(std::function<void(T&&)> process) {
-
-	stop_ = false;
-	thread_ = std::thread([this, process = std::move(process)] {
-		while (!stop_) {
-			auto job = queue_.PopBlock(stop_);
-			if (!job) {
-
-				break;
-			}
-			process(std::move(*job));
-		}
-		});
-}
-
-template<class T>
-inline void AssetLoadWorker<T>::Stop() {
-
-	stop_ = true;
-	queue_.AddQueue(T{});
-	if (thread_.joinable()) {
-
-		thread_.join();
+		// 起動しているスレッドを終了させる
+		Stop();
 	}
-}
+
+	template<class T>
+	inline void AssetLoadWorker<T>::Start(std::function<void(T&&)> process) {
+
+		stop_ = false;
+		thread_ = std::thread([this, process = std::move(process)] {
+			while (!stop_) {
+				auto job = queue_.PopBlock(stop_);
+				if (!job) {
+
+					break;
+				}
+				process(std::move(*job));
+			}
+			});
+	}
+
+	template<class T>
+	inline void AssetLoadWorker<T>::Stop() {
+
+		stop_ = true;
+		queue_.AddQueue(T{});
+		if (thread_.joinable()) {
+
+			thread_.join();
+		}
+	}
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -15,6 +15,8 @@
 //	IPostProcessUpdater class
 //	ポストプロセスのパラメータ(T)を管理するテンプレート基底。更新/保存/UIを共通化する。
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class IPostProcessUpdater :
 	public PostProcessUpdaterBase {
@@ -120,3 +122,5 @@ inline std::string IPostProcessUpdater<T>::GetFileName() const {
 	return kJsonBasePath_ + Algorithm::AdjustLeadingCase(
 		std::move(name), Algorithm::LeadingCase::Lower) + ".json";
 }
+
+}; // SakuEngine

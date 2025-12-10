@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -15,6 +15,8 @@
 //	GraphicsPlatform class
 //	DirectX12のDevice/Command/ShaderCompilerを初期化・保持し、機能チェックも行う。
 //============================================================================
+namespace SakuEngine {
+
 class GraphicsPlatform {
 public:
 	//========================================================================
@@ -57,3 +59,5 @@ private:
 	// デバッグレイヤ有効化やFeatureチェックを含むデバイス初期化を行う
 	void InitDXDevice();
 };
+
+}; // SakuEngine

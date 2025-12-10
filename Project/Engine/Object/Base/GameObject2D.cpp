@@ -1,4 +1,6 @@
-#include "GameObject2D.h"
+﻿#include "GameObject2D.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

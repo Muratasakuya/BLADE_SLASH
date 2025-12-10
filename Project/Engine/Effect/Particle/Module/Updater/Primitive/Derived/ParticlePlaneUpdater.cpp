@@ -1,4 +1,6 @@
-#include "ParticlePlaneUpdater.h"
+﻿#include "ParticlePlaneUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

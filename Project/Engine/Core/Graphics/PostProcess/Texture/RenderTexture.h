@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -6,7 +6,10 @@
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
 #include <Engine/Core/Graphics/DxLib/ComPtr.h>
 
+namespace SakuEngine {
+
 // front
+
 class RTVDescriptor;
 class SRVDescriptor;
 
@@ -100,3 +103,5 @@ private:
 	void CreateTextureResource(ComPtr<ID3D12Resource>& resource, uint32_t width, uint32_t height,
 		DXGI_FORMAT format, ID3D12Device* device);
 };
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#include "PlayerAvoidSatate.h"
+﻿#include "PlayerAvoidSatate.h"
 
 //============================================================================
 //	include

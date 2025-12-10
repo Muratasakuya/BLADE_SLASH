@@ -1,4 +1,6 @@
-#include "ParticleUpdatePrimitiveModule.h"
+﻿#include "ParticleUpdatePrimitiveModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

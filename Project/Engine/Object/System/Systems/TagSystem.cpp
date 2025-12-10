@@ -1,4 +1,6 @@
-#include "TagSystem.h"
+﻿#include "TagSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

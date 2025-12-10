@@ -1,4 +1,6 @@
-#include "DitherStructures.h"
+﻿#include "DitherStructures.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	incldue

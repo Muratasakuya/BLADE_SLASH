@@ -1,4 +1,6 @@
-#include "Mesh.h"
+﻿#include "Mesh.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	IMesh classMethods

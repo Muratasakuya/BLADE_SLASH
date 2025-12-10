@@ -1,4 +1,6 @@
-#include "PipelineState.h"
+﻿#include "PipelineState.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

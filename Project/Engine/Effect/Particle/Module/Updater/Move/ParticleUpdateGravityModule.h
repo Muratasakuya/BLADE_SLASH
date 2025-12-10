@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleUpdateGravityModule class
 //	重力を適応させる更新モジュール
 //============================================================================
+namespace SakuEngine {
+
 class ParticleUpdateGravityModule :
 	public ICPUParticleUpdateModule {
 public:
@@ -54,3 +56,5 @@ private:
 	float strength_;    // 強さ
 	Vector3 direction_; // 方向
 };
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -14,7 +14,10 @@
 // using
 using Json = nlohmann::json;
 
+namespace SakuEngine {
+
 // front
+
 class Vector3;
 class Matrix4x4;
 template <typename tValue>
@@ -96,3 +99,5 @@ public:
 
 	static Quaternion ExtractTwistX(const Quaternion& qNorm);
 };
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "CollisionGeometry.h"
+﻿#include "CollisionGeometry.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

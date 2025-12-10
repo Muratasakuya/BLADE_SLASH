@@ -1,4 +1,6 @@
-#include "LerpKeyframe.h"
+﻿#include "LerpKeyframe.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,6 @@
-#include "StateTimer.h"
+﻿#include "StateTimer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

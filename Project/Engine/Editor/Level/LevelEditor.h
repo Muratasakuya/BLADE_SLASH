@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,10 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -72,3 +75,5 @@ private:
 	void SelectObject();
 	void EditObject();
 };
+
+}; // SakuEngine

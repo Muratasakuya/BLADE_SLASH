@@ -1,4 +1,6 @@
-#include "InstancedMeshBuffer.h"
+﻿#include "InstancedMeshBuffer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

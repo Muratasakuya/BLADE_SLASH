@@ -1,4 +1,6 @@
-#include "ParticleSpawnSphereModule.h"
+﻿#include "ParticleSpawnSphereModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

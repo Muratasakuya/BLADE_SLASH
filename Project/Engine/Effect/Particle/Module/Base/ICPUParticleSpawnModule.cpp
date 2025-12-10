@@ -1,4 +1,6 @@
-#include "ICPUParticleSpawnModule.h"
+﻿#include "ICPUParticleSpawnModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

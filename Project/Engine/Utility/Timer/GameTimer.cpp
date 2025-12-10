@@ -1,4 +1,6 @@
-#include "GameTimer.h"
+﻿#include "GameTimer.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

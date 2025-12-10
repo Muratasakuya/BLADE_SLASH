@@ -1,4 +1,6 @@
-#include "RTVDescriptor.h"
+﻿#include "RTVDescriptor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

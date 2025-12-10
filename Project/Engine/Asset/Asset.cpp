@@ -1,4 +1,6 @@
-#include "Asset.h"
+﻿#include "Asset.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

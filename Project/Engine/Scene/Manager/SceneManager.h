@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -11,7 +11,10 @@
 
 // c++
 #include <memory>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -82,3 +85,5 @@ private:
 	// シーン読み込み
 	void LoadScene(Scene scene);
 };
+
+}; // SakuEngine

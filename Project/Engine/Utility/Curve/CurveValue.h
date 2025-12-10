@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -20,6 +20,8 @@
 //	CurveValue class
 //	0.0f~1.0fの進捗に応じた値をカーブで補間して取得する
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class CurveValue {
 public:
@@ -349,3 +351,5 @@ inline bool CurveValue<T>::ImGuiBezier(const char* label, float P[4]) {
 	ImGui::SetCursorScreenPos(ImVec2(bb.Min.x, bb.Max.y + GRAB_RADIUS));
 	return changed;
 }
+
+}; // SakuEngine

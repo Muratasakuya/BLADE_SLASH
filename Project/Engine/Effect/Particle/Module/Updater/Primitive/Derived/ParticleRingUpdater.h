@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	ParticleRingUpdater class
 //	リング型のパーティクルを更新するクラス
 //============================================================================
+namespace SakuEngine {
+
 class ParticleRingUpdater :
 	public BaseParticlePrimitiveUpdater<RingForGPU> {
 public:
@@ -33,3 +35,5 @@ public:
 
 	ParticlePrimitiveType GetType() override { return ParticlePrimitiveType::Ring; }
 };
+
+}; // SakuEngine

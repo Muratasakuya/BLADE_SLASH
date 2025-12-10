@@ -1,4 +1,6 @@
-#include "GameObjectEditor.h"
+﻿#include "GameObjectEditor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

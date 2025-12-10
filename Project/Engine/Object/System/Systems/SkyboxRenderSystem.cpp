@@ -1,4 +1,6 @@
-#include "SkyboxRenderSystem.h"
+﻿#include "SkyboxRenderSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

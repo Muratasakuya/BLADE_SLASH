@@ -1,4 +1,6 @@
-#include "PunctualLight.h"
+﻿#include "PunctualLight.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

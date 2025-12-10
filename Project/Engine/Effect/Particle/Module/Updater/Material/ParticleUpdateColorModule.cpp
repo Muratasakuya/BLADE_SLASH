@@ -1,4 +1,6 @@
-#include "ParticleUpdateColorModule.h"
+﻿#include "ParticleUpdateColorModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

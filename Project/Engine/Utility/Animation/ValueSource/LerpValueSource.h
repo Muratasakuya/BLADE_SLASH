@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -10,6 +10,8 @@
 //	LerpValueSource class
 //	補間された値を取得
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class LerpValueSource :
 	public IValueSource<T> {
@@ -108,3 +110,5 @@ inline void LerpValueSource<T>::ToJson(Json& data) {
 
 	animation_.ToJson(data);
 }
+
+}; // SakuEngine

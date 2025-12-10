@@ -1,4 +1,6 @@
-#include "GameEffect.h"
+﻿#include "GameEffect.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

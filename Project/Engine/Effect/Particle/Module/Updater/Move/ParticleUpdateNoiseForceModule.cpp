@@ -1,4 +1,6 @@
-#include "ParticleUpdateNoiseForceModule.h"
+﻿#include "ParticleUpdateNoiseForceModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

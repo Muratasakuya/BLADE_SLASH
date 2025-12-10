@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -12,6 +12,8 @@
 //	DxReadbackBuffer class
 //	GPU→CPUの読み戻し用リードバックバッファを管理するテンプレート。
 //============================================================================
+namespace SakuEngine {
+
 template <typename T>
 class DxReadbackBuffer {
 public:
@@ -56,3 +58,5 @@ inline void DxReadbackBuffer<T>::CreateBuffer(ID3D12Device* device) {
 	HRESULT hr = resource_->Map(0, nullptr, reinterpret_cast<void**>(&mappedData_));
 	assert(SUCCEEDED(hr));
 }
+
+}; // SakuEngine

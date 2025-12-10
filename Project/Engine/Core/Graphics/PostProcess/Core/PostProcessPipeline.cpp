@@ -1,4 +1,6 @@
-#include "PostProcessPipeline.h"
+﻿#include "PostProcessPipeline.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

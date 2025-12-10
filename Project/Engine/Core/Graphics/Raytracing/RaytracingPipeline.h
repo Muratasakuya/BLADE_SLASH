@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	define
@@ -16,7 +16,10 @@
 // c++
 #include <array>
 #include <vector>
+namespace SakuEngine {
+
 // front
+
 class DxShaderCompiler;
 
 //============================================================================
@@ -79,3 +82,5 @@ private:
 	// ShaderIdentifierを並べたShaderTableバッファを作成する
 	void BuildShaderTable(ID3D12Device5* device);
 };
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -9,6 +9,8 @@
 //	LightViewCamera class
 //	光源視点のカメラ
 //============================================================================
+namespace SakuEngine {
+
 class LightViewCamera :
 	public BaseCamera {
 public:
@@ -40,3 +42,5 @@ private:
 	float nearPlane_;
 	float farPlane_;
 };
+
+}; // SakuEngine

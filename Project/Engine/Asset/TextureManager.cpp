@@ -1,4 +1,6 @@
-#include "TextureManager.h"
+﻿#include "TextureManager.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,6 @@
-#include "GPUPixelPicker.h"
+﻿#include "GPUPixelPicker.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

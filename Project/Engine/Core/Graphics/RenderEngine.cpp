@@ -1,4 +1,6 @@
-#include "RenderEngine.h"
+﻿#include "RenderEngine.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

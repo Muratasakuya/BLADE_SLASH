@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -13,7 +13,10 @@
 #include <imgui.h>
 // c++
 #include <filesystem>
+namespace SakuEngine {
+
 // front
+
 class Asset;
 
 //============================================================================
@@ -164,3 +167,5 @@ private:
 	void EditLayout();
 	bool ShowOpenJsonDialog(std::string& outRelPath);
 };
+
+}; // SakuEngine

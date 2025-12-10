@@ -1,4 +1,6 @@
-#include "BottomLevelAS.h"
+﻿#include "BottomLevelAS.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

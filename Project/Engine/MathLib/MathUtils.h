@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 // include
@@ -14,7 +14,10 @@
 #include <numbers>
 #include <vector>
 #include <algorithm>
+namespace SakuEngine {
+
 // front
+
 class BaseCamera;
 
 constexpr float pi = std::numbers::pi_v<float>;
@@ -76,3 +79,5 @@ namespace Math {
 	// ワールド座標をスクリーン座標へ射影する
 	Vector2 ProjectToScreen(const Vector3& translation, const BaseCamera& camera);
 }
+
+}; // SakuEngine

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -14,6 +14,8 @@
 //	InputMapper class
 //	入力デバイスを配列で所持し、結果をまとめて返す
 //============================================================================
+namespace SakuEngine {
+
 template<InputEnum Enum>
 class InputMapper {
 public:
@@ -92,3 +94,5 @@ inline bool InputMapper<Enum>::IsTriggered(Enum button) const {
 	}
 	return false;
 }
+
+}; // SakuEngine

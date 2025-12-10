@@ -1,4 +1,6 @@
-#include "ParticleUpdateVelocityModule.h"
+﻿#include "ParticleUpdateVelocityModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	ParticleUpdateVelocityModule classMethods

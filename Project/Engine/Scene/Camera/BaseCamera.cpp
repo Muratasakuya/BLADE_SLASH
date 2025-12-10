@@ -1,4 +1,6 @@
-#include "BaseCamera.h"
+﻿#include "BaseCamera.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

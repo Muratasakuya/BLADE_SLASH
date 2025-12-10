@@ -1,4 +1,6 @@
-#include "ParticleUpdateScaleModule.h"
+﻿#include "ParticleUpdateScaleModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

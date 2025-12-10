@@ -1,4 +1,6 @@
-#include "BaseParticleGroup.h"
+﻿#include "BaseParticleGroup.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

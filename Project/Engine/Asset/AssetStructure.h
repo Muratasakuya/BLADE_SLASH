@@ -28,236 +28,240 @@
 //	2Dスプライト描画で使用する頂点要素のセット(位置/UV/色)。
 //============================================================================
 
-struct SpriteVertexData {
+namespace SakuEngine {
 
-	Vector2 pos;
-	Vector2 texcoord;
-	Color color;
-};
+	struct SpriteVertexData {
 
-//============================================================================
-//	Model
-//	静的モデルの構成要素と、階層・アニメーション記述をまとめる基礎データ群。
-//============================================================================
+		Vector2 pos;
+		Vector2 texcoord;
+		Color color;
+	};
 
-//----------------------------------------------------------------------------
-//	MeshModelData
-//	1メッシュ分の頂点/インデックスと簡易マテリアル情報を保持する。
-//----------------------------------------------------------------------------
-struct MeshModelData {
+	//============================================================================
+	//	Model
+	//	静的モデルの構成要素と、階層・アニメーション記述をまとめる基礎データ群。
+	//============================================================================
 
-	std::vector<MeshVertex> vertices;
-	std::vector<uint32_t> indices;
-	std::optional<std::string> textureName;
-	std::optional<std::string> normalMapTexture;
-	std::optional<Color> baseColor;
-};
+	//----------------------------------------------------------------------------
+	//	MeshModelData
+	//	1メッシュ分の頂点/インデックスと簡易マテリアル情報を保持する。
+	//----------------------------------------------------------------------------
+	struct MeshModelData {
 
-//----------------------------------------------------------------------------
-//	Node
-//	シーングラフのノード。SRT/ローカル行列/名称/子ノードを持つ。
-//----------------------------------------------------------------------------
-struct Node {
+		std::vector<MeshVertex> vertices;
+		std::vector<uint32_t> indices;
+		std::optional<std::string> textureName;
+		std::optional<std::string> normalMapTexture;
+		std::optional<Color> baseColor;
+	};
 
-	Transform3D transform;
-	Matrix4x4 localMatrix;
-	std::string name;
-	std::vector<Node> children;
-};
+	//----------------------------------------------------------------------------
+	//	Node
+	//	シーングラフのノード。SRT/ローカル行列/名称/子ノードを持つ。
+	//----------------------------------------------------------------------------
+	struct Node {
 
-//----------------------------------------------------------------------------
-//	Keyframe<tValue>
-//	アニメーションの離散キー。時刻と値のペアを表す。
-//----------------------------------------------------------------------------
-template <typename tValue>
-struct Keyframe {
+		Transform3D transform;
+		Matrix4x4 localMatrix;
+		std::string name;
+		std::vector<Node> children;
+	};
 
-	float time;
-	tValue value;
-};
-using KeyframeVector3 = Keyframe<Vector3>;
-using KeyframeQuaternion = Keyframe<Quaternion>;
+	//----------------------------------------------------------------------------
+	//	Keyframe<tValue>
+	//	アニメーションの離散キー。時刻と値のペアを表す。
+	//----------------------------------------------------------------------------
+	template <typename tValue>
+	struct Keyframe {
 
-//----------------------------------------------------------------------------
-//	AnimationCurve<tValue>
-//	単一チャンネルのカーブ(キー列)を表すテンプレート。
-//----------------------------------------------------------------------------
-template <typename tValue>
-struct AnimationCurve {
+		float time;
+		tValue value;
+	};
+	using KeyframeVector3 = Keyframe<Vector3>;
+	using KeyframeQuaternion = Keyframe<Quaternion>;
 
-	std::vector<Keyframe<tValue>> keyframes;
-};
+	//----------------------------------------------------------------------------
+	//	AnimationCurve<tValue>
+	//	単一チャンネルのカーブ(キー列)を表すテンプレート。
+	//----------------------------------------------------------------------------
+	template <typename tValue>
+	struct AnimationCurve {
 
-//----------------------------------------------------------------------------
-//	NodeAnimation
-//	1ノード分のSRTカーブセット。補間/適用時に合成して使用する。
-//----------------------------------------------------------------------------
-struct NodeAnimation {
+		std::vector<Keyframe<tValue>> keyframes;
+	};
 
-	AnimationCurve<Vector3> scale;
-	AnimationCurve<Quaternion> rotate;
-	AnimationCurve<Vector3> translate;
-};
+	//----------------------------------------------------------------------------
+	//	NodeAnimation
+	//	1ノード分のSRTカーブセット。補間/適用時に合成して使用する。
+	//----------------------------------------------------------------------------
+	struct NodeAnimation {
 
-//============================================================================
-//	SkinnedMesh
-//	GPUスキニング入出力バッファと、ボーン重み/スキンクラスタ関連の構造体群。
-//============================================================================
+		AnimationCurve<Vector3> scale;
+		AnimationCurve<Quaternion> rotate;
+		AnimationCurve<Vector3> translate;
+	};
 
-//----------------------------------------------------------------------------
-//	InputMeshVertex
-//	スキニング入力(読み取り)用メッシュ頂点群とSRV参照を束ねる。
-//----------------------------------------------------------------------------
-struct InputMeshVertex {
+	//============================================================================
+	//	SkinnedMesh
+	//	GPUスキニング入出力バッファと、ボーン重み/スキンクラスタ関連の構造体群。
+	//============================================================================
 
-	std::vector<MeshVertex> data;
-	uint32_t srvIndex;
-	std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> srvHandle;
-};
+	//----------------------------------------------------------------------------
+	//	InputMeshVertex
+	//	スキニング入力(読み取り)用メッシュ頂点群とSRV参照を束ねる。
+	//----------------------------------------------------------------------------
+	struct InputMeshVertex {
 
-//----------------------------------------------------------------------------
-//	OutputMeshVertex
-//	スキニング結果(書き出し)用メッシュ頂点群とUAV参照を束ねる。
-//----------------------------------------------------------------------------
-struct OutputMeshVertex {
+		std::vector<MeshVertex> data;
+		uint32_t srvIndex;
+		std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> srvHandle;
+	};
 
-	std::vector<MeshVertex> data;
-	uint32_t uavIndex;
-	std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> uavHandle;
-};
+	//----------------------------------------------------------------------------
+	//	OutputMeshVertex
+	//	スキニング結果(書き出し)用メッシュ頂点群とUAV参照を束ねる。
+	//----------------------------------------------------------------------------
+	struct OutputMeshVertex {
 
-//----------------------------------------------------------------------------
-//	VertexWeightData
-//	特定頂点に対する単一ジョイントの影響度を表す最小単位。
-//----------------------------------------------------------------------------
-struct VertexWeightData {
+		std::vector<MeshVertex> data;
+		uint32_t uavIndex;
+		std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> uavHandle;
+	};
 
-	float weight;
-	uint32_t meshIndex;
-	uint32_t vertexIndex;
-};
+	//----------------------------------------------------------------------------
+	//	VertexWeightData
+	//	特定頂点に対する単一ジョイントの影響度を表す最小単位。
+	//----------------------------------------------------------------------------
+	struct VertexWeightData {
 
-//----------------------------------------------------------------------------
-//	JointWeightData
-//	1ジョイントが影響する頂点群と逆バインド行列を保持する。
-//----------------------------------------------------------------------------
-struct JointWeightData {
+		float weight;
+		uint32_t meshIndex;
+		uint32_t vertexIndex;
+	};
 
-	Matrix4x4 inverseBindPoseMatrix;
-	std::vector<VertexWeightData> vertexWeights;
-};
+	//----------------------------------------------------------------------------
+	//	JointWeightData
+	//	1ジョイントが影響する頂点群と逆バインド行列を保持する。
+	//----------------------------------------------------------------------------
+	struct JointWeightData {
 
-//----------------------------------------------------------------------------
-//	ModelData
-//	モデル全体のメッシュ配列/スキン情報/階層ルート/ファイルパス等をまとめる。
-//----------------------------------------------------------------------------
-struct ModelData {
+		Matrix4x4 inverseBindPoseMatrix;
+		std::vector<VertexWeightData> vertexWeights;
+	};
 
-	std::vector<MeshModelData> meshes;
-	std::map<std::string, JointWeightData> skinClusterData;
-	Node rootNode;
+	//----------------------------------------------------------------------------
+	//	ModelData
+	//	モデル全体のメッシュ配列/スキン情報/階層ルート/ファイルパス等をまとめる。
+	//----------------------------------------------------------------------------
+	struct ModelData {
 
-	std::string fullPath;
+		std::vector<MeshModelData> meshes;
+		std::map<std::string, JointWeightData> skinClusterData;
+		Node rootNode;
 
-	// 使用されたかどうか
-	mutable bool isUse = false;
-};
+		std::string fullPath;
 
-//----------------------------------------------------------------------------
-//	AnimationData
-//	アニメーション全体の尺と、各ノードのアニメーションカーブ集合を持つ。
-//----------------------------------------------------------------------------
-struct AnimationData {
+		// 使用されたかどうか
+		mutable bool isUse = false;
+	};
 
-	float duration;                                      // アニメーション全体の尺
-	std::map<std::string, NodeAnimation> nodeAnimations; // NodeAnimationの集合、Node名で引けるようにしておく
-};
-//----------------------------------------------------------------------------
-//	Joint
-//	スケルトンの1関節を表す。局所/スケルトンスペース行列や親子関係を持つ。
-//----------------------------------------------------------------------------
-struct Joint {
+	//----------------------------------------------------------------------------
+	//	AnimationData
+	//	アニメーション全体の尺と、各ノードのアニメーションカーブ集合を持つ。
+	//----------------------------------------------------------------------------
+	struct AnimationData {
 
-	Transform3D transform;
-	bool isParentTransform;
+		float duration;                                      // アニメーション全体の尺
+		std::map<std::string, NodeAnimation> nodeAnimations; // NodeAnimationの集合、Node名で引けるようにしておく
+	};
+	//----------------------------------------------------------------------------
+	//	Joint
+	//	スケルトンの1関節を表す。局所/スケルトンスペース行列や親子関係を持つ。
+	//----------------------------------------------------------------------------
+	struct Joint {
 
-	Matrix4x4 localMatrix;
-	Matrix4x4 skeletonSpaceMatrix;   // skeletonSpaceでの変換行列
-	std::string name;
-	std::vector<int32_t> children;   // 子JointのIndexのリスト。いなければ空
-	int32_t index;                   // 自身のIndex
-	std::optional<int32_t> parent;   // 親JointのIndex。いなければnull
-};
-//----------------------------------------------------------------------------
-//	Skeleton
-//	スケルトン全体。ルート、ジョイント配列、名前→Index辞書を保持する。
-//----------------------------------------------------------------------------
-struct Skeleton {
+		Transform3D transform;
+		bool isParentTransform;
 
-	int32_t root;                            // RootJointのIndex
-	std::map<std::string, int32_t> jointMap; // joint名とIndexの辞書
-	std::vector<Joint> joints;               // 所属しているジョイント
-	std::string name;
-};
+		Matrix4x4 localMatrix;
+		Matrix4x4 skeletonSpaceMatrix;   // skeletonSpaceでの変換行列
+		std::string name;
+		std::vector<int32_t> children;   // 子JointのIndexのリスト。いなければ空
+		int32_t index;                   // 自身のIndex
+		std::optional<int32_t> parent;   // 親JointのIndex。いなければnull
+	};
+	//----------------------------------------------------------------------------
+	//	Skeleton
+	//	スケルトン全体。ルート、ジョイント配列、名前→Index辞書を保持する。
+	//----------------------------------------------------------------------------
+	struct Skeleton {
 
-// 最大4Jointの影響を受ける
-const uint32_t kNumMaxInfluence = 4;
-//----------------------------------------------------------------------------
-//	VertexInfluence
-//	1頂点が参照するジョイントIndexと重みの固定長バッファ。
-//----------------------------------------------------------------------------
-struct VertexInfluence {
+		int32_t root;                            // RootJointのIndex
+		std::map<std::string, int32_t> jointMap; // joint名とIndexの辞書
+		std::vector<Joint> joints;               // 所属しているジョイント
+		std::string name;
+	};
 
-	std::array<float, kNumMaxInfluence> weights;
-	std::array<int32_t, kNumMaxInfluence> jointIndices;
-};
+	// 最大4Jointの影響を受ける
+	const uint32_t kNumMaxInfluence = 4;
+	//----------------------------------------------------------------------------
+	//	VertexInfluence
+	//	1頂点が参照するジョイントIndexと重みの固定長バッファ。
+	//----------------------------------------------------------------------------
+	struct VertexInfluence {
 
-//----------------------------------------------------------------------------
-//	WellForGPU
-//	GPUパレットに渡す行列セット。位置用/法線用で別行列を持つ。
-//----------------------------------------------------------------------------
-struct WellForGPU {
+		std::array<float, kNumMaxInfluence> weights;
+		std::array<int32_t, kNumMaxInfluence> jointIndices;
+	};
 
-	Matrix4x4 skeletonSpaceMatrix;                 // 位置用
-	Matrix4x4 skeletonSpaceInverseTransposeMatrix; // 法線用
-};
+	//----------------------------------------------------------------------------
+	//	WellForGPU
+	//	GPUパレットに渡す行列セット。位置用/法線用で別行列を持つ。
+	//----------------------------------------------------------------------------
+	struct WellForGPU {
 
-//----------------------------------------------------------------------------
-//	SkinningInformation
-//	スキニング対象の頂点数/ボーン数など規模情報をまとめる。
-//----------------------------------------------------------------------------
-struct SkinningInformation {
+		Matrix4x4 skeletonSpaceMatrix;                 // 位置用
+		Matrix4x4 skeletonSpaceInverseTransposeMatrix; // 法線用
+	};
 
-	uint32_t numVertices;
-	uint32_t numBones;
-};
+	//----------------------------------------------------------------------------
+	//	SkinningInformation
+	//	スキニング対象の頂点数/ボーン数など規模情報をまとめる。
+	//----------------------------------------------------------------------------
+	struct SkinningInformation {
 
-//----------------------------------------------------------------------------
-//	SkinCluster
-//	スキニングで使用する逆バインド行列配列と、描画時に参照するパレット。
-//----------------------------------------------------------------------------
-struct SkinCluster {
+		uint32_t numVertices;
+		uint32_t numBones;
+	};
 
-	std::vector<Matrix4x4> inverseBindPoseMatrices;
-	// インスタンシングに送るデータ
-	std::vector<WellForGPU> mappedPalette;
-};
+	//----------------------------------------------------------------------------
+	//	SkinCluster
+	//	スキニングで使用する逆バインド行列配列と、描画時に参照するパレット。
+	//----------------------------------------------------------------------------
+	struct SkinCluster {
 
-//----------------------------------------------------------------------------
-//	AnimationBlendState
-//	アニメーションのブレンド進行状態と、from/toアニメの再生位置を管理する。
-//----------------------------------------------------------------------------
-struct AnimationBlendState {
+		std::vector<Matrix4x4> inverseBindPoseMatrices;
+		// インスタンシングに送るデータ
+		std::vector<WellForGPU> mappedPalette;
+	};
 
-	bool isBlending = false;    // ブレンド中か
-	float blendTimer = 0.0f;    // 現在のブレンド経過時間
-	float blendDuration = 0.0f; // ブレンドにかける総時間
+	//----------------------------------------------------------------------------
+	//	AnimationBlendState
+	//	アニメーションのブレンド進行状態と、from/toアニメの再生位置を管理する。
+	//----------------------------------------------------------------------------
+	struct AnimationBlendState {
 
-	// 今まで再生していたアニメーション
-	std::string fromAnimation;
-	float fromAnimationTime = 0.0f;
+		bool isBlending = false;    // ブレンド中か
+		float blendTimer = 0.0f;    // 現在のブレンド経過時間
+		float blendDuration = 0.0f; // ブレンドにかける総時間
 
-	// 次に再生するアニメーション
-	std::string toAnimation;
-	float toAnimationTime = 0.0f;
-};
+		// 今まで再生していたアニメーション
+		std::string fromAnimation;
+		float fromAnimationTime = 0.0f;
+
+		// 次に再生するアニメーション
+		std::string toAnimation;
+		float toAnimationTime = 0.0f;
+	};
+
+}; // SakuEngine

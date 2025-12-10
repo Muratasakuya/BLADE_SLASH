@@ -1,4 +1,6 @@
-#include "ComputePostProcessor.h"
+﻿#include "ComputePostProcessor.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

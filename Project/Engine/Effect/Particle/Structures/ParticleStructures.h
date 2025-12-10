@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -37,6 +37,8 @@ enum class ParticleBillboardType {
 //============================================================================
 //	Common
 //============================================================================
+
+namespace SakuEngine {
 
 namespace ParticleCommon {
 
@@ -305,3 +307,5 @@ namespace CPUParticle {
 		ParticleCommon::PrimitiveData<false> primitive;
 	};
 }
+
+}; // SakuEngine

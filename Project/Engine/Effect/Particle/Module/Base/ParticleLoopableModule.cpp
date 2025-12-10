@@ -1,4 +1,6 @@
-#include "ParticleLoopableModule.h"
+﻿#include "ParticleLoopableModule.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

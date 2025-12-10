@@ -1,4 +1,6 @@
-#include "ImGuiHelper.h"
+﻿#include "ImGuiHelper.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

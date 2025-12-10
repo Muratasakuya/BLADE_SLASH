@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -15,6 +15,8 @@
 //============================================================================
 
 // descriptorの種類
+namespace SakuEngine {
+
 struct DescriptorType {
 
 	D3D12_DESCRIPTOR_HEAP_TYPE heapType;
@@ -78,3 +80,5 @@ protected:
 	// 使用インデックスを進める
 	uint32_t Allocate();
 };
+
+}; // SakuEngine

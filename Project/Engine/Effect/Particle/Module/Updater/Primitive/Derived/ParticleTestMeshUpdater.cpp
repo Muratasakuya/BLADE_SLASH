@@ -1,4 +1,6 @@
-#include "ParticleTestMeshUpdater.h"
+﻿#include "ParticleTestMeshUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

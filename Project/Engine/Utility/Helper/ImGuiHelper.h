@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -19,6 +19,8 @@
 //============================================================================
 //	ImGuiHelper structures
 //============================================================================
+
+namespace SakuEngine {
 
 namespace detail {
 
@@ -235,3 +237,5 @@ inline bool ImGuiHelper::DragFloat(const char* label, T& value, float speed, flo
 	}
 	return edited;
 }
+
+}; // SakuEngine

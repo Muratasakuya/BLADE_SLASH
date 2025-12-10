@@ -1,4 +1,6 @@
-#include "PostProcessCommandContext.h"
+﻿#include "PostProcessCommandContext.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

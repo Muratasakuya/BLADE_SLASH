@@ -1,4 +1,6 @@
-#include "ParticleLightningUpdater.h"
+﻿#include "ParticleLightningUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

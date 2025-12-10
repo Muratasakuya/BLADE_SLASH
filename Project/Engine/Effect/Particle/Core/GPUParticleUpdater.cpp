@@ -1,4 +1,6 @@
-#include "GPUParticleUpdater.h"
+﻿#include "GPUParticleUpdater.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	GPUParticleUpdater classMethods

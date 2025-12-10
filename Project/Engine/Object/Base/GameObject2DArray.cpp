@@ -1,4 +1,6 @@
-#include "GameObject2DArray.h"
+﻿#include "GameObject2DArray.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	GameObject2DArray classMethods

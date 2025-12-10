@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -12,6 +12,8 @@
 //	VertexBuffer class
 //	頂点バッファ(VB)の作成/転送/ビュー提供を行うテンプレートラッパー。
 //============================================================================
+namespace SakuEngine {
+
 template<typename T>
 class VertexBuffer {
 public:
@@ -81,3 +83,5 @@ inline void VertexBuffer<T>::TransferData(const std::vector<T>& data) {
 		std::memcpy(mappedData_, data.data(), sizeof(T) * data.size());
 	}
 }
+
+}; // SakuEngine

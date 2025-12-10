@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -16,6 +16,8 @@
 //	GameTimer class
 //	deltaTimeの取得や、時間のスケーリングを行う
 //============================================================================
+namespace SakuEngine {
+
 class GameTimer {
 public:
 	//========================================================================
@@ -137,3 +139,5 @@ private:
 	static float GetSmoothedUpdateTime();
 	static float GetSmoothedDrawTime();
 };
+
+}; // SakuEngine

@@ -1,4 +1,6 @@
-#include "EffectGroup.h"
+﻿#include "EffectGroup.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

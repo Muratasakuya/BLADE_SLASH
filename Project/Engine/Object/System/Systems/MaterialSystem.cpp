@@ -1,4 +1,6 @@
-#include "MaterialSystem.h"
+﻿#include "MaterialSystem.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

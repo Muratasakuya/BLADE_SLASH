@@ -1,4 +1,6 @@
-#include "LightViewCamera.h"
+﻿#include "LightViewCamera.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

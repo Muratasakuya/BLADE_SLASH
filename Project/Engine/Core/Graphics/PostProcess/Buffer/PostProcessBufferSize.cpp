@@ -1,4 +1,6 @@
-#include "PostProcessBufferSize.h"
+﻿#include "PostProcessBufferSize.h"
+
+using namespace SakuEngine;
 
 //============================================================================
 //	include

@@ -1,4 +1,4 @@
-#include "GlitchUpdater.h"
+﻿#include "GlitchUpdater.h"
 
 //============================================================================
 //	include
