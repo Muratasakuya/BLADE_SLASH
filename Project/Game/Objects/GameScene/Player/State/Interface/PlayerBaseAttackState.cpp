@@ -143,7 +143,7 @@ void PlayerBaseAttackState::ImGui(const Player& player) {
 	LineRenderer* lineRenderer = LineRenderer::GetInstance();
 
 	Vector3 center = player.GetTranslation();
-	center.y = 4.0f;
+	center.y = 2.0f;
 	lineRenderer->DrawCircle(8, attackPosLerpCircleRange_, center, Color::Red());
 	lineRenderer->DrawCircle(8, attackLookAtCircleRange_, center, Color::Blue());
 }

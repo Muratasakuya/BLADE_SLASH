@@ -44,6 +44,7 @@
 #include <Engine/Effect/Particle/Module/Updater/Transform/ParticleUpdateRotationModule.h>
 #include <Engine/Effect/Particle/Module/Updater/Transform/ParticleUpdateScaleModule.h>
 #include <Engine/Effect/Particle/Module/Updater/Transform/ParticleUpdateTranslateModule.h>
+#include <Engine/Effect/Particle/Module/Updater/Transform/ParticleUpdateDispersionSegmentModule.h>
 
 //============================================================================
 //	ParticleManager classMethods
@@ -148,6 +149,7 @@ void ParticleManager::RegisterModules() {
 	uRegistry.Register<ParticleUpdateKeyframePathModule>();
 	uRegistry.Register<ParticleUpdateCollectModule>();
 	uRegistry.Register<ParticleUpdateTranslateModule>();
+	uRegistry.Register<ParticleUpdateDispersionSegmentModule>();
 }
 
 void ParticleManager::Init(Asset* asset, ID3D12Device8* device,

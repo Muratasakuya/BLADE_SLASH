@@ -243,8 +243,7 @@ void BossEnemyGreatAttackInOutArea::ImGui() {
 	lightningAttackTimer_.ImGui("LightningAttackTimer");
 
 	// 円の描画
-	lineRenderer->DrawCircle(lightningCount, outAreaRadius_,
-		Vector3(0.0f, 1.0f, 0.0f), Color::Cyan());
+	lineRenderer->DrawCircle(lightningCount, outAreaRadius_, Vector3(0.0f, 2.0f, 0.0f), Color::Cyan());
 
 	ImGui::SeparatorText("In");
 

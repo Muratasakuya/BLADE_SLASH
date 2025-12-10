@@ -36,5 +36,6 @@ enum class ParticleUpdateModuleID {
 	KeyframePath,
 	Translate,
 	Collect,
+	DispersionSegment,
 	Count,
 };

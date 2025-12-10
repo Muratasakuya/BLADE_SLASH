@@ -78,6 +78,9 @@ public:
 	// 正方形を描画
 	void DrawSquare(float length, const Vector3& center,
 		const Color& color, LineType type = LineType::None);
+	// 矩形を描画
+	void DrawRect(const Vector2& size, const Vector3& center,
+		const Color& color, LineType type = LineType::None);
 	// 上半球のワイヤ描画
 	template <typename T>
 	void DrawHemisphere(int division, float radius, const Vector3& centerPos,

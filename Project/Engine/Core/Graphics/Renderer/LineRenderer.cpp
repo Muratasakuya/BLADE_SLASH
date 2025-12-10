@@ -203,8 +203,8 @@ void LineRenderer::DrawCircle(int division, float radius,
 		float a0 = 2.0f * pi * i / division;
 		float a1 = 2.0f * pi * (i + 1) / division;
 
-		Vector3 p0(center.x + radius * std::cos(a0), 2.0f, center.z + radius * std::sin(a0));
-		Vector3 p1(center.x + radius * std::cos(a1), 2.0f, center.z + radius * std::sin(a1));
+		Vector3 p0(center.x + radius * std::cos(a0), center.y, center.z + radius * std::sin(a0));
+		Vector3 p1(center.x + radius * std::cos(a1), center.y, center.z + radius * std::sin(a1));
 
 		DrawLine3D(p0, p1, color, type);
 	}
@@ -256,6 +256,25 @@ void LineRenderer::DrawSquare(float length, const Vector3& center,
 	Vector3 p1(center.x - half, center.y, center.z + half);
 	Vector3 p2(center.x + half, center.y, center.z + half);
 	Vector3 p3(center.x + half, center.y, center.z - half);
+
+	// 線描画
+	DrawLine3D(p0, p1, color, type);
+	DrawLine3D(p1, p2, color, type);
+	DrawLine3D(p2, p3, color, type);
+	DrawLine3D(p3, p0, color, type);
+}
+
+void LineRenderer::DrawRect(const Vector2& size, const Vector3& center,
+	const Color& color, LineType type) {
+
+	float halfX = size.x * 0.5f;
+	float halfY = size.y * 0.5f;
+
+	// 四隅の点
+	Vector3 p0(center.x - halfX, center.y, center.z - halfY);
+	Vector3 p1(center.x - halfX, center.y, center.z + halfY);
+	Vector3 p2(center.x + halfX, center.y, center.z + halfY);
+	Vector3 p3(center.x + halfX, center.y, center.z - halfY);
 
 	// 線描画
 	DrawLine3D(p0, p1, color, type);

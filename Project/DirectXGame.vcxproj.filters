@@ -2510,6 +2510,7 @@
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp" />
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.cpp" />
+    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateDispersionSegmentModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Object\Base\GameObject2DArray.h" />
@@ -2521,6 +2522,7 @@
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h" />
     <ClInclude Include="Engine\customClassTemplateH\CustomClassTemplate.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.h" />
+    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateDispersionSegmentModule.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\Mesh\MS\MeshStandard.MS.hlsl" />
