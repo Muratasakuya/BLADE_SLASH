@@ -66,9 +66,6 @@ private:
 	// init
 	void InitStates();
 
-	// update
-	void UpdateAlways();
-
 	// helper
 	void RequestNextState(GameSceneState next);
 };

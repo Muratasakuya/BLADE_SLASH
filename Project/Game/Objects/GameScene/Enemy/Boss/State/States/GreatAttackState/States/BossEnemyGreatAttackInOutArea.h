@@ -50,6 +50,25 @@ private:
 		In   // 内側
 	};
 
+	// 雷範囲攻撃の衝突情報
+	struct RangeAttackCollision {
+
+		std::unique_ptr<SakuEngine::Collider> collider; // 衝突判定
+
+		// 有効フラグ
+		bool isActive;
+		// トランスフォーム
+		SakuEngine::Transform3D transform;
+		
+		// 発生位置
+		SakuEngine::Vector3 activePos;
+		// 絶対に当たらない座標
+		const SakuEngine::Vector3 collisionSafePos_ = SakuEngine::Vector3(0.0f, -128.0f, 0.0f);
+
+		// 初期化
+		void Init();
+	};
+
 	//--------- variables ----------------------------------------------------
 
 	// 現在の状態
@@ -70,6 +89,15 @@ private:
 
 	// 雷攻撃(警告も)
 	std::array<std::unique_ptr<SakuEngine::EffectGroup>, maxLightningCount_> lightningAttackEffects_;
+
+	// 雷範囲攻撃の衝突情報
+	std::array<RangeAttackCollision, maxLightningCount_> rangeAttackCollisions_;
+	// 判定の半径
+	float rangeAttackCollisionRadius_;
+	// アクティブになるまでの時間
+	SakuEngine::StateTimer rangeAttackActiveDelayTimer_;
+	// 非アクティブになるまでの時間
+	SakuEngine::StateTimer rangeAttackInactiveTimer_;
 
 	/*--------- Out State ----------*/
 
