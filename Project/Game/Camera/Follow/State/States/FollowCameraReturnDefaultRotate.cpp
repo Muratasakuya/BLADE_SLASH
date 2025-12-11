@@ -58,7 +58,7 @@ void FollowCameraReturnDefaultRotate::Update(FollowCamera& followCamera) {
 	}
 
 	// 時間を進める
-	lerpTimer_.Update(requestTargetTime_, false);
+	lerpTimer_.Update(requestTargetTime_);
 
 	// 補間処理
 	// y、z軸は維持した状態でx軸を補間する

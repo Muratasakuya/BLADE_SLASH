@@ -4,8 +4,9 @@
 //	include
 //============================================================================
 #include <Engine/Input/Input.h>
-#include <Game/Camera/Follow/FollowCamera.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
+#include <Engine/Utility/Timer/GameTimer.h>
+#include <Game/Camera/Follow/FollowCamera.h>
 
 //============================================================================
 //	FollowCameraFollowState classMethods
@@ -14,7 +15,7 @@
 void FollowCameraFollowState::SnapToCamera(const FollowCamera& camera) {
 
 	// 補間位置を初期化
-	interTarget_ = targets_[FollowCameraTargetType::Player]->GetWorldPos();
+	interTarget_ = targets_[FollowCameraTargetType::Player]->translation;
 	const auto& transform = camera.GetTransform();
 	offsetTranslation_ = SakuEngine::Quaternion::Conjugate(
 		SakuEngine::Quaternion::Normalize(transform.rotation)) * (transform.translation - interTarget_);
@@ -44,18 +45,25 @@ void FollowCameraFollowState::Enter([[maybe_unused]] FollowCamera& followCamera)
 
 void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 
+	// deltaTime取得
+	float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
+
 	// 画角に変更があっても常に初期値に補間させる
-	float fovY = std::lerp(followCamera.GetFovY(), defaultFovY_, fovYLerpRate_);
-	followCamera.SetFovY(fovY);
+	{
+		float t = std::clamp(fovYLerpRate_ * deltaTime, 0.0f, 1.0f);
+		float fovY = std::lerp(followCamera.GetFovY(), defaultFovY_, t);
+		followCamera.SetFovY(fovY);
+	}
 
 	// 追従ターゲット位置の補間
-	interTarget_ = SakuEngine::Vector3::Lerp(interTarget_,
-		targets_[FollowCameraTargetType::Player]->GetWorldPos(), lerpRate_);
+	{
+		float t = std::clamp(lerpRate_ * deltaTime, 0.0f, 1.0f);
+		interTarget_ = SakuEngine::Vector3::Lerp(interTarget_, targets_[FollowCameraTargetType::Player]->translation, t);
+	}
 
 	// 入力から移動量を取得する
 	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
-	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
-		inputMapper_->GetVector(FollowCameraInputAction::RotateY));
+	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX), inputMapper_->GetVector(FollowCameraInputAction::RotateY));
 	// 入力が合ったらブレンド処理を終了させる
 	if (rawInput.Length() > std::numeric_limits<float>::epsilon()) {
 
@@ -64,18 +72,20 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 		handoffDefault_ = defaultOffset_;
 	}
 
-	// 補間を適応する
-	smoothedInput_ = SakuEngine::Vector2::Lerp(smoothedInput_, rawInput, inputLerpRate_);
+	// 入力補間を適応する
+	{
+		float t = std::clamp(inputLerpRate_ * deltaTime, 0.0f, 1.0f);
+		smoothedInput_ = SakuEngine::Vector2::Lerp(smoothedInput_, rawInput, t);
+	}
 
 	// X軸とY軸の入力量
 	// Y軸
-	float yawDelta = (inputType == InputType::Keyboard) ?
-		(smoothedInput_.x * mouseSensitivity_.y) :
-		(smoothedInput_.x * padSensitivity_.y);
+	float yawSpeed = (inputType == InputType::Keyboard) ? mouseSensitivity_.y : padSensitivity_.y;
 	// X軸
-	float pitchDelta = (inputType == InputType::Keyboard) ?
-		(smoothedInput_.y * mouseSensitivity_.x) :
-		(-smoothedInput_.y * padSensitivity_.x);
+	float pitchSpeed = (inputType == InputType::Keyboard) ? mouseSensitivity_.x : padSensitivity_.x;
+	// 1フレーム分の回転量
+	float yawDelta = smoothedInput_.x * yawSpeed * deltaTime;
+	float pitchDelta = -smoothedInput_.y * pitchSpeed * deltaTime;
 
 	SakuEngine::Quaternion currentRotation = followCamera.GetTransform().rotation;
 	// Y軸の回転
@@ -98,7 +108,7 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	if (pitchClamped != currentPitch) {
 
 		SakuEngine::Vector3 horizontal = SakuEngine::Vector3(forward.x, 0.0f, forward.z);
-		if (horizontal.Length() < 1e-6f) {
+		if (horizontal.Length() < std::numeric_limits<float>::epsilon()) {
 
 			SakuEngine::Vector3 fowrardYaw = yawRotation * Direction::Get(Direction3D::Forward);
 			horizontal = SakuEngine::Vector3(fowrardYaw.x, 0.0f, fowrardYaw.z);
@@ -112,13 +122,18 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 
 	// Z回転を常に0.0fに補間
 	SakuEngine::Vector3 forwardRoll = candidateRotation * Direction::Get(Direction3D::Forward);
-	SakuEngine::Quaternion currentRoll = SakuEngine::Quaternion::LookRotation(
-		forwardRoll.Normalize(), Direction::Get(Direction3D::Up));
-	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Slerp(candidateRotation, currentRoll, rotateZLerpRate_);
+	SakuEngine::Quaternion currentRoll = SakuEngine::Quaternion::LookRotation(forwardRoll.Normalize(), Direction::Get(Direction3D::Up));
+
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Identity();
+	// 回転を補間して決定する
+	{
+		float t = std::clamp(rotateZLerpRate_ * deltaTime, 0.0f, 1.0f);
+		rotation = SakuEngine::Quaternion::Slerp(candidateRotation, currentRoll, t);
+	}
 
 	// 補間処理後クランプされるまでの値を補間
-	clampBlendT_ = (std::min)(1.0f, clampBlendT_ + clampBlendSpeed_);
-	handoffBlendT_ = (std::min)(1.0f, handoffBlendT_ + handoffBlendSpeed_);
+	clampBlendT_ = (std::min)(1.0f, clampBlendT_ + clampBlendSpeed_ * deltaTime);
+	handoffBlendT_ = (std::min)(1.0f, handoffBlendT_ + handoffBlendSpeed_ * deltaTime);
 	// 補間処理後にデフォルトのオフセットになるように補間する
 	SakuEngine::Vector3 baseDefaultOffset = SakuEngine::Vector3::Lerp(handoffDefault_, defaultOffset_, handoffBlendT_);
 
@@ -139,9 +154,15 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 
 	// オフセットの補間
 	float blendedTargetZ = std::lerp(offsetTranslation_.z, targetZ, clampBlendT_);
-	offsetTranslation_.z = std::lerp(offsetTranslation_.z, blendedTargetZ, offsetLerpRate_.z);
-	offsetTranslation_.y = std::lerp(offsetTranslation_.y, baseDefaultOffset.y, offsetLerpRate_.y);
-	offsetTranslation_.x = std::lerp(offsetTranslation_.x, baseDefaultOffset.x, offsetLerpRate_.x);
+	{
+		// 各軸ごとに補間
+		float tX = std::clamp(offsetLerpRate_.x * deltaTime, 0.0f, 1.0f);
+		float tY = std::clamp(offsetLerpRate_.y * deltaTime, 0.0f, 1.0f);
+		float tZ = std::clamp(offsetLerpRate_.z * deltaTime, 0.0f, 1.0f);
+		offsetTranslation_.x = std::lerp(offsetTranslation_.x, baseDefaultOffset.x, tX);
+		offsetTranslation_.y = std::lerp(offsetTranslation_.y, baseDefaultOffset.y, tY);
+		offsetTranslation_.z = std::lerp(offsetTranslation_.z, blendedTargetZ, tZ);
+	}
 
 	// 回転を考慮したオフセットと追従先の座標を足す
 	SakuEngine::Vector3 translation = interTarget_ + rotation * offsetTranslation_;

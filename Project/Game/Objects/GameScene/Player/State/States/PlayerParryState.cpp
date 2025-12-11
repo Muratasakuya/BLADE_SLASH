@@ -276,7 +276,7 @@ SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, S
 void PlayerParryState::Exit([[maybe_unused]] Player& player) {
 
 	// カメラアニメーションを終了させる
-	followCamera_->EndPlayerActionAnim(false);
+	followCamera_->EndPlayerActionAnim(true);
 
 	// リセット
 	request_ = std::nullopt;
