@@ -57,6 +57,7 @@ void GameResultDisplay::Init() {
 	clearText_->SetEmissiveIntensity(1.72f);
 	// 最初は表示しない
 	clearText_->SetAlpha(0.0f);
+	clearText_->SetSize(SakuEngine::Vector2::AnyInit(0.0f));
 	clearText_->SetPostProcessEnable(true);
 
 	// ボタン
@@ -73,10 +74,8 @@ void GameResultDisplay::Init() {
 	rightButton_ = std::make_unique<GameButton>();
 	rightButton_->Init("retryButton", "GameResultDisplay");
 	rightButton_->SetAlpha(0.0f);
-	rightButton_->RegisterUpdater(GameButtonResponseType::AnyMouseClick,
-		std::make_unique<GameButtonBlinkingUpdater>());
-	rightButton_->RegisterUpdater(GameButtonResponseType::Focus,
-		std::make_unique<GameButtonBlinkingUpdater>());
+	rightButton_->RegisterUpdater(GameButtonResponseType::AnyMouseClick, std::make_unique<GameButtonBlinkingUpdater>());
+	rightButton_->RegisterUpdater(GameButtonResponseType::Focus, std::make_unique<GameButtonBlinkingUpdater>());
 	rightButton_->SetPostProcessEnable(true);
 
 	// アニメーション初期化
