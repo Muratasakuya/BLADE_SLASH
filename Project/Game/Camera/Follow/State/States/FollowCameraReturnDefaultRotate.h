@@ -54,6 +54,9 @@ private:
 	float targetRotateX_; // 目標x軸
 	float lerpThreshold_; // 補間処理を行う回転
 
+	// デバッグ
+	PlayerState checkRequestPlayerState_; // リクエストされたプレイヤー状態
+
 	//--------- functions ----------------------------------------------------
 
 };

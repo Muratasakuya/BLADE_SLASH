@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Core/Debug/SpdLogger.h>
+#include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Game/Camera/Follow/FollowCamera.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
 
@@ -18,6 +19,7 @@ FollowCameraReturnDefaultRotate::FollowCameraReturnDefaultRotate() {
 	targetTime_.emplace(PlayerState::Idle, 0.0f);
 	targetTime_.emplace(PlayerState::Walk, 0.0f);
 	targetTime_.emplace(PlayerState::Dash, 0.0f);
+	checkRequestPlayerState_ = PlayerState::None;
 }
 
 void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
@@ -43,10 +45,20 @@ void FollowCameraReturnDefaultRotate::Enter(FollowCamera& followCamera) {
 	if (SakuEngine::Algorithm::Find(targetTime_, player_->GetCurrentState())) {
 
 		requestTargetTime_ = targetTime_[player_->GetCurrentState()];
+		checkRequestPlayerState_ = player_->GetCurrentState();
+	} else {
+
+		checkRequestPlayerState_ = PlayerState::None;
+		// 存在しない型なら処理しないようにする
+		canExit_ = true;
 	}
 }
 
 void FollowCameraReturnDefaultRotate::Update(FollowCamera& followCamera) {
+
+	if (canExit_) {
+		return;
+	}
 
 	// カメラ入力があれば処理を終了する
 	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
@@ -94,6 +106,8 @@ void FollowCameraReturnDefaultRotate::Exit() {
 }
 
 void FollowCameraReturnDefaultRotate::ImGui([[maybe_unused]] const FollowCamera& followCamera) {
+
+	ImGui::Text("checkRequestPlayerState: %s", SakuEngine::EnumAdapter<PlayerState>::ToString(checkRequestPlayerState_));
 
 	ImGui::DragFloat("targetRotateX", &targetRotateX_, 0.01f);
 	ImGui::DragFloat("lerpThreshold", &lerpThreshold_, 0.01f);
