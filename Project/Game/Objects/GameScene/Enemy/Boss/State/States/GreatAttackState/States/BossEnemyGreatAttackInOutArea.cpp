@@ -127,6 +127,16 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 
 			// ボスの表示を戻す
 			parentState_->StartEffects();
+
+			// 攻撃予兆を出す
+			SakuEngine::Vector3 sign = bossEnemy_->GetTranslation();
+			sign.y = 2.0f;
+			attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
+
+			// パリィ可能にする
+			bossEnemy_->ResetParryTiming();
+			parryParam_.continuousCount = 2; // キーフレーム攻撃回数分
+			parryParam_.canParry = true;
 		}
 	} else {
 
@@ -191,6 +201,9 @@ void BossEnemyGreatAttackInOutArea::UpdateIn() {
 			// 発生済みにする
 			lastAttackEffect_->Emit(emitPos);
 			emitedLastAttackEffect_ = true;
+
+			// パリィ可能にする
+			bossEnemy_->TellParryTiming();
 		}
 	} else {
 
@@ -227,6 +240,9 @@ void BossEnemyGreatAttackInOutArea::UpdateIn() {
 			// 発生済みにする
 			rangeSlashEffect_->Emit(emitPos);
 			emitedRangeSlashEffect_ = true;
+
+			// パリィ可能にする
+			bossEnemy_->TellParryTiming();
 		}
 	}
 }
@@ -313,6 +329,9 @@ void BossEnemyGreatAttackInOutArea::Exit() {
 	currentState_ = State::Out;
 	isPlayedAttackKeyframe_ = false;
 	isPlayedGrearAttackAnim_ = false;
+
+	// パリィ不可にする
+	parryParam_.canParry = false;
 }
 
 void BossEnemyGreatAttackInOutArea::ImGui() {
