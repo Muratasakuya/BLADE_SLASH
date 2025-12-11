@@ -78,6 +78,9 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 	auto& state = states_[currentState_];
 	state->Update();
 
+	// パリィ情報を設定する
+	parryParam_ = state->GetParryParam();
+
 	// 処理終了後次の状態に進む
 	if (state->CanExit()) {
 
@@ -145,6 +148,9 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 
 	// 攻撃有効状態にする
 	bossEnemy.GetHUD()->SetValid();
+
+	// パリィ不可にする
+	parryParam_.canParry = false;
 }
 
 void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
@@ -195,6 +201,15 @@ void BossEnemyGreatAttackState::StopEffects() {
 	// エフェクト停止
 	bossAuraEffect_->Stop();
 	isEmitAuraEffect_ = false;
+}
+
+void BossEnemyGreatAttackState::SetAttackSign(BossEnemyAttackSign* attackSign) {
+
+	attackSign_ = attackSign;
+	for (const auto& state : std::views::values(states_)) {
+
+		state->SetAttackSign(attackSign);
+	}
 }
 
 std::optional<BossEnemyGreatAttackState::State>

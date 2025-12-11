@@ -101,7 +101,7 @@ void ConicalPendulum::Update() {
 		angularVelocity = -angularSpeed;
 	}
 	// 角度を更新
-	angle += angularVelocity * SakuEngine::GameTimer::GetDeltaTime();
+	angle += angularVelocity * SakuEngine::GameTimer::GetScaledDeltaTime();
 	if (angle > maxAngle) {
 
 		// ここで反転

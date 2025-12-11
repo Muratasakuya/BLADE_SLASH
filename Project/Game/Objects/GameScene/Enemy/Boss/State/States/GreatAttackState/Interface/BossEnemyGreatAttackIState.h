@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/Effect/User/EffectGroup.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // imgui
 #include <imgui.h>
@@ -13,6 +14,7 @@ class BossEnemy;
 class Player;
 class FollowCamera;
 class BossEnemyGreatAttackState;
+class BossEnemyAttackSign;
 
 //============================================================================
 //	BossEnemyGreatAttackIState class
@@ -49,10 +51,12 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	void SetParentState(BossEnemyGreatAttackState* parentState) { parentState_ = parentState; }
+	void SetAttackSign(BossEnemyAttackSign* attackSign) { attackSign_ = attackSign; }
+
 	// 状態遷移可能か
 	bool CanExit() const { return canExit_; }
-
-	void SetParentState(BossEnemyGreatAttackState* parentState) { parentState_ = parentState; }
+	const ParryParameter& GetParryParam() const { return parryParam_; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -64,9 +68,13 @@ protected:
 	FollowCamera* followCamera_;
 	BossEnemy* bossEnemy_;
 	BossEnemyGreatAttackState* parentState_;
+	BossEnemyAttackSign* attackSign_;
 
 	// 状態終了フラグ
 	bool canExit_ = false;
+
+	// パリィパラメーター
+	ParryParameter parryParam_;
 
 	//--------- functions ----------------------------------------------------
 

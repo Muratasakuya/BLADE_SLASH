@@ -40,6 +40,10 @@ public:
 	// エフェクトの発生と停止
 	void StartEffects();
 	void StopEffects();
+
+	//--------- accessor -----------------------------------------------------
+
+	void SetAttackSign(BossEnemyAttackSign* attackSign) override;
 private:
 	//========================================================================
 	//	private Methods

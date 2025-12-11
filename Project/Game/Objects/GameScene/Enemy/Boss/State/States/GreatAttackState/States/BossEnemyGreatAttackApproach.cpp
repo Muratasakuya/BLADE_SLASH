@@ -43,6 +43,16 @@ void BossEnemyGreatAttackApproach::Enter() {
 
 	// 溜めアニメーション再生
 	bossEnemy_->SetNextAnimation("bossEnemy_slashStay", false, beginTimer_.target_);
+
+	// 攻撃予兆を出す
+	SakuEngine::Vector3 sign = bossEnemy_->GetTranslation();
+	sign.y = 2.0f;
+	attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
+
+	// パリィ可能にする
+	bossEnemy_->ResetParryTiming();
+	parryParam_.continuousCount = pendulumMaxReachCount_;
+	parryParam_.canParry = true;
 }
 
 void BossEnemyGreatAttackApproach::Update() {
@@ -108,6 +118,12 @@ void BossEnemyGreatAttackApproach::UpdateAttack() {
 
 	// 振り子移動に合わせたアニメーション再生
 	StartPendulumAnim();
+
+	// キーイベントに到達したタイミングでパリィ可能にする
+	if (bossEnemy_->IsEventKey("Parry", 0)) {
+
+		bossEnemy_->TellParryTiming();
+	}
 
 	// 最大到達回数に達したら終了
 	if (pendulumMaxReachCount_ <= movePendulum_.reachCount) {
@@ -185,6 +201,9 @@ void BossEnemyGreatAttackApproach::UpdateAlways() {
 }
 
 void BossEnemyGreatAttackApproach::Exit() {
+
+	// パリィ不可にする
+	parryParam_.canParry = false;
 }
 
 void BossEnemyGreatAttackApproach::ImGui() {

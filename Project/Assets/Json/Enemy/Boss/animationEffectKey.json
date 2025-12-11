@@ -14,13 +14,13 @@
             }
         },
         {
-            "object": "bossEnemyArmature",
+            "object": "<unlinked>",
             "action": "continuousAttack",
             "events": {
                 "Parry": [
                     7,
                     18,
-                    36
+                    34
                 ],
                 "Effect": [
                     6,
@@ -85,16 +85,16 @@
             "action": "speedSlash0",
             "events": {
                 "Parry": [
-                    8
+                    3
                 ]
             }
         },
         {
-            "object": "<unlinked>",
+            "object": "bossEnemyArmature",
             "action": "speedSlash1",
             "events": {
                 "Parry": [
-                    8
+                    2
                 ]
             }
         },

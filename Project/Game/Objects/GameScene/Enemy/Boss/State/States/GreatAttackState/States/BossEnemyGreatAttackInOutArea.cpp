@@ -140,7 +140,7 @@ void BossEnemyGreatAttackInOutArea::UpdateOut() {
 			EmitLightningAttack();
 
 			// 一度画面外に飛ばす
-			bossEnemy_->SetTranslation(SakuEngine::Vector3(0.0f, -32, 0.0f));
+			bossEnemy_->SetTranslation(SakuEngine::Vector3(0.0f, -32.0f, 0.0f));
 		}
 	}
 
@@ -235,6 +235,12 @@ void BossEnemyGreatAttackInOutArea::EmitLightningAttack() {
 
 	// n番目ごとに進める角度
 	float stepAngle = SakuEngine::pi * 2.0f / static_cast<float>(lightningCount_);
+
+	for (auto& rangeCollision : rangeAttackCollisions_) {
+
+		// 衝突無効化
+		rangeCollision.activePos = rangeCollision.collisionSafePos_;
+	}
 
 	// 雷攻撃発生
 	for (uint32_t i = 0; i <= lightningCount_; ++i) {

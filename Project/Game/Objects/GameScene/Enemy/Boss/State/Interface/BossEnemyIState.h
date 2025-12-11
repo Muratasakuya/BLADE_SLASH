@@ -48,7 +48,7 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
-	void SetAttackSign(BossEnemyAttackSign* attackSign) { attackSign_ = attackSign; }
+	virtual void SetAttackSign(BossEnemyAttackSign* attackSign) { attackSign_ = attackSign; }
 
 	virtual bool GetCanExit() const { return canExit_; }
 	const ParryParameter& GetParryParam() const { return parryParam_; }
