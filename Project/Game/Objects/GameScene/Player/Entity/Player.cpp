@@ -268,6 +268,9 @@ void Player::Update() {
 	rightWeapon_->Update();
 	leftWeapon_->Update();
 
+	// スキルポイントの更新
+	UpdateSKilPoint();
+
 	// HUDの更新
 	hudSprites_->SetStatas(stats_);
 	hudSprites_->Update(*this);
@@ -295,6 +298,27 @@ void Player::UpdateTargetNavigation() {
 
 	// オブジェクト更新
 	targetNavigation_->Update();
+}
+
+void Player::UpdateSKilPoint() {
+
+	// 時間経過で回復
+	recoverSkilPointTimer_.Update();
+	if (recoverSkilPointTimer_.IsReached()) {
+
+		// スキルポイントの回復
+		stats_.currentSkilPoint = (std::min)(stats_.maxSkilPoint, stats_.currentSkilPoint + stats_.incrementSkilPoint);
+		// タイマーリセット
+		recoverSkilPointTimer_.Reset();
+	}
+
+	// 状態に応じたスキルポイントの消費
+	// スキル攻撃の時かつ状態が切り替わったとき
+	if (stateController_->GetCurrentState() == PlayerState::SkilAttack) {
+
+		// スキルポイントを消費
+		stats_.currentSkilPoint = (std::max)(0, stats_.currentSkilPoint - stats_.skilCost);
+	}
 }
 
 void Player::CheckBossEnemyStun() {
@@ -404,6 +428,10 @@ void Player::DerivedImGui() {
 			ImGui::DragInt("Cur HP", &stats_.currentHP, 1, 0, stats_.maxHP);
 			ImGui::DragInt("Max SP", &stats_.maxSkilPoint, 1, 0);
 			ImGui::DragInt("Cur SP", &stats_.currentSkilPoint, 1, 0, stats_.maxSkilPoint);
+			ImGui::DragInt("Skil Cost", &stats_.skilCost, 1, 0, stats_.maxSkilPoint);
+			ImGui::DragInt("Increment SP", &stats_.incrementSkilPoint, 1, 0);
+
+			recoverSkilPointTimer_.ImGui("Recover SP Timer");
 
 			// 各stateダメージの値を調整
 			SakuEngine::EnumAdapter<PlayerState>::Combo("EditDamage", &editingState_);
@@ -418,7 +446,7 @@ void Player::DerivedImGui() {
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Reset SP")) {
-				stats_.currentSkilPoint = 0;
+				stats_.currentSkilPoint = stats_.maxSkilPoint / 2;
 			}
 			ImGui::EndTabItem();
 		}
@@ -494,9 +522,13 @@ void Player::ApplyJson() {
 
 	stats_.maxHP = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxHP");
 	stats_.maxSkilPoint = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxSkilPoint");
+	stats_.skilCost = cacheJsonData_.value("skilCost", 50);
+	stats_.incrementSkilPoint = cacheJsonData_.value("incrementSkilPoint", 1);
 	// 初期化時は最大と同じ値にする
 	stats_.currentHP = stats_.maxHP;
-	stats_.currentSkilPoint = stats_.maxSkilPoint;
+	stats_.currentSkilPoint = stats_.maxSkilPoint / 2;
+
+	recoverSkilPointTimer_.FromJson(cacheJsonData_.value("RecoverSkilPointTimer", Json()));
 
 	for (const auto& [key, value] : cacheJsonData_["Damages"].items()) {
 
@@ -525,6 +557,10 @@ void Player::SaveJson() {
 
 	data["maxHP"] = stats_.maxHP;
 	data["maxSkilPoint"] = stats_.maxSkilPoint;
+	data["skilCost"] = stats_.skilCost;
+	data["incrementSkilPoint"] = stats_.incrementSkilPoint;
+
+	recoverSkilPointTimer_.ToJson(data["RecoverSkilPointTimer"]);
 
 	for (const auto& [state, value] : stats_.damages) {
 

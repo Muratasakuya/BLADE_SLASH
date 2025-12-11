@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/MathLib/MathUtils.h>
+#include <Engine/Utility/Timer/StateTimer.h>
 
 //============================================================================
 //	PlayerStructures
@@ -43,6 +44,8 @@ struct PlayerStats {
 
 	int maxSkilPoint;     // 最大スキルポイント
 	int currentSkilPoint; // 現在のスキルポイント
+	int skilCost;         // スキル攻撃の消費スキルポイント
+	int incrementSkilPoint; // スキルポイントの回復量
 
 	std::unordered_map<PlayerState, int> damages; // 各攻撃のダメージ量
 	int damageRandomRange;                        // ダメージのランダム範囲

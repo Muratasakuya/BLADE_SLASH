@@ -187,6 +187,9 @@ bool PlayerStateController::IsAvoidance() const {
 
 void PlayerStateController::Update(Player& owner) {
 
+	// 前の状態を更新
+	previous_ = current_;
+
 	// 外部進捗による更新中なら入力による状態遷移を行わない
 	if (UpdateExternalSynch(owner)) {
 		return;
@@ -336,7 +339,9 @@ void PlayerStateController::UpdateInputState(Player& owner) {
 		}
 
 		// スキル攻撃
-		if (inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
+		// スキルポイントが足りていてスキル入力があればスキル攻撃状態に遷移
+		if (stats_.skilCost <= stats_.currentSkilPoint &&
+			inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
 
 			Request(PlayerState::SkilAttack);
 			return;

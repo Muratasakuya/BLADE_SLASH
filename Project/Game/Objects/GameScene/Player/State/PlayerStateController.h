@@ -46,6 +46,7 @@ public:
 	void RequestFalterState(Player& owner);
 
 	PlayerState GetCurrentState() const { return current_; }
+	PlayerState GetPreviousState() const { return previous_; }
 	PlayerState GetSwitchSelectState() const;
 
 	bool IsTriggerParry() const { return inputMapper_->IsTriggered(PlayerInputAction::Parry); }
@@ -98,6 +99,7 @@ private:
 	std::optional<PlayerState> queued_;
 
 	PlayerState current_;                  // 現在の状態
+	PlayerState previous_;                 // 前の状態
 	std::optional<PlayerState> requested_; // 次の状態
 
 	// 移動入力中のダッシュフラグ

@@ -106,6 +106,7 @@ private:
 	// parameters
 	SakuEngine::Transform3D initTransform_; // 初期化時の値
 	PlayerStats stats_; // ステータス
+	SakuEngine::StateTimer recoverSkilPointTimer_; // スキルポイント回復タイマー
 
 	// 敵のスタン中の更新になったか
 	bool isStunUpdate_;
@@ -117,7 +118,7 @@ private:
 	// json
 	Json cacheJsonData_;
 
-	// editor
+	// デバッグ
 	PlayerState editingState_;
 	// フラグで攻撃を受けても食らわないようにする
 	bool isInvincible_ = false;
@@ -138,6 +139,7 @@ private:
 
 	// update
 	void UpdateTargetNavigation();
+	void UpdateSKilPoint();
 
 	// helper
 	void SetInitTransform();

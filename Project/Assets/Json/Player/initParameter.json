@@ -569,6 +569,10 @@
             "z": 0.0
         }
     },
+    "RecoverSkilPointTimer": {
+        "easeingType_": "Linear",
+        "target_": 0.5
+    },
     "RightWeapon": {
         "InitTransform": {
             "isCompulsion_": false,
@@ -831,7 +835,9 @@
             "z": -340.0
         }
     },
+    "incrementSkilPoint": 1,
     "maxHP": 12000,
     "maxSkilPoint": 100,
+    "skilCost": 40,
     "toughness": 0
 }
