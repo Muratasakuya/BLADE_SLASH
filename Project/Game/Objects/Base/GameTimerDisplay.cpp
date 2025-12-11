@@ -66,26 +66,33 @@ void GameTimerDisplay::Init(const std::string& pattern, const std::string& digit
 
 void GameTimerDisplay::Update(float second) {
 
-	// センチ秒に変換(四捨五入)
-	int centiSecond = static_cast<int>(second * 100.0f + 0.5f);
+	// 秒を整数に変換
+	int totalSecond = static_cast<int>(second + 0.5f);
 
-	const size_t digitNum =
-		std::count_if(elements_.begin(), elements_.end(),
-			[](const Element& element) { return element.isDigit; });
+	// hh:mm:ss.ss形式に変換
+	int hour = totalSecond / 3600;
+	int minute = (totalSecond % 3600) / 60;
+	int secondPart = totalSecond % 60;
+
+	const size_t digitNum = std::count_if(elements_.begin(), elements_.end(),
+		[](const Element& element) { return element.isDigit; });
+
+	// hh:mm:ss用に6桁の整数にまとめる
+	int value = hour * 10000 + minute * 100 + secondPart;
 
 	// 範囲外の値にならないようにする
 	const int maxValue = static_cast<int>(std::pow(10, digitNum) - 1);
-	centiSecond = std::clamp(centiSecond, 0, maxValue);
+	value = std::clamp(value, 0, maxValue);
 
-	// 0埋め文字列へ変換する
+	// 0埋め文字列へ変換
 	std::ostringstream os;
-	os << std::setw(digitNum) << std::setfill('0') << centiSecond;
+	os << std::setw(digitNum) << std::setfill('0') << value;
 	const std::string digitsString = os.str();
 
 	size_t pos = 0;
 	for (const Element& element : elements_) {
 
-		// 記号は数字で変化させないので更新しない
+		// 記号はスキップ
 		if (!element.isDigit) {
 			continue;
 		}

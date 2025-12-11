@@ -282,7 +282,7 @@
     },
     "randomSwitchBias_": 3.200000047683716,
     "randomSwitchCount_": 32,
-    "randomTimeMax_": 1000000.0,
+    "randomTimeMax_": 32000.0,
     "timeResultOffsetScale_": 24.0,
     "timeResultSizeScale_": 5.400000095367432,
     "timerOffsetX_": 168.0,

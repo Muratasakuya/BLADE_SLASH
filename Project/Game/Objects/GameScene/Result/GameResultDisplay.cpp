@@ -43,8 +43,7 @@ void GameResultDisplay::Init() {
 
 	// 時間表示
 	resultTime_ = std::make_unique<GameTimerDisplay>();
-	resultTime_->Init("dd:dd:dd", "toughnessNumber",
-		"toughnessTimeSymbol", "resultTime", "GameResultDisplay");
+	resultTime_->Init("dd:dd:dd", "toughnessNumber", "toughnessTimeSymbol", "resultTime", "GameResultDisplay");
 	// 最初は表示しない
 	resultTime_->SetAlpha(0.0f);
 	// グリッチを適応
@@ -65,10 +64,8 @@ void GameResultDisplay::Init() {
 	leftButton_ = std::make_unique<GameButton>();
 	leftButton_->Init("titleButton", "GameResultDisplay");
 	leftButton_->SetAlpha(0.0f);
-	leftButton_->RegisterUpdater(GameButtonResponseType::AnyMouseClick,
-		std::make_unique<GameButtonBlinkingUpdater>());
-	leftButton_->RegisterUpdater(GameButtonResponseType::Focus,
-		std::make_unique<GameButtonBlinkingUpdater>());
+	leftButton_->RegisterUpdater(GameButtonResponseType::AnyMouseClick, std::make_unique<GameButtonBlinkingUpdater>());
+	leftButton_->RegisterUpdater(GameButtonResponseType::Focus, std::make_unique<GameButtonBlinkingUpdater>());
 	leftButton_->SetPostProcessEnable(true);
 	// 右
 	rightButton_ = std::make_unique<GameButton>();
@@ -179,7 +176,7 @@ void GameResultDisplay::UpdateBeginTime() {
 	randomDisplayTimer_.Update();
 
 	// 最終的に表示する値
-	const float resultTime = resultTimer_.current_ / 100.0f;
+	const float resultTime = resultTimer_.current_;
 
 	// 収束値を設定
 	const float maxSpanAtStart = (std::max)(resultTime, randomTimeMax_ - resultTime);
@@ -199,13 +196,11 @@ void GameResultDisplay::UpdateBeginTime() {
 		// 区間内で新しい乱数をセット
 		lastRandomTime_ = SakuEngine::RandomGenerator::Generate<float>(min, max);
 		++randomSwitchIndex_;
-		nextSwitchT_ = (randomSwitchIndex_ < randomSwitchCount_) ?
-			calcThreshold(randomSwitchIndex_) : 1.0f;
+		nextSwitchT_ = (randomSwitchIndex_ < randomSwitchCount_) ? calcThreshold(randomSwitchIndex_) : 1.0f;
 	}
 
 	// 表示値する値を設定
-	const float display = randomDisplayTimer_.IsReached() ?
-		resultTime : lastRandomTime_ / 100.0f;
+	const float display = randomDisplayTimer_.IsReached() ? resultTime : lastRandomTime_;
 
 	resultTime_->Update(display);
 
