@@ -26,7 +26,7 @@ void PlayerIState::SetRotateToDirection(Player& player, const SakuEngine::Vector
 	}
 
 	// 向きを計算
-	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 	SakuEngine::Quaternion rotation = player.GetRotation();
 	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation, rotationLerpRate_);
 	player.SetRotation(rotation);

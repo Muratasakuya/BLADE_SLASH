@@ -1,4 +1,4 @@
-﻿#include "Direction.h"
+#include "Direction.h"
 
 using namespace SakuEngine;
 

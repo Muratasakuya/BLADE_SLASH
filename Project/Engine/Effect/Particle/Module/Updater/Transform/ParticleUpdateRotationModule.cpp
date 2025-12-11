@@ -59,7 +59,7 @@ void ParticleUpdateRotationModule::ToAxisAngle(const Quaternion& rotation, Vecto
 	// 角度ほぼ0.0f
 	if (sin < 1e-6f) {
 
-		axis = Vector3(1.0f, 0.0f, 0.0f);
+		axis = Direction::Get(Direction3D::Right);
 	} else {
 
 		axis = Vector3(normalizedRotate.x / sin,
@@ -120,7 +120,7 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 
 			return particle.rotation;
 		}
-		return SakuEngine::Quaternion::LookRotation(direction, Vector3(0.0f, 1.0f, 0.0f));
+		return SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 	}
 	}
 	return particle.rotation;
@@ -135,8 +135,8 @@ Quaternion ParticleUpdateRotationModule::LockAxis(const Quaternion& rotation) co
 	}
 
 	// 軸の方向に応じて回転軸を取得
-	Vector3 axis = (lockAxisType_ == LockAxisType::AxisX) ? Vector3(1.0f, 0.0f, 0.0f) :
-		(lockAxisType_ == LockAxisType::AxisY) ? Vector3(0.0f, 1.0f, 0.0f) : Vector3(0.0f, 0.0f, 1.0f);
+	Vector3 axis = (lockAxisType_ == LockAxisType::AxisX) ? Direction::Get(Direction3D::Right) :
+		(lockAxisType_ == LockAxisType::AxisY) ? Direction::Get(Direction3D::Up) : Direction::Get(Direction3D::Forward);
 	// 元の姿勢をSwing * Twistに分解してTwistの角度を置き換える
 	Quaternion twist = MakeTwist(rotation, axis);
 	Quaternion swing = Quaternion::Multiply(rotation, Quaternion::Inverse(twist));

@@ -1,4 +1,4 @@
-﻿#include "ParticleUpdateGravityModule.h"
+#include "ParticleUpdateGravityModule.h"
 
 using namespace SakuEngine;
 
@@ -31,7 +31,7 @@ void ParticleUpdateGravityModule::Execute(
 		if (newPos.y <= reflectGroundY_ && particle.velocity.y < 0.0f) {
 
 			// 反射処理
-			particle.velocity = Vector3::Reflect(particle.velocity, Vector3(0.0f, 1.0f, 0.0f)) * restitution_;
+			particle.velocity = Vector3::Reflect(particle.velocity, Direction::Get(Direction3D::Up)) * restitution_;
 			// 反射位置よりも進めないように調整
 			newPos.y = reflectGroundY_;
 		}

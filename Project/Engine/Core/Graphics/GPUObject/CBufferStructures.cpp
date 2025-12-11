@@ -6,6 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Data/Transform.h>
+#include <Engine/Utility/Enum/Direction.h>
 
 // imgui
 #include <imgui.h>
@@ -29,8 +30,8 @@ void TransformationMatrix::Update(const BaseTransform* parent, const SakuEngine:
 		Quaternion normalizedRotation = SakuEngine::Quaternion::Normalize(rotation);
 		Matrix4x4 fullRotMat = Quaternion::MakeRotateMatrix(normalizedRotation);
 
-		Vector3 xAxis = Vector3::TransferNormal(Vector3(1.0f, 0.0f, 0.0f), fullRotMat);
-		Vector3 zAxis = Vector3::TransferNormal(Vector3(0.0f, 0.0f, 1.0f), fullRotMat);
+		Vector3 xAxis = Vector3::TransferNormal(Direction::Get(Direction3D::Right), fullRotMat);
+		Vector3 zAxis = Vector3::TransferNormal(Direction::Get(Direction3D::Forward), fullRotMat);
 
 		// XZだけの回転行列作成
 		Vector3 newZ = Vector3::Normalize(zAxis);

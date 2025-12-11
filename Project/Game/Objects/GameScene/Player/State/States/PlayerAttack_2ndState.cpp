@@ -159,7 +159,7 @@ void PlayerAttack_2ndState::CalcWayPointsToTarget(const SakuEngine::Vector3& sta
 	float leftT, float rightT, float swayLength, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
 
 	SakuEngine::Vector3 direction = SakuEngine::Vector3(target - start).Normalize();
-	SakuEngine::Vector3 right = SakuEngine::Vector3::Cross(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)).Normalize();
+	SakuEngine::Vector3 right = SakuEngine::Vector3::Cross(direction, Direction::Get(Direction3D::Up)).Normalize();
 
 	// 左右の補間点を計算
 	dstWayPoints[0] = SakuEngine::Vector3::Lerp(start, target, leftT) - right * swayLength;  // 左

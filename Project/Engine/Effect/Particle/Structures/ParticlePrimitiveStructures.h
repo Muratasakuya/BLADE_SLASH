@@ -186,7 +186,7 @@ struct LightningForGPU {
 	void Init() {
 
 		start = Vector3(0.0f, 32.0f, 0.0f);
-		end = Vector3(0.0f, 1.0f, 0.0f);
+		end = Direction::Get(Direction3D::Up);
 
 		width = 2.0f;
 		nodeCount = 20;

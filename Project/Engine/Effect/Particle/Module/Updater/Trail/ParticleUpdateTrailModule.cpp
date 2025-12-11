@@ -136,7 +136,7 @@ void ParticleUpdateTrailModule::BuildTransferData(uint32_t particleIndex,
 
 	// U(横)方向の距離累積
 	float uAccum = 0.0f;
-	Vector3 prevSide = Vector3(1.0f, 0.0f, 0.0f);
+	Vector3 prevSide = Direction::Get(Direction3D::Right);
 
 	for (size_t i = 0; i < nodes.size(); ++i) {
 
@@ -157,7 +157,7 @@ void ParticleUpdateTrailModule::BuildTransferData(uint32_t particleIndex,
 			direction /= directionLength;
 		} else {
 
-			direction = Vector3(0.0f, 0.0f, 1.0f);
+			direction = Direction::Get(Direction3D::Forward);
 		}
 
 		// 帯の左右方向

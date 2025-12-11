@@ -7,6 +7,7 @@
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Engine/Utility/Enum/Direction.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 
 //============================================================================
@@ -177,22 +178,18 @@ void Player::SetReverseWeapon(bool isReverse, PlayerWeaponType type) {
 	if (isReverse) {
 		if (type == PlayerWeaponType::Left) {
 
-			leftWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
-				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), SakuEngine::pi));
+			leftWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), SakuEngine::pi));
 		} else {
 
-			rightWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
-				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), SakuEngine::pi));
+			rightWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), SakuEngine::pi));
 		}
 	} else {
 		if (type == PlayerWeaponType::Left) {
 
-			leftWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
-				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), 0.0f));
+			leftWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), 0.0f));
 		} else {
 
-			rightWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(
-				SakuEngine::Vector3(1.0f, 0.0f, 0.0f), 0.0f));
+			rightWeapon_->SetRotation(SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), 0.0f));
 		}
 	}
 }

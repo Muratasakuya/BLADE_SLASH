@@ -5,6 +5,9 @@
 //============================================================================
 
 void EndGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
+
+	// 次の状態を設定
+	nextState_ = GameSceneState::Result;
 }
 
 void EndGameState::Update() {

@@ -150,8 +150,8 @@ void ParticleUpdateKeyframePathModule::Execute(
 	if (0.0f < currentRadius) {
 
 		Vector3 tangent = GetTangent(t);
-		const float dotY = Vector3::Dot(tangent, Vector3(0.0f, 1.0f, 0.0f));
-		Vector3 upRef = (std::fabs(dotY) > 0.99f) ? Vector3(1.0f, 0.0f, 0.0f) : Vector3(0.0f, 1.0f, 0.0f);
+		const float dotY = Vector3::Dot(tangent, Direction::Get(Direction3D::Up));
+		Vector3 upRef = (std::fabs(dotY) > 0.99f) ? Direction::Get(Direction3D::Right) : Direction::Get(Direction3D::Up);
 		Vector3 right = Vector3::Cross(upRef, tangent).Normalize();
 		Vector3 normal = Vector3::Cross(tangent, right).Normalize();
 
@@ -180,7 +180,7 @@ Vector3 ParticleUpdateKeyframePathModule::GetTangent(float t) const {
 	Vector3 p1 = LerpKeyframe::GetValue<Vector3>(keys_, t1, type_);
 	Vector3 v = (p1 - p0);
 	float len = v.Length();
-	return (len > 1e-6f) ? (v / len) : Vector3(0.0f, 0.0f, 1.0f);
+	return (len > 1e-6f) ? (v / len) : Direction::Get(Direction3D::Forward);
 }
 
 void ParticleUpdateKeyframePathModule::ImGui() {

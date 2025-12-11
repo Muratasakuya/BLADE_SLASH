@@ -108,103 +108,38 @@ void GameScene::Update() {
 
 	// 状態に応じて更新
 	uint32_t stateIndex = static_cast<uint32_t>(currentState_);
-	switch (currentState_) {
-	case GameSceneState::Start: {
-		//========================================================================
-		//	ゲーム開始時の処理
-		//========================================================================
+	// 現在の状態を更新
+	states_[stateIndex]->Update();
 
-		states_[stateIndex]->Update();
+	// 状態が終了次第次の状態へ遷移
+	if (states_[stateIndex]->IsRequestNext()) {
+		if (states_[stateIndex]->GetNextState() == GameSceneState::Result) {
 
-		// ゲーム開始演出状態にする
-		if (states_[stateIndex]->IsRequestNext()) {
-
-			RequestNextState(GameSceneState::BeginGame);
-		}
-		break;
-	}
-	case GameSceneState::BeginGame: {
-		//========================================================================
-		//	ゲーム開始演出の処理
-		//========================================================================
-
-		states_[stateIndex]->Update();
-
-		// ゲーム開始
-		if (states_[stateIndex]->IsRequestNext()) {
-
-			RequestNextState(GameSceneState::PlayGame);
-		}
-		break;
-	}
-	case GameSceneState::PlayGame: {
-		//========================================================================
-		//	ゲームプレイ中の処理
-		//========================================================================
-
-		states_[stateIndex]->Update();
-
-		// ゲーム終了
-		if (states_[stateIndex]->IsRequestNext()) {
-
-			RequestNextState(GameSceneState::EndGame);
-		}
-		break;
-	}
-	case GameSceneState::EndGame: {
-		//========================================================================
-		//	ゲーム終了時の処理
-		//========================================================================
-
-		states_[stateIndex]->Update();
-
-		// 終了演出後リザルト画面に遷移させる
-		if (states_[stateIndex]->IsRequestNext()) {
-
-			RequestNextState(GameSceneState::Result);
 			// プレイヤーと敵を消す
 			player_.reset();
 			subPlayer_.reset();
 			bossEnemy_.reset();
 		}
-		break;
-	}
-	case GameSceneState::Result: {
-		//========================================================================
-		//	リザルト画面の処理
-		//========================================================================
+		if (currentState_ == GameSceneState::Result) {
 
-		states_[stateIndex]->Update();
+			// 入力に応じて遷移先を決定する
+			if (fadeTransition_) {
+				if (states_[stateIndex]->GetResultSelect() == ResultSelect::Retry) {
 
-		// 入力に応じて遷移先を決定する
-		if (states_[stateIndex]->IsRequestNext() && fadeTransition_) {
+					sceneManager_->SetNextScene(SakuEngine::Scene::Game, std::move(fadeTransition_));
+				} else if (states_[stateIndex]->GetResultSelect() == ResultSelect::Title) {
 
-			ResultGameState* state = static_cast<ResultGameState*>(states_[stateIndex].get());
-			if (state->GetResultSelect() == ResultSelect::Retry) {
-
-				sceneManager_->SetNextScene(SakuEngine::Scene::Game, std::move(fadeTransition_));
-			} else if (state->GetResultSelect() == ResultSelect::Title) {
-
-				sceneManager_->SetNextScene(SakuEngine::Scene::Title, std::move(fadeTransition_));
+					sceneManager_->SetNextScene(SakuEngine::Scene::Title, std::move(fadeTransition_));
+				}
 			}
+		} else {
+
+			// 次の状態へ遷移
+			RequestNextState(states_[stateIndex]->GetNextState());
 		}
-		break;
-	}
-	case GameSceneState::Pause: {
-		//========================================================================
-		//	ポーズ中の処理
-		//========================================================================
-
-		states_[stateIndex]->Update();
-		break;
-	}
 	}
 
-	//========================================================================
-	//	常に行う更新処理
-	//========================================================================
-
-	// フィールドエフェクト
+	// フィールドエフェクト更新
 	fieldEffect_->Update();
 }
 

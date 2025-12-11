@@ -91,9 +91,9 @@ bool Collision::SphereToOBB(const CollisionShape::Sphere& sphere,
 	Matrix4x4 rotateMatrix = Quaternion::MakeRotateMatrix(obb.rotate);
 
 	Vector3 orientations[3];
-	orientations[0] = SakuEngine::Vector3::Transform(Vector3(1.0f, 0.0f, 0.0f), rotateMatrix);
-	orientations[1] = SakuEngine::Vector3::Transform(Vector3(0.0f, 1.0f, 0.0f), rotateMatrix);
-	orientations[2] = SakuEngine::Vector3::Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix);
+	orientations[0] = SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Right), rotateMatrix);
+	orientations[1] = SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Up), rotateMatrix);
+	orientations[2] = SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Forward), rotateMatrix);
 
 	Vector3 localSphereCenter = sphere.center - obb.center;
 	Vector3 closestPoint = obb.center;
@@ -155,9 +155,9 @@ bool Collision::OBBToOBB(const CollisionShape::OBB& obbA, const CollisionShape::
 	auto GetOBBAxes = [](const CollisionShape::OBB& obb) -> std::array<Vector3, 3> {
 		Matrix4x4 rotationMatrix = Quaternion::MakeRotateMatrix(obb.rotate);
 		return {
-			SakuEngine::Vector3::Transform(Vector3(1.0f, 0.0f, 0.0f), rotationMatrix),
-			SakuEngine::Vector3::Transform(Vector3(0.0f, 1.0f, 0.0f), rotationMatrix),
-			SakuEngine::Vector3::Transform(Vector3(0.0f, 0.0f, 1.0f), rotationMatrix)
+			SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Right), rotationMatrix),
+			SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Up), rotationMatrix),
+			SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Forward), rotationMatrix)
 		};
 		};
 

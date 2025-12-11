@@ -246,7 +246,7 @@ void BossEnemyProjectileAttackState::SetLaunchPositions(const BossEnemy& bossEne
 
 	// 真ん中の発生位置
 	launchPositions_.push_back(center);
-	SakuEngine::Vector3 up = SakuEngine::Vector3(0.0f, 1.0f, 0.0f);
+	SakuEngine::Vector3 up = Direction::Get(Direction3D::Up);
 	for (uint32_t i = 1; i <= half; ++i) {
 
 		// 左右のオフセット距離

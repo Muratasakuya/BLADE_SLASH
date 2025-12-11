@@ -43,12 +43,12 @@ void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
 			!targetRotation_.has_value()) {
 
 			targetTranslation_ = enemyPos - direction * attackOffsetTranslation_;
-			targetRotation_ = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+			targetRotation_ = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 		}
 	} else {
 
 		targetTranslation_ = enemyPos - direction * attackOffsetTranslation_;
-		targetRotation_ = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+		targetRotation_ = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 	}
 
 	// 指定円の中に敵がいれば敵の座標まで補間する

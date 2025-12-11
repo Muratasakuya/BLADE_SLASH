@@ -92,8 +92,8 @@ void SubPlayerPunchAttackState::UpdateApproach() {
 
 		// 攻撃状態の補間処理を開始
 		// 体
-		SakuEngine::Quaternion plusRotation = SakuEngine::Quaternion::MakeAxisAngle(SakuEngine::Vector3(0.0f, 1.0f, 0.0f), bodyOffsetAngleY_);
-		SakuEngine::Quaternion minusRotation = SakuEngine::Quaternion::MakeAxisAngle(SakuEngine::Vector3(0.0f, 1.0f, 0.0f), -bodyOffsetAngleY_);
+		SakuEngine::Quaternion plusRotation = SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Up), bodyOffsetAngleY_);
+		SakuEngine::Quaternion minusRotation = SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Up), -bodyOffsetAngleY_);
 		enterBodyRotation_ = body_->GetRotation();
 		bodyStartRotation_ = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(plusRotation, enterBodyRotation_));
 		bodyTargetRotation_ = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(minusRotation, enterBodyRotation_));

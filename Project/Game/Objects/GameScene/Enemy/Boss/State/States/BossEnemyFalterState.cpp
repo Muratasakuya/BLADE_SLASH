@@ -29,7 +29,7 @@ void BossEnemyFalterState::Update(BossEnemy& bossEnemy) {
 
 	// 回転を計算して設定
 	SakuEngine::Quaternion bossRotation = SakuEngine::Quaternion::LookTarget(bossPos, playerPos,
-		SakuEngine::Vector3(0.0f, 1.0f, 0.0f), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
+		Direction::Get(Direction3D::Up), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
 	bossEnemy.SetRotation(bossRotation);
 
 	// 後ずさりさせる

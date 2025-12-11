@@ -13,6 +13,9 @@
 
 void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
+	// 次の状態を設定
+	nextState_ = GameSceneState::BeginGame;
+
 	//========================================================================
 	//	postProcess
 	//========================================================================

@@ -23,7 +23,7 @@ void BossEnemyIState::LookTarget(BossEnemy& bossEnemy, const SakuEngine::Vector3
 
 	// 回転を計算して設定
 	SakuEngine::Quaternion bossRotation = SakuEngine::Quaternion::LookTarget(bossPos, target,
-		SakuEngine::Vector3(0.0f, 1.0f, 0.0f), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
+		Direction::Get(Direction3D::Up), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
 	bossEnemy.SetRotation(bossRotation);
 }
 

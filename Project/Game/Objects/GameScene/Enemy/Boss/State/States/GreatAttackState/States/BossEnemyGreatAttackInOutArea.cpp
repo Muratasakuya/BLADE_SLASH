@@ -294,7 +294,7 @@ void BossEnemyGreatAttackInOutArea::UpdateAlways() {
 	SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 	forward.y = 0.0f;
 	SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(
-		forward.Normalize(), SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+		forward.Normalize(), Direction::Get(Direction3D::Up));
 	grearAttackTargetTransform_->rotation = SakuEngine::Quaternion::Normalize(cameraRotation);
 	// 行列更新
 	grearAttackTargetTransform_->UpdateMatrix();

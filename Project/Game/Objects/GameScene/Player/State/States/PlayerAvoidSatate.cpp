@@ -32,7 +32,7 @@ void PlayerAvoidSatate::Enter(Player& player) {
 	targetPos_ = playerPos + direction * moveDistance_;
 
 	// 敵の方向を向かせる
-	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)));
+	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 
 	// 回避開始
 	isAvoidance_ = true;

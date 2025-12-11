@@ -82,8 +82,8 @@ void GameEffectCommandHelper::ApplyAndSend(GameEffect& effect, const Quaternion&
 
 	// ローカル回転を計算
 	const Quaternion localRotation = Quaternion::EulerToQuaternion(localEuler);
-	const Vector3 forwardLocal = Quaternion::RotateVector(Vector3(0.0f, 0.0f, 1.0f), localRotation);
-	const Vector3 upLocal = Quaternion::RotateVector(Vector3(0.0f, 1.0f, 0.0f), localRotation);
+	const Vector3 forwardLocal = Quaternion::RotateVector(Direction::Get(Direction3D::Forward), localRotation);
+	const Vector3 upLocal = Quaternion::RotateVector(Direction::Get(Direction3D::Up), localRotation);
 
 	// 親の回転でワールド方向を求める
 	const Vector3 forwardWorld = Quaternion::RotateVector(forwardLocal, parentRotation);

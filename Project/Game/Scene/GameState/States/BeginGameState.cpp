@@ -12,6 +12,9 @@
 
 void BeginGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 
+	// 次の状態を設定
+	nextState_ = GameSceneState::PlayGame;
+
 	// ゲーム開始時のカメラアニメーションデータを読み込み
 	SakuEngine::CameraEditor::GetInstance()->LoadJson("Scene/startGameCamera.json");
 

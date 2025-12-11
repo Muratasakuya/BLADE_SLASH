@@ -6,7 +6,7 @@
 
 void PlayGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 
-	
+	nextState_ = GameSceneState::EndGame;
 }
 
 void PlayGameState::Update() {

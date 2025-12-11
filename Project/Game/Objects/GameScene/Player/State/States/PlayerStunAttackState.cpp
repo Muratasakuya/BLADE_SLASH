@@ -99,7 +99,7 @@ void PlayerStunAttackState::UpdateSubPlayerAttack(Player& player) {
 		playerPos.y = 0.0f;
 		bossPos.y = 0.0f;
 		SakuEngine::Vector3 direction = SakuEngine::Vector3(bossPos - playerPos).Normalize();
-		SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+		SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 		player.SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 		player.UpdateMatrix();
 

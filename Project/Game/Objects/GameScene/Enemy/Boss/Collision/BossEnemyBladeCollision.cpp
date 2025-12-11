@@ -51,7 +51,7 @@ void BossEnemyBladeCollision::EmitEffect(const SakuEngine::Vector3& emitPos, con
 
 	// 進行方向に回転を設定する
 	SakuEngine::Vector3 direction = SakuEngine::Vector3(velocity_.x, 0.0f, velocity_.z).Normalize();
-	transform_.rotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+	transform_.rotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 
 	// transformを元に戻す
 	transform_.scale = scale_;

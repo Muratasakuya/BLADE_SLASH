@@ -109,7 +109,7 @@ void BossEnemyGreatAttackApproach::UpdateAttack() {
 	// 常にプレイヤーの方を向くようにする
 	// 回転を計算して設定
 	SakuEngine::Vector3 direction = SakuEngine::Vector3(bossEnemy_->GetTranslation() - player_->GetTranslation()).Normalize();
-	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 	bossEnemy_->SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 
 	// 振り子を更新して振り子位置をセットする
@@ -145,7 +145,7 @@ void BossEnemyGreatAttackApproach::StartPendulumAnim() {
 		// 方向の基準となるカメラの回転を取得
 		SakuEngine::Vector3 backward = followCamera_->GetTransform().GetForward();
 		backward.y = 0.0f;
-		SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(backward.Normalize(), SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+		SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(backward.Normalize(), Direction::Get(Direction3D::Up));
 
 		// 発生座標
 		SakuEngine::Vector3 emitPos = movePendulum_.anchor;
@@ -186,10 +186,10 @@ void BossEnemyGreatAttackApproach::UpdateAlways() {
 	// 位置、回転を更新する
 	SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
 	forward.y = 0.0f;
-	SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(forward.Normalize(), SakuEngine::Vector3(0.0f, 1.0f, 0.0f));
+	SakuEngine::Quaternion cameraRotation = SakuEngine::Quaternion::LookRotation(forward.Normalize(), Direction::Get(Direction3D::Up));
 	// X軸回転オフセット
 	cameraRotation = SakuEngine::Quaternion::Multiply(cameraRotation,
-		SakuEngine::Quaternion::MakeAxisAngle(SakuEngine::Vector3(1.0f, 0.0f, 0.0f), pendulumRotateX_));
+		SakuEngine::Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), pendulumRotateX_));
 	cameraRotation = SakuEngine::Quaternion::Normalize(cameraRotation);
 	// カメラのXZ回転は0.0fにしてYの回転のみ反映させる
 	movePendulum_.rotation = cameraRotation;

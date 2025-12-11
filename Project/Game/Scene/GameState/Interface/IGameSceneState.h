@@ -6,11 +6,6 @@
 #include <Game/Scene/GameState/GameContext.h>
 #include <Game/Scene/GameState/GameSceneState.h>
 
-// front
-namespace SakuEngine {
-	class SceneManager;
-}
-
 //============================================================================
 //	IGameSceneState class
 //	ゲームシーンの状態のインターフェース
@@ -44,6 +39,7 @@ public:
 	bool IsRequestNext() const { return requestNext_; }
 	void ClearRequestNext() { requestNext_ = false; }
 	ResultSelect GetResultSelect() const { return context_->result->GetResultSelect(); }
+	GameSceneState GetNextState() const { return nextState_; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -55,4 +51,6 @@ protected:
 
 	// 次の状態への遷移
 	bool requestNext_ = false;
+	// 次の状態
+	GameSceneState nextState_ = GameSceneState::Start;
 };

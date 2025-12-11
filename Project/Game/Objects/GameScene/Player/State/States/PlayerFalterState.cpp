@@ -29,7 +29,7 @@ void PlayerFalterState::Enter(Player& player) {
 	targetPos_ = startPos_ + direction * moveDistance_;
 
 	// 敵の方向を向かせる
-	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)));
+	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 
 	SakuEngine::GameTimer::StartHitStop(hitStopTime_, 0.0f);
 

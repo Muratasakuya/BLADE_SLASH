@@ -47,7 +47,7 @@ void PlayerParryState::Enter(Player& player) {
 	direction = direction.Normalize();
 
 	// 敵の方向を向かせる
-	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, SakuEngine::Vector3(0.0f, 1.0f, 0.0f)));
+	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 	// 左手の武器を反転
 	player.SetReverseWeapon(true, PlayerWeaponType::Left);
 

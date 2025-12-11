@@ -265,9 +265,9 @@ namespace SakuEngine {
 		}
 
 		Vector3 vertices[vertexNum];
-		Vector3 halfSizeX = Vector3::Transform(Vector3(1.0f, 0.0f, 0.0f), rotationMatrix) * size.x;
-		Vector3 halfSizeY = Vector3::Transform(Vector3(0.0f, 1.0f, 0.0f), rotationMatrix) * size.y;
-		Vector3 halfSizeZ = Vector3::Transform(Vector3(0.0f, 0.0f, 1.0f), rotationMatrix) * size.z;
+		Vector3 halfSizeX = Vector3::Transform(Direction::Get(Direction3D::Right), rotationMatrix) * size.x;
+		Vector3 halfSizeY = Vector3::Transform(Direction::Get(Direction3D::Up), rotationMatrix) * size.y;
+		Vector3 halfSizeZ = Vector3::Transform(Direction::Get(Direction3D::Forward), rotationMatrix) * size.z;
 
 		Vector3 offsets[vertexNum] = {
 			{-1, -1, -1}, {-1,  1, -1}, {1, -1, -1}, {1,  1, -1},

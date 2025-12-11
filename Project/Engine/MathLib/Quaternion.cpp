@@ -366,7 +366,7 @@ Quaternion Quaternion::FromToY(const Vector3& direction) {
 	}
 	// ほぼ逆方向
 	if (dot < -0.9999f) {
-		return Quaternion::MakeAxisAngle(Vector3(1.0f, 0.0f, 0.0f), pi);
+		return Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), pi);
 	}
 
 	Vector3 axis = Vector3::Normalize(Vector3::Cross(kY, direction));

@@ -270,7 +270,7 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	} else {
 
 		// 前方ベクトル
-		SakuEngine::Vector3 forward = SakuEngine::Quaternion::RotateVector(SakuEngine::Vector3(0.0f, 0.0f, 1.0f), player.GetRotation());
+		SakuEngine::Vector3 forward = SakuEngine::Quaternion::RotateVector(Direction::Get(Direction3D::Forward), player.GetRotation());
 		forward.y = 0.0f;
 		forward = forward.Normalize();
 

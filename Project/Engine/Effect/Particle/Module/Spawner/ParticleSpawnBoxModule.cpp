@@ -55,7 +55,7 @@ void ParticleSpawnBoxModule::Execute(std::list<CPUParticle::ParticleData>& parti
 
 	uint32_t emitCount = emitCount_.GetValue();
 	// +Z方向に飛ばす
-	Vector3 forward = Vector3::Normalize(Vector3::TransferNormal(Vector3(0.0f, 0.0f, 1.0f), emitter_.rotationMatrix));
+	Vector3 forward = Vector3::Normalize(Vector3::TransferNormal(Direction::Get(Direction3D::Forward), emitter_.rotationMatrix));
 	for (uint32_t index = 0; index < emitCount; ++index) {
 
 		CPUParticle::ParticleData particle{};
