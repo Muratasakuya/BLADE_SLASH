@@ -4,6 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Input/InputStructures.h>
+#include <Engine/Utility/Material/SpriteVertexColorAnimation.h>
+#include <Engine/Object/Base/GameObject2DArray.h>
 #include <Game/Objects/Base/GameHPBar.h>
 #include <Game/Objects/Base/GameDisplayDamage.h>
 #include <Game/Objects/Base/GameCommonStructures.h>
@@ -45,9 +47,6 @@ public:
 	void StartInputSuggest();
 	void EndInputSuggest();
 
-	// 入力リアクションアニメーション開始
-	void StartInputReactAnim(PlayerState state);
-
 	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
@@ -60,34 +59,6 @@ private:
 	//========================================================================
 
 	//--------- structure ----------------------------------------------------
-
-	// 入力状態に応じて変化するsprite
-	struct InputStateSprite {
-
-		std::unique_ptr<SakuEngine::GameObject2D> staticSprite;
-		std::unordered_map<InputType, std::unique_ptr<SakuEngine::GameObject2D>> dynamicSprites;
-
-		uint32_t index; // spriteを左から並べた時の順番
-
-		// 現在アクティブな入力状態かどうか
-		bool isActiveInput = false;
-
-		// groupの名前
-		const std::string groupName = "PlayerHUD";
-
-		void Init(uint32_t spriteIndex, const std::string& staticSpriteTextureName,
-			const std::unordered_map<InputType, std::string>& dynamicSpritesTextureName);
-
-		void ChangeDynamicSprite(InputType type);
-
-		void SetTranslation(const SakuEngine::Vector2& leftSpriteTranslation,
-			float dynamicSpriteOffsetY, float operateSpriteSpancingX);
-
-		void SetSize(const SakuEngine::Vector2& staticSpriteSize,
-			const SakuEngine::Vector2& dynamicSpriteSize_);
-
-		void SetAlpha(InputType type, float alpha);
-	};
 
 	// 入力示唆
 	struct Suggest {
@@ -120,9 +91,11 @@ private:
 	// HP残量
 	std::unique_ptr<GameHPBar> hpBar_;
 	GameCommon::HUDInitParameter hpBarParameter_;
+	SakuEngine::SpriteVertexColorAnimation hpBarColorAnim_;
 	// スキル値
 	std::unique_ptr<GameHPBar> skilBar_;
 	GameCommon::HUDInitParameter skilBarParameter_;
+	SakuEngine::SpriteVertexColorAnimation skilBarColorAnim_;
 
 	// 名前文字表示
 	std::unique_ptr<SakuEngine::GameObject2D> nameText_;
@@ -135,27 +108,16 @@ private:
 	static const uint32_t kInputSuggestCount_ = 2;
 	std::array<Suggest, kInputSuggestCount_> inputSuggests_;
 
+	// スキルP閾値表示
+	std::unique_ptr<SakuEngine::GameObject2DArray> skillThreshold_;
+	SakuEngine::Color enableSkillThresholdColor_;  // 有効時の色
+	SakuEngine::Color disableSkillThresholdColor_; // 無効時の色
+
 	//----------- operate ----------------------//
 
-	// 操作方法表示
-	InputStateSprite attack_; // 攻撃
-	InputStateSprite dash_;   // ダッシュ/回避
-	InputStateSprite skil_;   // スキル
-	InputStateSprite parry_;  // パリィ
+	// 入力アイコン表示
+	std::unique_ptr<SakuEngine::GameObject2DArray> operateIcons_;
 
-	// 入力に応じたリアクション
-	SakuEngine::SimpleAnimation<SakuEngine::Vector2> inputReactSizeAnim_; // サイズ
-	SakuEngine::SimpleAnimation<SakuEngine::Color> inputReactColorAnim_;  // 色
-	// 入力リアクションさせる状態
-	PlayerState inputReactState_;
-
-	// parameters
-	SakuEngine::Vector2 leftSpriteTranslation_; // 左端のsprite座標
-	float dynamicSpriteOffsetY_;    // 入力状態に応じて変化するspriteのオフセットY座標
-	float operateSpriteSpancingX_;  // indexに応じてオフセットをかける
-	// それぞれのspriteのサイズ
-	SakuEngine::Vector2 staticSpriteSize_;
-	SakuEngine::Vector2 dynamicSpriteSize_;
 	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間
 	float returnAlphaTime_;  // alpha値を元に戻すときの時間
 	EasingType returnAlphaEasingType_;
@@ -181,13 +143,13 @@ private:
 	void UpdateSprite(const Player& player);
 	void UpdateAlpha();
 
+	// バー更新
+	void UpdateBar();
 	// 入力示唆更新
 	void UpdateInputSuggest();
-	// 入力に応じたUIのアニメーション
-	void UpdateInputReactAnim();
+	// スキルP閾値表示更新
+	void UpdateSkillThreshold();
 
 	// helper
 	void ChangeAllOperateSprite();
-	void SetAllOperateTranslation();
-	void SetAllOperateSize();
 };

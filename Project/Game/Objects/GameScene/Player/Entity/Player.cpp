@@ -526,7 +526,7 @@ void Player::ApplyJson() {
 	stats_.incrementSkilPoint = cacheJsonData_.value("incrementSkilPoint", 1);
 	// 初期化時は最大と同じ値にする
 	stats_.currentHP = stats_.maxHP;
-	stats_.currentSkilPoint = stats_.maxSkilPoint / 2;
+	stats_.currentSkilPoint = 0;
 
 	recoverSkilPointTimer_.FromJson(cacheJsonData_.value("RecoverSkilPointTimer", Json()));
 

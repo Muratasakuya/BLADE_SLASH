@@ -25,4 +25,7 @@ public:
 
 	// 更新
 	void Update(int current, int max, bool isReverse);
+
+	// ヘルパー関数
+	SakuEngine::Vector2 GetThresholdPos(int32_t threshold) const;
 };

@@ -13,6 +13,15 @@
 //	PlayerHUD classMethods
 //============================================================================
 
+namespace {
+
+	// 各操作アイコンのインデックス
+	constexpr const uint32_t kAttackIconIndex = 1;
+	constexpr const uint32_t kDashIconIndex = 4;
+	constexpr const uint32_t kSkilIconIndex = 7;
+	constexpr const uint32_t kParryIconIndex = 10;
+}
+
 void PlayerHUD::InitSprite() {
 
 	// HP背景
@@ -31,42 +40,30 @@ void PlayerHUD::InitSprite() {
 	nameText_ = std::make_unique<SakuEngine::GameObject2D>();
 	nameText_->Init("playerName", "playerName", "PlayerHUD");
 
-	// キーボード操作とパッド操作のtextureの名前を格納する
-	std::unordered_map<InputType, std::string> dynamicTextures{};
-
-	// 攻撃
-	dynamicTextures[InputType::Keyboard] = "leftMouseClick";
-	dynamicTextures[InputType::GamePad] = "XButton";
-	attack_.Init(0, "attackIcon", dynamicTextures);
-
-	// ダッシュ
-	dynamicTextures[InputType::Keyboard] = "rightMouseClick";
-	dynamicTextures[InputType::GamePad] = "AButton";
-	dash_.Init(1, "dashIcon", dynamicTextures);
-
-	// スキル
-	dynamicTextures[InputType::Keyboard] = "EButton";
-	dynamicTextures[InputType::GamePad] = "YButton";
-	skil_.Init(2, "skilIcon", dynamicTextures);
-
-	// パリィ
-	dynamicTextures[InputType::Keyboard] = "spaceButton";
-	dynamicTextures[InputType::GamePad] = "LBAndRBButton";
-	parry_.Init(3, "parryIcon", dynamicTextures);
-
 	// ダメージ表示
 	damageDisplay_ = std::make_unique<GameDisplayDamage>();
 	damageDisplay_->Init("playerDamageNumber", "BossEnemyHUD", 4, 3);
 
-	// input状態を取得
-	inputType_ = SakuEngine::Input::GetInstance()->GetType();
-	preInputType_ = inputType_;
-
-	// 最初の表示状態を設定
-	attack_.ChangeDynamicSprite(inputType_);
-	dash_.ChangeDynamicSprite(inputType_);
-	skil_.ChangeDynamicSprite(inputType_);
-	parry_.ChangeDynamicSprite(inputType_);
+	// 入力アイコン初期化
+	operateIcons_ = std::make_unique<SakuEngine::GameObject2DArray>();
+	operateIcons_->Init();
+	// アイコンを追加
+	// 攻撃
+	operateIcons_->Add("playerIconBase", "playerIconBase", "PlayerHUD");
+	operateIcons_->Add("playerAttackIcon", "playerAttackIcon", "PlayerHUD");
+	operateIcons_->Add("XButton", "XButton", "PlayerHUD");
+	// ダッシュ
+	operateIcons_->Add("playerIconBase", "playerIconBase", "PlayerHUD");
+	operateIcons_->Add("playerDashIcon", "playerDashIcon", "PlayerHUD");
+	operateIcons_->Add("AButton", "AButton", "PlayerHUD");
+	// スキル
+	operateIcons_->Add("playerIconBase", "playerIconBase", "PlayerHUD");
+	operateIcons_->Add("playerSkillIcon", "playerSkillIcon", "PlayerHUD");
+	operateIcons_->Add("YButton", "YButton", "PlayerHUD");
+	// パリィ
+	operateIcons_->Add("playerIconBase", "playerIconBase", "PlayerHUD");
+	operateIcons_->Add("playerParryIcon", "playerParryIcon", "PlayerHUD");
+	operateIcons_->Add("RBButton", "RBButton", "PlayerHUD");
 
 	// 入力示唆スプライト初期化
 	for (auto& inputSuggest : inputSuggests_) {
@@ -78,6 +75,17 @@ void PlayerHUD::InitSprite() {
 		// 最初は非表示
 		inputSuggest.sprite->SetAlpha(0.0f);
 	}
+
+	// スキルP閾値表示
+	skillThreshold_ = std::make_unique<SakuEngine::GameObject2DArray>();
+	skillThreshold_->Init();
+	// スキルP閾値のスプライトを追加
+	skillThreshold_->Add("barThresholdFrame", "skillThreshold", "PlayerHUD"); // 枠
+	skillThreshold_->Add("barThreshold", "skillThreshold", "PlayerHUD");      // 中の色
+
+	// input状態を取得
+	inputType_ = SakuEngine::Input::GetInstance()->GetType();
+	preInputType_ = inputType_;
 }
 
 void PlayerHUD::Init() {
@@ -104,11 +112,8 @@ void PlayerHUD::SetDisable() {
 	hpBar_->SetAlpha(0.0f);
 	skilBar_->SetAlpha(0.0f);
 	nameText_->SetAlpha(0.0f);
-	attack_.SetAlpha(inputType_, 0.0f);
-	dash_.SetAlpha(inputType_, 0.0f);
-	skil_.SetAlpha(inputType_, 0.0f);
-	parry_.SetAlpha(inputType_, 0.0f);
 	damageDisplay_->SetAlpha(0.0f);
+	skillThreshold_->SetAlpha(0.0f);
 }
 
 void PlayerHUD::SetValid() {
@@ -131,21 +136,20 @@ void PlayerHUD::Update(const Player& player) {
 
 void PlayerHUD::UpdateSprite(const Player& player) {
 
-	// HP残量を更新
-	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
-	// スキル値を更新
-	skilBar_->Update(stats_.currentSkilPoint, stats_.maxSkilPoint, true);
+	// バーの更新
+	UpdateBar();
 
 	// ダメージ表記の更新
 	damageDisplay_->Update(player, *followCamera_);
 
 	// 入力示唆の更新
 	UpdateInputSuggest();
-	// 入力リアクションアニメーションの更新
-	UpdateInputReactAnim();
+	// スキル閾値表示の更新
+	UpdateSkillThreshold();
+	skillThreshold_->Update();
 
-	// 入力状態に応じて表示を切り替える
-	ChangeAllOperateSprite();
+	// 操作アイコンの更新
+	operateIcons_->Update();
 }
 
 void PlayerHUD::UpdateAlpha() {
@@ -166,11 +170,8 @@ void PlayerHUD::UpdateAlpha() {
 	hpBar_->SetAlpha(alpha);
 	skilBar_->SetAlpha(alpha);
 	nameText_->SetAlpha(alpha);
-	attack_.SetAlpha(inputType_, alpha);
-	dash_.SetAlpha(inputType_, alpha);
-	skil_.SetAlpha(inputType_, alpha);
-	parry_.SetAlpha(inputType_, alpha);
 	damageDisplay_->SetAlpha(alpha);
+	skillThreshold_->SetAlpha(alpha);
 
 	if (returnAlphaTime_ < returnAlphaTimer_) {
 
@@ -179,11 +180,8 @@ void PlayerHUD::UpdateAlpha() {
 		hpBar_->SetAlpha(1.0f);
 		skilBar_->SetAlpha(1.0f);
 		nameText_->SetAlpha(1.0f);
-		attack_.SetAlpha(inputType_, 1.0f);
-		dash_.SetAlpha(inputType_, 1.0f);
-		skil_.SetAlpha(inputType_, 1.0f);
-		parry_.SetAlpha(inputType_, 1.0f);
 		damageDisplay_->SetAlpha(1.0f);
+		skillThreshold_->SetAlpha(1.0f);
 
 		// 元に戻ったので処理終了
 		returnAlphaTimer_ = 0.0f;
@@ -229,49 +227,24 @@ void PlayerHUD::EndInputSuggest() {
 	}
 }
 
-void PlayerHUD::StartInputReactAnim(PlayerState state) {
+void PlayerHUD::UpdateBar() {
 
-	// 状態に応じて処理
-	inputReactState_ = state;
-	// 無効状態なら処理しない
-	if (inputReactState_ == PlayerState::SkilAttack) {
+	// 頂点カラーアニメーション
+	hpBarColorAnim_.Update(*hpBar_.get());
+	skilBarColorAnim_.Update(*skilBar_.get());
 
-		// スキルUIをアクティブにしてアニメーションさせる
-		skil_.isActiveInput = true;
-		// パリィ入力のUIサイズを元に戻す
-		// 入力画像は2倍する
-		parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
-		// 攻撃入力のUIサイズを元に戻す
-		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-	} else if (inputReactState_ == PlayerState::Parry) {
+	// スキルアイコンの色を合わせる
+	using namespace SakuEngine;
+	for (const auto& vertexChar : EnumAdapter<SpriteVertexPos>::GetEnumArray()) {
 
-		// パリィUIをアクティブにしてアニメーションさせる
-		parry_.isActiveInput = true;
-		// スキル入力のUIサイズを元に戻す
-		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-		// 攻撃入力のUIサイズを元に戻す
-		attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-	} else if (
-		inputReactState_ == PlayerState::Attack_1st ||
-		inputReactState_ == PlayerState::Attack_2nd ||
-		inputReactState_ == PlayerState::Attack_3rd ||
-		inputReactState_ == PlayerState::Attack_4th) {
-
-		// パリィUIをアクティブにしてアニメーションさせる
-		attack_.isActiveInput = true;
-		// スキル入力のUIサイズを元に戻す
-		skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-		// パリィ入力のUIサイズを元に戻す
-		// 入力画像は2倍する
-		parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
-	} else {
-		// それ以外の状態なら処理しない
-		return;
+		SpriteVertexPos vertex = EnumAdapter<SpriteVertexPos>::FromString(vertexChar).value();
+		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetVertexColor(vertex, skilBar_->GetVertexColor(vertex));
 	}
 
-	// 入力リアクションアニメーション開始
-	inputReactSizeAnim_.Start();
-	inputReactColorAnim_.Start();
+	// HP残量を更新
+	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
+	// スキル値を更新
+	skilBar_->Update(stats_.currentSkilPoint, stats_.maxSkilPoint, true);
 }
 
 void PlayerHUD::UpdateInputSuggest() {
@@ -294,6 +267,9 @@ void PlayerHUD::UpdateInputSuggest() {
 
 	// アニメーション更新
 	for (auto& inputSuggest : inputSuggests_) {
+
+		// 座標設定
+		inputSuggest.sprite->SetTranslation(operateIcons_->GetObjectPtr(kParryIconIndex)->GetTransform().GetWorldPos());
 
 		// サイズ
 		SakuEngine::Vector2 size = inputSuggest.sprite->GetSize();
@@ -323,142 +299,50 @@ void PlayerHUD::UpdateInputSuggest() {
 	}
 }
 
-void PlayerHUD::UpdateInputReactAnim() {
+void PlayerHUD::UpdateSkillThreshold() {
 
-	// 無効状態なら処理しない
-	if (!parry_.isActiveInput && !skil_.isActiveInput && !attack_.isActiveInput) {
-		return;
+	// スキルP閾値表示の更新
+	skillThreshold_->SetTranslation(skilBar_->GetThresholdPos(stats_.skilCost));
+
+	// 無効時の色設定
+	// スキルPが足りない場合は灰色にする
+	// alphaを記録
+	float alpha = skillThreshold_->GetColor().a;
+	disableSkillThresholdColor_.a = alpha;
+	enableSkillThresholdColor_.a = alpha;
+	if (stats_.currentSkilPoint < stats_.skilCost) {
+
+		skillThreshold_->SetColor(disableSkillThresholdColor_);
+		skilBar_->SetColor(disableSkillThresholdColor_);
+		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetColor(disableSkillThresholdColor_);
+		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetUseVertexColor(false);
+
+		// 頂点カラーアニメーション停止
+		skilBarColorAnim_.Reset();
+	} else {
+
+		skillThreshold_->SetColor(enableSkillThresholdColor_);
+		skilBar_->SetColor(SakuEngine::Color::White(skilBar_->GetColor().a));
+		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetColor(SakuEngine::Color::White(alpha));
+		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetUseVertexColor(true);
+
+		// 頂点カラーアニメーション開始
+		skilBarColorAnim_.Start();
 	}
-
-	SakuEngine::Vector2 size{};
-	SakuEngine::Color color{};
-	switch (inputReactState_) {
-	case PlayerState::SkilAttack: {
-
-		// スキルUIをアニメーションさせる
-		// サイズ
-		size = skil_.staticSprite->GetSize();
-		inputReactSizeAnim_.LerpValue(size);
-		skil_.staticSprite->SetSize(size);
-		// 色
-		color = skil_.staticSprite->GetColor();
-		inputReactColorAnim_.LerpValue(color);
-		skil_.staticSprite->SetColor(color);
-		break;
-	}
-	case PlayerState::Parry: {
-
-		// パリィUIをアニメーションさせる
-		// サイズ
-		size = parry_.staticSprite->GetSize();
-		inputReactSizeAnim_.LerpValue(size);
-		parry_.staticSprite->SetSize(size);
-		// 色
-		color = parry_.staticSprite->GetColor();
-		inputReactColorAnim_.LerpValue(color);
-		parry_.staticSprite->SetColor(color);
-		break;
-	}
-	case PlayerState::Attack_1st:
-	case PlayerState::Attack_2nd:
-	case PlayerState::Attack_3rd:
-	case PlayerState::Attack_4th:
-
-		// パリィUIをアニメーションさせる
-		// サイズ
-		size = attack_.staticSprite->GetSize();
-		inputReactSizeAnim_.LerpValue(size);
-		attack_.staticSprite->SetSize(size);
-		// 色
-		color = attack_.staticSprite->GetColor();
-		inputReactColorAnim_.LerpValue(color);
-		attack_.staticSprite->SetColor(color);
-		break;
-	}
-
-	// アニメーションが終了次第リセット
-	if (inputReactSizeAnim_.IsFinished() &&
-		inputReactColorAnim_.IsFinished()) {
-
-		// サイズと色を元に戻す
-		switch (inputReactState_) {
-		case PlayerState::SkilAttack: {
-
-			skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-			skil_.staticSprite->SetColor(SakuEngine::Color::White());
-			break;
-		}
-		case PlayerState::Parry: {
-
-			// 入力画像は2倍する
-			parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
-			parry_.staticSprite->SetColor(SakuEngine::Color::White());
-			break;
-		}
-		case PlayerState::Attack_1st:
-		case PlayerState::Attack_2nd:
-		case PlayerState::Attack_3rd:
-		case PlayerState::Attack_4th:
-
-			attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-			attack_.staticSprite->SetColor(SakuEngine::Color::White());
-			break;
-		}
-		inputReactSizeAnim_.Reset();
-		inputReactColorAnim_.Reset();
-		// 無効状態にする
-		skil_.isActiveInput = false;
-		parry_.isActiveInput = false;
-		attack_.isActiveInput = false;
-	} 
 }
 
 void PlayerHUD::ChangeAllOperateSprite() {
 
+	// 変更がない場合は処理しない
 	if (preInputType_ == inputType_) {
 		return;
 	}
 
 	inputType_ = InputType::GamePad;
 	preInputType_ = InputType::GamePad;
-	attack_.ChangeDynamicSprite(inputType_);
-	dash_.ChangeDynamicSprite(inputType_);
-	skil_.ChangeDynamicSprite(inputType_);
-	parry_.ChangeDynamicSprite(inputType_);
 
+	// 前回フレームの入力状態を保存
 	preInputType_ = inputType_;
-}
-
-void PlayerHUD::SetAllOperateTranslation() {
-
-	attack_.SetTranslation(leftSpriteTranslation_,
-		dynamicSpriteOffsetY_, operateSpriteSpancingX_);
-
-	dash_.SetTranslation(leftSpriteTranslation_,
-		dynamicSpriteOffsetY_, operateSpriteSpancingX_);
-
-	skil_.SetTranslation(leftSpriteTranslation_,
-		dynamicSpriteOffsetY_, operateSpriteSpancingX_);
-
-	parry_.SetTranslation(leftSpriteTranslation_,
-		dynamicSpriteOffsetY_, operateSpriteSpancingX_);
-
-	// パリィアイコンの位置に入力示唆を合わせる
-	for (auto& inputSuggest : inputSuggests_) {
-
-		inputSuggest.sprite->SetTranslation(parry_.staticSprite->GetTranslation());
-	}
-}
-
-void PlayerHUD::SetAllOperateSize() {
-
-	attack_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-	dash_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-	skil_.SetSize(staticSpriteSize_, dynamicSpriteSize_);
-
-
-	// 入力画像は2倍する
-	parry_.SetSize(staticSpriteSize_, SakuEngine::Vector2(dynamicSpriteSize_.x * 2.0f, dynamicSpriteSize_.y));
 }
 
 void PlayerHUD::ImGui() {
@@ -469,6 +353,11 @@ void PlayerHUD::ImGui() {
 	}
 
 	if (ImGui::BeginTabBar("PlayerHUDTabBar")) {
+		if (ImGui::BeginTabItem("OperateIcon")) {
+
+			operateIcons_->ImGui();
+			ImGui::EndTabItem();
+		}
 		if (ImGui::BeginTabItem("InputSuggest")) {
 
 			ImGui::Text(std::format("endDelayInputSuggest: {}", endDelayInputSuggest_).c_str());
@@ -497,34 +386,6 @@ void PlayerHUD::ImGui() {
 				inputSuggests_.back().sizeAnim.ImGui("BackSizeAnim", false);
 				inputSuggests_.back().colorAnim.ImGui("BackcolorAnim", false);
 				inputSuggests_.back().emissiveAnim.ImGui("BackEmissiveAnim", false);
-			}
-			ImGui::EndTabItem();
-		}
-		if (ImGui::BeginTabItem("InputReactAnim")) {
-
-			if (ImGui::Button("Start Skil")) {
-
-				StartInputReactAnim(PlayerState::SkilAttack);
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Start Parry")) {
-
-				StartInputReactAnim(PlayerState::Parry);
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Start Attack")) {
-
-				StartInputReactAnim(PlayerState::Attack_2nd);
-			}
-			ImGui::Separator();
-
-			if (ImGui::CollapsingHeader("Size")) {
-
-				inputReactSizeAnim_.ImGui("InputReactSizeAnim", true);
-			}
-			if (ImGui::CollapsingHeader("Color")) {
-
-				inputReactColorAnim_.ImGui("InputReactColorAnim", true);
 			}
 			ImGui::EndTabItem();
 		}
@@ -566,28 +427,32 @@ void PlayerHUD::ImGui() {
 					SetDisable();
 				}
 			}
+
 			ImGui::Text("returnAlphaTimer / returnAlphaTime: %f", returnAlphaTimer_ / returnAlphaTime_);
 
-			bool edit = false;
-
-			edit |= ImGui::DragFloat2("leftSpriteTranslation", &leftSpriteTranslation_.x, 1.0f);
-			edit |= ImGui::DragFloat("dynamicSpriteOffsetY", &dynamicSpriteOffsetY_, 1.0f);
-			edit |= ImGui::DragFloat("operateSpriteSpancingX", &operateSpriteSpancingX_, 1.0f);
 			ImGui::DragFloat("returnAlphaTime", &returnAlphaTime_, 0.01f);
 			Easing::SelectEasingType(returnAlphaEasingType_);
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("ColorAnim")) {
 
-			if (edit) {
+			if (ImGui::CollapsingHeader("HPBarColorAnim")) {
 
-				SetAllOperateTranslation();
+				hpBarColorAnim_.ImGui("HPBarColorAnim");
 			}
+			if (ImGui::CollapsingHeader("SkilBarColorAnim")) {
 
-			edit |= ImGui::DragFloat2("staticSpriteSize", &staticSpriteSize_.x, 0.1f);
-			edit |= ImGui::DragFloat2("dynamicSpriteSize", &dynamicSpriteSize_.x, 0.1f);
-
-			if (edit) {
-
-				SetAllOperateSize();
+				skilBarColorAnim_.ImGui("SkilBarColorAnim");
 			}
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("SkillThreshold")) {
+
+			ImGui::ColorEdit4("enableSkillThresholdColor", &enableSkillThresholdColor_.r);
+			ImGui::ColorEdit4("disableSkillThresholdColor", &disableSkillThresholdColor_.r);
+			ImGui::Separator();
+
+			skillThreshold_->ImGui();
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
@@ -606,20 +471,19 @@ void PlayerHUD::ApplyJson() {
 
 	hpBarParameter_.ApplyJson(data["hpBar"]);
 	GameCommon::SetInitParameter(*hpBar_, hpBarParameter_);
+	hpBarColorAnim_.FromJson(data.value("hpBarColorAnim", Json()));
+	hpBarColorAnim_.Start();
 
 	skilBarParameter_.ApplyJson(data["skilBar"]);
 	GameCommon::SetInitParameter(*skilBar_, skilBarParameter_);
+	skilBarColorAnim_.FromJson(data.value("skilBarColorAnim", Json()));
+	skilBarColorAnim_.Start();
 
 	nameTextParameter_.ApplyJson(data["nameText"]);
 	GameCommon::SetInitParameter(*nameText_, nameTextParameter_);
 
 	damageDisplay_->ApplyJson(data);
 
-	leftSpriteTranslation_ = leftSpriteTranslation_.FromJson(data["leftSpriteTranslation"]);
-	staticSpriteSize_ = leftSpriteTranslation_.FromJson(data["staticSpriteSize"]);
-	dynamicSpriteSize_ = leftSpriteTranslation_.FromJson(data["dynamicSpriteSize"]);
-	dynamicSpriteOffsetY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "dynamicSpriteOffsetY");
-	operateSpriteSpancingX_ = SakuEngine::JsonAdapter::GetValue<float>(data, "operateSpriteSpancingX");
 	returnAlphaTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "returnAlphaTime_");
 	returnAlphaEasingType_ = static_cast<EasingType>(
 		SakuEngine::JsonAdapter::GetValue<int>(data, "returnAlphaEasingType_"));
@@ -633,11 +497,12 @@ void PlayerHUD::ApplyJson() {
 	inputSuggestDelay_.FromJson(data.value("inputSuggestDelay", Json()));
 	inputSuggestEmissionColor_ = SakuEngine::Vector3::FromJson(data.value("inputSuggestEmissionColor", Json()));
 
-	inputReactSizeAnim_.FromJson(data.value("inputReactSizeAnim", Json()));
-	inputReactColorAnim_.FromJson(data.value("inputReactColorAnim", Json()));
+	disableSkillThresholdColor_ = SakuEngine::Color::FromJson(data.value("disableSkillThresholdColor", Json()));
+	skillThreshold_->FromJson(data.value("skillThreshold", Json()));
+	// 色を記録しておく
+	enableSkillThresholdColor_ = skillThreshold_->GetColor();
 
-	SetAllOperateTranslation();
-	SetAllOperateSize();
+	operateIcons_->FromJson(data.value("operateIcons", Json()));
 }
 
 void PlayerHUD::SaveJson() {
@@ -646,16 +511,13 @@ void PlayerHUD::SaveJson() {
 
 	hpBackgroundParameter_.SaveJson(data["hpBackground"]);
 	hpBarParameter_.SaveJson(data["hpBar"]);
+	hpBarColorAnim_.ToJson(data["hpBarColorAnim"]);
 	skilBarParameter_.SaveJson(data["skilBar"]);
+	skilBarColorAnim_.ToJson(data["skilBarColorAnim"]);
 	nameTextParameter_.SaveJson(data["nameText"]);
 
 	damageDisplay_->SaveJson(data);
 
-	data["leftSpriteTranslation"] = leftSpriteTranslation_.ToJson();
-	data["staticSpriteSize"] = staticSpriteSize_.ToJson();
-	data["dynamicSpriteSize"] = dynamicSpriteSize_.ToJson();
-	data["dynamicSpriteOffsetY"] = dynamicSpriteOffsetY_;
-	data["operateSpriteSpancingX"] = operateSpriteSpancingX_;
 	data["returnAlphaTime_"] = returnAlphaTime_;
 	data["returnAlphaEasingType_"] = static_cast<int>(returnAlphaEasingType_);
 
@@ -668,70 +530,10 @@ void PlayerHUD::SaveJson() {
 	inputSuggestDelay_.ToJson(data["inputSuggestDelay"]);
 	data["inputSuggestEmissionColor"] = inputSuggestEmissionColor_.ToJson();
 
-	inputReactSizeAnim_.ToJson(data["inputReactSizeAnim"]);
-	inputReactColorAnim_.ToJson(data["inputReactColorAnim"]);
+	data["disableSkillThresholdColor"] = disableSkillThresholdColor_.ToJson();
+	skillThreshold_->ToJson(data["skillThreshold"]);
+
+	operateIcons_->ToJson(data["operateIcons"]);
 
 	SakuEngine::JsonAdapter::Save("Player/hudParameter.json", data);
-}
-
-void PlayerHUD::InputStateSprite::Init(uint32_t spriteIndex, const std::string& staticSpriteTextureName,
-	const std::unordered_map<InputType, std::string>& dynamicSpritesTextureName) {
-
-	index = spriteIndex;
-
-	// 変化しないspriteの初期化
-	staticSprite = std::make_unique<SakuEngine::GameObject2D>();
-	staticSprite->Init(staticSpriteTextureName, staticSpriteTextureName, groupName);
-
-	// 変化するspriteをタイプごとに初期化
-	for (auto& [type, texture] : dynamicSpritesTextureName) {
-
-		dynamicSprites[type] = std::make_unique<SakuEngine::GameObject2D>();
-		dynamicSprites[type]->Init(texture, texture, groupName);
-	}
-}
-
-void PlayerHUD::InputStateSprite::ChangeDynamicSprite(InputType type) {
-
-	// 表示の切り替え
-	for (auto& [key, sprite] : dynamicSprites) {
-		if (key == type) {
-
-			sprite->SetAlpha(1.0f);
-		} else {
-
-			sprite->SetAlpha(0.0f);
-		}
-	}
-}
-
-void PlayerHUD::InputStateSprite::SetTranslation(const SakuEngine::Vector2& leftSpriteTranslation,
-	float dynamicSpriteOffsetY, float operateSpriteSpancingX) {
-
-	// X座標
-	float translationX = leftSpriteTranslation.x + index * operateSpriteSpancingX;
-
-	// 座標を設定
-	staticSprite->SetTranslation(SakuEngine::Vector2(translationX, leftSpriteTranslation.y));
-
-	dynamicSprites[InputType::Keyboard]->SetTranslation(
-		SakuEngine::Vector2(translationX, leftSpriteTranslation.y + dynamicSpriteOffsetY));
-	dynamicSprites[InputType::GamePad]->SetTranslation(
-		SakuEngine::Vector2(translationX, leftSpriteTranslation.y + dynamicSpriteOffsetY));
-}
-
-void PlayerHUD::InputStateSprite::SetSize(const SakuEngine::Vector2& staticSpriteSize,
-	const SakuEngine::Vector2& dynamicSpriteSize_) {
-
-	// サイズ設定
-	staticSprite->SetSize(staticSpriteSize);
-	dynamicSprites[InputType::Keyboard]->SetSize(dynamicSpriteSize_);
-	dynamicSprites[InputType::GamePad]->SetSize(dynamicSpriteSize_);
-}
-
-void PlayerHUD::InputStateSprite::SetAlpha(InputType type, float alpha) {
-
-	// サイズ設定
-	staticSprite->SetAlpha(alpha);
-	dynamicSprites[type]->SetAlpha(alpha);
 }

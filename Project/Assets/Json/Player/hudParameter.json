@@ -19,10 +19,11 @@
     "damageOutTime_": 0.07999999821186066,
     "damageStayTime_": 0.1599999964237213,
     "digitDisplayInterval_": 0.029999999329447746,
-    "dynamicSpriteOffsetY": 96.0,
-    "dynamicSpriteSize": {
-        "x": 64.0,
-        "y": 64.0
+    "disableSkillThresholdColor": {
+        "a": 1.0,
+        "b": 0.09860187768936157,
+        "g": 0.09860187768936157,
+        "r": 0.09860187768936157
     },
     "hpBackground": {
         "translation": {
@@ -36,63 +37,132 @@
             "y": 64.0
         }
     },
-    "inputReactColorAnim": {
-        "Loop": {
-            "loop": {
-                "loopCount": 1,
-                "type": "PingPong"
-            }
+    "hpBarColorAnim": {
+        "leftBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9254902005195618,
+                "r": 0.25882354378700256
+            },
+            "useReturnTimer_": false
         },
-        "ReturnTimer": {
-            "easeingType_": "Linear",
-            "target_": 0.0
+        "leftTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9254902005195618,
+                "r": 0.25882354378700256
+            },
+            "useReturnTimer_": false
         },
-        "Timer": {
-            "easeingType_": "Linear",
-            "target_": 0.1599999964237213
+        "rightBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutQuad",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9264164566993713,
+                "r": 0.2576786279678345
+            },
+            "useReturnTimer_": false
         },
-        "move_.end": {
-            "a": 1.0,
-            "b": 0.48499926924705505,
-            "g": 0.7427425980567932,
-            "r": 0.9926416277885437
-        },
-        "move_.start": {
-            "a": 1.0,
-            "b": 1.0,
-            "g": 1.0,
-            "r": 1.0
-        },
-        "useReturnTimer_": false
-    },
-    "inputReactSizeAnim": {
-        "Loop": {
-            "loop": {
-                "loopCount": 1,
-                "type": "PingPong"
-            }
-        },
-        "ReturnTimer": {
-            "easeingType_": "Linear",
-            "target_": 0.0
-        },
-        "Timer": {
-            "easeingType_": "EaseInBack",
-            "target_": 0.07999999821186066
-        },
-        "move_.end": {
-            "x": 100.01000213623047,
-            "y": 160.0
-        },
-        "move_.start": {
-            "x": 128.0,
-            "y": 128.0
-        },
-        "useReturnTimer_": false
+        "rightTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutQuad",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9264164566993713,
+                "r": 0.2576786279678345
+            },
+            "useReturnTimer_": false
+        }
     },
     "inputSuggestBackEmissiveAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -112,6 +182,7 @@
     "inputSuggestBackSizeAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -137,6 +208,7 @@
     "inputSuggestBackcolorAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -175,6 +247,7 @@
     "inputSuggestFrontEmissiveAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -194,6 +267,7 @@
     "inputSuggestFrontSizeAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -219,6 +293,7 @@
     "inputSuggestFrontcolorAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -245,10 +320,6 @@
         },
         "useReturnTimer_": false
     },
-    "leftSpriteTranslation": {
-        "x": 1348.0,
-        "y": 900.0
-    },
     "maxDamageEmissive_": 0.0,
     "nameText": {
         "translation": {
@@ -256,7 +327,1400 @@
             "y": 84.0
         }
     },
-    "operateSpriteSpancingX": 140.85000610351563,
+    "operateIcons": {
+        "objects": [
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeAdd",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerIconBase"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": -200.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerAttackIcon"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "translation": {
+                        "x": -200.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "XButton"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": -200.0,
+                        "y": 160.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeAdd",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerIconBase"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 200.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerDashIcon"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 160.0,
+                        "y": 112.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 160.0,
+                        "y": 112.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 210.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "AButton"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 360.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeAdd",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerIconBase"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": -200.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 1,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 0.21996459364891052,
+                        "g": 0.05836092680692673,
+                        "r": 0.9231685400009155
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 0.21996459364891052,
+                        "g": 0.05836092680692673,
+                        "r": 0.9231685400009155
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 0.00546655897051096,
+                        "g": 0.38294050097465515,
+                        "r": 0.966576099395752
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 0.00546655897051096,
+                        "g": 0.38294050097465515,
+                        "r": 0.966576099395752
+                    },
+                    "textureName": "playerSkillIcon"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 192.0,
+                        "y": 192.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 192.0,
+                        "y": 192.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": -200.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "YButton"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": -40.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeAdd",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerIconBase"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": 200.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "playerParryIcon"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 160.0,
+                        "y": 176.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 160.0,
+                        "y": 176.0
+                    },
+                    "translation": {
+                        "x": 200.0,
+                        "y": 10.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "RBButton"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 128.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 256.0,
+                        "y": 256.0
+                    },
+                    "translation": {
+                        "x": 200.0,
+                        "y": 160.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            }
+        ],
+        "transform": {
+            "anchorPoint": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "rotateAroundSelfWhenParented": true,
+            "rotation": 0.0,
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "sizeScale": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "textureLeftTop": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "textureSize": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "translation": {
+                "x": 1730.0,
+                "y": 856.0
+            },
+            "vertexOffset": [
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            ]
+        }
+    },
     "returnAlphaEasingType_": 10,
     "returnAlphaTime_": 0.4000000059604645,
     "skilBar": {
@@ -265,8 +1729,400 @@
             "y": 76.0
         }
     },
-    "staticSpriteSize": {
-        "x": 128.0,
-        "y": 128.0
+    "skilBarColorAnim": {
+        "leftBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.2586497962474823,
+                "g": 0.0,
+                "r": 0.9153789281845093
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "useReturnTimer_": false
+        },
+        "leftTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.2586497962474823,
+                "g": 0.0,
+                "r": 0.9153789281845093
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "useReturnTimer_": false
+        },
+        "rightBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutSine",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.3435717821121216,
+                "g": 0.0,
+                "r": 0.9264164566993713
+            },
+            "useReturnTimer_": false
+        },
+        "rightTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutSine",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.3435717821121216,
+                "g": 0.0,
+                "r": 0.9264164566993713
+            },
+            "useReturnTimer_": false
+        }
+    },
+    "skillThreshold": {
+        "objects": [
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 0.0,
+                        "g": 0.14901961386203766,
+                        "r": 0.6745098233222961
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "barThresholdFrame"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 192.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 128.0,
+                        "y": 192.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            },
+            {
+                "Material": {
+                    "alphaReference": 0.0,
+                    "color": {
+                        "a": 1.0,
+                        "b": 0.0,
+                        "g": 0.14901961386203766,
+                        "r": 0.6745098233222961
+                    },
+                    "emissionColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "emissiveIntensity": 0.0,
+                    "postProcessMask": 0,
+                    "useAlphaColor": 0,
+                    "useVertexColor": 0,
+                    "uvRotate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "uvScale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "uvTranslate": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "Sprite": {
+                    "blendMode": "kBlendModeNormal",
+                    "layer": "PostModel",
+                    "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "textureName": "barThreshold"
+                },
+                "Transform": {
+                    "anchorPoint": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "rotateAroundSelfWhenParented": true,
+                    "rotation": 0.0,
+                    "size": {
+                        "x": 128.0,
+                        "y": 192.0
+                    },
+                    "sizeScale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "textureLeftTop": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "textureSize": {
+                        "x": 128.0,
+                        "y": 192.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "vertexOffset": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0
+                        }
+                    ]
+                }
+            }
+        ],
+        "transform": {
+            "anchorPoint": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "rotateAroundSelfWhenParented": true,
+            "rotation": 0.0,
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "sizeScale": {
+                "x": 0.23999999463558197,
+                "y": 0.1599999964237213
+            },
+            "textureLeftTop": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "textureSize": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "translation": {
+                "x": 456.0,
+                "y": 76.0
+            },
+            "vertexOffset": [
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            ]
+        }
     }
 }

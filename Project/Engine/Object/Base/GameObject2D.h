@@ -82,6 +82,7 @@ namespace SakuEngine {
 		void SetAlpha(float alpha) { material_->material.color.a = alpha; }
 		void SetEmissiveIntensity(float intensity) { material_->material.emissiveIntensity = intensity; }
 		void SetEmissionColor(const SakuEngine::Vector3& color) { material_->material.emissionColor = color; }
+		void SetUseVertexColor(bool use) { material_->material.useVertexColor = use; }
 		// UV
 		void SetUVTranslationX(float uvX) { material_->uvTransform.translation.x = uvX; }
 		void SetUVTranslationY(float uvY) { material_->uvTransform.translation.y = uvY; }
@@ -95,6 +96,7 @@ namespace SakuEngine {
 		void SetSpriteLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex = 0) { sprite_->SetLayerIndex(layerIndex, subLayerIndex); }
 		void SetBlendMode(BlendMode blendMode) { sprite_->SetBlendMode(blendMode); }
 		void SetPostProcessEnable(bool enable) { sprite_->SetPostProcessEnable(enable); }
+		void SetVertexColor(SpriteVertexPos pos, const Color& color) { sprite_->SetVertexColor(pos, color); }
 
 		// postEffect
 		void SetPostProcessMask(uint32_t mask) { material_->material.postProcessMask = mask; }
@@ -110,6 +112,9 @@ namespace SakuEngine {
 		// material
 		const SakuEngine::Color& GetColor() const { return material_->material.color; }
 		float GetEmissiveIntensity() const { return material_->material.emissiveIntensity; }
+
+		// sprite
+		const Color& GetVertexColor(SpriteVertexPos pos) const { return sprite_->GetVertexColor(pos); }
 	protected:
 		//========================================================================
 		//	protected Methods

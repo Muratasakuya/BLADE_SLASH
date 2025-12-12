@@ -838,6 +838,6 @@
     "incrementSkilPoint": 1,
     "maxHP": 12000,
     "maxSkilPoint": 100,
-    "skilCost": 40,
+    "skilCost": 50,
     "toughness": 0
 }

@@ -446,6 +446,14 @@ void Transform2D::FromJson(const Json& data) {
 	}
 }
 
+Vector2 SakuEngine::Transform2D::GetWorldPos() const {
+
+	Vector2 worldPos{};
+	worldPos.x = matrix.m[3][0];
+	worldPos.y = matrix.m[3][1];
+	return worldPos;
+}
+
 void Transform2D::SetCenterPos() {
 
 	translation.x = Config::kWindowWidthf / 2.0f;

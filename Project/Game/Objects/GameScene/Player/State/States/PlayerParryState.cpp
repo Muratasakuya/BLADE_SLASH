@@ -62,8 +62,6 @@ void PlayerParryState::Enter(Player& player) {
 
 	// HUDの入力示唆を消させる
 	player.GetHUD()->EndInputSuggest();
-	// HUD入力リアクション
-	player.GetHUD()->StartInputReactAnim(PlayerState::Parry);
 
 	canExit_ = false;
 	isEmitedBlur_ = false;

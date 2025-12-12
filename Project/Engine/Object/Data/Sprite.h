@@ -38,6 +38,15 @@ namespace SakuEngine {
 		SceneTransition = 128, // シーン遷移処理
 	};
 
+	// スプライト頂点位置
+	enum class SpriteVertexPos {
+
+		LeftBottom,
+		LeftTop,
+		RightBottom,
+		RightTop
+	};
+
 	//============================================================================
 	//	Sprite class
 	//	2Dスプライトデータ
@@ -76,6 +85,7 @@ namespace SakuEngine {
 		void SetLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex) { layerIndex_ = static_cast<uint16_t>(layerIndex) + subLayerIndex; }
 		void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
 		void SetPostProcessEnable(bool enable) { postProccessEnable_ = enable; }
+		void SetVertexColor(SpriteVertexPos pos, const Color& color) { vertexData_[static_cast<uint32_t>(pos)].color = color; }
 
 		static uint32_t GetIndexNum() { return kIndexNum_; }
 		SpriteLayer GetLayer() const { return layer_; }
@@ -83,6 +93,7 @@ namespace SakuEngine {
 		bool UseAlphaTexture() const { return alphaTextureName_.has_value(); }
 		BlendMode GetBlendMode() const { return blendMode_; }
 		bool IsPostProcessEnable() const { return postProccessEnable_; }
+		const Color& GetVertexColor(SpriteVertexPos pos) const { return vertexData_[static_cast<uint32_t>(pos)].color; }
 
 		const VertexBuffer<SpriteVertexData>& GetVertexBuffer() const { return vertexBuffer_; }
 		const IndexBuffer& GetIndexBuffer() const { return indexBuffer_; }

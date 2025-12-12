@@ -13,6 +13,29 @@ using namespace SakuEngine;
 
 float AnimationLoop::LoopedT(float rawT) {
 
+	if (isInfinityLoop_) {
+
+		float t = rawT;
+		if (loopType_ == AnimationLoopType::Repeat) {
+
+			// tをループさせる
+			t = std::fmod(t, 1.0f);
+			if (t < 0.0f) {
+				t += 1.0f;
+			}
+		} else if (loopType_ == AnimationLoopType::PingPong) {
+
+			t = std::fmod(t, 2.0f);
+			if (t < 0.0f) {
+				t += 2.0f;
+			}
+			if (t > 1.0f) {
+				t = 2.0f - t;
+			}
+		}
+		return std::clamp(t, 0.0f, 1.0f);
+	}
+
 	if (loopCount_ <= 1) {
 
 		return std::clamp(rawT, 0.0f, 1.0f);
@@ -45,6 +68,7 @@ void AnimationLoop::ImGuiLoopParam(bool isSeparate) {
 
 		loopCount_ = static_cast<uint32_t>(loopCount);
 	}
+	ImGui::Checkbox("infinityLoop", &isInfinityLoop_);
 	SakuEngine::EnumAdapter<AnimationLoopType>::Combo("loopType", &loopType_);
 }
 
@@ -53,6 +77,7 @@ void AnimationLoop::ToLoopJson(Json& data) {
 	const std::string key = "loop";
 
 	data[key]["loopCount"] = loopCount_;
+	data[key]["isInfinityLoop"] = isInfinityLoop_;
 	data[key]["type"] = SakuEngine::EnumAdapter<AnimationLoopType>::ToString(loopType_);
 }
 
@@ -62,6 +87,7 @@ void AnimationLoop::FromLoopJson(const Json& data) {
 	if (data.contains(key)) {
 
 		loopCount_ = data[key].value("loopCount", 1);
+		isInfinityLoop_ = data[key].value("isInfinityLoop", false);
 
 		const auto& type = SakuEngine::EnumAdapter<AnimationLoopType>::FromString(data[key]["type"]);
 		loopType_ = type.value();

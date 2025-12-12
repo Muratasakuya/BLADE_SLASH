@@ -597,7 +597,7 @@
     <ClCompile Include="Game\Light\GameLight.cpp">
       <Filter>Game\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.cpp">
+    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
@@ -1482,7 +1482,7 @@
     <ClInclude Include="Game\Light\GameLight.h">
       <Filter>Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.h">
+    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.h">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
@@ -2541,5 +2541,9 @@
     <None Include="Assets\Engine\Shaders\Skybox\Skybox.hlsli">
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
+    <ClCompile Include="Engine\Utility\Material\SpriteVertexColorAnimation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Utility\Material\SpriteVertexColorAnimation.h" />
   </ItemGroup>
 </Project>
