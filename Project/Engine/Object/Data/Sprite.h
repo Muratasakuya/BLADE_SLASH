@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -13,117 +13,117 @@
 #include <Externals/DirectXTex/DirectXTex.h>
 // c++
 #include <string>
+
 namespace SakuEngine {
 
-// front
+	// front
+	class Asset;
 
-class Asset;
+	//============================================================================
+	//	enum class
+	//============================================================================
 
-//============================================================================
-//	enum class
-//============================================================================
+	// 描画を行う場所
+	enum class SpriteLayer {
 
-// 描画を行う場所
-enum class SpriteLayer {
+		PreModel, // modelの前に描画する
+		PostModel // modelの後に描画する
+	};
 
-	PreModel, // modelの前に描画する
-	PostModel // modelの後に描画する
-};
+	// スプライトの描画順インデックス
+	enum class SpriteLayerIndex :
+		uint16_t {
 
-// スプライトの描画順インデックス
-enum class SpriteLayerIndex :
-	uint16_t {
+		None = 0,              // 一番手前の表示(初期化順で決まる)
+		SceneTransition = 128, // シーン遷移処理
+	};
 
-	None = 0,              // 一番手前の表示(初期化順で決まる)
-	SceneTransition = 128, // シーン遷移処理
-};
+	//============================================================================
+	//	Sprite class
+	//	2Dスプライトデータ
+	//============================================================================
+	class Sprite {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	Sprite class
-//	2Dスプライトデータ
-//============================================================================
-class Sprite {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		Sprite() = default;
+		// スプライトの初期化
+		Sprite(ID3D12Device* device, Asset* asset,
+			const std::string& textureName, Transform2D& transform);
+		~Sprite() = default;
 
-	Sprite() = default;
-	// スプライトの初期化
-	Sprite(ID3D12Device* device, Asset* asset,
-		const std::string& textureName, Transform2D& transform);
-	~Sprite() = default;
+		// 頂点情報更新
+		void UpdateVertex(const Transform2D& transform);
 
-	// 頂点情報更新
-	void UpdateVertex(const Transform2D& transform);
+		// エディター
+		void ImGui(float itemSize);
 
-	// エディター
-	void ImGui(float itemSize);
+		// json
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
 
-	// json
-	void ToJson(Json& data);
-	void FromJson(const Json& data);
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		// メタデータからテクスチャサイズ設定
+		void SetMetaDataTextureSize(Transform2D& transform);
 
-	// メタデータからテクスチャサイズ設定
-	void SetMetaDataTextureSize(Transform2D& transform);
+		void SetTextureName(const std::string& textureName) { textureName_ = textureName; }
+		void SetAlphaTextureName(const std::string& textureName) { alphaTextureName_ = textureName; }
 
-	void SetTextureName(const std::string& textureName) { textureName_ = textureName; }
-	void SetAlphaTextureName(const std::string& textureName) { alphaTextureName_ = textureName; }
+		void SetLayer(SpriteLayer layer) { layer_ = layer; }
+		void SetLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex) { layerIndex_ = static_cast<uint16_t>(layerIndex) + subLayerIndex; }
+		void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
+		void SetPostProcessEnable(bool enable) { postProccessEnable_ = enable; }
 
-	void SetLayer(SpriteLayer layer) { layer_ = layer; }
-	void SetLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex) { layerIndex_ = static_cast<uint16_t>(layerIndex) + subLayerIndex; }
-	void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
-	void SetPostProcessEnable(bool enable) { postProccessEnable_ = enable; }
+		static uint32_t GetIndexNum() { return kIndexNum_; }
+		SpriteLayer GetLayer() const { return layer_; }
+		uint16_t GetLayerIndex() const { return static_cast<uint16_t>(layerIndex_); }
+		bool UseAlphaTexture() const { return alphaTextureName_.has_value(); }
+		BlendMode GetBlendMode() const { return blendMode_; }
+		bool IsPostProcessEnable() const { return postProccessEnable_; }
 
-	static uint32_t GetIndexNum() { return kIndexNum_; }
-	SpriteLayer GetLayer() const { return layer_; }
-	uint16_t GetLayerIndex() const { return static_cast<uint16_t>(layerIndex_); }
-	bool UseAlphaTexture() const { return alphaTextureName_.has_value(); }
-	BlendMode GetBlendMode() const { return blendMode_; }
-	bool IsPostProcessEnable() const { return postProccessEnable_; }
+		const VertexBuffer<SpriteVertexData>& GetVertexBuffer() const { return vertexBuffer_; }
+		const IndexBuffer& GetIndexBuffer() const { return indexBuffer_; }
 
-	const VertexBuffer<SpriteVertexData>& GetVertexBuffer() const { return vertexBuffer_; }
-	const IndexBuffer& GetIndexBuffer() const { return indexBuffer_; }
+		const D3D12_GPU_DESCRIPTOR_HANDLE& GetTextureGPUHandle() const;
+		const D3D12_GPU_DESCRIPTOR_HANDLE& GetAlphaTextureGPUHandle() const;
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	const D3D12_GPU_DESCRIPTOR_HANDLE& GetTextureGPUHandle() const;
-	const D3D12_GPU_DESCRIPTOR_HANDLE& GetAlphaTextureGPUHandle() const;
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		static constexpr const uint32_t kVertexNum_ = 4;
+		static constexpr const uint32_t kIndexNum_ = 6;
 
-	static constexpr const uint32_t kVertexNum_ = 4;
-	static constexpr const uint32_t kIndexNum_ = 6;
+		Asset* asset_;
 
-	Asset* asset_;
+		std::string textureName_;
+		std::string preTextureName_;
+		std::optional<std::string> alphaTextureName_;
+		DirectX::TexMetadata metadata_;
 
-	std::string textureName_;
-	std::string preTextureName_;
-	std::optional<std::string> alphaTextureName_;
-	DirectX::TexMetadata metadata_;
+		// 描画順制御
+		SpriteLayer layer_;
+		uint16_t layerIndex_ = static_cast<uint16_t>(SpriteLayerIndex::None);
+		// ポストエフェクト適用有無(falseの場合renderTextureには描画しない)
+		bool postProccessEnable_ = false;
 
-	// 描画順制御
-	SpriteLayer layer_;
-	uint16_t layerIndex_ = static_cast<uint16_t>(SpriteLayerIndex::None);
-	// ポストエフェクト適用有無(falseの場合renderTextureには描画しない)
-	bool postProccessEnable_ = false;
+		// 頂点情報
+		std::vector<SpriteVertexData> vertexData_;
+		BlendMode blendMode_ = BlendMode::kBlendModeNormal;
 
-	// 頂点情報
-	std::vector<SpriteVertexData> vertexData_;
-	BlendMode blendMode_ = BlendMode::kBlendModeNormal;
+		// buffer
+		VertexBuffer<SpriteVertexData> vertexBuffer_;
+		IndexBuffer indexBuffer_;
 
-	// buffer
-	VertexBuffer<SpriteVertexData> vertexBuffer_;
-	IndexBuffer indexBuffer_;
+		//--------- functions ----------------------------------------------------
 
-	//--------- functions ----------------------------------------------------
-
-	// バッファ作成
-	void InitBuffer(ID3D12Device* device);
-};
+		// バッファ作成
+		void InitBuffer(ID3D12Device* device);
+	};
 
 }; // SakuEngine

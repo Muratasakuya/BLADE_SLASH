@@ -61,19 +61,15 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 	// 左下
 	vertexData_[0].pos = Vector2(left, bottom) + transform.vertexOffset_[0];
 	vertexData_[0].texcoord = { texLeft,texBottom };
-	vertexData_[0].color = SakuEngine::Color::White();
 	// 左上
 	vertexData_[1].pos = Vector2(left, top) + transform.vertexOffset_[1];
 	vertexData_[1].texcoord = { texLeft,texTop };
-	vertexData_[1].color = SakuEngine::Color::White();
 	// 右下
 	vertexData_[2].pos = Vector2(right, bottom) + transform.vertexOffset_[2];
 	vertexData_[2].texcoord = { texRight,texBottom };
-	vertexData_[2].color = SakuEngine::Color::White();
 	// 右上
 	vertexData_[3].pos = Vector2(right, top) + transform.vertexOffset_[3];
 	vertexData_[3].texcoord = { texRight,texTop };
-	vertexData_[3].color = SakuEngine::Color::White();
 
 	// GPUデータ転送
 	vertexBuffer_.TransferData(vertexData_);
@@ -128,21 +124,37 @@ void Sprite::SetMetaDataTextureSize(Transform2D& transform) {
 	// 左下
 	vertexData_[0].pos = { left,bottom };
 	vertexData_[0].texcoord = { texLeft,texBottom };
+	vertexData_[0].color = SakuEngine::Color::White();
 	// 左上
 	vertexData_[1].pos = { left,top };
 	vertexData_[1].texcoord = { texLeft,texTop };
+	vertexData_[1].color = SakuEngine::Color::White();
 	// 右下
 	vertexData_[2].pos = { right,bottom };
 	vertexData_[2].texcoord = { texRight,texBottom };
+	vertexData_[2].color = SakuEngine::Color::White();
 	// 右上
 	vertexData_[3].pos = { right,top };
 	vertexData_[3].texcoord = { texRight,texTop };
+	vertexData_[3].color = SakuEngine::Color::White();
 }
 
 
 void Sprite::ImGui(float itemSize) {
 
 	ImGui::PushItemWidth(itemSize);
+
+	ImGui::SeparatorText("Vertex Color");
+
+	// 頂点カラー編集
+	// 左下
+	ImGui::ColorEdit4("leftBottomColor", &vertexData_[0].color.r);
+	// 左上
+	ImGui::ColorEdit4("leftTopColor", &vertexData_[1].color.r);
+	// 右下
+	ImGui::ColorEdit4("rightBottomColor", &vertexData_[2].color.r);
+	// 右上
+	ImGui::ColorEdit4("rightTopColor", &vertexData_[3].color.r);
 
 	ImGui::Separator();
 
@@ -235,6 +247,11 @@ void Sprite::ToJson(Json& data) {
 	data["layer"] = SakuEngine::EnumAdapter<SpriteLayer>::ToString(layer_);
 	data["layerIndex"] = layerIndex_;
 	data["blendMode"] = SakuEngine::EnumAdapter<BlendMode>::ToString(blendMode_);
+
+	data["leftBottomColor"] = vertexData_[0].color.ToJson();
+	data["leftTopColor"] = vertexData_[1].color.ToJson();
+	data["rightBottomColor"] = vertexData_[2].color.ToJson();
+	data["rightTopColor"] = vertexData_[3].color.ToJson();
 }
 
 void Sprite::FromJson(const Json& data) {
@@ -244,6 +261,14 @@ void Sprite::FromJson(const Json& data) {
 	layer_ = SakuEngine::EnumAdapter<SpriteLayer>::FromString(data["layer"].get<std::string>()).value();
 	layerIndex_ = data["layerIndex"].get<uint16_t>();
 	blendMode_ = SakuEngine::EnumAdapter<BlendMode>::FromString(data["blendMode"].get<std::string>()).value();
+
+	if (data.contains("leftBottomColor")) {
+
+		vertexData_[0].color = SakuEngine::Color::FromJson(data.value("leftBottomColor", Json()));
+		vertexData_[1].color = SakuEngine::Color::FromJson(data.value("leftTopColor", Json()));
+		vertexData_[2].color = SakuEngine::Color::FromJson(data.value("rightBottomColor", Json()));
+		vertexData_[3].color = SakuEngine::Color::FromJson(data.value("rightTopColor", Json()));
+	}
 }
 
 const D3D12_GPU_DESCRIPTOR_HANDLE& Sprite::GetTextureGPUHandle() const {
