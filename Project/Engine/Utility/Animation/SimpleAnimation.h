@@ -32,296 +32,348 @@ enum class SimpleAnimationType {
 //============================================================================
 namespace SakuEngine {
 
-template <typename T>
-class SimpleAnimation {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	template <typename T>
+	class SimpleAnimation {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	SimpleAnimation() = default;
-	~SimpleAnimation() = default;
+		SimpleAnimation() = default;
+		~SimpleAnimation() = default;
 
-	void ImGui(const std::string& label, bool isLoop = true);
+		// エディター
+		void ImGui(const std::string& label, bool isLoop = true);
+		// パラメータごとのエディター
+		void ImGuiParam(const std::string& label, bool isSeparate = false); // Tパラメータ調整
+		void ImGuiTimer(const std::string& label, bool isSeparate = false); // タイマー調整
+		void ImGuiLoop(const std::string& label, bool isSeparate = false);  // ループ調整
 
-	// 0.0fから1.0fの間で補間された値を取得
-	void LerpValue(T& value);
+		// 0.0fから1.0fの間で補間された値を取得
+		void LerpValue(T& value);
 
-	// 動き出し開始
-	void Start();
-	// リセット
-	void Reset(bool isStop = true);
-	// 停止
-	void Stop();
+		// 動き出し開始
+		void Start();
+		// リセット
+		void Reset(bool isStop = true);
+		// 停止
+		void Stop();
 
-	// json
-	void ToJson(Json& data);
-	void FromJson(const Json& data);
+		// json
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	void SetStart(const T& start) { move_.start = start; }
-	void SetEnd(const T& end) { move_.end = end; }
-	void SetAnimationType(SimpleAnimationType type) { type_ = type; }
-	void SetDragValue(float value);
-	void SetDragValue(int value);
+		void SetStart(const T& start) { move_.start = start; }
+		void SetEnd(const T& end) { move_.end = end; }
+		void SetAnimationType(SimpleAnimationType type) { type_ = type; }
+		void SetDragValue(float value);
+		void SetDragValue(int value);
 
-	bool IsStart() const { return isRunning_; }
-	bool IsFinished() const { return isFinished_; }
+		bool IsStart() const { return isRunning_; }
+		bool IsFinished() const { return isFinished_; }
 
-	float GetProgress() const;
-	const T& GetStart() const { return move_.start; }
-	const T& GetEnd() const { return move_.end; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		float GetProgress() const;
+		const T& GetStart() const { return move_.start; }
+		const T& GetEnd() const { return move_.end; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- structure ----------------------------------------------------
+		//--------- structure ----------------------------------------------------
 
-	struct Move {
+		struct Move {
 
-		T start; // 開始値
-		T end;   // 終了値
+			T start; // 開始値
+			T end;   // 終了値
+		};
+
+		//--------- variables ----------------------------------------------------
+
+		SimpleAnimationType type_;
+		bool isRunning_ = false;
+		bool isFinished_ = false;
+		bool useReturnTimer_ = false;
+
+		StateTimer timer_;
+		StateTimer returnTimer_;
+		float rawT_ = 0.0f;
+		AnimationLoop loop_;
+		Move move_;
+
+		// Drag値
+		int dragValueInt = 1;
+		float dragValueFloat = 0.01f;
+
+		// imguiのサイズ
+		const float itemSize_ = 224.0f;
+		ImGuiTreeNodeFlags windowFlag_ = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Leaf;
 	};
 
-	//--------- variables ----------------------------------------------------
+	//============================================================================
+	//	SimpleAnimation templateMethods
+	//============================================================================
 
-	SimpleAnimationType type_;
-	bool isRunning_ = false;
-	bool isFinished_ = false;
-	bool useReturnTimer_ = false;
+	template<typename T>
+	inline void SimpleAnimation<T>::LerpValue(T& value) {
 
-	StateTimer timer_;
-	StateTimer returnTimer_;
-	float rawT_ = 0.0f;
-	AnimationLoop loop_;
-	Move move_;
+		// ループが開始していないときは何も処理をしない
+		if (!isRunning_) {
 
-	// Drag値
-	int dragValueInt = 1;
-	float dragValueFloat = 0.01f;
+			// 値を固定
+			if (type_ == SimpleAnimationType::None) {
 
-	// imguiのサイズ
-	const float itemSize_ = 224.0f;
-};
+				value = move_.end;
+			} else if (type_ == SimpleAnimationType::Return) {
 
-//============================================================================
-//	SimpleAnimation templateMethods
-//============================================================================
-
-template<typename T>
-inline void SimpleAnimation<T>::LerpValue(T& value) {
-
-	// ループが開始していないときは何も処理をしない
-	if (!isRunning_) {
-
-		// 値を固定
-		if (type_ == SimpleAnimationType::None) {
-
-			value = move_.end;
-		} else if (type_ == SimpleAnimationType::Return) {
-
-			value = move_.start;
+				value = move_.start;
+			}
+			return;
 		}
-		return;
-	}
 
-	// 時間の更新処理
-	StateTimer timer{};
-	if (type_ == SimpleAnimationType::None) {
-
-		timer_.Update();
-		timer = timer_;
-	} else if (type_ == SimpleAnimationType::Return) {
-		if (useReturnTimer_) {
-
-			returnTimer_.Update();
-			timer = returnTimer_;
-		} else {
+		// 時間の更新処理
+		StateTimer timer{};
+		if (type_ == SimpleAnimationType::None) {
 
 			timer_.Update();
 			timer = timer_;
+		} else if (type_ == SimpleAnimationType::Return) {
+			if (useReturnTimer_) {
+
+				returnTimer_.Update();
+				timer = returnTimer_;
+			} else {
+
+				timer_.Update();
+				timer = timer_;
+			}
+		}
+		rawT_ = timer.current_ / (std::max)(0.0001f, timer.target_);
+		float easedT = EasedValue(timer.easeingType_, loop_.LoopedT(rawT_));
+
+		T from = move_.start;
+		T to = move_.end;
+		// 逆向き補間なら値を入れ替える
+		if (type_ == SimpleAnimationType::Return) {
+			std::swap(from, to);
+		}
+
+		// 値の補間処理
+		if constexpr (std::is_same_v<T, Color>) {
+
+			value = SakuEngine::Color::Lerp(from, to, easedT);
+		} else {
+
+			value = Algorithm::Lerp<T>(from, to, easedT);
+		}
+
+		// ループ数が最後まで行けば終了
+		if (!loop_.IsInfinityLoop() && loop_.GetLoopCount() <= std::floor(rawT_)) {
+
+			isFinished_ = true;
+			isRunning_ = false;
 		}
 	}
-	rawT_ = timer.current_ / (std::max)(0.0001f, timer.target_);
-	float easedT = EasedValue(timer.easeingType_, loop_.LoopedT(rawT_));
 
-	T from = move_.start;
-	T to = move_.end;
-	// 逆向き補間なら値を入れ替える
-	if (type_ == SimpleAnimationType::Return) {
-		std::swap(from, to);
+	template<typename T>
+	inline void SimpleAnimation<T>::Start() {
+
+		isRunning_ = true;
+		isFinished_ = false;
+		timer_.Reset();
+		returnTimer_.Reset();
 	}
 
-	// 値の補間処理
-	if constexpr (std::is_same_v<T, Color>) {
+	template<typename T>
+	inline void SimpleAnimation<T>::Reset(bool isStop) {
 
-		value = SakuEngine::Color::Lerp(from, to, easedT);
-	} else {
-
-		value = Algorithm::Lerp<T>(from, to, easedT);
+		isRunning_ = isStop ? false : true;
+		isFinished_ = false;
+		timer_.Reset();
+		returnTimer_.Reset();
 	}
+	template<typename T>
+	inline void SimpleAnimation<T>::Stop() {
 
-	// ループ数が最後まで行けば終了
-	if (loop_.GetLoopCount() <= std::floor(rawT_)) {
-
-		isFinished_ = true;
 		isRunning_ = false;
 	}
-}
 
-template<typename T>
-inline void SimpleAnimation<T>::Start() {
+	template<typename T>
+	inline void SimpleAnimation<T>::ImGui(const std::string& label, bool isLoop) {
 
-	isRunning_ = true;
-	isFinished_ = false;
-	timer_.Reset();
-	returnTimer_.Reset();
-}
+		ImGui::PushItemWidth(itemSize_);
+		ImGui::PushID(label.c_str());
 
-template<typename T>
-inline void SimpleAnimation<T>::Reset(bool isStop) {
+		ImGui::SeparatorText(label.c_str());
 
-	isRunning_ = isStop ? false : true;
-	isFinished_ = false;
-	timer_.Reset();
-	returnTimer_.Reset();
-}
-template<typename T>
-inline void SimpleAnimation<T>::Stop() {
+		ImGuiParam(label);
+		ImGuiTimer(label);
 
-	isRunning_ = false;
-}
+		if (isLoop) {
 
-template<typename T>
-inline void SimpleAnimation<T>::ImGui(const std::string& label, bool isLoop) {
-
-	ImGui::PushItemWidth(itemSize_);
-	ImGui::PushID(label.c_str());
-
-	ImGui::SeparatorText(label.c_str());
-
-	ImGuiTreeNodeFlags windowFlag = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Leaf;
-	if (ImGui::CollapsingHeader("AnimValue", windowFlag)) {
-
-		if constexpr (std::is_same_v<T, float>) {
-
-			ImGui::DragFloat("start", &move_.start, dragValueFloat);
-			ImGui::DragFloat("end", &move_.end, dragValueFloat);
-		} else if constexpr (std::is_same_v<T, int>) {
-
-			ImGui::DragInt("start", &move_.start, static_cast<float>(dragValueInt));
-			ImGui::DragInt("end", &move_.end, static_cast<float>(dragValueInt));
-		} else if constexpr (std::is_same_v<T, Vector2>) {
-
-			ImGui::DragFloat2("start", &move_.start.x, dragValueFloat);
-			ImGui::DragFloat2("end", &move_.end.x, dragValueFloat);
-		} else if constexpr (std::is_same_v<T, Vector3>) {
-
-			ImGui::DragFloat3("start", &move_.start.x, dragValueFloat);
-			ImGui::DragFloat3("end", &move_.end.x, dragValueFloat);
-		} else if constexpr (std::is_same_v<T, Color>) {
-
-			ImGui::ColorEdit4("start", &move_.start.r);
-			ImGui::ColorEdit4("end", &move_.end.r);
+			ImGuiLoop(label);
 		}
+
+		ImGui::PopID();
+		ImGui::PopItemWidth();
 	}
-	if (ImGui::CollapsingHeader("Timer", windowFlag)) {
 
-		timer_.ImGui("Time", false);
+	template<typename T>
+	inline void SimpleAnimation<T>::ImGuiParam(const std::string& label, bool isSeparate) {
 
-		ImGui::Checkbox("useReturnTimer", &useReturnTimer_);
-		if (useReturnTimer_) {
+		ImGui::PushItemWidth(itemSize_);
+		ImGui::PushID(label.c_str());
 
-			returnTimer_.ImGui("ReturnTimer", true);
+		if (isSeparate) {
+
+			ImGui::SeparatorText(label.c_str());
 		}
+
+		if (ImGui::CollapsingHeader("AnimValue", windowFlag_)) {
+
+			if constexpr (std::is_same_v<T, float>) {
+
+				ImGui::DragFloat("start", &move_.start, dragValueFloat);
+				ImGui::DragFloat("end", &move_.end, dragValueFloat);
+			} else if constexpr (std::is_same_v<T, int>) {
+
+				ImGui::DragInt("start", &move_.start, static_cast<float>(dragValueInt));
+				ImGui::DragInt("end", &move_.end, static_cast<float>(dragValueInt));
+			} else if constexpr (std::is_same_v<T, Vector2>) {
+
+				ImGui::DragFloat2("start", &move_.start.x, dragValueFloat);
+				ImGui::DragFloat2("end", &move_.end.x, dragValueFloat);
+			} else if constexpr (std::is_same_v<T, Vector3>) {
+
+				ImGui::DragFloat3("start", &move_.start.x, dragValueFloat);
+				ImGui::DragFloat3("end", &move_.end.x, dragValueFloat);
+			} else if constexpr (std::is_same_v<T, Color>) {
+
+				ImGui::ColorEdit4("start", &move_.start.r);
+				ImGui::ColorEdit4("end", &move_.end.r);
+			}
+		}
+		ImGui::PopID();
 	}
-	if (isLoop) {
-		if (ImGui::CollapsingHeader("Loop", windowFlag)) {
+
+	template<typename T>
+	inline void SimpleAnimation<T>::ImGuiTimer(const std::string& label, bool isSeparate) {
+
+		ImGui::PushItemWidth(itemSize_);
+		ImGui::PushID(label.c_str());
+
+		if (isSeparate) {
+
+			ImGui::SeparatorText(label.c_str());
+		}
+
+		if (ImGui::CollapsingHeader("Timer", windowFlag_)) {
+
+			timer_.ImGui("Time", false);
+
+			ImGui::Checkbox("useReturnTimer", &useReturnTimer_);
+			if (useReturnTimer_) {
+
+				returnTimer_.ImGui("ReturnTimer", true);
+			}
+		}
+		ImGui::PopID();
+	}
+
+	template<typename T>
+	inline void SimpleAnimation<T>::ImGuiLoop(const std::string& label, bool isSeparate) {
+
+		ImGui::PushItemWidth(itemSize_);
+		ImGui::PushID(label.c_str());
+
+		if (isSeparate) {
+
+			ImGui::SeparatorText(label.c_str());
+		}
+
+		if (ImGui::CollapsingHeader("Loop", windowFlag_)) {
 
 			loop_.ImGuiLoopParam(false);
 		}
+		ImGui::PopID();
 	}
 
-	ImGui::PopID();
-	ImGui::PopItemWidth();
-}
+	template<typename T>
+	inline void SimpleAnimation<T>::FromJson(const Json& data) {
 
-template<typename T>
-inline void SimpleAnimation<T>::FromJson(const Json& data) {
-
-	if (data.empty()) {
-		return;
-	}
-
-	loop_.FromLoopJson(data);
-	useReturnTimer_ = data.value("useReturnTimer_", false);
-	timer_.FromJson(data.value("Timer", Json()));
-	returnTimer_.FromJson(data.value("ReturnTimer", Json()));
-
-	// moveの値を適応
-	if constexpr (std::is_same_v<T, float>) {
-
-		move_.start = data.value("move_.start", 0.0f);
-		move_.end = data.value("move_.end", 0.0f);
-	} else if constexpr (std::is_same_v<T, int>) {
-
-		move_.start = data.value("move_.start", 0);
-		move_.end = data.value("move_.end", 0);
-	} else {
-
-		move_.start = T::FromJson(data["move_.start"]);
-		move_.end = T::FromJson(data["move_.end"]);
-	}
-}
-
-template<typename T>
-inline void SimpleAnimation<T>::SetDragValue(float value) {
-
-	dragValueFloat = value;
-}
-
-template<typename T>
-inline void SimpleAnimation<T>::SetDragValue(int value) {
-
-	dragValueInt = value;
-}
-
-template<typename T>
-inline float SimpleAnimation<T>::GetProgress() const {
-
-	if (type_ == SimpleAnimationType::None) {
-
-		return timer_.t_;
-	} else if (type_ == SimpleAnimationType::Return) {
-		if (useReturnTimer_) {
-
-			return returnTimer_.t_;
+		if (data.empty()) {
+			return;
 		}
-		return timer_.t_;
+
+		loop_.FromLoopJson(data["Loop"]);
+		useReturnTimer_ = data.value("useReturnTimer_", false);
+		timer_.FromJson(data.value("Timer", Json()));
+		returnTimer_.FromJson(data.value("ReturnTimer", Json()));
+
+		// moveの値を適応
+		if constexpr (std::is_same_v<T, float>) {
+
+			move_.start = data.value("move_.start", 0.0f);
+			move_.end = data.value("move_.end", 0.0f);
+		} else if constexpr (std::is_same_v<T, int>) {
+
+			move_.start = data.value("move_.start", 0);
+			move_.end = data.value("move_.end", 0);
+		} else {
+
+			move_.start = T::FromJson(data["move_.start"]);
+			move_.end = T::FromJson(data["move_.end"]);
+		}
 	}
-	return 0.0f;
-}
 
-template<typename T>
-inline void SimpleAnimation<T>::ToJson(Json& data) {
+	template<typename T>
+	inline void SimpleAnimation<T>::SetDragValue(float value) {
 
-	loop_.ToLoopJson(data["Loop"]);
-	data["useReturnTimer_"] = useReturnTimer_;
-	timer_.ToJson(data["Timer"]);
-	returnTimer_.ToJson(data["ReturnTimer"]);
-
-	// moveの値を保存
-	if constexpr (std::is_same_v<T, float> || std::is_same_v<T, int>) {
-
-		data["move_.start"] = move_.start;
-		data["move_.end"] = move_.end;
-	} else {
-
-		data["move_.start"] = move_.start.ToJson();
-		data["move_.end"] = move_.end.ToJson();
+		dragValueFloat = value;
 	}
-}
+
+	template<typename T>
+	inline void SimpleAnimation<T>::SetDragValue(int value) {
+
+		dragValueInt = value;
+	}
+
+	template<typename T>
+	inline float SimpleAnimation<T>::GetProgress() const {
+
+		if (type_ == SimpleAnimationType::None) {
+
+			return timer_.t_;
+		} else if (type_ == SimpleAnimationType::Return) {
+			if (useReturnTimer_) {
+
+				return returnTimer_.t_;
+			}
+			return timer_.t_;
+		}
+		return 0.0f;
+	}
+
+	template<typename T>
+	inline void SimpleAnimation<T>::ToJson(Json& data) {
+
+		loop_.ToLoopJson(data["Loop"]);
+		data["useReturnTimer_"] = useReturnTimer_;
+		timer_.ToJson(data["Timer"]);
+		returnTimer_.ToJson(data["ReturnTimer"]);
+
+		// moveの値を保存
+		if constexpr (std::is_same_v<T, float> || std::is_same_v<T, int>) {
+
+			data["move_.start"] = move_.start;
+			data["move_.end"] = move_.end;
+		} else {
+
+			data["move_.start"] = move_.start.ToJson();
+			data["move_.end"] = move_.end.ToJson();
+		}
+	}
 
 }; // SakuEngine

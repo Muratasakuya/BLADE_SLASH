@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/InputStructures.h>
+#include <Engine/Utility/Material/SpriteVertexColorAnimation.h>
 #include <Game/Objects/Base/GameHPBar.h>
 #include <Game/Objects/Base/GameDisplayDamage.h>
 #include <Game/Objects/Base/GameCommonStructures.h>
@@ -120,9 +121,11 @@ private:
 	// HP残量
 	std::unique_ptr<GameHPBar> hpBar_;
 	GameCommon::HUDInitParameter hpBarParameter_;
+	SakuEngine::SpriteVertexColorAnimation hpBarColorAnim_;
 	// スキル値
 	std::unique_ptr<GameHPBar> skilBar_;
 	GameCommon::HUDInitParameter skilBarParameter_;
+	SakuEngine::SpriteVertexColorAnimation skilBarColorAnim_;
 
 	// 名前文字表示
 	std::unique_ptr<SakuEngine::GameObject2D> nameText_;
@@ -181,6 +184,8 @@ private:
 	void UpdateSprite(const Player& player);
 	void UpdateAlpha();
 
+	// バー更新
+	void UpdateBar();
 	// 入力示唆更新
 	void UpdateInputSuggest();
 	// 入力に応じたUIのアニメーション

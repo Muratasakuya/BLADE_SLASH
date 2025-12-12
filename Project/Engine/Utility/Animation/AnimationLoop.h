@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -22,46 +22,51 @@ enum class AnimationLoopType {
 //============================================================================
 namespace SakuEngine {
 
-class AnimationLoop {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class AnimationLoop {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	AnimationLoop() = default;
-	~AnimationLoop() = default;
+		AnimationLoop() = default;
+		~AnimationLoop() = default;
 
-	// 0.0f~1.0fの範囲でループ制御
-	float LoopedT(float rawT);
+		// 0.0f~1.0fの範囲でループ制御
+		float LoopedT(float rawT);
 
-	// エディター
-	void ImGuiLoopParam(bool isSeparate = true);
+		// エディター
+		void ImGuiLoopParam(bool isSeparate = true);
 
-	// json
-	void ToLoopJson(Json& data);
-	void FromLoopJson(const Json& data);
+		// json
+		void ToLoopJson(Json& data);
+		void FromLoopJson(const Json& data);
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	// ループ回数の設定
-	void SetLoopCount(uint32_t count) { loopCount_ = count; }
+		// ループ回数の設定
+		void SetLoopCount(uint32_t count) { loopCount_ = count; }
+		// ループタイプの設定
+		void SetInfinityLoop(bool isInfinityLoop) { isInfinityLoop_ = isInfinityLoop; }
 
-	// ループが1回終了したか
-	bool IsReachedEnd(float prevRawT, float currentRawT,
-		float start = 0.0f, float end = 1.0f) const;
+		// ループが1回終了したか
+		bool IsReachedEnd(float prevRawT, float currentRawT,
+			float start = 0.0f, float end = 1.0f) const;
+		// 無限ループかどうか
+		bool IsInfinityLoop() const { return isInfinityLoop_; }
 
-	// ループ回数の取得
-	uint32_t GetLoopCount() const { return loopCount_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// ループ回数の取得
+		uint32_t GetLoopCount() const { return loopCount_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// ループ制御
-	uint32_t loopCount_ = 1;      // 回数
-	AnimationLoopType loopType_; // 種類
-};
+		// ループ制御
+		uint32_t loopCount_ = 1;      // 回数
+		AnimationLoopType loopType_; // 種類
+		bool isInfinityLoop_ = false;
+	};
 
 }; // SakuEngine

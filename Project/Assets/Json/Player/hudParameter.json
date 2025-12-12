@@ -36,11 +36,134 @@
             "y": 64.0
         }
     },
+    "hpBarColorAnim": {
+        "leftBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9254902005195618,
+                "r": 0.25882354378700256
+            },
+            "useReturnTimer_": false
+        },
+        "leftTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9254902005195618,
+                "r": 0.25882354378700256
+            },
+            "useReturnTimer_": false
+        },
+        "rightBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutQuad",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9264164566993713,
+                "r": 0.2576786279678345
+            },
+            "useReturnTimer_": false
+        },
+        "rightTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutQuad",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.13374334573745728,
+                "g": 0.48859453201293945,
+                "r": 0.0
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.0,
+                "g": 0.9264164566993713,
+                "r": 0.2576786279678345
+            },
+            "useReturnTimer_": false
+        }
+    },
     "inputReactColorAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
-                "type": "PingPong"
+                "type": "Repeat"
             }
         },
         "ReturnTimer": {
@@ -68,8 +191,9 @@
     "inputReactSizeAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
-                "type": "PingPong"
+                "type": "Repeat"
             }
         },
         "ReturnTimer": {
@@ -93,6 +217,7 @@
     "inputSuggestBackEmissiveAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -112,6 +237,7 @@
     "inputSuggestBackSizeAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -137,6 +263,7 @@
     "inputSuggestBackcolorAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -175,6 +302,7 @@
     "inputSuggestFrontEmissiveAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -194,6 +322,7 @@
     "inputSuggestFrontSizeAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -219,6 +348,7 @@
     "inputSuggestFrontcolorAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
@@ -263,6 +393,128 @@
         "translation": {
             "x": 456.0,
             "y": 76.0
+        }
+    },
+    "skilBarColorAnim": {
+        "leftBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.2586497962474823,
+                "g": 0.0,
+                "r": 0.9153789281845093
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "useReturnTimer_": false
+        },
+        "leftTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.2586497962474823,
+                "g": 0.0,
+                "r": 0.9153789281845093
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "useReturnTimer_": false
+        },
+        "rightBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutSine",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.3435717821121216,
+                "g": 0.0,
+                "r": 0.9264164566993713
+            },
+            "useReturnTimer_": false
+        },
+        "rightTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutSine",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.3435717821121216,
+                "g": 0.0,
+                "r": 0.9264164566993713
+            },
+            "useReturnTimer_": false
         }
     },
     "staticSpriteSize": {

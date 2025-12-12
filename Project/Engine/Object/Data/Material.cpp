@@ -219,8 +219,8 @@ void SpriteMaterial::ImGui(float itemSize) {
 	ImGui::Text("R:%4.3f G:%4.3f B:%4.3f A:%4.3f",
 		material.color.r, material.color.g,
 		material.color.b, material.color.a);
-
-	ImGui::SliderInt("useAlphaColor", &material.useAlphaColor, 0, 1);
+	ImGui::Checkbox("useVertexColor", (bool*)&material.useVertexColor);
+	ImGui::Checkbox("useAlphaColor", (bool*)&material.useAlphaColor);
 	if (material.useAlphaColor) {
 
 		ImGui::DragFloat("alphaReference", &material.alphaReference, 0.001f);

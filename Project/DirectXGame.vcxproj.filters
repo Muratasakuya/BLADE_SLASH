@@ -2541,5 +2541,9 @@
     <None Include="Assets\Engine\Shaders\Skybox\Skybox.hlsli">
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
+    <ClCompile Include="Engine\Utility\Material\SpriteVertexColorAnimation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Utility\Material\SpriteVertexColorAnimation.h" />
   </ItemGroup>
 </Project>

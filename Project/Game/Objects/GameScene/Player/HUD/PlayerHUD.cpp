@@ -131,10 +131,8 @@ void PlayerHUD::Update(const Player& player) {
 
 void PlayerHUD::UpdateSprite(const Player& player) {
 
-	// HP残量を更新
-	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
-	// スキル値を更新
-	skilBar_->Update(stats_.currentSkilPoint, stats_.maxSkilPoint, true);
+	// バーの更新
+	UpdateBar();
 
 	// ダメージ表記の更新
 	damageDisplay_->Update(player, *followCamera_);
@@ -274,6 +272,18 @@ void PlayerHUD::StartInputReactAnim(PlayerState state) {
 	inputReactColorAnim_.Start();
 }
 
+void PlayerHUD::UpdateBar() {
+
+	// 頂点カラーアニメーション
+	hpBarColorAnim_.Update(*hpBar_.get());
+	skilBarColorAnim_.Update(*skilBar_.get());
+
+	// HP残量を更新
+	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
+	// スキル値を更新
+	skilBar_->Update(stats_.currentSkilPoint, stats_.maxSkilPoint, true);
+}
+
 void PlayerHUD::UpdateInputSuggest() {
 
 	// 入力示唆が有効でない場合は処理しない
@@ -410,7 +420,7 @@ void PlayerHUD::UpdateInputReactAnim() {
 		skil_.isActiveInput = false;
 		parry_.isActiveInput = false;
 		attack_.isActiveInput = false;
-	} 
+	}
 }
 
 void PlayerHUD::ChangeAllOperateSprite() {
@@ -590,6 +600,18 @@ void PlayerHUD::ImGui() {
 			}
 			ImGui::EndTabItem();
 		}
+		if (ImGui::BeginTabItem("ColorAnim")) {
+
+			if (ImGui::CollapsingHeader("HPBarColorAnim")) {
+
+				hpBarColorAnim_.ImGui("HPBarColorAnim");
+			}
+			if (ImGui::CollapsingHeader("SkilBarColorAnim")) {
+
+				skilBarColorAnim_.ImGui("SkilBarColorAnim");
+			}
+			ImGui::EndTabItem();
+		}
 		ImGui::EndTabBar();
 	}
 }
@@ -606,9 +628,13 @@ void PlayerHUD::ApplyJson() {
 
 	hpBarParameter_.ApplyJson(data["hpBar"]);
 	GameCommon::SetInitParameter(*hpBar_, hpBarParameter_);
+	hpBarColorAnim_.FromJson(data.value("hpBarColorAnim", Json()));
+	hpBarColorAnim_.Start();
 
 	skilBarParameter_.ApplyJson(data["skilBar"]);
 	GameCommon::SetInitParameter(*skilBar_, skilBarParameter_);
+	skilBarColorAnim_.FromJson(data.value("skilBarColorAnim", Json()));
+	skilBarColorAnim_.Start();
 
 	nameTextParameter_.ApplyJson(data["nameText"]);
 	GameCommon::SetInitParameter(*nameText_, nameTextParameter_);
@@ -646,7 +672,9 @@ void PlayerHUD::SaveJson() {
 
 	hpBackgroundParameter_.SaveJson(data["hpBackground"]);
 	hpBarParameter_.SaveJson(data["hpBar"]);
+	hpBarColorAnim_.ToJson(data["hpBarColorAnim"]);
 	skilBarParameter_.SaveJson(data["skilBar"]);
+	skilBarColorAnim_.ToJson(data["skilBarColorAnim"]);
 	nameTextParameter_.SaveJson(data["nameText"]);
 
 	damageDisplay_->SaveJson(data);
