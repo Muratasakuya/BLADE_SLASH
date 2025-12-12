@@ -177,6 +177,9 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
+		// ワールド座標
+		Vector2 GetWorldPos() const;
+
 		// 画面の中心に設定
 		void SetCenterPos();
 

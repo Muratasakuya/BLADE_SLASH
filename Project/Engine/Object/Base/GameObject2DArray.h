@@ -59,6 +59,9 @@ namespace SakuEngine {
 
 		// material
 		Color GetColor(int32_t index = -1) const;
+
+		// object
+		GameObject2D* GetObjectPtr(uint32_t index) const;
 	private:
 		//========================================================================
 		//	private Methods

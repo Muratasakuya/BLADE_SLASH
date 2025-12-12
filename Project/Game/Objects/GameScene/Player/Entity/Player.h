@@ -15,7 +15,7 @@
 // HUD
 #include <Game/Objects/GameScene/Player/HUD/PlayerHUD.h>
 #include <Game/Objects/GameScene/Player/HUD/PlayerStunHUD.h>
-#include <Game/Objects/GameScene/Player/HUD/TargetNavigation.h>
+#include <Game/Objects/GameScene/Player/HUD/TargetNavigation/TargetNavigation.h>
 
 // front
 class SubPlayer;

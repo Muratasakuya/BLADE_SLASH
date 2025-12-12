@@ -63,6 +63,15 @@ Color GameObject2DArray::GetColor(int32_t index) const {
 	return objects_.back()->GetColor();
 }
 
+GameObject2D* GameObject2DArray::GetObjectPtr(uint32_t index) const {
+
+	if (index < objects_.size()) {
+
+		return objects_[index].get();
+	}
+	return nullptr;
+}
+
 void GameObject2DArray::Update() {
 
 	// 親トランスフォーム更新

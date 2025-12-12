@@ -227,7 +227,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Light\GameLight.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.cpp">
+    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
@@ -980,7 +980,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Light\GameLight.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation.h">
+    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
