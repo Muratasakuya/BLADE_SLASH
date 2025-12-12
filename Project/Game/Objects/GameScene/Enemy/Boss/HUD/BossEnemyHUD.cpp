@@ -156,25 +156,26 @@ void BossEnemyHUD::UpdatePhaseThresholdPos() {
 		return;
 	}
 
-	// 最後の閾（HP%を取得
+	// 最後の閾（HP%を取得)
 	int lastThreshold = stats_.hpThresholds.back();
 	float thresholdRatio = std::clamp(lastThreshold / 100.0f, 0.0f, 1.0f);
 
-	// HPバーのTransform取得
-	const SakuEngine::Transform2D& barT = hpBar_->GetTransform();
+	// フェーズ閾値表示位置の更新
+	phaseThreshold_->SetTranslation(hpBar_->GetThresholdPos(stats_.hpThresholds.back()));
 
-	// 実際の描画幅
-	float barWidth = barT.size.x * barT.sizeScale.x;
+	// 無効時の色設定
+	// 現在のHPが閾値以下の場合は無効色にする
+	// alphaを記録
+	float alpha = phaseThreshold_->GetColor().a;
+	disablePhaseThresholdColor_.a = alpha;
+	enablePhaseThresholdColor_.a = alpha;
+	if (stats_.currentHP <= static_cast<int>(stats_.maxHP * thresholdRatio)) {
 
-	// 左端、右端のX座標
-	float barLeft = barT.translation.x - barWidth * barT.anchorPoint.x;
-	float barRight = barLeft + barWidth;
-	float thresholdX = barRight - barWidth * thresholdRatio;
+		phaseThreshold_->SetColor(disablePhaseThresholdColor_);
+	} else {
 
-	// Yは現在の値を維持してXだけ更新
-	SakuEngine::Vector2 phasePos = phaseThreshold_->GetTransform().translation;
-	phasePos.x = thresholdX;
-	phaseThreshold_->SetTranslation(phasePos);
+		phaseThreshold_->SetColor(enablePhaseThresholdColor_);
+	}
 }
 
 void BossEnemyHUD::ImGui() {
@@ -238,6 +239,10 @@ void BossEnemyHUD::ImGui() {
 		}
 		if (ImGui::BeginTabItem("PhaseThreshold##HUD")) {
 
+			ImGui::ColorEdit4("enablePhaseThresholdColor", &enablePhaseThresholdColor_.r);
+			ImGui::ColorEdit4("disablePhaseThresholdColor", &disablePhaseThresholdColor_.r);
+			ImGui::Separator();
+
 			phaseThreshold_->ImGui();
 			ImGui::EndTabItem();
 		}
@@ -276,7 +281,10 @@ void BossEnemyHUD::ApplyJson() {
 
 	damageDisplay_->ApplyJson(data);
 
+	disablePhaseThresholdColor_ = SakuEngine::Color::FromJson(data.value("disablePhaseThresholdColor_", Json()));
 	phaseThreshold_->FromJson(data.value("phaseThreshold_", Json()));
+	// 色を記録しておく
+	enablePhaseThresholdColor_ = phaseThreshold_->GetColor();
 }
 
 void BossEnemyHUD::SaveJson() {
@@ -295,6 +303,7 @@ void BossEnemyHUD::SaveJson() {
 
 	damageDisplay_->SaveJson(data);
 
+	data["disablePhaseThresholdColor_"] = disablePhaseThresholdColor_.ToJson();
 	phaseThreshold_->ToJson(data["phaseThreshold_"]);
 
 	SakuEngine::JsonAdapter::Save("Enemy/Boss/hudParameter.json", data);

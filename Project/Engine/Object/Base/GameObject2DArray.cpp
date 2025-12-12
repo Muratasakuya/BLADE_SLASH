@@ -30,7 +30,7 @@ void GameObject2DArray::SetColor(const SakuEngine::Color& color, int32_t index) 
 
 	// 0以上のインデックスが指定された場合、そのインデックスのオブジェクトのみ色を変更
 	if (0 <= index) {
-		
+
 		objects_[index]->SetColor(color);
 	} else {
 		for (const auto& object : objects_) {
@@ -44,7 +44,7 @@ void GameObject2DArray::SetAlpha(float alpha, int32_t index) {
 
 	// 0以上のインデックスが指定された場合、そのインデックスのオブジェクトのみアルファを変更
 	if (0 <= index) {
-		
+
 		objects_[index]->SetAlpha(alpha);
 	} else {
 		for (const auto& object : objects_) {
@@ -54,8 +54,17 @@ void GameObject2DArray::SetAlpha(float alpha, int32_t index) {
 	}
 }
 
+Color GameObject2DArray::GetColor(int32_t index) const {
+
+	if (0 <= index) {
+
+		return objects_[index]->GetColor();
+	}
+	return objects_.back()->GetColor();
+}
+
 void GameObject2DArray::Update() {
-	
+
 	// 親トランスフォーム更新
 	transform_.UpdateMatrix();
 }

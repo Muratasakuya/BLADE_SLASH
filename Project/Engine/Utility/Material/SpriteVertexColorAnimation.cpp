@@ -37,24 +37,30 @@ void SpriteVertexColorAnimation::Update(GameObject2D& object) {
 
 void SakuEngine::SpriteVertexColorAnimation::Start() {
 
-	isEnable_ = true;
+	if (!isEnable_) {
 
-	// アニメーション開始
-	leftBottomColorAnim_.Start();
-	leftTopColorAnim_.Start();
-	rightBottomColorAnim_.Start();
-	rightTopColorAnim_.Start();
+		// アニメーション開始
+		leftBottomColorAnim_.Start();
+		leftTopColorAnim_.Start();
+		rightBottomColorAnim_.Start();
+		rightTopColorAnim_.Start();
+	}
+
+	isEnable_ = true;
 }
 
 void SakuEngine::SpriteVertexColorAnimation::Reset() {
 
-	isEnable_ = false;
+	if (isEnable_) {
 
-	// アニメーション停止
-	leftBottomColorAnim_.Reset();
-	leftTopColorAnim_.Reset();
-	rightBottomColorAnim_.Reset();
-	rightTopColorAnim_.Reset();
+		// アニメーション停止
+		leftBottomColorAnim_.Reset();
+		leftTopColorAnim_.Reset();
+		rightBottomColorAnim_.Reset();
+		rightTopColorAnim_.Reset();
+	}
+
+	isEnable_ = false;
 }
 
 void SpriteVertexColorAnimation::ImGui(const std::string& label) {

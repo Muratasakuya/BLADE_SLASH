@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Input/InputStructures.h>
 #include <Engine/Utility/Material/SpriteVertexColorAnimation.h>
+#include <Engine/Object/Base/GameObject2DArray.h>
 #include <Game/Objects/Base/GameHPBar.h>
 #include <Game/Objects/Base/GameDisplayDamage.h>
 #include <Game/Objects/Base/GameCommonStructures.h>
@@ -138,6 +139,11 @@ private:
 	static const uint32_t kInputSuggestCount_ = 2;
 	std::array<Suggest, kInputSuggestCount_> inputSuggests_;
 
+	// スキルP閾値表示
+	std::unique_ptr<SakuEngine::GameObject2DArray> skillThreshold_;
+	SakuEngine::Color enableSkillThresholdColor_;  // 有効時の色
+	SakuEngine::Color disableSkillThresholdColor_; // 無効時の色
+
 	//----------- operate ----------------------//
 
 	// 操作方法表示
@@ -190,6 +196,8 @@ private:
 	void UpdateInputSuggest();
 	// 入力に応じたUIのアニメーション
 	void UpdateInputReactAnim();
+	// スキルP閾値表示更新
+	void UpdateSkillThreshold();
 
 	// helper
 	void ChangeAllOperateSprite();

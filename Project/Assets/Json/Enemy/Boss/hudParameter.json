@@ -39,6 +39,12 @@
         }
     },
     "digitDisplayInterval_": 0.029999999329447746,
+    "disablePhaseThresholdColor_": {
+        "a": 1.0,
+        "b": 0.11248129606246948,
+        "g": 0.11248129606246948,
+        "r": 0.11248129606246948
+    },
     "hpBackground": {
         "translation": {
             "x": 1398.0,
@@ -65,9 +71,9 @@
                     "alphaReference": 0.0,
                     "color": {
                         "a": 1.0,
-                        "b": 1.0,
-                        "g": 1.0,
-                        "r": 1.0
+                        "b": 0.11248129606246948,
+                        "g": 0.11248129606246948,
+                        "r": 0.11248129606246948
                     },
                     "emissionColor": {
                         "x": 1.0,
@@ -98,7 +104,31 @@
                     "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
                     "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
                     "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
                     "textureName": "barThresholdFrame"
                 },
                 "Transform": {
@@ -126,7 +156,7 @@
                     },
                     "translation": {
                         "x": 0.0,
-                        "y": 0.0
+                        "y": -84.0
                     },
                     "vertexOffset": [
                         {
@@ -153,16 +183,16 @@
                     "alphaReference": 0.0,
                     "color": {
                         "a": 1.0,
-                        "b": 0.007843137718737125,
-                        "g": 0.7568627595901489,
-                        "r": 0.929411768913269
+                        "b": 0.11248129606246948,
+                        "g": 0.11248129606246948,
+                        "r": 0.11248129606246948
                     },
                     "emissionColor": {
-                        "x": 0.929932713508606,
-                        "y": 0.757522463798523,
-                        "z": 0.0090352026745677
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
                     },
-                    "emissiveIntensity": 12.0,
+                    "emissiveIntensity": 0.0,
                     "postProcessMask": 0,
                     "useAlphaColor": 0,
                     "useVertexColor": 0,
@@ -186,7 +216,31 @@
                     "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
                     "layerIndex": 0,
+                    "leftBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
                     "postProccessEnable_": false,
+                    "rightBottomColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
+                    "rightTopColor": {
+                        "a": 1.0,
+                        "b": 1.0,
+                        "g": 1.0,
+                        "r": 1.0
+                    },
                     "textureName": "barThreshold"
                 },
                 "Transform": {
@@ -214,7 +268,7 @@
                     },
                     "translation": {
                         "x": 0.0,
-                        "y": 0.0
+                        "y": -84.0
                     },
                     "vertexOffset": [
                         {
@@ -261,8 +315,8 @@
                 "y": 0.0
             },
             "translation": {
-                "x": 1600.0,
-                "y": 52.0
+                "x": 1628.9000244140625,
+                "y": 64.0
             },
             "vertexOffset": [
                 {

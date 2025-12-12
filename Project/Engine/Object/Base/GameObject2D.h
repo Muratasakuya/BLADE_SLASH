@@ -112,6 +112,9 @@ namespace SakuEngine {
 		// material
 		const SakuEngine::Color& GetColor() const { return material_->material.color; }
 		float GetEmissiveIntensity() const { return material_->material.emissiveIntensity; }
+
+		// sprite
+		const Color& GetVertexColor(SpriteVertexPos pos) const { return sprite_->GetVertexColor(pos); }
 	protected:
 		//========================================================================
 		//	protected Methods

@@ -80,6 +80,7 @@ private:
 
 	// フェーズ閾値表示
 	std::unique_ptr<SakuEngine::GameObject2DArray> phaseThreshold_;
+	SakuEngine::Color enablePhaseThresholdColor_;  // 有効時の色
 	SakuEngine::Color disablePhaseThresholdColor_; // 無効時の色
 
 	// parameters

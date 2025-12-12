@@ -93,6 +93,7 @@ namespace SakuEngine {
 		bool UseAlphaTexture() const { return alphaTextureName_.has_value(); }
 		BlendMode GetBlendMode() const { return blendMode_; }
 		bool IsPostProcessEnable() const { return postProccessEnable_; }
+		const Color& GetVertexColor(SpriteVertexPos pos) const { return vertexData_[static_cast<uint32_t>(pos)].color; }
 
 		const VertexBuffer<SpriteVertexData>& GetVertexBuffer() const { return vertexBuffer_; }
 		const IndexBuffer& GetIndexBuffer() const { return indexBuffer_; }

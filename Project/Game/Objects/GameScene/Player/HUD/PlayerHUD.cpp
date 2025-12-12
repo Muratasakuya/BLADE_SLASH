@@ -78,6 +78,13 @@ void PlayerHUD::InitSprite() {
 		// 最初は非表示
 		inputSuggest.sprite->SetAlpha(0.0f);
 	}
+
+	// スキルP閾値表示
+	skillThreshold_ = std::make_unique<SakuEngine::GameObject2DArray>();
+	skillThreshold_->Init();
+	// スキルP閾値のスプライトを追加
+	skillThreshold_->Add("barThresholdFrame", "skillThreshold", "PlayerHUD"); // 枠
+	skillThreshold_->Add("barThreshold", "skillThreshold", "PlayerHUD");      // 中の色
 }
 
 void PlayerHUD::Init() {
@@ -109,6 +116,7 @@ void PlayerHUD::SetDisable() {
 	skil_.SetAlpha(inputType_, 0.0f);
 	parry_.SetAlpha(inputType_, 0.0f);
 	damageDisplay_->SetAlpha(0.0f);
+	skillThreshold_->SetAlpha(0.0f);
 }
 
 void PlayerHUD::SetValid() {
@@ -141,6 +149,9 @@ void PlayerHUD::UpdateSprite(const Player& player) {
 	UpdateInputSuggest();
 	// 入力リアクションアニメーションの更新
 	UpdateInputReactAnim();
+	// スキル閾値表示の更新
+	UpdateSkillThreshold();
+	skillThreshold_->Update();
 
 	// 入力状態に応じて表示を切り替える
 	ChangeAllOperateSprite();
@@ -169,6 +180,7 @@ void PlayerHUD::UpdateAlpha() {
 	skil_.SetAlpha(inputType_, alpha);
 	parry_.SetAlpha(inputType_, alpha);
 	damageDisplay_->SetAlpha(alpha);
+	skillThreshold_->SetAlpha(alpha);
 
 	if (returnAlphaTime_ < returnAlphaTimer_) {
 
@@ -182,6 +194,7 @@ void PlayerHUD::UpdateAlpha() {
 		skil_.SetAlpha(inputType_, 1.0f);
 		parry_.SetAlpha(inputType_, 1.0f);
 		damageDisplay_->SetAlpha(1.0f);
+		skillThreshold_->SetAlpha(1.0f);
 
 		// 元に戻ったので処理終了
 		returnAlphaTimer_ = 0.0f;
@@ -277,6 +290,14 @@ void PlayerHUD::UpdateBar() {
 	// 頂点カラーアニメーション
 	hpBarColorAnim_.Update(*hpBar_.get());
 	skilBarColorAnim_.Update(*skilBar_.get());
+
+	// スキルアイコンの色を合わせる
+	using namespace SakuEngine;
+	for (const auto& vertexChar : EnumAdapter<SpriteVertexPos>::GetEnumArray()) {
+
+		SpriteVertexPos vertex = EnumAdapter<SpriteVertexPos>::FromString(vertexChar).value();
+		skil_.staticSprite->SetVertexColor(vertex, skilBar_->GetVertexColor(vertex));
+	}
 
 	// HP残量を更新
 	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
@@ -420,6 +441,38 @@ void PlayerHUD::UpdateInputReactAnim() {
 		skil_.isActiveInput = false;
 		parry_.isActiveInput = false;
 		attack_.isActiveInput = false;
+	}
+}
+
+void PlayerHUD::UpdateSkillThreshold() {
+
+	// スキルP閾値表示の更新
+	skillThreshold_->SetTranslation(skilBar_->GetThresholdPos(stats_.skilCost));
+
+	// 無効時の色設定
+	// スキルPが足りない場合は灰色にする
+	// alphaを記録
+	float alpha = skillThreshold_->GetColor().a;
+	disableSkillThresholdColor_.a = alpha;
+	enableSkillThresholdColor_.a = alpha;
+	if (stats_.currentSkilPoint < stats_.skilCost) {
+
+		skillThreshold_->SetColor(disableSkillThresholdColor_);
+		skilBar_->SetColor(disableSkillThresholdColor_);
+		skil_.staticSprite->SetColor(disableSkillThresholdColor_);
+		skil_.staticSprite->SetUseVertexColor(false);
+
+		// 頂点カラーアニメーション停止
+		skilBarColorAnim_.Reset();
+	} else {
+
+		skillThreshold_->SetColor(enableSkillThresholdColor_);
+		skilBar_->SetColor(SakuEngine::Color::White(skilBar_->GetColor().a));
+		skil_.staticSprite->SetColor(SakuEngine::Color::White(skil_.staticSprite->GetColor().a));
+		skil_.staticSprite->SetUseVertexColor(true);
+
+		// 頂点カラーアニメーション開始
+		skilBarColorAnim_.Start();
 	}
 }
 
@@ -612,6 +665,15 @@ void PlayerHUD::ImGui() {
 			}
 			ImGui::EndTabItem();
 		}
+		if (ImGui::BeginTabItem("SkillThreshold")) {
+
+			ImGui::ColorEdit4("enableSkillThresholdColor", &enableSkillThresholdColor_.r);
+			ImGui::ColorEdit4("disableSkillThresholdColor", &disableSkillThresholdColor_.r);
+			ImGui::Separator();
+
+			skillThreshold_->ImGui();
+			ImGui::EndTabItem();
+		}
 		ImGui::EndTabBar();
 	}
 }
@@ -662,6 +724,11 @@ void PlayerHUD::ApplyJson() {
 	inputReactSizeAnim_.FromJson(data.value("inputReactSizeAnim", Json()));
 	inputReactColorAnim_.FromJson(data.value("inputReactColorAnim", Json()));
 
+	disableSkillThresholdColor_ = SakuEngine::Color::FromJson(data.value("disableSkillThresholdColor", Json()));
+	skillThreshold_->FromJson(data.value("skillThreshold", Json()));
+	// 色を記録しておく
+	enableSkillThresholdColor_ = skillThreshold_->GetColor();
+
 	SetAllOperateTranslation();
 	SetAllOperateSize();
 }
@@ -698,6 +765,9 @@ void PlayerHUD::SaveJson() {
 
 	inputReactSizeAnim_.ToJson(data["inputReactSizeAnim"]);
 	inputReactColorAnim_.ToJson(data["inputReactColorAnim"]);
+
+	data["disableSkillThresholdColor"] = disableSkillThresholdColor_.ToJson();
+	skillThreshold_->ToJson(data["skillThreshold"]);
 
 	SakuEngine::JsonAdapter::Save("Player/hudParameter.json", data);
 }
