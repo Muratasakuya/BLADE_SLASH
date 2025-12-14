@@ -13,238 +13,238 @@
 //============================================================================
 namespace SakuEngine {
 
-class KeyframeObject3D {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class KeyframeObject3D {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	//--------- structure ----------------------------------------------------
+		//--------- structure ----------------------------------------------------
 
-	// 任意の型、追加できるのはこれだけ
-	using AnyValue = std::variant<float, Vector2, Vector3, Color>;
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		// 任意の型、追加できるのはこれだけ
+		using AnyValue = std::variant<float, Vector2, Vector3, Color>;
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	KeyframeObject3D() = default;
-	~KeyframeObject3D() = default;
+		KeyframeObject3D() = default;
+		~KeyframeObject3D() = default;
 
-	// 初期化
-	void Init(const std::string& name, const std::string& modelName = "defaultCube");
+		// 初期化
+		void Init(const std::string& name, const std::string& modelName = "defaultCube");
 
-	// 常に行う更新、キーの位置更新
-	void UpdateKey(bool isForcedUpdateMatrix = false);
+		// 常に行う更新、キーの位置更新
+		void UpdateKey(bool isForcedUpdateMatrix = false);
 
-	// KeyframeObject3Dの時間で更新
-	void SelfUpdate();
-	// 外部からの値入力による更新
-	void ExternalInputTUpdate(float inputT);
+		// KeyframeObject3Dの時間で更新
+		void SelfUpdate();
+		// 外部からの値入力による更新
+		void ExternalInputTUpdate(float inputT);
 
-	// エディター
-	void ImGui();
+		// エディター
+		void ImGui();
 
-	// json
-	void FromJson(const Json& data);
-	void ToJson(Json& data);
+		// json
+		void FromJson(const Json& data);
+		void ToJson(Json& data);
 
-	// 補間開始、初期値が入っていれば最初のキーにする
-	void StartLerp(const std::optional<SakuEngine::Transform3D>& transform = std::nullopt,
-		const std::optional<std::vector<AnyValue>>& anyValues = std::nullopt);
-	// 補間のリセット、終了
-	void Reset();
+		// 補間開始、初期値が入っていれば最初のキーにする
+		void StartLerp(const std::optional<SakuEngine::Transform3D>& transform = std::nullopt,
+			const std::optional<std::vector<AnyValue>>& anyValues = std::nullopt);
+		// 補間のリセット、終了
+		void Reset();
 
-	// 補間処理するキーの値を追加
-	void AddKeyValue(AnyMold mold, const std::string& name);
+		// 補間処理するキーの値を追加
+		void AddKeyValue(AnyMold mold, const std::string& name);
 
-	//--------- accessor ----------------------------------------------------
+		//--------- accessor ----------------------------------------------------
 
-	// 親の設定
-	void SetParent(const std::string& name, const SakuEngine::Transform3D& parent);
+		// 親の設定
+		void SetParent(const std::string& name, const SakuEngine::Transform3D& parent);
 
-	// 再生中かどうか
-	bool IsUpdating() const { return currentState_ == State::Updating; }
+		// 再生中かどうか
+		bool IsUpdating() const { return currentState_ == State::Updating; }
 
-	// 最初、最後のキーのトランスフォームを返す
-	const SakuEngine::Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
-	const SakuEngine::Transform3D& GetLastKeyTransform() const { return keys_.back().transform; }
+		// 最初、最後のキーのトランスフォームを返す
+		const SakuEngine::Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
+		const SakuEngine::Transform3D& GetLastKeyTransform() const { return keys_.back().transform; }
 
-	// 指定インデックス番目のトランスフォームを返す
-	const SakuEngine::Transform3D& GetIndexTransform(uint32_t index) const;
-	const SakuEngine::Transform3D& GetIndexKeyTransform(uint32_t index) const;
-	// 指定インデックス番目の任意の型の現在の値を返す
-	AnyValue GetIndexAnyValue(uint32_t index, const std::string& name) const;
+		// 指定インデックス番目のトランスフォームを返す
+		const SakuEngine::Transform3D& GetIndexTransform(uint32_t index) const;
+		const SakuEngine::Transform3D& GetIndexKeyTransform(uint32_t index) const;
+		// 指定インデックス番目の任意の型の現在の値を返す
+		AnyValue GetIndexAnyValue(uint32_t index, const std::string& name) const;
 
-	// 現在のトランスフォームを返す
-	const SakuEngine::Transform3D& GetCurrentTransform() const { return currentTransform_; }
-	// 追加されている任意の型の現在の値を返す
-	AnyValue GetCurrentAnyValue(const std::string& name) const;
+		// 現在のトランスフォームを返す
+		const SakuEngine::Transform3D& GetCurrentTransform() const { return currentTransform_; }
+		// 追加されている任意の型の現在の値を返す
+		AnyValue GetCurrentAnyValue(const std::string& name) const;
 
-	// キーオブジェクトの全てのIDを返す、これはエンジン内のオブジェクトID
-	std::vector<uint32_t> GetKeyObjectIDs() const;
-	// エンジン内のオブジェクトIDから何番目のキーか取得
-	uint32_t GetKeyIndexFromObjectID(uint32_t index);
+		// キーオブジェクトの全てのIDを返す、これはエンジン内のオブジェクトID
+		std::vector<uint32_t> GetKeyObjectIDs() const;
+		// エンジン内のオブジェクトIDから何番目のキーか取得
+		uint32_t GetKeyIndexFromObjectID(uint32_t index);
 
-	// 処理進捗の取得
-	float GetProgress() const;
+		// 処理進捗の取得
+		float GetProgress() const;
 
-	// 次のキーに到達したか(トリガー判定)
-	bool IsNextKeyReached() const;
-	// 目標のキーインデックスを取得
-	uint32_t GetNextKeyIndex() const { return nextKeyIndex_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// 次のキーに到達したか(トリガー判定)
+		bool IsNextKeyReached() const;
+		// 目標のキーインデックスを取得
+		uint32_t GetNextKeyIndex() const { return nextKeyIndex_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- structure ----------------------------------------------------
+		//--------- structure ----------------------------------------------------
 
-	// 補間状態
-	enum class State {
+		// 補間状態
+		enum class State {
 
-		None,     // 何もしない状態
-		Updating, // 補間開始
+			None,     // 何もしない状態
+			Updating, // 補間開始
+		};
+
+		// 任意値トラック情報
+		struct AnyTrack {
+
+			AnyMold type;     // 型のEnum
+			std::string name; // ImGuiに出す名前
+		};
+
+		// キー情報
+		struct Key {
+
+			SakuEngine::Transform3D transform; // トランスフォーム
+			float time;            // 時間
+			EasingType easeType;   // イージング
+
+			// 任意な型の値
+			std::vector<AnyValue> anyValues;
+		};
+
+		// 更新中の情報
+		struct Runtime {
+
+			bool hasStartKey = false;              // スタート値を使うかどうか
+			SakuEngine::Transform3D startTransform;            // スタート時のTransform
+			std::vector<AnyValue> startAnyValues;  // スタート時の任意値
+		};
+
+		// コピー、複製データ
+		struct CopyData {
+
+			Key key;                        // キー情報
+			std::optional<uint32_t> copyID; // 複製元のオブジェクトID
+		};
+
+		//--------- variables ----------------------------------------------------
+
+		// 現在の状態
+		State currentState_;
+		Runtime runtime_;
+
+		// キーフレーム表示用オブジェクトの名前
+		std::string keyObjectName_;
+		std::string keyModelName_;
+		const std::string keyGroupName_ = "KeyObject";
+
+		// 表示オブジェクト、シーンにしか表示しない
+		std::vector<std::unique_ptr<GameObject3D>> keyObjects_;
+		// キーオブジェクトの描画するシーン
+		MeshRenderView keyRenderView_ = MeshRenderView::Scene;
+
+		// 親トランスフォーム、回転と座標
+		std::string parentName_;
+		const SakuEngine::Transform3D* parent_ = nullptr;
+
+		// キー情報
+		std::vector<Key> keys_;
+		// 任意値トラック情報のリスト
+		std::vector<AnyTrack> anyTracks_;
+
+		// 現在のトランスフォーム
+		SakuEngine::Transform3D currentTransform_;
+		// 現在の任意な型の値
+		std::vector<AnyValue> currentAnyValues_;
+
+		// 補間
+		LerpKeyframe::Type lerpType_; // 補間タイプ
+		float timer_;        // 現在の経過時間
+		bool isConnectEnds_; // 最初と最後のキーを結ぶかどうか
+
+		// 次のキー到達トリガー用
+		uint32_t nextKeyIndex_;    // 次のキーインデックス
+		bool reachedKeyThisFrame_; // 目標のキーに到達したかどうかのトリガー判定
+
+		// 最初の区間を追加したときの補間用
+		float startDuration_;      // スタート値からキー0までの時間
+		EasingType startEaseType_; // イージング
+
+		// 補間処理中もキーのトランスフォームを更新するかどうか
+		bool isUpdateKeyDuringLerp_;
+		// 親のスケールの影響を受けるかどうか
+		bool isIgnoreParentScale_;
+
+		// エディター
+		float addKeyTimeStep_; // キーを追加するときの時間差分
+		bool isDrawKeyframe_;  // キーフレーム表示
+		bool isEditUpdate_;    // ImGui関数内で更新するかどうか
+		CopyData copyData_;    // コピー、複製データ
+		Vector3 editAllTranslation_; // 全てのキーの位置を移動させる
+		Vector3 editAllPosRotation_; // 全てのキーの位置を回転させる
+
+		//--------- functions ----------------------------------------------------
+
+		// キーオブジェクトの作成
+		std::unique_ptr<GameObject3D> CreateKeyObject(const SakuEngine::Transform3D& transform);
+
+		// キートランスフォームの取得
+		std::vector<Vector3> GetScales() const;
+		std::vector<Quaternion> GetRotations() const;
+		std::vector<Vector3> GetPositions() const;
+		// 各区間の補間t取得
+		float GetT(float progress) const;
+
+		// 任意値の更新
+		void UpdateAnyValues(float currentT);
+		void UpdateStartAnyValues(float easedT);
+
+		// 任意値のデフォルト値
+		AnyValue MakeDefaultAnyValue(AnyMold mold);
+
+		// 任意の型の補間後の値取得
+		template<typename T>
+		T GetLerpedAnyValue(uint32_t trackIndex, float currentT) const;
+
+		// キータイムラインの描画
+		void DrawKeyTimeline();
+
+		// キー位置、線の描画
+		void DrawKeyLine();
 	};
 
-	// 任意値トラック情報
-	struct AnyTrack {
+	//============================================================================
+	//	KeyframeObject3D templateMethods
+	//============================================================================
 
-		AnyMold type;     // 型のEnum
-		std::string name; // ImGuiに出す名前
-	};
-
-	// キー情報
-	struct Key {
-
-		SakuEngine::Transform3D transform; // トランスフォーム
-		float time;            // 時間
-		EasingType easeType;   // イージング
-
-		// 任意な型の値
-		std::vector<AnyValue> anyValues;
-	};
-
-	// 更新中の情報
-	struct Runtime {
-
-		bool hasStartKey = false;              // スタート値を使うかどうか
-		SakuEngine::Transform3D startTransform;            // スタート時のTransform
-		std::vector<AnyValue> startAnyValues;  // スタート時の任意値
-	};
-
-	// コピー、複製データ
-	struct CopyData {
-
-		Key key;                        // キー情報
-		std::optional<uint32_t> copyID; // 複製元のオブジェクトID
-	};
-
-	//--------- variables ----------------------------------------------------
-
-	// 現在の状態
-	State currentState_;
-	Runtime runtime_;
-
-	// キーフレーム表示用オブジェクトの名前
-	std::string keyObjectName_;
-	std::string keyModelName_;
-	const std::string keyGroupName_ = "KeyObject";
-
-	// 表示オブジェクト、シーンにしか表示しない
-	std::vector<std::unique_ptr<GameObject3D>> keyObjects_;
-	// キーオブジェクトの描画するシーン
-	MeshRenderView keyRenderView_ = MeshRenderView::Scene;
-
-	// 親トランスフォーム、回転と座標
-	std::string parentName_;
-	const SakuEngine::Transform3D* parent_ = nullptr;
-
-	// キー情報
-	std::vector<Key> keys_;
-	// 任意値トラック情報のリスト
-	std::vector<AnyTrack> anyTracks_;
-
-	// 現在のトランスフォーム
-	SakuEngine::Transform3D currentTransform_;
-	// 現在の任意な型の値
-	std::vector<AnyValue> currentAnyValues_;
-
-	// 補間
-	LerpKeyframe::Type lerpType_; // 補間タイプ
-	float timer_;        // 現在の経過時間
-	bool isConnectEnds_; // 最初と最後のキーを結ぶかどうか
-
-	// 次のキー到達トリガー用
-	uint32_t nextKeyIndex_;    // 次のキーインデックス
-	bool reachedKeyThisFrame_; // 目標のキーに到達したかどうかのトリガー判定
-
-	// 最初の区間を追加したときの補間用
-	float startDuration_;      // スタート値からキー0までの時間
-	EasingType startEaseType_; // イージング
-
-	// 補間処理中もキーのトランスフォームを更新するかどうか
-	bool isUpdateKeyDuringLerp_;
-	// 親のスケールの影響を受けるかどうか
-	bool isIgnoreParentScale_;
-
-	// エディター
-	float addKeyTimeStep_; // キーを追加するときの時間差分
-	bool isDrawKeyframe_;  // キーフレーム表示
-	bool isEditUpdate_;    // ImGui関数内で更新するかどうか
-	CopyData copyData_;    // コピー、複製データ
-	Vector3 editAllTranslation_; // 全てのキーの位置を移動させる
-	Vector3 editAllPosRotation_; // 全てのキーの位置を回転させる
-
-	//--------- functions ----------------------------------------------------
-
-	// キーオブジェクトの作成
-	std::unique_ptr<GameObject3D> CreateKeyObject(const SakuEngine::Transform3D& transform);
-
-	// キートランスフォームの取得
-	std::vector<Vector3> GetScales() const;
-	std::vector<Quaternion> GetRotations() const;
-	std::vector<Vector3> GetPositions() const;
-	// 各区間の補間t取得
-	float GetT(float currentT) const;
-
-	// 任意値の更新
-	void UpdateAnyValues(float currentT);
-	void UpdateStartAnyValues(float easedT);
-
-	// 任意値のデフォルト値
-	AnyValue MakeDefaultAnyValue(AnyMold mold);
-
-	// 任意の型の補間後の値取得
 	template<typename T>
-	T GetLerpedAnyValue(uint32_t trackIndex, float currentT) const;
+	inline T KeyframeObject3D::GetLerpedAnyValue(uint32_t trackIndex, float currentT) const {
 
-	// キータイムラインの描画
-	void DrawKeyTimeline();
+		std::vector<T> values;
+		values.reserve(keys_.size());
+		for (const auto& key : keys_) {
+			if (trackIndex < key.anyValues.size()) {
+				if (auto* anyValues = std::get_if<T>(&key.anyValues[trackIndex])) {
 
-	// キー位置、線の描画
-	void DrawKeyLine();
-};
-
-//============================================================================
-//	KeyframeObject3D templateMethods
-//============================================================================
-
-template<typename T>
-inline T KeyframeObject3D::GetLerpedAnyValue(uint32_t trackIndex, float currentT) const {
-
-	std::vector<T> values;
-	values.reserve(keys_.size());
-	for (const auto& key : keys_) {
-		if (trackIndex < key.anyValues.size()) {
-			if (auto* anyValues = std::get_if<T>(&key.anyValues[trackIndex])) {
-
-				values.emplace_back(*anyValues);
+					values.emplace_back(*anyValues);
+				}
 			}
 		}
+		T result = LerpKeyframe::GetValue<T>(values, currentT, lerpType_);
+		return result;
 	}
-	T result = LerpKeyframe::GetValue<T>(values, currentT, lerpType_);
-	return result;
-}
 
 }; // SakuEngine

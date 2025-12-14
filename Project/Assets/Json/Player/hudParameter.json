@@ -590,7 +590,7 @@
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
-                    "layerIndex": 0,
+                    "layerIndex": 10,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -643,7 +643,7 @@
                     },
                     "translation": {
                         "x": -200.0,
-                        "y": 160.0
+                        "y": 108.0
                     },
                     "vertexOffset": [
                         {
@@ -926,7 +926,7 @@
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
-                    "layerIndex": 0,
+                    "layerIndex": 10,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -979,7 +979,7 @@
                     },
                     "translation": {
                         "x": 0.0,
-                        "y": 360.0
+                        "y": 320.0
                     },
                     "vertexOffset": [
                         {
@@ -1153,28 +1153,28 @@
                     "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
-                        "b": 0.21996459364891052,
-                        "g": 0.05836092680692673,
-                        "r": 0.9231685400009155
+                        "b": 0.08431854099035263,
+                        "g": 0.2629980742931366,
+                        "r": 0.9504821300506592
                     },
                     "leftTopColor": {
                         "a": 1.0,
-                        "b": 0.21996459364891052,
-                        "g": 0.05836092680692673,
-                        "r": 0.9231685400009155
+                        "b": 0.08431854099035263,
+                        "g": 0.2629980742931366,
+                        "r": 0.9504821300506592
                     },
                     "postProccessEnable_": false,
                     "rightBottomColor": {
                         "a": 1.0,
-                        "b": 0.00546655897051096,
-                        "g": 0.38294050097465515,
-                        "r": 0.966576099395752
+                        "b": 0.2108161747455597,
+                        "g": 0.15035998821258545,
+                        "r": 0.9421849846839905
                     },
                     "rightTopColor": {
                         "a": 1.0,
-                        "b": 0.00546655897051096,
-                        "g": 0.38294050097465515,
-                        "r": 0.966576099395752
+                        "b": 0.2108161747455597,
+                        "g": 0.15035998821258545,
+                        "r": 0.9421849846839905
                     },
                     "textureName": "playerSkillIcon"
                 },
@@ -1262,7 +1262,7 @@
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
-                    "layerIndex": 0,
+                    "layerIndex": 10,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1315,7 +1315,7 @@
                     },
                     "translation": {
                         "x": 0.0,
-                        "y": -40.0
+                        "y": -68.0
                     },
                     "vertexOffset": [
                         {
@@ -1427,7 +1427,7 @@
                     },
                     "translation": {
                         "x": 200.0,
-                        "y": 0.0
+                        "y": -400.0
                     },
                     "vertexOffset": [
                         {
@@ -1539,7 +1539,7 @@
                     },
                     "translation": {
                         "x": 200.0,
-                        "y": 10.0
+                        "y": -398.0
                     },
                     "vertexOffset": [
                         {
@@ -1598,7 +1598,7 @@
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
-                    "layerIndex": 0,
+                    "layerIndex": 10,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1651,7 +1651,7 @@
                     },
                     "translation": {
                         "x": 200.0,
-                        "y": 160.0
+                        "y": -265.0
                     },
                     "vertexOffset": [
                         {
@@ -1686,8 +1686,8 @@
                 "y": 0.0
             },
             "sizeScale": {
-                "x": 0.5,
-                "y": 0.5
+                "x": 0.4000000059604645,
+                "y": 0.4000000059604645
             },
             "textureLeftTop": {
                 "x": 0.0,
@@ -1698,8 +1698,8 @@
                 "y": 0.0
             },
             "translation": {
-                "x": 1730.0,
-                "y": 856.0
+                "x": 1751.0,
+                "y": 920.0
             },
             "vertexOffset": [
                 {

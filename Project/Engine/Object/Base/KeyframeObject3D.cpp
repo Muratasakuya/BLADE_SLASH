@@ -44,12 +44,12 @@ void KeyframeObject3D::Init(const std::string& name, const std::string& modelNam
 	isDrawKeyframe_ = false;
 }
 
-const SakuEngine::Transform3D& KeyframeObject3D::GetIndexTransform(uint32_t index) const {
+const Transform3D& KeyframeObject3D::GetIndexTransform(uint32_t index) const {
 
 	return keyObjects_[index]->GetTransform();
 }
 
-const SakuEngine::Transform3D& KeyframeObject3D::GetIndexKeyTransform(uint32_t index) const {
+const Transform3D& KeyframeObject3D::GetIndexKeyTransform(uint32_t index) const {
 
 	return keys_[index].transform;
 }
@@ -123,7 +123,7 @@ bool KeyframeObject3D::IsNextKeyReached() const {
 	return (currentState_ == State::Updating) && reachedKeyThisFrame_;
 }
 
-void KeyframeObject3D::StartLerp(const std::optional<SakuEngine::Transform3D>& transform,
+void KeyframeObject3D::StartLerp(const std::optional<Transform3D>& transform,
 	const std::optional<std::vector<AnyValue>>& anyValues) {
 
 	// 補間中は開始できない
@@ -214,7 +214,7 @@ void KeyframeObject3D::AddKeyValue(AnyMold mold, const std::string& name) {
 	currentAnyValues_.emplace_back(defaultValue);
 }
 
-void KeyframeObject3D::SetParent(const std::string& name, const SakuEngine::Transform3D& parent) {
+void KeyframeObject3D::SetParent(const std::string& name, const Transform3D& parent) {
 
 	// 親を設定
 	parentName_ = name;
@@ -247,14 +247,15 @@ void KeyframeObject3D::SelfUpdate() {
 
 	// 時間を更新
 	// keys分の合計時間
-	float baseTotal = (std::max)(keys_.back().time, std::numeric_limits<float>::epsilon());
+	float baseTotal = keys_.back().time;
 	// 追加されてれば最初の区間の長さを加算
 	float startTime = (runtime_.hasStartKey ? startDuration_ : 0.0f);
+	// 処理合計時間
 	float total = baseTotal + startTime;
 
 	// 時間を更新
 	float prevTime = timer_;
-	timer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
+	timer_ += GameTimer::GetScaledDeltaTime();
 	timer_ = std::clamp(timer_, 0.0f, total);
 
 	//============================================================================
@@ -280,6 +281,7 @@ void KeyframeObject3D::SelfUpdate() {
 			// keys_[i].time でkey[i]に到達
 			nextKeyTime = keys_[nextKeyIndex_].time;
 		}
+		// このフレーム中にキーに到達したかどうか
 		if (prevTime < nextKeyTime && nextKeyTime <= timer_) {
 
 			reachedKeyThisFrame_ = true;
@@ -299,7 +301,7 @@ void KeyframeObject3D::SelfUpdate() {
 		float easedT = EasedValue(startEaseType_, local);
 
 		// 最初のキーのトランスフォーム
-		const SakuEngine::Transform3D& key0Transform = keys_.front().transform;
+		const Transform3D& key0Transform = keys_.front().transform;
 
 		// トランスフォームを補間
 		// S
@@ -338,9 +340,9 @@ void KeyframeObject3D::SelfUpdate() {
 	if (total <= timer_) {
 
 		// 最後のキーの値をセット
-		currentTransform_.scale = keys_.empty() ? SakuEngine::Vector3::AnyInit(1.0f) : keys_.back().transform.scale;
+		currentTransform_.scale = keys_.empty() ? Vector3::AnyInit(1.0f) : keys_.back().transform.scale;
 		currentTransform_.rotation = keys_.empty() ? Quaternion::Identity() : keys_.back().transform.rotation;
-		currentTransform_.translation = keys_.empty() ? SakuEngine::Vector3::AnyInit(0.0f) : keys_.back().transform.translation;
+		currentTransform_.translation = keys_.empty() ? Vector3::AnyInit(0.0f) : keys_.back().transform.translation;
 
 		// リセットして終了
 		Reset();
@@ -382,7 +384,7 @@ void KeyframeObject3D::UpdateKey(bool isForcedUpdateMatrix) {
 		}
 
 		// 座標を比較して変更があれば更新
-		const SakuEngine::Transform3D& transform = keyObjects_[i]->GetTransform();
+		const Transform3D& transform = keyObjects_[i]->GetTransform();
 		if (transform.GetWorldScale() != keys_[i].transform.scale ||
 			transform.GetWorldRotation() != keys_[i].transform.rotation ||
 			transform.GetWorldPos() != keys_[i].transform.translation) {
@@ -398,7 +400,7 @@ void KeyframeObject3D::UpdateKey(bool isForcedUpdateMatrix) {
 	DrawKeyLine();
 }
 
-std::unique_ptr<GameObject3D> KeyframeObject3D::CreateKeyObject(const SakuEngine::Transform3D& transform) {
+std::unique_ptr<GameObject3D> KeyframeObject3D::CreateKeyObject(const Transform3D& transform) {
 
 	// 生成
 	std::unique_ptr<GameObject3D> object = std::make_unique<GameObject3D>();
@@ -463,7 +465,7 @@ std::vector<Vector3> KeyframeObject3D::GetPositions() const {
 	return positions;
 }
 
-float KeyframeObject3D::GetT(float currentT) const {
+float KeyframeObject3D::GetT(float progress) const {
 
 	// 2つ未満のキーなら0.0fを返す
 	if (keys_.size() < 2) {
@@ -483,7 +485,7 @@ float KeyframeObject3D::GetT(float currentT) const {
 
 	// 属する区間を探す
 	size_t i = 0;
-	while (i + 1 < knot.size() && !(knot[i] <= currentT && currentT <= knot[i + 1])) {
+	while (i + 1 < knot.size() && knot[i + 1] < progress) {
 
 		++i;
 	}
@@ -494,7 +496,7 @@ float KeyframeObject3D::GetT(float currentT) const {
 	}
 
 	// 区間内tをキーのイージングで補間
-	float localT = (currentT - knot[i]) / (std::max)(std::numeric_limits<float>::epsilon(), knot[i + 1] - knot[i]);
+	float localT = (progress - knot[i]) / (knot[i + 1] - knot[i]);
 	float easedLocalT = EasedValue(keys_[i].easeType, std::clamp(localT, 0.0f, 1.0f));
 
 	// 全体tを計算して返す
@@ -592,9 +594,9 @@ KeyframeObject3D::AnyValue KeyframeObject3D::MakeDefaultAnyValue(AnyMold mold) {
 
 	switch (mold) {
 	case AnyMold::Float: return 0.0f;
-	case AnyMold::Vector2: return SakuEngine::Vector2::AnyInit(0.0f);
-	case AnyMold::Vector3: return SakuEngine::Vector3::AnyInit(0.0f);
-	case AnyMold::Color: return SakuEngine::Color::White();
+	case AnyMold::Vector2: return Vector2::AnyInit(0.0f);
+	case AnyMold::Vector3: return Vector3::AnyInit(0.0f);
+	case AnyMold::Color: return Color::White();
 	}
 	return AnyValue{};
 }
@@ -686,11 +688,11 @@ void KeyframeObject3D::ImGui() {
 
 		// 座標
 		key.transform.translation = keyObjects_.empty() ?
-			SakuEngine::Vector3::AnyInit(0.0f) : keyObjects_.back()->GetTransform().translation;
+			Vector3::AnyInit(0.0f) : keyObjects_.back()->GetTransform().translation;
 		key.transform.translation.y += 4.0f;
 		// スケール
 		key.transform.scale = keyObjects_.empty() ?
-			SakuEngine::Vector3::AnyInit(1.0f) : keyObjects_.back()->GetTransform().scale;
+			Vector3::AnyInit(1.0f) : keyObjects_.back()->GetTransform().scale;
 		// 回転
 		key.transform.rotation = keyObjects_.empty() ?
 			Quaternion::Identity() : keyObjects_.back()->GetTransform().rotation;
@@ -716,7 +718,7 @@ void KeyframeObject3D::ImGui() {
 		keys_.emplace_back(key);
 
 		// キーオブジェクトを生成
-		SakuEngine::Transform3D initTransform;
+		Transform3D initTransform;
 		initTransform.Init();
 		keyObjects_.emplace_back(std::move(CreateKeyObject(
 			keys_.empty() ? initTransform : keys_.back().transform)));
@@ -729,7 +731,7 @@ void KeyframeObject3D::ImGui() {
 
 	if (ImGui::CollapsingHeader("Parameter")) {
 
-		if (SakuEngine::EnumAdapter<MeshRenderView>::Combo("keyMeshRenderView", &keyRenderView_)) {
+		if (EnumAdapter<MeshRenderView>::Combo("keyMeshRenderView", &keyRenderView_)) {
 
 			// キーオブジェクトの描画設定を更新
 			for (const auto& keyObject : keyObjects_) {
@@ -741,12 +743,12 @@ void KeyframeObject3D::ImGui() {
 		ImGui::SeparatorText("If Has Start");
 
 		ImGui::DragFloat("startDuration", &startDuration_, 0.01f, 0.0f);
-		SakuEngine::EnumAdapter<EasingType>::Combo("startEaseType", &startEaseType_);
+		EnumAdapter<EasingType>::Combo("startEaseType", &startEaseType_);
 
 		ImGui::SeparatorText("Keys");
 
 		ImGui::Checkbox("isUpdateKeyDuringLerp", &isUpdateKeyDuringLerp_);
-		SakuEngine::EnumAdapter<LerpKeyframe::Type>::Combo("LerpType", &lerpType_);
+		EnumAdapter<LerpKeyframe::Type>::Combo("LerpType", &lerpType_);
 
 		if (!keys_.empty() && !anyTracks_.empty()) {
 			// 任意値編集
@@ -763,28 +765,28 @@ void KeyframeObject3D::ImGui() {
 					case AnyMold::Float: {
 						if (auto* value = std::get_if<float>(&keys_[k].anyValues[track])) {
 
-							SakuEngine::ImGuiHelper::DragFloat<float>(label.c_str(), *value);
+							ImGuiHelper::DragFloat<float>(label.c_str(), *value);
 						}
 						break;
 					}
 					case AnyMold::Vector2: {
 						if (auto* value = std::get_if<Vector2>(&keys_[k].anyValues[track])) {
 
-							SakuEngine::ImGuiHelper::DragFloat<Vector2>(label.c_str(), *value);
+							ImGuiHelper::DragFloat<Vector2>(label.c_str(), *value);
 						}
 						break;
 					}
 					case AnyMold::Vector3: {
 						if (auto* value = std::get_if<Vector3>(&keys_[k].anyValues[track])) {
 
-							SakuEngine::ImGuiHelper::DragFloat<Vector3>(label.c_str(), *value);
+							ImGuiHelper::DragFloat<Vector3>(label.c_str(), *value);
 						}
 						break;
 					}
 					case AnyMold::Color: {
 						if (auto* value = std::get_if<Color>(&keys_[k].anyValues[track])) {
 
-							SakuEngine::ImGuiHelper::DragFloat<Color>(label.c_str(), *value);
+							ImGuiHelper::DragFloat<Color>(label.c_str(), *value);
 						}
 						break;
 					}
@@ -796,13 +798,13 @@ void KeyframeObject3D::ImGui() {
 
 		ImGui::SeparatorText("Edit All Transform");
 
-		static SakuEngine::Vector3 sLastEditAllTranslation = SakuEngine::Vector3::AnyInit(0.0f);
-		static SakuEngine::Vector3 sLastEditAllRotEuler = SakuEngine::Vector3::AnyInit(0.0f);
+		static Vector3 sLastEditAllTranslation = Vector3::AnyInit(0.0f);
+		static Vector3 sLastEditAllRotEuler = Vector3::AnyInit(0.0f);
 
 		if (ImGui::Button("Apply All")) {
 
-			editAllTranslation_ = SakuEngine::Vector3::AnyInit(0.0f);
-			editAllPosRotation_ = SakuEngine::Vector3::AnyInit(0.0f);
+			editAllTranslation_ = Vector3::AnyInit(0.0f);
+			editAllPosRotation_ = Vector3::AnyInit(0.0f);
 
 			// 差分の基準もリセット
 			sLastEditAllTranslation = editAllTranslation_;
@@ -838,7 +840,7 @@ void KeyframeObject3D::ImGui() {
 				// 見た目に変化が出ないように回転
 				Quaternion rotation = keyObject->GetRotation();
 				rotation = qDelta * rotation;
-				keyObject->SetRotation(SakuEngine::Quaternion::Normalize(rotation));
+				keyObject->SetRotation(Quaternion::Normalize(rotation));
 			}
 			// 今回の回転を次フレームの基準にする
 			sLastEditAllRotEuler = editAllPosRotation_;
@@ -855,7 +857,7 @@ void KeyframeObject3D::ImGui() {
 			parent_ = nullptr;
 			for (const auto& keyObject : keyObjects_) {
 
-				keyObject->SetParent(SakuEngine::Transform3D(), true);
+				keyObject->SetParent(Transform3D(), true);
 			}
 		}
 		if (ImGui::Checkbox("isIgnoreParentScale", &isIgnoreParentScale_)) {
@@ -872,7 +874,7 @@ void KeyframeObject3D::ImGui() {
 		ObjectManager* objectManager = ObjectManager::GetInstance();
 		// 現在選択されているオブジェクトIDを設定
 		for (const auto& [id, tagPtr] : objectManager->GetSystem<TagSystem>()->Tags()) {
-			if (objectManager->GetData<SakuEngine::Transform3D>(id) == parent_) {
+			if (objectManager->GetData<Transform3D>(id) == parent_) {
 
 				currentId = id;
 				break;
@@ -880,10 +882,10 @@ void KeyframeObject3D::ImGui() {
 		}
 
 		std::string selectName = parentName_;
-		if (SakuEngine::ImGuiHelper::SelectTagTarget("Select Follow Target", &currentId, &selectName)) {
+		if (ImGuiHelper::SelectTagTarget("Select Follow Target", &currentId, &selectName)) {
 
 			// 親Transformと名前を更新
-			parent_ = objectManager->GetData<SakuEngine::Transform3D>(currentId);
+			parent_ = objectManager->GetData<Transform3D>(currentId);
 			parentName_ = selectName;
 
 			// キーオブジェクトの親を更新
@@ -899,7 +901,7 @@ void KeyframeObject3D::ImGui() {
 
 	// Deleteキー入力でエディターで操作中のキーを削除する
 	const std::optional<uint32_t> editObjectId = ImGuiObjectEditor::GetInstance()->GetSelected3D();
-	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+	Input* input = Input::GetInstance();
 	if (editObjectId.has_value() && input->TriggerKey(DIK_DELETE)) {
 
 		// 選択IDをチェックする
@@ -954,7 +956,7 @@ void KeyframeObject3D::ImGui() {
 		// キーを追加
 		keys_.emplace_back(newKey);
 		// キーオブジェクトを生成
-		SakuEngine::Transform3D initTransform;
+		Transform3D initTransform;
 		for (const auto& keyObject : keyObjects_) {
 
 			// 一致するIDでトランスフォームを取得
@@ -1083,6 +1085,15 @@ void KeyframeObject3D::DrawKeyTimeline() {
 
 	// 最後の時間はdragFloatで更新
 	ImGui::DragFloat("End Time", &keys_.back().time, 0.01f);
+	// timeを均等にする
+	if (ImGui::Button("Set AverageTime")) {
+
+		float timeStep = keys_.back().time / (static_cast<float>(keys_.size() - 1));
+		for (size_t i = 0; i < keys_.size(); ++i) {
+
+			keys_[i].time = timeStep * static_cast<float>(i);
+		}
+	}
 
 	// 丸以外クリックで区間を選択 → イージング選択ポップアップを開く
 	if (!s_dragging && hoveredTimeline && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !anyHovered) {
@@ -1160,7 +1171,7 @@ void KeyframeObject3D::DrawKeyLine() {
 	}
 
 	// 現在の時間の点の位置
-	SakuEngine::LineRenderer::GetInstance()->DrawOBB(currentTransform_.translation,
+	LineRenderer::GetInstance()->DrawOBB(currentTransform_.translation,
 		currentTransform_.scale, currentTransform_.rotation, obbColor, LineType::DepthIgnore);
 #endif
 }
@@ -1192,7 +1203,7 @@ void KeyframeObject3D::FromJson(const Json& data) {
 			key.transform.Init();
 		}
 		key.time = keyJson.value("time", 0.0f);
-		key.easeType = SakuEngine::EnumAdapter<EasingType>::FromString(keyJson.value("ease", "Linear")).value();
+		key.easeType = EnumAdapter<EasingType>::FromString(keyJson.value("ease", "Linear")).value();
 
 		key.anyValues.clear();
 		// anyTracks_はFromJson前にAddKeyValueで追加されている前提
@@ -1226,11 +1237,11 @@ void KeyframeObject3D::FromJson(const Json& data) {
 						break;
 					}
 					case AnyMold::Vector2: {
-						value = SakuEngine::Vector2::FromJson(vJson);
+						value = Vector2::FromJson(vJson);
 						break;
 					}
 					case AnyMold::Vector3: {
-						value = SakuEngine::Vector3::FromJson(vJson);
+						value = Vector3::FromJson(vJson);
 						break;
 					}
 					case AnyMold::Color: {
@@ -1249,11 +1260,11 @@ void KeyframeObject3D::FromJson(const Json& data) {
 	}
 
 	parentName_ = data.value("parentName_", "");
-	lerpType_ = SakuEngine::EnumAdapter<LerpKeyframe::Type>::FromString(data.value("lerpType_", "Linear")).value();
+	lerpType_ = EnumAdapter<LerpKeyframe::Type>::FromString(data.value("lerpType_", "Linear")).value();
 	isConnectEnds_ = data.value("isConnectEnds_", false);
 	isUpdateKeyDuringLerp_ = data.value("isUpdateKeyDuringLerp_", true);
 	startDuration_ = data.value("startDuration_", 0.0f);
-	startEaseType_ = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("startEaseType_", "Linear")).value();
+	startEaseType_ = EnumAdapter<EasingType>::FromString(data.value("startEaseType_", "Linear")).value();
 	isIgnoreParentScale_ = data.value("isIgnoreParentScale_", false);
 
 	// 親Transformを設定
@@ -1269,7 +1280,7 @@ void KeyframeObject3D::FromJson(const Json& data) {
 			// 添え字の数字は考慮しない
 			if (tagPtr && tagPtr->identifier == parentName_) {
 
-				parent_ = objectManager->GetData<SakuEngine::Transform3D>(id);
+				parent_ = objectManager->GetData<Transform3D>(id);
 				break;
 			}
 		}
@@ -1282,7 +1293,7 @@ void KeyframeObject3D::FromJson(const Json& data) {
 	}
 
 	addKeyTimeStep_ = data.value("addKeyTimeStep_", 0.8f);
-	keyRenderView_ = SakuEngine::EnumAdapter<MeshRenderView>::FromString(data.value("keyRenderView_", "Scene")).value();
+	keyRenderView_ = EnumAdapter<MeshRenderView>::FromString(data.value("keyRenderView_", "Scene")).value();
 }
 
 void KeyframeObject3D::ToJson(Json& data) {
@@ -1296,7 +1307,7 @@ void KeyframeObject3D::ToJson(Json& data) {
 		keyObjects_[index]->SaveTransform(keyJson);
 
 		keyJson["time"] = key.time;
-		keyJson["ease"] = SakuEngine::EnumAdapter<EasingType>::ToString(key.easeType);
+		keyJson["ease"] = EnumAdapter<EasingType>::ToString(key.easeType);
 
 		if (!anyTracks_.empty()) {
 
@@ -1332,7 +1343,7 @@ void KeyframeObject3D::ToJson(Json& data) {
 						anyJson[name] = v->ToJson();;
 					} else {
 
-						anyJson[name] = SakuEngine::Vector2::AnyInit(0.0f).ToJson();
+						anyJson[name] = Vector2::AnyInit(0.0f).ToJson();
 					}
 					break;
 
@@ -1342,7 +1353,7 @@ void KeyframeObject3D::ToJson(Json& data) {
 						anyJson[name] = v->ToJson();
 					} else {
 
-						anyJson[name] = SakuEngine::Vector3::AnyInit(0.0f).ToJson();
+						anyJson[name] = Vector3::AnyInit(0.0f).ToJson();
 					}
 					break;
 
@@ -1352,7 +1363,7 @@ void KeyframeObject3D::ToJson(Json& data) {
 						anyJson[name] = v->ToJson();
 					} else {
 
-						anyJson[name] = SakuEngine::Color::White().ToJson();
+						anyJson[name] = Color::White().ToJson();
 					}
 					break;
 				}
@@ -1369,13 +1380,13 @@ void KeyframeObject3D::ToJson(Json& data) {
 	}
 
 	data["parentName_"] = parentName_;
-	data["lerpType_"] = SakuEngine::EnumAdapter<LerpKeyframe::Type>::ToString(lerpType_);
+	data["lerpType_"] = EnumAdapter<LerpKeyframe::Type>::ToString(lerpType_);
 	data["isConnectEnds_"] = isConnectEnds_;
 	data["isUpdateKeyDuringLerp_"] = isUpdateKeyDuringLerp_;
 	data["startDuration_"] = startDuration_;
-	data["startEaseType_"] = SakuEngine::EnumAdapter<EasingType>::ToString(startEaseType_);
+	data["startEaseType_"] = EnumAdapter<EasingType>::ToString(startEaseType_);
 	data["isIgnoreParentScale_"] = isIgnoreParentScale_;
 
 	data["addKeyTimeStep_"] = addKeyTimeStep_;
-	data["keyRenderView_"] = SakuEngine::EnumAdapter<MeshRenderView>::ToString(keyRenderView_);
+	data["keyRenderView_"] = EnumAdapter<MeshRenderView>::ToString(keyRenderView_);
 }
