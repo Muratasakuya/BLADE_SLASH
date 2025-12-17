@@ -94,15 +94,9 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
 	// json適応
 	ApplyJson();
-
-	keyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
-	keyframeObject_->Init("keyframeObject");
-	keyframeObject_->AddKeyValue(AnyMold::Color, "color");
 }
 
 void StartGameState::Update() {
-
-	keyframeObject_->UpdateKey();
 
 	const GameSceneState currentState = GameSceneState::Start;
 
@@ -149,11 +143,6 @@ void StartGameState::ImGui() {
 	}
 
 	nextStateEvent_->ImGui(192.0f);
-
-	if (ImGui::CollapsingHeader("Keyframe")) {
-
-		keyframeObject_->ImGui();
-	}
 }
 
 void StartGameState::ApplyJson() {

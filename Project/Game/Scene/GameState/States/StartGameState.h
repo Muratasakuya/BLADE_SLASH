@@ -38,8 +38,6 @@ private:
 	// 指定の範囲に入ったら次の状態に遷移させる
 	std::unique_ptr<SakuEngine::Collider> nextStateEvent_;
 
-	std::unique_ptr<SakuEngine::KeyframeObject3D> keyframeObject_;
-
 	//--------- functions ----------------------------------------------------
 
 	// json
