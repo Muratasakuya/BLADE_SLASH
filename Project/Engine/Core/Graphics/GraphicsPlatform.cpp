@@ -1,4 +1,4 @@
-﻿#include "GraphicsPlatform.h"
+#include "GraphicsPlatform.h"
 
 using namespace SakuEngine;
 
@@ -31,7 +31,6 @@ void GraphicsPlatform::InitDXDevice() {
 
 	dxDevice_->Create();
 
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	ComPtr<ID3D12InfoQueue> infoQueue = nullptr;
 	if (SUCCEEDED(dxDevice_->Get()->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 
@@ -81,7 +80,6 @@ void GraphicsPlatform::InitDXDevice() {
 
 		ASSERT(FALSE, "rayTracing not supported");
 	}
-#endif
 }
 
 void GraphicsPlatform::Init() {

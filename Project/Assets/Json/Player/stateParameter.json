@@ -259,6 +259,7 @@
         "accelLerp_": {
             "Loop": {
                 "loop": {
+                    "isInfinityLoop": false,
                     "loopCount": 1,
                     "type": "Repeat"
                 }
@@ -278,6 +279,7 @@
         "decelLerp_": {
             "Loop": {
                 "loop": {
+                    "isInfinityLoop": false,
                     "loopCount": 1,
                     "type": "Repeat"
                 }
@@ -493,7 +495,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Spline",
-            "parentName_": "playerSkilMoveFrontTransform",
+            "parentName_": "fixedEnemyTransform",
             "startDuration_": 0.05999999865889549,
             "startEaseType_": "Linear"
         },
@@ -791,14 +793,14 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Linear",
-            "parentName_": "playerSkilMoveFrontTransform",
+            "parentName_": "fixedEnemyTransform",
             "startDuration_": 0.0,
             "startEaseType_": "Linear"
         },
-        "attackLookAtCircleRange_": 80.0,
+        "attackLookAtCircleRange_": 100.0,
         "attackOffsetTranslation_": 8.0,
         "attackPosEaseType_": 0,
-        "attackPosLerpCircleRange_": 31.799999237060547,
+        "attackPosLerpCircleRange_": 77.19999694824219,
         "attackPosLerpTime_": 0.4399999976158142,
         "exitTime_": 0.4000000059604645,
         "jumpEffectEmitProgress_": 0.9100000262260437,
