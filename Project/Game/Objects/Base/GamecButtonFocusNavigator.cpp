@@ -66,7 +66,7 @@ void GamecButtonFocusNavigator::Confirm() {
 
 void GamecButtonFocusNavigator::ApplyVisuals() {
 
-	if (!hasFocus_) { 
+	if (!hasFocus_) {
 		ClearFocus();
 		return;
 	}
@@ -95,16 +95,18 @@ void GamecButtonFocusNavigator::Update() {
 	}
 
 	// 左右入力判定
-	const bool left = input->TriggerGamepadButton(GamePadButtons::ARROW_LEFT);
-	const bool right = input->TriggerGamepadButton(GamePadButtons::ARROW_RIGHT);
-	const bool decide = input->TriggerGamepadButton(GamePadButtons::A);
+	bool left = input->TriggerGamepadButton(GamePadButtons::ARROW_LEFT);
+	bool right = input->TriggerGamepadButton(GamePadButtons::ARROW_RIGHT);
+	bool decide = input->TriggerGamepadButton(GamePadButtons::A);
 
-	const float lx = input->GetLeftStickVal().x;
-	const float dz = input->GetDeadZone();
-	if (std::fabs(lx) < dz) axisLatched_ = false;
+	float lx = input->GetLeftStickVal().x;
+	float dz = input->GetDeadZone();
+	if (std::fabs(lx) < dz) {
+		axisLatched_ = false;
+	}
 
-	const bool axisLeft = (lx <= -dz) && !axisLatched_;
-	const bool axisRight = (lx >= dz) && !axisLatched_;
+	bool axisLeft = (lx <= -dz) && !axisLatched_;
+	bool axisRight = (lx >= dz) && !axisLatched_;
 
 	if (!hasFocus_ && (left || right || decide || axisLeft || axisRight)) {
 

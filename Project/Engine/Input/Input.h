@@ -139,7 +139,7 @@ private:
 	float rightThumbY_;
 
 	// デッドゾーンの閾値
-	float deadZone_ = 16000.0f;
+	float deadZone_ = 8000.0f;
 
 	// LTボタン
 	float leftTriggerValue_ = 0.0f;
