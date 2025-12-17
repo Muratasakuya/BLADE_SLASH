@@ -86,63 +86,58 @@ void GamecButtonFocusNavigator::Update() {
 	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 
 	// マウス(キーボード操作も含む)かパッド操作か判定
-	const auto type = input->GetType();
-	if (type == InputType::Keyboard || type == InputType::GamePad) {
+	for (const auto& button : items_) {
+		if (button) {
 
-		for (const auto& button : items_) {
-			if (button) {
-
-				// 判定が競合しないようにする
-				button->SetEnableCollision(false);
-			}
+			// 判定が競合しないようにする
+			button->SetEnableCollision(false);
 		}
+	}
 
-		// 左右入力判定
-		const bool left = input->TriggerGamepadButton(GamePadButtons::ARROW_LEFT) || input->TriggerKey(DIK_LEFT);
-		const bool right = input->TriggerGamepadButton(GamePadButtons::ARROW_RIGHT) || input->TriggerKey(DIK_RIGHT);
-		const bool decide = input->TriggerGamepadButton(GamePadButtons::A) ||
-			input->TriggerKey(DIK_RETURN) || input->TriggerKey(DIK_SPACE);
+	// 左右入力判定
+	const bool left = input->TriggerGamepadButton(GamePadButtons::ARROW_LEFT);
+	const bool right = input->TriggerGamepadButton(GamePadButtons::ARROW_RIGHT);
+	const bool decide = input->TriggerGamepadButton(GamePadButtons::A);
 
-		const float lx = input->GetLeftStickVal().x;
-		const float dz = input->GetDeadZone();
-		if (std::fabs(lx) < dz) axisLatched_ = false;
+	const float lx = input->GetLeftStickVal().x;
+	const float dz = input->GetDeadZone();
+	if (std::fabs(lx) < dz) axisLatched_ = false;
 
-		const bool axisLeft = (lx <= -dz) && !axisLatched_;
-		const bool axisRight = (lx >= dz) && !axisLatched_;
+	const bool axisLeft = (lx <= -dz) && !axisLatched_;
+	const bool axisRight = (lx >= dz) && !axisLatched_;
 
-		if (!hasFocus_ && (left || right || decide || axisLeft || axisRight)) {
+	if (!hasFocus_ && (left || right || decide || axisLeft || axisRight)) {
 
-			index_ = defaultIndex_;
-			hasFocus_ = true;
-			if (axisLeft || axisRight) {
-				axisLatched_ = true;
-			}
-			ApplyVisuals();
-			return;
-		}
-
-		// 入力判定結果に応じてインデックスを設定
-		if (left) {
-			MoveLeft();
-		}
-		if (right) {
-
-			MoveRight();
-		}
-
-		if (axisLeft) {
-			MoveLeft();
+		index_ = defaultIndex_;
+		hasFocus_ = true;
+		if (axisLeft || axisRight) {
 			axisLatched_ = true;
 		}
-		if (axisRight) {
-			MoveRight();
-			axisLatched_ = true;
-		}
+		ApplyVisuals();
+		return;
+	}
 
-		if (decide) {
+	// 入力判定結果に応じてインデックスを設定
+	if (left) {
+		MoveLeft();
+	}
+	if (right) {
 
-			Confirm();
-		}
+		MoveRight();
+	}
+
+	if (axisLeft) {
+		MoveLeft();
+		axisLatched_ = true;
+	}
+	if (axisRight) {
+		MoveRight();
+		axisLatched_ = true;
+	}
+
+	if (decide) {
+
+		Confirm();
 	}
 }
 

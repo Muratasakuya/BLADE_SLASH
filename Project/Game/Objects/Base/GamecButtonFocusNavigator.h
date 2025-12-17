@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -43,7 +43,7 @@ public:
 	void Update();
 
 	//--------- accessor -----------------------------------------------------
-
+	
 	// 確定時のコールバック設定
 	void SetOnConfirm(std::function<void(ButtonFocusGroup, int)> onConfirm) { onConfirm_ = std::move(onConfirm); }
 	// フォーカスインデックスの設定
