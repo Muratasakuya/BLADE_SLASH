@@ -44,7 +44,6 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	switch (state) {
 	case PlayerState::Attack_3rd: name = "player3rdAttack"; break;
 	case PlayerState::Attack_4th: name = "player4thAttack"; break;
-	case PlayerState::StunAttack: name = "playerStunAttack"; break;
 	case PlayerState::Parry:
 
 		// 目標回転

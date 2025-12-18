@@ -16,20 +16,20 @@ PlayerFalterState::PlayerFalterState(Player* player) {
 	player_ = player;
 }
 
-void PlayerFalterState::Enter(Player& player) {
+void PlayerFalterState::Enter() {
 
 	// 怯みアニメーションを再生
-	player.SetNextAnimation("player_falter", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_falter", false, nextAnimDuration_);
 
 	// 向き
 	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
 
 	//補間座標を設定
-	startPos_ = player.GetTranslation();
+	startPos_ = player_->GetTranslation();
 	targetPos_ = startPos_ + direction * moveDistance_;
 
 	// 敵の方向を向かせる
-	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
+	player_->SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 
 	SakuEngine::GameTimer::StartHitStop(hitStopTime_, 0.0f);
 
@@ -40,27 +40,27 @@ void PlayerFalterState::Enter(Player& player) {
 	canExit_ = false;
 }
 
-void PlayerFalterState::Update(Player& player) {
+void PlayerFalterState::Update() {
 
 	// 時間を更新
 	falterTimer_.Update();
 	// 座標を補間
-	player.SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, falterTimer_.easedT_));
+	player_->SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, falterTimer_.easedT_));
 
 	// 補間終了、アニメーション後状態を終了する
-	if (falterTimer_.IsReached() && player.IsAnimationFinished()) {
+	if (falterTimer_.IsReached() && player_->IsAnimationFinished()) {
 
 		canExit_ = true;
 	}
 }
 
-void PlayerFalterState::Exit([[maybe_unused]] Player& player) {
+void PlayerFalterState::Exit() {
 
 	// リセット
 	falterTimer_.Reset();
 }
 
-void PlayerFalterState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerFalterState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.01f);
 	ImGui::DragFloat("moveDistance", &moveDistance_, 0.1f);

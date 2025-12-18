@@ -17,7 +17,7 @@ PlayerIState::PlayerIState() {
 	postProcess_ = SakuEngine::PostProcessSystem::GetInstance();
 }
 
-void PlayerIState::SetRotateToDirection(Player& player, const SakuEngine::Vector3& move) {
+void PlayerIState::SetRotateToDirection(const SakuEngine::Vector3& move) {
 
 	SakuEngine::Vector3 direction = SakuEngine::Vector3(move.x, 0.0f, move.z).Normalize();
 
@@ -27,9 +27,9 @@ void PlayerIState::SetRotateToDirection(Player& player, const SakuEngine::Vector
 
 	// 向きを計算
 	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
-	SakuEngine::Quaternion rotation = player.GetRotation();
+	SakuEngine::Quaternion rotation = player_->GetRotation();
 	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation, rotationLerpRate_);
-	player.SetRotation(rotation);
+	player_->SetRotation(rotation);
 }
 
 SakuEngine::Vector3 PlayerIState::GetPlayerFixedYPos() const {

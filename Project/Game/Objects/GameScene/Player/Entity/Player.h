@@ -55,7 +55,6 @@ public:
 
 	void SetBossEnemy(const BossEnemy* bossEnemy);
 	void SetFollowCamera(FollowCamera* followCamera);
-	void SetSubPlayer(SubPlayer* subPlayer);
 
 	// 武器の向きを反転させる
 	void SetReverseWeapon(bool isReverse, PlayerWeaponType type);
@@ -143,6 +142,5 @@ private:
 
 	// helper
 	void SetInitTransform();
-	void CheckBossEnemyStun();
 	void CheckBossEnemyParry();
 };

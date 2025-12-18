@@ -167,11 +167,6 @@ void Player::SetFollowCamera(FollowCamera* followCamera) {
 	targetNavigation_->SetCamera(followCamera);
 }
 
-void Player::SetSubPlayer(SubPlayer* subPlayer) {
-
-	stateController_->SetSubPlayer(subPlayer);
-}
-
 void Player::SetReverseWeapon(bool isReverse, PlayerWeaponType type) {
 
 	// 剣の持ち方設定
@@ -252,8 +247,6 @@ void Player::Update() {
 		return;
 	}
 
-	// スタン状態のチェック
-	CheckBossEnemyStun();
 	// パリィ可能状態のチェック
 	CheckBossEnemyParry();
 
@@ -319,27 +312,6 @@ void Player::UpdateSKilPoint() {
 		// スキルポイントを消費
 		stats_.currentSkilPoint = (std::max)(0, stats_.currentSkilPoint - stats_.skilCost);
 	}
-}
-
-void Player::CheckBossEnemyStun() {
-
-	// スタン中に敵がスタン状態じゃなくなったら更新終了
-	if (isStunUpdate_) {
-		if (bossEnemy_->GetCurrentState() != BossEnemyState::Stun) {
-
-			isStunUpdate_ = false;
-		}
-		return;
-	}
-
-	// 敵がスタン状態かどうか
-	if (bossEnemy_->GetCurrentState() != BossEnemyState::Stun) {
-		return;
-	}
-
-	// スタン状態になったら状態を切り替え状態に強制的に遷移させる
-	isStunUpdate_ = true;
-	stateController_->SetForcedState(*this, PlayerState::SwitchAlly);
 }
 
 void Player::CheckBossEnemyParry() {
@@ -465,7 +437,8 @@ void Player::DerivedImGui() {
 
 		// ---- State ---------------------------------------------------
 		if (ImGui::BeginTabItem("State")) {
-			stateController_->ImGui(*this);
+
+			stateController_->ImGui();
 			ImGui::EndTabItem();
 		}
 

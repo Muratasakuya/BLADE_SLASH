@@ -19,14 +19,14 @@ public:
 	PlayerWalkState() = default;
 	~PlayerWalkState() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
+	void Update() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -44,5 +44,5 @@ private:
 
 	//--------- functions ----------------------------------------------------
 
-	void UpdateWalk(Player& player);
+	void UpdateWalk();
 };

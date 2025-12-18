@@ -35,13 +35,13 @@ PlayerAttack_4thState::PlayerAttack_4thState(Player* player) {
 	rotationEffect_->SetParent("player4thAttackRotateLightning", player_->GetTransform());
 }
 
-void PlayerAttack_4thState::Enter(Player& player) {
+void PlayerAttack_4thState::Enter() {
 
-	player.SetNextAnimation("player_attack_4th", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_attack_4th", false, nextAnimDuration_);
 	canExit_ = false;
 
 	// 敵が攻撃可能範囲にいるかチェック
-	SakuEngine::Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	assisted_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
 
 	// 補間座標を設定
@@ -49,7 +49,7 @@ void PlayerAttack_4thState::Enter(Player& player) {
 
 		startPos_ = playerPos;
 
-		SakuEngine::Vector3 forward = player.GetTransform().GetForward();
+		SakuEngine::Vector3 forward = player_->GetTransform().GetForward();
 		forward.y = 0.0f;
 		forward = forward.Normalize();
 		targetPos_ = startPos_ + forward * moveValue_;
@@ -66,23 +66,23 @@ void PlayerAttack_4thState::Enter(Player& player) {
 	rotationEffect_->Emit(player_->GetRotation() * rotateEffectOffset_);
 }
 
-void PlayerAttack_4thState::Update(Player& player) {
+void PlayerAttack_4thState::Update() {
 
 	// 範囲内にいるときは敵に向かって補間させる
 	if (assisted_) {
 
 		// 座標、回転補間
-		AttackAssist(player);
+		AttackAssist();
 	} else {
 
 		// 前に前進させる
 		PlayerBaseAttackState::UpdateTimer(moveTimer_);
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
-		player.SetTranslation(pos);
+		player_->SetTranslation(pos);
 	}
 
 	// animationが終わったかチェック
-	canExit_ = player.IsAnimationFinished();
+	canExit_ = player_->IsAnimationFinished();
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
@@ -91,7 +91,7 @@ void PlayerAttack_4thState::Update(Player& player) {
 
 			// 地割れエフェクトの発生
 			// Y座標は固定
-			SakuEngine::Vector3 emitPos = player.GetTranslation();
+			SakuEngine::Vector3 emitPos = player_->GetTranslation();
 			// 地面に隠れない位置に調整
 			emitPos.y = 1.0f;
 			groundCrackEffect_->Emit(emitPos);
@@ -108,7 +108,7 @@ void PlayerAttack_4thState::Update(Player& player) {
 	}
 }
 
-void PlayerAttack_4thState::UpdateAlways([[maybe_unused]] Player& player) {
+void PlayerAttack_4thState::UpdateAlways() {
 
 	// 地割れエフェクトの更新
 	groundCrackEffect_->Update();
@@ -116,14 +116,14 @@ void PlayerAttack_4thState::UpdateAlways([[maybe_unused]] Player& player) {
 	// 親の回転を設定する
 	SakuEngine::Quaternion offsetRotation =
 		SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::EulerToQuaternion(rotateEffectOffsetRotation_));
-	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(player.GetRotation(), offsetRotation));
+	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(player_->GetRotation(), offsetRotation));
 
 	rotationEffect_->SetParentRotation("player4thAttackRotateSlash", rotation, ParticleUpdateModuleID::Rotation);
 	rotationEffect_->SetParentRotation("player4thAttackRotateLightning", rotation, ParticleUpdateModuleID::Primitive);
 	rotationEffect_->Update();
 }
 
-void PlayerAttack_4thState::Exit([[maybe_unused]] Player& player) {
+void PlayerAttack_4thState::Exit() {
 
 	// リセット
 	attackPosLerpTimer_ = 0.0f;
@@ -135,7 +135,7 @@ void PlayerAttack_4thState::Exit([[maybe_unused]] Player& player) {
 	followCamera_->EndPlayerActionAnim(false);
 }
 
-void PlayerAttack_4thState::ImGui(const Player& player) {
+void PlayerAttack_4thState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);
@@ -144,7 +144,7 @@ void PlayerAttack_4thState::ImGui(const Player& player) {
 	ImGui::DragFloat3("rotateEffectOffset", &rotateEffectOffset_.x, 0.1f);
 	ImGui::DragFloat3("rotateEffectOffsetRotation", &rotateEffectOffsetRotation_.x, 0.01f);
 
-	PlayerBaseAttackState::ImGui(player);
+	PlayerBaseAttackState::ImGui();
 
 	moveTimer_.ImGui("MoveTimer");
 	ImGui::DragFloat("moveValue", &moveValue_, 0.1f);

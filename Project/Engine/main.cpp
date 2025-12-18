@@ -2,6 +2,7 @@
 //	include
 //============================================================================
 #include <Engine/Core/Framework.h>
+#include <Engine/Object/State/DenseStateStorage.h>
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 

@@ -18,11 +18,11 @@ PlayerAvoidSatate::PlayerAvoidSatate(Player* player) {
 	player_ = player;
 }
 
-void PlayerAvoidSatate::Enter(Player& player) {
+void PlayerAvoidSatate::Enter() {
 
-	player.SetNextAnimation("player_avoid", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_avoid", false, nextAnimDuration_);
 
-	const SakuEngine::Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	const SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	// 向き
 	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
@@ -32,7 +32,7 @@ void PlayerAvoidSatate::Enter(Player& player) {
 	targetPos_ = playerPos + direction * moveDistance_;
 
 	// 敵の方向を向かせる
-	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
+	player_->SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 
 	// 回避開始
 	isAvoidance_ = true;
@@ -40,7 +40,7 @@ void PlayerAvoidSatate::Enter(Player& player) {
 	canExit_ = false;
 }
 
-void PlayerAvoidSatate::Update(Player& player) {
+void PlayerAvoidSatate::Update() {
 
 	// 時間を進める
 	lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
@@ -51,7 +51,7 @@ void PlayerAvoidSatate::Update(Player& player) {
 	SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT);
 
 	// 座標を設定
-	player.SetTranslation(translation);
+	player_->SetTranslation(translation);
 
 	// 時間が経過しきったら遷移可能状態にする
 	if (lerpTime_ < lerpTimer_) {
@@ -63,7 +63,7 @@ void PlayerAvoidSatate::Update(Player& player) {
 	}
 }
 
-void PlayerAvoidSatate::Exit([[maybe_unused]] Player& player) {
+void PlayerAvoidSatate::Exit() {
 
 	// リセット
 	lerpTimer_ = 0.0f;
@@ -72,7 +72,7 @@ void PlayerAvoidSatate::Exit([[maybe_unused]] Player& player) {
 	isAvoidance_ = false;
 }
 
-void PlayerAvoidSatate::ImGui(const Player& player) {
+void PlayerAvoidSatate::ImGui() {
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
 
@@ -81,7 +81,7 @@ void PlayerAvoidSatate::ImGui(const Player& player) {
 	ImGui::DragFloat("moveDistance", &moveDistance_, 0.1f);
 	Easing::SelectEasingType(easingType_);
 
-	const SakuEngine::Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	const SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	// 向き
 	SakuEngine::Vector3 direction = (enemyPos - playerPos).Normalize();

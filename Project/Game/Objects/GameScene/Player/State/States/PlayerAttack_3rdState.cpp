@@ -33,13 +33,13 @@ PlayerAttack_3rdState::PlayerAttack_3rdState(Player* player) {
 	afterImageEffect_->Init("playerAttack3rdDash");
 }
 
-void PlayerAttack_3rdState::Enter(Player& player) {
+void PlayerAttack_3rdState::Enter() {
 
-	player.SetNextAnimation("player_attack_3rd", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_attack_3rd", false, nextAnimDuration_);
 	canExit_ = false;
 
 	// 補間座標を設定
-	backStartPos_ = player.GetTranslation();
+	backStartPos_ = player_->GetTranslation();
 
 	// 敵が攻撃可能範囲にいるかチェック
 	assisted_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
@@ -47,7 +47,7 @@ void PlayerAttack_3rdState::Enter(Player& player) {
 	// 補間先がいなければ正面向き
 	if (!assisted_) {
 
-		direction = player.GetTransform().GetForward();
+		direction = player_->GetTransform().GetForward();
 		direction.y = 0.0f;
 		direction = direction.Normalize();
 	}
@@ -55,7 +55,7 @@ void PlayerAttack_3rdState::Enter(Player& player) {
 	currentState_ = State::MoveBack;
 
 	// Y座標の固定値
-	initPosY_ = player.GetTranslation().y;
+	initPosY_ = player_->GetTranslation().y;
 
 	// 回転補間範囲内に入っていたら
 	if (CheckInRange(attackLookAtCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
@@ -65,10 +65,10 @@ void PlayerAttack_3rdState::Enter(Player& player) {
 	}
 }
 
-void PlayerAttack_3rdState::Update(Player& player) {
+void PlayerAttack_3rdState::Update() {
 
 	// animationが終わったかチェック
-	canExit_ = player.IsAnimationFinished();
+	canExit_ = player_->IsAnimationFinished();
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
@@ -76,28 +76,28 @@ void PlayerAttack_3rdState::Update(Player& player) {
 	}
 
 	// プレイヤーの補間処理
-	LerpPlayer(player);
+	LerpPlayer();
 
 	// 座標、回転補間
-	AttackAssist(player);
+	AttackAssist();
 	// キーイベント処理
-	UpdateAnimKeyEvent(player);
+	UpdateAnimKeyEvent();
 
 	// 武器補間処理
-	LerpWeapon(player, PlayerWeaponType::Left);
-	LerpWeapon(player, PlayerWeaponType::Right);
+	LerpWeapon(PlayerWeaponType::Left);
+	LerpWeapon(PlayerWeaponType::Right);
 }
 
-void PlayerAttack_3rdState::UpdateAlways([[maybe_unused]] Player& player) {
+void PlayerAttack_3rdState::UpdateAlways() {
 
 	// ダッシュエフェクトの更新
 	// 親の回転を設定する
 	catchDashEffect_->Update();
 }
 
-void PlayerAttack_3rdState::LerpWeapon(Player& player, PlayerWeaponType type) {
+void PlayerAttack_3rdState::LerpWeapon(PlayerWeaponType type) {
 
-	if (player.GetUpdateMode() == ObjectUpdateMode::None &&
+	if (player_->GetUpdateMode() == ObjectUpdateMode::None &&
 		currentState_ == State::None) {
 		return;
 	}
@@ -113,12 +113,12 @@ void PlayerAttack_3rdState::LerpWeapon(Player& player, PlayerWeaponType type) {
 	// 補間座標を剣に設定
 	SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(weaponParams_[type].startPos,
 		weaponParams_[type].targetPos, weaponParams_[type].moveTimer.easedT_);
-	player.GetWeapon(type)->SetTranslation(pos);
+	player_->GetWeapon(type)->SetTranslation(pos);
 
 	// 補間終了後座標をとどめる
 	if (weaponParams_[type].moveTimer.IsReached()) {
 
-		player.GetWeapon(type)->SetTranslation(weaponParams_[type].targetPos);
+		player_->GetWeapon(type)->SetTranslation(weaponParams_[type].targetPos);
 	}
 
 	// 剣を取り終えたら回転しない
@@ -131,7 +131,7 @@ void PlayerAttack_3rdState::LerpWeapon(Player& player, PlayerWeaponType type) {
 		// 回転
 		weaponParams_[type].rotation.z = SakuEngine::pi / 2.0f;
 		weaponParams_[type].rotation.y += weaponParams_[type].rotateSpeed;
-		player.GetWeapon(type)->SetRotation(SakuEngine::Quaternion::Normalize(
+		player_->GetWeapon(type)->SetRotation(SakuEngine::Quaternion::Normalize(
 			SakuEngine::Quaternion::EulerToQuaternion(weaponParams_[type].rotation)));
 		break;
 	case PlayerWeaponType::Right:
@@ -139,13 +139,13 @@ void PlayerAttack_3rdState::LerpWeapon(Player& player, PlayerWeaponType type) {
 		// 回転
 		weaponParams_[type].rotation.x = SakuEngine::pi / 2.0f;
 		weaponParams_[type].rotation.y += weaponParams_[type].rotateSpeed;
-		player.GetWeapon(type)->SetRotation(SakuEngine::Quaternion::Normalize(
+		player_->GetWeapon(type)->SetRotation(SakuEngine::Quaternion::Normalize(
 			SakuEngine::Quaternion::EulerToQuaternion(weaponParams_[type].rotation)));
 		break;
 	}
 }
 
-void PlayerAttack_3rdState::LerpPlayer(Player& player) {
+void PlayerAttack_3rdState::LerpPlayer() {
 
 	switch (currentState_) {
 	case State::None: {
@@ -158,12 +158,12 @@ void PlayerAttack_3rdState::LerpPlayer(Player& player) {
 		// 座標を補間
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backStartPos_, backTargetPos_,
 			backMoveTimer_.easedT_);
-		player.SetTranslation(pos);
+		player_->SetTranslation(pos);
 
 		// 補間終了後座標をとどめる
 		if (backMoveTimer_.IsReached()) {
 
-			player.SetTranslation(backTargetPos_);
+			player_->SetTranslation(backTargetPos_);
 		}
 		break;
 	}
@@ -174,88 +174,88 @@ void PlayerAttack_3rdState::LerpPlayer(Player& player) {
 		// 座標を補間
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backTargetPos_, catchTargetPos_,
 			catchSwordTimer_.easedT_);
-		player.SetTranslation(pos);
+		player_->SetTranslation(pos);
 
 		// 補間終了後座標をとどめる
 		if (catchSwordTimer_.IsReached()) {
 
-			player.SetTranslation(catchTargetPos_);
+			player_->SetTranslation(catchTargetPos_);
 			currentState_ = State::None;
 
 			// 親子付けを元に戻す
-			player.ResetWeaponTransform(PlayerWeaponType::Left);
-			player.ResetWeaponTransform(PlayerWeaponType::Right);
+			player_->ResetWeaponTransform(PlayerWeaponType::Left);
+			player_->ResetWeaponTransform(PlayerWeaponType::Right);
 		}
 		break;
 	}
 	}
 }
 
-void PlayerAttack_3rdState::UpdateAnimKeyEvent(Player& player) {
+void PlayerAttack_3rdState::UpdateAnimKeyEvent() {
 
 	// 左手を離した瞬間
-	if (player.IsEventKey("OutSword", 0)) {
+	if (player_->IsEventKey("OutSword", 0)) {
 
 		// 補間開始
-		StartMoveWeapon(player, PlayerWeaponType::Left);
+		StartMoveWeapon(PlayerWeaponType::Left);
 		return;
 	}
 
 	// 右手を離した瞬間
-	if (player.IsEventKey("OutSword", 1)) {
+	if (player_->IsEventKey("OutSword", 1)) {
 
 		// 補間開始
-		StartMoveWeapon(player, PlayerWeaponType::Right);
+		StartMoveWeapon(PlayerWeaponType::Right);
 		return;
 	}
 
 	// 剣を取りに行く
-	if (player.IsEventKey("CatchSword", 0)) {
+	if (player_->IsEventKey("CatchSword", 0)) {
 
 		// 剣を取りに行く状態に遷移
 		currentState_ = State::Catch;
 
 		// 目標座標を剣の間の座標に設定する
-		catchTargetPos_ = (player.GetWeapon(PlayerWeaponType::Left)->GetTranslation() +
-			player.GetWeapon(PlayerWeaponType::Right)->GetTranslation()) / 2.0f;
+		catchTargetPos_ = (player_->GetWeapon(PlayerWeaponType::Left)->GetTranslation() +
+			player_->GetWeapon(PlayerWeaponType::Right)->GetTranslation()) / 2.0f;
 		catchTargetPos_.y = initPosY_;
 
 		// ダッシュエフェクトの発生
 		catchDashEffect_->SetParentRotation("playerAttack3rdDashEffect",
-			SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+			SakuEngine::Quaternion::Normalize(player_->GetRotation()), ParticleUpdateModuleID::Rotation);
 		catchDashEffect_->SetParentRotation("playerAttack3rdDashEffect",
-			SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Primitive);
-		catchDashEffect_->Emit(player_->GetTranslation() + (player.GetRotation() * dashEffectOffset_));
+			SakuEngine::Quaternion::Normalize(player_->GetRotation()), ParticleUpdateModuleID::Primitive);
+		catchDashEffect_->Emit(player_->GetTranslation() + (player_->GetRotation() * dashEffectOffset_));
 
 		// 残像表現エフェクト開始
 		std::vector<SakuEngine::GameObject3D*> objects = {
-			&player,
-			player.GetWeapon(PlayerWeaponType::Left),
-			player.GetWeapon(PlayerWeaponType::Right)
+			player_,
+			player_->GetWeapon(PlayerWeaponType::Left),
+			player_->GetWeapon(PlayerWeaponType::Right)
 		};
 		afterImageEffect_->Start(objects);
 	}
 }
 
-void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType type) {
+void PlayerAttack_3rdState::StartMoveWeapon(PlayerWeaponType type) {
 
 	// α値を下げる
-	player.GetWeapon(type)->SetAlpha(0.5f);
+	player_->GetWeapon(type)->SetAlpha(0.5f);
 	// 剣の親子付けを解除する
-	player.GetWeapon(type)->SetParent(SakuEngine::Transform3D(), true);
+	player_->GetWeapon(type)->SetParent(SakuEngine::Transform3D(), true);
 	// この時点のワールド座標を補間開始座標にする
 	weaponParams_[type].startPos =
-		player.GetWeapon(type)->GetTransform().GetWorldPos();
+		player_->GetWeapon(type)->GetTransform().GetWorldPos();
 	weaponParams_[type].startPos.y = weaponPosY_;
 	// 開始座標として設定しておく
-	player.GetWeapon(type)->SetTranslation(
+	player_->GetWeapon(type)->SetTranslation(
 		weaponParams_[type].startPos);
 
 	// 目標座標を設定する
 	if (assisted_) {
 
 		// Y軸回転オフセットをかける
-		SakuEngine::Vector3 rotated = RotateYOffset(player.GetTransform().GetForward(),
+		SakuEngine::Vector3 rotated = RotateYOffset(player_->GetTransform().GetForward(),
 			weaponParams_[type].offsetRotationY).Normalize();
 
 		// 敵を中心に一定距離だけオフセット
@@ -267,7 +267,7 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	} else {
 
 		// 前方ベクトル
-		SakuEngine::Vector3 forward = SakuEngine::Quaternion::RotateVector(Direction::Get(Direction3D::Forward), player.GetRotation());
+		SakuEngine::Vector3 forward = SakuEngine::Quaternion::RotateVector(Direction::Get(Direction3D::Forward), player_->GetRotation());
 		forward.y = 0.0f;
 		forward = forward.Normalize();
 
@@ -275,7 +275,7 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 		SakuEngine::Vector3 rotated = RotateYOffset(forward, weaponParams_[type].offsetRotationY / 6.0f);
 
 		// 目標座標
-		weaponParams_[type].targetPos = player.GetTranslation() + rotated * weaponParams_[type].moveValue;
+		weaponParams_[type].targetPos = player_->GetTranslation() + rotated * weaponParams_[type].moveValue;
 		weaponParams_[type].targetPos.y = weaponPosY_;
 
 		// デバッグ用
@@ -286,8 +286,8 @@ void PlayerAttack_3rdState::StartMoveWeapon(Player& player, PlayerWeaponType typ
 	weaponParams_[type].isMoveStart = true;
 	weaponParams_[type].moveTimer = weaponMoveTimer_;
 
-	float duration = player.GetAnimationDuration("player_attack_3rd");
-	float currentProgress = player.GetAnimationProgress();
+	float duration = player_->GetAnimationDuration("player_attack_3rd");
+	float currentProgress = player_->GetAnimationProgress();
 	float spanLength = weaponMoveTimer_.target_ / duration;
 
 	weaponParams_[type].startProgress = std::clamp(currentProgress, 0.0f, 1.0f);
@@ -307,13 +307,13 @@ SakuEngine::Vector3 PlayerAttack_3rdState::RotateYOffset(const SakuEngine::Vecto
 	return rotated;
 }
 
-void PlayerAttack_3rdState::Exit(Player& player) {
+void PlayerAttack_3rdState::Exit() {
 
 	// 残像表現エフェクト終了
 	std::vector<SakuEngine::GameObject3D*> objects = {
-		&player,
-		player.GetWeapon(PlayerWeaponType::Left),
-		player.GetWeapon(PlayerWeaponType::Right)
+		player_,
+		player_->GetWeapon(PlayerWeaponType::Left),
+		player_->GetWeapon(PlayerWeaponType::Right)
 	};
 	afterImageEffect_->End(objects);
 
@@ -331,14 +331,14 @@ void PlayerAttack_3rdState::Exit(Player& player) {
 	}
 
 	// 剣の親子付けを戻す
-	player.ResetWeaponTransform(PlayerWeaponType::Left);
-	player.ResetWeaponTransform(PlayerWeaponType::Right);
+	player_->ResetWeaponTransform(PlayerWeaponType::Left);
+	player_->ResetWeaponTransform(PlayerWeaponType::Right);
 
 	// カメラアニメーションを終了させる
 	followCamera_->EndPlayerActionAnim(false);
 }
 
-void PlayerAttack_3rdState::ImGui(const Player& player) {
+void PlayerAttack_3rdState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);
@@ -347,7 +347,7 @@ void PlayerAttack_3rdState::ImGui(const Player& player) {
 	ImGui::DragFloat("weaponPosY", &weaponPosY_, 0.01f);
 	ImGui::DragFloat3("dashEffectOffset", &dashEffectOffset_.x, 0.1f);
 
-	PlayerBaseAttackState::ImGui(player);
+	PlayerBaseAttackState::ImGui();
 
 	ImGui::Separator();
 
@@ -375,7 +375,7 @@ void PlayerAttack_3rdState::ImGui(const Player& player) {
 		ImGui::PopID();
 
 		// 飛ばされる予定の剣の位置
-		SakuEngine::Vector3 rotated = RotateYOffset(player.GetTransform().GetForward(),
+		SakuEngine::Vector3 rotated = RotateYOffset(player_->GetTransform().GetForward(),
 			param.offsetRotationY);
 		SakuEngine::Vector3 target = bossEnemy_->GetTranslation() + rotated * bossEnemyDistance_;
 		target.y = weaponPosY_;

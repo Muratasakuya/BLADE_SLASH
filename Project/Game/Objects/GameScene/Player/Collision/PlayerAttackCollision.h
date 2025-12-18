@@ -96,6 +96,5 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// helper
-	PlayerState GetPlayerStateFromName(const std::string& name);
 	void EditWindowParameter(const std::string& label, std::vector<TimeWindow>& windows);
 };

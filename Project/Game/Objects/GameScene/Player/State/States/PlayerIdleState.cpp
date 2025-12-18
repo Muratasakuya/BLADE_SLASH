@@ -1,4 +1,4 @@
-﻿#include "PlayerIdleState.h"
+#include "PlayerIdleState.h"
 
 //============================================================================
 //	include
@@ -15,26 +15,26 @@
 PlayerIdleState::PlayerIdleState() {
 }
 
-void PlayerIdleState::Enter(Player& player) {
+void PlayerIdleState::Enter() {
 
 	canExit_ = false;
-	player.SetNextAnimation("player_idle", true, nextAnimDuration_);
+	player_->SetNextAnimation("player_idle", true, nextAnimDuration_);
 }
 
-void PlayerIdleState::Update([[maybe_unused]] Player& player) {
+void PlayerIdleState::Update() {
 
 	canExit_ = true;
 }
 
-void PlayerIdleState::UpdateAlways([[maybe_unused]] Player& player) {
+void PlayerIdleState::UpdateAlways() {
 }
 
-void PlayerIdleState::Exit([[maybe_unused]] Player& player) {
+void PlayerIdleState::Exit() {
 
 	canExit_ = false;
 }
 
-void PlayerIdleState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerIdleState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 }

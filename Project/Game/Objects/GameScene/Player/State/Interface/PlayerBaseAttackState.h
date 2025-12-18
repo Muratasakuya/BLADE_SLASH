@@ -56,21 +56,21 @@ protected:
 	void SaveJson(Json& data);
 
 	// imgui
-	void ImGui(const Player& player);
+	void ImGui();
 
 	void ResetTarget();
 
 	// update
 	void UpdateTimer(SakuEngine::StateTimer& timer);
-	void AttackAssist(Player& player, bool onceTarget = false);
+	void AttackAssist(bool onceTarget = false);
 
 	// helper
 	bool CheckInRange(float range, float distance);
-	SakuEngine::Vector3 GetPlayerOffsetPos(const Player& player, const SakuEngine::Vector3& offsetTranslation) const;
-	SakuEngine::Matrix4x4 GetPlayerOffsetRotation(const Player& player, const SakuEngine::Vector3& offsetRotation) const;
+	SakuEngine::Vector3 GetPlayerOffsetPos(const SakuEngine::Vector3& offsetTranslation) const;
+	SakuEngine::Matrix4x4 GetPlayerOffsetRotation(const SakuEngine::Vector3& offsetRotation) const;
 	void SetTimerByOverall(SakuEngine::StateTimer& timer, float overall,
 		float start, float end, EasingType easing);
 
 	// debug
-	void DrawAttackOffset(const Player& player);
+	void DrawAttackOffset();
 };

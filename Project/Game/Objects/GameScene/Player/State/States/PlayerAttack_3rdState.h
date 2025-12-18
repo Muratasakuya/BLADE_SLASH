@@ -21,15 +21,15 @@ public:
 	PlayerAttack_3rdState(Player* player);
 	~PlayerAttack_3rdState() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
-	void UpdateAlways(Player& player) override;
+	void Update() override;
+	void UpdateAlways() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -108,11 +108,11 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// update
-	void UpdateAnimKeyEvent(Player& player);
-	void LerpWeapon(Player& player, PlayerWeaponType type);
-	void LerpPlayer(Player& player);
+	void UpdateAnimKeyEvent();
+	void LerpWeapon(PlayerWeaponType type);
+	void LerpPlayer();
 
 	// helper
-	void StartMoveWeapon(Player& player, PlayerWeaponType type);
+	void StartMoveWeapon(PlayerWeaponType type);
 	SakuEngine::Vector3 RotateYOffset(const SakuEngine::Vector3& direction, float offsetRotationY);
 };

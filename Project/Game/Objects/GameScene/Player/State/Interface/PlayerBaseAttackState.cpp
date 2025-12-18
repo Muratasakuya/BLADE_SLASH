@@ -21,7 +21,7 @@ void PlayerBaseAttackState::UpdateTimer(SakuEngine::StateTimer& timer) {
 	}
 }
 
-void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
+void PlayerBaseAttackState::AttackAssist(bool onceTarget) {
 
 	// 時間経過
 	attackPosLerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
@@ -29,7 +29,7 @@ void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
 	lerpT = EasedValue(attackPosEaseType_, lerpT);
 
 	// 座標、距離を取得
-	SakuEngine::Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	SakuEngine::Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
 	// y座標を合わせる
 	enemyPos.y = playerPos.y;
@@ -56,14 +56,14 @@ void PlayerBaseAttackState::AttackAssist(Player& player, bool onceTarget) {
 
 		// 補間先
 		SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(playerPos, *targetTranslation_, std::clamp(lerpT, 0.0f, 1.0f));
-		player.SetTranslation(translation);
+		player_->SetTranslation(translation);
 	}
 
 	// 指定円の中に敵がいれば敵の方向に向かせる
 	if (CheckInRange(attackLookAtCircleRange_, distance)) {
 
-		SakuEngine::Quaternion currentRotation = player.GetRotation();
-		player.SetRotation(SakuEngine::Quaternion::Slerp(currentRotation, *targetRotation_, std::clamp(rotationLerpRate_, 0.0f, 1.0f)));
+		SakuEngine::Quaternion currentRotation = player_->GetRotation();
+		player_->SetRotation(SakuEngine::Quaternion::Slerp(currentRotation, *targetRotation_, std::clamp(rotationLerpRate_, 0.0f, 1.0f)));
 	}
 }
 
@@ -79,20 +79,18 @@ bool PlayerBaseAttackState::CheckInRange(float range, float distance) {
 	return result;
 }
 
-SakuEngine::Vector3 PlayerBaseAttackState::GetPlayerOffsetPos(
-	const Player& player, const SakuEngine::Vector3& offsetTranslation) const {
+SakuEngine::Vector3 PlayerBaseAttackState::GetPlayerOffsetPos(const SakuEngine::Vector3& offsetTranslation) const {
 
 	SakuEngine::Vector3 offset = SakuEngine::Vector3::Transform(offsetTranslation,
-		SakuEngine::Quaternion::MakeRotateMatrix(player.GetRotation()));
+		SakuEngine::Quaternion::MakeRotateMatrix(player_->GetRotation()));
 
-	return player.GetTranslation() + offset;
+	return player_->GetTranslation() + offset;
 }
 
-SakuEngine::Matrix4x4 PlayerBaseAttackState::GetPlayerOffsetRotation(
-	const Player& player, const SakuEngine::Vector3& offsetRotation) const {
+SakuEngine::Matrix4x4 PlayerBaseAttackState::GetPlayerOffsetRotation(const SakuEngine::Vector3& offsetRotation) const {
 
 	// playerの回転
-	SakuEngine::Matrix4x4 playerRotation = SakuEngine::Quaternion::MakeRotateMatrix(player.GetRotation());
+	SakuEngine::Matrix4x4 playerRotation = SakuEngine::Quaternion::MakeRotateMatrix(player_->GetRotation());
 	// オフセット回転
 	SakuEngine::Matrix4x4 offsetMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(offsetRotation);
 
@@ -106,12 +104,12 @@ void PlayerBaseAttackState::SetTimerByOverall(SakuEngine::StateTimer& timer, flo
 	timer.easedT_ = EasedValue(easing, timer.t_);
 }
 
-void PlayerBaseAttackState::DrawAttackOffset(const Player& player) {
+void PlayerBaseAttackState::DrawAttackOffset() {
 
 	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	// 座標、距離を取得
-	SakuEngine::Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	playerPos.y = 2.0f;
 	SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	enemyPos.y = 2.0f;
@@ -130,7 +128,7 @@ void PlayerBaseAttackState::ResetTarget() {
 	targetRotation_ = std::nullopt;
 }
 
-void PlayerBaseAttackState::ImGui(const Player& player) {
+void PlayerBaseAttackState::ImGui() {
 
 	ImGui::DragFloat("attackPosLerpCircleRange", &attackPosLerpCircleRange_, 0.1f);
 	ImGui::DragFloat("attackLookAtCircleRange", &attackLookAtCircleRange_, 0.1f);
@@ -138,11 +136,11 @@ void PlayerBaseAttackState::ImGui(const Player& player) {
 	ImGui::DragFloat("attackPosLerpTime", &attackPosLerpTime_, 0.01f);
 	Easing::SelectEasingType(attackPosEaseType_);
 
-	DrawAttackOffset(player);
+	DrawAttackOffset();
 
 	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
-	SakuEngine::Vector3 center = player.GetTranslation();
+	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 2.0f;
 	lineRenderer->DrawCircle(8, attackPosLerpCircleRange_, center, SakuEngine::Color::Red());
 	lineRenderer->DrawCircle(8, attackLookAtCircleRange_, center, SakuEngine::Color::Blue());

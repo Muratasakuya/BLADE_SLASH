@@ -814,12 +814,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerParryState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerSkilAttackState.cpp" />
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerStunAttackState.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerSwitchAllyState.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerWalkState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Player\Structure\PlayerStructures.cpp">
       <SubType />
@@ -966,6 +960,26 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Object\Base\KeyframeObject3D.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\BaseStateController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\BaseStateMachine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\DenseStateStorage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\StateIdConcepts.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\StateNode.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Utility\Enum\AnyMoldEnum.h">
       <SubType />
@@ -1686,12 +1700,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerParryState.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerSkilAttackState.h" />
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerStunAttackState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerSwitchAllyState.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerWalkState.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\Structure\PlayerStructures.h">
       <SubType />

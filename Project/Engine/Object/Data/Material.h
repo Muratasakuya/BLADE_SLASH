@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -10,157 +10,156 @@
 
 namespace SakuEngine {
 
-// front
+	// front
+	class Asset;
 
-class Asset;
+	//============================================================================
+	//	UVTransform
+	//============================================================================
 
-//============================================================================
-//	UVTransform
-//============================================================================
+	struct UVTransform {
 
-struct UVTransform {
+		Vector3 scale;
+		Vector3 rotate;
+		Vector3 translation;
 
-	Vector3 scale;
-	Vector3 rotate;
-	Vector3 translation;
+		// operator
+		bool operator==(const UVTransform& other) const {
 
-	// operator
-	bool operator==(const UVTransform& other) const {
+			return scale == other.scale &&
+				rotate == other.rotate &&
+				translation == other.translation;
+		}
+	};
 
-		return scale == other.scale &&
-			rotate == other.rotate &&
-			translation == other.translation;
-	}
-};
+	//============================================================================
+	//	Material class
+	//	3Dモデルのマテリアルデータ
+	//============================================================================
+	class Material {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	Material class
-//	3Dモデルのマテリアルデータ
-//============================================================================
-class Material {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		Material() = default;
+		~Material() = default;
 
-	Material() = default;
-	~Material() = default;
+		void Init(Asset* asset);
 
-	void Init(Asset* asset);
+		void UpdateUVTransform();
 
-	void UpdateUVTransform();
+		void ImGui(float itemSize);
 
-	void ImGui(float itemSize);
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
 
-	void ToJson(Json& data);
-	void FromJson(const Json& data);
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		void SetTextureName(const std::string& textureName);
 
-	void SetTextureName(const std::string& textureName);
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		Color color; // 色
 
-	Color color; // 色
+		// テクスチャインデックス
+		uint32_t textureIndex;
+		uint32_t normalMapTextureIndex;
 
-	// テクスチャインデックス
-	uint32_t textureIndex;
-	uint32_t normalMapTextureIndex;
+		// 法線マップ
+		int32_t enableNormalMap;
 
-	// 法線マップ
-	int32_t enableNormalMap;
+		// ディザ抜き
+		int32_t enableDithering;
 
-	// ディザ抜き
-	int32_t enableDithering;
+		// ライティング
+		int32_t enableLighting;
+		int32_t enableHalfLambert;
+		int32_t enableBlinnPhongReflection;
 
-	// ライティング
-	int32_t enableLighting;
-	int32_t enableHalfLambert;
-	int32_t enableBlinnPhongReflection;
+		float phongRefShininess;
+		Vector3 specularColor;
 
-	float phongRefShininess;
-	Vector3 specularColor;
+		// 影
+		int32_t castShadow;
+		float shadowRate;
 
-	// 影
-	int32_t castShadow;
-	float shadowRate;
+		// 環境マップ
+		int32_t enableImageBasedLighting;
+		float environmentCoefficient;
 
-	// 環境マップ
-	int32_t enableImageBasedLighting;
-	float environmentCoefficient;
+		// 発光度
+		float emissiveIntensity;
+		Vector3 emissionColor;
 
-	// 発光度
-	float emissiveIntensity;
-	Vector3 emissionColor;
+		// uv
+		Matrix4x4 uvMatrix;
+		UVTransform uvTransform;
 
-	// uv
-	Matrix4x4 uvMatrix;
-	UVTransform uvTransform;
+		// 適応するポストエフェクトのビット
+		uint32_t postProcessMask;
 
-	// 適応するポストエフェクトのビット
-	uint32_t postProcessMask;
+		// 描画するかどうか
+		uint32_t isRejection = 0;
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	// 描画するかどうか
-	uint32_t isRejection = 0;
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		Asset* asset_;
 
-	Asset* asset_;
+		UVTransform prevUVTransform_;
 
-	UVTransform prevUVTransform_;
+		//--------- functions ----------------------------------------------------
 
-	//--------- functions ----------------------------------------------------
+		// init
+		void InitParameter();
+	};
 
-	// init
-	void InitParameter();
-};
+	//============================================================================
+	//	SpriteMaterial class
+	//	2Dスプライトのマテリアルデータ
+	//============================================================================
+	class SpriteMaterial {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	SpriteMaterial class
-//	2Dスプライトのマテリアルデータ
-//============================================================================
-class SpriteMaterial {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		SpriteMaterial() = default;
+		~SpriteMaterial() = default;
 
-	SpriteMaterial() = default;
-	~SpriteMaterial() = default;
+		void Init(ID3D12Device* device);
 
-	void Init(ID3D12Device* device);
+		void UpdateUVTransform();
 
-	void UpdateUVTransform();
+		void ImGui(float itemSize);
 
-	void ImGui(float itemSize);
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
 
-	void ToJson(Json& data);
-	void FromJson(const Json& data);
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		SpriteMaterialForGPU material;
 
-	SpriteMaterialForGPU material;
+		UVTransform uvTransform;
 
-	UVTransform uvTransform;
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		const DxConstBuffer<SpriteMaterialForGPU>& GetBuffer() const { return buffer_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	const DxConstBuffer<SpriteMaterialForGPU>& GetBuffer() const { return buffer_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		UVTransform prevUVTransform_;
 
-	UVTransform prevUVTransform_;
-
-	// buffer
-	DxConstBuffer<SpriteMaterialForGPU> buffer_;
-};
+		// buffer
+		DxConstBuffer<SpriteMaterialForGPU> buffer_;
+	};
 
 }; // SakuEngine

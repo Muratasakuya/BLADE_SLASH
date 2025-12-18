@@ -23,15 +23,15 @@ public:
 	PlayerAttack_2ndState(Player* player);
 	~PlayerAttack_2ndState() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
-	void UpdateAlways(Player& player) override;
+	void Update() override;
+	void UpdateAlways() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -85,10 +85,10 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// helper
-	void CalcWayPoints(const Player& player, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
+	void CalcWayPoints(std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
 	void CalcWayPointsToTarget(const SakuEngine::Vector3& start, const SakuEngine::Vector3& target,
 		float leftT, float rightT, float swayLength,
 		std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
-	void CalcApproachWayPoints(const Player& player, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
-	bool LerpAlongSegments(Player& player);
+	void CalcApproachWayPoints(std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints);
+	bool LerpAlongSegments();
 };

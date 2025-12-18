@@ -12,9 +12,9 @@
 //	PlayerWalkState classMethods
 //============================================================================
 
-void PlayerWalkState::Enter(Player& player) {
+void PlayerWalkState::Enter() {
 
-	player.SetNextAnimation("player_walk", true, nextAnimDuration_);
+	player_->SetNextAnimation("player_walk", true, nextAnimDuration_);
 
 	if (followCamera_->IsFinishedHandoffBlend() && preState_ != PlayerState::Parry) {
 
@@ -23,15 +23,15 @@ void PlayerWalkState::Enter(Player& player) {
 	}
 }
 
-void PlayerWalkState::Update(Player& player) {
+void PlayerWalkState::Update() {
 
 	// 歩き更新
-	UpdateWalk(player);
+	UpdateWalk();
 	// 回転、進行方向に向かせる
-	SetRotateToDirection(player, move_.Normalize());
+	SetRotateToDirection(move_.Normalize());
 }
 
-void PlayerWalkState::UpdateWalk(Player& player) {
+void PlayerWalkState::UpdateWalk() {
 
 	// 入力値取得
 	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
@@ -61,15 +61,15 @@ void PlayerWalkState::UpdateWalk(Player& player) {
 	move_.y = 0.0f;
 
 	// 移動量を加算
-	SakuEngine::Vector3 translation = player.GetTranslation();
+	SakuEngine::Vector3 translation = player_->GetTranslation();
 	translation += move_;
-	player.SetTranslation(translation);
+	player_->SetTranslation(translation);
 }
 
-void PlayerWalkState::Exit([[maybe_unused]] Player& player) {
+void PlayerWalkState::Exit() {
 }
 
-void PlayerWalkState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerWalkState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);

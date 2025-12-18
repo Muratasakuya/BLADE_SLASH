@@ -12,9 +12,9 @@
 //	PlayerDashState classMethods
 //============================================================================
 
-void PlayerDashState::Enter(Player& player) {
+void PlayerDashState::Enter() {
 
-	player.SetNextAnimation("player_dash", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_dash", false, nextAnimDuration_);
 
 	// 加速開始
 	currentState_ = State::Accel;
@@ -27,12 +27,12 @@ void PlayerDashState::Enter(Player& player) {
 	}
 }
 
-void PlayerDashState::Update(Player& player) {
+void PlayerDashState::Update() {
 
 	// ダッシュ更新
-	UpdateDash(player);
+	UpdateDash();
 	// 回転、進行方向に向かせる
-	SetRotateToDirection(player, move_);
+	SetRotateToDirection(move_);
 }
 
 void PlayerDashState::UpdateState() {
@@ -75,7 +75,7 @@ void PlayerDashState::UpdateState() {
 	}
 }
 
-void PlayerDashState::UpdateDash(Player& player) {
+void PlayerDashState::UpdateDash() {
 
 	// 速度の状態更新
 	UpdateState();
@@ -94,17 +94,17 @@ void PlayerDashState::UpdateDash(Player& player) {
 	// 特に何も入力していなくても加速状態の時は向いている方向に加速分動かして進ませる
 	else {
 
-		move_ = player.GetTransform().GetForward() * moveSpeed_;
+		move_ = player_->GetTransform().GetForward() * moveSpeed_;
 	}
 	move_.y = 0.0f;
 
 	// 座標を設定
-	SakuEngine::Vector3 translation = player.GetTranslation();
+	SakuEngine::Vector3 translation = player_->GetTranslation();
 	translation += move_;
-	player.SetTranslation(translation);
+	player_->SetTranslation(translation);
 }
 
-void PlayerDashState::Exit(Player& player) {
+void PlayerDashState::Exit() {
 
 	// animationをリセット
 	accelLerp_->Reset();
@@ -115,7 +115,7 @@ void PlayerDashState::Exit(Player& player) {
 	// 回避終了にしておく
 	isAvoidance_ = false;
 
-	player.ResetAnimation();
+	player_->ResetAnimation();
 }
 
 bool PlayerDashState::GetCanExit() const {
@@ -127,7 +127,7 @@ bool PlayerDashState::GetCanExit() const {
 	return !inputMapper_->IsPressed(PlayerInputAction::Dash);
 }
 
-void PlayerDashState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerDashState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate_", &rotationLerpRate_, 0.001f);

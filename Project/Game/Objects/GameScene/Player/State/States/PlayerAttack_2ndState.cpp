@@ -33,13 +33,13 @@ PlayerAttack_2ndState::PlayerAttack_2ndState(Player* player) {
 	slash2ndEffect_->SetParent("playerAttackSlash_1", player_->GetTransform());
 }
 
-void PlayerAttack_2ndState::Enter(Player& player) {
+void PlayerAttack_2ndState::Enter() {
 
-	player.SetNextAnimation("player_attack_2nd", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_attack_2nd", false, nextAnimDuration_);
 	canExit_ = false;
 
 	// 距離を比較
-	const SakuEngine::Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 
 	// 初期化
 	currentIndex_ = 0;
@@ -49,11 +49,11 @@ void PlayerAttack_2ndState::Enter(Player& player) {
 	if (attackPosLerpCircleRange_ < PlayerIState::GetDistanceToBossEnemy()) {
 
 		// 範囲外のとき
-		CalcApproachWayPoints(player, wayPoints_);
+		CalcApproachWayPoints(wayPoints_);
 	} else {
 
 		// 範囲内のとき
-		CalcWayPoints(player, wayPoints_);
+		CalcWayPoints(wayPoints_);
 	}
 	startTranslation_ = playerPos;
 
@@ -64,14 +64,14 @@ void PlayerAttack_2ndState::Enter(Player& player) {
 	slash1stEffect_->Emit(player_->GetRotation() * slash1stEffectOffset_);
 }
 
-void PlayerAttack_2ndState::Update(Player& player) {
+void PlayerAttack_2ndState::Update() {
 
-	if (player.GetUpdateMode() == ObjectUpdateMode::External) {
+	if (player_->GetUpdateMode() == ObjectUpdateMode::External) {
 		return;
 	}
 
 	// animationが終わったかチェック
-	canExit_ = player.IsAnimationFinished();
+	canExit_ = player_->IsAnimationFinished();
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
@@ -79,7 +79,7 @@ void PlayerAttack_2ndState::Update(Player& player) {
 	}
 
 	// 区間補間処理
-	const bool finished = LerpAlongSegments(player);
+	const bool finished = LerpAlongSegments();
 	if (!finished) {
 		return;
 	}
@@ -90,7 +90,7 @@ void PlayerAttack_2ndState::Update(Player& player) {
 		if (!loopApproach_) {
 			if (targetTranslation_.has_value()) {
 
-				player.SetTranslation(*targetTranslation_);
+				player_->SetTranslation(*targetTranslation_);
 			}
 			approachPhase_ = false; // これ以上補間処理を行わない
 			return;
@@ -100,13 +100,13 @@ void PlayerAttack_2ndState::Update(Player& player) {
 		if (PlayerIState::GetDistanceToBossEnemy() <= attackPosLerpCircleRange_) {
 
 			approachPhase_ = false;
-			CalcWayPoints(player, wayPoints_);
-			startTranslation_ = player.GetTranslation();
+			CalcWayPoints(wayPoints_);
+			startTranslation_ = player_->GetTranslation();
 		} else {
 
 			// 範囲外
-			CalcApproachWayPoints(player, wayPoints_);
-			startTranslation_ = player.GetTranslation();
+			CalcApproachWayPoints(wayPoints_);
+			startTranslation_ = player_->GetTranslation();
 		}
 
 		// リセット
@@ -116,27 +116,27 @@ void PlayerAttack_2ndState::Update(Player& player) {
 	} else {
 
 		// 範囲内の経路完走後は最終点へ固定
-		player.SetTranslation(*targetTranslation_);
+		player_->SetTranslation(*targetTranslation_);
 	}
 }
 
-void PlayerAttack_2ndState::UpdateAlways(Player& player) {
+void PlayerAttack_2ndState::UpdateAlways() {
 
 	// 剣エフェクトの更新、親の回転を設定する
 	// 1段目
 	slash1stEffect_->SetParentRotation("playerAttackSlash_0",
-		SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(player_->GetRotation()), ParticleUpdateModuleID::Rotation);
 	slash1stEffect_->Update();
 	// 2段目
 	slash2ndEffect_->SetParentRotation("playerAttackSlash_1",
-		SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(player_->GetRotation()), ParticleUpdateModuleID::Rotation);
 	slash2ndEffect_->Update();
 }
 
-void PlayerAttack_2ndState::CalcWayPoints(const Player& player, std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
+void PlayerAttack_2ndState::CalcWayPoints(std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
 
 	// 目標座標を設定
-	startTranslation_ = player.GetTranslation();
+	startTranslation_ = player_->GetTranslation();
 	SakuEngine::Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
 	// プレイヤーのY座標と合わせる
 	enemyPos.y = startTranslation_.y;
@@ -164,12 +164,11 @@ void PlayerAttack_2ndState::CalcWayPointsToTarget(const SakuEngine::Vector3& sta
 	dstWayPoints[2] = target;
 }
 
-void PlayerAttack_2ndState::CalcApproachWayPoints(const Player& player,
-	std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
+void PlayerAttack_2ndState::CalcApproachWayPoints(std::array<SakuEngine::Vector3, kNumSegments>& dstWayPoints) {
 
 	// プレイヤーの前方向に向かってジグザグ移動させる
-	startTranslation_ = player.GetTranslation();
-	SakuEngine::Vector3 forward = player.GetTransform().GetForward().Normalize();
+	startTranslation_ = player_->GetTranslation();
+	SakuEngine::Vector3 forward = player_->GetTransform().GetForward().Normalize();
 	forward.y = 0.0f;
 	forward = forward.Normalize();
 	SakuEngine::Vector3 target = startTranslation_ + forward * approachForwardDistance_;
@@ -181,12 +180,12 @@ void PlayerAttack_2ndState::CalcApproachWayPoints(const Player& player,
 		approachSwayLength_, dstWayPoints);
 }
 
-bool PlayerAttack_2ndState::LerpAlongSegments(Player& player) {
+bool PlayerAttack_2ndState::LerpAlongSegments() {
 
 	if (wayPoints_.size() <= currentIndex_) {
 		if (targetTranslation_.has_value()) {
 
-			player.SetTranslation(*targetTranslation_);
+			player_->SetTranslation(*targetTranslation_);
 		}
 		return true;
 	}
@@ -200,7 +199,7 @@ bool PlayerAttack_2ndState::LerpAlongSegments(Player& player) {
 	SakuEngine::Vector3 segEnd = wayPoints_[currentIndex_];
 
 	SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(segStart, segEnd, t);
-	player.SetTranslation(pos);
+	player_->SetTranslation(pos);
 
 	// 補間が終了したら次の区間に進める
 	if (segmentTime_ <= segmentTimer_) {
@@ -218,14 +217,14 @@ bool PlayerAttack_2ndState::LerpAlongSegments(Player& player) {
 	return false;
 }
 
-void PlayerAttack_2ndState::Exit([[maybe_unused]] Player& player) {
+void PlayerAttack_2ndState::Exit() {
 
 	// リセット
 	attackPosLerpTimer_ = 0.0f;
 	exitTimer_ = 0.0f;
 }
 
-void PlayerAttack_2ndState::ImGui(const Player& player) {
+void PlayerAttack_2ndState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);
@@ -238,13 +237,13 @@ void PlayerAttack_2ndState::ImGui(const Player& player) {
 	ImGui::DragFloat3("slash1stEffectOffset", &slash1stEffectOffset_.x, 0.1f);
 	ImGui::DragFloat3("slash2ndEffectOffset", &slash2ndEffectOffset_.x, 0.1f);
 
-	PlayerBaseAttackState::ImGui(player);
+	PlayerBaseAttackState::ImGui();
 
 	// 範囲内
-	CalcWayPoints(player, debugWayPoints_);
+	CalcWayPoints(debugWayPoints_);
 	{
 		SakuEngine::LineRenderer* renderer = SakuEngine::LineRenderer::GetInstance();
-		SakuEngine::Vector3 prev = player.GetTranslation();
+		SakuEngine::Vector3 prev = player_->GetTranslation();
 		for (auto& p : debugWayPoints_) {
 			p.y = 2.0f;
 			renderer->DrawSphere(8, 2.0f, p, SakuEngine::Color::Red());
@@ -261,10 +260,10 @@ void PlayerAttack_2ndState::ImGui(const Player& player) {
 	ImGui::DragFloat("approachLeftPointAngle", &approachLeftPointAngle_, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("approachRightPointAngle", &approachRightPointAngle_, 0.01f, 0.0f, 1.0f);
 
-	CalcApproachWayPoints(player, debugApproachWayPoints_);
+	CalcApproachWayPoints(debugApproachWayPoints_);
 	{
 		SakuEngine::LineRenderer* renderer = SakuEngine::LineRenderer::GetInstance();
-		SakuEngine::Vector3 prev = player.GetTranslation();
+		SakuEngine::Vector3 prev = player_->GetTranslation();
 		for (auto& p : debugApproachWayPoints_) {
 
 			p.y = 2.0f;

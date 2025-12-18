@@ -61,10 +61,10 @@ PlayerSkilAttackState::PlayerSkilAttackState(Player* player) {
 	groundCrackEmitted_ = false;
 }
 
-void PlayerSkilAttackState::Enter(Player& player) {
+void PlayerSkilAttackState::Enter() {
 
 	// 最初のアニメーションに設定
-	player.SetNextAnimation("player_skilAttack_1st", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_skilAttack_1st", false, nextAnimDuration_);
 
 	// 状態設定
 	currentState_ = State::MoveAttack;
@@ -78,13 +78,13 @@ void PlayerSkilAttackState::Enter(Player& player) {
 	moveKeyframeObject_->StartLerp();
 
 	// 移動前座標を初期化
-	preMovePos_ = player.GetTranslation();
+	preMovePos_ = player_->GetTranslation();
 
 	// 残像表現エフェクト開始
 	std::vector<SakuEngine::GameObject3D*> objects = {
-		&player,
-		player.GetWeapon(PlayerWeaponType::Left),
-		player.GetWeapon(PlayerWeaponType::Right)
+		player_,
+		player_->GetWeapon(PlayerWeaponType::Left),
+		player_->GetWeapon(PlayerWeaponType::Right)
 	};
 	afterImageEffect_->Start(objects);
 
@@ -92,36 +92,36 @@ void PlayerSkilAttackState::Enter(Player& player) {
 	followCamera_->StartPlayerActionAnim("playerSkilMove");
 }
 
-void PlayerSkilAttackState::Update([[maybe_unused]] Player& player) {
+void PlayerSkilAttackState::Update() {
 
 	// 状態ごとの更新
 	switch (currentState_) {
 	case PlayerSkilAttackState::State::MoveAttack:
 
 		// 移動攻撃更新
-		UpdateMoveAttack(player);
+		UpdateMoveAttack();
 		break;
 	case PlayerSkilAttackState::State::JumpAttack:
 
 		// ジャンプ攻撃更新
-		UpdateJumpAttack(player);
+		UpdateJumpAttack();
 		break;
 	}
 }
 
-void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
+void PlayerSkilAttackState::UpdateMoveAttack() {
 
 	// トランスフォーム補間更新
 	moveKeyframeObject_->SelfUpdate();
 
 	// 補間された回転、座標をプレイヤーに適用
 	SakuEngine::Vector3 currentTranslation = moveKeyframeObject_->GetCurrentTransform().translation;
-	player.SetTranslation(currentTranslation);
+	player_->SetTranslation(currentTranslation);
 	// 回転は次の移動位置の方向を向くようにする
 	// 方向
 	SakuEngine::Vector3 direction = SakuEngine::Vector3(currentTranslation - preMovePos_).Normalize();
 	SakuEngine::Quaternion rotation = SakuEngine::Quaternion::LookRotation(direction, rotationAxis_);
-	player.SetRotation(SakuEngine::Quaternion::Normalize(rotation));
+	player_->SetRotation(SakuEngine::Quaternion::Normalize(rotation));
 
 	// 移動座標を更新する
 	preMovePos_ = currentTranslation;
@@ -157,14 +157,14 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 
 		// 残像表現エフェクト終了
 		std::vector<SakuEngine::GameObject3D*> objects = {
-			&player,
-			player.GetWeapon(PlayerWeaponType::Left),
-			player.GetWeapon(PlayerWeaponType::Right)
+			player_,
+			player_->GetWeapon(PlayerWeaponType::Left),
+			player_->GetWeapon(PlayerWeaponType::Right)
 		};
 		afterImageEffect_->End(objects);
 
 		// ジャンプ攻撃アニメーションに設定
-		player.SetNextAnimation("player_skilAttack_2nd", false, nextJumpAnimDuration_);
+		player_->SetNextAnimation("player_skilAttack_2nd", false, nextJumpAnimDuration_);
 
 		// 敵が攻撃可能範囲にいるかチェックして目標への回転を取得
 		if (CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
@@ -176,14 +176,14 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 
 			// 範囲外なので前方を向く回転を設定する
 			// 移動後後ろ向いているのでGetBackで前方を取得
-			SakuEngine::Vector3 forward = player.GetTransform().GetBack();
+			SakuEngine::Vector3 forward = player_->GetTransform().GetBack();
 			targetRotation_ = SakuEngine::Quaternion::LookRotation(forward, rotationAxis_);
 		}
 
 		// Enterした瞬間の回転を設定
-		player.SetRotation(SakuEngine::Quaternion::Normalize(targetRotation_));
+		player_->SetRotation(SakuEngine::Quaternion::Normalize(targetRotation_));
 		// 行列を更新
-		player.UpdateMatrix();
+		player_->UpdateMatrix();
 		moveFrontTransform_->UpdateMatrix();
 
 		// この時点の位置でまた範囲をチェックする
@@ -199,7 +199,7 @@ void PlayerSkilAttackState::UpdateMoveAttack(Player& player) {
 	}
 }
 
-void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
+void PlayerSkilAttackState::UpdateJumpAttack() {
 
 	// トランスフォーム補間更新
 	jumpKeyframeObject_->SelfUpdate();
@@ -218,10 +218,10 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 
 		// 発生済みにする
 		jumpMoveEffectEmitted_ = true;
-		
+
 		// 目標へ向けた回転
 		SakuEngine::Vector3 direction{};
-		const SakuEngine::Vector3 playerPos = player.GetTranslation();
+		const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 		if (isInRange_) {
 
 			// 敵の方向
@@ -237,7 +237,7 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 		moveAtackEffect_->SetParentRotation("playerSkilMoveEffect",
 			SakuEngine::Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
 		// プレイヤーの右手からエフェクト発生
-		moveAtackEffect_->Emit(player.GetWeapon(PlayerWeaponType::Right)->GetTransform().GetWorldPos());
+		moveAtackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Right)->GetTransform().GetWorldPos());
 	}
 
 	// 補間処理終了後状態を終了
@@ -248,7 +248,7 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 
 			// 地割れエフェクトの発生
 			// Y座標は固定
-			SakuEngine::Vector3 emitPos = player.GetTranslation();
+			SakuEngine::Vector3 emitPos = player_->GetTranslation();
 			// 地面に隠れない位置に調整
 			emitPos.y = 1.0f;
 			groundCrackEffect_->Emit(emitPos);
@@ -267,7 +267,7 @@ void PlayerSkilAttackState::UpdateJumpAttack(Player& player) {
 
 		// 補間された回転、座標をプレイヤーに適用
 		SakuEngine::Vector3 currentTranslation = jumpKeyframeObject_->GetCurrentTransform().translation;
-		player.SetTranslation(currentTranslation);
+		player_->SetTranslation(currentTranslation);
 	}
 }
 
@@ -295,7 +295,7 @@ void PlayerSkilAttackState::SetTargetByRange(SakuEngine::KeyframeObject3D& keyOb
 	}
 }
 
-void PlayerSkilAttackState::BeginUpdateAlways([[maybe_unused]] Player& player) {
+void PlayerSkilAttackState::BeginUpdateAlways() {
 
 	// キーフレームオブジェクトの更新
 	moveFrontTransform_->UpdateMatrix();
@@ -303,7 +303,7 @@ void PlayerSkilAttackState::BeginUpdateAlways([[maybe_unused]] Player& player) {
 	jumpKeyframeObject_->UpdateKey();
 }
 
-void PlayerSkilAttackState::UpdateAlways([[maybe_unused]] Player& player) {
+void PlayerSkilAttackState::UpdateAlways() {
 
 	// ヒットストップの更新
 	moveAttackHitstop_.hitStop.Update();
@@ -316,7 +316,7 @@ void PlayerSkilAttackState::UpdateAlways([[maybe_unused]] Player& player) {
 	groundCrackEffect_->Update();
 }
 
-void PlayerSkilAttackState::Exit(Player& player) {
+void PlayerSkilAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -333,28 +333,28 @@ void PlayerSkilAttackState::Exit(Player& player) {
 	followCamera_->EndPlayerActionAnim(true);
 
 	// 初期Y座標に戻す
-	SakuEngine::Vector3 currentPos = player.GetTranslation();
-	currentPos.y = player.GetInitTransform().translation.y;
-	player.SetTranslation(currentPos);
+	SakuEngine::Vector3 currentPos = player_->GetTranslation();
+	currentPos.y = player_->GetInitTransform().translation.y;
+	player_->SetTranslation(currentPos);
 
 	// X軸回転を0.0fに戻す
-	SakuEngine::Quaternion currentRotation = player.GetRotation();
+	SakuEngine::Quaternion currentRotation = player_->GetRotation();
 	// X軸まわりのツイスト回転を取得
 	SakuEngine::Quaternion twistX = SakuEngine::Quaternion::ExtractTwistX(currentRotation);
 	SakuEngine::Quaternion twistInverse = SakuEngine::Quaternion::Inverse(twistX);
 	// X軸まわりのツイストを除去した回転
-	player.SetRotation(SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(currentRotation, twistInverse)));
+	player_->SetRotation(SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::Multiply(currentRotation, twistInverse)));
 
 	// 残像表現エフェクト終了
 	std::vector<SakuEngine::GameObject3D*> objects = {
-		&player,
-		player.GetWeapon(PlayerWeaponType::Left),
-		player.GetWeapon(PlayerWeaponType::Right)
+		player_,
+		player_->GetWeapon(PlayerWeaponType::Left),
+		player_->GetWeapon(PlayerWeaponType::Right)
 	};
 	afterImageEffect_->End(objects);
 }
 
-void PlayerSkilAttackState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerSkilAttackState::ImGui() {
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
 
@@ -367,7 +367,7 @@ void PlayerSkilAttackState::ImGui([[maybe_unused]] const Player& player) {
 	ImGui::DragFloat("jumpEffectEmitProgres", &jumpEffectEmitProgress_, 0.01f);
 
 	ImGui::DragFloat3("rotationAxis", &rotationAxis_.x, 0.01f);
-	PlayerBaseAttackState::ImGui(player);
+	PlayerBaseAttackState::ImGui();
 
 	ImGui::SeparatorText("MoveFront Effect");
 

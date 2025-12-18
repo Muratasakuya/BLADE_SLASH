@@ -23,16 +23,16 @@ public:
 	PlayerSkilAttackState(Player* player);
 	~PlayerSkilAttackState() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
-	void BeginUpdateAlways(Player& player) override;
-	void UpdateAlways(Player& player) override;
+	void Update() override;
+	void BeginUpdateAlways() override;
+	void UpdateAlways() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -109,8 +109,8 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// 状態毎の更新
-	void UpdateMoveAttack(Player& player);
-	void UpdateJumpAttack(Player& player);
+	void UpdateMoveAttack();
+	void UpdateJumpAttack();
 
 	// 範囲内チェックを行って補間目標を設定する
 	void SetTargetByRange(SakuEngine::KeyframeObject3D& keyObject, const std::string& cameraKeyName);

@@ -151,8 +151,9 @@ void PlayerAttackCollision::ApplyJson(const Json& data) {
 
 	for (const auto& [key, value] : data.items()) {
 
-		PlayerState state = GetPlayerStateFromName(key);
-		if (state == PlayerState::None) {
+		PlayerState state = SakuEngine::EnumAdapter<PlayerState>::FromString(key).value();
+		if (state == PlayerState::None ||
+			state == PlayerState::Count) {
 			continue;
 		}
 		AttackParameter parameter;
@@ -215,17 +216,6 @@ void PlayerAttackCollision::SaveJson(Json& data) {
 		}
 		value["hitWindows"] = windowData;
 	}
-}
-
-PlayerState PlayerAttackCollision::GetPlayerStateFromName(const std::string& name) {
-
-	for (int i = 0; i < static_cast<int>(PlayerState::StunAttack) + 1; ++i) {
-		if (name == SakuEngine::EnumAdapter<PlayerState>::GetEnumName(i)) {
-
-			return static_cast<PlayerState>(i);
-		}
-	}
-	return PlayerState::None;
 }
 
 void PlayerAttackCollision::EditWindowParameter(

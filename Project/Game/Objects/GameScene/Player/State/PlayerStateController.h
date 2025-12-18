@@ -30,13 +30,12 @@ public:
 
 	void Update(Player& owner);
 
-	void ImGui(const Player& owner);
+	void ImGui();
 
 	//--------- accessor -----------------------------------------------------
 
 	void SetBossEnemy(const BossEnemy* bossEnemy);
 	void SetFollowCamera(FollowCamera* followCamera);
-	void SetSubPlayer(SubPlayer* subPlayer);
 
 	// ステータス設定
 	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
@@ -47,7 +46,6 @@ public:
 
 	PlayerState GetCurrentState() const { return current_; }
 	PlayerState GetPreviousState() const { return previous_; }
-	PlayerState GetSwitchSelectState() const;
 
 	bool IsTriggerParry() const { return inputMapper_->IsTriggered(PlayerInputAction::Parry); }
 	bool IsActiveParry() const { return parrySession_.active; }
@@ -127,9 +125,7 @@ private:
 	void SetInputMapper();
 	bool Request(PlayerState state);
 	void ChangeState(Player& owner);
-	void HandleStunTransition(Player& owner);
 	bool CanTransition(PlayerState next, bool viaQueue) const;
 	bool IsCombatState(PlayerState state) const;
 	bool IsInChain() const;
-	bool IsStunProcessing() const;
 };

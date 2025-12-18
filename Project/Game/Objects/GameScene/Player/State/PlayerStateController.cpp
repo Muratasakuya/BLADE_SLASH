@@ -25,8 +25,6 @@
 #include <Game/Objects/GameScene/Player/State/States/PlayerAttack_4thState.h>
 #include <Game/Objects/GameScene/Player/State/States/PlayerSkilAttackState.h>
 #include <Game/Objects/GameScene/Player/State/States/PlayerParryState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerSwitchAllyState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerStunAttackState.h>
 #include <Game/Objects/GameScene/Player/State/States/PlayerFalterState.h>
 
 //============================================================================
@@ -40,10 +38,6 @@ void PlayerStateController::Init(Player& owner) {
 	inputMapper_ = std::make_unique<SakuEngine::InputMapper<PlayerInputAction>>();
 	inputMapper_->AddDevice(std::make_unique<PlayerGamePadInput>(input));
 
-#ifdef _RELEASE
-	//inputMapper_->AddDevice(std::make_unique<PlayerKeyInput>(input));
-#endif
-
 	// 各状態を初期化
 	states_.emplace(PlayerState::Idle, std::make_unique<PlayerIdleState>());
 	states_.emplace(PlayerState::Walk, std::make_unique<PlayerWalkState>());
@@ -55,8 +49,6 @@ void PlayerStateController::Init(Player& owner) {
 	states_.emplace(PlayerState::Attack_4th, std::make_unique<PlayerAttack_4thState>(&owner));
 	states_.emplace(PlayerState::SkilAttack, std::make_unique<PlayerSkilAttackState>(&owner));
 	states_.emplace(PlayerState::Parry, std::make_unique<PlayerParryState>());
-	states_.emplace(PlayerState::SwitchAlly, std::make_unique<PlayerSwitchAllyState>());
-	states_.emplace(PlayerState::StunAttack, std::make_unique<PlayerStunAttackState>());
 	states_.emplace(PlayerState::Falter, std::make_unique<PlayerFalterState>(&owner));
 
 	// json適応
@@ -103,15 +95,6 @@ void PlayerStateController::SetFollowCamera(FollowCamera* followCamera) {
 	}
 }
 
-void PlayerStateController::SetSubPlayer(SubPlayer* subPlayer) {
-
-	// 各状態にsubPlayerをセット
-	for (const auto& state : std::views::values(states_)) {
-
-		state->SetSubPlayer(subPlayer);
-	}
-}
-
 void PlayerStateController::SetForcedState(Player& owner, PlayerState state) {
 
 	// 同じ状態への強制遷移が許可されていれば
@@ -120,8 +103,8 @@ void PlayerStateController::SetForcedState(Player& owner, PlayerState state) {
 		// 状態をリセットして再度状態を処理する
 		if (const auto& currentState = states_[current_].get()) {
 
-			currentState->Exit(owner);
-			currentState->Enter(owner);
+			currentState->Exit();
+			currentState->Enter();
 		}
 		currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 		lastEnterTime_[current_] = currentEnterTime_;
@@ -136,7 +119,7 @@ void PlayerStateController::SetForcedState(Player& owner, PlayerState state) {
 	// 現在の行動を強制終了
 	if (auto* currentState = states_[current_].get()) {
 
-		currentState->Exit(owner);
+		currentState->Exit();
 	}
 
 	// 次の状態を設定
@@ -147,7 +130,7 @@ void PlayerStateController::SetForcedState(Player& owner, PlayerState state) {
 	if (auto* currentState = states_[current_].get()) {
 
 		currentState->SetPreState(preState);
-		currentState->Enter(owner);
+		currentState->Enter();
 	}
 
 	// 現在の時間を記録
@@ -166,12 +149,6 @@ void PlayerStateController::RequestFalterState(Player& owner) {
 
 	// 怯み状態に遷移させる
 	SetForcedState(owner, PlayerState::Falter);
-}
-
-PlayerState PlayerStateController::GetSwitchSelectState() const {
-
-	// SwitchAlly状態の時になにをplayerが選択したのか取得する
-	return static_cast<PlayerSwitchAllyState*>(states_.at(PlayerState::SwitchAlly).get())->GetSelectState();
 }
 
 bool PlayerStateController::IsAvoidance() const {
@@ -226,22 +203,19 @@ void PlayerStateController::Update(Player& owner) {
 	// パリィの状態管理
 	RequestParryState();
 
-	// 敵がスタン中の状態遷移処理
-	HandleStunTransition(owner);
-
 	// 常に更新する値
 	for (const auto& [state, ptr] : states_) {
 
 		if (state == PlayerState::None) {
 			continue;
 		}
-		ptr->BeginUpdateAlways(owner);
+		ptr->BeginUpdateAlways();
 	}
 
 	// 現在の状態を更新
 	if (PlayerIState* currentState = states_[current_].get()) {
 
-		currentState->Update(owner);
+		currentState->Update();
 	}
 
 	// 常に更新する値
@@ -250,7 +224,7 @@ void PlayerStateController::Update(Player& owner) {
 		if (state == PlayerState::None) {
 			continue;
 		}
-		ptr->UpdateAlways(owner);
+		ptr->UpdateAlways();
 	}
 
 	// Y座標の制限
@@ -258,11 +232,6 @@ void PlayerStateController::Update(Player& owner) {
 }
 
 void PlayerStateController::UpdateInputState(Player& owner) {
-
-	// スタン処理中は状態遷移不可
-	if (IsStunProcessing()) {
-		return;
-	}
 
 	// コンボ中は判定をスキップする
 	bool inCombat = IsCombatState(current_);
@@ -449,7 +418,7 @@ bool PlayerStateController::UpdateExternalSynch(Player& owner) {
 				// Exitを呼びだしてリセットして終了
 				if (PlayerIState* preState = states_[*externalSynchState_].get()) {
 
-					preState->Exit(owner);
+					preState->Exit();
 
 				}
 				externalSynchState_.reset();
@@ -462,19 +431,19 @@ bool PlayerStateController::UpdateExternalSynch(Player& owner) {
 			if (externalSynchState_.has_value()) {
 				if (PlayerIState* preState = states_[*externalSynchState_].get()) {
 
-					preState->Exit(owner);
+					preState->Exit();
 				}
 			}
 			// 同期を開始させる
-			currentPtr->Enter(owner);
+			currentPtr->Enter();
 			externalSynchState_ = *currentActive;
 		}
 
 		// 同期中の状態を更新する
 		if (currentPtr) {
 
-			currentPtr->Update(owner);
-			currentPtr->UpdateAlways(owner);
+			currentPtr->Update();
+			currentPtr->UpdateAlways();
 		}
 		return true;
 	}
@@ -483,7 +452,7 @@ bool PlayerStateController::UpdateExternalSynch(Player& owner) {
 	if (externalSynchState_.has_value()) {
 		if (PlayerIState* preState = states_[*externalSynchState_].get()) {
 
-			preState->Exit(owner);
+			preState->Exit();
 		}
 		externalSynchState_.reset();
 	}
@@ -535,7 +504,7 @@ void PlayerStateController::ChangeState(Player& owner) {
 	// 現在の状態の終了処理
 	if (auto* currentState = states_[current_].get()) {
 
-		currentState->Exit(owner);
+		currentState->Exit();
 	}
 
 	// 次の状態を設定する
@@ -546,7 +515,7 @@ void PlayerStateController::ChangeState(Player& owner) {
 	if (auto* currentState = states_[current_].get()) {
 
 		currentState->SetPreState(preState);
-		currentState->Enter(owner);
+		currentState->Enter();
 	}
 
 	currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
@@ -554,27 +523,6 @@ void PlayerStateController::ChangeState(Player& owner) {
 
 	// player側に切り替えを通知する
 	owner.GetAttackCollision()->SetEnterState(current_);
-}
-
-void PlayerStateController::HandleStunTransition(Player& owner) {
-
-	// 切り替え処理
-	if (current_ == PlayerState::SwitchAlly &&
-		states_[current_]->GetCanExit()) {
-
-		// 選択した状態へ遷移させる
-		SetForcedState(owner, GetSwitchSelectState());
-		return;
-	}
-
-	// スタン攻撃の終了判定
-	if (current_ == PlayerState::StunAttack &&
-		states_[current_]->GetCanExit()) {
-
-		// 攻撃が終わったらアイドル状態に戻す
-		SetForcedState(owner, PlayerState::Idle);
-		return;
-	}
 }
 
 bool PlayerStateController::CanTransition(PlayerState next, bool viaQueue) const {
@@ -652,12 +600,6 @@ bool PlayerStateController::IsInChain() const {
 	return (it->second.chainInputTime > 0.0f) && (elapsed <= it->second.chainInputTime);
 }
 
-bool PlayerStateController::IsStunProcessing() const {
-
-	return current_ == PlayerState::SwitchAlly ||
-		current_ == PlayerState::StunAttack;
-}
-
 void PlayerStateController::ParrySession::Init() {
 
 	active = false;    // 処理中か
@@ -667,7 +609,7 @@ void PlayerStateController::ParrySession::Init() {
 	reservedStart = 0.0f;
 }
 
-void PlayerStateController::ImGui(const Player& owner) {
+void PlayerStateController::ImGui() {
 
 	// tool
 	ImGui::Text("Current : %s", SakuEngine::EnumAdapter<PlayerState>::ToString(current_));
@@ -711,7 +653,7 @@ void PlayerStateController::ImGui(const Player& owner) {
 
 			ImGui::BeginChild("StateDetail", ImVec2(0, 0), true);
 			if (auto* st = states_[static_cast<PlayerState>(editingStateIndex_)].get()) {
-				st->ImGui(owner);
+				st->ImGui();
 			}
 			ImGui::EndChild();
 

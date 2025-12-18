@@ -51,7 +51,6 @@ private:
 
 	// objects
 	std::unique_ptr<Player> player_;
-	std::unique_ptr<SubPlayer> subPlayer_;
 	std::unique_ptr<BossEnemy> bossEnemy_;
 	std::unique_ptr<GameResultDisplay> result_;
 

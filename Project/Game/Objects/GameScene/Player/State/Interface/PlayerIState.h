@@ -10,7 +10,6 @@
 
 // front
 class Player;
-class SubPlayer;
 class BossEnemy;
 class FollowCamera;
 namespace SakuEngine {
@@ -31,18 +30,21 @@ public:
 	virtual ~PlayerIState() = default;
 
 	// 状態遷移時
-	virtual void Enter(Player& player) = 0;
+	virtual void Enter() = 0;
 
 	// 更新処理
-	virtual void Update(Player& player) = 0;
-	virtual void BeginUpdateAlways([[maybe_unused]] Player& player) {}
-	virtual void UpdateAlways([[maybe_unused]] Player& player) {}
+	virtual void Update() = 0;
+
+	// 常に行う更新処理
+	virtual void BeginUpdateAlways() {}
+	virtual void UpdateAlways() {}
+	virtual void EndUpdateAlways() {}
 
 	// 状態終了時
-	virtual void Exit(Player& player) = 0;
+	virtual void Exit() = 0;
 
 	// imgui
-	virtual void ImGui(const Player& player) = 0;
+	virtual void ImGui() = 0;
 
 	// json
 	virtual void ApplyJson(const Json& data) = 0;
@@ -50,10 +52,11 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	void SetPlayer(Player* player) { player_ = player; }
+
 	void SetInputMapper(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) { inputMapper_ = inputMapper; }
 	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
-	void SetSubPlayer(SubPlayer* subPlayer) { subPlayer_ = subPlayer; }
 
 	void SetCanExit(bool canExit) { canExit_ = canExit; }
 	void SetPreState(PlayerState preState) { preState_ = preState; }
@@ -67,11 +70,13 @@ protected:
 
 	//--------- variables ----------------------------------------------------
 
+	// 状態遷移対象
+	Player* player_;
+
 	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
 	const BossEnemy* bossEnemy_;
 	FollowCamera* followCamera_;
-	Player* player_;
-	SubPlayer* subPlayer_;
+	
 	SakuEngine::PostProcessSystem* postProcess_;
 
 	// 遷移前の状態
@@ -91,7 +96,7 @@ protected:
 	//--------- functions ----------------------------------------------------
 
 	// helper
-	void SetRotateToDirection(Player& player, const SakuEngine::Vector3& move);
+	void SetRotateToDirection(const SakuEngine::Vector3& move);
 
 	// プレイヤー、敵の座標取得(Yを固定するため)
 	SakuEngine::Vector3 GetPlayerFixedYPos() const;

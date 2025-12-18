@@ -21,15 +21,15 @@ public:
 	PlayerParryState();
 	~PlayerParryState() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
-	void UpdateAlways(Player& player) override;
+	void Update() override;
+	void UpdateAlways() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -93,13 +93,13 @@ private:
 
 	//--------- functions ----------------------------------------------------
 
-	void UpdateDeltaWaitTime(const Player& player);
-	void UpdateLerpTranslation(Player& player);
+	void UpdateDeltaWaitTime();
+	void UpdateLerpTranslation();
 	void CheckInput();
-	void UpdateAnimation(Player& player);
+	void UpdateAnimation();
 
 	// helper
 	SakuEngine::Vector3 GetLerpTranslation(LerpParameter& lerp);
-	SakuEngine::Vector3 SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target,
-		const Player& player, float moveDistance, bool isPlayerBase);
+	SakuEngine::Vector3 SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target
+		, float moveDistance, bool isPlayerBase);
 };
