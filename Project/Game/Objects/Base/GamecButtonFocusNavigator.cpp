@@ -95,8 +95,6 @@ void GamecButtonFocusNavigator::Update() {
 	}
 
 	// 左右入力判定
-	bool left = input->TriggerGamepadButton(GamePadButtons::ARROW_LEFT);
-	bool right = input->TriggerGamepadButton(GamePadButtons::ARROW_RIGHT);
 	bool decide = input->TriggerGamepadButton(GamePadButtons::A);
 
 	float lx = input->GetLeftStickVal().x;
@@ -108,7 +106,7 @@ void GamecButtonFocusNavigator::Update() {
 	bool axisLeft = (lx <= -dz) && !axisLatched_;
 	bool axisRight = (lx >= dz) && !axisLatched_;
 
-	if (!hasFocus_ && (left || right || decide || axisLeft || axisRight)) {
+	if (!hasFocus_ && (decide || axisLeft || axisRight)) {
 
 		index_ = defaultIndex_;
 		hasFocus_ = true;
@@ -120,14 +118,6 @@ void GamecButtonFocusNavigator::Update() {
 	}
 
 	// 入力判定結果に応じてインデックスを設定
-	if (left) {
-		MoveLeft();
-	}
-	if (right) {
-
-		MoveRight();
-	}
-
 	if (axisLeft) {
 		MoveLeft();
 		axisLatched_ = true;
