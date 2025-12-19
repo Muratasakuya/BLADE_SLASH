@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
@@ -21,7 +22,7 @@ void PlayerIState::SetRotateToDirection(const SakuEngine::Vector3& move) {
 
 	SakuEngine::Vector3 direction = SakuEngine::Vector3(move.x, 0.0f, move.z).Normalize();
 
-	if (direction.Length() <= epsilon_) {
+	if (direction.Length() <= Config::kEpsilon) {
 		return;
 	}
 

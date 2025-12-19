@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 
@@ -174,7 +175,7 @@ bool Collision::OBBToOBB(const CollisionShape::OBB& obbA, const CollisionShape::
 	}
 
 	for (const auto& axis : axes) {
-		if (axis.Length() < std::numeric_limits<float>::epsilon()) {
+		if (axis.Length() < Config::kEpsilon) {
 			continue;
 		}
 

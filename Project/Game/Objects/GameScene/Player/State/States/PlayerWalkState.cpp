@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
@@ -38,7 +39,7 @@ void PlayerWalkState::UpdateWalk() {
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
 	inputValue = SakuEngine::Vector2::Normalize(inputValue);
 
-	if (std::fabs(inputValue.x) > epsilon_ || std::fabs(inputValue.y) > epsilon_) {
+	if (std::fabs(inputValue.x) > Config::kEpsilon || std::fabs(inputValue.y) > Config::kEpsilon) {
 
 		// 入力がある場合のみ速度を計算する
 		SakuEngine::Vector3 inputDirection(inputValue.x, 0.0f, inputValue.y);
@@ -54,7 +55,7 @@ void PlayerWalkState::UpdateWalk() {
 		// 入力がなければどんどん減速させる
 		move_ *= moveDecay_;
 		// 一定の速度以下で止まる
-		if (move_.Length() < epsilon_) {
+		if (move_.Length() < Config::kEpsilon) {
 			move_.Init();
 		}
 	}

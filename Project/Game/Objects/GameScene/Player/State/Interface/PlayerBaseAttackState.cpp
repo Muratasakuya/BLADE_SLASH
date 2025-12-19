@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
@@ -69,7 +70,7 @@ void PlayerBaseAttackState::AttackAssist(bool onceTarget) {
 
 bool PlayerBaseAttackState::CheckInRange(float range, float distance) {
 
-	bool result = range > epsilon_ && distance <= range;
+	bool result = range > Config::kEpsilon && distance <= range;
 
 	// ボスが無効状態なら常にfalseを返す
 	if (bossEnemy_->IsInvincible()) {

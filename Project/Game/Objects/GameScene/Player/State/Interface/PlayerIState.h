@@ -84,9 +84,6 @@ protected:
 	// 遷移前の状態
 	PlayerState preState_;
 
-	// 共通parameters
-	const float epsilon_ = std::numeric_limits<float>::epsilon();
-
 	float nextAnimDuration_; // 次のアニメーション遷移にかかる時間
 	bool canExit_ = true;    // 遷移可能かどうか
 	float rotationLerpRate_; // 回転補間割合

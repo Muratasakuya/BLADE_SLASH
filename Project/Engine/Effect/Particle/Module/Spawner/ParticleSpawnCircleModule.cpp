@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
@@ -66,7 +67,7 @@ void ParticleSpawnCircleModule::Execute(std::list<CPUParticle::ParticleData>& pa
 		return;
 	}
 
-	const bool fullCircleAngle = (360.0f - std::numeric_limits<float>::epsilon()) <= std::fabs(angleMax_ - angleMin_);
+	const bool fullCircleAngle = (360.0f - Config::kEpsilon) <= std::fabs(angleMax_ - angleMin_);
 	float amin = Math::WrapDegree(angleMin_);
 	float amax = Math::WrapDegree(angleMax_);
 	float span = fullCircleAngle ? 360.0f : Math::WrapDegree(amax - amin);
@@ -176,7 +177,7 @@ void ParticleSpawnCircleModule::UpdateAdvanceProgressive(uint32_t emitCount) {
 	if (mode_ == SpawnMode::Progressive) {
 
 		// 全周かどうか
-		const bool full = 360.0f - std::numeric_limits<float>::epsilon() <= std::fabs(angleMax_ - angleMin_);
+		const bool full = 360.0f - Config::kEpsilon <= std::fabs(angleMax_ - angleMin_);
 		// 弧の長さ
 		const float span = full ? 360.0f : Math::WrapDegree(angleMax_ - angleMin_);
 		// 進行の基準端点
@@ -208,7 +209,7 @@ Vector3 ParticleSpawnCircleModule::GetVelocity(
 	}
 
 	// 角度レンジの準備（ゼロ度跨ぎ対応）
-	const bool fullCircleAngle = (360.0f - std::numeric_limits<float>::epsilon()) <= std::fabs(angleMax_ - angleMin_);
+	const bool fullCircleAngle = (360.0f - Config::kEpsilon) <= std::fabs(angleMax_ - angleMin_);
 	const float amin = Math::WrapDegree(angleMin_);
 	const float amax = Math::WrapDegree(angleMax_);
 	const float span = fullCircleAngle ? 360.0f : Math::WrapDegree(amax - amin);
@@ -331,7 +332,7 @@ Vector3 ParticleSpawnCircleModule::GetVelocity(
 	// 次の点と発生予定の座標の差分ベクトルを取得
 	Vector3 resultDirection = nextWorldPos - worldPos;
 	// ほぼ同じ位置の場合は接線方向を取得する
-	if (resultDirection.Length() <= std::numeric_limits<float>::epsilon()) {
+	if (resultDirection.Length() <= Config::kEpsilon) {
 
 		float sign = 1.0f;
 		if (clockwise_) {

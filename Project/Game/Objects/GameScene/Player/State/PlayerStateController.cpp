@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
@@ -248,7 +249,7 @@ void PlayerStateController::UpdateInputState() {
 	SakuEngine::Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
 	// 動いたかどうか判定
-	bool isMove = move.Length() > std::numeric_limits<float>::epsilon();
+	bool isMove = move.Length() > Config::kEpsilon;
 
 	// 歩き、待機状態の状態遷移
 	{
@@ -567,10 +568,13 @@ void PlayerStateController::ImGui() {
 
 			ImGui::BeginChild("StateDetail", ImVec2(0, 0), true);
 
-			if (PlayerIState* state = static_cast<PlayerIState*>(&BaseStateController::GetMachine().Get(
-				static_cast<PlayerState>(editingStateIndex_)))) {
+			if (PlayerState::None != static_cast<PlayerState>(editingStateIndex_) &&
+				PlayerState::Count != static_cast<PlayerState>(editingStateIndex_)) {
+				if (PlayerIState* state = static_cast<PlayerIState*>(&BaseStateController::GetMachine().Get(
+					static_cast<PlayerState>(editingStateIndex_)))) {
 
-				state->ImGui();
+					state->ImGui();
+				}
 			}
 			ImGui::EndChild();
 

@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -63,7 +64,7 @@ void FollowCameraReturnDefaultRotate::Update(FollowCamera& followCamera) {
 	// カメラ入力があれば処理を終了する
 	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX),
 		inputMapper_->GetVector(FollowCameraInputAction::RotateY));
-	if (rawInput.Length() > std::numeric_limits<float>::epsilon()) {
+	if (rawInput.Length() > Config::kEpsilon) {
 
 		canExit_ = true;
 		return;

@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
@@ -95,8 +96,8 @@ void ParticleLightningUpdater::Update(CPUParticle::ParticleData& particle, Easin
 
 		Vector3 base = lightning.end - lightning.start; // World
 		Vector3 velocity = particle.velocity;           // World
-		if (base.Length() > std::numeric_limits<float>::epsilon() &&
-			velocity.Length() > std::numeric_limits<float>::epsilon()) {
+		if (base.Length() > Config::kEpsilon &&
+			velocity.Length() > Config::kEpsilon) {
 
 			Quaternion rotation= Quaternion::FromToRotation(base, velocity);
 			Vector3 rotated = rotation * base;

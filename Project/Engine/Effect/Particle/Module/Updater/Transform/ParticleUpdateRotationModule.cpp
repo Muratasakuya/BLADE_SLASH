@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================
@@ -90,7 +91,7 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 		ToAxisAngle(delta, axis, angle);
 
 		// 長い方の弧を処理するときは軸を反転する
-		if (slerpPreferLongArc_ && angle > std::numeric_limits<float>::epsilon() && angle < pi) {
+		if (slerpPreferLongArc_ && angle > Config::kEpsilon && angle < pi) {
 
 			angle = 2.0f * pi - angle;
 			axis = -axis;
@@ -116,7 +117,7 @@ Quaternion ParticleUpdateRotationModule::UpdateRotation(
 
 		Vector3 direction = particle.velocity.Normalize();
 		// 止まっている間はそのまま
-		if (direction.Length() < std::numeric_limits<float>::epsilon()) {
+		if (direction.Length() < Config::kEpsilon) {
 
 			return particle.rotation;
 		}

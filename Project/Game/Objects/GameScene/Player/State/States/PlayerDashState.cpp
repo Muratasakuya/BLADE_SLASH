@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
@@ -84,7 +85,7 @@ void PlayerDashState::UpdateDash() {
 	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
 	inputValue = SakuEngine::Vector2::Normalize(inputValue);
-	if (inputValue.Length() > epsilon_) {
+	if (inputValue.Length() > Config::kEpsilon) {
 
 		SakuEngine::Vector3 direction = SakuEngine::Vector3::Normalize(SakuEngine::Vector3(inputValue.x, 0.0f, inputValue.y));
 		direction = SakuEngine::Vector3::TransferNormal(direction,

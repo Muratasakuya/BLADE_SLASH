@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 
 //============================================================================
@@ -363,7 +364,7 @@ void PlayerStunHUD::ImGui() {
 
 	ImGui::DragFloat("restTime", &restTime_, 0.01f);
 	ImGui::DragFloat("restTimer", &restTimer_, 0.01f);
-	if (std::numeric_limits<float>::epsilon() < restTime_) {
+	if (Config::kEpsilon < restTime_) {
 
 		ImGui::ProgressBar(restTimer_ / restTime_, ImVec2(256.0f, 0.0f));
 	}

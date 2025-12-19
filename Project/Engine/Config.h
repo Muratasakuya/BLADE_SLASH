@@ -42,4 +42,7 @@ namespace  Config {
 
 	// instanceMax
 	const constexpr uint32_t kMaxInstanceNum = 1024;
+
+	// 0.0fに限りなく近い値
+	const constexpr float kEpsilon = 1e-4f;
 };

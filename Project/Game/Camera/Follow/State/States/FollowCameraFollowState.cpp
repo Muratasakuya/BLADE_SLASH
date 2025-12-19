@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Timer/GameTimer.h>
@@ -65,7 +66,7 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
 	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX), inputMapper_->GetVector(FollowCameraInputAction::RotateY));
 	// 入力が合ったらブレンド処理を終了させる
-	if (rawInput.Length() > std::numeric_limits<float>::epsilon()) {
+	if (rawInput.Length() > Config::kEpsilon) {
 
 		handoffBlendT_ = 1.0f;
 		clampBlendT_ = 1.0f;
@@ -108,7 +109,7 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	if (pitchClamped != currentPitch) {
 
 		SakuEngine::Vector3 horizontal = SakuEngine::Vector3(forward.x, 0.0f, forward.z);
-		if (horizontal.Length() < std::numeric_limits<float>::epsilon()) {
+		if (horizontal.Length() < Config::kEpsilon) {
 
 			SakuEngine::Vector3 fowrardYaw = yawRotation * Direction::Get(Direction3D::Forward);
 			horizontal = SakuEngine::Vector3(fowrardYaw.x, 0.0f, fowrardYaw.z);

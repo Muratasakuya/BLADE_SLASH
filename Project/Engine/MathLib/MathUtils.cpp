@@ -59,7 +59,7 @@ int Math::YawShortestDirection(const Quaternion& from, const Quaternion& to) {
 	// Y軸まわりの回転のみ取得
 	Quaternion twistY{ 0.0f, delta.y, 0.0f, delta.w };
 	float len = std::sqrt(twistY.y * twistY.y + twistY.w * twistY.w);
-	if (len <= std::numeric_limits<float>::epsilon()) {
+	if (len <= Config::kEpsilon) {
 		return 0;
 	}
 	twistY.y /= len;
@@ -69,7 +69,7 @@ int Math::YawShortestDirection(const Quaternion& from, const Quaternion& to) {
 	float angle = AngleFromTwist(twistY, Axis::Y);
 	angle = WrapPi(angle);
 
-	if (std::abs(angle) <= std::numeric_limits<float>::epsilon()) {
+	if (std::abs(angle) <= Config::kEpsilon) {
 		return 0;
 	}
 	return (0.0f < angle) ? +1 : -1;
@@ -83,7 +83,7 @@ float Math::YawSignedDelta(const Quaternion& from, const Quaternion& to) {
 
 	Quaternion twistY{ 0.0f, delta.y, 0.0f, delta.w };
 	float len = std::sqrt(twistY.y * twistY.y + twistY.w * twistY.w);
-	if (len <= std::numeric_limits<float>::epsilon()) {
+	if (len <= Config::kEpsilon) {
 		return 0.0f;
 	}
 	twistY.y /= len;
