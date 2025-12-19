@@ -53,7 +53,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetBossEnemy(const BossEnemy* bossEnemy);
+	void SetBossEnemy(BossEnemy* bossEnemy);
 	void SetFollowCamera(FollowCamera* followCamera);
 
 	// 武器の向きを反転させる
@@ -64,6 +64,7 @@ public:
 	void ResetState() { stateController_->SetForcedState(PlayerState::Idle); }
 	PlayerState GetCurrentState() const { return stateController_->GetCurrentState(); }
 
+	const PlayerStats& GetStats() const { return stats_; }
 	PlayerAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
 	PlayerHUD* GetHUD() const { return hudSprites_.get(); }
 	PlayerStunHUD* GetStunHUD() const { return stunHudSprites_.get(); }

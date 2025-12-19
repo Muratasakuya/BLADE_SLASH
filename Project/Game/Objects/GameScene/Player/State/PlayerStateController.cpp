@@ -92,9 +92,10 @@ void PlayerStateController::Init(Player* owner) {
 	currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 	lastEnterTime_[PlayerState::Idle] = currentEnterTime_;
 	isDashInput_ = false;
+	parrySystem_.Reset();
 }
 
-void PlayerStateController::SetBossEnemy(const BossEnemy* bossEnemy) {
+void PlayerStateController::SetBossEnemy(BossEnemy* bossEnemy) {
 
 	auto& machine = BaseStateController::GetMachine();
 
@@ -153,7 +154,7 @@ void PlayerStateController::RequestFalterState() {
 		return;
 	}
 
-	// 怯み状態に遷移させる
+	// 怯み状態に遷移させる 
 	SetForcedState(PlayerState::Falter);
 }
 
@@ -184,7 +185,7 @@ void PlayerStateController::Update() {
 	OnStateChanged();
 
 	// パリィの状態管理
-	RequestParryState();
+	parrySystem_.PostStateUpdate(machine.GetCurrentId(), machine.GetCurrent().GetCanExit());
 
 	// 全ての状態の常に行う更新処理
 	ForEachPlayerState([&](PlayerState state) {
@@ -205,8 +206,8 @@ void PlayerStateController::DecideExternalTransition() {
 	// 入力遷移
 	UpdateInputState();
 
-	// パリィ
-	UpdateParryState();
+	// パリィ状態への遷移判定
+	parrySystem_.UpdateDuringExternalTransition(*this, *bossEnemy_);
 
 	// 何か予約設定されて入れば状態遷移させる
 	if (queued_) {
@@ -317,7 +318,7 @@ void PlayerStateController::UpdateInputState() {
 
 		// スキル攻撃
 		// スキルポイントが足りていてスキル入力があればスキル攻撃状態に遷移
-		if (stats_.skilCost <= stats_.currentSkilPoint &&
+		if (player_->GetStats().skilCost <= player_->GetStats().currentSkilPoint &&
 			inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
 
 			Request(PlayerState::SkilAttack);
@@ -333,21 +334,7 @@ void PlayerStateController::UpdateInputState() {
 	}
 
 	// パリィの入力判定、攻撃を受けた、受けているときは無効
-	if (currentState != PlayerState::Falter &&
-		inputMapper_->IsTriggered(PlayerInputAction::Parry)) {
-
-		const ParryParameter& parryParam = bossEnemy_->GetParryParam();
-		if (parryParam.canParry) {
-
-			// 入力があればパリィ処理を予約する
-			parrySession_ = {};
-			parrySession_.done = 0;
-			parrySession_.active = true;
-			parrySession_.reserved = true;
-			parrySession_.total = std::max<uint32_t>(1, parryParam.continuousCount);
-			parrySession_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
-		}
-	}
+	parrySystem_.TryReserveByInput(currentState, *bossEnemy_, *inputMapper_);
 
 	// ダッシュ中にダッシュ入力があればダッシュ状態を再度強制遷移させる
 	if (currentState == PlayerState::Dash && inputMapper_->IsTriggered(PlayerInputAction::Dash)) {
@@ -356,47 +343,17 @@ void PlayerStateController::UpdateInputState() {
 	}
 }
 
-void PlayerStateController::UpdateParryState() {
+void PlayerStateController::SetParryAllowAttack(bool allowAttack) {
 
-	// 敵がパリィ可能かどうかチェック
-	if (parrySession_.active && parrySession_.reserved &&
-		bossEnemy_ && const_cast<BossEnemy*>(bossEnemy_)->ConsumeParryTiming()) {
-
-		++parrySession_.done;
-		const bool isLast = (parrySession_.done >= parrySession_.total);
-
-		// パリィ状態に強制遷移させる
-		SetForcedState(PlayerState::Parry);
-		if (PlayerParryState* parryState = static_cast<PlayerParryState*>(&BaseStateController::GetMachine().GetCurrent())) {
-
-			// 攻撃できるか設定する、最後なら可
-			parryState->SetAllowAttack(isLast);
-		}
-
-		parrySession_.reserved = !isLast;
-		parrySession_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
+	auto& machine = BaseStateController::GetMachine();
+	// 現在がParry状態でなければ何もしない
+	if (machine.GetCurrentId() != PlayerState::Parry) {
 		return;
 	}
+	// ParryStateに攻撃許可フラグをセット
+	if (PlayerParryState* parryState = static_cast<PlayerParryState*>(&machine.GetCurrent())) {
 
-	// パリィ受付をしていなければ初期化
-	if (parrySession_.active &&
-		bossEnemy_ && !bossEnemy_->GetParryParam().canParry) {
-
-		parrySession_.Init();
-	}
-}
-
-void PlayerStateController::RequestParryState() {
-
-	if (BaseStateController::GetMachine().GetCurrentId() == PlayerState::Parry &&
-		BaseStateController::GetMachine().GetCurrent().GetCanExit()) {
-		if (parrySession_.done < parrySession_.total) {
-
-			parrySession_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
-		} else {
-
-			parrySession_.Init();
-		}
+		parryState->SetAllowAttack(allowAttack);
 	}
 }
 
@@ -514,15 +471,6 @@ bool PlayerStateController::IsInChain() const {
 	return (it->second.chainInputTime > 0.0f) && (elapsed <= it->second.chainInputTime);
 }
 
-void PlayerStateController::ParrySession::Init() {
-
-	active = false;    // 処理中か
-	reserved = false;  // タイミング待ち
-	total = 0; // 連続回数
-	done = 0;  // 処理済み回数
-	reservedStart = 0.0f;
-}
-
 void PlayerStateController::ImGui() {
 
 	// tool
@@ -541,12 +489,6 @@ void PlayerStateController::ImGui() {
 
 			ImGui::Text("Enter Time   : %.2f", currentEnterTime_);
 			ImGui::Text("Queued State : %s", queued_ ? SakuEngine::EnumAdapter<PlayerState>::ToString(*queued_) : "None");
-
-			ImGui::SeparatorText("Parry");
-
-			ImGui::Text(std::format("active: {}", parrySession_.active).c_str());
-			ImGui::Text(std::format("reserved: {}", parrySession_.reserved).c_str());
-			ImGui::Text(std::format("total: {}", parrySession_.total).c_str());
 
 			ImGui::EndTabItem();
 		}

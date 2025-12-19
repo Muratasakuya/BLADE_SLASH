@@ -150,7 +150,7 @@ void Player::DerivedInit() {
 	rightWeapon_->SetPostProcessMask(postProcessBit);
 }
 
-void Player::SetBossEnemy(const BossEnemy* bossEnemy) {
+void Player::SetBossEnemy(BossEnemy* bossEnemy) {
 
 	bossEnemy_ = nullptr;
 	bossEnemy_ = bossEnemy;
@@ -254,7 +254,6 @@ void Player::Update() {
 	UpdateTargetNavigation();
 
 	// 状態の更新
-	stateController_->SetStatas(stats_);
 	stateController_->Update();
 
 	// 武器の更新

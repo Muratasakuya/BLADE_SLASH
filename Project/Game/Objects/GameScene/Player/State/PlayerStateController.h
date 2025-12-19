@@ -6,7 +6,7 @@
 #include <Engine/Object/State/BaseStateController.h>
 #include <Game/Objects/GameScene/Player/State/Interface/PlayerIState.h>
 #include <Game/Objects/GameScene/Player/State/PlayerStateConfig.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Objects/GameScene/Player/Parry/PlayerParrySystem.h>
 
 // c++
 #include <memory>
@@ -37,11 +37,9 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetBossEnemy(const BossEnemy* bossEnemy);
+	void SetBossEnemy(BossEnemy* bossEnemy);
 	void SetFollowCamera(FollowCamera* followCamera);
 
-	// ステータス設定
-	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
 	// 状態の強制遷移
 	void SetForcedState(PlayerState state);
 	// 怯みのリクエスト、遷移可能なら遷移
@@ -51,7 +49,7 @@ public:
 	PlayerState GetPreviousState() const { return previous_; }
 
 	bool IsTriggerParry() const { return inputMapper_->IsTriggered(PlayerInputAction::Parry); }
-	bool IsActiveParry() const { return parrySession_.active; }
+	bool IsActiveParry() const { return parrySystem_.IsActive(); }
 
 	// 今の状態で回避中か
 	bool IsAvoidance();
@@ -60,33 +58,17 @@ private:
 	//	private Methods
 	//========================================================================
 
-	//--------- structure ----------------------------------------------------
-
-	// パリィ処理
-	struct ParrySession {
-
-		bool active = false;    // 処理中か
-		bool reserved = false;  // タイミング待ち
-		uint32_t total = 0; // 連続回数
-		uint32_t done = 0;  // 処理済み回数
-		float reservedStart = 0.0f;
-
-		void Init();
-	};
-
 	//--------- variables ----------------------------------------------------
 
 	Player* player_;
-	const BossEnemy* bossEnemy_;
+	BossEnemy* bossEnemy_;
 
 	const std::string kStateJsonPath_ = "Player/stateParameter.json";
 
 	// 入力
 	std::unique_ptr<SakuEngine::InputMapper<PlayerInputAction>> inputMapper_;
-	// ステータス
-	PlayerStats stats_;
 	// パリィ処理
-	ParrySession parrySession_;
+	PlayerParrySystem parrySystem_;
 
 	// 各状態の遷移条件
 	std::unordered_map<PlayerState, PlayerStateCondition> conditions_;
@@ -120,12 +102,14 @@ private:
 
 	// update
 	void UpdateInputState();
-	void UpdateParryState();
-	void RequestParryState();
 
 	// helper
 	bool Request(PlayerState state);
 	bool CanTransition(PlayerState next, bool viaQueue) const;
 	bool IsCombatState(PlayerState state) const;
 	bool IsInChain() const;
+
+	// パリィ後の攻撃を行わせるかどうか
+	void SetParryAllowAttack(bool allowAttack);
+	friend class PlayerParrySystem;
 };

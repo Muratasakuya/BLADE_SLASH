@@ -2530,6 +2530,7 @@
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
     <ClCompile Include="Engine\Utility\Material\SpriteVertexColorAnimation.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Utility\Material\SpriteVertexColorAnimation.h" />
@@ -2540,5 +2541,6 @@
     <ClInclude Include="Engine\Object\State\BaseStateController.h" />
     <ClInclude Include="Engine\Object\State\StateMachineConfig.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h" />
+    <ClInclude Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.h" />
   </ItemGroup>
 </Project>

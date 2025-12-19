@@ -248,6 +248,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\SubPlayer\Entity\SubPlayer.cpp">
       <SubType />
     </ClCompile>
@@ -1018,6 +1022,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h">
       <SubType>
