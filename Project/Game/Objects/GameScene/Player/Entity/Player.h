@@ -61,7 +61,7 @@ public:
 	// 武器の位置を初期化する
 	void ResetWeaponTransform(PlayerWeaponType type);
 
-	void ResetState() { stateController_->SetForcedState(*this, PlayerState::Idle); }
+	void ResetState() { stateController_->SetForcedState(PlayerState::Idle); }
 	PlayerState GetCurrentState() const { return stateController_->GetCurrentState(); }
 
 	PlayerAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }

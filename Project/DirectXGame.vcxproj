@@ -977,6 +977,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Engine\Object\State\StateMachineConfig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Object\State\StateNode.h">
       <SubType>
       </SubType>
@@ -1014,6 +1018,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\SubPlayer\Entity\SubPlayer.h">
       <SubType />

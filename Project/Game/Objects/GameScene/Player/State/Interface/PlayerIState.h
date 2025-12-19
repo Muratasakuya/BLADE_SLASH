@@ -4,9 +4,10 @@
 //	include
 //============================================================================
 #include <Engine/Input/Base/InputMapper.h>
+#include <Engine/MathLib/MathUtils.h>
+#include <Engine/Object/State/StateNode.h>
 #include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
 #include <Game/Objects/GameScene/Player/Input/PlayerInputAction.h>
-#include <Engine/MathLib/MathUtils.h>
 
 // front
 class Player;
@@ -20,7 +21,8 @@ namespace SakuEngine {
 //	PlayerIState class
 //	プレイヤー状態のインターフェース
 //============================================================================
-class PlayerIState {
+class PlayerIState :
+	public SakuEngine::StateNode<PlayerState> {
 public:
 	//========================================================================
 	//	public Methods
@@ -33,7 +35,7 @@ public:
 	virtual void Enter() = 0;
 
 	// 更新処理
-	virtual void Update() = 0;
+	virtual void Update() override = 0;
 
 	// 常に行う更新処理
 	virtual void BeginUpdateAlways() {}
@@ -76,7 +78,7 @@ protected:
 	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
 	const BossEnemy* bossEnemy_;
 	FollowCamera* followCamera_;
-	
+
 	SakuEngine::PostProcessSystem* postProcess_;
 
 	// 遷移前の状態

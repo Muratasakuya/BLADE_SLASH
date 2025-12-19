@@ -3,7 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Object/State/BaseStateController.h>
 #include <Game/Objects/GameScene/Player/State/Interface/PlayerIState.h>
+#include <Game/Objects/GameScene/Player/State/PlayerStateConfig.h>
 #include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
 
 // c++
@@ -17,7 +19,8 @@
 //	PlayerStateController class
 //	プレイヤーの状態管理
 //============================================================================
-class PlayerStateController {
+class PlayerStateController :
+	public SakuEngine::BaseStateController<PlayerStateConfig> {
 public:
 	//========================================================================
 	//	public Methods
@@ -26,9 +29,9 @@ public:
 	PlayerStateController() = default;
 	~PlayerStateController() = default;
 
-	void Init(Player& owner);
+	void Init(Player* player);
 
-	void Update(Player& owner);
+	void Update();
 
 	void ImGui();
 
@@ -40,18 +43,18 @@ public:
 	// ステータス設定
 	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
 	// 状態の強制遷移
-	void SetForcedState(Player& owner, PlayerState state);
+	void SetForcedState(PlayerState state);
 	// 怯みのリクエスト、遷移可能なら遷移
-	void RequestFalterState(Player& owner);
+	void RequestFalterState();
 
-	PlayerState GetCurrentState() const { return current_; }
+	PlayerState GetCurrentState() const { return GetMachine().GetCurrentId(); }
 	PlayerState GetPreviousState() const { return previous_; }
 
 	bool IsTriggerParry() const { return inputMapper_->IsTriggered(PlayerInputAction::Parry); }
 	bool IsActiveParry() const { return parrySession_.active; }
 
 	// 今の状態で回避中か
-	bool IsAvoidance() const;
+	bool IsAvoidance();
 private:
 	//========================================================================
 	//	private Methods
@@ -73,6 +76,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	Player* player_;
 	const BossEnemy* bossEnemy_;
 
 	const std::string kStateJsonPath_ = "Player/stateParameter.json";
@@ -84,8 +88,6 @@ private:
 	// パリィ処理
 	ParrySession parrySession_;
 
-	std::unordered_map<PlayerState, std::unique_ptr<PlayerIState>> states_;
-
 	// 各状態の遷移条件
 	std::unordered_map<PlayerState, PlayerStateCondition> conditions_;
 
@@ -93,21 +95,17 @@ private:
 	std::unordered_map<PlayerState, float> lastEnterTime_;
 	float currentEnterTime_;
 
+	// 前回の状態
+	PlayerState previous_;
 	// 受付済みコンボ
 	std::optional<PlayerState> queued_;
-
-	PlayerState current_;                  // 現在の状態
-	PlayerState previous_;                 // 前の状態
-	std::optional<PlayerState> requested_; // 次の状態
 
 	// 移動入力中のダッシュフラグ
 	bool isDashInput_;
 
-	// editor
+	// エディター
 	int editingStateIndex_;
 	int comboIndex_;
-	// エディターと同期中の状態
-	std::optional<PlayerState> externalSynchState_;
 
 	//--------- functions ----------------------------------------------------
 
@@ -115,16 +113,18 @@ private:
 	void ApplyJson();
 	void SaveJson();
 
+	// 状態遷移処理
+	void DecideExternalTransition() override;
+	// 状態が切り替わったときの処理
+	void OnStateChanged();
+
 	// update
-	void UpdateInputState(Player& owner);
-	void UpdateParryState(Player& owner);
+	void UpdateInputState();
+	void UpdateParryState();
 	void RequestParryState();
-	bool UpdateExternalSynch(Player& owner);
 
 	// helper
-	void SetInputMapper();
 	bool Request(PlayerState state);
-	void ChangeState(Player& owner);
 	bool CanTransition(PlayerState next, bool viaQueue) const;
 	bool IsCombatState(PlayerState state) const;
 	bool IsInChain() const;

@@ -2538,5 +2538,7 @@
     <ClInclude Include="Engine\Object\State\DenseStateStorage.h" />
     <ClInclude Include="Engine\Object\State\BaseStateMachine.h" />
     <ClInclude Include="Engine\Object\State\BaseStateController.h" />
+    <ClInclude Include="Engine\Object\State\StateMachineConfig.h" />
+    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h" />
   </ItemGroup>
 </Project>

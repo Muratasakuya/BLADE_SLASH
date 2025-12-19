@@ -151,6 +151,10 @@ void PlayerAttackCollision::ApplyJson(const Json& data) {
 
 	for (const auto& [key, value] : data.items()) {
 
+		if (key == "StunAttack") {
+			continue;
+		}
+
 		PlayerState state = SakuEngine::EnumAdapter<PlayerState>::FromString(key).value();
 		if (state == PlayerState::None ||
 			state == PlayerState::Count) {

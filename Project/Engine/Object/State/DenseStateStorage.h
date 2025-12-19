@@ -9,6 +9,7 @@
 // c++
 #include <array>
 #include <memory>
+#include <concepts>
 #include <utility>
 
 namespace SakuEngine {

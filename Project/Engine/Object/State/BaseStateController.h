@@ -11,7 +11,7 @@ namespace SakuEngine {
 	//	BaseStateController class
 	//	状態機械の制御を行う基底クラス
 	//============================================================================
-	template<typename Derived, typename StateId, typename StateBase, typename Storage>
+	template <typename Config> requires HasStateMachineConfig<Config>
 	class BaseStateController {
 	public:
 		//========================================================================
@@ -19,25 +19,32 @@ namespace SakuEngine {
 		//========================================================================
 
 		BaseStateController() = default;
-		~BaseStateController() = default;
+		virtual ~BaseStateController() = default;
 
-		// 状態機械の型エイリアス
-		using Machine = BaseStateMachine<StateId, StateBase, Storage>;
+		// 型エイリアス
+		using StateId = typename Config::StateId;
+		using StateBase = typename Config::StateBase;
+		using Machine = BaseStateMachine<Config>;
 
 		// 一連の状態処理を行う
 		void Tick();
 
 		// 非アクティブ状態の全状態に対して更新処理を行う
 		void NonActiveTickAll() { machine_.NonActiveTickAll(); }
-
-		//--------- accessor -----------------------------------------------------
-
 	protected:
 		//========================================================================
 		//	protected Methods
 		//========================================================================
 
+		//--------- accessor -----------------------------------------------------
+
 		Machine& GetMachine() { return machine_; }
+		const Machine& GetMachine() const { return machine_; }
+
+		//--------- functions -----------------------------------------------------
+
+		// 外部遷移判定を行う
+		virtual void DecideExternalTransition() = 0;
 	private:
 		//========================================================================
 		//	private Methods
@@ -52,12 +59,12 @@ namespace SakuEngine {
 	//	BaseStateController templateMethods
 	//============================================================================
 
-	template<typename Derived, typename StateId, typename StateBase, typename Storage>
-	inline void BaseStateController<Derived, StateId, StateBase, Storage>::Tick() {
+	template<typename Config> requires HasStateMachineConfig<Config>
+	inline void BaseStateController<Config>::Tick() {
 
-		// 外部からの遷移要求を決定
-		static_cast<Derived*>(this)->DecideExternalTransition();
-		// 状態機械のTickを実行
+		// 外部遷移判定
+		DecideExternalTransition();
+		// 状態遷移、更新処理
 		machine_.Tick();
 	}
 }

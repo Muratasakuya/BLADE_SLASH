@@ -82,7 +82,7 @@ void Player::InitState() {
 
 	// 初期化、ここで初期状態も設定
 	stateController_ = std::make_unique<PlayerStateController>();
-	stateController_->Init(*this);
+	stateController_->Init(this);
 }
 
 void Player::InitHUD() {
@@ -255,7 +255,7 @@ void Player::Update() {
 
 	// 状態の更新
 	stateController_->SetStatas(stats_);
-	stateController_->Update(*this);
+	stateController_->Update();
 
 	// 武器の更新
 	rightWeapon_->Update();
@@ -376,7 +376,7 @@ void Player::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 		hudSprites_->SetDamage(damage);
 
 		// 怯み状態遷移へリクエスト
-		stateController_->RequestFalterState(*this);
+		stateController_->RequestFalterState();
 	}
 }
 
