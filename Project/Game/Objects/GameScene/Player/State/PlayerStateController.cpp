@@ -54,9 +54,7 @@ void PlayerStateController::Init(Player* owner) {
 	player_ = owner;
 
 	// 入力クラスを初期化
-	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
-	inputMapper_ = std::make_unique<SakuEngine::InputMapper<PlayerInputAction>>();
-	inputMapper_->AddDevice(std::make_unique<PlayerGamePadInput>(input));
+	inputTransitionPlanner_.Init();
 
 	// 各状態の追加
 	auto& machine = BaseStateController::GetMachine();
@@ -80,7 +78,7 @@ void PlayerStateController::Init(Player* owner) {
 		if (!machine.Has(state)) {
 			return;
 		}
-		machine.Get(state).SetInputMapper(inputMapper_.get());
+		machine.Get(state).SetInputMapper(inputTransitionPlanner_.GetInputMapper());
 		machine.Get(state).SetPlayer(owner);
 		});
 
@@ -91,7 +89,7 @@ void PlayerStateController::Init(Player* owner) {
 	owner->GetAttackCollision()->SetEnterState(PlayerState::Idle);
 	currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 	lastEnterTime_[PlayerState::Idle] = currentEnterTime_;
-	isDashInput_ = false;
+	inputTransitionPlanner_.Reset();
 	parrySystem_.Reset();
 }
 
@@ -204,7 +202,7 @@ void PlayerStateController::DecideExternalTransition() {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 入力遷移
-	UpdateInputState();
+	inputTransitionPlanner_.Update(*this, player_->GetStats());
 
 	// パリィ状態への遷移判定
 	parrySystem_.UpdateDuringExternalTransition(*this, *bossEnemy_);
@@ -234,112 +232,6 @@ void PlayerStateController::OnStateChanged() {
 		currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
 		lastEnterTime_[currentState] = currentEnterTime_;
 		player_->GetAttackCollision()->SetEnterState(currentState);
-	}
-}
-
-void PlayerStateController::UpdateInputState() {
-
-	PlayerState currentState = BaseStateController::GetMachine().GetCurrentId();
-
-	// コンボ中は判定をスキップする
-	bool inCombat = IsCombatState(currentState);
-	bool actionLocked = (inCombat &&
-		!BaseStateController::GetMachine().GetCurrent().GetCanExit()) || (inCombat && IsInChain());
-
-	// 移動方向
-	SakuEngine::Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX),
-		inputMapper_->GetVector(PlayerInputAction::MoveZ));
-	// 動いたかどうか判定
-	bool isMove = move.Length() > Config::kEpsilon;
-
-	// 歩き、待機状態の状態遷移
-	{
-		if (!actionLocked && currentState != PlayerState::Dash) {
-
-			// 移動していた場合は歩き、していなければ待機状態のまま
-			if (isMove) {
-
-				Request(PlayerState::Walk);
-			} else {
-
-				Request(PlayerState::Idle);
-			}
-		}
-	}
-
-	// ダッシュ、攻撃の状態遷移
-	{
-
-		// ダッシュ入力があったかどうか
-		if (inputMapper_->IsTriggered(PlayerInputAction::Dash)) {
-
-			isDashInput_ = true;
-		}
-		// 移動していなければダッシュ入力をリセット
-		if (!isMove) {
-
-			isDashInput_ = false;
-		}
-
-		// 移動している時にダッシュ入力があればダッシュ状態に遷移
-		if (isMove && isDashInput_) {
-
-			Request(PlayerState::Dash);
-		} else if (!isMove && currentState == PlayerState::Dash) {
-
-			// 移動が止まったらダッシュ終了
-			Request(PlayerState::Idle);
-		}
-
-		if (inputMapper_->IsTriggered(PlayerInputAction::Attack)) {
-
-			if (currentState == PlayerState::Attack_1st) {
-
-				Request(PlayerState::Attack_2nd);
-			}
-			// 2段 -> 3段
-			else if (currentState == PlayerState::Attack_2nd) {
-				Request(PlayerState::Attack_3rd);
-			}
-			// 3段 -> 4段
-			else if (currentState == PlayerState::Attack_3rd) {
-				Request(PlayerState::Attack_4th);
-			}
-			// 1段目
-			else {
-
-				// 1段目の攻撃
-				Request(PlayerState::Attack_1st);
-			}
-			// ダッシュ入力をリセット
-			isDashInput_ = false;
-			return;
-		}
-
-		// スキル攻撃
-		// スキルポイントが足りていてスキル入力があればスキル攻撃状態に遷移
-		if (player_->GetStats().skilCost <= player_->GetStats().currentSkilPoint &&
-			inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
-
-			Request(PlayerState::SkilAttack);
-			return;
-		}
-	}
-
-	// 回避入力
-	if (!isDashInput_ && inputMapper_->IsTriggered(PlayerInputAction::Avoid)) {
-
-		Request(PlayerState::Avoid);
-		return;
-	}
-
-	// パリィの入力判定、攻撃を受けた、受けているときは無効
-	parrySystem_.TryReserveByInput(currentState, *bossEnemy_, *inputMapper_);
-
-	// ダッシュ中にダッシュ入力があればダッシュ状態を再度強制遷移させる
-	if (currentState == PlayerState::Dash && inputMapper_->IsTriggered(PlayerInputAction::Dash)) {
-
-		SetForcedState(PlayerState::Dash);
 	}
 }
 

@@ -2531,6 +2531,7 @@
     </None>
     <ClCompile Include="Engine\Utility\Material\SpriteVertexColorAnimation.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\Player\State\PlayerInputTransitionPlanner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Utility\Material\SpriteVertexColorAnimation.h" />
@@ -2542,5 +2543,6 @@
     <ClInclude Include="Engine\Object\State\StateMachineConfig.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.h" />
+    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerInputTransitionPlanner.h" />
   </ItemGroup>
 </Project>

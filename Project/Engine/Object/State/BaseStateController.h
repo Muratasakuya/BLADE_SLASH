@@ -38,8 +38,8 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
-		Machine& GetMachine() { return machine_; }
 		const Machine& GetMachine() const { return machine_; }
+		Machine& GetMachine() { return machine_; }
 
 		//--------- functions -----------------------------------------------------
 

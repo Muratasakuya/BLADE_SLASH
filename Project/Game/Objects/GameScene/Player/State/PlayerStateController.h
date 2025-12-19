@@ -6,6 +6,7 @@
 #include <Engine/Object/State/BaseStateController.h>
 #include <Game/Objects/GameScene/Player/State/Interface/PlayerIState.h>
 #include <Game/Objects/GameScene/Player/State/PlayerStateConfig.h>
+#include <Game/Objects/GameScene/Player/State/PlayerInputTransitionPlanner.h>
 #include <Game/Objects/GameScene/Player/Parry/PlayerParrySystem.h>
 
 // c++
@@ -48,7 +49,7 @@ public:
 	PlayerState GetCurrentState() const { return GetMachine().GetCurrentId(); }
 	PlayerState GetPreviousState() const { return previous_; }
 
-	bool IsTriggerParry() const { return inputMapper_->IsTriggered(PlayerInputAction::Parry); }
+	bool IsTriggerParry() const { return inputTransitionPlanner_.GetInputMapper()->IsTriggered(PlayerInputAction::Parry); }
 	bool IsActiveParry() const { return parrySystem_.IsActive(); }
 
 	// 今の状態で回避中か
@@ -65,11 +66,10 @@ private:
 
 	const std::string kStateJsonPath_ = "Player/stateParameter.json";
 
-	// 入力
-	std::unique_ptr<SakuEngine::InputMapper<PlayerInputAction>> inputMapper_;
 	// パリィ処理
 	PlayerParrySystem parrySystem_;
-
+	// 入力による状態遷移依頼
+	PlayerInputTransitionPlanner inputTransitionPlanner_;
 	// 各状態の遷移条件
 	std::unordered_map<PlayerState, PlayerStateCondition> conditions_;
 
@@ -81,9 +81,6 @@ private:
 	PlayerState previous_;
 	// 受付済みコンボ
 	std::optional<PlayerState> queued_;
-
-	// 移動入力中のダッシュフラグ
-	bool isDashInput_;
 
 	// エディター
 	int editingStateIndex_;
@@ -100,9 +97,6 @@ private:
 	// 状態が切り替わったときの処理
 	void OnStateChanged();
 
-	// update
-	void UpdateInputState();
-
 	// helper
 	bool Request(PlayerState state);
 	bool CanTransition(PlayerState next, bool viaQueue) const;
@@ -112,4 +106,5 @@ private:
 	// パリィ後の攻撃を行わせるかどうか
 	void SetParryAllowAttack(bool allowAttack);
 	friend class PlayerParrySystem;
+	friend class PlayerInputTransitionPlanner;
 };
