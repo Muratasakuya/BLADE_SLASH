@@ -14,7 +14,7 @@
 //	BossEnemyJumpAttackState classMethods
 //============================================================================
 
-BossEnemyJumpAttackState::BossEnemyJumpAttackState(BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::CreateEffect() {
 
 	// サイズ分確保
 	float offsetY = 2.0f;
@@ -32,80 +32,79 @@ BossEnemyJumpAttackState::BossEnemyJumpAttackState(BossEnemy& bossEnemy) {
 	slash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyJumpAttackEffect_0.json");
 
 	// 親の設定
-	slash_.effect->SetParent("bossSlash_2", bossEnemy.GetTransform());
-	slash_.effectNodeName = "bossSlash_2";
+	slash_.SetParent("bossSlash_0", bossEnemy_->GetTransform());
 }
 
-void BossEnemyJumpAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::Enter() {
 
 	// 予備動作アニメーションの再生
-	bossEnemy.SetNextAnimation("bossEnemy_jumpPrepare", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_jumpPrepare", false, nextAnimDuration_);
 
 	// 最初の状態で初期化
 	currentState_ = State::Pre;
 
 	// 攻撃予兆を出す
-	SakuEngine::Vector3 sign = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 sign = bossEnemy_->GetTranslation();
 	sign.y = 2.0f;
 	attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
 
 	// パリィ可能にする
-	bossEnemy.ResetParryTiming();
+	bossEnemy_->ResetParryTiming();
 	parryParam_.continuousCount = 1;
 	parryParam_.canParry = true;
 }
 
-void BossEnemyJumpAttackState::Update(BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::Update() {
 
 	// 状態に応じて更新
 	switch (currentState_) {
 	case BossEnemyJumpAttackState::State::Pre:
 
 		// 予備動作
-		UpdatePre(bossEnemy);
+		UpdatePre();
 		break;
 	case BossEnemyJumpAttackState::State::Jump:
 
 		// ジャンプ
-		UpdateJump(bossEnemy);
+		UpdateJump();
 		break;
 	}
 }
 
-void BossEnemyJumpAttackState::UpdatePre(BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::UpdatePre() {
 
 	// 予備動作中はプレイヤーの方を向く
-	LookTarget(bossEnemy, player_->GetTranslation());
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	// 予備動作が終了したらジャンプ状態へ
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		// ジャンプアニメーションの再生
-		bossEnemy.SetNextAnimation("bossEnemy_jumpAttack", false, nextAnimDuration_);
+		bossEnemy_->SetNextAnimation("bossEnemy_jumpAttack", false, nextAnimDuration_);
 
 		// ジャンプ状態へ
 		currentState_ = State::Jump;
 
 		// 補間座標の設定
-		SetLerpTranslation(bossEnemy);
+		SetLerpTranslation();
 		// 補間開始
 		lerpTranslationXZ_.Start();
 
 		// 剣エフェクト発生
-		slash_.Emit(bossEnemy);
+		slash_.Emit(*bossEnemy_);
 	}
 }
 
-void BossEnemyJumpAttackState::UpdateJump(BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::UpdateJump() {
 
 	// パリィ攻撃のタイミングを伝える
-	if (bossEnemy.IsEventKey("Parry", 0)) {
+	if (bossEnemy_->IsEventKey("Parry", 0)) {
 
-		bossEnemy.TellParryTiming();
+		bossEnemy_->TellParryTiming();
 	}
 
 	// 座標を補間
-	SakuEngine::Vector3 translation = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 translation = bossEnemy_->GetTranslation();
 	lerpTranslationXZ_.LerpValue(translation);
 
 	// Y座標をジャンプ補間、Y座標のみ返す補間
@@ -113,7 +112,7 @@ void BossEnemyJumpAttackState::UpdateJump(BossEnemy& bossEnemy) {
 		EasedValue(jumpEasing_, lerpTranslationXZ_.GetProgress()), LerpKeyframe::Type::Spline).y;
 
 	// 座標を設定
-	bossEnemy.SetTranslation(translation);
+	bossEnemy_->SetTranslation(translation);
 
 	//補間が終了したら状態を終了
 	if (lerpTranslationXZ_.IsFinished()) {
@@ -122,13 +121,13 @@ void BossEnemyJumpAttackState::UpdateJump(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyJumpAttackState::UpdateAlways(BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::UpdateAlways() {
 
 	// 剣エフェクト更新
-	slash_.Update(bossEnemy);
+	slash_.Update(*bossEnemy_);
 }
 
-void BossEnemyJumpAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -136,14 +135,14 @@ void BossEnemyJumpAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	lerpTranslationXZ_.Reset();
 }
 
-void BossEnemyJumpAttackState::SetLerpTranslation(const BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::SetLerpTranslation() {
 
 	// 補間座標の設定
 	// 開始座標
-	lerpTranslationXZ_.SetStart(bossEnemy.GetTranslation());
+	lerpTranslationXZ_.SetStart(bossEnemy_->GetTranslation());
 	// 終了座標
 	SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy.GetTranslation()).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy_->GetTranslation()).Normalize();
 	lerpTranslationXZ_.SetEnd(playerPos - direction * targetDistance_);
 
 	for (uint32_t i = 0; i < jumpKeyframeCount_; ++i) {
@@ -156,7 +155,7 @@ void BossEnemyJumpAttackState::SetLerpTranslation(const BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyJumpAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyJumpAttackState::ImGui() {
 
 	ImGui::Text(std::format("canEixt: {}", canExit_).c_str());
 	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));
@@ -164,7 +163,8 @@ void BossEnemyJumpAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.01f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.01f);
 	ImGui::DragFloat("targetDistance", &targetDistance_, 0.01f);
-	ImGui::DragFloat3("slashEffectOffset", &slash_.effectOffset.x, 0.1f);
+
+	slash_.EditOffset("SlashEffectOffset");
 
 	lerpTranslationXZ_.ImGui("LerpTranslationXZ");
 
@@ -187,7 +187,7 @@ void BossEnemyJumpAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy
 	SakuEngine::EnumAdapter<EasingType>::Combo("JumpEasing", &jumpEasing_);
 
 	// 補間座標の設定
-	SetLerpTranslation(bossEnemy);
+	SetLerpTranslation();
 }
 
 void BossEnemyJumpAttackState::ApplyJson(const Json& data) {
@@ -203,7 +203,7 @@ void BossEnemyJumpAttackState::ApplyJson(const Json& data) {
 		jumpKeyframes_[i] = SakuEngine::Vector3::FromJson(data["JumpKeyframes"][i]);
 	}
 
-	slash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("slashEffectOffset_", Json()));
+	slash_.FromJson(data, "slashEffectOffset_");
 }
 
 void BossEnemyJumpAttackState::SaveJson(Json& data) {
@@ -219,5 +219,5 @@ void BossEnemyJumpAttackState::SaveJson(Json& data) {
 		data["JumpKeyframes"][i] = jumpKeyframes_[i].ToJson();
 	}
 
-	data["slashEffectOffset_"] = slash_.effectOffset.ToJson();
+	slash_.ToJson(data, "slashEffectOffset_");
 }

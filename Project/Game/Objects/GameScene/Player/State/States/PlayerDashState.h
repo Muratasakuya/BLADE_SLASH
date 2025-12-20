@@ -17,17 +17,17 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerDashState() = default;
+	PlayerDashState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper);
 	~PlayerDashState() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
+	void Update() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -36,6 +36,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	bool GetCanExit() const override;
+	bool IsAvoidance() const override { return isAvoiding_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -52,6 +53,9 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	// 入力
+	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
+
 	State currentState_;
 
 	SakuEngine::Vector3 move_; // 移動量
@@ -63,8 +67,11 @@ private:
 	std::unique_ptr<SakuEngine::SimpleAnimation<float>> accelLerp_;
 	std::unique_ptr<SakuEngine::SimpleAnimation<float>> decelLerp_;
 
+	// 回避中か
+	bool isAvoiding_ = false;
+
 	//--------- functions ----------------------------------------------------
 
 	void UpdateState();
-	void UpdateDash(Player& player);
+	void UpdateDash();
 };

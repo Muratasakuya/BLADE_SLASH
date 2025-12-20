@@ -17,18 +17,20 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerAttack_4thState(Player* player);
+	PlayerAttack_4thState() = default;
 	~PlayerAttack_4thState() = default;
 
-	void Enter(Player& player) override;
+	void CreateEffect() override;
 
-	void Update(Player& player) override;
-	void UpdateAlways(Player& player) override;
+	void Enter() override;
 
-	void Exit(Player& player) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;

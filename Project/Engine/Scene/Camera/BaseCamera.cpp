@@ -28,14 +28,14 @@ BaseCamera::BaseCamera() {
 
 	// transformを一回初期化
 	transform_.eulerRotate = Vector3(0.02f, 0.0f, 0.0f);
-	transform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
+	transform_.scale = Vector3::AnyInit(1.0f);
 	transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);
 	transform_.translation = Vector3(0.0f, 1.8f, -24.0f);
 	autoFucusTimer_.target_ = 0.32f;
 	autoFucusTimer_.easeingType_ = EasingType::EaseOutExpo;
 }
 
-void BaseCamera::StartAutoFocus(bool isFocus, const SakuEngine::Vector3& target) {
+void BaseCamera::StartAutoFocus(bool isFocus, const Vector3& target) {
 
 	isStartFocus_ = isFocus;
 	autoFucusTimer_.Reset();
@@ -48,11 +48,11 @@ void BaseCamera::StartAutoFocus(bool isFocus, const SakuEngine::Vector3& target)
 	// 目標座標から一定距離離す
 	const float targetOffset = 160.0f;
 	targetFocusTranslation_ = target + direction * targetOffset;
-	targetFocusRotation_ = SakuEngine::Quaternion::LookRotation(Vector3(target - startFocusTranslation_).Normalize(),
+	targetFocusRotation_ = Quaternion::LookRotation(Vector3(target - startFocusTranslation_).Normalize(),
 		Direction::Get(Direction3D::Up));
 }
 
-void BaseCamera::SetEditorParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent) {
+void BaseCamera::SetEditorParentTransform(const std::string& keyName, const Transform3D& parent) {
 
 	CameraEditor::GetInstance()->SetParentTransform(keyName, parent);
 }
@@ -87,19 +87,19 @@ void BaseCamera::UpdateAutoFocus() {
 
 	// 座標補間処理
 	autoFucusTimer_.Update();
-	transform_.translation = SakuEngine::Vector3::Lerp(startFocusTranslation_,
+	transform_.translation = Vector3::Lerp(startFocusTranslation_,
 		targetFocusTranslation_, autoFucusTimer_.easedT_);
 	// 回転補間処理
-	transform_.rotation = SakuEngine::Quaternion::Slerp(startFocusRotation_,
+	transform_.rotation = Quaternion::Slerp(startFocusRotation_,
 		targetFocusRotation_, autoFucusTimer_.easedT_);
-	transform_.eulerRotate = Quaternion::ToEulerAngles(SakuEngine::Quaternion::Normalize(transform_.rotation));
+	transform_.eulerRotate = Quaternion::ToEulerAngles(Quaternion::Normalize(transform_.rotation));
 
 	if (autoFucusTimer_.IsReached()) {
 
 		// 補間終了
 		transform_.translation = targetFocusTranslation_;
 		transform_.rotation = targetFocusRotation_;
-		transform_.eulerRotate = Quaternion::ToEulerAngles(SakuEngine::Quaternion::Normalize(targetFocusRotation_));
+		transform_.eulerRotate = Quaternion::ToEulerAngles(Quaternion::Normalize(targetFocusRotation_));
 		isStartFocus_ = false;
 	}
 }
@@ -160,18 +160,18 @@ void BaseCamera::RenderFrustum() {
 	Matrix4x4 cameraWorldMatrix = Matrix4x4::Inverse(viewMatrix_);
 
 	// ワールド座標に変換
-	Vector3 wncTL = SakuEngine::Vector3::Transform(ncTL, cameraWorldMatrix);
-	Vector3 wncTR = SakuEngine::Vector3::Transform(ncTR, cameraWorldMatrix);
-	Vector3 wncBR = SakuEngine::Vector3::Transform(ncBR, cameraWorldMatrix);
-	Vector3 wncBL = SakuEngine::Vector3::Transform(ncBL, cameraWorldMatrix);
+	Vector3 wncTL = Vector3::Transform(ncTL, cameraWorldMatrix);
+	Vector3 wncTR = Vector3::Transform(ncTR, cameraWorldMatrix);
+	Vector3 wncBR = Vector3::Transform(ncBR, cameraWorldMatrix);
+	Vector3 wncBL = Vector3::Transform(ncBL, cameraWorldMatrix);
 
-	Vector3 wfcTL = SakuEngine::Vector3::Transform(fcTL, cameraWorldMatrix);
-	Vector3 wfcTR = SakuEngine::Vector3::Transform(fcTR, cameraWorldMatrix);
-	Vector3 wfcBR = SakuEngine::Vector3::Transform(fcBR, cameraWorldMatrix);
-	Vector3 wfcBL = SakuEngine::Vector3::Transform(fcBL, cameraWorldMatrix);
+	Vector3 wfcTL = Vector3::Transform(fcTL, cameraWorldMatrix);
+	Vector3 wfcTR = Vector3::Transform(fcTR, cameraWorldMatrix);
+	Vector3 wfcBR = Vector3::Transform(fcBR, cameraWorldMatrix);
+	Vector3 wfcBL = Vector3::Transform(fcBL, cameraWorldMatrix);
 
 	Color color = Color::Yellow();
-	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
+	LineRenderer* lineRenderer = LineRenderer::GetInstance();
 
 	// 近クリップ
 	lineRenderer->DrawLine3D(wncTL, wncTR, color);

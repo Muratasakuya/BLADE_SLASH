@@ -208,6 +208,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Effect\User\Helper\SlashEffectHelper.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp">
       <SubType />
     </ClCompile>
@@ -218,8 +222,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Utility\Material\SpriteVertexColorAnimation.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Utility\Timer\DelayedHitstop.cpp">
       <SubType />
@@ -227,7 +230,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Light\GameLight.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\GameHUDStateSynchronizer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Objects\GameScene\HUD\Player\TargetNavigation\TargetNavigation.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
@@ -246,6 +253,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Objects\GameScene\Player\State\PlayerInputTransitionPlanner.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\SubPlayer\Entity\SubPlayer.cpp">
@@ -288,9 +301,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Effect\User\GameEffect.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Helper\GameEffectCommandHelper.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Effect\Particle\Core\GPUParticleUpdater.cpp">
@@ -684,25 +694,25 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Camera\Title\TitleViewCamera.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GamecButtonFocusNavigator.cpp">
+    <ClCompile Include="Game\Helper\HUD\GamecButtonFocusNavigator.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameButton.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameButton.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameCommonStructures.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameCommonStructures.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameDigitDisplay.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameDigitDisplay.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameDisplayDamage.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameDisplayDamage.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameHPBar.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameHPBar.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameTimerDisplay.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameTimerDisplay.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Input\Device\SelectUIGamePadInput.cpp">
@@ -755,9 +765,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Objects\GameScene\Player\Entity\PlayerWeapon.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyHUD.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\HUD\Enemy\Boss\BossEnemyHUD.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.cpp" />
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\Interface\BossEnemyIState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyChargeAttackState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyFalterState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyIdleState.cpp" />
@@ -775,10 +784,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Objects\GameScene\Player\Entity\Player.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\PlayerHUD.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\Player\PlayerHUD.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\PlayerStunHUD.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\Player\PlayerStunHUD.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\Input\Device\PlayerGamePadInput.cpp">
@@ -788,9 +797,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\State\Interface\PlayerBaseAttackState.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\Interface\PlayerIState.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\State\PlayerStateController.cpp">
@@ -814,12 +820,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerParryState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerSkilAttackState.cpp" />
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerStunAttackState.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerSwitchAllyState.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerWalkState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Player\Structure\PlayerStructures.cpp">
       <SubType />
@@ -830,7 +830,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Objects\GameScene\SpriteEffect\FadeSprite.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Objects\SceneTransition\FadeTransition.cpp" />
+    <ClCompile Include="Game\Scene\Transition\FadeTransition.cpp" />
     <ClCompile Include="Game\Objects\TitleScene\Background\TitleBackground.cpp">
       <SubType />
     </ClCompile>
@@ -958,6 +958,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Effect\User\Helper\SlashEffectHelper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h">
       <SubType />
     </ClInclude>
@@ -967,12 +971,29 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Object\Base\KeyframeObject3D.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Object\State\BaseStateController.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\BaseStateMachine.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\DenseStateStorage.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\StateIdConcepts.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\StateMachineConfig.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\State\StateNode.h">
+      <SubType />
+    </ClInclude>
     <ClInclude Include="Engine\Utility\Enum\AnyMoldEnum.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Utility\Material\SpriteVertexColorAnimation.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Utility\Timer\DelayedHitstop.h">
       <SubType />
@@ -980,7 +1001,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Light\GameLight.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.h">
+    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateConfig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\HUD\GameHUDStateSynchronizer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\HUD\Player\TargetNavigation\TargetNavigation.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
@@ -999,6 +1028,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerInputTransitionPlanner.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\SubPlayer\Entity\SubPlayer.h">
@@ -1080,9 +1118,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\Methods\EffectStructures.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Helper\GameEffectCommandHelper.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\Particle\Command\ParticleCommand.h">
@@ -1548,28 +1583,28 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Camera\Title\TitleViewCamera.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GamecButtonFocusNavigator.h">
+    <ClInclude Include="Game\Helper\HUD\GamecButtonFocusNavigator.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameButton.h">
+    <ClInclude Include="Game\Helper\HUD\GameButton.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameCommonStructures.h">
+    <ClInclude Include="Game\Helper\HUD\GameCommonStructures.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameDigitDisplay.h">
+    <ClInclude Include="Game\Helper\HUD\GameDigitDisplay.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameDisplayDamage.h">
+    <ClInclude Include="Game\Helper\HUD\GameDisplayDamage.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameHPBar.h">
+    <ClInclude Include="Game\Helper\HUD\GameHPBar.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameTimerDisplay.h">
+    <ClInclude Include="Game\Helper\HUD\GameTimerDisplay.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\IGameButtonResponseUpdater.h">
+    <ClInclude Include="Game\Helper\HUD\IGameButtonResponseUpdater.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Input\Device\SelectUIGamePadInput.h">
@@ -1581,7 +1616,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Objects\Common\Input\SelectUIInputAction.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\ITransition.h" />
+    <ClInclude Include="Game\Helper\Transition\ITransition.h" />
     <ClInclude Include="Game\Objects\Common\GameButtonBlinkingUpdater.h">
       <SubType />
     </ClInclude>
@@ -1626,7 +1661,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Objects\GameScene\Player\Entity\PlayerWeapon.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyHUD.h" />
+    <ClInclude Include="Game\Objects\GameScene\HUD\Enemy\Boss\BossEnemyHUD.h" />
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.h" />
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\Interface\BossEnemyIState.h" />
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyChargeAttackState.h" />
@@ -1644,10 +1679,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Objects\GameScene\Player\Entity\Player.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\PlayerHUD.h">
+    <ClInclude Include="Game\Objects\GameScene\HUD\Player\PlayerHUD.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\PlayerStunHUD.h">
+    <ClInclude Include="Game\Objects\GameScene\HUD\Player\PlayerStunHUD.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\Input\Device\PlayerGamePadInput.h">
@@ -1686,12 +1721,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerParryState.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerSkilAttackState.h" />
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerStunAttackState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerSwitchAllyState.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerWalkState.h" />
     <ClInclude Include="Game\Objects\GameScene\Player\Structure\PlayerStructures.h">
       <SubType />
@@ -1702,7 +1731,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Objects\GameScene\SpriteEffect\FadeSprite.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Objects\SceneTransition\FadeTransition.h" />
+    <ClInclude Include="Game\Scene\Transition\FadeTransition.h" />
     <ClInclude Include="Game\Objects\TitleScene\Background\TitleBackground.h">
       <SubType />
     </ClInclude>

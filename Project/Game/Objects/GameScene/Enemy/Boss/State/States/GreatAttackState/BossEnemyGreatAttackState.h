@@ -21,17 +21,17 @@ public:
 	BossEnemyGreatAttackState();
 	~BossEnemyGreatAttackState() = default;
 
-	void InitState(BossEnemy& bossEnemy);
+	void InitState();
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;

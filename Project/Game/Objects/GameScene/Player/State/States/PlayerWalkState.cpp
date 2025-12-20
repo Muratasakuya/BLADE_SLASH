@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
@@ -12,33 +13,41 @@
 //	PlayerWalkState classMethods
 //============================================================================
 
-void PlayerWalkState::Enter(Player& player) {
+PlayerWalkState::PlayerWalkState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
 
-	player.SetNextAnimation("player_walk", true, nextAnimDuration_);
+	inputMapper_ = inputMapper;
+}
 
-	if (followCamera_->IsFinishedHandoffBlend() && preState_ != PlayerState::Parry) {
+void PlayerWalkState::Enter() {
+
+	// いつでも状態遷移可能にする
+	canExit_ = true;
+
+	player_->SetNextAnimation("player_walk", true, nextAnimDuration_);
+
+	if (followCamera_->IsFinishedHandoffBlend() && StateNode::GetPreviousState() != PlayerState::Parry) {
 
 		// カメラを見やすい位置まで補間させる
 		followCamera_->SetOverlayState(FollowCameraOverlayState::ReturnDefaultRotate, true);
 	}
 }
 
-void PlayerWalkState::Update(Player& player) {
+void PlayerWalkState::Update() {
 
 	// 歩き更新
-	UpdateWalk(player);
+	UpdateWalk();
 	// 回転、進行方向に向かせる
-	SetRotateToDirection(player, move_.Normalize());
+	SakuEngine::Math::RotateToDirection3D(*player_, SakuEngine::Vector3(move_.x, 0.0f, move_.z).Normalize(), rotationLerpRate_);
 }
 
-void PlayerWalkState::UpdateWalk(Player& player) {
+void PlayerWalkState::UpdateWalk() {
 
 	// 入力値取得
 	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
 	inputValue = SakuEngine::Vector2::Normalize(inputValue);
 
-	if (std::fabs(inputValue.x) > epsilon_ || std::fabs(inputValue.y) > epsilon_) {
+	if (std::fabs(inputValue.x) > Config::kEpsilon || std::fabs(inputValue.y) > Config::kEpsilon) {
 
 		// 入力がある場合のみ速度を計算する
 		SakuEngine::Vector3 inputDirection(inputValue.x, 0.0f, inputValue.y);
@@ -54,22 +63,22 @@ void PlayerWalkState::UpdateWalk(Player& player) {
 		// 入力がなければどんどん減速させる
 		move_ *= moveDecay_;
 		// 一定の速度以下で止まる
-		if (move_.Length() < epsilon_) {
+		if (move_.Length() < Config::kEpsilon) {
 			move_.Init();
 		}
 	}
 	move_.y = 0.0f;
 
 	// 移動量を加算
-	SakuEngine::Vector3 translation = player.GetTranslation();
+	SakuEngine::Vector3 translation = player_->GetTranslation();
 	translation += move_;
-	player.SetTranslation(translation);
+	player_->SetTranslation(translation);
 }
 
-void PlayerWalkState::Exit([[maybe_unused]] Player& player) {
+void PlayerWalkState::Exit() {
 }
 
-void PlayerWalkState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerWalkState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);

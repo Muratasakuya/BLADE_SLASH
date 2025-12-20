@@ -11,42 +11,34 @@
 //	BossEnemyChargeAttackState classMethods
 //============================================================================
 
-BossEnemyChargeAttackState::BossEnemyChargeAttackState() {
+void BossEnemyChargeAttackState::CreateEffect() {
 
 	// 1本の刃
 	singleBlade_ = std::make_unique<BossEnemyBladeCollision>();
 	singleBlade_->Init("singleBlade_Charge");
-	// エフェクト
-	// エフェクト、エンジン機能変更中...
-	//singleBladeEffect_ = std::make_unique<BossEnemySingleBladeEffect>();
-	//singleBladeEffect_->Init(singleBlade_->GetTransform(), "Charge");
 }
 
-void BossEnemyChargeAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyChargeAttackState::Enter() {
 
-	bossEnemy.SetNextAnimation("bossEnemy_chargeAttack", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_chargeAttack", false, nextAnimDuration_);
 
 	canExit_ = false;
 }
 
-void BossEnemyChargeAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyChargeAttackState::UpdateAlways() {
 
 	// 衝突更新
 	singleBlade_->Update();
-
-	// エフェクトの更新処理
-	// エフェクト、エンジン機能変更中...
-	//singleBladeEffect_->Update();
 }
 
-void BossEnemyChargeAttackState::Update(BossEnemy& bossEnemy) {
+void BossEnemyChargeAttackState::Update() {
 
 	// 常にプレイヤーの方を向くようにする
-	LookTarget(bossEnemy, player_->GetTranslation());
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 	// 刃の更新処理
-	UpdateBlade(bossEnemy);
+	UpdateBlade();
 
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 時間経過が過ぎたら遷移可能
@@ -57,31 +49,31 @@ void BossEnemyChargeAttackState::Update(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyChargeAttackState::UpdateBlade(BossEnemy& bossEnemy) {
+void BossEnemyChargeAttackState::UpdateBlade() {
 
 	// キーイベントで攻撃を発生させる
-	if (bossEnemy.IsEventKey("Attack", 0)) {
+	if (bossEnemy_->IsEventKey("Attack", 0)) {
 
 		// 発生処理
-		const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
-		const SakuEngine::Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
+		const SakuEngine::Vector3 pos = bossEnemy_->GetTranslation();
+		const SakuEngine::Vector3 velocity = CalcBaseDir() * singleBladeMoveSpeed_;
 		singleBlade_->EmitEffect(pos, velocity);
 	}
 }
 
-SakuEngine::Vector3 BossEnemyChargeAttackState::CalcBaseDir(const BossEnemy& bossEnemy) const {
+SakuEngine::Vector3 BossEnemyChargeAttackState::CalcBaseDir() const {
 
-	return (player_->GetTranslation() - bossEnemy.GetTranslation()).Normalize();
+	return (player_->GetTranslation() - bossEnemy_->GetTranslation()).Normalize();
 }
 
-void BossEnemyChargeAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyChargeAttackState::Exit() {
 
 	// リセット
 	exitTimer_ = 0.0f;
 	canExit_ = false;
 }
 
-void BossEnemyChargeAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyChargeAttackState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);
@@ -93,8 +85,8 @@ void BossEnemyChargeAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEne
 		if (ImGui::Button("Emit SingleBlade")) {
 
 			// 発生処理
-			const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
-			const SakuEngine::Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
+			const SakuEngine::Vector3 pos = bossEnemy_->GetTranslation();
+			const SakuEngine::Vector3 velocity = CalcBaseDir() * singleBladeMoveSpeed_;
 			singleBlade_->EmitEffect(pos, velocity);
 		}
 
@@ -107,8 +99,6 @@ void BossEnemyChargeAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEne
 	if (ImGui::CollapsingHeader("Blade Effect")) {
 
 		ImGui::DragFloat("singleBladeScaling", &singleBladeEffectScalingValue_, 0.01f);
-		// エフェクト、エンジン機能変更中...
-		/*singleBladeEffect_->ImGui();*/
 	}
 }
 

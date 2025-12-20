@@ -3,8 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
+#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 
 //============================================================================
 //	BossEnemyJumpAttackState class
@@ -17,18 +18,20 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyJumpAttackState(BossEnemy& bossEnemy);
+	BossEnemyJumpAttackState() = default;
 	~BossEnemyJumpAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -61,17 +64,17 @@ private:
 	EasingType jumpEasing_;
 
 	// 剣エフェクト
-	SlashEffect slash_;
+	SakuEngine::SlashEffectHelper slash_;
 
 	//--------- functions ----------------------------------------------------
 
 	// update
 	// 予備動作
-	void UpdatePre(BossEnemy& bossEnemy);
+	void UpdatePre();
 	// ジャンプ
-	void UpdateJump(BossEnemy& bossEnemy);
+	void UpdateJump();
 
 	// helper
 	// 補間座標の設定
-	void SetLerpTranslation(const BossEnemy& bossEnemy);
+	void SetLerpTranslation();
 };

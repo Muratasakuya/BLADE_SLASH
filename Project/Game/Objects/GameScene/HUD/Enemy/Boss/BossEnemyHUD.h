@@ -4,9 +4,9 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
-#include <Game/Objects/Base/GameHPBar.h>
-#include <Game/Objects/Base/GameDisplayDamage.h>
-#include <Game/Objects/Base/GameCommonStructures.h>
+#include <Game/Helper/HUD/GameHPBar.h>
+#include <Game/Helper/HUD/GameDisplayDamage.h>
+#include <Game/Helper/HUD/GameCommonStructures.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // c++
@@ -32,15 +32,15 @@ public:
 	void Init();
 
 	// 更新
-	void Update(const BossEnemy& bossEnemy);
+	void Update();
 
 	// エディター
 	void ImGui();
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetStatas(const BossEnemyStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
+	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
 	void SetDisable();
 	void SetValid();
@@ -53,10 +53,8 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	const BossEnemy* bossEnemy_;
 	const FollowCamera* followCamera_;
-
-	// ステータス
-	BossEnemyStats stats_;
 
 	// HP背景
 	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;
@@ -101,7 +99,7 @@ private:
 	void InitSprite();
 
 	// update
-	void UpdateSprite(const BossEnemy& bossEnemy);
+	void UpdateSprite();
 	void UpdateAlpha();
 
 	// ボスのフェーズ閾値表示位置の更新

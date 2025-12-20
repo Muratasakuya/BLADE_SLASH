@@ -28,137 +28,194 @@
 //	BossEnemyStateController classMethods
 //============================================================================
 
-void BossEnemyStateController::Init(BossEnemy& owner, uint32_t phaseCount) {
+namespace {
 
-	// 各状態を初期化
-	states_.emplace(BossEnemyState::Idle, std::make_unique<BossEnemyIdleState>());
-	states_.emplace(BossEnemyState::Teleport, std::make_unique<BossEnemyTeleportationState>());
-	states_.emplace(BossEnemyState::Stun, std::make_unique<BossEnemyStunState>(owner));
-	states_.emplace(BossEnemyState::Falter, std::make_unique<BossEnemyFalterState>());
-	states_.emplace(BossEnemyState::LightAttack, std::make_unique<BossEnemyLightAttackState>(owner));
-	states_.emplace(BossEnemyState::StrongAttack, std::make_unique<BossEnemyStrongAttackState>(owner));
-	states_.emplace(BossEnemyState::ChargeAttack, std::make_unique<BossEnemyChargeAttackState>());
-	states_.emplace(BossEnemyState::RushAttack, std::make_unique<BossEnemyRushAttackState>());
-	states_.emplace(BossEnemyState::ContinuousAttack, std::make_unique<BossEnemyContinuousAttackState>(owner));
-	states_.emplace(BossEnemyState::GreatAttack, std::make_unique<BossEnemyGreatAttackState>());
-	states_.emplace(BossEnemyState::JumpAttack, std::make_unique<BossEnemyJumpAttackState>(owner));
-	states_.emplace(BossEnemyState::ProjectileAttack, std::make_unique<BossEnemyProjectileAttackState>(phaseCount));
+	// 全てのBossEnemyStateに対して関数を実行
+	// Countは除外
+	template<class Fn>
+	static void ForEachBossEnemyState(Fn&& function) {
+		for (uint32_t i = 0; i < static_cast<uint32_t>(BossEnemyState::Count); ++i) {
+			BossEnemyState state = static_cast<BossEnemyState>(i);
+			if (state == BossEnemyState::Count) {
+				continue;
+			}
+			function(state);
+		}
+	}
+}
 
-	// json適応
-	ApplyJson();
+void BossEnemyStateController::Init(BossEnemy* owner, uint32_t phaseCount) {
 
-	// 初期状態を設定
-	requested_ = BossEnemyState::Idle;
-	ChangeState(owner);
-
-	// 遷移不可フラグ
-	disableTransitions_ = false;
+	bossEnemy_ = nullptr;
+	bossEnemy_ = owner;
 
 	// 攻撃予兆
 	attackSign_ = std::make_unique<BossEnemyAttackSign>();
 	attackSign_->Init();
 
-	// 各状態に攻撃予兆をセット
-	for (const auto& state : std::views::values(states_)) {
+	// 各状態の追加
+	auto& machine = BaseStateController::GetMachine();
+	machine.Add<BossEnemyIdleState>(BossEnemyState::Idle);
+	machine.Add<BossEnemyTeleportationState>(BossEnemyState::Teleport);
+	machine.Add<BossEnemyStunState>(BossEnemyState::Stun);
+	machine.Add<BossEnemyFalterState>(BossEnemyState::Falter);
+	machine.Add<BossEnemyLightAttackState>(BossEnemyState::LightAttack);
+	machine.Add<BossEnemyStrongAttackState>(BossEnemyState::StrongAttack);
+	machine.Add<BossEnemyChargeAttackState>(BossEnemyState::ChargeAttack);
+	machine.Add<BossEnemyRushAttackState>(BossEnemyState::RushAttack);
+	machine.Add<BossEnemyContinuousAttackState>(BossEnemyState::ContinuousAttack);
+	machine.Add<BossEnemyGreatAttackState>(BossEnemyState::GreatAttack);
+	machine.Add<BossEnemyJumpAttackState>(BossEnemyState::JumpAttack);
+	machine.Add<BossEnemyProjectileAttackState>(BossEnemyState::ProjectileAttack, phaseCount);
 
-		state->SetAttackSign(attackSign_.get());
-	}
+	ForEachBossEnemyState([&](BossEnemyState state) {
+		if (!machine.Has(state)) {
+			return;
+		}
+		// 状態遷移対象を設定
+		machine.Get(state).SetBossEnemy(owner);
+		// 攻撃予兆を設定
+		machine.Get(state).SetAttackSign(attackSign_.get());
+		// エフェクト生成
+		machine.Get(state).CreateEffect();
+		});
+
+	// json適応
+	ApplyJson();
+
+	// 初期状態を設定
+	machine.SetEnter(BossEnemyState::Idle);
+	// 現在のパリィ情報を取得
+	parryParam_ = &machine.GetCurrent().GetParryParam();
+	// 遷移不可フラグ
+	disableTransitions_ = false;
 }
 
 void BossEnemyStateController::SetPlayer(Player* player) {
 
-	// 各状態にplayerをセット
-	for (const auto& state : std::views::values(states_)) {
+	auto& machine = BaseStateController::GetMachine();
 
-		state->SetPlayer(player);
-	}
+	// 各状態にplayerをセット
+	ForEachBossEnemyState([&](BossEnemyState state) {
+		if (!machine.Has(state)) {
+			return;
+		}
+		machine.Get(state).SetPlayer(player);
+		});
 }
 
-void BossEnemyStateController::SetFollowCamera(FollowCamera* followCamera, BossEnemy& owner) {
+void BossEnemyStateController::SetFollowCamera(FollowCamera* followCamera) {
+
+	auto& machine = BaseStateController::GetMachine();
 
 	// 各状態にfollowCameraをセット
-	for (const auto& state : std::views::values(states_)) {
+	ForEachBossEnemyState([&](BossEnemyState state) {
+		if (!machine.Has(state)) {
+			return;
+		}
+		machine.Get(state).SetFollowCamera(followCamera);
+		if (state == BossEnemyState::GreatAttack) {
+			if (auto* greatAttackState = static_cast<BossEnemyGreatAttackState*>(&machine.Get(state))) {
 
-		state->SetFollowCamera(followCamera);
-	}
-
-	// 大技の状態に個別設定
-	static_cast<BossEnemyGreatAttackState*>(states_[BossEnemyState::GreatAttack].get())->InitState(owner);
+				greatAttackState->InitState();
+			}
+		}
+		});
 }
 
-void BossEnemyStateController::StartFalter(BossEnemy& owner) {
+void BossEnemyStateController::StartFalter() {
 
-	// 現在の状態を終了させる
-	states_.at(current_)->Exit(owner);
+	auto& machine = GetMachine();
 
-	// 怯み状態に遷移させる
-	current_ = BossEnemyState::Falter;
-	states_.at(current_)->Enter(owner);
+	// Falterへ強制遷移
+	machine.Force(BossEnemyState::Falter, true);
+	// コンボリセット
+	ResetCombo();
+}
+
+void BossEnemyStateController::ResetCombo() {
 
 	// 状態遷移の設定をリセット
-	requested_.reset();
-	forcedState_.reset();
 	currentComboSlot_ = 0;
 	currentComboIndex_ = 0;
 	prevComboIndex_ = 0;
 	currentSequenceIndex_ = 0;
+	forcedState_ = std::nullopt;
 	stateTimer_.Reset();
 }
 
-void BossEnemyStateController::Update(BossEnemy& owner) {
+void BossEnemyStateController::Update() {
 
+	auto& machine = BaseStateController::GetMachine();
+
+	// 遷移不可状態の時、更新のみ行う
 	if (disableTransitions_) {
 
 		// 現在の状態を更新
-		if (BossEnemyIState* currentState = states_[current_].get()) {
+		machine.GetCurrent().Update();
 
-			currentState->Update(owner);
-		}
+		// 全ての状態の常に行う更新処理
+		ForEachBossEnemyState([&](BossEnemyState state) {
+			if (machine.Has(state)) {
 
-		// 常に更新する値
-		for (const auto& state : std::views::values(states_)) {
-
-			state->UpdateAlways(owner);
-		}
+				machine.Get(state).UpdateAlways();
+			}
+			});
 		return;
 	}
 
-	// 状態切り替えの設定処理
-	UpdatePhase(owner);
-	CheckStunToughness();
+	// 状態遷移、更新処理
+	BaseStateController::Tick();
+	// 状態が変化したかどうかの判定と処理
+	OnStateChanged();
 
-	UpdateStateTimer();
+	// 全ての状態の常に行う更新処理
+	ForEachBossEnemyState([&](BossEnemyState state) {
+		if (machine.Has(state)) {
 
-	// 何か設定されて入れば状態遷移させる
-	if (requested_.has_value()) {
-
-		ChangeState(owner);
-	}
-
-	// 現在の状態を更新
-	if (BossEnemyIState* currentState = states_[current_].get()) {
-
-		currentState->Update(owner);
-	}
-
-	// 常に更新する値
-	for (const auto& state : std::views::values(states_)) {
-
-		state->UpdateAlways(owner);
-	}
+			machine.Get(state).UpdateAlways();
+		}
+		});
 
 	// 攻撃予兆の更新処理
 	attackSign_->Update();
+	// 現在のパリィ情報を取得
+	parryParam_ = &machine.GetCurrent().GetParryParam();
 }
 
-void BossEnemyStateController::UpdatePhase(const BossEnemy& owner) {
+void BossEnemyStateController::DecideExternalTransition() {
 
-	if (stats_.maxHP == 0) {
+	// 状態切り替えの設定処理
+	UpdatePhase();
+	// スタン靭性チェック
+	CheckStunToughness();
+
+	// 状態遷移間隔時間の更新
+	UpdateStateTimer();
+}
+
+void BossEnemyStateController::OnStateChanged() {
+
+	const auto& machine = BaseStateController::GetMachine();
+
+	BossEnemyState currentState = machine.GetCurrentId();
+	// 状態が変化した場合の処理
+	if (machine.GetPreviousId() != currentState) {
+
+		bossEnemy_->GetAttackCollision()->SetEnterState(currentState);
+	}
+}
+
+void BossEnemyStateController::UpdatePhase() {
+
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
+	// HPが0なら処理しない
+	if (stats.currentHP == 0) {
 		return;
 	}
 
 	// HP割合に応じて現在のフェーズを計算して設定
-	currentPhase_ = owner.GetCurrentPhaseIndex();
+	currentPhase_ = bossEnemy_->GetCurrentPhaseIndex();
 
 	// phaseが切り替わったら全てリセットする
 	if (prevPhase_ != currentPhase_) {
@@ -178,23 +235,13 @@ void BossEnemyStateController::UpdatePhase(const BossEnemy& owner) {
 			forcedState_.reset();
 		}
 	}
-	// 入力で強制遷移
-	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_F8)) {
-
-		prevPhase_ = currentPhase_;
-		currentComboIndex_ = 0;
-		currentSequenceIndex_ = 0;
-		stateTimer_.Reset();
-
-		// 大技に強制遷移
-		forcedState_ = BossEnemyState::GreatAttack;
-	}
 }
 
 void BossEnemyStateController::CheckStunToughness() {
 
 	// 靭性値が最大になったらスタン状態にする
-	if (stats_.currentDestroyToughness == stats_.maxDestroyToughness) {
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
+	if (stats.currentDestroyToughness == stats.maxDestroyToughness) {
 
 		// 強制遷移先を設定
 		forcedState_ = BossEnemyState::Stun;
@@ -203,13 +250,17 @@ void BossEnemyStateController::CheckStunToughness() {
 
 void BossEnemyStateController::UpdateStateTimer() {
 
+	auto& machine = GetMachine();
+
 	// 現在のフェーズの時間を更新
 	const auto& phase = stateTable_.phases[currentPhase_];
-	BossEnemyIState* state = states_[current_].get();
+	// 現在の状態
+	BossEnemyIState& state = machine.GetCurrent();
+	// 現在の状態ID
+	BossEnemyState current = machine.GetCurrentId();
 
 	// 遷移不可
 	if (disableTransitions_) {
-		requested_.reset();
 		stateTimer_.Reset();
 		return;
 	}
@@ -218,48 +269,35 @@ void BossEnemyStateController::UpdateStateTimer() {
 	// コンボデバッグモード中に無視フラグが立っていると強制遷移しない
 	if (forcedState_.has_value() && !(debugComboMode_ && debugIgnoreForcedState_)) {
 
-		requested_ = *forcedState_;
-		forcedState_.reset();
-		currentComboSlot_ = 0;
-		currentComboIndex_ = 0;
-		prevComboIndex_ = 0;
-		currentSequenceIndex_ = 0;
-		stateTimer_.Reset();
+		// 即座に強制遷移させる
+		machine.Force(*forcedState_);
+		// コンボリセット
+		ResetCombo();
 		return;
 	}
 
 	// 遷移可能状態になったら時間を進めて遷移させる
-	if (state->GetCanExit()) {
+	if (state.GetCanExit()) {
 
-		// 強制遷移先が設定されていればその状態に遷移させる
-		if (forcedState_.has_value()) {
+		/// 攻撃したかどうか
+		const bool isAttack =
+			(current == BossEnemyState::LightAttack) ||
+			(current == BossEnemyState::StrongAttack) ||
+			(current == BossEnemyState::ChargeAttack) ||
+			(current == BossEnemyState::RushAttack) ||
+			(current == BossEnemyState::GreatAttack) ||
+			(current == BossEnemyState::ContinuousAttack);
+		// 攻撃状態空の遷移でかつ強制遷移するなら
+		if (isAttack && phase.autoIdleAfterAttack) {
 
-			requested_ = *forcedState_;
-			forcedState_.reset();
+			// 待機状態に戻す
+			machine.Request(BossEnemyState::Idle);
+			// 状態遷移の設定をリセット
 			currentComboSlot_ = 0;
 			prevComboIndex_ = currentComboIndex_;
 			currentSequenceIndex_ = 0;
 			stateTimer_.Reset();
 			return;
-		}
-
-		// 攻撃したかどうか
-		const bool isAttack =
-			(current_ == BossEnemyState::LightAttack) ||
-			(current_ == BossEnemyState::StrongAttack) ||
-			(current_ == BossEnemyState::ChargeAttack) ||
-			(current_ == BossEnemyState::RushAttack) ||
-			(current_ == BossEnemyState::GreatAttack) ||
-			(current_ == BossEnemyState::ContinuousAttack);
-		// 攻撃状態空の遷移でかつ強制遷移するなら
-		if (isAttack && phase.autoIdleAfterAttack) {
-
-			// 強制的に待機状態にする
-			requested_ = BossEnemyState::Idle;
-			currentComboSlot_ = 0;
-			prevComboIndex_ = currentComboIndex_;
-			currentSequenceIndex_ = 0;
-			stateTimer_.Reset();
 		}
 
 		// 状態遷移の時間を更新
@@ -297,46 +335,10 @@ void BossEnemyStateController::UpdateStateTimer() {
 	}
 }
 
-void BossEnemyStateController::ChangeState(BossEnemy& owner) {
-
-	// 同じなら遷移させない
-	if (requested_.value() == current_ && !debugComboMode_) {
-		requested_ = std::nullopt;
-		return;
-	}
-	// デバッグ状態の時、現在の状態が終了していなければ遷移させない
-	if (debugComboMode_) {
-		if (!states_.at(current_)->GetCanExit()) {
-			requested_ = std::nullopt;
-			return;
-		}
-	}
-
-	// 現在の状態の終了処理
-	if (auto* currentState = states_[current_].get()) {
-
-		currentState->Exit(owner);
-	}
-
-	// 次の状態を設定する
-	current_ = requested_.value();
-
-	if (current_ == BossEnemyState::Teleport) {
-
-		// テレポートの種類を設定
-		auto* teleport = static_cast<BossEnemyTeleportationState*>(states_[BossEnemyState::Teleport].get());
-		teleport->SetTeleportType(stateTable_.combos[currentComboIndex_].teleportType);
-	}
-
-	// 次の状態を初期化する
-	if (auto* currentState = states_[current_].get()) {
-
-		currentState->Enter(owner);
-	}
-	owner.GetAttackCollision()->SetEnterState(current_);
-}
-
 void BossEnemyStateController::ChooseNextState(const BossEnemyPhase& phase) {
+
+	auto& machine = GetMachine();
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
 
 	// 現在のコンボシークエンスが0なら新しいコンボを選択する
 	const bool startingNewCombo = currentSequenceIndex_ == 0;
@@ -357,7 +359,7 @@ void BossEnemyStateController::ChooseNextState(const BossEnemyPhase& phase) {
 			const BossEnemyCombo combo = stateTable_.combos[comboIndex];
 
 			// 現在の距離レベルを満たしているかチェック
-			auto it = std::ranges::find(combo.requiredDistanceLevels, stats_.currentDistanceLevel);
+			auto it = std::ranges::find(combo.requiredDistanceLevels, stats.currentDistanceLevel);
 			// 条件を満たしていれば追加
 			if (combo.requiredDistanceLevels.empty() || it != combo.requiredDistanceLevels.end()) {
 
@@ -405,12 +407,12 @@ void BossEnemyStateController::ChooseNextState(const BossEnemyPhase& phase) {
 	uint32_t sequenceIndex = currentSequenceIndex_;
 
 	// コンボ内のシークエンスから状態を取得
-	BossEnemyState next = combo.sequence[sequenceIndex];
-	if (!startingNewCombo && !combo.allowRepeat && next == current_) {
+	BossEnemyState nextState = combo.sequence[sequenceIndex];
+	if (!startingNewCombo && !combo.allowRepeat && nextState == machine.GetCurrentId()) {
 
 		// コンボ内のシークエンスが最後まで行ったらリセットする
 		sequenceIndex = (sequenceIndex + 1) % combo.sequence.size();
-		next = combo.sequence[sequenceIndex];
+		nextState = combo.sequence[sequenceIndex];
 	}
 
 	// シークエンスを進めておく
@@ -421,12 +423,13 @@ void BossEnemyStateController::ChooseNextState(const BossEnemyPhase& phase) {
 	}
 
 	// 次の状態を設定
-	requested_ = next;
+	machine.Request(nextState);
 }
 
 void BossEnemyStateController::SyncPhaseCount() {
 
-	const size_t required = stats_.hpThresholds.size() + 1;
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
+	const size_t required = stats.hpThresholds.size() + 1;
 	// 足りなければ追加
 	while (stateTable_.phases.size() < required) {
 
@@ -445,6 +448,8 @@ void BossEnemyStateController::ChooseNextStateDebug() {
 		return;
 	}
 
+	auto& machine = GetMachine();
+
 	// インデックスからコンボを取得
 	const BossEnemyCombo& combo = stateTable_.combos[debugComboIndex_];
 	if (combo.sequence.empty()) {
@@ -456,7 +461,7 @@ void BossEnemyStateController::ChooseNextStateDebug() {
 	BossEnemyState nextState = combo.sequence[sequenceIndex];
 
 	// 連続同一状態の抑制
-	if (1 < combo.sequence.size() && !combo.allowRepeat && nextState == current_) {
+	if (1 < combo.sequence.size() && !combo.allowRepeat && nextState == machine.GetCurrentId()) {
 
 		// コンボ最後まで行ったらリセット
 		sequenceIndex = (sequenceIndex + 1) % combo.sequence.size();
@@ -472,8 +477,12 @@ void BossEnemyStateController::ChooseNextStateDebug() {
 	}
 
 	// 次の状態を設定
-	requested_ = nextState;
+	GetMachine().Request(nextState);
 }
+
+//==============================================================================================================================
+//	BossEnemyStateController エディター関連
+//==============================================================================================================================
 
 void BossEnemyStateController::DrawHighlighted(bool highlight, const ImVec4& col, const std::function<void()>& draw) {
 
@@ -489,23 +498,28 @@ void BossEnemyStateController::DrawHighlighted(bool highlight, const ImVec4& col
 	}
 }
 
-void BossEnemyStateController::ImGui(const BossEnemy& bossEnemy) {
+void BossEnemyStateController::ImGui() {
 
 	if (ImGui::Button("SaveJson...stateParameter.json")) {
 
 		SaveJson();
 	}
 
+	auto& machine = GetMachine();
+
 	// 各stateの値を調整
 	SakuEngine::EnumAdapter<BossEnemyState>::Combo("EditState", &editingState_);
 	ImGui::SeparatorText(SakuEngine::EnumAdapter<BossEnemyState>::ToString(editingState_));
-	if (const auto& state = states_[editingState_].get()) {
+	if (machine.Has(editingState_)) {
 
-		state->ImGui(bossEnemy);
+		machine.Get(editingState_).ImGui();
 	}
 }
 
 void BossEnemyStateController::EditStateTable() {
+
+	auto& machine = GetMachine();
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
 
 	// editorParameters
 	const ImVec2 buttonSize = ImVec2(136.0f, 30.0f * 0.64f);
@@ -541,7 +555,7 @@ void BossEnemyStateController::EditStateTable() {
 	//--------------------------------------------------------------------
 
 	ImGui::Checkbox("disableTransitions", &disableTransitions_);
-	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<BossEnemyState>::GetEnumName(static_cast<uint32_t>(current_)));
+	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<BossEnemyState>::GetEnumName(static_cast<uint32_t>(machine.GetCurrentId())));
 
 	if (ImGui::Button("SaveJson...stateParameter.json")) {
 
@@ -612,7 +626,7 @@ void BossEnemyStateController::EditStateTable() {
 			for (size_t seqIdx = 0; seqIdx < combo.sequence.size();) {
 
 				const int stateId = static_cast<int>(combo.sequence[seqIdx]);
-				bool isCurrentState = isCurrentCombo && (combo.sequence[seqIdx] == current_);
+				bool isCurrentState = isCurrentCombo && (combo.sequence[seqIdx] == machine.GetCurrentId());
 
 				ImGui::PushID(static_cast<int>(seqIdx));
 
@@ -684,7 +698,7 @@ void BossEnemyStateController::EditStateTable() {
 			ImGui::TableNextColumn();
 			{
 				int id = 0;
-				for (const auto& [level, _radius] : stats_.distanceLevels) {
+				for (const auto& [level, _radius] : stats.distanceLevels) {
 					bool checked = (std::ranges::find(combo.requiredDistanceLevels, level)
 						!= combo.requiredDistanceLevels.end());
 					ImGui::PushID(id++);
@@ -824,8 +838,7 @@ void BossEnemyStateController::EditStateTable() {
 						if (auto* payload = ImGui::AcceptDragDropPayload("PhaseReorder")) {
 
 							const int fromIdx = *static_cast<const int*>(payload->Data);
-							std::swap(phase.comboIndices[fromIdx],
-								phase.comboIndices[slotIdx]);
+							std::swap(phase.comboIndices[fromIdx], phase.comboIndices[slotIdx]);
 						}
 						ImGui::EndDragDropTarget();
 					}
@@ -858,20 +871,29 @@ void BossEnemyStateController::EditStateTable() {
 	ImGui::PopStyleColor(2);
 }
 
+//==============================================================================================================================
+//	BossEnemyStateController Json関連
+//==============================================================================================================================
+
 void BossEnemyStateController::ApplyJson() {
+
+	auto& machine = BaseStateController::GetMachine();
 
 	// state
 	{
 		Json data;
 		if (SakuEngine::JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
-			for (auto& [state, ptr] : states_) {
 
+			// 各状態に対して処理
+			ForEachBossEnemyState([&](BossEnemyState state) {
+
+				// キー取得
 				const auto& key = SakuEngine::EnumAdapter<BossEnemyState>::ToString(state);
-				if (!data.contains(key)) {
-					continue;
+				if (!machine.Has(state) || !data.contains(key)) {
+					return;
 				}
-				ptr->ApplyJson(data[key]);
-			}
+				machine.Get(state).ApplyJson(data[key]);
+				});
 		}
 	}
 
@@ -898,13 +920,19 @@ void BossEnemyStateController::ApplyJson() {
 
 void BossEnemyStateController::SaveJson() {
 
+	auto& machine = BaseStateController::GetMachine();
+
 	// state
 	{
 		Json data;
-		for (auto& [state, ptr] : states_) {
 
-			ptr->SaveJson(data[SakuEngine::EnumAdapter<BossEnemyState>::ToString(state)]);
-		}
+		// 各状態に対して処理
+		ForEachBossEnemyState([&](BossEnemyState state) {
+			if (!machine.Has(state)) {
+				return;
+			}
+			machine.Get(state).SaveJson(data[SakuEngine::EnumAdapter<BossEnemyState>::ToString(state)]);
+			});
 
 		SakuEngine::JsonAdapter::Save(kStateJsonPath_, data);
 	}

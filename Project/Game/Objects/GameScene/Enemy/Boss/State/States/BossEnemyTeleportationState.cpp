@@ -21,15 +21,15 @@ BossEnemyTeleportationState::BossEnemyTeleportationState() {
 	afterImageEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyTeleportAfterImageEffect.json");
 }
 
-void BossEnemyTeleportationState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyTeleportationState::Enter() {
 
-	bossEnemy.SetNextAnimation("bossEnemy_teleport", true, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_teleport", true, nextAnimDuration_);
 
 	// 座標を設定
 	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 0.0f;
 	const SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
-	startPos_ = bossEnemy.GetTranslation();
+	startPos_ = bossEnemy_->GetTranslation();
 	// 弧上の座標を取得
 	if (type_ == BossEnemyTeleportType::Far) {
 
@@ -44,29 +44,27 @@ void BossEnemyTeleportationState::Enter(BossEnemy& bossEnemy) {
 	}
 
 	currentAlpha_ = 1.0f;
-	bossEnemy.SetAlpha(currentAlpha_);
+	bossEnemy_->SetAlpha(currentAlpha_);
 
 	canExit_ = false;
 }
 
-void BossEnemyTeleportationState::Update(BossEnemy& bossEnemy) {
+void BossEnemyTeleportationState::Update() {
 
 	lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	float lerpT = std::clamp(lerpTimer_ / lerpTime_, 0.0f, 1.0f);
 	lerpT = EasedValue(easingType_, lerpT);
 
 	// 座標補間
-	bossEnemy.SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
+	bossEnemy_->SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
 
 	// playerの方を向かせる
-	SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	playerPos.y = 0.0f;
-	LookTarget(bossEnemy, playerPos);
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	const float disappearEnd = fadeOutTime_;           // 消え終わる時間
 	const float appearStart = lerpTime_ - fadeInTime_; // 現れ始める時間
 
-	bossEnemy.SetCastShadow(true);
+	bossEnemy_->SetCastShadow(true);
 	if (lerpTimer_ <= disappearEnd) {
 
 		const float t = std::clamp(lerpTimer_ / fadeOutTime_, 0.0f, 1.0f);
@@ -78,31 +76,31 @@ void BossEnemyTeleportationState::Update(BossEnemy& bossEnemy) {
 	} else {
 
 		currentAlpha_ = 0.0f;
-		bossEnemy.SetCastShadow(false);
+		bossEnemy_->SetCastShadow(false);
 	}
-	bossEnemy.SetAlpha(currentAlpha_);
+	bossEnemy_->SetAlpha(currentAlpha_);
 
 	// 時間経過が過ぎたら状態遷移可能にする
 	if (lerpTime_ < lerpTimer_) {
 
-		bossEnemy.SetTranslation(targetPos_);
+		bossEnemy_->SetTranslation(targetPos_);
 		canExit_ = true;
 	} else {
 
 		// 補間中は発生させる
-		afterImageEffect_->Emit(bossEnemy.GetTranslation());
+		afterImageEffect_->Emit(bossEnemy_->GetTranslation());
 	}
 }
 
-void BossEnemyTeleportationState::UpdateAlways(BossEnemy& bossEnemy) {
+void BossEnemyTeleportationState::UpdateAlways() {
 
 	// 残像エフェクト更新、回転を設定する
 	afterImageEffect_->SetParentRotation("bossAfterImage",
-		SakuEngine::Quaternion::Normalize(bossEnemy.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(bossEnemy_->GetRotation()), ParticleUpdateModuleID::Rotation);
 	afterImageEffect_->Update();
 }
 
-void BossEnemyTeleportationState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyTeleportationState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -110,7 +108,7 @@ void BossEnemyTeleportationState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	currentAlpha_ = 1.0f;
 }
 
-void BossEnemyTeleportationState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyTeleportationState::ImGui() {
 
 	// テレポートの種類の名前
 	const char* teleportNames[] = { "Far","Near" };

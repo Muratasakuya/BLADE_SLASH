@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 
 //============================================================================
@@ -17,18 +17,20 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyStrongAttackState(BossEnemy& bossEnemy);
+	BossEnemyStrongAttackState() = default;
 	~BossEnemyStrongAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -70,8 +72,8 @@ private:
 	bool reachedPlayer_; // 近くまで来たかどうか
 
 	// 剣エフェクト
-	SlashEffect strongSlash_; // 強攻撃エフェクト
-	SlashEffect lightSlash_;  // 軽攻撃エフェクト
+	SakuEngine::SlashEffectHelper strongSlash_; // 強攻撃エフェクト
+	SakuEngine::SlashEffectHelper lightSlash_;  // 軽攻撃エフェクト
 
 	// debug
 	std::unordered_map<State, bool> parriedMaps_;
@@ -79,11 +81,11 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// update
-	void UpdateParrySign(BossEnemy& bossEnemy);
-	void UpdateAttack1st(BossEnemy& bossEnemy);
-	void UpdateAttack2nd(BossEnemy& bossEnemy);
-	void UpdateParryTiming(BossEnemy& bossEnemy);
+	void UpdateParrySign();
+	void UpdateAttack1st();
+	void UpdateAttack2nd();
+	void UpdateParryTiming();
 
 	// helper
-	void LerpTranslation(BossEnemy& bossEnemy);
+	void LerpTranslation();
 };

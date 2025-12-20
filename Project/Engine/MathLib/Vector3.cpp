@@ -7,6 +7,7 @@ using namespace SakuEngine;
 //============================================================================*/
 #include <Engine/Asset/AssetStructure.h>
 #include <Engine/Core/Debug/Assert.h>
+#include <Engine/Config.h>
 
 //============================================================================*/
 //	Vector3 classMethods
@@ -157,7 +158,7 @@ float Vector3::Length() const {
 
 Vector3 Vector3::Normalize() const {
 	float length = this->Length();
-	if (length == 0.0f) {
+	if (length <= Config::kEpsilon) {
 		return Vector3(0.0f, 0.0f, 0.0f);
 	}
 	return Vector3(x / length, y / length, z / length);
@@ -200,7 +201,7 @@ float Vector3::Length(const Vector3& v) {
 Vector3 Vector3::Normalize(const Vector3& v) {
 
 	float length = Length(v);
-	if (length == 0.0f) {
+	if (length <= Config::kEpsilon) {
 		return Vector3(0.0f, 0.0f, 0.0f);
 	}
 	return Vector3(v.x / length, v.y / length, v.z / length);

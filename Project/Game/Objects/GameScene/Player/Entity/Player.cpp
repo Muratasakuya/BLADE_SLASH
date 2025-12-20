@@ -82,7 +82,7 @@ void Player::InitState() {
 
 	// 初期化、ここで初期状態も設定
 	stateController_ = std::make_unique<PlayerStateController>();
-	stateController_->Init(*this);
+	stateController_->Init(this);
 }
 
 void Player::InitHUD() {
@@ -150,7 +150,7 @@ void Player::DerivedInit() {
 	rightWeapon_->SetPostProcessMask(postProcessBit);
 }
 
-void Player::SetBossEnemy(const BossEnemy* bossEnemy) {
+void Player::SetBossEnemy(BossEnemy* bossEnemy) {
 
 	bossEnemy_ = nullptr;
 	bossEnemy_ = bossEnemy;
@@ -165,11 +165,6 @@ void Player::SetFollowCamera(FollowCamera* followCamera) {
 	stateController_->SetFollowCamera(followCamera);
 	hudSprites_->SetFollowCamera(followCamera);
 	targetNavigation_->SetCamera(followCamera);
-}
-
-void Player::SetSubPlayer(SubPlayer* subPlayer) {
-
-	stateController_->SetSubPlayer(subPlayer);
 }
 
 void Player::SetReverseWeapon(bool isReverse, PlayerWeaponType type) {
@@ -252,8 +247,6 @@ void Player::Update() {
 		return;
 	}
 
-	// スタン状態のチェック
-	CheckBossEnemyStun();
 	// パリィ可能状態のチェック
 	CheckBossEnemyParry();
 
@@ -261,8 +254,8 @@ void Player::Update() {
 	UpdateTargetNavigation();
 
 	// 状態の更新
-	stateController_->SetStatas(stats_);
-	stateController_->Update(*this);
+	stateController_->Update();
+	ClampInitPosY();
 
 	// 武器の更新
 	rightWeapon_->Update();
@@ -319,27 +312,6 @@ void Player::UpdateSKilPoint() {
 		// スキルポイントを消費
 		stats_.currentSkilPoint = (std::max)(0, stats_.currentSkilPoint - stats_.skilCost);
 	}
-}
-
-void Player::CheckBossEnemyStun() {
-
-	// スタン中に敵がスタン状態じゃなくなったら更新終了
-	if (isStunUpdate_) {
-		if (bossEnemy_->GetCurrentState() != BossEnemyState::Stun) {
-
-			isStunUpdate_ = false;
-		}
-		return;
-	}
-
-	// 敵がスタン状態かどうか
-	if (bossEnemy_->GetCurrentState() != BossEnemyState::Stun) {
-		return;
-	}
-
-	// スタン状態になったら状態を切り替え状態に強制的に遷移させる
-	isStunUpdate_ = true;
-	stateController_->SetForcedState(*this, PlayerState::SwitchAlly);
 }
 
 void Player::CheckBossEnemyParry() {
@@ -404,7 +376,7 @@ void Player::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 		hudSprites_->SetDamage(damage);
 
 		// 怯み状態遷移へリクエスト
-		stateController_->RequestFalterState(*this);
+		stateController_->RequestFalterState();
 	}
 }
 
@@ -465,7 +437,8 @@ void Player::DerivedImGui() {
 
 		// ---- State ---------------------------------------------------
 		if (ImGui::BeginTabItem("State")) {
-			stateController_->ImGui(*this);
+
+			stateController_->ImGui();
 			ImGui::EndTabItem();
 		}
 

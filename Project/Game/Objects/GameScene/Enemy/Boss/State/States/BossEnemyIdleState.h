@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -19,14 +19,14 @@ public:
 	BossEnemyIdleState() = default;
 	~BossEnemyIdleState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Update(BossEnemy& bossEnemy) override;
+	void Update() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;

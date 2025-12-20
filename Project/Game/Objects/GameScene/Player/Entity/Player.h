@@ -13,9 +13,9 @@
 // collision
 #include <Game/Objects/GameScene/Player/Collision/PlayerAttackCollision.h>
 // HUD
-#include <Game/Objects/GameScene/Player/HUD/PlayerHUD.h>
-#include <Game/Objects/GameScene/Player/HUD/PlayerStunHUD.h>
-#include <Game/Objects/GameScene/Player/HUD/TargetNavigation/TargetNavigation.h>
+#include <Game/Objects/GameScene/HUD/Player/PlayerHUD.h>
+#include <Game/Objects/GameScene/HUD/Player/PlayerStunHUD.h>
+#include <Game/Objects/GameScene/HUD/Player/TargetNavigation/TargetNavigation.h>
 
 // front
 class SubPlayer;
@@ -43,9 +43,6 @@ public:
 	// エディター
 	void DerivedImGui() override;
 
-	// Y座標の制限
-	void ClampInitPosY();
-
 	/*-------- collision ----------*/
 
 	// 衝突コールバック関数
@@ -53,18 +50,18 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetBossEnemy(const BossEnemy* bossEnemy);
+	void SetBossEnemy(BossEnemy* bossEnemy);
 	void SetFollowCamera(FollowCamera* followCamera);
-	void SetSubPlayer(SubPlayer* subPlayer);
 
 	// 武器の向きを反転させる
 	void SetReverseWeapon(bool isReverse, PlayerWeaponType type);
 	// 武器の位置を初期化する
 	void ResetWeaponTransform(PlayerWeaponType type);
 
-	void ResetState() { stateController_->SetForcedState(*this, PlayerState::Idle); }
+	void ResetState() { stateController_->SetForcedState(PlayerState::Idle); }
 	PlayerState GetCurrentState() const { return stateController_->GetCurrentState(); }
 
+	const PlayerStats& GetStats() const { return stats_; }
 	PlayerAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
 	PlayerHUD* GetHUD() const { return hudSprites_.get(); }
 	PlayerStunHUD* GetStunHUD() const { return stunHudSprites_.get(); }
@@ -143,6 +140,8 @@ private:
 
 	// helper
 	void SetInitTransform();
-	void CheckBossEnemyStun();
 	void CheckBossEnemyParry();
+
+	// Y座標の制限
+	void ClampInitPosY();
 };

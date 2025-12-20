@@ -12,10 +12,7 @@
 //	PlayerAttack_1stState classMethods
 //============================================================================
 
-PlayerAttack_1stState::PlayerAttack_1stState(Player* player) {
-
-	player_ = nullptr;	
-	player_ = player;
+void PlayerAttack_1stState::CreateEffect() {
 
 	// 剣エフェクト作成
 	slashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
@@ -26,22 +23,22 @@ PlayerAttack_1stState::PlayerAttack_1stState(Player* player) {
 	slashEffect_->SetParent("playerAttackSlash_0", player_->GetTransform());
 }
 
-void PlayerAttack_1stState::Enter(Player& player) {
+void PlayerAttack_1stState::Enter() {
 
-	player.SetNextAnimation("player_attack_1st", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_attack_1st", false, nextAnimDuration_);
 	canExit_ = false;
 
 	// 敵が攻撃可能範囲にいるかチェック
-	const SakuEngine::Vector3 playerPos = player.GetTranslation();
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	// 補間座標を設定
-	if (!CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
+	if (!CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true))) {
 
 		startPos_ = playerPos;
-		targetPos_ = startPos_ + player.GetTransform().GetForward() * moveValue_;
+		targetPos_ = startPos_ + player_->GetTransform().GetForward() * moveValue_;
 	}
 
 	// 回転補間範囲内にいるかどうか
-	assisted_ = CheckInRange(attackLookAtCircleRange_, PlayerIState::GetDistanceToBossEnemy());
+	assisted_ = CheckInRange(attackLookAtCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
 	if (assisted_) {
 
 		// カメラの向きを補正させる
@@ -49,7 +46,7 @@ void PlayerAttack_1stState::Enter(Player& player) {
 			FollowCameraTargetType::BossEnemy, true, true, targetCameraRotateX_);
 
 		startPos_ = playerPos;
-		targetPos_ = startPos_ + player.GetTransform().GetForward() * moveValue_;
+		targetPos_ = startPos_ + player_->GetTransform().GetForward() * moveValue_;
 
 		// y座標を合わせる
 		targetPos_.y = startPos_.y;
@@ -59,23 +56,23 @@ void PlayerAttack_1stState::Enter(Player& player) {
 	slashEffect_->Emit(player_->GetRotation() * slashEffectOffset_);
 }
 
-void PlayerAttack_1stState::Update(Player& player) {
+void PlayerAttack_1stState::Update() {
 
 	// 範囲内にいるときは敵に向かって補間させる
 	if (assisted_) {
 
 		// 座標、回転補間
-		AttackAssist(player);
+		AttackAssist();
 	} else {
 
 		// 前に前進させる
-		PlayerBaseAttackState::UpdateTimer(moveTimer_);
+		moveTimer_.Update();
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
-		player.SetTranslation(pos);
+		player_->SetTranslation(pos);
 	}
 
 	// animationが終わったかチェック
-	canExit_ = player.IsAnimationFinished();
+	canExit_ = player_->IsAnimationFinished();
 	// animationが終わったら時間経過を進める
 	if (canExit_) {
 
@@ -83,15 +80,15 @@ void PlayerAttack_1stState::Update(Player& player) {
 	}
 }
 
-void PlayerAttack_1stState::UpdateAlways(Player& player) {
+void PlayerAttack_1stState::UpdateAlways() {
 
 	// 剣エフェクトの更新、親の回転を設定する
 	slashEffect_->SetParentRotation("playerAttackSlash_0",
-		SakuEngine::Quaternion::Normalize(player.GetRotation()), ParticleUpdateModuleID::Rotation);
+		SakuEngine::Quaternion::Normalize(player_->GetRotation()), ParticleUpdateModuleID::Rotation);
 	slashEffect_->Update();
 }
 
-void PlayerAttack_1stState::Exit([[maybe_unused]] Player& player) {
+void PlayerAttack_1stState::Exit() {
 
 	// リセット
 	attackPosLerpTimer_ = 0.0f;
@@ -99,7 +96,7 @@ void PlayerAttack_1stState::Exit([[maybe_unused]] Player& player) {
 	moveTimer_.Reset();
 }
 
-void PlayerAttack_1stState::ImGui(const Player& player) {
+void PlayerAttack_1stState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);
@@ -107,7 +104,7 @@ void PlayerAttack_1stState::ImGui(const Player& player) {
 	ImGui::DragFloat("targetCameraRotateX", &targetCameraRotateX_, 0.01f);
 	ImGui::DragFloat3("slashEffectOffset", &slashEffectOffset_.x, 0.1f);
 
-	PlayerBaseAttackState::ImGui(player);
+	PlayerBaseAttackState::ImGui();
 
 	moveTimer_.ImGui("MoveTimer");
 	ImGui::DragFloat("moveValue", &moveValue_, 0.1f);

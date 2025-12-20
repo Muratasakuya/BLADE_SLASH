@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================*/
 //	include
 //============================================================================*/
+#include <Engine/Config.h>
 #include <Engine/Asset/AssetStructure.h>
 #include <Engine/Core/Debug/Assert.h>
 
@@ -440,7 +441,7 @@ Quaternion Quaternion::LookTarget(const Vector3& from, const Vector3& to, const 
 
 	Vector3 direction = (from - to).Normalize();
 	direction.y = 0.0f;
-	if (direction.Length() < std::numeric_limits<float>::epsilon()) {
+	if (direction.Length() < Config::kEpsilon) {
 		return rotation;
 	}
 	direction = direction.Normalize();
@@ -460,7 +461,7 @@ Quaternion Quaternion::ExtractTwistX(const Quaternion& qNorm) {
 	Quaternion t{ qNorm.x, 0.0f, 0.0f, qNorm.w };
 	float lenSq = t.x * t.x + t.w * t.w;
 	// ほぼx成分なし、w=0のときはIdentityを返す
-	if (lenSq <= std::numeric_limits<float>::epsilon()) {
+	if (lenSq <= Config::kEpsilon) {
 		return Quaternion::Identity();
 	}
 	float invLen = 1.0f / std::sqrt(lenSq);

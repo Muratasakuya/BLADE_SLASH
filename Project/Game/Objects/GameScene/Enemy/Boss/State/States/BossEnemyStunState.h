@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -16,17 +16,19 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyStunState(const BossEnemy& bossEnemy);
+	BossEnemyStunState() = default;
 	~BossEnemyStunState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;

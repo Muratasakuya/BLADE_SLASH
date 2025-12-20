@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 
 //============================================================================
@@ -16,18 +17,20 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyLightAttackState(BossEnemy& bossEnemy);
+	BossEnemyLightAttackState() = default;
 	~BossEnemyLightAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -67,7 +70,7 @@ private:
 	bool reachedPlayer_; // 近くまで来たかどうか
 
 	// 剣エフェクト
-	SlashEffect slash_;
+	SakuEngine::SlashEffectHelper slash_;
 
 	// debug
 	bool parried_;
@@ -75,10 +78,10 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// update
-	void UpdateParrySign(BossEnemy& bossEnemy);
-	void UpdateAttack(BossEnemy& bossEnemy);
-	void UpdateParryTiming(BossEnemy& bossEnemy);
+	void UpdateParrySign();
+	void UpdateAttack();
+	void UpdateParryTiming();
 
 	// helper
-	void LerpTranslation(BossEnemy& bossEnemy);
+	void LerpTranslation();
 };

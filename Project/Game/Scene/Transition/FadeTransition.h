@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/Object/Base/GameObject2D.h>
-#include <Game/Objects/Base/ITransition.h>
+#include <Game/Helper/Transition/ITransition.h>
 
 //============================================================================
 //	FadeTransition class

@@ -23,15 +23,15 @@ public:
 	BossEnemyRushAttackState();
 	~BossEnemyRushAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -114,15 +114,15 @@ private:
 	void InitBlade();
 
 	// 各状態の更新
-	void UpdateTeleport(BossEnemy& bossEnemy, float deltaTime);
-	void UpdateAttack(BossEnemy& bossEnemy);
-	void UpdateCooldown(BossEnemy& bossEnemy, float deltaTime);
+	void UpdateTeleport(float deltaTime);
+	void UpdateAttack();
+	void UpdateCooldown(float deltaTime);
 
-	void UpdateBlade(BossEnemy& bossEnemy);
+	void UpdateBlade();
 
 	// helper
-	SakuEngine::Vector3 CalcBaseDir(const BossEnemy& bossEnemy) const;
-	SakuEngine::Vector3 CalcDivisionBladeDir(const BossEnemy& bossEnemy, uint32_t idx) const;
-	void EmitDivisionBlades(const BossEnemy& bossEnemy);
-	void EmitSingleBlade(const BossEnemy& bossEnemy);
+	SakuEngine::Vector3 CalcBaseDir() const;
+	SakuEngine::Vector3 CalcDivisionBladeDir(uint32_t idx) const;
+	void EmitDivisionBlades();
+	void EmitSingleBlade();
 };

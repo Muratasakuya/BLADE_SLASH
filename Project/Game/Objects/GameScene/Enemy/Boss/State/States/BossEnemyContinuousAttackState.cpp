@@ -13,7 +13,7 @@
 //	BossEnemyContinuousAttackState classMethods
 //============================================================================
 
-BossEnemyContinuousAttackState::BossEnemyContinuousAttackState(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::CreateEffect() {
 
 	// 剣エフェクト作成
 	// 1回目
@@ -30,30 +30,27 @@ BossEnemyContinuousAttackState::BossEnemyContinuousAttackState(BossEnemy& bossEn
 	thirdSlash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightAttackEffect_2.json");
 
 	// 親の設定
-	firstSlash_.effect->SetParent("bossSlash_3", bossEnemy.GetTransform());
-	firstSlash_.effectNodeName = "bossSlash_3";
-	secondSlash_.effect->SetParent("bossSlash_2", bossEnemy.GetTransform());
-	secondSlash_.effectNodeName = "bossSlash_2";
-	thirdSlash_.effect->SetParent("bossSlash_0", bossEnemy.GetTransform());
-	thirdSlash_.effectNodeName = "bossSlash_0";
+	firstSlash_.SetParent("bossSlash_3", bossEnemy_->GetTransform());
+	secondSlash_.SetParent("bossSlash_2", bossEnemy_->GetTransform());
+	thirdSlash_.SetParent("bossSlash_0", bossEnemy_->GetTransform());
 }
 
-void BossEnemyContinuousAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::Enter() {
 
 	// 攻撃予兆アニメーションを設定
-	bossEnemy.SetNextAnimation("bossEnemy_strongAttackParrySign", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_strongAttackParrySign", false, nextAnimDuration_);
 
 	// 座標を設定
-	startPos_ = bossEnemy.GetTranslation();
+	startPos_ = bossEnemy_->GetTranslation();
 	canExit_ = false;
 
 	// 攻撃予兆を出す
-	SakuEngine::Vector3 sign = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 sign = bossEnemy_->GetTranslation();
 	sign.y = 2.0f;
 	attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
 
 	// パリィ可能にする
-	bossEnemy.ResetParryTiming();
+	bossEnemy_->ResetParryTiming();
 	parryParam_.continuousCount = 3;
 	parryParam_.canParry = true;
 	keyEventIndex_ = 0;
@@ -61,55 +58,56 @@ void BossEnemyContinuousAttackState::Enter(BossEnemy& bossEnemy) {
 	reachedPlayer_ = false;
 }
 
-void BossEnemyContinuousAttackState::Update(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::Update() {
 
 	// パリィ攻撃のタイミングを更新
-	UpdateParryTiming(bossEnemy);
+	UpdateParryTiming();
 	// エフェクトイベント更新
-	UpdateEffectEvent(bossEnemy);
+	UpdateEffectEvent();
 
 	// 状態に応じて更新
 	switch (currentState_) {
 	case BossEnemyContinuousAttackState::State::ParrySign: {
 
 		// プレイヤーの方を向きながら補間
-		UpdateParrySign(bossEnemy);
+		UpdateParrySign();
 		break;
 	}
 	case BossEnemyContinuousAttackState::State::Attack: {
 
 		// 攻撃、終了後状態を終了
-		UpdateAttack(bossEnemy);
+		UpdateAttack();
 		break;
 	}
 	}
 }
 
-void BossEnemyContinuousAttackState::UpdateAlways(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::UpdateAlways() {
 
 	// エフェクト更新
-	firstSlash_.Update(bossEnemy);
-	secondSlash_.Update(bossEnemy);
-	thirdSlash_.Update(bossEnemy);
+	firstSlash_.Update(*bossEnemy_);
+	secondSlash_.Update(*bossEnemy_);
+	thirdSlash_.Update(*bossEnemy_);
 }
 
-void BossEnemyContinuousAttackState::UpdateParrySign(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::UpdateParrySign() {
 
 	// 目標座標を常に更新する
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
-	LookTarget(bossEnemy, playerPos);
+	// 常にプレイヤーの方を向くようにする
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	// アニメーションが終了次第攻撃する
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		// 連続攻撃アニメーションを開始させる
-		bossEnemy.SetNextAnimation("bossEnemy_continuousAttack", false, nextAnimDuration_);
+		bossEnemy_->SetNextAnimation("bossEnemy_continuousAttack", false, nextAnimDuration_);
 
 		// 補間座標を設定
-		startPos_ = bossEnemy.GetTranslation();
+		startPos_ = bossEnemy_->GetTranslation();
 
 		// 状態を進める
 		currentState_ = State::Attack;
@@ -118,18 +116,18 @@ void BossEnemyContinuousAttackState::UpdateParrySign(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyContinuousAttackState::UpdateAttack(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::UpdateAttack() {
 
 	// プレイヤー座標計算
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 
 	if (!reachedPlayer_) {
 
 		// プレイヤーの方を向くようにしておく
-		LookTarget(bossEnemy, playerPos);
+		SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 		lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		float lerpT = std::clamp(lerpTimer_ / lerpTime_, 0.0f, 1.0f);
@@ -137,7 +135,7 @@ void BossEnemyContinuousAttackState::UpdateAttack(BossEnemy& bossEnemy) {
 
 		// 補間
 		SakuEngine::Vector3 newPos = SakuEngine::Vector3::Lerp(startPos_, target, lerpT);
-		bossEnemy.SetTranslation(newPos);
+		bossEnemy_->SetTranslation(newPos);
 
 		// プレイヤーに十分近づいたら補間しない
 		// xとzの距離を見る
@@ -145,12 +143,12 @@ void BossEnemyContinuousAttackState::UpdateAttack(BossEnemy& bossEnemy) {
 		if (distanceXZ.Length() <= std::fabs(attackOffsetTranslation_)) {
 
 			reachedPlayer_ = true;
-			bossEnemy.SetTranslation(target);
+			bossEnemy_->SetTranslation(target);
 		}
 	}
 
 	// animationが終了したら経過時間を進める
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 時間経過が過ぎたら遷移可能
@@ -161,13 +159,13 @@ void BossEnemyContinuousAttackState::UpdateAttack(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyContinuousAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::UpdateParryTiming() {
 
 	// パリィ攻撃のタイミング
 	if (currentState_ == State::Attack) {
-		if (bossEnemy.IsEventKey("Parry", keyEventIndex_)) {
+		if (bossEnemy_->IsEventKey("Parry", keyEventIndex_)) {
 
-			bossEnemy.TellParryTiming();
+			bossEnemy_->TellParryTiming();
 			parried_ = true;
 
 			// キーイベントを進める
@@ -177,32 +175,32 @@ void BossEnemyContinuousAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
 			// もう一度近づけるようにする
 			reachedPlayer_ = false;
 			// 補間処理をリセット
-			startPos_ = bossEnemy.GetTranslation();
+			startPos_ = bossEnemy_->GetTranslation();
 			lerpTimer_ = 0.0f;
 		}
 	}
 }
 
-void BossEnemyContinuousAttackState::UpdateEffectEvent(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::UpdateEffectEvent() {
 
 	// 剣エフェクト発生
 	// エフェクトイベントに応じて発生0,1,2は順番
-	if (emitCount_ == 0 && bossEnemy.IsEventKey("Effect", 0)) {
+	if (emitCount_ == 0 && bossEnemy_->IsEventKey("Effect", 0)) {
 
-		firstSlash_.Emit(bossEnemy);
+		firstSlash_.Emit(*bossEnemy_);
 		++emitCount_;
 	}
-	if (bossEnemy.IsEventKey("Effect", 1)) {
+	if (bossEnemy_->IsEventKey("Effect", 1)) {
 
-		secondSlash_.Emit(bossEnemy);
+		secondSlash_.Emit(*bossEnemy_);
 	}
-	if (bossEnemy.IsEventKey("Effect", 2)) {
+	if (bossEnemy_->IsEventKey("Effect", 2)) {
 
-		thirdSlash_.Emit(bossEnemy);
+		thirdSlash_.Emit(*bossEnemy_);
 	}
 }
 
-void BossEnemyContinuousAttackState::Exit(BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -212,11 +210,11 @@ void BossEnemyContinuousAttackState::Exit(BossEnemy& bossEnemy) {
 	exitTimer_ = 0.0f;
 	keyEventIndex_ = 0;
 	currentState_ = State::ParrySign;
-	bossEnemy.ResetParryTiming();
+	bossEnemy_->ResetParryTiming();
 	emitCount_ = 0;
 }
 
-void BossEnemyContinuousAttackState::ImGui(const BossEnemy& bossEnemy) {
+void BossEnemyContinuousAttackState::ImGui() {
 
 	ImGui::Text(std::format("reachedPlayer: {}", reachedPlayer_).c_str());
 	ImGui::Text(std::format("emitCount: {}", emitCount_).c_str());
@@ -233,13 +231,13 @@ void BossEnemyContinuousAttackState::ImGui(const BossEnemy& bossEnemy) {
 	ImGui::Text("exitTimer: %.3f", exitTimer_);
 	Easing::SelectEasingType(easingType_);
 
-	ImGui::DragFloat3("firstSlashOffset", &firstSlash_.effectOffset.x, 0.1f);
-	ImGui::DragFloat3("secondSlashOffset", &secondSlash_.effectOffset.x, 0.1f);
-	ImGui::DragFloat3("thirdSlashOffset", &thirdSlash_.effectOffset.x, 0.1f);
+	firstSlash_.EditOffset("firstSlashOffset");
+	secondSlash_.EditOffset("secondSlashOffset");
+	thirdSlash_.EditOffset("thirdSlashOffset");
 
 	// 座標を設定
 	// 座標を設定
-	SakuEngine::Vector3 start = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 start = bossEnemy_->GetTranslation();
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	SakuEngine::Vector3 direction = (start - playerPos).Normalize();
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
@@ -259,9 +257,9 @@ void BossEnemyContinuousAttackState::ApplyJson(const Json& data) {
 	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 
-	firstSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("firstSlashEffectOffset", Json()));
-	secondSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("secondSlashEffectOffset", Json()));
-	thirdSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("thirdSlashEffectOffset", Json()));
+	firstSlash_.FromJson(data, "firstSlashEffectOffset");
+	secondSlash_.FromJson(data, "secondSlashEffectOffset");
+	thirdSlash_.FromJson(data, "thirdSlashEffectOffset");
 }
 
 void BossEnemyContinuousAttackState::SaveJson(Json& data) {
@@ -274,7 +272,7 @@ void BossEnemyContinuousAttackState::SaveJson(Json& data) {
 	data["exitTime_"] = exitTime_;
 	data["easingType_"] = static_cast<int>(easingType_);
 
-	data["firstSlashEffectOffset"] = firstSlash_.effectOffset.ToJson();
-	data["secondSlashEffectOffset"] = secondSlash_.effectOffset.ToJson();
-	data["thirdSlashEffectOffset"] = thirdSlash_.effectOffset.ToJson();
+	firstSlash_.ToJson(data, "firstSlashEffectOffset");
+	secondSlash_.ToJson(data, "secondSlashEffectOffset");
+	thirdSlash_.ToJson(data, "thirdSlashEffectOffset");
 }

@@ -11,42 +11,42 @@
 //	BossEnemyFalterState classMethods
 //============================================================================
 
-void BossEnemyFalterState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyFalterState::Enter() {
 
-	bossEnemy.SetNextAnimation("bossEnemy_falter", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_falter", false, nextAnimDuration_);
 
 	// Y座標をリセットする
-	bossEnemy.SetTranslation(SakuEngine::Vector3(bossEnemy.GetTranslation().x, 0.0f, bossEnemy.GetTranslation().z));
+	bossEnemy_->SetTranslation(SakuEngine::Vector3(bossEnemy_->GetTranslation().x, 0.0f, bossEnemy_->GetTranslation().z));
 }
 
-void BossEnemyFalterState::Update(BossEnemy& bossEnemy) {
+void BossEnemyFalterState::Update() {
 
 	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 前方ベクトルを取得
-	SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 bossPos = bossEnemy_->GetTranslation();
 	SakuEngine::Vector3 playerPos = player_->GetTransform().translation;
 
 	// 回転を計算して設定
 	SakuEngine::Quaternion bossRotation = SakuEngine::Quaternion::LookTarget(bossPos, playerPos,
-		Direction::Get(Direction3D::Up), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
-	bossEnemy.SetRotation(bossRotation);
+		Direction::Get(Direction3D::Up), bossEnemy_->GetRotation(), rotationLerpRate_ * deltaTime);
+	bossEnemy_->SetRotation(bossRotation);
 
 	// 後ずさりさせる
-	SakuEngine::Vector3 backStepVelocity = bossEnemy.GetTransform().GetBack() * backStepSpeed_ * deltaTime;
-	bossEnemy.SetTranslation(bossPos + backStepVelocity);
+	SakuEngine::Vector3 backStepVelocity = bossEnemy_->GetTransform().GetBack() * backStepSpeed_ * deltaTime;
+	bossEnemy_->SetTranslation(bossPos + backStepVelocity);
 
 	// アニメーションが終了次第状態を終了
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		canExit_ = true;
 	}
 }
 
-void BossEnemyFalterState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyFalterState::Exit() {
 }
 
-void BossEnemyFalterState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyFalterState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);

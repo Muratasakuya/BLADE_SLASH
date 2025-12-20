@@ -52,16 +52,12 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 	// プレイヤー
 	context_->player->Init("player", "player", "Player", "player_idle");
 	context_->player->GetTargetNavigation()->SetInFrustumCheck(false);
-	// サブプレイヤー
-	context_->subPlayer->Init();
 
 	// 必要なデータをセット
 	context_->boss->SetPlayer(context_->player);
 	context_->boss->SetFollowCamera(context_->camera->GetFollowCamera());
 	context_->player->SetBossEnemy(context_->boss);
 	context_->player->SetFollowCamera(context_->camera->GetFollowCamera());
-	context_->player->SetSubPlayer(context_->subPlayer);
-	context_->subPlayer->SetBossEnemy(context_->boss);
 
 	// 衝突応答にプレイヤー、ボスをセット
 	context_->fieldBoundary->SetPushBackTarget(context_->player, context_->boss);
@@ -105,7 +101,6 @@ void StartGameState::Update() {
 	//========================================================================
 
 	context_->player->Update();
-	context_->subPlayer->Update();
 	context_->boss->Update(currentState);
 
 	//========================================================================

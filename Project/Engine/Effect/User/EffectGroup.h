@@ -7,12 +7,12 @@
 #include <Engine/Effect/User/Methods/EffectNode.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 
-//============================================================================
-//	EffectGroup class
-//	複数のパーティクルシステムをゲーム上でまとめて扱う
-//============================================================================
 namespace SakuEngine {
 
+	//============================================================================
+	//	EffectGroup class
+	//	複数のパーティクルシステムをゲーム上でまとめて扱う
+	//============================================================================
 	class EffectGroup :
 		public IGameObject {
 	public:
@@ -132,5 +132,4 @@ namespace SakuEngine {
 		// ノード配列の名前を取得
 		std::vector<std::string> GetNodeNames() const;
 	};
-
 }; // SakuEngine

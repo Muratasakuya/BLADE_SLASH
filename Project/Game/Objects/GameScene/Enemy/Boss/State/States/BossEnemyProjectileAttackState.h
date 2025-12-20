@@ -21,15 +21,17 @@ public:
 	BossEnemyProjectileAttackState(uint32_t phaseCount);
 	~BossEnemyProjectileAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -76,6 +78,7 @@ private:
 
 	// 現在の状態
 	State currentState_;
+	uint32_t phaseCount_; // フェーズの数
 
 	// フェーズに応じた弾を飛ばす数、奇数個
 	std::vector<uint32_t> phaseBulletCounts_;
@@ -129,12 +132,12 @@ private:
 
 	// update
 	void UpdateLaunch();
-	void UpdateAttack(const BossEnemy& bossEnemy);
+	void UpdateAttack();
 
 	// helper
-	void BeginLaunchPhase(BossEnemy& bossEnemy);
+	void BeginLaunchPhase();
 	// 発生順序のインデックスを設定
-	void SetLeftToRightIndices(const BossEnemy& bossEnemy);
+	void SetLeftToRightIndices();
 	// 発生位置を設定
-	void SetLaunchPositions(const BossEnemy& bossEnemy, int32_t phaseIndex);
+	void SetLaunchPositions(int32_t phaseIndex);
 };

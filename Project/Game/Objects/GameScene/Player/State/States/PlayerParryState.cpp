@@ -16,8 +16,9 @@
 //	PlayerParryState classMethods
 //============================================================================
 
-PlayerParryState::PlayerParryState() {
+PlayerParryState::PlayerParryState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
 
+	inputMapper_ = inputMapper;
 	isEmitedBlur_ = false;
 
 	// エフェクト作成
@@ -35,21 +36,21 @@ PlayerParryState::PlayerParryState() {
 	hitEffect_->LoadJson("GameEffectGroup/Player/playerHitEffect_0.json");
 }
 
-void PlayerParryState::Enter(Player& player) {
+void PlayerParryState::Enter() {
 
 	// アニメーション再生
-	player.SetNextAnimation("player_parry", false, nextAnimDuration_);
+	player_->SetNextAnimation("player_parry", false, nextAnimDuration_);
 
 	// 座標、向きを計算
 	SakuEngine::Vector3 direction = SetLerpValue(startPos_, targetPos_,
-		player, parryLerp_.moveDistance, true);
+		parryLerp_.moveDistance, true);
 	direction.y = 0.0f;
 	direction = direction.Normalize();
 
 	// 敵の方向を向かせる
-	player.SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
+	player_->SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 	// 左手の武器を反転
-	player.SetReverseWeapon(true, PlayerWeaponType::Left);
+	player_->SetReverseWeapon(true, PlayerWeaponType::Left);
 
 	// ヒットストップ開始
 	SakuEngine::GameTimer::StartHitStop(deltaWaitTime_, 0.0f);
@@ -58,10 +59,10 @@ void PlayerParryState::Enter(Player& player) {
 	followCamera_->StartPlayerActionAnim(PlayerState::Parry);
 
 	// 剣先の引っかきエフェクトを発生させる
-	tipScrackEffect_->Emit(player.GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
+	tipScrackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 
 	// HUDの入力示唆を消させる
-	player.GetHUD()->EndInputSuggest();
+	player_->GetHUD()->EndInputSuggest();
 
 	canExit_ = false;
 	isEmitedBlur_ = false;
@@ -71,33 +72,33 @@ void PlayerParryState::Enter(Player& player) {
 	deltaWaitTimer_ = 0.0f;
 }
 
-void PlayerParryState::Update(Player& player) {
+void PlayerParryState::Update() {
 
 	// deltaTimeの管理時間を更新
-	UpdateDeltaWaitTime(player);
+	UpdateDeltaWaitTime();
 
 	// 入力状態を確認
 	CheckInput();
 
 	// 座標補間を更新
-	UpdateLerpTranslation(player);
+	UpdateLerpTranslation();
 
 	// animationの更新
-	UpdateAnimation(player);
+	UpdateAnimation();
 }
 
-void PlayerParryState::UpdateAlways(Player& player) {
+void PlayerParryState::UpdateAlways() {
 
 	// エフェクトの更新
 	parryHitEffect_->Update();
 	hitEffect_->Update();
 
 	// 剣先の座標を常に更新
-	tipScrackEffect_->SetWorldPos(player.GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
+	tipScrackEffect_->SetWorldPos(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 	tipScrackEffect_->Update();
 }
 
-void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
+void PlayerParryState::UpdateDeltaWaitTime() {
 
 	// 時間経過を進める
 	deltaWaitTimer_ += SakuEngine::GameTimer::GetDeltaTime();
@@ -109,13 +110,14 @@ void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
 
 			// 左手にエフェクトを発生させる
 			// 発生座標
-			SakuEngine::Vector3 effectPos = player.GetJointWorldPos("leftHand");
+			SakuEngine::Vector3 effectPos = player_->GetJointWorldPos("leftHand");
 			effectPos.y = parryHitEffectPosY_;
 			parryHitEffect_->Emit(effectPos);
 
 			// ブラー手の位置に発生させる
-			postProcess_->Start(PostProcessType::RadialBlur);
-			RadialBlurUpdater* blur = postProcess_->GetUpdater<RadialBlurUpdater>(
+			SakuEngine::PostProcessSystem* postProcess = SakuEngine::PostProcessSystem::GetInstance();
+			postProcess->Start(PostProcessType::RadialBlur);
+			RadialBlurUpdater* blur = postProcess->GetUpdater<RadialBlurUpdater>(
 				PostProcessType::RadialBlur);
 			// 自動で元の値に戻すように設定
 			blur->StartState();
@@ -124,7 +126,7 @@ void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
 
 			// 腕の入りをスクリーン座標に変換して0.0f~1.0fの正規化する
 			SakuEngine::Vector2 screenPos = SakuEngine::Math::ProjectToScreen(
-				player.GetWeapon(PlayerWeaponType::Left)->GetTransform().GetWorldPos(), *followCamera_).Normalize();
+				player_->GetWeapon(PlayerWeaponType::Left)->GetTransform().GetWorldPos(), *followCamera_).Normalize();
 			blur->SetBlurCenter(screenPos);
 
 			// 発生済み
@@ -133,7 +135,7 @@ void PlayerParryState::UpdateDeltaWaitTime(const Player& player) {
 	}
 }
 
-void PlayerParryState::UpdateLerpTranslation(Player& player) {
+void PlayerParryState::UpdateLerpTranslation() {
 
 	if (parryLerp_.isFinised) {
 		return;
@@ -143,7 +145,7 @@ void PlayerParryState::UpdateLerpTranslation(Player& player) {
 	SakuEngine::Vector3 translation = GetLerpTranslation(parryLerp_);
 
 	// 座標を設定
-	player.SetTranslation(translation);
+	player_->SetTranslation(translation);
 
 	if (parryLerp_.isFinised) {
 
@@ -174,7 +176,7 @@ void PlayerParryState::CheckInput() {
 	}
 }
 
-void PlayerParryState::UpdateAnimation(Player& player) {
+void PlayerParryState::UpdateAnimation() {
 
 	// 座標補間が終了するまでなにもしない
 	if (!parryLerp_.isFinised) {
@@ -186,17 +188,17 @@ void PlayerParryState::UpdateAnimation(Player& player) {
 
 		canExit_ = true;
 		// 元に戻す
-		player.SetReverseWeapon(false, PlayerWeaponType::Left);
+		player_->SetReverseWeapon(false, PlayerWeaponType::Left);
 		return;
 	}
 	switch (request_.value()) {
 	case RequestState::PlayAnimation: {
 
 		// 攻撃アニメーション再生
-		player.SetNextAnimation("player_stunAttack", false, nextAnimDuration_);
+		player_->SetNextAnimation("player_stunAttack", false, nextAnimDuration_);
 
 		// 補間先の座標を再設定する
-		SetLerpValue(startPos_, targetPos_, player, attackLerp_.moveDistance, false);
+		SetLerpValue(startPos_, targetPos_, attackLerp_.moveDistance, false);
 		request_ = RequestState::AttackAnimation;
 
 		// カメラアニメーションを終了させる
@@ -205,7 +207,7 @@ void PlayerParryState::UpdateAnimation(Player& player) {
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_4th);
 
 		// 元に戻す
-		player.SetReverseWeapon(false, PlayerWeaponType::Left);
+		player_->SetReverseWeapon(false, PlayerWeaponType::Left);
 		break;
 	}
 	case RequestState::AttackAnimation: {
@@ -214,13 +216,13 @@ void PlayerParryState::UpdateAnimation(Player& player) {
 		SakuEngine::Vector3 translation = GetLerpTranslation(attackLerp_);
 
 		// 座標を設定
-		player.SetTranslation(translation);
+		player_->SetTranslation(translation);
 
 		// 補間が終了したら状態を終了する
 		if (attackLerp_.isFinised) {
 
 			request_ = std::nullopt;
-			
+
 			// 攻撃ヒットエフェクトを発生させる
 			SakuEngine::Vector3 hitEffectPos = targetPos_;
 			hitEffectPos.y = hitEffectOffsetY_;
@@ -249,9 +251,9 @@ SakuEngine::Vector3 PlayerParryState::GetLerpTranslation(LerpParameter& lerp) {
 }
 
 SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target,
-	const Player& player, float moveDistance, bool isPlayerBase) {
+	float moveDistance, bool isPlayerBase) {
 
-	SakuEngine::Vector3 playerPos = player.GetTranslation();
+	SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	playerPos.y = 0.0f;
 	SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	enemyPos.y = 0.0f;
@@ -271,7 +273,7 @@ SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, S
 	return direction;
 }
 
-void PlayerParryState::Exit([[maybe_unused]] Player& player) {
+void PlayerParryState::Exit() {
 
 	// カメラアニメーションを終了させる
 	followCamera_->EndPlayerActionAnim(true);
@@ -288,7 +290,7 @@ void PlayerParryState::Exit([[maybe_unused]] Player& player) {
 	isEmitedBlur_ = false;
 }
 
-void PlayerParryState::ImGui(const Player& player) {
+void PlayerParryState::ImGui() {
 
 	ImGui::Text(std::format("allowAttack: {}", allowAttack_).c_str());
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
@@ -313,7 +315,7 @@ void PlayerParryState::ImGui(const Player& player) {
 		SakuEngine::Vector3 start{};
 		SakuEngine::Vector3 target{};
 		SakuEngine::Vector3 translation = SetLerpValue(start, target,
-			player, parryLerp_.moveDistance, true);
+			parryLerp_.moveDistance, true);
 		start.y = 2.0f;
 		target.y = 2.0f;
 
@@ -331,7 +333,7 @@ void PlayerParryState::ImGui(const Player& player) {
 		SakuEngine::Vector3 start{};
 		SakuEngine::Vector3 target{};
 		SakuEngine::Vector3 translation = SetLerpValue(start, target,
-			player, attackLerp_.moveDistance, false);
+			attackLerp_.moveDistance, false);
 		start.y = 2.0f;
 		target.y = 2.0f;
 

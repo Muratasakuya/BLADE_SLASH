@@ -7,7 +7,7 @@
 
 // scene
 #include <Game/Scene/GameState/Interface/IGameSceneState.h>
-#include <Game/Objects/SceneTransition/FadeTransition.h>
+#include <Game/Scene/Transition/FadeTransition.h>
 
 //============================================================================
 //	GameScene class
@@ -51,7 +51,6 @@ private:
 
 	// objects
 	std::unique_ptr<Player> player_;
-	std::unique_ptr<SubPlayer> subPlayer_;
 	std::unique_ptr<BossEnemy> bossEnemy_;
 	std::unique_ptr<GameResultDisplay> result_;
 

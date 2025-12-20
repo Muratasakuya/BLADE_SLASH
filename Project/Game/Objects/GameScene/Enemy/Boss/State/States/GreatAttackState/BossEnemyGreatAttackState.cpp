@@ -44,35 +44,35 @@ BossEnemyGreatAttackState::BossEnemyGreatAttackState() {
 	lightningAttackEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightningAttackEffect.json");
 }
 
-void BossEnemyGreatAttackState::InitState(BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::InitState() {
 
 	for (const auto& state : std::views::values(states_)) {
 
-		state->Init(&bossEnemy, player_, followCamera_);
+		state->Init(bossEnemy_, player_, followCamera_);
 	}
 }
 
-void BossEnemyGreatAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::Enter() {
 
 	// 初期状態で初期化
 	currentState_ = State::ApproachAttack;
 	states_[currentState_]->Enter();
 
 	// 親を設定
-	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy.GetTransform());
+	bossAuraEffect_->SetParent("bossEnemyAura_0", bossEnemy_->GetTransform());
 	// エフェクト発生
 	bossAuraEffect_->Emit(SakuEngine::Vector3::AnyInit(0.0f));
 	isEmitAuraEffect_ = true;
 
 	// 表示を消す
-	bossEnemy.SetIsRejection(true);
-	bossEnemy.SetWeaponRejection(true);
+	bossEnemy_->SetIsRejection(true);
+	bossEnemy_->SetWeaponRejection(true);
 
 	// 攻撃無効状態にする
-	bossEnemy.GetHUD()->SetDisable();
+	bossEnemy_->GetHUD()->SetDisable();
 }
 
-void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::Update() {
 
 	// 現在の状態を更新
 	auto& state = states_[currentState_];
@@ -107,15 +107,15 @@ void BossEnemyGreatAttackState::Update([[maybe_unused]] BossEnemy& bossEnemy) {
 	if (isEmitAuraEffect_) {
 
 		bossAfterImageEffect_->SetParentRotation("bossAfterImage1",
-			bossEnemy.GetRotation(), ParticleUpdateModuleID::Rotation);
+			bossEnemy_->GetRotation(), ParticleUpdateModuleID::Rotation);
 		bossWeaponAfterImageEffect_->SetParentRotation("bossWeaponAfterImage",
-			bossEnemy.GetWeaponRotation(), ParticleUpdateModuleID::Rotation);
-		bossAfterImageEffect_->Emit(bossEnemy.GetTranslation());
-		bossWeaponAfterImageEffect_->Emit(bossEnemy.GetWeaponTranslation());
+			bossEnemy_->GetWeaponRotation(), ParticleUpdateModuleID::Rotation);
+		bossAfterImageEffect_->Emit(bossEnemy_->GetTranslation());
+		bossWeaponAfterImageEffect_->Emit(bossEnemy_->GetWeaponTranslation());
 	}
 }
 
-void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::UpdateAlways() {
 
 	// 常に更新
 	for (const auto& state : std::views::values(states_)) {
@@ -130,7 +130,7 @@ void BossEnemyGreatAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEne
 	lightningAttackEffect_->Update();
 }
 
-void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::Exit() {
 
 	canExit_ = false;
 
@@ -143,17 +143,17 @@ void BossEnemyGreatAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	bossAuraEffect_->Stop();
 
 	// 表示を元に戻す
-	bossEnemy.SetIsRejection(false);
-	bossEnemy.SetWeaponRejection(false);
+	bossEnemy_->SetIsRejection(false);
+	bossEnemy_->SetWeaponRejection(false);
 
 	// 攻撃有効状態にする
-	bossEnemy.GetHUD()->SetValid();
+	bossEnemy_->GetHUD()->SetValid();
 
 	// パリィ不可にする
 	parryParam_.canParry = false;
 }
 
-void BossEnemyGreatAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyGreatAttackState::ImGui() {
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
 	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));

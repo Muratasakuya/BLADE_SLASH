@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 
 //============================================================================
@@ -144,7 +145,7 @@ void ParticleSpawnPolygonVertexModule::EmitForInstance(PolygonInstance& instance
 	if (notMoveEmit_) {
 		bool moved = false;
 		for (size_t i = 0, n = (std::min)(current.size(), instance.prevVertices.size()); i < n; ++i) {
-			if (std::numeric_limits<float>::epsilon() < (current[i] - instance.prevVertices[i]).Length()) {
+			if (Config::kEpsilon < (current[i] - instance.prevVertices[i]).Length()) {
 
 				moved = true;
 				break;
@@ -168,7 +169,7 @@ void ParticleSpawnPolygonVertexModule::EmitForInstance(PolygonInstance& instance
 
 			const Vector3 diff = current[v] - instance.prevVertices[v];
 			const float   len = diff.Length();
-			if (len < spacing || len < std::numeric_limits<float>::epsilon()) {
+			if (len < spacing || len < Config::kEpsilon) {
 
 				Vector3 velocity = Vector3::Normalize(diff) * moveSpeed_.GetValue();
 				for (uint32_t n = 0; n < emitPerVertex; ++n) {
@@ -224,7 +225,7 @@ void ParticleSpawnPolygonVertexModule::EmitForInstance(PolygonInstance& instance
 		for (uint32_t i = 0; i < current.size(); ++i) {
 
 			Vector3 direction = Vector3::Normalize(current[i] - instance.prevVertices[i]);
-			bool moving = direction.Length() > std::numeric_limits<float>::epsilon();
+			bool moving = direction.Length() > Config::kEpsilon;
 			Vector3 vellocity = moving ? direction * moveSpeed_.GetValue() : Vector3(0.0f, 0.0f, moveSpeed_.GetValue());
 
 			for (uint32_t n = 0; n < emitPerVertex; ++n) {
@@ -342,7 +343,7 @@ bool ParticleSpawnPolygonVertexModule::EnableEmit() {
 	const size_t vertexCount = (std::min)(currentVertices.size(), prevVertices_.size());
 	// 前フレームの頂点位置と比較する
 	for (size_t i = 0; i < vertexCount; ++i) {
-		if (std::numeric_limits<float>::epsilon() < (currentVertices[i] - prevVertices_[i]).Length()) {
+		if (Config::kEpsilon < (currentVertices[i] - prevVertices_[i]).Length()) {
 
 			moved = true;
 			break;
@@ -367,7 +368,7 @@ void ParticleSpawnPolygonVertexModule::InterpolateEmit(std::list<CPUParticle::Pa
 		const float length = diff.Length();
 
 		// 頂点が静止している場合は通常発生のみ
-		if (length < spacing || length < std::numeric_limits<float>::epsilon()) {
+		if (length < spacing || length < Config::kEpsilon) {
 
 			// 速度設定
 			Vector3 velocity = Vector3::Normalize(diff) * moveSpeed_.GetValue();
@@ -453,7 +454,7 @@ void ParticleSpawnPolygonVertexModule::NoneEmit(std::list<CPUParticle::ParticleD
 
 		// 進行方向ベクトル
 		Vector3 direction = Vector3::Normalize(currentVertices[cIndex] - prevVertices_[cIndex]);
-		bool isMoving = direction.Length() > std::numeric_limits<float>::epsilon();
+		bool isMoving = direction.Length() > Config::kEpsilon;
 		// 速度の設定
 		Vector3 velocity = isMoving ? direction * moveSpeed_.GetValue() :
 			Vector3(0.0f, 0.0f, moveSpeed_.GetValue());

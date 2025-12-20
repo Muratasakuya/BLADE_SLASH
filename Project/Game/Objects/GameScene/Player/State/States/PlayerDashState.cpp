@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
@@ -12,27 +13,32 @@
 //	PlayerDashState classMethods
 //============================================================================
 
-void PlayerDashState::Enter(Player& player) {
+PlayerDashState::PlayerDashState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
 
-	player.SetNextAnimation("player_dash", false, nextAnimDuration_);
+	inputMapper_ = inputMapper;
+}
+
+void PlayerDashState::Enter() {
+
+	player_->SetNextAnimation("player_dash", false, nextAnimDuration_);
 
 	// 加速開始
 	currentState_ = State::Accel;
 	accelLerp_->Start();
 
-	if (followCamera_->IsFinishedHandoffBlend() && preState_ != PlayerState::Parry) {
+	if (followCamera_->IsFinishedHandoffBlend() && StateNode::GetPreviousState() != PlayerState::Parry) {
 
 		// カメラを見やすい位置まで補間させる
 		followCamera_->SetOverlayState(FollowCameraOverlayState::ReturnDefaultRotate, true);
 	}
 }
 
-void PlayerDashState::Update(Player& player) {
+void PlayerDashState::Update() {
 
 	// ダッシュ更新
-	UpdateDash(player);
+	UpdateDash();
 	// 回転、進行方向に向かせる
-	SetRotateToDirection(player, move_);
+	SakuEngine::Math::RotateToDirection3D(*player_, SakuEngine::Vector3(move_.x, 0.0f, move_.z).Normalize(), rotationLerpRate_);
 }
 
 void PlayerDashState::UpdateState() {
@@ -41,7 +47,7 @@ void PlayerDashState::UpdateState() {
 	case PlayerDashState::State::Accel: {
 
 		// 回避中
-		isAvoidance_ = true;
+		isAvoiding_ = true;
 
 		// 加速させる
 		accelLerp_->LerpValue(moveSpeed_);
@@ -60,7 +66,7 @@ void PlayerDashState::UpdateState() {
 		if (sustainTime_ <= sustainTimer_) {
 
 			// 回避終了
-			isAvoidance_ = false;
+			isAvoiding_ = false;
 
 			currentState_ = State::Decel;
 			decelLerp_->Start();
@@ -75,7 +81,7 @@ void PlayerDashState::UpdateState() {
 	}
 }
 
-void PlayerDashState::UpdateDash(Player& player) {
+void PlayerDashState::UpdateDash() {
 
 	// 速度の状態更新
 	UpdateState();
@@ -84,7 +90,7 @@ void PlayerDashState::UpdateDash(Player& player) {
 	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
 		inputMapper_->GetVector(PlayerInputAction::MoveZ));
 	inputValue = SakuEngine::Vector2::Normalize(inputValue);
-	if (inputValue.Length() > epsilon_) {
+	if (inputValue.Length() > Config::kEpsilon) {
 
 		SakuEngine::Vector3 direction = SakuEngine::Vector3::Normalize(SakuEngine::Vector3(inputValue.x, 0.0f, inputValue.y));
 		direction = SakuEngine::Vector3::TransferNormal(direction,
@@ -94,17 +100,17 @@ void PlayerDashState::UpdateDash(Player& player) {
 	// 特に何も入力していなくても加速状態の時は向いている方向に加速分動かして進ませる
 	else {
 
-		move_ = player.GetTransform().GetForward() * moveSpeed_;
+		move_ = player_->GetTransform().GetForward() * moveSpeed_;
 	}
 	move_.y = 0.0f;
 
 	// 座標を設定
-	SakuEngine::Vector3 translation = player.GetTranslation();
+	SakuEngine::Vector3 translation = player_->GetTranslation();
 	translation += move_;
-	player.SetTranslation(translation);
+	player_->SetTranslation(translation);
 }
 
-void PlayerDashState::Exit(Player& player) {
+void PlayerDashState::Exit() {
 
 	// animationをリセット
 	accelLerp_->Reset();
@@ -113,9 +119,9 @@ void PlayerDashState::Exit(Player& player) {
 	move_.Init();
 
 	// 回避終了にしておく
-	isAvoidance_ = false;
+	isAvoiding_ = false;
 
-	player.ResetAnimation();
+	player_->ResetAnimation();
 }
 
 bool PlayerDashState::GetCanExit() const {
@@ -127,7 +133,7 @@ bool PlayerDashState::GetCanExit() const {
 	return !inputMapper_->IsPressed(PlayerInputAction::Dash);
 }
 
-void PlayerDashState::ImGui([[maybe_unused]] const Player& player) {
+void PlayerDashState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate_", &rotationLerpRate_, 0.001f);

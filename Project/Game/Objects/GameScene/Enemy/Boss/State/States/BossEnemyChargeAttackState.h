@@ -17,18 +17,20 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyChargeAttackState();
+	BossEnemyChargeAttackState() = default;
 	~BossEnemyChargeAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -53,8 +55,8 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// update
-	void UpdateBlade(BossEnemy& bossEnemy);
+	void UpdateBlade();
 
 	// helper
-	SakuEngine::Vector3 CalcBaseDir(const BossEnemy& bossEnemy) const;
+	SakuEngine::Vector3 CalcBaseDir() const;
 };

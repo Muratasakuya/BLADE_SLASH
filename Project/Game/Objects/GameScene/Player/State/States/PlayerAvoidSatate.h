@@ -17,21 +17,25 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerAvoidSatate(Player* player);
+	PlayerAvoidSatate() = default;
 	~PlayerAvoidSatate() = default;
 
-	void Enter(Player& player) override;
+	void Enter() override;
 
-	void Update(Player& player) override;
+	void Update() override;
 
-	void Exit(Player& player) override;
+	void Exit() override;
 
 	// imgui
-	void ImGui(const Player& player) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
 	void SaveJson(Json& data) override;
+
+	//--------- accessor -----------------------------------------------------
+
+	bool IsAvoidance() const override { return isAvoiding_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -47,4 +51,7 @@ private:
 
 	SakuEngine::Vector3 startPos_;  // 開始座標
 	SakuEngine::Vector3 targetPos_; // 目標座標
+
+	// 回避中か
+	bool isAvoiding_ = false;
 };

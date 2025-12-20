@@ -11,7 +11,7 @@
 // scene
 #include <Engine/Scene/Light/PunctualLight.h>
 #include <Game/Camera/Title/TitleViewCamera.h>
-#include <Game/Objects/SceneTransition/FadeTransition.h>
+#include <Game/Scene/Transition/FadeTransition.h>
 
 //============================================================================
 //	TitleScene class

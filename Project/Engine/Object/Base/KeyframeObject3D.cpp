@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/TagSystem.h>
@@ -109,7 +110,7 @@ uint32_t KeyframeObject3D::GetKeyIndexFromObjectID(uint32_t index) {
 float KeyframeObject3D::GetProgress() const {
 
 	// keys分の合計時間
-	float baseTotal = (std::max)(keys_.back().time, std::numeric_limits<float>::epsilon());
+	float baseTotal = (std::max)(keys_.back().time, Config::kEpsilon);
 	// 追加されてれば最初の区間の長さを加算
 	float startTime = (runtime_.hasStartKey ? startDuration_ : 0.0f);
 	float total = baseTotal + startTime;
@@ -617,7 +618,7 @@ void KeyframeObject3D::ImGui() {
 
 		ImGui::Text("timer: %.2f / %.2f", timer_, keys_.back().time);
 
-		float total = (std::max)(keys_.back().time, std::numeric_limits<float>::epsilon());
+		float total = (std::max)(keys_.back().time, Config::kEpsilon);
 		float progress = timer_ / total;
 		ImGui::Text("progress: %.2f", progress);
 
@@ -988,7 +989,7 @@ void KeyframeObject3D::DrawKeyTimeline() {
 		return;
 	}
 
-	const float total = (std::max)(keys_.back().time, std::numeric_limits<float>::epsilon());
+	const float total = (std::max)(keys_.back().time, Config::kEpsilon);
 
 	// レイアウト領域を確保
 	ImGui::Dummy(ImVec2(barWidth, barHeight * 2.0f));

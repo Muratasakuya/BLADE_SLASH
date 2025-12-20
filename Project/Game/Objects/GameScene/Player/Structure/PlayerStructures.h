@@ -24,9 +24,8 @@ enum class PlayerState {
 	Attack_4th,    // 通常攻撃4段目...  左クリック/Xボタン(3段目攻撃中にのみ入力受付)
 	SkilAttack,    // スキル攻撃...     E/Yボタン
 	Parry,         // 攻撃カウンター...  Space/ショルダーボタン
-	SwitchAlly,    // 味方を切り替えるか入力(Idle or StunAttack)
-	StunAttack,    // スタン攻撃、自動で行う
 	Falter,        // 攻撃を受けた時の怯み
+	Count,
 };
 
 // 武器の種類
