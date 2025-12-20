@@ -129,13 +129,18 @@ void BossEnemyStateController::StartFalter() {
 
 	// Falterへ強制遷移
 	machine.Force(BossEnemyState::Falter, true);
+	// コンボリセット
+	ResetCombo();
+}
+
+void BossEnemyStateController::ResetCombo() {
 
 	// 状態遷移の設定をリセット
 	currentComboSlot_ = 0;
 	currentComboIndex_ = 0;
 	prevComboIndex_ = 0;
 	currentSequenceIndex_ = 0;
-	forcedState_.reset();
+	forcedState_ = std::nullopt;
 	stateTimer_.Reset();
 }
 
@@ -251,7 +256,6 @@ void BossEnemyStateController::UpdateStateTimer() {
 	const auto& phase = stateTable_.phases[currentPhase_];
 	// 現在の状態
 	BossEnemyIState& state = machine.GetCurrent();
-	const BossEnemyState currentId = machine.GetCurrentId();
 
 	// 遷移不可
 	if (disableTransitions_) {
@@ -265,30 +269,16 @@ void BossEnemyStateController::UpdateStateTimer() {
 
 		// 即座に強制遷移させる
 		machine.Force(*forcedState_);
-		forcedState_.reset();
-
-		// 状態遷移の設定をリセット
-		currentComboSlot_ = 0;
-		currentComboIndex_ = 0;
-		prevComboIndex_ = 0;
-		currentSequenceIndex_ = 0;
-		stateTimer_.Reset();
+		// コンボリセット
+		ResetCombo();
 		return;
 	}
 
 	// 遷移可能状態になったら時間を進めて遷移させる
 	if (state.GetCanExit()) {
 
-		// 攻撃したかどうか
-		const bool isAttack =
-			(currentId == BossEnemyState::LightAttack) ||
-			(currentId == BossEnemyState::StrongAttack) ||
-			(currentId == BossEnemyState::ChargeAttack) ||
-			(currentId == BossEnemyState::RushAttack) ||
-			(currentId == BossEnemyState::GreatAttack) ||
-			(currentId == BossEnemyState::ContinuousAttack);
 		// 攻撃後に自動で待機状態に戻す設定がある場合
-		if (isAttack && phase.autoIdleAfterAttack) {
+		if (phase.autoIdleAfterAttack) {
 
 			// 待機状態に戻す
 			machine.Request(BossEnemyState::Idle);
@@ -479,6 +469,10 @@ void BossEnemyStateController::ChooseNextStateDebug() {
 	// 次の状態を設定
 	GetMachine().Request(nextState);
 }
+
+//==============================================================================================================================
+//	BossEnemyStateController エディター関連
+//==============================================================================================================================
 
 void BossEnemyStateController::DrawHighlighted(bool highlight, const ImVec4& col, const std::function<void()>& draw) {
 
@@ -834,8 +828,7 @@ void BossEnemyStateController::EditStateTable() {
 						if (auto* payload = ImGui::AcceptDragDropPayload("PhaseReorder")) {
 
 							const int fromIdx = *static_cast<const int*>(payload->Data);
-							std::swap(phase.comboIndices[fromIdx],
-								phase.comboIndices[slotIdx]);
+							std::swap(phase.comboIndices[fromIdx], phase.comboIndices[slotIdx]);
 						}
 						ImGui::EndDragDropTarget();
 					}
@@ -867,6 +860,10 @@ void BossEnemyStateController::EditStateTable() {
 	}
 	ImGui::PopStyleColor(2);
 }
+
+//==============================================================================================================================
+//	BossEnemyStateController Json関連
+//==============================================================================================================================
 
 void BossEnemyStateController::ApplyJson() {
 

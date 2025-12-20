@@ -208,6 +208,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Effect\User\Helper\SlashEffectHelper.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp">
       <SubType />
     </ClCompile>
@@ -293,9 +297,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Effect\User\GameEffect.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Helper\GameEffectCommandHelper.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Effect\Particle\Core\GPUParticleUpdater.cpp">
@@ -762,7 +763,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyHUD.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.cpp" />
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\Interface\BossEnemyIState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyChargeAttackState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyFalterState.cpp" />
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyIdleState.cpp" />
@@ -954,6 +954,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Effect\User\Helper\SlashEffectHelper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h">
       <SubType />
     </ClInclude>
@@ -1106,9 +1110,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\Methods\EffectStructures.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Helper\GameEffectCommandHelper.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Effect\Particle\Command\ParticleCommand.h">

@@ -38,7 +38,7 @@ void PlayerDashState::Update() {
 	// ダッシュ更新
 	UpdateDash();
 	// 回転、進行方向に向かせる
-	SakuEngine::Math::RotateToDirection3D(*player_,SakuEngine::Vector3(move_.x, 0.0f, move_.z).Normalize(), rotationLerpRate_);
+	SakuEngine::Math::RotateToDirection3D(*player_, SakuEngine::Vector3(move_.x, 0.0f, move_.z).Normalize(), rotationLerpRate_);
 }
 
 void PlayerDashState::UpdateState() {

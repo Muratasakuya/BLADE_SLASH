@@ -57,25 +57,6 @@ protected:
 	//	protected Methods
 	//========================================================================
 
-	//--------- structure ----------------------------------------------------
-
-	// 剣エフェクト
-	struct SlashEffect {
-
-		// エフェクト本体
-		std::unique_ptr<SakuEngine::EffectGroup> effect;
-		// ノードの名前
-		std::string effectNodeName;
-
-		// 発生位置のオフセット
-		SakuEngine::Vector3 effectOffset;
-
-		// 発生
-		void Emit(const BossEnemy& bossEnemy);
-		// 更新
-		void Update(const BossEnemy& bossEnemy);
-	};
-
 	//--------- variables ----------------------------------------------------
 
 	// 状態遷移対象
@@ -90,10 +71,4 @@ protected:
 	bool canExit_ = true;    // 遷移可能かどうか
 	float rotationLerpRate_; // 回転補完割合
 	ParryParameter parryParam_;
-
-	//--------- functions ----------------------------------------------------
-
-	// helper
-	// ボスがtargetを見る
-	void LookTarget(const SakuEngine::Vector3& target);
 };

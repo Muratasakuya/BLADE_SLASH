@@ -34,7 +34,7 @@ void BossEnemyChargeAttackState::UpdateAlways() {
 void BossEnemyChargeAttackState::Update() {
 
 	// 常にプレイヤーの方を向くようにする
-	LookTarget(player_->GetTranslation());
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 	// 刃の更新処理
 	UpdateBlade();
 

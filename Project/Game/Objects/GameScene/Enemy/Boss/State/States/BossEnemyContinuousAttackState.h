@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 
 //============================================================================
@@ -68,9 +69,9 @@ private:
 	bool reachedPlayer_; // 近くまで来たかどうか
 
 	// 剣エフェクト
-	SlashEffect firstSlash_;  // 1回目
-	SlashEffect secondSlash_; // 2回目
-	SlashEffect thirdSlash_;  // 3回目
+	SakuEngine::SlashEffectHelper firstSlash_;  // 1回目
+	SakuEngine::SlashEffectHelper secondSlash_; // 2回目
+	SakuEngine::SlashEffectHelper thirdSlash_;  // 3回目
 
 	// debug
 	bool parried_;

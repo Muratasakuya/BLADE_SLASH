@@ -3,8 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
+#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 
 //============================================================================
 //	BossEnemyJumpAttackState class
@@ -63,7 +64,7 @@ private:
 	EasingType jumpEasing_;
 
 	// 剣エフェクト
-	SlashEffect slash_;
+	SakuEngine::SlashEffectHelper slash_;
 
 	//--------- functions ----------------------------------------------------
 

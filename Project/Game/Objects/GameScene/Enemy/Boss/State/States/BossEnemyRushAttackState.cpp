@@ -57,7 +57,7 @@ void BossEnemyRushAttackState::Enter() {
 	bossEnemy_->SetCastShadow(true);
 
 	// playerの方を向かせる
-	LookTarget(player_->GetTranslation());
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 }
 
 void BossEnemyRushAttackState::UpdateAlways() {
@@ -112,7 +112,7 @@ void BossEnemyRushAttackState::UpdateTeleport(float deltaTime) {
 
 	// 座標補完
 	bossEnemy_->SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
-	LookTarget(player_->GetTranslation());
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 
 	const float disappearEnd = fadeOutTime_;           // 消え終わる時間
 	const float appearStart = lerpTime_ - fadeInTime_; // 現れ始める時間
@@ -184,7 +184,7 @@ void BossEnemyRushAttackState::UpdateCooldown(float deltaTime) {
 			farRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 
 		// playerの方を向かせる
-		LookTarget(player_->GetTranslation());
+		SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 	}
 }
 

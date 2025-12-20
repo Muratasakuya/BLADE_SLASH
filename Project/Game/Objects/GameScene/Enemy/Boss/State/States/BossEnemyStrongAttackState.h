@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
 
 //============================================================================
@@ -72,8 +72,8 @@ private:
 	bool reachedPlayer_; // 近くまで来たかどうか
 
 	// 剣エフェクト
-	SlashEffect strongSlash_; // 強攻撃エフェクト
-	SlashEffect lightSlash_;  // 軽攻撃エフェクト
+	SakuEngine::SlashEffectHelper strongSlash_; // 強攻撃エフェクト
+	SakuEngine::SlashEffectHelper lightSlash_;  // 軽攻撃エフェクト
 
 	// debug
 	std::unordered_map<State, bool> parriedMaps_;

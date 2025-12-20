@@ -30,12 +30,9 @@ void BossEnemyContinuousAttackState::CreateEffect() {
 	thirdSlash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightAttackEffect_2.json");
 
 	// 親の設定
-	firstSlash_.effect->SetParent("bossSlash_3", bossEnemy_->GetTransform());
-	firstSlash_.effectNodeName = "bossSlash_3";
-	secondSlash_.effect->SetParent("bossSlash_2", bossEnemy_->GetTransform());
-	secondSlash_.effectNodeName = "bossSlash_2";
-	thirdSlash_.effect->SetParent("bossSlash_0", bossEnemy_->GetTransform());
-	thirdSlash_.effectNodeName = "bossSlash_0";
+	firstSlash_.SetParent("bossSlash_3", bossEnemy_->GetTransform());
+	secondSlash_.SetParent("bossSlash_2", bossEnemy_->GetTransform());
+	thirdSlash_.SetParent("bossSlash_0", bossEnemy_->GetTransform());
 }
 
 void BossEnemyContinuousAttackState::Enter() {
@@ -97,10 +94,11 @@ void BossEnemyContinuousAttackState::UpdateParrySign() {
 
 	// 目標座標を常に更新する
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy_->GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
-	LookTarget(playerPos);
+	// 常にプレイヤーの方を向くようにする
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, direction, rotationLerpRate_);
 
 	// アニメーションが終了次第攻撃する
 	if (bossEnemy_->IsAnimationFinished()) {
@@ -122,14 +120,14 @@ void BossEnemyContinuousAttackState::UpdateAttack() {
 
 	// プレイヤー座標計算
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy_->GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 
 	if (!reachedPlayer_) {
 
 		// プレイヤーの方を向くようにしておく
-		LookTarget(playerPos);
+		SakuEngine::Math::RotateToDirection3D(*bossEnemy_, direction, rotationLerpRate_);
 
 		lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		float lerpT = std::clamp(lerpTimer_ / lerpTime_, 0.0f, 1.0f);
@@ -233,9 +231,9 @@ void BossEnemyContinuousAttackState::ImGui() {
 	ImGui::Text("exitTimer: %.3f", exitTimer_);
 	Easing::SelectEasingType(easingType_);
 
-	ImGui::DragFloat3("firstSlashOffset", &firstSlash_.effectOffset.x, 0.1f);
-	ImGui::DragFloat3("secondSlashOffset", &secondSlash_.effectOffset.x, 0.1f);
-	ImGui::DragFloat3("thirdSlashOffset", &thirdSlash_.effectOffset.x, 0.1f);
+	firstSlash_.EditOffset("firstSlashOffset");
+	secondSlash_.EditOffset("secondSlashOffset");
+	thirdSlash_.EditOffset("thirdSlashOffset");
 
 	// 座標を設定
 	// 座標を設定
@@ -259,9 +257,9 @@ void BossEnemyContinuousAttackState::ApplyJson(const Json& data) {
 	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 
-	firstSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("firstSlashEffectOffset", Json()));
-	secondSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("secondSlashEffectOffset", Json()));
-	thirdSlash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("thirdSlashEffectOffset", Json()));
+	firstSlash_.FromJson(data, "firstSlashEffectOffset");
+	secondSlash_.FromJson(data, "secondSlashEffectOffset");
+	thirdSlash_.FromJson(data, "thirdSlashEffectOffset");
 }
 
 void BossEnemyContinuousAttackState::SaveJson(Json& data) {
@@ -274,7 +272,7 @@ void BossEnemyContinuousAttackState::SaveJson(Json& data) {
 	data["exitTime_"] = exitTime_;
 	data["easingType_"] = static_cast<int>(easingType_);
 
-	data["firstSlashEffectOffset"] = firstSlash_.effectOffset.ToJson();
-	data["secondSlashEffectOffset"] = secondSlash_.effectOffset.ToJson();
-	data["thirdSlashEffectOffset"] = thirdSlash_.effectOffset.ToJson();
+	firstSlash_.ToJson(data, "firstSlashEffectOffset");
+	secondSlash_.ToJson(data, "secondSlashEffectOffset");
+	thirdSlash_.ToJson(data, "thirdSlashEffectOffset");
 }

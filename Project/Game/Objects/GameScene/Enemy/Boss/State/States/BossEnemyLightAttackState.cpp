@@ -4,7 +4,6 @@
 //	include
 //============================================================================
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
-#include <Engine/Effect/User/Helper/GameEffectCommandHelper.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Camera/Follow/FollowCamera.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
@@ -22,8 +21,7 @@ void BossEnemyLightAttackState::CreateEffect() {
 	slash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightAttackEffect_0.json");
 
 	// 親の設定
-	slash_.effect->SetParent("bossSlash_0", bossEnemy_->GetTransform());
-	slash_.effectNodeName = "bossSlash_0";
+	slash_.SetParent("bossSlash_0", bossEnemy_->GetTransform());
 }
 
 void BossEnemyLightAttackState::Enter() {
@@ -80,10 +78,10 @@ void BossEnemyLightAttackState::UpdateParrySign() {
 
 	// 目標座標を常に更新する
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy_->GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
-	LookTarget(playerPos);
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, direction, rotationLerpRate_);
 
 	// アニメーションが終了次第攻撃する
 	if (bossEnemy_->IsAnimationFinished()) {
@@ -136,14 +134,14 @@ void BossEnemyLightAttackState::LerpTranslation() {
 
 	// 目標座標計算
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy_->GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 
 	if (!reachedPlayer_) {
 
 		// プレイヤーの方を向くようにしておく
-		LookTarget(playerPos);
+		SakuEngine::Math::RotateToDirection3D(*bossEnemy_, direction, rotationLerpRate_);
 
 		// 補間時間を進める
 		lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
@@ -189,7 +187,7 @@ void BossEnemyLightAttackState::ImGui() {
 
 	ImGui::DragFloat("attackOffsetTranslation", &attackOffsetTranslation_, 0.1f);
 	ImGui::DragFloat("exitTime", &exitTime_, 0.01f);
-	ImGui::DragFloat3("slashEffectOffset", &slash_.effectOffset.x, 0.1f);
+	slash_.EditOffset("slashEffectOffset");
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
 	ImGui::Text("exitTimer: %.3f", exitTimer_);
@@ -214,7 +212,7 @@ void BossEnemyLightAttackState::ApplyJson(const Json& data) {
 	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 	easingType_ = static_cast<EasingType>(SakuEngine::JsonAdapter::GetValue<int>(data, "easingType_"));
 
-	slash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("slashEffectOffset_", Json()));
+	slash_.FromJson(data, "slashEffectOffset_");
 }
 
 void BossEnemyLightAttackState::SaveJson(Json& data) {
@@ -227,5 +225,5 @@ void BossEnemyLightAttackState::SaveJson(Json& data) {
 	data["exitTime_"] = exitTime_;
 	data["easingType_"] = static_cast<int>(easingType_);
 
-	data["slashEffectOffset_"] = slash_.effectOffset.ToJson();
+	slash_.ToJson(data, "slashEffectOffset_");
 }

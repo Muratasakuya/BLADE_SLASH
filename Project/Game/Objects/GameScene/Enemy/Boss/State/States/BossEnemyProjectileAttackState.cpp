@@ -83,7 +83,7 @@ void BossEnemyProjectileAttackState::Enter() {
 void BossEnemyProjectileAttackState::Update() {
 
 	// 処理中は常にプレイヤーの方を向くようにしておく
-	LookTarget(player_->GetTranslation());
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 
 	// 状態に応じて更新
 	switch (currentState_) {

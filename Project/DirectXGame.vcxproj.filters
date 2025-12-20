@@ -678,9 +678,6 @@
     <ClCompile Include="Engine\Effect\User\GameEffect.cpp">
       <Filter>Engine\Effect\User</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Helper\GameEffectCommandHelper.cpp">
-      <Filter>Engine\Effect\User\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Effect\Particle\Core\GPUParticleUpdater.cpp">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClCompile>
@@ -1215,9 +1212,6 @@
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\Interface\BossEnemyIState.cpp">
-      <Filter>Game\Objects\GameScene\Enemy\Boss\State\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyChargeAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
@@ -1622,9 +1616,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Effect\User\Methods\EffectStructures.h">
       <Filter>Engine\Effect\User\Methods</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Helper\GameEffectCommandHelper.h">
-      <Filter>Engine\Effect\User\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Effect\Particle\Command\ParticleCommand.h">
       <Filter>Engine\Effect\Particle\Command</Filter>
@@ -2574,8 +2565,10 @@
     <None Include="Assets\Engine\Shaders\Skybox\Skybox.hlsli">
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
+    <ClCompile Include="Engine\Effect\User\Helper\SlashEffectHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateConfig.h" />
+    <ClInclude Include="Engine\Effect\User\Helper\SlashEffectHelper.h" />
   </ItemGroup>
 </Project>

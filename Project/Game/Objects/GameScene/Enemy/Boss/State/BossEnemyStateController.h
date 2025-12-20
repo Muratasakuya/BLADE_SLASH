@@ -105,6 +105,9 @@ private:
 	void ApplyJson();
 	void SaveJson();
 
+	// コンボリセット
+	void ResetCombo();
+
 	// 状態遷移処理
 	void DecideExternalTransition() override;
 	// 状態が切り替わったときの処理

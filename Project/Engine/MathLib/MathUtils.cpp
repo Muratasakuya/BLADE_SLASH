@@ -272,7 +272,8 @@ Vector3 Math::GetDirection3D(const GameObject3D& from, const GameObject3D& to,
 	return direction;
 }
 
-void SakuEngine::Math::RotateToDirection3D(GameObject3D& object, const Vector3& direction, float lerpRate) {
+void SakuEngine::Math::RotateToDirection3D(GameObject3D& object,
+	const Vector3& direction, float lerpRate, bool useScaledDeltaTime) {
 
 	// 処理できない向きは早期リターン
 	if (direction.Length() <= Config::kEpsilon) {
@@ -282,6 +283,9 @@ void SakuEngine::Math::RotateToDirection3D(GameObject3D& object, const Vector3& 
 	// 向きを計算
 	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
 	SakuEngine::Quaternion rotation = object.GetRotation();
-	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation, lerpRate);
+
+	// 補間
+	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation,
+		lerpRate * useScaledDeltaTime ? GameTimer::GetScaledDeltaTime() : GameTimer::GetDeltaTime());
 	object.SetRotation(rotation);
 }

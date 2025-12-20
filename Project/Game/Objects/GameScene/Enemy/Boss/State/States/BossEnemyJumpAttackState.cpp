@@ -32,8 +32,7 @@ void BossEnemyJumpAttackState::CreateEffect() {
 	slash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyJumpAttackEffect_0.json");
 
 	// 親の設定
-	slash_.effect->SetParent("bossSlash_2", bossEnemy_->GetTransform());
-	slash_.effectNodeName = "bossSlash_2";
+	slash_.SetParent("bossSlash_0", bossEnemy_->GetTransform());
 }
 
 void BossEnemyJumpAttackState::Enter() {
@@ -75,7 +74,7 @@ void BossEnemyJumpAttackState::Update() {
 void BossEnemyJumpAttackState::UpdatePre() {
 
 	// 予備動作中はプレイヤーの方を向く
-	LookTarget(player_->GetTranslation());
+	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
 
 	// 予備動作が終了したらジャンプ状態へ
 	if (bossEnemy_->IsAnimationFinished()) {
@@ -164,7 +163,8 @@ void BossEnemyJumpAttackState::ImGui() {
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.01f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.01f);
 	ImGui::DragFloat("targetDistance", &targetDistance_, 0.01f);
-	ImGui::DragFloat3("slashEffectOffset", &slash_.effectOffset.x, 0.1f);
+
+	slash_.EditOffset("SlashEffectOffset");
 
 	lerpTranslationXZ_.ImGui("LerpTranslationXZ");
 
@@ -203,7 +203,7 @@ void BossEnemyJumpAttackState::ApplyJson(const Json& data) {
 		jumpKeyframes_[i] = SakuEngine::Vector3::FromJson(data["JumpKeyframes"][i]);
 	}
 
-	slash_.effectOffset = SakuEngine::Vector3::FromJson(data.value("slashEffectOffset_", Json()));
+	slash_.FromJson(data, "slashEffectOffset_");
 }
 
 void BossEnemyJumpAttackState::SaveJson(Json& data) {
@@ -219,5 +219,5 @@ void BossEnemyJumpAttackState::SaveJson(Json& data) {
 		data["JumpKeyframes"][i] = jumpKeyframes_[i].ToJson();
 	}
 
-	data["slashEffectOffset_"] = slash_.effectOffset.ToJson();
+	slash_.ToJson(data, "slashEffectOffset_");
 }
