@@ -606,52 +606,52 @@
     <ClCompile Include="Engine\Utility\Timer\DelayedHitstop.cpp">
       <Filter>Engine\Utility\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Light\GameLight.cpp">
+    <ClCompile Include="Game\Gameplay\Lighting\GameLight.cpp">
       <Filter>Game\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\HUD\Player\TargetNavigation\TargetNavigation.cpp">
+    <ClCompile Include="Game\UI\HUD\Player\TargetNavigation\TargetNavigation.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD\TargetNavigation</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
+    <ClCompile Include="Game\Gameplay\Systems\Area\ObjectAreaChecker.cpp">
       <Filter>Game\Objects\Common\Area</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Start\BossEnemyStartAnimation.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Start\BossEnemyStartAnimation.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Start</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyRequestFalter.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests\BossEnemyRequestFalter.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackApproach.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Effect\PlayerAfterImageEffect.cpp">
       <Filter>Game\Objects\GameScene\Player\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Systems\PlayerParrySystem.cpp">
       <Filter>Game\Objects\GameScene\Player\Parry</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\PlayerInputTransitionPlanner.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\PlayerInputTransitionPlanner.cpp">
       <Filter>Game\Objects\GameScene\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\SubPlayer\Entity\SubPlayer.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\Entity\SubPlayer.cpp">
       <Filter>Game\Objects\GameScene\SubPlayer\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\SubPlayer\State\States\SubPlayerInactiveState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerInactiveState.cpp">
       <Filter>Game\Objects\GameScene\SubPlayer\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\SubPlayer\State\States\SubPlayerPunchAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerPunchAttackState.cpp">
       <Filter>Game\Objects\GameScene\SubPlayer\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\SubPlayer\State\SubPlayerStateController.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\StateMachine\SubPlayerStateController.cpp">
       <Filter>Game\Objects\GameScene\SubPlayer\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\DefaultDistortionUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\DefaultDistortionUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\DepthOutlineUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\DepthOutlineUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\PostProcess\Texture\MultiRenderTexture.cpp">
@@ -1074,49 +1074,49 @@
     <ClCompile Include="Engine\Utility\Timer\StateTimer.cpp">
       <Filter>Engine\Utility\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\EndGame\EndGameCamera.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\EndGame\EndGameCamera.cpp">
       <Filter>Game\Camera\EndGame</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\FollowCamera.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\FollowCamera.cpp">
       <Filter>Game\Camera\Follow</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Scene\Camera\LightViewCamera.cpp">
       <Filter>Engine\Scene\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\Input\Device\FollowCameraGamePadInput.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraGamePadInput.cpp">
       <Filter>Game\Camera\Follow\Input\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\Input\Device\FollowCameraKeyInput.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp">
       <Filter>Game\Camera\Follow\Input\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\FollowCameraStateController.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateController.cpp">
       <Filter>Game\Camera\Follow\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\Interface\FollowCameraIState.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.cpp">
       <Filter>Game\Camera\Follow\State\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\States\FollowCameraAllyAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraAllyAttackState.cpp">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\States\FollowCameraFollowState.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.cpp">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\States\FollowCameraReturnDefaultRotate.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraReturnDefaultRotate.cpp">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\States\FollowCameraShakeState.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.cpp">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\States\FollowCameraStunAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraStunAttackState.cpp">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Follow\State\States\FollowCameraSwitchAllyState.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraSwitchAllyState.cpp">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Manager\CameraManager.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp">
       <Filter>Game\Camera\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\ResultCamera\ClearResultCamera.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.cpp">
       <Filter>Game\Camera\ResultCamera</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\GameObject\GameObjectEditor.cpp">
@@ -1128,211 +1128,211 @@
     <ClCompile Include="Engine\Editor\Level\SceneBuilder.cpp">
       <Filter>Engine\Editor\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Title\TitleViewCamera.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\Title\TitleViewCamera.cpp">
       <Filter>Game\Camera\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GamecButtonFocusNavigator.cpp">
+    <ClCompile Include="Game\UI\Navigation\GamecButtonFocusNavigator.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GameButton.cpp">
+    <ClCompile Include="Game\UI\Widgets\Button\GameButton.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GameCommonStructures.cpp">
+    <ClCompile Include="Game\UI\Structures\GameCommonStructures.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GameDigitDisplay.cpp">
+    <ClCompile Include="Game\UI\Widgets\DigitDisplay\GameDigitDisplay.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GameDisplayDamage.cpp">
+    <ClCompile Include="Game\UI\Widgets\DamageDisplay\GameDisplayDamage.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GameHPBar.cpp">
+    <ClCompile Include="Game\UI\Widgets\HPBar\GameHPBar.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Helper\HUD\GameTimerDisplay.cpp">
+    <ClCompile Include="Game\UI\Widgets\TimerDisplay\GameTimerDisplay.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Common\Input\Device\SelectUIGamePadInput.cpp">
+    <ClCompile Include="Game\UI\Input\Devices\SelectUIGamePadInput.cpp">
       <Filter>Game\Objects\Common\Input\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Common\Input\Device\SelectUIKeyInput.cpp">
+    <ClCompile Include="Game\UI\Input\Devices\SelectUIKeyInput.cpp">
       <Filter>Game\Objects\Common\Input\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Common\GameButtonBlinkingUpdater.cpp">
+    <ClCompile Include="Game\UI\Widgets\Button\GameButtonBlinkingUpdater.cpp">
       <Filter>Game\Objects\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Common\UI\GameUIFocusNavigator.cpp">
+    <ClCompile Include="Game\UI\Navigation\GameUIFocusNavigator.cpp">
       <Filter>Game\Objects\Common\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyAttackCollision.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyAttackCollision.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyBladeCollision.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyBladeCollision.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemy.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemy.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemyWeapon.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemyWeapon.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyAttackSign.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\UI\BossEnemyAttackSign.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyContinuousAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyContinuousAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyJumpAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyJumpAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyProjectileAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyProjectileAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\BossEnemyGreatAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\BossEnemyGreatAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Environment\Collision\FieldWallCollision.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Environment\Collision\FieldWallCollision.cpp">
       <Filter>Game\Objects\GameScene\Environment\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Environment\Collision\FieldBoundary.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Environment\Collision\FieldBoundary.cpp">
       <Filter>Game\Objects\GameScene\Environment\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Collision\PlayerAttackCollision.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Collision\PlayerAttackCollision.cpp">
       <Filter>Game\Objects\GameScene\Player\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Entity\PlayerWeapon.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Entity\PlayerWeapon.cpp">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\HUD\Enemy\Boss\BossEnemyHUD.cpp">
+    <ClCompile Include="Game\UI\HUD\Enemy\Boss\BossEnemyHUD.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateController.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyChargeAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyChargeAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyFalterState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyFalterState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyIdleState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyIdleState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyLightAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyLightAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyRushAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyRushAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyStrongAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStrongAttackState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyStunState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStunState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyTeleportationState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyTeleportationState.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\Structures\BossEnemyStructures.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Structures\BossEnemyStructures.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Structures</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Environment\Object\FieldCrossMarkWall.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Environment\Object\FieldCrossMarkWall.cpp">
       <Filter>Game\Objects\GameScene\Environment\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Entity\Player.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Entity\Player.cpp">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\HUD\Player\PlayerHUD.cpp">
+    <ClCompile Include="Game\UI\HUD\Player\PlayerHUD.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\HUD\Player\PlayerStunHUD.cpp">
+    <ClCompile Include="Game\UI\HUD\Player\PlayerStunHUD.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Input\Device\PlayerGamePadInput.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerGamePadInput.cpp">
       <Filter>Game\Objects\GameScene\Player\Input\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Input\Device\PlayerKeyInput.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerKeyInput.cpp">
       <Filter>Game\Objects\GameScene\Player\Input\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\Interface\PlayerBaseAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\Interface\PlayerBaseAttackState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\PlayerStateController.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\PlayerStateController.cpp">
       <Filter>Game\Objects\GameScene\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_1stState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_1stState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_2ndState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_2ndState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_3rdState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_3rdState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_4thState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_4thState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerAvoidSatate.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAvoidSatate.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerDashState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerDashState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerFalterState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerFalterState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerIdleState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerIdleState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerParryState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerSkilAttackState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerSkilAttackState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\State\States\PlayerWalkState.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerWalkState.cpp">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\Structure\PlayerStructures.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\Structure\PlayerStructures.cpp">
       <Filter>Game\Objects\GameScene\Player\Structure</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Result\GameResultDisplay.cpp">
+    <ClCompile Include="Game\Gameplay\Result\GameResultDisplay.cpp">
       <Filter>Game\Objects\GameScene\Result</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\SpriteEffect\FadeSprite.cpp">
+    <ClCompile Include="Game\Effects\SpriteEffect\FadeSprite.cpp">
       <Filter>Game\Objects\GameScene\SpriteEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\Transition\FadeTransition.cpp">
+    <ClCompile Include="Game\Transition\FadeTransition.cpp">
       <Filter>Game\Objects\SceneTransition</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\TitleScene\Background\TitleBackground.cpp">
+    <ClCompile Include="Game\Scenes\Title\Background\TitleBackground.cpp">
       <Filter>Game\Objects\TitleScene\Background</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\TitleScene\TitleController.cpp">
+    <ClCompile Include="Game\Scenes\Title\TitleController.cpp">
       <Filter>Game\Objects\TitleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\CRTDisplayUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\CRTDisplayUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\GlitchUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\GlitchUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\GrayscaleUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\GrayscaleUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\PlayerAfterImageUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\PlayerAfterImageUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PostEffect\RadialBlurUpdater.cpp">
+    <ClCompile Include="Game\Effects\PostProcess\RadialBlurUpdater.cpp">
       <Filter>Game\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\EffectScene.cpp">
+    <ClCompile Include="Game\Scenes\Effect\EffectScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameScene.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Scene\Manager\SceneManager.cpp">
@@ -1347,25 +1347,25 @@
     <ClCompile Include="Engine\Scene\Methods\SceneTransition.cpp">
       <Filter>Engine\Scene\Methods</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameState\States\BeginGameState.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameState\States\BeginGameState.cpp">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameState\States\ResultGameState.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameState\States\ResultGameState.cpp">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameState\States\EndGameState.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameState\States\EndGameState.cpp">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameState\States\StartGameState.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameState\States\StartGameState.cpp">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameState\States\PauseState.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameState\States\PauseState.cpp">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameState\States\PlayGameState.cpp">
+    <ClCompile Include="Game\Scenes\Game\GameState\States\PlayGameState.cpp">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\TitleScene.cpp">
+    <ClCompile Include="Game\Scenes\Title\TitleScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utility\Timer\GameTimer.cpp">
@@ -1503,61 +1503,61 @@
     <ClInclude Include="Engine\Utility\Timer\DelayedHitstop.h">
       <Filter>Engine\Utility\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Light\GameLight.h">
+    <ClInclude Include="Game\Gameplay\Lighting\GameLight.h">
       <Filter>Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\HUD\Player\TargetNavigation\TargetNavigation.h">
+    <ClInclude Include="Game\UI\HUD\Player\TargetNavigation\TargetNavigation.h">
       <Filter>Game\Objects\GameScene\Player\HUD\TargetNavigation</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
+    <ClInclude Include="Game\Gameplay\Systems\Area\ObjectAreaChecker.h">
       <Filter>Game\Objects\Common\Area</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Start\BossEnemyStartAnimation.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Start\BossEnemyStartAnimation.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Start</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyRequestFalter.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests\BossEnemyRequestFalter.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackApproach.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackApproach.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Effect\PlayerAfterImageEffect.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Effect\PlayerAfterImageEffect.h">
       <Filter>Game\Objects\GameScene\Player\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Parry\PlayerParrySystem.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Systems\PlayerParrySystem.h">
       <Filter>Game\Objects\GameScene\Player\Parry</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerInputTransitionPlanner.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\PlayerInputTransitionPlanner.h">
       <Filter>Game\Objects\GameScene\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateConfig.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\PlayerStateConfig.h">
       <Filter>Game\Objects\GameScene\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SubPlayer\Entity\SubPlayer.h">
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\Entity\SubPlayer.h">
       <Filter>Game\Objects\GameScene\SubPlayer\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SubPlayer\State\Interface\SubPlayerIState.h">
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\Interface\SubPlayerIState.h">
       <Filter>Game\Objects\GameScene\SubPlayer\State\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SubPlayer\State\States\SubPlayerInactiveState.h">
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerInactiveState.h">
       <Filter>Game\Objects\GameScene\SubPlayer\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SubPlayer\State\States\SubPlayerPunchAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerPunchAttackState.h">
       <Filter>Game\Objects\GameScene\SubPlayer\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SubPlayer\State\SubPlayerStateController.h">
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\SubPlayerStateController.h">
       <Filter>Game\Objects\GameScene\SubPlayer\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SubPlayer\Structure\SubPlayerStructure.h">
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\Structure\SubPlayerStructure.h">
       <Filter>Game\Objects\GameScene\SubPlayer\Structure</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\DefaultDistortionUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\DefaultDistortionUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\DepthOutlineUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\DepthOutlineUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Buffer\Updater\Interface\IPostProcessUpdater.h">
@@ -2085,10 +2085,10 @@
     <ClInclude Include="Engine\Utility\Timer\StateTimer.h">
       <Filter>Engine\Utility\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\EndGame\EndGameCamera.h">
+    <ClInclude Include="Game\Gameplay\Camera\EndGame\EndGameCamera.h">
       <Filter>Game\Camera\EndGame</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\FollowCamera.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\FollowCamera.h">
       <Filter>Game\Camera\Follow</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\Camera\LightViewCamera.h">
@@ -2097,46 +2097,46 @@
     <ClInclude Include="Engine\Scene\Light\PunctualLight.h">
       <Filter>Engine\Scene\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\Input\Device\FollowCameraGamePadInput.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraGamePadInput.h">
       <Filter>Game\Camera\Follow\Input\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\Input\Device\FollowCameraKeyInput.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.h">
       <Filter>Game\Camera\Follow\Input\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\Input\FollowCameraInputAction.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Actions\FollowCameraInputAction.h">
       <Filter>Game\Camera\Follow\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\FollowCameraStateController.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateController.h">
       <Filter>Game\Camera\Follow\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\Interface\FollowCameraIState.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.h">
       <Filter>Game\Camera\Follow\State\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\States\FollowCameraAllyAttackState.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraAllyAttackState.h">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\States\FollowCameraFollowState.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.h">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\States\FollowCameraReturnDefaultRotate.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraReturnDefaultRotate.h">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\States\FollowCameraShakeState.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.h">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\States\FollowCameraStunAttackState.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraStunAttackState.h">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\State\States\FollowCameraSwitchAllyState.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraSwitchAllyState.h">
       <Filter>Game\Camera\Follow\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Follow\Structures\FollowCameraStructures.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Structures\FollowCameraStructures.h">
       <Filter>Game\Camera\Follow\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Manager\CameraManager.h">
+    <ClInclude Include="Game\Gameplay\Camera\CameraManager.h">
       <Filter>Game\Camera\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\ResultCamera\ClearResultCamera.h">
+    <ClInclude Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.h">
       <Filter>Game\Camera\ResultCamera</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\GameObject\GameObjectEditor.h">
@@ -2151,232 +2151,232 @@
     <ClInclude Include="Engine\Editor\Level\SceneBuilder.h">
       <Filter>Engine\Editor\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Title\TitleViewCamera.h">
+    <ClInclude Include="Game\Gameplay\Camera\Title\TitleViewCamera.h">
       <Filter>Game\Camera\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GamecButtonFocusNavigator.h">
+    <ClInclude Include="Game\UI\Navigation\GamecButtonFocusNavigator.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GameButton.h">
+    <ClInclude Include="Game\UI\Widgets\Button\GameButton.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GameCommonStructures.h">
+    <ClInclude Include="Game\UI\Structures\GameCommonStructures.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GameDigitDisplay.h">
+    <ClInclude Include="Game\UI\Widgets\DigitDisplay\GameDigitDisplay.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GameDisplayDamage.h">
+    <ClInclude Include="Game\UI\Widgets\DamageDisplay\GameDisplayDamage.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GameHPBar.h">
+    <ClInclude Include="Game\UI\Widgets\HPBar\GameHPBar.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\GameTimerDisplay.h">
+    <ClInclude Include="Game\UI\Widgets\TimerDisplay\GameTimerDisplay.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\HUD\IGameButtonResponseUpdater.h">
+    <ClInclude Include="Game\UI\Widgets\Button\IGameButtonResponseUpdater.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Common\Input\Device\SelectUIGamePadInput.h">
+    <ClInclude Include="Game\UI\Input\Devices\SelectUIGamePadInput.h">
       <Filter>Game\Objects\Common\Input\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Common\Input\Device\SelectUIKeyInput.h">
+    <ClInclude Include="Game\UI\Input\Devices\SelectUIKeyInput.h">
       <Filter>Game\Objects\Common\Input\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Common\Input\SelectUIInputAction.h">
+    <ClInclude Include="Game\UI\Input\Actions\SelectUIInputAction.h">
       <Filter>Game\Objects\Common\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Helper\Transition\ITransition.h">
+    <ClInclude Include="Game\Transition\ITransition.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Common\GameButtonBlinkingUpdater.h">
+    <ClInclude Include="Game\UI\Widgets\Button\GameButtonBlinkingUpdater.h">
       <Filter>Game\Objects\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Common\UI\GameUIFocusNavigator.h">
+    <ClInclude Include="Game\UI\Navigation\GameUIFocusNavigator.h">
       <Filter>Game\Objects\Common\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyAttackCollision.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyAttackCollision.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Collision\BossEnemyBladeCollision.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyBladeCollision.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemy.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemy.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Entity\BossEnemyWeapon.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemyWeapon.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyAttackSign.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\UI\BossEnemyAttackSign.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyContinuousAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyContinuousAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyJumpAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyJumpAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyProjectileAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyProjectileAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\BossEnemyGreatAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\BossEnemyGreatAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States\GreatAttackState\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Environment\Collision\FieldWallCollision.h">
+    <ClInclude Include="Game\Gameplay\Actors\Environment\Collision\FieldWallCollision.h">
       <Filter>Game\Objects\GameScene\Environment\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Environment\Collision\FieldBoundary.h">
+    <ClInclude Include="Game\Gameplay\Actors\Environment\Collision\FieldBoundary.h">
       <Filter>Game\Objects\GameScene\Environment\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Collision\PlayerAttackCollision.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Collision\PlayerAttackCollision.h">
       <Filter>Game\Objects\GameScene\Player\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Entity\PlayerWeapon.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Entity\PlayerWeapon.h">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\HUD\Enemy\Boss\BossEnemyHUD.h">
+    <ClInclude Include="Game\UI\HUD\Enemy\Boss\BossEnemyHUD.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateController.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\Interface\BossEnemyIState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyIState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyChargeAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyChargeAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyFalterState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyFalterState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyIdleState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyIdleState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyLightAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyLightAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyRushAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyRushAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyStrongAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStrongAttackState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyStunState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStunState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\States\BossEnemyTeleportationState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyTeleportationState.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\Structures\BossEnemyStructures.h">
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Structures\BossEnemyStructures.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Environment\Object\FieldCrossMarkWall.h">
+    <ClInclude Include="Game\Gameplay\Actors\Environment\Object\FieldCrossMarkWall.h">
       <Filter>Game\Objects\GameScene\Environment\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Entity\Player.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Entity\Player.h">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\HUD\Player\PlayerHUD.h">
+    <ClInclude Include="Game\UI\HUD\Player\PlayerHUD.h">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\HUD\Player\PlayerStunHUD.h">
+    <ClInclude Include="Game\UI\HUD\Player\PlayerStunHUD.h">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Input\Device\PlayerGamePadInput.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerGamePadInput.h">
       <Filter>Game\Objects\GameScene\Player\Input\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Input\Device\PlayerKeyInput.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerKeyInput.h">
       <Filter>Game\Objects\GameScene\Player\Input\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Input\PlayerInputAction.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Input\Actions\PlayerInputAction.h">
       <Filter>Game\Objects\GameScene\Player\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\Interface\PlayerBaseAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\Interface\PlayerBaseAttackState.h">
       <Filter>Game\Objects\GameScene\Player\State\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\Interface\PlayerIState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\Interface\PlayerIState.h">
       <Filter>Game\Objects\GameScene\Player\State\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\PlayerStateController.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\PlayerStateController.h">
       <Filter>Game\Objects\GameScene\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_1stState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_1stState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_2ndState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_2ndState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_3rdState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_3rdState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerAttack_4thState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_4thState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerAvoidSatate.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAvoidSatate.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerDashState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerDashState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerFalterState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerFalterState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerIdleState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerIdleState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerParryState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerSkilAttackState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerSkilAttackState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\State\States\PlayerWalkState.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerWalkState.h">
       <Filter>Game\Objects\GameScene\Player\State\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\Structure\PlayerStructures.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\Structure\PlayerStructures.h">
       <Filter>Game\Objects\GameScene\Player\Structure</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Result\GameResultDisplay.h">
+    <ClInclude Include="Game\Gameplay\Result\GameResultDisplay.h">
       <Filter>Game\Objects\GameScene\Result</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\SpriteEffect\FadeSprite.h">
+    <ClInclude Include="Game\Effects\SpriteEffect\FadeSprite.h">
       <Filter>Game\Objects\GameScene\SpriteEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\Transition\FadeTransition.h">
+    <ClInclude Include="Game\Transition\FadeTransition.h">
       <Filter>Game\Objects\SceneTransition</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\TitleScene\Background\TitleBackground.h">
+    <ClInclude Include="Game\Scenes\Title\Background\TitleBackground.h">
       <Filter>Game\Objects\TitleScene\Background</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\TitleScene\TitleController.h">
+    <ClInclude Include="Game\Scenes\Title\TitleController.h">
       <Filter>Game\Objects\TitleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\ActiveObjectOutlineUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\ActiveObjectOutlineUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\CRTDisplayUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\CRTDisplayUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\GlitchUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\GlitchUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\GrayscaleUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\GrayscaleUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\PlayerAfterImageUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\PlayerAfterImageUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PostEffect\RadialBlurUpdater.h">
+    <ClInclude Include="Game\Effects\PostProcess\RadialBlurUpdater.h">
       <Filter>Game\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\EffectScene.h">
+    <ClInclude Include="Game\Scenes\Effect\EffectScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameScene.h">
+    <ClInclude Include="Game\Scenes\Game\GameScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\Manager\SceneManager.h">
@@ -2391,34 +2391,34 @@
     <ClInclude Include="Engine\Scene\Methods\SceneTransition.h">
       <Filter>Engine\Scene\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\GameContext.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\GameContext.h">
       <Filter>Game\Scene\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\GameSceneState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\GameSceneState.h">
       <Filter>Game\Scene\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\Interface\IGameSceneState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\Interface\IGameSceneState.h">
       <Filter>Game\Scene\GameState\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\States\BeginGameState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\States\BeginGameState.h">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\States\ResultGameState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\States\ResultGameState.h">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\States\EndGameState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\States\EndGameState.h">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\States\StartGameState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\States\StartGameState.h">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\States\PauseState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\States\PauseState.h">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameState\States\PlayGameState.h">
+    <ClInclude Include="Game\Scenes\Game\GameState\States\PlayGameState.h">
       <Filter>Game\Scene\GameState\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\TitleScene.h">
+    <ClInclude Include="Game\Scenes\Title\TitleScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utility\Timer\GameTimer.h">
@@ -2566,11 +2566,11 @@
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
     <ClCompile Include="Engine\Effect\User\Helper\SlashEffectHelper.cpp" />
-    <ClCompile Include="Game\Objects\GameScene\HUD\GameHUDStateSynchronizer.cpp" />
+    <ClCompile Include="Game\UI\HUD\GameHUDStateSynchronizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateConfig.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateConfig.h" />
     <ClInclude Include="Engine\Effect\User\Helper\SlashEffectHelper.h" />
-    <ClInclude Include="Game\Objects\GameScene\HUD\GameHUDStateSynchronizer.h" />
+    <ClInclude Include="Game\UI\HUD\GameHUDStateSynchronizer.h" />
   </ItemGroup>
 </Project>
