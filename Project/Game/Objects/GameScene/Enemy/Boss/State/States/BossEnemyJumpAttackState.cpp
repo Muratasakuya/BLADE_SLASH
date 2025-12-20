@@ -74,7 +74,7 @@ void BossEnemyJumpAttackState::Update() {
 void BossEnemyJumpAttackState::UpdatePre() {
 
 	// 予備動作中はプレイヤーの方を向く
-	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	// 予備動作が終了したらジャンプ状態へ
 	if (bossEnemy_->IsAnimationFinished()) {

@@ -272,8 +272,7 @@ Vector3 Math::GetDirection3D(const GameObject3D& from, const GameObject3D& to,
 	return direction;
 }
 
-void SakuEngine::Math::RotateToDirection3D(GameObject3D& object,
-	const Vector3& direction, float lerpRate, bool useScaledDeltaTime) {
+void Math::RotateToDirection3D(GameObject3D& object, const Vector3& direction, float lerpRate) {
 
 	// 処理できない向きは早期リターン
 	if (direction.Length() <= Config::kEpsilon) {
@@ -281,11 +280,26 @@ void SakuEngine::Math::RotateToDirection3D(GameObject3D& object,
 	}
 
 	// 向きを計算
-	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
-	SakuEngine::Quaternion rotation = object.GetRotation();
+	Quaternion targetRotation = Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
+	Quaternion rotation = object.GetRotation();
 
 	// 補間
-	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation,
-		lerpRate * useScaledDeltaTime ? GameTimer::GetScaledDeltaTime() : GameTimer::GetDeltaTime());
+	rotation = Quaternion::Slerp(rotation, targetRotation, lerpRate);
 	object.SetRotation(rotation);
+}
+
+void Math::LookTarget3D(GameObject3D& object, const Vector3& targetPos, float lerpRate, bool useScaledDeltaTime) {
+
+	// デルタタイム取得
+	float deltaTime = useScaledDeltaTime ?
+		GameTimer::GetScaledDeltaTime() : GameTimer::GetDeltaTime();
+
+	// 前方ベクトルを取得
+	Vector3 bossPos = object.GetTranslation();
+	bossPos.y = 0.0f;
+
+	// 回転を計算して設定
+	Quaternion bossRotation = Quaternion::LookTarget(bossPos, targetPos,
+		Direction::Get(Direction3D::Up), object.GetRotation(), lerpRate * deltaTime);
+	object.SetRotation(bossRotation);
 }

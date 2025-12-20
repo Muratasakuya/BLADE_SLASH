@@ -83,7 +83,7 @@ void BossEnemyProjectileAttackState::Enter() {
 void BossEnemyProjectileAttackState::Update() {
 
 	// 処理中は常にプレイヤーの方を向くようにしておく
-	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	// 状態に応じて更新
 	switch (currentState_) {
@@ -155,7 +155,7 @@ void  BossEnemyProjectileAttackState::UpdateAttack() {
 			if (t <= attackTimer_.t_) {
 
 				// 目標への向き
-				SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy_->GetTranslation()).Normalize();
+				SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 				// 目標座標からのオフセットを加える
 				SakuEngine::Vector3 target = playerPos + direction * targetDistance_;
 

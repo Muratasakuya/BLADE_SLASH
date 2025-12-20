@@ -113,7 +113,9 @@ namespace SakuEngine {
 			bool isWorld = true, const std::vector<Axis>& ignoreAxis = { Axis::Y });
 
 		// 進行方向に向けてオブジェクトを回転(補間)させる
-		void RotateToDirection3D(GameObject3D& object, const Vector3& direction,
+		void RotateToDirection3D(GameObject3D& object, const Vector3& direction, float lerpRate = 1.0f);
+		// 指定座標を向くようにオブジェクトを回転(補間)させる
+		void LookTarget3D(GameObject3D& object, const Vector3& targetPos,
 			float lerpRate = 1.0f, bool useScaledDeltaTime = true);
 	}
 

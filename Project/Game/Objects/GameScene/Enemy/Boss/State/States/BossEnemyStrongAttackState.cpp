@@ -95,10 +95,10 @@ void BossEnemyStrongAttackState::UpdateParrySign() {
 
 	// 目標座標を常に更新する
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_);
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
-	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, direction, rotationLerpRate_);
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	// アニメーションが終了次第攻撃する
 	if (bossEnemy_->IsAnimationFinished()) {
@@ -185,14 +185,14 @@ void BossEnemyStrongAttackState::LerpTranslation() {
 
 	// 目標座標計算
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_);
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 
 	if (!reachedPlayer_) {
 
 		// プレイヤーの方を向くようにしておく
-		SakuEngine::Math::RotateToDirection3D(*bossEnemy_, direction, rotationLerpRate_);
+		SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 		// 補間時間を進める
 		lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();

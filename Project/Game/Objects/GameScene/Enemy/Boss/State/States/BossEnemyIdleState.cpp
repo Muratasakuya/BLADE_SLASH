@@ -23,7 +23,7 @@ void BossEnemyIdleState::Enter() {
 void BossEnemyIdleState::Update() {
 
 	// プレイヤーの方を向くようにしておく
-	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	// 後ずさりさせる
 	SakuEngine::Vector3 bossPos = bossEnemy_->GetTranslation();

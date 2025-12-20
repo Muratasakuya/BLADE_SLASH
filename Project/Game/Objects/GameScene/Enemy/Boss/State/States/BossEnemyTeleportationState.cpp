@@ -59,7 +59,7 @@ void BossEnemyTeleportationState::Update() {
 	bossEnemy_->SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
 
 	// playerの方を向かせる
-	SakuEngine::Math::RotateToDirection3D(*bossEnemy_, SakuEngine::Math::GetDirection3D(*bossEnemy_, *player_), rotationLerpRate_);
+	SakuEngine::Math::LookTarget3D(*bossEnemy_, SakuEngine::Math::GetFlattenPos3D(*player_, false), rotationLerpRate_);
 
 	const float disappearEnd = fadeOutTime_;           // 消え終わる時間
 	const float appearStart = lerpTime_ - fadeInTime_; // 現れ始める時間

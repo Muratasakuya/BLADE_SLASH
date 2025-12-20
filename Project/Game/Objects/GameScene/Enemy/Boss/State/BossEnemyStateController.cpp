@@ -256,6 +256,8 @@ void BossEnemyStateController::UpdateStateTimer() {
 	const auto& phase = stateTable_.phases[currentPhase_];
 	// 現在の状態
 	BossEnemyIState& state = machine.GetCurrent();
+	// 現在の状態ID
+	BossEnemyState current = machine.GetCurrentId();
 
 	// 遷移不可
 	if (disableTransitions_) {
@@ -277,8 +279,16 @@ void BossEnemyStateController::UpdateStateTimer() {
 	// 遷移可能状態になったら時間を進めて遷移させる
 	if (state.GetCanExit()) {
 
-		// 攻撃後に自動で待機状態に戻す設定がある場合
-		if (phase.autoIdleAfterAttack) {
+		/// 攻撃したかどうか
+		const bool isAttack =
+			(current == BossEnemyState::LightAttack) ||
+			(current == BossEnemyState::StrongAttack) ||
+			(current == BossEnemyState::ChargeAttack) ||
+			(current == BossEnemyState::RushAttack) ||
+			(current == BossEnemyState::GreatAttack) ||
+			(current == BossEnemyState::ContinuousAttack);
+		// 攻撃状態空の遷移でかつ強制遷移するなら
+		if (isAttack && phase.autoIdleAfterAttack) {
 
 			// 待機状態に戻す
 			machine.Request(BossEnemyState::Idle);
