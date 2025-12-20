@@ -609,7 +609,7 @@
     <ClCompile Include="Game\Light\GameLight.cpp">
       <Filter>Game\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\Player\TargetNavigation\TargetNavigation.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD\TargetNavigation</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Area\ObjectAreaChecker.cpp">
@@ -1131,25 +1131,25 @@
     <ClCompile Include="Game\Camera\Title\TitleViewCamera.cpp">
       <Filter>Game\Camera\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GamecButtonFocusNavigator.cpp">
+    <ClCompile Include="Game\Helper\HUD\GamecButtonFocusNavigator.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameButton.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameButton.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameCommonStructures.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameCommonStructures.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameDigitDisplay.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameDigitDisplay.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameDisplayDamage.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameDisplayDamage.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameHPBar.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameHPBar.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\Base\GameTimerDisplay.cpp">
+    <ClCompile Include="Game\Helper\HUD\GameTimerDisplay.cpp">
       <Filter>Game\Objects\Base</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\Common\Input\Device\SelectUIGamePadInput.cpp">
@@ -1206,7 +1206,7 @@
     <ClCompile Include="Game\Objects\GameScene\Player\Entity\PlayerWeapon.cpp">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyHUD.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\Enemy\Boss\BossEnemyHUD.cpp">
       <Filter>Game\Objects\GameScene\Enemy\Boss\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.cpp">
@@ -1245,10 +1245,10 @@
     <ClCompile Include="Game\Objects\GameScene\Player\Entity\Player.cpp">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\PlayerHUD.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\Player\PlayerHUD.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameScene\Player\HUD\PlayerStunHUD.cpp">
+    <ClCompile Include="Game\Objects\GameScene\HUD\Player\PlayerStunHUD.cpp">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\GameScene\Player\Input\Device\PlayerGamePadInput.cpp">
@@ -1305,7 +1305,7 @@
     <ClCompile Include="Game\Objects\GameScene\SpriteEffect\FadeSprite.cpp">
       <Filter>Game\Objects\GameScene\SpriteEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\SceneTransition\FadeTransition.cpp">
+    <ClCompile Include="Game\Scene\Transition\FadeTransition.cpp">
       <Filter>Game\Objects\SceneTransition</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\TitleScene\Background\TitleBackground.cpp">
@@ -1506,7 +1506,7 @@
     <ClInclude Include="Game\Light\GameLight.h">
       <Filter>Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\TargetNavigation\TargetNavigation.h">
+    <ClInclude Include="Game\Objects\GameScene\HUD\Player\TargetNavigation\TargetNavigation.h">
       <Filter>Game\Objects\GameScene\Player\HUD\TargetNavigation</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Area\ObjectAreaChecker.h">
@@ -2154,28 +2154,28 @@
     <ClInclude Include="Game\Camera\Title\TitleViewCamera.h">
       <Filter>Game\Camera\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GamecButtonFocusNavigator.h">
+    <ClInclude Include="Game\Helper\HUD\GamecButtonFocusNavigator.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameButton.h">
+    <ClInclude Include="Game\Helper\HUD\GameButton.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameCommonStructures.h">
+    <ClInclude Include="Game\Helper\HUD\GameCommonStructures.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameDigitDisplay.h">
+    <ClInclude Include="Game\Helper\HUD\GameDigitDisplay.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameDisplayDamage.h">
+    <ClInclude Include="Game\Helper\HUD\GameDisplayDamage.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameHPBar.h">
+    <ClInclude Include="Game\Helper\HUD\GameHPBar.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\GameTimerDisplay.h">
+    <ClInclude Include="Game\Helper\HUD\GameTimerDisplay.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\IGameButtonResponseUpdater.h">
+    <ClInclude Include="Game\Helper\HUD\IGameButtonResponseUpdater.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\Input\Device\SelectUIGamePadInput.h">
@@ -2187,7 +2187,7 @@
     <ClInclude Include="Game\Objects\Common\Input\SelectUIInputAction.h">
       <Filter>Game\Objects\Common\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\Base\ITransition.h">
+    <ClInclude Include="Game\Helper\Transition\ITransition.h">
       <Filter>Game\Objects\Base</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Common\GameButtonBlinkingUpdater.h">
@@ -2238,7 +2238,7 @@
     <ClInclude Include="Game\Objects\GameScene\Player\Entity\PlayerWeapon.h">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\HUD\BossEnemyHUD.h">
+    <ClInclude Include="Game\Objects\GameScene\HUD\Enemy\Boss\BossEnemyHUD.h">
       <Filter>Game\Objects\GameScene\Enemy\Boss\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateController.h">
@@ -2280,10 +2280,10 @@
     <ClInclude Include="Game\Objects\GameScene\Player\Entity\Player.h">
       <Filter>Game\Objects\GameScene\Player\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\PlayerHUD.h">
+    <ClInclude Include="Game\Objects\GameScene\HUD\Player\PlayerHUD.h">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameScene\Player\HUD\PlayerStunHUD.h">
+    <ClInclude Include="Game\Objects\GameScene\HUD\Player\PlayerStunHUD.h">
       <Filter>Game\Objects\GameScene\Player\HUD</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\GameScene\Player\Input\Device\PlayerGamePadInput.h">
@@ -2346,7 +2346,7 @@
     <ClInclude Include="Game\Objects\GameScene\SpriteEffect\FadeSprite.h">
       <Filter>Game\Objects\GameScene\SpriteEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\SceneTransition\FadeTransition.h">
+    <ClInclude Include="Game\Scene\Transition\FadeTransition.h">
       <Filter>Game\Objects\SceneTransition</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\TitleScene\Background\TitleBackground.h">
@@ -2566,9 +2566,11 @@
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
     <ClCompile Include="Engine\Effect\User\Helper\SlashEffectHelper.cpp" />
+    <ClCompile Include="Game\Objects\GameScene\HUD\GameHUDStateSynchronizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Objects\GameScene\Enemy\Boss\State\BossEnemyStateConfig.h" />
     <ClInclude Include="Engine\Effect\User\Helper\SlashEffectHelper.h" />
+    <ClInclude Include="Game\Objects\GameScene\HUD\GameHUDStateSynchronizer.h" />
   </ItemGroup>
 </Project>

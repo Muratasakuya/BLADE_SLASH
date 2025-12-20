@@ -7,7 +7,7 @@
 
 // scene
 #include <Game/Scene/GameState/Interface/IGameSceneState.h>
-#include <Game/Objects/SceneTransition/FadeTransition.h>
+#include <Game/Scene/Transition/FadeTransition.h>
 
 //============================================================================
 //	GameScene class

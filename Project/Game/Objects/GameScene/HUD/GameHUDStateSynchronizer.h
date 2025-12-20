@@ -3,36 +3,22 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Scene/Methods/IScene.h>
-
-// controller
-#include <Game/Objects/TitleScene/TitleController.h>
-
-// scene
-#include <Engine/Scene/Light/PunctualLight.h>
-#include <Game/Camera/Title/TitleViewCamera.h>
-#include <Game/Scene/Transition/FadeTransition.h>
 
 //============================================================================
-//	TitleScene class
-//	タイトルシーン
+//	GameHUDStateSynchronizer class
+//	Entityの状態とHUDの表示を同期させるクラス
 //============================================================================
-class TitleScene :
-	public SakuEngine::IScene,
-	public SakuEngine::IGameEditor {
+class GameHUDStateSynchronizer {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	TitleScene() :IGameEditor("TitleScene") {}
-	~TitleScene() = default;
+	GameHUDStateSynchronizer() = default;
+	~GameHUDStateSynchronizer() = default;
 
-	void Init() override;
+	//--------- accessor -----------------------------------------------------
 
-	void Update() override;
-
-	void ImGui() override;
 private:
 	//========================================================================
 	//	private Methods
@@ -40,11 +26,8 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	// controller
-	std::unique_ptr<TitleController> controller_;
 
-	// scene
-	std::unique_ptr<TitleViewCamera> titleViewCamera_;
-	std::unique_ptr<SakuEngine::BasePunctualLight> light_;
-	std::unique_ptr<FadeTransition> fadeTransition_;
+
+	//--------- functions ----------------------------------------------------
+
 };

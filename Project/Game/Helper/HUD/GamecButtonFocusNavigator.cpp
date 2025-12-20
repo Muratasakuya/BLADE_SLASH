@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/Input.h>
-#include <Game/Objects/Base/GameButton.h>
+#include <Game/Helper/HUD/GameButton.h>
 
 //============================================================================
 //	GamecButtonFocusNavigator classMethods

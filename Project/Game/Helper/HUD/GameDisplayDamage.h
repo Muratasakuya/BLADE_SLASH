@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject3D.h>
-#include <Game/Objects/Base/GameDigitDisplay.h>
+#include <Game/Helper/HUD/GameDigitDisplay.h>
 
 // c++
 #include <deque>

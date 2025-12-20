@@ -4,9 +4,9 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
-#include <Game/Objects/Base/GameHPBar.h>
-#include <Game/Objects/Base/GameDisplayDamage.h>
-#include <Game/Objects/Base/GameCommonStructures.h>
+#include <Game/Helper/HUD/GameHPBar.h>
+#include <Game/Helper/HUD/GameDisplayDamage.h>
+#include <Game/Helper/HUD/GameCommonStructures.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // c++

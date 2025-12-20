@@ -13,9 +13,9 @@
 // collision
 #include <Game/Objects/GameScene/Player/Collision/PlayerAttackCollision.h>
 // HUD
-#include <Game/Objects/GameScene/Player/HUD/PlayerHUD.h>
-#include <Game/Objects/GameScene/Player/HUD/PlayerStunHUD.h>
-#include <Game/Objects/GameScene/Player/HUD/TargetNavigation/TargetNavigation.h>
+#include <Game/Objects/GameScene/HUD/Player/PlayerHUD.h>
+#include <Game/Objects/GameScene/HUD/Player/PlayerStunHUD.h>
+#include <Game/Objects/GameScene/HUD/Player/TargetNavigation/TargetNavigation.h>
 
 // front
 class SubPlayer;

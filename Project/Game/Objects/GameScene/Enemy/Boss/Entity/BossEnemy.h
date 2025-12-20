@@ -15,7 +15,7 @@
 // collision
 #include <Game/Objects/GameScene/Enemy/Boss/Collision/BossEnemyAttackCollision.h>
 // HUD
-#include <Game/Objects/GameScene/Enemy/Boss/HUD/BossEnemyHUD.h>
+#include <Game/Objects/GameScene/HUD/Enemy/Boss/BossEnemyHUD.h>
 // animation
 #include <Game/Objects/GameScene/Enemy/Boss/Start/BossEnemyStartAnimation.h>
 

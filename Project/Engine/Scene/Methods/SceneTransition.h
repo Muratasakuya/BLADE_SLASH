@@ -1,9 +1,9 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/Base/ITransition.h>
+#include <Game/Helper/Transition/ITransition.h>
 
 // c++
 #include <memory>

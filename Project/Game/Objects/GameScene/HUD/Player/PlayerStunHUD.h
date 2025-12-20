@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/Base/GameTimerDisplay.h>
+#include <Game/Helper/HUD/GameTimerDisplay.h>
 
 // c++
 #include <array>
