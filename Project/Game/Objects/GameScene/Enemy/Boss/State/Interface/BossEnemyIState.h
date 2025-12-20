@@ -6,6 +6,7 @@
 #include <Engine/Effect/User/EffectGroup.h>
 #include <Engine/Utility/Enum/Easing.h>
 #include <Engine/MathLib/MathUtils.h>
+#include <Engine/Object/State/StateNode.h>
 #include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // front
@@ -18,7 +19,8 @@ class FollowCamera;
 //	BossEnemyIState class
 //	ボスの状態インターフェース
 //============================================================================
-class BossEnemyIState {
+class BossEnemyIState :
+	public SakuEngine::StateNode<BossEnemyState> {
 public:
 	//========================================================================
 	//	public Methods
@@ -27,18 +29,15 @@ public:
 	BossEnemyIState() = default;
 	virtual ~BossEnemyIState() = default;
 
-	// 状態遷移時
-	virtual void Enter(BossEnemy& bossEnemy) = 0;
+	// エフェクトの生成
+	virtual void CreateEffect() {}
 
-	// 更新処理
-	virtual void Update(BossEnemy& bossEnemy) = 0;
-	virtual void UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {}
+	// 常に行う更新処理
+	virtual void Update() override = 0;
+	virtual void UpdateAlways() {}
 
-	// 状態終了時
-	virtual void Exit(BossEnemy& bossEnemy) = 0;
-
-	// imgui
-	virtual void ImGui(const BossEnemy& bossEnemy) = 0;
+	// エディター
+	virtual void ImGui() = 0;
 
 	// json
 	virtual void ApplyJson(const Json& data) = 0;
@@ -46,6 +45,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	void SetBossEnemy(BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
 	virtual void SetAttackSign(BossEnemyAttackSign* attackSign) { attackSign_ = attackSign; }
@@ -71,12 +71,15 @@ protected:
 		SakuEngine::Vector3 effectOffset;
 
 		// 発生
-		void Emit(BossEnemy& bossEnemy);
+		void Emit(const BossEnemy& bossEnemy);
 		// 更新
-		void Update(BossEnemy& bossEnemy);
+		void Update(const BossEnemy& bossEnemy);
 	};
 
 	//--------- variables ----------------------------------------------------
+
+	// 状態遷移対象
+	BossEnemy* bossEnemy_;
 
 	Player* player_;
 	FollowCamera* followCamera_;
@@ -92,5 +95,5 @@ protected:
 
 	// helper
 	// ボスがtargetを見る
-	void LookTarget(BossEnemy& bossEnemy, const SakuEngine::Vector3& target);
+	void LookTarget(const SakuEngine::Vector3& target);
 };

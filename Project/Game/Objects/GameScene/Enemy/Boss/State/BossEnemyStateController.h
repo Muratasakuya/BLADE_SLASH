@@ -3,9 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
+#include <Engine/Object/State/BaseStateController.h>
+#include <Game/Objects/GameScene/Enemy/Boss/State/BossEnemyStateConfig.h>
 #include <Game/Objects/GameScene/Enemy/Boss/HUD/BossEnemyAttackSign.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
 
 // c++
 #include <memory>
@@ -19,7 +19,8 @@
 //	BossEnemyStateController class
 //	ボスの状態を管理する
 //============================================================================
-class BossEnemyStateController {
+class BossEnemyStateController :
+	public SakuEngine::BaseStateController<BossEnemyStateConfig> {
 public:
 	//========================================================================
 	//	public Methods
@@ -29,31 +30,30 @@ public:
 	~BossEnemyStateController() = default;
 
 	// 各状態の初期化
-	void Init(BossEnemy& owner, uint32_t phaseCount);
+	void Init(BossEnemy* owner, uint32_t phaseCount);
 
 	// 状態更新
-	void Update(BossEnemy& owner);
-
-	// 状態遷移をリクエスト
-	void RequestState(BossEnemyState state) { requested_ = state; }
+	void Update();
 
 	// エディター
-	void ImGui(const BossEnemy& bossEnemy);
+	void ImGui();
 	void EditStateTable();
 
 	// 怯み開始
-	void StartFalter(BossEnemy& owner);
+	void StartFalter();
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetPlayer(Player* player);
-	void SetFollowCamera(FollowCamera* followCamera, BossEnemy& owner);
+	// 状態遷移をリクエスト
+	void RequestState(BossEnemyState state) { GetMachine().Request(state); }
 
-	void SetStatas(const BossEnemyStats& stats) { stats_ = stats; }
+	void SetPlayer(Player* player);
+	void SetFollowCamera(FollowCamera* followCamera);
+
 	void SetDisableTransitions(bool disable) { disableTransitions_ = disable; }
 
-	BossEnemyState GetCurrentState() const { return current_; }
-	const ParryParameter& GetParryParam() const { return states_.at(current_)->GetParryParam(); }
+	BossEnemyState GetCurrentState() const { return GetMachine().GetCurrentId(); }
+	const ParryParameter& GetParryParam() const { return *parryParam_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -61,12 +61,12 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	BossEnemy* bossEnemy_;
+
 	// jsonを保存するパス
 	const std::string kStateJsonPath_ = "Enemy/Boss/stateParameter.json";
 	const std::string kStateTableJsonPath_ = "Enemy/Boss/stateTable.json";
 
-	// ステータス
-	BossEnemyStats stats_;
 	// 状態デーブル
 	BossEnemyStateTable stateTable_;
 	// 再生中情報
@@ -79,16 +79,12 @@ private:
 
 	// 現在のフェーズ
 	uint32_t currentPhase_;
-
-	// IStateを継承した状態
-	std::unordered_map<BossEnemyState, std::unique_ptr<BossEnemyIState>> states_;
-
+	// 状態の強制遷移
+	std::optional<BossEnemyState> forcedState_;
 	// 攻撃予兆
 	std::unique_ptr<BossEnemyAttackSign> attackSign_;
-
-	BossEnemyState current_;                    // 現在の状態
-	std::optional<BossEnemyState> requested_;   // 次の状態
-	std::optional<BossEnemyState> forcedState_; // 状態の強制遷移
+	// 現在のパリィパラメーター
+	const ParryParameter* parryParam_;
 
 	// エディター
 	BossEnemyState editingState_;
@@ -109,15 +105,17 @@ private:
 	void ApplyJson();
 	void SaveJson();
 
+	// 状態遷移処理
+	void DecideExternalTransition() override;
+	// 状態が切り替わったときの処理
+	void OnStateChanged();
+
 	// update
 	// HPに応じたフェーズ更新
-	void UpdatePhase(const BossEnemy& owner);
+	void UpdatePhase();
 	// 状態タイマー更新
 	void UpdateStateTimer();
 
-	// helper
-	// 状態遷移
-	void ChangeState(BossEnemy& owner);
 	// 次の状態を選択
 	void ChooseNextState(const BossEnemyPhase& phase);
 	// スタン靭性チェック

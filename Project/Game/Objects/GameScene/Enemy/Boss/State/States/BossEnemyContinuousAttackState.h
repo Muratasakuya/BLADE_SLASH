@@ -16,18 +16,20 @@ public:
 	//	public Methods
 	//========================================================================
 
-	BossEnemyContinuousAttackState(BossEnemy& bossEnemy);
+	BossEnemyContinuousAttackState() = default;
 	~BossEnemyContinuousAttackState() = default;
 
-	void Enter(BossEnemy& bossEnemy) override;
+	void CreateEffect() override;
 
-	void Update(BossEnemy& bossEnemy) override;
-	void UpdateAlways(BossEnemy& bossEnemy) override;
+	void Enter() override;
 
-	void Exit(BossEnemy& bossEnemy) override;
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
 
 	// imgui
-	void ImGui(const BossEnemy& bossEnemy) override;
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
@@ -77,8 +79,8 @@ private:
 	//--------- functions ----------------------------------------------------
 
 	// update
-	void UpdateParrySign(BossEnemy& bossEnemy);
-	void UpdateAttack(BossEnemy& bossEnemy);
-	void UpdateParryTiming(BossEnemy& bossEnemy);
-	void UpdateEffectEvent(BossEnemy& bossEnemy);
+	void UpdateParrySign();
+	void UpdateAttack();
+	void UpdateParryTiming();
+	void UpdateEffectEvent();
 };

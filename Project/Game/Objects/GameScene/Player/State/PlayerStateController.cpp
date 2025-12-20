@@ -71,18 +71,13 @@ void PlayerStateController::Init(Player* owner) {
 	machine.Add<PlayerParryState>(PlayerState::Parry, inputMapper);
 	machine.Add<PlayerFalterState>(PlayerState::Falter);
 
-	// 状態遷移対象を設定
 	ForEachPlayerState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
+		// 状態遷移対象を設定
 		machine.Get(state).SetPlayer(owner);
-		});
-	// エフェクト生成
-	ForEachPlayerState([&](PlayerState state) {
-		if (!machine.Has(state)) {
-			return;
-		}
+		// エフェクト生成
 		machine.Get(state).CreateEffect();
 		});
 
@@ -105,7 +100,6 @@ void PlayerStateController::SetBossEnemy(BossEnemy* bossEnemy) {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 各状態にbossEnemyをセット
-	// 必要なクラスを設定
 	ForEachPlayerState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;

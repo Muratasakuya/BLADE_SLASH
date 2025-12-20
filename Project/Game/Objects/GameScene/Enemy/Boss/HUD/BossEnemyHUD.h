@@ -32,7 +32,7 @@ public:
 	void Init();
 
 	// 更新
-	void Update(const BossEnemy& bossEnemy);
+	void Update();
 
 	// エディター
 	void ImGui();
@@ -41,6 +41,7 @@ public:
 
 	void SetStatas(const BossEnemyStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
+	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
 	void SetDisable();
 	void SetValid();
@@ -53,6 +54,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	const BossEnemy* bossEnemy_;
 	const FollowCamera* followCamera_;
 
 	// ステータス
@@ -101,7 +103,7 @@ private:
 	void InitSprite();
 
 	// update
-	void UpdateSprite(const BossEnemy& bossEnemy);
+	void UpdateSprite();
 	void UpdateAlpha();
 
 	// ボスのフェーズ閾値表示位置の更新

@@ -69,6 +69,7 @@ public:
 	void SetDecreaseToughnessProgress(float progress);
 	void RequestHit();
 
+	const BossEnemyStats& GetStats() const { return stats_; }
 	BossEnemyAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
 	BossEnemyHUD* GetHUD() const { return hudSprites_.get(); }
 

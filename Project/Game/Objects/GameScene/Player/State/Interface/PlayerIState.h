@@ -31,18 +31,9 @@ public:
 	// エフェクトの生成
 	virtual void CreateEffect() {}
 
-	// 状態遷移時
-	virtual void Enter() override = 0;
-
-	// 更新処理
-	virtual void Update() override = 0;
-
 	// 常に行う更新処理
 	virtual void BeginUpdateAlways() {}
 	virtual void UpdateAlways() {}
-
-	// 状態終了時
-	virtual void Exit() override = 0;
 
 	// エディター
 	virtual void ImGui() = 0;

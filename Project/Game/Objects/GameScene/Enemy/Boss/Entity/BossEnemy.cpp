@@ -81,8 +81,7 @@ void BossEnemy::InitState() {
 
 	// 初期化、ここで初期状態も設定
 	stateController_ = std::make_unique<BossEnemyStateController>();
-	stateController_->Init(*this, static_cast<uint32_t>(stats_.hpThresholds.size()));
-
+	stateController_->Init(this, static_cast<uint32_t>(stats_.hpThresholds.size()));
 	requestFalter_ = std::make_unique<BossEnemyRequestFalter>();
 }
 
@@ -91,6 +90,7 @@ void BossEnemy::InitHUD() {
 	// HUDの初期化
 	hudSprites_ = std::make_unique<BossEnemyHUD>();
 	hudSprites_->Init();
+	hudSprites_->SetBossEnemy(this);
 	// 最初は表示しない
 	hudSprites_->SetDisable();
 }
@@ -100,6 +100,7 @@ void BossEnemy::InitAnimation() {
 	// 開始アニメーションの初期化
 	startAnimation_ = std::make_unique<BossEnemyStartAnimation>();
 	startAnimation_->Init();
+	startAnimation_->SetBossEnemy(this);
 }
 
 void BossEnemy::SetInitTransform() {
@@ -183,7 +184,7 @@ void BossEnemy::DerivedInit() {
 	// 一度更新しておく
 	// HUDの更新
 	hudSprites_->SetStatas(stats_);
-	hudSprites_->Update(*this);
+	hudSprites_->Update();
 
 	// ポストエフェクトの設定
 	SetPostProcessMask(Bit_RadialBlur);
@@ -201,7 +202,7 @@ void BossEnemy::SetPlayer(Player* player) {
 
 void BossEnemy::SetFollowCamera(FollowCamera* followCamera) {
 
-	stateController_->SetFollowCamera(followCamera, *this);
+	stateController_->SetFollowCamera(followCamera);
 	hudSprites_->SetFollowCamera(followCamera);
 }
 
@@ -309,7 +310,7 @@ void BossEnemy::Update(GameSceneState sceneState) {
 	CheckSceneState(sceneState);
 
 	// 登場アニメーションの更新
-	startAnimation_->Update(*this);
+	startAnimation_->Update();
 }
 
 void BossEnemy::UpdateBeginGame() {
@@ -331,8 +332,7 @@ void BossEnemy::UpdatePlayGame() {
 	requestFalter_->Update(*stateController_.get());
 
 	// 状態の更新
-	stateController_->SetStatas(stats_);
-	stateController_->Update(*this);
+	stateController_->Update();
 	// 状態切り替えをチェック
 	if (preState_ != stateController_->GetCurrentState()) {
 
@@ -345,7 +345,7 @@ void BossEnemy::UpdatePlayGame() {
 
 	// HUDの更新
 	hudSprites_->SetStatas(stats_);
-	hudSprites_->Update(*this);
+	hudSprites_->Update();
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
@@ -369,7 +369,7 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 		case GameSceneState::Start:
 
 			// 登場アニメーション開始
-			startAnimation_->Start(*this);
+			startAnimation_->Start();
 
 			// HUDの表示を行う
 			hudSprites_->SetValid();
@@ -418,7 +418,7 @@ void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody)
 		// 怯むかどうかチェックしてtrueを返すなら怯ませる
 		if (requestFalter_->Check(*stateController_.get())) {
 
-			stateController_->StartFalter(*this);
+			stateController_->StartFalter();
 		}
 	}
 }
@@ -579,7 +579,7 @@ void BossEnemy::DerivedImGui() {
 
 		if (ImGui::BeginTabItem("StateParam")) {
 
-			stateController_->ImGui(*this);
+			stateController_->ImGui();
 			ImGui::EndTabItem();
 		}
 
@@ -598,7 +598,7 @@ void BossEnemy::DerivedImGui() {
 		if (ImGui::BeginTabItem("StartAnimation")) {
 
 			// アニメーション
-			startAnimation_->ImGui(*this);
+			startAnimation_->ImGui();
 			ImGui::EndTabItem();
 		}
 

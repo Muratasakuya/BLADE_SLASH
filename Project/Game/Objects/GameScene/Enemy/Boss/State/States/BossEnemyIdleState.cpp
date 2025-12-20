@@ -11,40 +11,40 @@
 //	BossEnemyIdleState classMethods
 //============================================================================
 
-void BossEnemyIdleState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyIdleState::Enter() {
 
 	canExit_ = false;
 	// animationをリセットする
-	bossEnemy.ResetAnimation();
+	bossEnemy_->ResetAnimation();
 
-	bossEnemy.SetNextAnimation("bossEnemy_idle", true, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_idle", true, nextAnimDuration_);
 }
 
-void BossEnemyIdleState::Update(BossEnemy& bossEnemy) {
+void BossEnemyIdleState::Update() {
 
 	// playerの方を向かせる
-	LookTarget(bossEnemy, player_->GetTranslation());
+	LookTarget(player_->GetTranslation());
 
 	// 後ずさりさせる
-	SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
-	SakuEngine::Vector3 backStepVelocity = bossEnemy.GetTransform().GetBack() * backStepSpeed_ * SakuEngine::GameTimer::GetScaledDeltaTime();
-	bossEnemy.SetTranslation(bossPos + backStepVelocity);
+	SakuEngine::Vector3 bossPos = bossEnemy_->GetTranslation();
+	SakuEngine::Vector3 backStepVelocity = bossEnemy_->GetTransform().GetBack() * backStepSpeed_ * SakuEngine::GameTimer::GetScaledDeltaTime();
+	bossEnemy_->SetTranslation(bossPos + backStepVelocity);
 
 	// animationが終了したら遷移可能にする
-	if (bossEnemy.GetAnimationRepeatCount() != 0) {
+	if (bossEnemy_->GetAnimationRepeatCount() != 0) {
 
 		canExit_ = true;
 	}
 }
 
-void BossEnemyIdleState::Exit(BossEnemy& bossEnemy) {
+void BossEnemyIdleState::Exit() {
 
 	canExit_ = false;
 	// animationをリセットする
-	bossEnemy.ResetAnimation();
+	bossEnemy_->ResetAnimation();
 }
 
-void BossEnemyIdleState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyIdleState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);

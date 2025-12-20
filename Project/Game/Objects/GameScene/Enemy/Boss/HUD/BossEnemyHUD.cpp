@@ -82,16 +82,16 @@ void BossEnemyHUD::SetValid() {
 	returnVaild_ = true;
 }
 
-void BossEnemyHUD::Update(const BossEnemy& bossEnemy) {
+void BossEnemyHUD::Update() {
 
 	// sprite更新
-	UpdateSprite(bossEnemy);
+	UpdateSprite();
 
 	// alpha値を表示切替で更新
 	UpdateAlpha();
 }
 
-void BossEnemyHUD::UpdateSprite(const BossEnemy& bossEnemy) {
+void BossEnemyHUD::UpdateSprite() {
 
 	// HP残量を更新
 	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
@@ -102,7 +102,7 @@ void BossEnemyHUD::UpdateSprite(const BossEnemy& bossEnemy) {
 	destroyNumDisplay_->Update(2, stats_.currentDestroyToughness);
 
 	// ダメージ表記の更新
-	damageDisplay_->Update(bossEnemy, *followCamera_);
+	damageDisplay_->Update(*bossEnemy_, *followCamera_);
 
 	// フェーズ閾値表示の更新
 	UpdatePhaseThresholdPos();

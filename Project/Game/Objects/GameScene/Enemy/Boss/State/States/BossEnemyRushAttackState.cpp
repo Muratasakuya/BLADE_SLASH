@@ -25,10 +25,6 @@ void BossEnemyRushAttackState::InitBlade() {
 	// 1本の刃
 	singleBlade_ = std::make_unique<BossEnemyBladeCollision>();
 	singleBlade_->Init("singleBlade_Rush");
-	// エフェクト
-	// エフェクト、エンジン機能変更中...
-	/*singleBladeEffect_ = std::make_unique<BossEnemySingleBladeEffect>();
-	singleBladeEffect_->Init(singleBlade_->GetTransform(), "Rush");*/
 }
 
 BossEnemyRushAttackState::BossEnemyRushAttackState() {
@@ -40,31 +36,31 @@ BossEnemyRushAttackState::BossEnemyRushAttackState() {
 	InitBlade();
 }
 
-void BossEnemyRushAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::Enter() {
 
 	// 最初の設定
 	currentState_ = State::Teleport;
 	// テレポート状態でanimationを設定
-	bossEnemy.SetNextAnimation("bossEnemy_teleport", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_teleport", false, nextAnimDuration_);
 	canExit_ = false;
 
 	// 座標設定
 	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 0.0f;
 	const SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
-	startPos_ = bossEnemy.GetTranslation();
+	startPos_ = bossEnemy_->GetTranslation();
 	targetPos_ = SakuEngine::Math::RandomPointOnArcInSquare(center, forward,
 		farRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 
 	currentAlpha_ = 1.0f;
-	bossEnemy.SetAlpha(currentAlpha_);
-	bossEnemy.SetCastShadow(true);
+	bossEnemy_->SetAlpha(currentAlpha_);
+	bossEnemy_->SetCastShadow(true);
 
 	// playerの方を向かせる
-	LookTarget(bossEnemy, player_->GetTranslation());
+	LookTarget(player_->GetTranslation());
 }
 
-void BossEnemyRushAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::UpdateAlways() {
 
 	// 衝突更新
 	for (const auto& divisionBlade : divisionBlades_) {
@@ -72,38 +68,34 @@ void BossEnemyRushAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnem
 		divisionBlade->Update();
 	}
 	singleBlade_->Update();
-
-	// エフェクトの更新処理
-	// エフェクト、エンジン機能変更中...
-	//singleBladeEffect_->Update();
 }
 
-void BossEnemyRushAttackState::Update(BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::Update() {
 
 	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 	switch (currentState_) {
 	case State::Teleport: {
 
 		// テレポートの更新
-		UpdateTeleport(bossEnemy, deltaTime);
+		UpdateTeleport(deltaTime);
 		break;
 	}
 	case State::Attack: {
 
 		// 攻撃更新
-		UpdateAttack(bossEnemy);
+		UpdateAttack();
 		break;
 	}
 	case State::Cooldown: {
 
 		// クールタイム更新
-		UpdateCooldown(bossEnemy, deltaTime);
+		UpdateCooldown(deltaTime);
 		break;
 	}
 	}
 
 	// 衝突、刃の更新処理
-	UpdateBlade(bossEnemy);
+	UpdateBlade();
 
 	// 攻撃回数が最大を超えたら遷移可能状態にする
 	if (maxAttackCount_ <= currentAttackCount_) {
@@ -112,20 +104,20 @@ void BossEnemyRushAttackState::Update(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyRushAttackState::UpdateTeleport(BossEnemy& bossEnemy, float deltaTime) {
+void BossEnemyRushAttackState::UpdateTeleport(float deltaTime) {
 
 	lerpTimer_ += deltaTime;
 	float lerpT = std::clamp(lerpTimer_ / lerpTime_, 0.0f, 1.0f);
 	lerpT = EasedValue(easingType_, lerpT);
 
 	// 座標補完
-	bossEnemy.SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
-	LookTarget(bossEnemy, player_->GetTranslation());
+	bossEnemy_->SetTranslation(SakuEngine::Vector3::Lerp(startPos_, targetPos_, lerpT));
+	LookTarget(player_->GetTranslation());
 
 	const float disappearEnd = fadeOutTime_;           // 消え終わる時間
 	const float appearStart = lerpTime_ - fadeInTime_; // 現れ始める時間
 
-	bossEnemy.SetCastShadow(true);
+	bossEnemy_->SetCastShadow(true);
 	if (lerpTimer_ <= disappearEnd) {
 
 		float t = std::clamp(lerpTimer_ / fadeOutTime_, 0.0f, 1.0f);
@@ -137,20 +129,20 @@ void BossEnemyRushAttackState::UpdateTeleport(BossEnemy& bossEnemy, float deltaT
 	} else {
 
 		currentAlpha_ = 0.0f;
-		bossEnemy.SetCastShadow(false);
+		bossEnemy_->SetCastShadow(false);
 	}
-	bossEnemy.SetAlpha(currentAlpha_);
+	bossEnemy_->SetAlpha(currentAlpha_);
 
 	// tが1.0fになったら攻撃animationに切り替える
 	if (1.0f <= lerpT) {
 		if (currentAttackCount_ < pattern_.size()) {
 
 			// 攻撃アニメーションへ切り替え
-			bossEnemy.SetNextAnimation(pattern_[currentAttackCount_].animationName, false, nextAnimDuration_);
-			bossEnemy.SetTranslation(targetPos_);
+			bossEnemy_->SetNextAnimation(pattern_[currentAttackCount_].animationName, false, nextAnimDuration_);
+			bossEnemy_->SetTranslation(targetPos_);
 
-			bossEnemy.SetAlpha(1.0f);
-			bossEnemy.SetCastShadow(true);
+			bossEnemy_->SetAlpha(1.0f);
+			bossEnemy_->SetCastShadow(true);
 
 			currentState_ = State::Attack;
 			lerpTimer_ = 0.0f;
@@ -158,17 +150,17 @@ void BossEnemyRushAttackState::UpdateTeleport(BossEnemy& bossEnemy, float deltaT
 	}
 }
 
-void BossEnemyRushAttackState::UpdateAttack(BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::UpdateAttack() {
 
 	// 攻撃animationが終了したら攻撃クールダウン状態に遷移させる
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		currentState_ = State::Cooldown;
 		attackCoolTimer_ = 0.0f;
 	}
 }
 
-void BossEnemyRushAttackState::UpdateCooldown(BossEnemy& bossEnemy, float deltaTime) {
+void BossEnemyRushAttackState::UpdateCooldown(float deltaTime) {
 
 	attackCoolTimer_ += deltaTime;
 	if (attackCoolTime_ <= attackCoolTimer_) {
@@ -181,22 +173,22 @@ void BossEnemyRushAttackState::UpdateCooldown(BossEnemy& bossEnemy, float deltaT
 		lerpTimer_ = 0.0f;
 
 		// テレポート状態でanimationを設定
-		bossEnemy.SetNextAnimation("bossEnemy_teleport", false, nextAnimDuration_);
+		bossEnemy_->SetNextAnimation("bossEnemy_teleport", false, nextAnimDuration_);
 
 		// 座標設定
 		SakuEngine::Vector3 center = player_->GetTranslation();
 		center.y = 0.0f;
 		const SakuEngine::Vector3 forward = followCamera_->GetTransform().GetForward();
-		startPos_ = bossEnemy.GetTranslation();
+		startPos_ = bossEnemy_->GetTranslation();
 		targetPos_ = SakuEngine::Math::RandomPointOnArcInSquare(center, forward,
 			farRadius_, halfAngle_, SakuEngine::Vector3::AnyInit(0.0f), moveClampSize_ / 2.0f);
 
 		// playerの方を向かせる
-		LookTarget(bossEnemy, player_->GetTranslation());
+		LookTarget(player_->GetTranslation());
 	}
 }
 
-void BossEnemyRushAttackState::UpdateBlade(BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::UpdateBlade() {
 
 	if (currentAttackCount_ == maxAttackCount_) {
 		return;
@@ -206,49 +198,49 @@ void BossEnemyRushAttackState::UpdateBlade(BossEnemy& bossEnemy) {
 	bool isLastAttack = (currentAttackCount_ == maxAttackCount_ - 1);
 
 	if (isLastAttack) {
-		if (bossEnemy.IsEventKey("Attack", 0)) {
+		if (bossEnemy_->IsEventKey("Attack", 0)) {
 
-			EmitSingleBlade(bossEnemy);
+			EmitSingleBlade();
 		}
 	} else {
-		if (bossEnemy.IsEventKey("Attack", 0)) {
+		if (bossEnemy_->IsEventKey("Attack", 0)) {
 
-			EmitDivisionBlades(bossEnemy);
+			EmitDivisionBlades();
 		}
 	}
 }
 
-SakuEngine::Vector3 BossEnemyRushAttackState::CalcBaseDir(const BossEnemy& bossEnemy) const {
+SakuEngine::Vector3 BossEnemyRushAttackState::CalcBaseDir() const {
 
-	return (player_->GetTranslation() - bossEnemy.GetTranslation()).Normalize();
+	return (player_->GetTranslation() - bossEnemy_->GetTranslation()).Normalize();
 }
 
-SakuEngine::Vector3 BossEnemyRushAttackState::CalcDivisionBladeDir(const BossEnemy& bossEnemy, uint32_t index) const {
+SakuEngine::Vector3 BossEnemyRushAttackState::CalcDivisionBladeDir(uint32_t index) const {
 
 	const float offset[bladeMaxCount_] = { -divisionOffsetAngle_, 0.0f, divisionOffsetAngle_ };
-	return SakuEngine::Math::RotateY(CalcBaseDir(bossEnemy), offset[index] * SakuEngine::pi / 180.0f);
+	return SakuEngine::Math::RotateY(CalcBaseDir(), offset[index] * SakuEngine::pi / 180.0f);
 }
 
-void BossEnemyRushAttackState::EmitDivisionBlades(const BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::EmitDivisionBlades() {
 
 	// 発生処理
-	const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
+	const SakuEngine::Vector3 pos = bossEnemy_->GetTranslation();
 	for (uint32_t i = 0; i < bladeMaxCount_; ++i) {
 
-		const SakuEngine::Vector3 velocity = CalcDivisionBladeDir(bossEnemy, i) * divisionBladeMoveSpeed_;
+		const SakuEngine::Vector3 velocity = CalcDivisionBladeDir(i) * divisionBladeMoveSpeed_;
 		divisionBlades_[i]->EmitEffect(pos, velocity);
 	}
 }
 
-void BossEnemyRushAttackState::EmitSingleBlade(const BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::EmitSingleBlade() {
 
 	// 発生処理
-	const SakuEngine::Vector3 pos = bossEnemy.GetTranslation();
-	const SakuEngine::Vector3 velocity = CalcBaseDir(bossEnemy) * singleBladeMoveSpeed_;
+	const SakuEngine::Vector3 pos = bossEnemy_->GetTranslation();
+	const SakuEngine::Vector3 velocity = CalcBaseDir() * singleBladeMoveSpeed_;
 	singleBlade_->EmitEffect(pos, velocity);
 }
 
-void BossEnemyRushAttackState::Exit(BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -256,11 +248,11 @@ void BossEnemyRushAttackState::Exit(BossEnemy& bossEnemy) {
 	attackCoolTimer_ = 0.0f;
 	currentAttackCount_ = 0;
 	currentAlpha_ = 1.0f;
-	bossEnemy.SetAlpha(currentAlpha_);
-	bossEnemy.SetCastShadow(true);
+	bossEnemy_->SetAlpha(currentAlpha_);
+	bossEnemy_->SetCastShadow(true);
 }
 
-void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
+void BossEnemyRushAttackState::ImGui() {
 
 	if (ImGui::CollapsingHeader("RushAttackState")) {
 
@@ -283,7 +275,7 @@ void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
 		Easing::SelectEasingType(easingType_);
 
 		{
-			const SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
+			const SakuEngine::Vector3 bossPos = bossEnemy_->GetTranslation();
 			const SakuEngine::Vector3 toPlayer = (player_->GetTranslation() - bossPos).Normalize();
 			const float   baseYaw = divisionOffsetAngle_ * (SakuEngine::pi / 180.0f);
 			const float   angles[bladeMaxCount_] = { -baseYaw, 0.0f, baseYaw };
@@ -312,11 +304,11 @@ void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
 		// 発生させる
 		if (ImGui::Button("Emit DivisionBlade")) {
 
-			EmitDivisionBlades(bossEnemy);
+			EmitDivisionBlades();
 		}
 		if (ImGui::Button("Emit SingleBlade")) {
 
-			EmitSingleBlade(bossEnemy);
+			EmitSingleBlade();
 		}
 
 		ImGui::Separator();
@@ -336,8 +328,6 @@ void BossEnemyRushAttackState::ImGui(const BossEnemy& bossEnemy) {
 	if (ImGui::CollapsingHeader("Blade Effect")) {
 
 		ImGui::DragFloat("singleBladeScaling", &singleBladeEffectScalingValue_, 0.01f);
-		// エフェクト、エンジン機能変更中...
-		//singleBladeEffect_->ImGui();
 	}
 }
 

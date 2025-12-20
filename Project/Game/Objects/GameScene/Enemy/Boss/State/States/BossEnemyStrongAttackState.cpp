@@ -13,7 +13,7 @@
 //	BossEnemyStrongAttackState classMethods
 //============================================================================
 
-BossEnemyStrongAttackState::BossEnemyStrongAttackState(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::CreateEffect() {
 
 	parriedMaps_[State::Attack1st] = false;
 	parriedMaps_[State::Attack2nd] = false;
@@ -29,28 +29,28 @@ BossEnemyStrongAttackState::BossEnemyStrongAttackState(BossEnemy& bossEnemy) {
 	lightSlash_.effect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLightAttackEffect_1.json");
 
 	// 親の設定
-	strongSlash_.effect->SetParent("bossSlash_1", bossEnemy.GetTransform());
+	strongSlash_.effect->SetParent("bossSlash_1", bossEnemy_->GetTransform());
 	strongSlash_.effectNodeName = "bossSlash_1";
-	lightSlash_.effect->SetParent("bossSlash_0", bossEnemy.GetTransform());
+	lightSlash_.effect->SetParent("bossSlash_0", bossEnemy_->GetTransform());
 	lightSlash_.effectNodeName = "bossSlash_0";
 }
 
-void BossEnemyStrongAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::Enter() {
 
 	// 攻撃予兆アニメーションを設定
-	bossEnemy.SetNextAnimation("bossEnemy_strongAttackParrySign", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_strongAttackParrySign", false, nextAnimDuration_);
 
 	// 座標を設定
-	startPos_ = bossEnemy.GetTranslation();
+	startPos_ = bossEnemy_->GetTranslation();
 	canExit_ = false;
 
 	// 攻撃予兆を出す
-	SakuEngine::Vector3 sign = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 sign = bossEnemy_->GetTranslation();
 	sign.y = 2.0f;
 	attackSign_->Emit(SakuEngine::Math::ProjectToScreen(sign, *followCamera_));
 
 	// パリィ可能にする
-	bossEnemy.ResetParryTiming();
+	bossEnemy_->ResetParryTiming();
 	parryParam_.continuousCount = 2;
 	parryParam_.canParry = true;
 
@@ -58,96 +58,96 @@ void BossEnemyStrongAttackState::Enter(BossEnemy& bossEnemy) {
 	parriedMaps_[State::Attack2nd] = false;
 }
 
-void BossEnemyStrongAttackState::Update(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::Update() {
 
 	// パリィ攻撃のタイミングを更新
-	UpdateParryTiming(bossEnemy);
+	UpdateParryTiming();
 
 	// 状態に応じて更新
 	switch (currentState_) {
 	case BossEnemyStrongAttackState::State::ParrySign: {
 
 		// プレイヤーの方を向きながら補間
-		UpdateParrySign(bossEnemy);
+		UpdateParrySign();
 		break;
 	}
 	case BossEnemyStrongAttackState::State::Attack1st: {
 
 		// 攻撃1回目
-		UpdateAttack1st(bossEnemy);
+		UpdateAttack1st();
 		break;
 	}
 	case BossEnemyStrongAttackState::State::Attack2nd: {
 
 		// 攻撃2回目
-		UpdateAttack2nd(bossEnemy);
+		UpdateAttack2nd();
 		break;
 	}
 	}
 }
 
-void BossEnemyStrongAttackState::UpdateAlways(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::UpdateAlways() {
 
 	// エフェクト更新
-	strongSlash_.Update(bossEnemy);
-	lightSlash_.Update(bossEnemy);
+	strongSlash_.Update(*bossEnemy_);
+	lightSlash_.Update(*bossEnemy_);
 }
 
-void BossEnemyStrongAttackState::UpdateParrySign(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::UpdateParrySign() {
 
 	// 目標座標を常に更新する
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = (bossEnemy_->GetTranslation() - playerPos).Normalize();
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
-	LookTarget(bossEnemy, playerPos);
+	LookTarget(playerPos);
 
 	// アニメーションが終了次第攻撃する
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
-		bossEnemy.SetNextAnimation("bossEnemy_strongAttack", false, nextAnimDuration_);
+		bossEnemy_->SetNextAnimation("bossEnemy_strongAttack", false, nextAnimDuration_);
 
 		// 状態を進める
 		currentState_ = State::Attack1st;
 
 		// 座標を設定
-		startPos_ = bossEnemy.GetTranslation();
+		startPos_ = bossEnemy_->GetTranslation();
 
 		// 剣エフェクト発生
-		strongSlash_.Emit(bossEnemy);
+		strongSlash_.Emit(*bossEnemy_);
 	}
 }
 
-void BossEnemyStrongAttackState::UpdateAttack1st(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::UpdateAttack1st() {
 
 	// 座標補間処理
-	LerpTranslation(bossEnemy);
+	LerpTranslation();
 
 	// animationが終了したら次の攻撃に移る
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
-		bossEnemy.SetNextAnimation("bossEnemy_lightAttack", false, attack2ndAnimDuration_);
+		bossEnemy_->SetNextAnimation("bossEnemy_lightAttack", false, attack2ndAnimDuration_);
 
 		// 状態を進める
 		currentState_ = State::Attack2nd;
 
 		// 補間をリセット
 		lerpTimer_ = 0.0f;
-		startPos_ = bossEnemy.GetTranslation();
+		startPos_ = bossEnemy_->GetTranslation();
 		reachedPlayer_ = false;
 
 		// 剣エフェクト発生
-		lightSlash_.Emit(bossEnemy);
+		lightSlash_.Emit(*bossEnemy_);
 	}
 }
 
-void BossEnemyStrongAttackState::UpdateAttack2nd(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::UpdateAttack2nd() {
 
 	// 座標補間処理
-	LerpTranslation(bossEnemy);
+	LerpTranslation();
 
 	// animationが終了したら経過時間を進める
-	if (bossEnemy.IsAnimationFinished()) {
+	if (bossEnemy_->IsAnimationFinished()) {
 
 		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 時間経過が過ぎたら遷移可能
@@ -158,24 +158,24 @@ void BossEnemyStrongAttackState::UpdateAttack2nd(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyStrongAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::UpdateParryTiming() {
 
 	// パリィ攻撃のタイミング
 	switch (currentState_) {
 	case BossEnemyStrongAttackState::State::Attack1st: {
 
-		if (bossEnemy.IsEventKey("Parry", 0)) {
+		if (bossEnemy_->IsEventKey("Parry", 0)) {
 
-			bossEnemy.TellParryTiming();
+			bossEnemy_->TellParryTiming();
 			parriedMaps_[currentState_] = true;
 		}
 		break;
 	}
 	case BossEnemyStrongAttackState::State::Attack2nd: {
 
-		if (bossEnemy.IsEventKey("Parry", 0)) {
+		if (bossEnemy_->IsEventKey("Parry", 0)) {
 
-			bossEnemy.TellParryTiming();
+			bossEnemy_->TellParryTiming();
 			parriedMaps_[currentState_] = true;
 		}
 		break;
@@ -183,18 +183,18 @@ void BossEnemyStrongAttackState::UpdateParryTiming(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyStrongAttackState::LerpTranslation(BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::LerpTranslation() {
 
 	// 目標座標計算
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 direction = (bossEnemy.GetTranslation() - playerPos).Normalize();
+	SakuEngine::Vector3 direction = (bossEnemy_->GetTranslation() - playerPos).Normalize();
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 0.0f;
 
 	if (!reachedPlayer_) {
 
 		// プレイヤーの方を向くようにしておく
-		LookTarget(bossEnemy, playerPos);
+		LookTarget(playerPos);
 
 		// 補間時間を進める
 		lerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
@@ -203,7 +203,7 @@ void BossEnemyStrongAttackState::LerpTranslation(BossEnemy& bossEnemy) {
 
 		// 補間
 		SakuEngine::Vector3 newPos = SakuEngine::Vector3::Lerp(startPos_, target, lerpT);
-		bossEnemy.SetTranslation(newPos);
+		bossEnemy_->SetTranslation(newPos);
 
 		// プレイヤーに十分近づいたら補間しない
 		// xとzの距離を見る
@@ -211,12 +211,12 @@ void BossEnemyStrongAttackState::LerpTranslation(BossEnemy& bossEnemy) {
 		if (distanceXZ.Length() <= std::fabs(attackOffsetTranslation_)) {
 
 			reachedPlayer_ = true;
-			bossEnemy.SetTranslation(target);
+			bossEnemy_->SetTranslation(target);
 		}
 	}
 }
 
-void BossEnemyStrongAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -225,10 +225,10 @@ void BossEnemyStrongAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
 	lerpTimer_ = 0.0f;
 	exitTimer_ = 0.0f;
 	currentState_ = State::ParrySign;
-	bossEnemy.ResetParryTiming();
+	bossEnemy_->ResetParryTiming();
 }
 
-void BossEnemyStrongAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEnemy) {
+void BossEnemyStrongAttackState::ImGui() {
 
 	ImGui::Text(std::format("parried: Attack1st: {}", parriedMaps_[State::Attack1st]).c_str());
 	ImGui::Text(std::format("parried: Attack2nd: {}", parriedMaps_[State::Attack2nd]).c_str());
@@ -251,7 +251,7 @@ void BossEnemyStrongAttackState::ImGui([[maybe_unused]] const BossEnemy& bossEne
 
 	// 座標を設定
 	// 座標を設定
-	SakuEngine::Vector3 start = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 start = bossEnemy_->GetTranslation();
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	SakuEngine::Vector3 direction = (start - playerPos).Normalize();
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;

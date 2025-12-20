@@ -12,6 +12,8 @@
 //	BossEnemyProjectileAttackState classMethods
 //============================================================================
 
+BossEnemyProjectileAttackState::BossEnemyProjectileAttackState(uint32_t phaseCount) :phaseCount_(phaseCount) {}
+
 void BossEnemyProjectileAttackState::BulletCollision::Init() {
 
 	// 衝突初期化
@@ -32,7 +34,7 @@ void BossEnemyProjectileAttackState::BulletCollision::Init() {
 	targetPos = collisionSafePos_;
 }
 
-BossEnemyProjectileAttackState::BossEnemyProjectileAttackState(uint32_t phaseCount) {
+void BossEnemyProjectileAttackState::CreateEffect() {
 
 	// エフェクトの初期化
 	// 発生起動エフェクト
@@ -52,36 +54,36 @@ BossEnemyProjectileAttackState::BossEnemyProjectileAttackState(uint32_t phaseCou
 		bullet.Init();
 	}
 
-	for (uint32_t index = 0; index < phaseCount + 1; ++index) {
+	for (uint32_t index = 0; index < phaseCount_ + 1; ++index) {
 
 		// フェーズに応じた弾の数
 		// 3から5だけ
 		phaseBulletCounts_.emplace_back(std::clamp(kMinBulletCount_ + index * 2,
 			kMinBulletCount_, kMaxBulletCount_));
 	}
-	canExit_ = false;
 }
 
-void BossEnemyProjectileAttackState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::Enter() {
 
 	// アニメーションを再生
-	bossEnemy.SetNextAnimation("bossEnemy_projectileAttack", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_projectileAttack", false, nextAnimDuration_);
 
 	// 初期状態を設定
 	currentState_ = State::Launch;
 
 	// 現在のフェーズインデックスを取得
 	// エディター操作中ならエディターで設定したインデックスを使用する
-	currentPhaseIndex_ = isEditMode_ ? editingPhase_ : bossEnemy.GetCurrentPhaseIndex();
+	currentPhaseIndex_ = isEditMode_ ? editingPhase_ : bossEnemy_->GetCurrentPhaseIndex();
+	canExit_ = false;
 
 	// 発生起動エフェクト前処理
-	BeginLaunchPhase(bossEnemy);
+	BeginLaunchPhase();
 }
 
-void BossEnemyProjectileAttackState::Update(BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::Update() {
 
 	// 処理中は常にプレイヤーの方を向くようにしておく
-	LookTarget(bossEnemy, player_->GetTranslation());
+	LookTarget(player_->GetTranslation());
 
 	// 状態に応じて更新
 	switch (currentState_) {
@@ -93,7 +95,7 @@ void BossEnemyProjectileAttackState::Update(BossEnemy& bossEnemy) {
 	case BossEnemyProjectileAttackState::State::Attack:
 
 		// 攻撃更新
-		UpdateAttack(bossEnemy);
+		UpdateAttack();
 		break;
 	}
 }
@@ -135,7 +137,7 @@ void BossEnemyProjectileAttackState::UpdateLaunch() {
 	}
 }
 
-void  BossEnemyProjectileAttackState::UpdateAttack(const BossEnemy& bossEnemy) {
+void  BossEnemyProjectileAttackState::UpdateAttack() {
 
 	// 弾の数と一発の弾の攻撃時間を目標時間にする
 	uint32_t count = phaseBulletCounts_[currentPhaseIndex_];
@@ -153,7 +155,7 @@ void  BossEnemyProjectileAttackState::UpdateAttack(const BossEnemy& bossEnemy) {
 			if (t <= attackTimer_.t_) {
 
 				// 目標への向き
-				SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy.GetTranslation()).Normalize();
+				SakuEngine::Vector3 direction = SakuEngine::Vector3(playerPos - bossEnemy_->GetTranslation()).Normalize();
 				// 目標座標からのオフセットを加える
 				SakuEngine::Vector3 target = playerPos + direction * targetDistance_;
 
@@ -186,17 +188,17 @@ void  BossEnemyProjectileAttackState::UpdateAttack(const BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyProjectileAttackState::BeginLaunchPhase(BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::BeginLaunchPhase() {
 
 	// 発生位置を設定する
-	SetLaunchPositions(bossEnemy, currentPhaseIndex_);
+	SetLaunchPositions(currentPhaseIndex_);
 	// 発生順序のインデックスを設定する
-	SetLeftToRightIndices(bossEnemy);
+	SetLeftToRightIndices();
 	// 発生済みフラグをリセット
 	launchEmited_.assign(phaseBulletCounts_[currentPhaseIndex_], false);
 }
 
-void BossEnemyProjectileAttackState::SetLeftToRightIndices(const BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::SetLeftToRightIndices() {
 
 	launchIndices_.clear();
 	for (uint32_t i = 0; i < static_cast<uint32_t>(launchPositions_.size()); ++i) {
@@ -205,11 +207,11 @@ void BossEnemyProjectileAttackState::SetLeftToRightIndices(const BossEnemy& boss
 	}
 
 	// 中心
-	SakuEngine::Vector3 center = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 center = bossEnemy_->GetTranslation();
 	center.y = launchTopPosY_;
 
 	// y軸の向きのベクトルを取得
-	SakuEngine::Vector3 forward = bossEnemy.GetTransform().GetForward();
+	SakuEngine::Vector3 forward = bossEnemy_->GetTransform().GetForward();
 	forward.y = 0.0f;
 	forward = forward.Normalize();
 	SakuEngine::Vector3 right = SakuEngine::Vector3(forward.z, 0.0f, -forward.x);
@@ -223,21 +225,21 @@ void BossEnemyProjectileAttackState::SetLeftToRightIndices(const BossEnemy& boss
 			return projectionA < projectionB; });
 }
 
-void BossEnemyProjectileAttackState::SetLaunchPositions(const BossEnemy& bossEnemy, int32_t phaseIndex) {
+void BossEnemyProjectileAttackState::SetLaunchPositions(int32_t phaseIndex) {
 
 	// 対象フェーズの弾数
 	phaseIndex = std::clamp(phaseIndex, 0, static_cast<int32_t>(phaseBulletCounts_.size() - 1));
 	launchPositions_.clear();
 
 	// 中心位置、Y座標は固定
-	SakuEngine::Vector3 center = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 center = bossEnemy_->GetTranslation();
 	center.y = launchTopPosY_;
 
 	// フェーズの左右段数
 	uint32_t half = phaseBulletCounts_[phaseIndex] / 2;
 
 	// y軸の向きのベクトルを取得
-	SakuEngine::Vector3 forward = bossEnemy.GetTransform().GetForward();
+	SakuEngine::Vector3 forward = bossEnemy_->GetTransform().GetForward();
 	forward.y = 0.0f;
 	forward = forward.Normalize();
 	SakuEngine::Vector3 right = SakuEngine::Vector3(forward.z, 0.0f, -forward.x);
@@ -260,7 +262,7 @@ void BossEnemyProjectileAttackState::SetLaunchPositions(const BossEnemy& bossEne
 	}
 }
 
-void BossEnemyProjectileAttackState::UpdateAlways([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::UpdateAlways() {
 
 	// エフェクトの更新
 	// 発生起動エフェクト
@@ -310,7 +312,7 @@ void BossEnemyProjectileAttackState::BulletCollision::LerpTranslation(float dura
 	}
 }
 
-void BossEnemyProjectileAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -318,7 +320,7 @@ void BossEnemyProjectileAttackState::Exit([[maybe_unused]] BossEnemy& bossEnemy)
 	attackTimer_.Reset();
 }
 
-void BossEnemyProjectileAttackState::ImGui(const BossEnemy& bossEnemy) {
+void BossEnemyProjectileAttackState::ImGui() {
 
 	ImGui::Text("currentState: %s", SakuEngine::EnumAdapter<State>::ToString(currentState_));
 
@@ -347,7 +349,7 @@ void BossEnemyProjectileAttackState::ImGui(const BossEnemy& bossEnemy) {
 	}
 
 	// 座標の更新
-	SetLaunchPositions(bossEnemy, isEditMode_ ? editingPhase_ : bossEnemy.GetCurrentPhaseIndex());
+	SetLaunchPositions(isEditMode_ ? editingPhase_ : bossEnemy_->GetCurrentPhaseIndex());
 
 	ImGui::SeparatorText("Debug");
 

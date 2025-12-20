@@ -11,51 +11,51 @@
 //	BossEnemyStunState classMethods
 //============================================================================
 
-BossEnemyStunState::BossEnemyStunState(const BossEnemy& bossEnemy) {
+void BossEnemyStunState::CreateEffect() {
 
 	// animationの時間からstunから復帰する時間を取得する
-	beginStunAnimationTime_ = bossEnemy.GetAnimationDuration("bossEnemy_stun");
-	updateStunAnimationTime_ = bossEnemy.GetAnimationDuration("bossEnemy_stunUpdate");
+	beginStunAnimationTime_ = bossEnemy_->GetAnimationDuration("bossEnemy_stun");
+	updateStunAnimationTime_ = bossEnemy_->GetAnimationDuration("bossEnemy_stunUpdate");
 
 	toughnessDecreaseTimer_ = 0.0f;
 	canExit_ = false;
 }
 
-void BossEnemyStunState::Enter(BossEnemy& bossEnemy) {
+void BossEnemyStunState::Enter() {
 
 	// スタン状態を開始する
-	bossEnemy.SetNextAnimation("bossEnemy_stun", false, nextAnimDuration_);
+	bossEnemy_->SetNextAnimation("bossEnemy_stun", false, nextAnimDuration_);
 
 	// α値が透明になっているときがあるので1.0fに戻しておく
-	bossEnemy.SetAlpha(1.0f);
+	bossEnemy_->SetAlpha(1.0f);
 
 	// 最初の状態を設定
 	currentState_ = State::Begin;
 }
 
-void BossEnemyStunState::Update(BossEnemy& bossEnemy) {
+void BossEnemyStunState::Update() {
 
 	// 状態別で更新
 	switch (currentState_) {
 	case BossEnemyStunState::State::Begin: {
 
 		// 最初のanimationが終了したら次の状態に遷移
-		if (bossEnemy.IsAnimationFinished()) {
+		if (bossEnemy_->IsAnimationFinished()) {
 
 			// スタン状態の更新
-			bossEnemy.SetNextAnimation("bossEnemy_stunUpdate", true, nextAnimDuration_);
+			bossEnemy_->SetNextAnimation("bossEnemy_stunUpdate", true, nextAnimDuration_);
 
 			currentState_ = State::Update;
 
 			// HUDを元に戻す
-			bossEnemy.GetHUD()->SetValid();
+			bossEnemy_->GetHUD()->SetValid();
 		}
 		break;
 	}
 	case BossEnemyStunState::State::Update: {
 
 		// 指定回数animationがループしたら終了
-		if (maxAnimationCount_ < bossEnemy.GetAnimationRepeatCount()) {
+		if (maxAnimationCount_ < bossEnemy_->GetAnimationRepeatCount()) {
 
 			// 遷移可能状態にする
 			canExit_ = true;
@@ -64,21 +64,21 @@ void BossEnemyStunState::Update(BossEnemy& bossEnemy) {
 		// stun状態の経過時間を進める
 		toughnessDecreaseTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 		// 経過時間を設定する
-		bossEnemy.SetDecreaseToughnessProgress(toughnessDecreaseTimer_ / toughnessDecreaseTime_);
+		bossEnemy_->SetDecreaseToughnessProgress(toughnessDecreaseTimer_ / toughnessDecreaseTime_);
 		break;
 	}
 	}
 }
 
-void BossEnemyStunState::Exit(BossEnemy& bossEnemy) {
+void BossEnemyStunState::Exit() {
 
 	// リセット
-	bossEnemy.ResetAnimation();
+	bossEnemy_->ResetAnimation();
 	canExit_ = false;
 	toughnessDecreaseTimer_ = 0.0f;
 }
 
-void BossEnemyStunState::ImGui(const BossEnemy& bossEnemy) {
+void BossEnemyStunState::ImGui() {
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragInt("maxAnimationCount", &maxAnimationCount_, 1);
@@ -91,7 +91,7 @@ void BossEnemyStunState::ImGui(const BossEnemy& bossEnemy) {
 	ImGui::Text("toughnessDecreaseTime: %f", toughnessDecreaseTime_);
 	ImGui::ProgressBar(progress, ImVec2(256.0f, 0.0f));
 
-	ImGui::Text("animationRepeatCount: %d", bossEnemy.GetAnimationRepeatCount());
+	ImGui::Text("animationRepeatCount: %d", bossEnemy_->GetAnimationRepeatCount());
 }
 
 void BossEnemyStunState::ApplyJson(const Json& data) {

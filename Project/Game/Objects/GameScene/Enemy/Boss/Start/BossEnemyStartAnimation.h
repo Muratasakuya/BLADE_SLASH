@@ -25,22 +25,26 @@ public:
 	void Init();
 
 	// 更新
-	void Update(BossEnemy& bossEnemy);
+	void Update();
 
 	// 開始呼び出し
-	void Start(BossEnemy& bossEnemy);
+	void Start();
 
 	// エディター
-	void ImGui(BossEnemy& bossEnemy);
+	void ImGui();
 
 	//--------- accessor -----------------------------------------------------
 
+	void SetBossEnemy(BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 private:
 	//========================================================================
 	//	private Methods
 	//========================================================================
 
 	//--------- variables ----------------------------------------------------
+
+	// ボス
+	BossEnemy* bossEnemy_;
 
 	// 処理が開始されたか
 	bool isStarted_;

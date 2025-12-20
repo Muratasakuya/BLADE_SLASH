@@ -13,27 +13,27 @@
 //	BossEnemyIState classMethods
 //============================================================================
 
-void BossEnemyIState::LookTarget(BossEnemy& bossEnemy, const SakuEngine::Vector3& target) {
+void BossEnemyIState::LookTarget(const SakuEngine::Vector3& target) {
 
 	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 前方ベクトルを取得
-	SakuEngine::Vector3 bossPos = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 bossPos = bossEnemy_->GetTranslation();
 	bossPos.y = 0.0f;
 
 	// 回転を計算して設定
 	SakuEngine::Quaternion bossRotation = SakuEngine::Quaternion::LookTarget(bossPos, target,
-		Direction::Get(Direction3D::Up), bossEnemy.GetRotation(), rotationLerpRate_ * deltaTime);
-	bossEnemy.SetRotation(bossRotation);
+		Direction::Get(Direction3D::Up), bossEnemy_->GetRotation(), rotationLerpRate_ * deltaTime);
+	bossEnemy_->SetRotation(bossRotation);
 }
 
-void BossEnemyIState::SlashEffect::Emit(BossEnemy& bossEnemy) {
+void BossEnemyIState::SlashEffect::Emit(const BossEnemy& bossEnemy) {
 
 	// エフェクト発生
 	effect->Emit(bossEnemy.GetRotation() * effectOffset);
 }
 
-void BossEnemyIState::SlashEffect::Update(BossEnemy& bossEnemy) {
+void BossEnemyIState::SlashEffect::Update(const BossEnemy& bossEnemy) {
 
 	// 剣エフェクトの更新、親の回転を設定する
 	effect->SetParentRotation(effectNodeName,

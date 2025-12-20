@@ -20,7 +20,7 @@ void BossEnemyStartAnimation::Init() {
 	ApplyJson();
 }
 
-void BossEnemyStartAnimation::Update(BossEnemy& bossEnemy) {
+void BossEnemyStartAnimation::Update() {
 
 	// 処理が開始されていなければ何もしない
 	if (!isStarted_) {
@@ -36,17 +36,17 @@ void BossEnemyStartAnimation::Update(BossEnemy& bossEnemy) {
 		if (!isWaited_) {
 			// 時間経過後アニメーションさせる
 			// アニメーションを設定
-			bossEnemy.SetNextAnimation("bossEnemy_start", false, 0.0f);
+			bossEnemy_->SetNextAnimation("bossEnemy_start", false, 0.0f);
 			isWaited_ = true;
 		}
 	}
 
 	// 座標補間更新
-	SakuEngine::Vector3 lerpTranslation = bossEnemy.GetTranslation();
+	SakuEngine::Vector3 lerpTranslation = bossEnemy_->GetTranslation();
 	posAnimation_.LerpValue(lerpTranslation);
 
 	// 座標を設定
-	bossEnemy.SetTranslation(lerpTranslation);
+	bossEnemy_->SetTranslation(lerpTranslation);
 
 	// 処理が終了したらその場に留める
 	if (posAnimation_.IsFinished()) {
@@ -57,7 +57,7 @@ void BossEnemyStartAnimation::Update(BossEnemy& bossEnemy) {
 	}
 }
 
-void BossEnemyStartAnimation::Start([[maybe_unused]] BossEnemy& bossEnemy) {
+void BossEnemyStartAnimation::Start() {
 
 	// 補間開始
 	isStarted_ = true;
@@ -65,7 +65,7 @@ void BossEnemyStartAnimation::Start([[maybe_unused]] BossEnemy& bossEnemy) {
 	delayTimer_.Reset();
 }
 
-void BossEnemyStartAnimation::ImGui(BossEnemy& bossEnemy) {
+void BossEnemyStartAnimation::ImGui() {
 
 	if (ImGui::Button("Save Json")) {
 
@@ -73,7 +73,7 @@ void BossEnemyStartAnimation::ImGui(BossEnemy& bossEnemy) {
 	}
 	if (ImGui::Button("Start")) {
 
-		Start(bossEnemy);
+		Start();
 	}
 	ImGui::Separator();
 
