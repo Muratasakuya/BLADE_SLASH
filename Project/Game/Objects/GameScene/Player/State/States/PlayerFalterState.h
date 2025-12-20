@@ -17,7 +17,7 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerFalterState(Player* player);
+	PlayerFalterState() = default;
 	~PlayerFalterState() = default;
 
 	void Enter() override;

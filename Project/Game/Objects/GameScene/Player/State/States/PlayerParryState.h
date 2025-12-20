@@ -18,7 +18,7 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerParryState();
+	PlayerParryState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper);
 	~PlayerParryState() = default;
 
 	void Enter() override;
@@ -62,6 +62,9 @@ private:
 	};
 
 	//--------- variables ----------------------------------------------------
+
+	// 入力
+	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
 
 	// 攻撃制御
 	bool allowAttack_;

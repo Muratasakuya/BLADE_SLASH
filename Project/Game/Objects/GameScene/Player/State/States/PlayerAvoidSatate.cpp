@@ -12,12 +12,6 @@
 //	PlayerAvoidSatate classMethods
 //============================================================================
 
-PlayerAvoidSatate::PlayerAvoidSatate(Player* player) {
-
-	player_ = nullptr;
-	player_ = player;
-}
-
 void PlayerAvoidSatate::Enter() {
 
 	player_->SetNextAnimation("player_avoid", false, nextAnimDuration_);
@@ -25,7 +19,7 @@ void PlayerAvoidSatate::Enter() {
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	const SakuEngine::Vector3 enemyPos = bossEnemy_->GetTranslation();
 	// 向き
-	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 
 	// 補間座標を設定する
 	startPos_ = playerPos;
@@ -35,7 +29,7 @@ void PlayerAvoidSatate::Enter() {
 	player_->SetRotation(SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up)));
 
 	// 回避開始
-	isAvoidance_ = true;
+	isAvoiding_ = true;
 
 	canExit_ = false;
 }
@@ -59,7 +53,7 @@ void PlayerAvoidSatate::Update() {
 		canExit_ = true;
 
 		// 回避終了
-		isAvoidance_ = false;
+		isAvoiding_ = false;
 	}
 }
 
@@ -69,12 +63,13 @@ void PlayerAvoidSatate::Exit() {
 	lerpTimer_ = 0.0f;
 	canExit_ = false;
 	// 回避終了
-	isAvoidance_ = false;
+	isAvoiding_ = false;
 }
 
 void PlayerAvoidSatate::ImGui() {
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
+	ImGui::Text(std::format("isAvoiding: {}", isAvoiding_).c_str());
 
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.01f);
 	ImGui::DragFloat("lerpTime", &lerpTime_, 0.01f);

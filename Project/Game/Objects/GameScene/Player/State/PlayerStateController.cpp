@@ -55,32 +55,39 @@ void PlayerStateController::Init(Player* owner) {
 
 	// 入力クラスを初期化
 	inputTransitionPlanner_.Init();
+	SakuEngine::InputMapper<PlayerInputAction>* inputMapper = inputTransitionPlanner_.GetInputMapper();
 
 	// 各状態の追加
 	auto& machine = BaseStateController::GetMachine();
 	machine.Add<PlayerIdleState>(PlayerState::Idle);
-	machine.Add<PlayerWalkState>(PlayerState::Walk);
-	machine.Add<PlayerDashState>(PlayerState::Dash);
-	machine.Add<PlayerAvoidSatate>(PlayerState::Avoid, owner);
-	machine.Add<PlayerAttack_1stState>(PlayerState::Attack_1st, owner);
-	machine.Add<PlayerAttack_2ndState>(PlayerState::Attack_2nd, owner);
-	machine.Add<PlayerAttack_3rdState>(PlayerState::Attack_3rd, owner);
-	machine.Add<PlayerAttack_4thState>(PlayerState::Attack_4th, owner);
-	machine.Add<PlayerSkilAttackState>(PlayerState::SkilAttack, owner);
-	machine.Add<PlayerParryState>(PlayerState::Parry);
-	machine.Add<PlayerFalterState>(PlayerState::Falter, owner);
+	machine.Add<PlayerWalkState>(PlayerState::Walk, inputMapper);
+	machine.Add<PlayerDashState>(PlayerState::Dash, inputMapper);
+	machine.Add<PlayerAvoidSatate>(PlayerState::Avoid);
+	machine.Add<PlayerAttack_1stState>(PlayerState::Attack_1st);
+	machine.Add<PlayerAttack_2ndState>(PlayerState::Attack_2nd);
+	machine.Add<PlayerAttack_3rdState>(PlayerState::Attack_3rd);
+	machine.Add<PlayerAttack_4thState>(PlayerState::Attack_4th);
+	machine.Add<PlayerSkilAttackState>(PlayerState::SkilAttack);
+	machine.Add<PlayerParryState>(PlayerState::Parry, inputMapper);
+	machine.Add<PlayerFalterState>(PlayerState::Falter);
 
-	// json適応
-	ApplyJson();
-
-	// 必要なクラスを設定
+	// 状態遷移対象を設定
 	ForEachPlayerState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
-		machine.Get(state).SetInputMapper(inputTransitionPlanner_.GetInputMapper());
 		machine.Get(state).SetPlayer(owner);
 		});
+	// エフェクト生成
+	ForEachPlayerState([&](PlayerState state) {
+		if (!machine.Has(state)) {
+			return;
+		}
+		machine.Get(state).CreateEffect();
+		});
+
+	// json適応
+	ApplyJson();
 
 	// 初期状態を設定
 	machine.SetEnter(PlayerState::Idle);
@@ -156,17 +163,9 @@ void PlayerStateController::RequestFalterState() {
 	SetForcedState(PlayerState::Falter);
 }
 
-bool PlayerStateController::IsAvoidance() {
-
-	return BaseStateController::GetMachine().GetCurrent().IsAvoidance();
-}
-
 void PlayerStateController::Update() {
 
 	auto& machine = BaseStateController::GetMachine();
-
-	// 前回の状態を保存
-	previous_ = machine.GetCurrentId();
 
 	// 全ての状態の常に行う前処理
 	ForEachPlayerState([&](PlayerState state) {
@@ -192,9 +191,6 @@ void PlayerStateController::Update() {
 			machine.Get(state).UpdateAlways();
 		}
 		});
-
-	// Y座標の制限
-	player_->ClampInitPosY();
 }
 
 void PlayerStateController::DecideExternalTransition() {
@@ -224,9 +220,11 @@ void PlayerStateController::DecideExternalTransition() {
 
 void PlayerStateController::OnStateChanged() {
 
-	PlayerState currentState = BaseStateController::GetMachine().GetCurrentId();
+	const auto& machine = BaseStateController::GetMachine();
+
+	PlayerState currentState = machine.GetCurrentId();
 	// 状態が変化した場合の処理
-	if (previous_ != currentState) {
+	if (machine.GetPreviousId() != currentState) {
 
 		// タイム更新と通知
 		currentEnterTime_ = SakuEngine::GameTimer::GetTotalTime();
@@ -335,32 +333,6 @@ bool PlayerStateController::CanTransition(PlayerState next, bool viaQueue) const
 		}
 	}
 	return true;
-}
-
-bool PlayerStateController::IsCombatState(PlayerState state) const {
-
-	switch (state) {
-	case PlayerState::Attack_1st:
-	case PlayerState::Attack_2nd:
-	case PlayerState::Attack_3rd:
-	case PlayerState::Attack_4th:
-	case PlayerState::SkilAttack:
-	case PlayerState::Parry:
-		return true;
-	default:
-		return false;
-	}
-}
-
-bool PlayerStateController::IsInChain() const {
-
-	auto it = conditions_.find(BaseStateController::GetMachine().GetCurrentId());
-	if (it == conditions_.end()) {
-		return false;
-	}
-
-	const float elapsed = SakuEngine::GameTimer::GetTotalTime() - currentEnterTime_;
-	return (it->second.chainInputTime > 0.0f) && (elapsed <= it->second.chainInputTime);
 }
 
 void PlayerStateController::ImGui() {

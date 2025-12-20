@@ -18,8 +18,10 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerAttack_3rdState(Player* player);
+	PlayerAttack_3rdState() = default;
 	~PlayerAttack_3rdState() = default;
+
+	void CreateEffect() override;
 
 	void Enter() override;
 
@@ -94,9 +96,6 @@ private:
 	SakuEngine::StateTimer weaponMoveTimer_; // 剣が目標座標に行くまでの時間
 	float bossEnemyDistance_;
 	float weaponPosY_;
-
-	// debug
-	std::unordered_map<PlayerWeaponType, SakuEngine::Vector3> debugForward_;
 
 	// 剣を取りに行くダッシュエフェクト
 	std::unique_ptr<SakuEngine::EffectGroup> catchDashEffect_;

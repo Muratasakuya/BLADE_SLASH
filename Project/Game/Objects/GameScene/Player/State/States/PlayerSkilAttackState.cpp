@@ -15,10 +15,7 @@
 //	PlayerSkilAttackState classMethods
 //============================================================================
 
-PlayerSkilAttackState::PlayerSkilAttackState(Player* player) {
-
-	player_ = nullptr;
-	player_ = player;
+void PlayerSkilAttackState::CreateEffect() {
 
 	// キーフレームオブジェクトの生成
 	moveKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
@@ -167,10 +164,10 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 		player_->SetNextAnimation("player_skilAttack_2nd", false, nextJumpAnimDuration_);
 
 		// 敵が攻撃可能範囲にいるかチェックして目標への回転を取得
-		if (CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
+		if (CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true))) {
 
 			// 範囲内なので敵の方向を向く回転を設定する
-			SakuEngine::Vector3 toEnemyDirection = SakuEngine::Vector3(GetBossEnemyFixedYPos() - GetPlayerFixedYPos()).Normalize();
+			SakuEngine::Vector3 toEnemyDirection = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 			targetRotation_ = SakuEngine::Quaternion::LookRotation(toEnemyDirection, rotationAxis_);
 		} else {
 
@@ -274,7 +271,7 @@ void PlayerSkilAttackState::UpdateJumpAttack() {
 void PlayerSkilAttackState::SetTargetByRange(SakuEngine::KeyframeObject3D& keyObject, const std::string& cameraKeyName) {
 
 	// 敵が攻撃可能範囲にいるかチェック
-	isInRange_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
+	isInRange_ = CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
 	if (isInRange_) {
 
 		// 位置補正用トランスフォームを敵の位置に設定

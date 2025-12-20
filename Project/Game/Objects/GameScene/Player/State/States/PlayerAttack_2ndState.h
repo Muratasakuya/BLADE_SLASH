@@ -20,8 +20,10 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerAttack_2ndState(Player* player);
+	PlayerAttack_2ndState() = default;
 	~PlayerAttack_2ndState() = default;
+
+	void CreateEffect() override;
 
 	void Enter() override;
 

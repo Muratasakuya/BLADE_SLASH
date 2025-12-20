@@ -13,6 +13,11 @@
 //	PlayerDashState classMethods
 //============================================================================
 
+PlayerDashState::PlayerDashState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
+
+	inputMapper_ = inputMapper;
+}
+
 void PlayerDashState::Enter() {
 
 	player_->SetNextAnimation("player_dash", false, nextAnimDuration_);
@@ -21,7 +26,7 @@ void PlayerDashState::Enter() {
 	currentState_ = State::Accel;
 	accelLerp_->Start();
 
-	if (followCamera_->IsFinishedHandoffBlend() && preState_ != PlayerState::Parry) {
+	if (followCamera_->IsFinishedHandoffBlend() && StateNode::GetPreviousState() != PlayerState::Parry) {
 
 		// カメラを見やすい位置まで補間させる
 		followCamera_->SetOverlayState(FollowCameraOverlayState::ReturnDefaultRotate, true);
@@ -33,7 +38,7 @@ void PlayerDashState::Update() {
 	// ダッシュ更新
 	UpdateDash();
 	// 回転、進行方向に向かせる
-	SetRotateToDirection(move_);
+	SakuEngine::Math::RotateToDirection3D(*player_,SakuEngine::Vector3(move_.x, 0.0f, move_.z).Normalize(), rotationLerpRate_);
 }
 
 void PlayerDashState::UpdateState() {
@@ -42,7 +47,7 @@ void PlayerDashState::UpdateState() {
 	case PlayerDashState::State::Accel: {
 
 		// 回避中
-		isAvoidance_ = true;
+		isAvoiding_ = true;
 
 		// 加速させる
 		accelLerp_->LerpValue(moveSpeed_);
@@ -61,7 +66,7 @@ void PlayerDashState::UpdateState() {
 		if (sustainTime_ <= sustainTimer_) {
 
 			// 回避終了
-			isAvoidance_ = false;
+			isAvoiding_ = false;
 
 			currentState_ = State::Decel;
 			decelLerp_->Start();
@@ -114,7 +119,7 @@ void PlayerDashState::Exit() {
 	move_.Init();
 
 	// 回避終了にしておく
-	isAvoidance_ = false;
+	isAvoiding_ = false;
 
 	player_->ResetAnimation();
 }

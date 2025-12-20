@@ -4,17 +4,12 @@
 //	include
 //============================================================================
 #include <Game/Camera/Follow/FollowCamera.h>
+#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
 #include <Game/Objects/GameScene/Player/Entity/Player.h>
 
 //============================================================================
 //	PlayerFalterState classMethods
 //============================================================================
-
-PlayerFalterState::PlayerFalterState(Player* player) {
-
-	player_ = nullptr;
-	player_ = player;
-}
 
 void PlayerFalterState::Enter() {
 
@@ -22,7 +17,7 @@ void PlayerFalterState::Enter() {
 	player_->SetNextAnimation("player_falter", false, nextAnimDuration_);
 
 	// 向き
-	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 
 	//補間座標を設定
 	startPos_ = player_->GetTranslation();

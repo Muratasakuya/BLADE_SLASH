@@ -16,7 +16,7 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerWalkState() = default;
+	PlayerWalkState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper);
 	~PlayerWalkState() = default;
 
 	void Enter() override;
@@ -37,6 +37,9 @@ private:
 	//========================================================================
 
 	//--------- variables ----------------------------------------------------
+
+	// 入力
+	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
 
 	SakuEngine::Vector3 move_; // 移動量
 	float moveSpeed_; // 移動速度

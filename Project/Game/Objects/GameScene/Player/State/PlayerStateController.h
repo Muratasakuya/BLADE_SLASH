@@ -47,13 +47,13 @@ public:
 	void RequestFalterState();
 
 	PlayerState GetCurrentState() const { return GetMachine().GetCurrentId(); }
-	PlayerState GetPreviousState() const { return previous_; }
+	PlayerState GetPreviousState() const { return GetMachine().GetPreviousId(); }
 
 	bool IsTriggerParry() const { return inputTransitionPlanner_.GetInputMapper()->IsTriggered(PlayerInputAction::Parry); }
 	bool IsActiveParry() const { return parrySystem_.IsActive(); }
 
 	// 今の状態で回避中か
-	bool IsAvoidance();
+	bool IsAvoidance() { return BaseStateController::GetMachine().GetCurrent().IsAvoidance(); }
 private:
 	//========================================================================
 	//	private Methods
@@ -77,8 +77,6 @@ private:
 	std::unordered_map<PlayerState, float> lastEnterTime_;
 	float currentEnterTime_;
 
-	// 前回の状態
-	PlayerState previous_;
 	// 受付済みコンボ
 	std::optional<PlayerState> queued_;
 
@@ -100,11 +98,11 @@ private:
 	// helper
 	bool Request(PlayerState state);
 	bool CanTransition(PlayerState next, bool viaQueue) const;
-	bool IsCombatState(PlayerState state) const;
-	bool IsInChain() const;
 
 	// パリィ後の攻撃を行わせるかどうか
 	void SetParryAllowAttack(bool allowAttack);
+
+	// privateアクセス許可
 	friend class PlayerParrySystem;
 	friend class PlayerInputTransitionPlanner;
 };

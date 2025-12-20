@@ -13,11 +13,19 @@
 //	PlayerWalkState classMethods
 //============================================================================
 
+PlayerWalkState::PlayerWalkState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
+
+	inputMapper_ = inputMapper;
+}
+
 void PlayerWalkState::Enter() {
+
+	// いつでも状態遷移可能にする
+	canExit_ = true;
 
 	player_->SetNextAnimation("player_walk", true, nextAnimDuration_);
 
-	if (followCamera_->IsFinishedHandoffBlend() && preState_ != PlayerState::Parry) {
+	if (followCamera_->IsFinishedHandoffBlend() && StateNode::GetPreviousState() != PlayerState::Parry) {
 
 		// カメラを見やすい位置まで補間させる
 		followCamera_->SetOverlayState(FollowCameraOverlayState::ReturnDefaultRotate, true);
@@ -29,7 +37,7 @@ void PlayerWalkState::Update() {
 	// 歩き更新
 	UpdateWalk();
 	// 回転、進行方向に向かせる
-	SetRotateToDirection(move_.Normalize());
+	SakuEngine::Math::RotateToDirection3D(*player_, SakuEngine::Vector3(move_.x, 0.0f, move_.z).Normalize(), rotationLerpRate_);
 }
 
 void PlayerWalkState::UpdateWalk() {

@@ -17,8 +17,10 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerAttack_4thState(Player* player);
+	PlayerAttack_4thState() = default;
 	~PlayerAttack_4thState() = default;
+
+	void CreateEffect() override;
 
 	void Enter() override;
 

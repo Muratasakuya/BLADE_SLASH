@@ -48,4 +48,10 @@ private:
 
 	// ダッシュ入力中か
 	bool isDashInput_ = false;
+
+	//--------- functions ----------------------------------------------------
+
+	// コンボ中か
+	bool IsInChain(PlayerStateController& controller) const;
+	bool IsCombatState(PlayerState state) const;
 };

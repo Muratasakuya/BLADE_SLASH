@@ -20,10 +20,6 @@ public:
 
 	PlayerBaseAttackState() = default;
 	~PlayerBaseAttackState() = default;
-
-	//--------- accessor -----------------------------------------------------
-
-	bool IsExternalActive() const { return externalActive_; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -45,10 +41,6 @@ protected:
 	std::optional<SakuEngine::Vector3> targetTranslation_;
 	std::optional<SakuEngine::Quaternion> targetRotation_;
 
-	// 同期
-	bool externalActive_ = false; // エディターと同期中か
-	int editObjectID_ = -1;       // エディター内のID
-
 	//--------- functions ----------------------------------------------------
 
 	// json
@@ -58,18 +50,11 @@ protected:
 	// imgui
 	void ImGui();
 
-	void ResetTarget();
+	// 攻撃アシスト、座標補間、方向補間を敵との距離に応じて処理する
+	void AttackAssist(bool onceTarget = false, bool isOnlyAssistRotation = false);
 
-	// update
-	void UpdateTimer(SakuEngine::StateTimer& timer);
-	void AttackAssist(bool onceTarget = false);
-
-	// helper
+	// 範囲内に入っているかチェックする
 	bool CheckInRange(float range, float distance);
-	SakuEngine::Vector3 GetPlayerOffsetPos(const SakuEngine::Vector3& offsetTranslation) const;
-	SakuEngine::Matrix4x4 GetPlayerOffsetRotation(const SakuEngine::Vector3& offsetRotation) const;
-	void SetTimerByOverall(SakuEngine::StateTimer& timer, float overall,
-		float start, float end, EasingType easing);
 
 	// debug
 	void DrawAttackOffset();

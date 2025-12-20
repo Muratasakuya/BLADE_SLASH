@@ -7,6 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Scene/Camera/BaseCamera.h>
+#include <Engine/Object/Base/GameObject3D.h>
 #include <Engine/Config.h>
 
 //============================================================================
@@ -18,7 +19,7 @@ float Math::AbsFloat(float v) {
 	return v < 0.0f ? -v : v;
 }
 
-float Math::GetYawRadian(const SakuEngine::Vector3& direction) {
+float Math::GetYawRadian(const Vector3& direction) {
 
 	return std::atan2(direction.z, direction.x);
 }
@@ -52,9 +53,9 @@ float Math::WrapPi(float value) {
 int Math::YawShortestDirection(const Quaternion& from, const Quaternion& to) {
 
 	// Δ回転
-	Quaternion qFrom = SakuEngine::Quaternion::Normalize(from);
-	Quaternion qTo = SakuEngine::Quaternion::Normalize(to);
-	Quaternion delta = SakuEngine::Quaternion::Normalize(Quaternion::Multiply(qTo, Quaternion::Inverse(qFrom)));
+	Quaternion qFrom = Quaternion::Normalize(from);
+	Quaternion qTo = Quaternion::Normalize(to);
+	Quaternion delta = Quaternion::Normalize(Quaternion::Multiply(qTo, Quaternion::Inverse(qFrom)));
 
 	// Y軸まわりの回転のみ取得
 	Quaternion twistY{ 0.0f, delta.y, 0.0f, delta.w };
@@ -77,9 +78,9 @@ int Math::YawShortestDirection(const Quaternion& from, const Quaternion& to) {
 
 float Math::YawSignedDelta(const Quaternion& from, const Quaternion& to) {
 
-	Quaternion qFrom = SakuEngine::Quaternion::Normalize(from);
-	Quaternion qTo = SakuEngine::Quaternion::Normalize(to);
-	Quaternion delta = SakuEngine::Quaternion::Normalize(Quaternion::Multiply(qTo, Quaternion::Inverse(qFrom)));
+	Quaternion qFrom = Quaternion::Normalize(from);
+	Quaternion qTo = Quaternion::Normalize(to);
+	Quaternion delta = Quaternion::Normalize(Quaternion::Multiply(qTo, Quaternion::Inverse(qFrom)));
 
 	Quaternion twistY{ 0.0f, delta.y, 0.0f, delta.w };
 	float len = std::sqrt(twistY.y * twistY.y + twistY.w * twistY.w);
@@ -113,8 +114,8 @@ float Math::AngleFromTwist(const Quaternion& twist, Axis axis) {
 	return angle;
 }
 
-Vector3 Math::RandomPointOnArc(const SakuEngine::Vector3& center,
-	const SakuEngine::Vector3& direction, float radius, float halfAngle) {
+Vector3 Math::RandomPointOnArc(const Vector3& center,
+	const Vector3& direction, float radius, float halfAngle) {
 
 	const float baseYaw = GetYawRadian(direction.Normalize());
 	const float halfRad = pi * halfAngle / 180.0f;
@@ -124,8 +125,8 @@ Vector3 Math::RandomPointOnArc(const SakuEngine::Vector3& center,
 	return { center.x + radius * std::cos(yaw),center.y,center.z + radius * std::sin(yaw) };
 }
 
-Vector3 Math::RandomPointOnArcInSquare(const SakuEngine::Vector3& arcCenter, const SakuEngine::Vector3& direction,
-	float radius, float halfAngle, const SakuEngine::Vector3& squareCenter,
+Vector3 Math::RandomPointOnArcInSquare(const Vector3& arcCenter, const Vector3& direction,
+	float radius, float halfAngle, const Vector3& squareCenter,
 	float clampHalfSize, int tryCount) {
 
 	const float baseYaw = GetYawRadian(direction.Normalize());
@@ -167,10 +168,10 @@ Vector3 Math::RandomPointOnArcInSquare(const SakuEngine::Vector3& arcCenter, con
 		std::clamp(arcCenter.z, minZ, maxZ) };
 }
 
-Vector3 Math::RotateY(const SakuEngine::Vector3& v, float rad) {
+Vector3 Math::RotateY(const Vector3& v, float rad) {
 
 	Matrix4x4 rotate = Matrix4x4::MakeYawMatrix(rad);
-	return SakuEngine::Vector3::Transform(v, rotate).Normalize();
+	return Vector3::Transform(v, rotate).Normalize();
 }
 
 void Math::ToColumnMajor(const Matrix4x4& matrix, float out[16]) {
@@ -203,16 +204,84 @@ void Math::ToFloatMatrix(const Matrix4x4& matrix, float out[16]) {
 	}
 }
 
-Vector2 Math::ProjectToScreen(const SakuEngine::Vector3& translation, const BaseCamera& camera) {
+Vector2 Math::ProjectToScreen(const Vector3& translation, const BaseCamera& camera) {
 
 	Matrix4x4 viewMatrix = camera.GetViewMatrix();
 	Matrix4x4 projectionMatrix = camera.GetProjectionMatrix();
 
-	Vector3 viewPos = SakuEngine::Vector3::Transform(translation, viewMatrix);
-	Vector3 clipPos = SakuEngine::Vector3::Transform(viewPos, projectionMatrix);
+	Vector3 viewPos = Vector3::Transform(translation, viewMatrix);
+	Vector3 clipPos = Vector3::Transform(viewPos, projectionMatrix);
 
 	float screenX = (clipPos.x * 0.5f + 0.5f) * Config::kWindowWidthf;
 	float screenY = (1.0f - (clipPos.y * 0.5f + 0.5f)) * Config::kWindowHeightf;
 
 	return Vector2(screenX, screenY);
+}
+
+Vector3 Math::GetFlattenPos3D(const GameObject3D& object, bool isWorld, float posY) {
+
+	Vector3 translation = isWorld ?
+		object.GetTransform().GetWorldPos() : object.GetTranslation();
+	// Y座標を固定
+	translation.y = posY;
+	return translation;
+}
+
+float Math::GetDistance3D(const GameObject3D& object0, const GameObject3D& object1,
+	bool isWorld, bool isFlattenPos) {
+
+	// 座標取得
+	Vector3 pos0 = isWorld ? object0.GetTransform().GetWorldPos() : object0.GetTranslation();
+	Vector3 pos1 = isWorld ? object1.GetTransform().GetWorldPos() : object1.GetTranslation();
+	if (isFlattenPos) {
+		pos0.y = 0.0f;
+		pos1.y = 0.0f;
+	}
+
+	// 距離を取得
+	float distance = Vector3::Length(pos1 - pos0);
+	return distance;
+}
+
+Vector3 Math::GetDirection3D(const GameObject3D& from, const GameObject3D& to,
+	bool isWorld, const std::vector<Axis>& ignoreAxis) {
+
+	// 座標取得
+	Vector3 fromPos = isWorld ? from.GetTransform().GetWorldPos() : from.GetTranslation();
+	Vector3 toPos = isWorld ? to.GetTransform().GetWorldPos() : to.GetTranslation();
+
+	// 方向ベクトルを取得
+	Vector3 direction = Vector3(toPos - fromPos).Normalize();
+
+	// 指定軸を無視
+	for (const Axis& axis : ignoreAxis) {
+		switch (axis) {
+		case Axis::X:
+			direction.x = 0.0f;
+			break;
+		case Axis::Y:
+			direction.y = 0.0f;
+			break;
+		case Axis::Z:
+			direction.z = 0.0f;
+			break;
+		}
+	}
+	// 正規化して返す
+	direction = direction.Normalize();
+	return direction;
+}
+
+void SakuEngine::Math::RotateToDirection3D(GameObject3D& object, const Vector3& direction, float lerpRate) {
+
+	// 処理できない向きは早期リターン
+	if (direction.Length() <= Config::kEpsilon) {
+		return;
+	}
+
+	// 向きを計算
+	SakuEngine::Quaternion targetRotation = SakuEngine::Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
+	SakuEngine::Quaternion rotation = object.GetRotation();
+	rotation = SakuEngine::Quaternion::Slerp(rotation, targetRotation, lerpRate);
+	object.SetRotation(rotation);
 }

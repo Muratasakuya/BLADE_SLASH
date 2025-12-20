@@ -26,23 +26,23 @@ namespace SakuEngine {
 
 		// 更新処理
 		virtual void Update() = 0;
-		// 非アクティブ時の更新処理
-		virtual void NonActiveUpdate() {}
 
 		// 状態遷移開始
 		virtual void Enter() {}
 		// 状態遷移終了
 		virtual void Exit() {}
 
-		// エディター表示
-		virtual void ImGui() {}
-
 		//--------- accessor -----------------------------------------------------
 
-		// state側からの遷移要求を返し、リセットｓる
+		// 前状態の設定
+		void SetPreviousState(T previous) noexcept { previousState_ = previous; }
+
+		// 状態処理側からの遷移要求を返し、リセットする
 		std::optional<T> ConsumeRequested() noexcept;
 	protected:
 
+		// 前状態の取得
+		T GetPreviousState() const noexcept { return previousState_; }
 		// 遷移要求を取得
 		void Request(T request) noexcept { requested_ = request; }
 	private:
@@ -52,6 +52,8 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
+		// 前状態
+		T previousState_;
 		// 遷移要求を行う状態
 		std::optional<T> requested_;
 	};

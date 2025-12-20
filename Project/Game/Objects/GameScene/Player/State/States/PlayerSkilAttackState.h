@@ -20,8 +20,10 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerSkilAttackState(Player* player);
+	PlayerSkilAttackState() = default;
 	~PlayerSkilAttackState() = default;
+
+	void CreateEffect() override;
 
 	void Enter() override;
 

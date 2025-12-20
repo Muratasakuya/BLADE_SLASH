@@ -14,14 +14,7 @@
 //	PlayerAttack_3rdState classMethods
 //============================================================================
 
-PlayerAttack_3rdState::PlayerAttack_3rdState(Player* player) {
-
-	player_ = nullptr;
-	player_ = player;
-
-	// debug
-	debugForward_.emplace(PlayerWeaponType::Left, SakuEngine::Vector3::AnyInit(0.0f));
-	debugForward_.emplace(PlayerWeaponType::Right, SakuEngine::Vector3::AnyInit(0.0f));
+void PlayerAttack_3rdState::CreateEffect() {
 
 	// ダッシュエフェクト作成
 	catchDashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
@@ -42,8 +35,8 @@ void PlayerAttack_3rdState::Enter() {
 	backStartPos_ = player_->GetTranslation();
 
 	// 敵が攻撃可能範囲にいるかチェック
-	assisted_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
-	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	assisted_ = CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 	// 補間先がいなければ正面向き
 	if (!assisted_) {
 
@@ -58,7 +51,7 @@ void PlayerAttack_3rdState::Enter() {
 	initPosY_ = player_->GetTranslation().y;
 
 	// 回転補間範囲内に入っていたら
-	if (CheckInRange(attackLookAtCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
+	if (CheckInRange(attackLookAtCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true))) {
 
 		// カメラアニメーション開始
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_3rd);
@@ -79,7 +72,7 @@ void PlayerAttack_3rdState::Update() {
 	LerpPlayer();
 
 	// 座標、回転補間
-	AttackAssist();
+	AttackAssist(false, true);
 	// キーイベント処理
 	UpdateAnimKeyEvent();
 
@@ -108,7 +101,7 @@ void PlayerAttack_3rdState::LerpWeapon(PlayerWeaponType type) {
 	}
 
 	// 時間を進める
-	PlayerBaseAttackState::UpdateTimer(weaponParams_[type].moveTimer);
+	weaponParams_[type].moveTimer.Update();
 
 	// 補間座標を剣に設定
 	SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(weaponParams_[type].startPos,
@@ -154,7 +147,7 @@ void PlayerAttack_3rdState::LerpPlayer() {
 	case PlayerAttack_3rdState::State::MoveBack: {
 
 		// 時間を進める
-		PlayerBaseAttackState::UpdateTimer(backMoveTimer_);
+		backMoveTimer_.Update();
 		// 座標を補間
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backStartPos_, backTargetPos_,
 			backMoveTimer_.easedT_);
@@ -170,7 +163,7 @@ void PlayerAttack_3rdState::LerpPlayer() {
 	case PlayerAttack_3rdState::State::Catch: {
 
 		// 時間を進める
-		PlayerBaseAttackState::UpdateTimer(catchSwordTimer_);
+		catchSwordTimer_.Update();
 		// 座標を補間
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backTargetPos_, catchTargetPos_,
 			catchSwordTimer_.easedT_);
@@ -261,9 +254,6 @@ void PlayerAttack_3rdState::StartMoveWeapon(PlayerWeaponType type) {
 		// 敵を中心に一定距離だけオフセット
 		weaponParams_[type].targetPos = bossEnemy_->GetTranslation() + rotated * bossEnemyDistance_;
 		weaponParams_[type].targetPos.y = weaponPosY_;
-
-		// デバッグ用
-		debugForward_[type] = rotated;
 	} else {
 
 		// 前方ベクトル
@@ -277,9 +267,6 @@ void PlayerAttack_3rdState::StartMoveWeapon(PlayerWeaponType type) {
 		// 目標座標
 		weaponParams_[type].targetPos = player_->GetTranslation() + rotated * weaponParams_[type].moveValue;
 		weaponParams_[type].targetPos.y = weaponPosY_;
-
-		// デバッグ用
-		debugForward_[type] = rotated;
 	}
 
 	// 補間開始
@@ -370,7 +357,6 @@ void PlayerAttack_3rdState::ImGui() {
 		ImGui::DragFloat("moveValue", &param.moveValue, 0.1f);
 		ImGui::DragFloat("rotateSpeed", &param.rotateSpeed, 0.01f);
 		ImGui::DragFloat("offsetRotationY", &param.offsetRotationY, 0.01f);
-		ImGui::DragFloat3("forward", &debugForward_[type].x);
 
 		ImGui::PopID();
 
@@ -382,6 +368,14 @@ void PlayerAttack_3rdState::ImGui() {
 
 		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6,
 			8.0f, target, SakuEngine::Color::Cyan());
+	}
+
+	{
+		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backStartPos_, backTargetPos_,
+			backMoveTimer_.easedT_);
+
+		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6,
+			8.0f, pos, SakuEngine::Color::Yellow());
 	}
 }
 

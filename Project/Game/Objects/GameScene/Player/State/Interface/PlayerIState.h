@@ -13,9 +13,6 @@
 class Player;
 class BossEnemy;
 class FollowCamera;
-namespace SakuEngine {
-	class PostProcessSystem;
-}
 
 //============================================================================
 //	PlayerIState class
@@ -28,11 +25,14 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerIState();
+	PlayerIState() = default;
 	virtual ~PlayerIState() = default;
 
+	// エフェクトの生成
+	virtual void CreateEffect() {}
+
 	// 状態遷移時
-	virtual void Enter() = 0;
+	virtual void Enter() override = 0;
 
 	// 更新処理
 	virtual void Update() override = 0;
@@ -40,12 +40,11 @@ public:
 	// 常に行う更新処理
 	virtual void BeginUpdateAlways() {}
 	virtual void UpdateAlways() {}
-	virtual void EndUpdateAlways() {}
 
 	// 状態終了時
-	virtual void Exit() = 0;
+	virtual void Exit() override = 0;
 
-	// imgui
+	// エディター
 	virtual void ImGui() = 0;
 
 	// json
@@ -55,16 +54,12 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	void SetPlayer(Player* player) { player_ = player; }
-
-	void SetInputMapper(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) { inputMapper_ = inputMapper; }
 	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
 
-	void SetCanExit(bool canExit) { canExit_ = canExit; }
-	void SetPreState(PlayerState preState) { preState_ = preState; }
-
 	virtual bool GetCanExit() const { return canExit_; }
-	bool IsAvoidance() const { return isAvoidance_; }
+	// 必要であれば継承先で回避中かどうかを返す
+	virtual bool IsAvoidance() const { return false; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -74,36 +69,12 @@ protected:
 
 	// 状態遷移対象
 	Player* player_;
-
-	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
-	const BossEnemy* bossEnemy_;
 	FollowCamera* followCamera_;
+	const BossEnemy* bossEnemy_;
 
-	SakuEngine::PostProcessSystem* postProcess_;
+	bool canExit_ = false; // 状態終了可能か
 
-	// 遷移前の状態
-	PlayerState preState_;
-
-	float nextAnimDuration_; // 次のアニメーション遷移にかかる時間
-	bool canExit_ = true;    // 遷移可能かどうか
-	float rotationLerpRate_; // 回転補間割合
-
+	float nextAnimDuration_;    // 次のアニメーション遷移にかかる時間
+	float rotationLerpRate_;    // 回転補間割合
 	float targetCameraRotateX_; // 目標カメラX軸回転
-
-	bool isAvoidance_ = false; // 回避行動中かどうか
-
-	//--------- functions ----------------------------------------------------
-
-	// helper
-	void SetRotateToDirection(const SakuEngine::Vector3& move);
-
-	// プレイヤー、敵の座標取得(Yを固定するため)
-	SakuEngine::Vector3 GetPlayerFixedYPos() const;
-	SakuEngine::Vector3 GetBossEnemyFixedYPos() const;
-
-	// プレイヤーの敵との距離
-	float GetDistanceToBossEnemy() const;
-
-	// プレイヤーから敵への方向
-	SakuEngine::Vector3 GetDirectionToBossEnemy() const;
 };

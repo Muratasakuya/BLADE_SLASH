@@ -13,10 +13,7 @@
 //	PlayerAttack_2ndState classMethods
 //============================================================================
 
-PlayerAttack_2ndState::PlayerAttack_2ndState(Player* player) {
-
-	player_ = nullptr;
-	player_ = player;
+void PlayerAttack_2ndState::CreateEffect() {
 
 	// 剣エフェクト作成
 	// 1段目
@@ -46,7 +43,7 @@ void PlayerAttack_2ndState::Enter() {
 	segmentTimer_ = 0.0f;
 	segmentTime_ = attackPosLerpTime_ / 3.0f;
 
-	if (attackPosLerpCircleRange_ < PlayerIState::GetDistanceToBossEnemy()) {
+	if (attackPosLerpCircleRange_ < SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true)) {
 
 		// 範囲外のとき
 		CalcApproachWayPoints(wayPoints_);
@@ -58,7 +55,7 @@ void PlayerAttack_2ndState::Enter() {
 	startTranslation_ = playerPos;
 
 	// 回転補間させるかの設定
-	approachPhase_ = CheckInRange(attackLookAtCircleRange_, PlayerIState::GetDistanceToBossEnemy());
+	approachPhase_ = CheckInRange(attackLookAtCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
 
 	// 剣エフェクトの発生
 	slash1stEffect_->Emit(player_->GetRotation() * slash1stEffectOffset_);
@@ -97,7 +94,7 @@ void PlayerAttack_2ndState::Update() {
 		}
 
 		// 範囲内になったら敵補間へ切り替え
-		if (PlayerIState::GetDistanceToBossEnemy() <= attackPosLerpCircleRange_) {
+		if (SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true) <= attackPosLerpCircleRange_) {
 
 			approachPhase_ = false;
 			CalcWayPoints(wayPoints_);
@@ -137,19 +134,18 @@ void PlayerAttack_2ndState::CalcWayPoints(std::array<SakuEngine::Vector3, kNumSe
 
 	// 目標座標を設定
 	startTranslation_ = player_->GetTranslation();
-	SakuEngine::Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
+	SakuEngine::Vector3 enemyPos = SakuEngine::Math::GetFlattenPos3D(*bossEnemy_);
 	// プレイヤーのY座標と合わせる
 	enemyPos.y = startTranslation_.y;
 	// 目標座標を敵の方向に設定
-	targetTranslation_ = enemyPos - PlayerIState::GetDirectionToBossEnemy() * attackOffsetTranslation_;
+	targetTranslation_ = enemyPos - SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_) * attackOffsetTranslation_;
 
 	//距離に応じて振れ幅を変更する
 	float distance = (*targetTranslation_ - startTranslation_).Length();
 	float swayLength = (std::max)(0.0f, (attackPosLerpCircleRange_ - distance)) * swayRate_;
 
 	// 補間先を設定する
-	CalcWayPointsToTarget(startTranslation_, *targetTranslation_,
-		leftPointAngle_, rightPointAngle_, swayLength, dstWayPoints);
+	CalcWayPointsToTarget(startTranslation_, *targetTranslation_, leftPointAngle_, rightPointAngle_, swayLength, dstWayPoints);
 }
 
 void PlayerAttack_2ndState::CalcWayPointsToTarget(const SakuEngine::Vector3& start, const SakuEngine::Vector3& target,

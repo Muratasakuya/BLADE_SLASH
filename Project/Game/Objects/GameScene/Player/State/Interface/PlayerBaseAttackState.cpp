@@ -13,16 +13,7 @@
 //	PlayerBaseAttackState classMethods
 //============================================================================
 
-void PlayerBaseAttackState::UpdateTimer(SakuEngine::StateTimer& timer) {
-
-	// 外部による更新がないときのみ
-	if (!externalActive_) {
-
-		timer.Update();
-	}
-}
-
-void PlayerBaseAttackState::AttackAssist(bool onceTarget) {
+void PlayerBaseAttackState::AttackAssist(bool onceTarget, bool isOnlyAssistRotation) {
 
 	// 時間経過
 	attackPosLerpTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
@@ -30,13 +21,11 @@ void PlayerBaseAttackState::AttackAssist(bool onceTarget) {
 	lerpT = EasedValue(attackPosEaseType_, lerpT);
 
 	// 座標、距離を取得
-	SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	SakuEngine::Vector3 enemyPos = PlayerIState::GetBossEnemyFixedYPos();
-	// y座標を合わせる
-	enemyPos.y = playerPos.y;
+	SakuEngine::Vector3 playerPos = SakuEngine::Math::GetFlattenPos3D(*player_);
+	SakuEngine::Vector3 enemyPos = SakuEngine::Math::GetFlattenPos3D(*bossEnemy_);
 	// プレイヤーとボス敵の距離、向きを取得
-	float distance = PlayerIState::GetDistanceToBossEnemy();
-	SakuEngine::Vector3 direction = PlayerIState::GetDirectionToBossEnemy();
+	float distance = SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true);
+	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
 
 	// 補間先を設定
 	if (onceTarget) {
@@ -53,7 +42,7 @@ void PlayerBaseAttackState::AttackAssist(bool onceTarget) {
 	}
 
 	// 指定円の中に敵がいれば敵の座標まで補間する
-	if (CheckInRange(attackPosLerpCircleRange_, distance)) {
+	if (!isOnlyAssistRotation && CheckInRange(attackPosLerpCircleRange_, distance)) {
 
 		// 補間先
 		SakuEngine::Vector3 translation = SakuEngine::Vector3::Lerp(playerPos, *targetTranslation_, std::clamp(lerpT, 0.0f, 1.0f));
@@ -80,31 +69,6 @@ bool PlayerBaseAttackState::CheckInRange(float range, float distance) {
 	return result;
 }
 
-SakuEngine::Vector3 PlayerBaseAttackState::GetPlayerOffsetPos(const SakuEngine::Vector3& offsetTranslation) const {
-
-	SakuEngine::Vector3 offset = SakuEngine::Vector3::Transform(offsetTranslation,
-		SakuEngine::Quaternion::MakeRotateMatrix(player_->GetRotation()));
-
-	return player_->GetTranslation() + offset;
-}
-
-SakuEngine::Matrix4x4 PlayerBaseAttackState::GetPlayerOffsetRotation(const SakuEngine::Vector3& offsetRotation) const {
-
-	// playerの回転
-	SakuEngine::Matrix4x4 playerRotation = SakuEngine::Quaternion::MakeRotateMatrix(player_->GetRotation());
-	// オフセット回転
-	SakuEngine::Matrix4x4 offsetMatrix = SakuEngine::Matrix4x4::MakeRotateMatrix(offsetRotation);
-
-	return playerRotation * offsetMatrix;
-}
-
-void PlayerBaseAttackState::SetTimerByOverall(SakuEngine::StateTimer& timer, float overall,
-	float start, float end, EasingType easing) {
-
-	timer.t_ = SakuEngine::Algorithm::MapOverallToLocal(overall, start, end);
-	timer.easedT_ = EasedValue(easing, timer.t_);
-}
-
 void PlayerBaseAttackState::DrawAttackOffset() {
 
 	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
@@ -119,14 +83,6 @@ void PlayerBaseAttackState::DrawAttackOffset() {
 
 	lineRenderer->DrawLine3D(playerPos, target, SakuEngine::Color::Red());
 	lineRenderer->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
-}
-
-void PlayerBaseAttackState::ResetTarget() {
-
-	// 補間目標をリセット
-	attackPosLerpTimer_ = 0.0f;
-	targetTranslation_ = std::nullopt;
-	targetRotation_ = std::nullopt;
 }
 
 void PlayerBaseAttackState::ImGui() {

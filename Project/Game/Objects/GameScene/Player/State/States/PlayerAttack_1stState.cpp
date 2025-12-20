@@ -12,10 +12,7 @@
 //	PlayerAttack_1stState classMethods
 //============================================================================
 
-PlayerAttack_1stState::PlayerAttack_1stState(Player* player) {
-
-	player_ = nullptr;	
-	player_ = player;
+void PlayerAttack_1stState::CreateEffect() {
 
 	// 剣エフェクト作成
 	slashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
@@ -34,14 +31,14 @@ void PlayerAttack_1stState::Enter() {
 	// 敵が攻撃可能範囲にいるかチェック
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	// 補間座標を設定
-	if (!CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
+	if (!CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true))) {
 
 		startPos_ = playerPos;
 		targetPos_ = startPos_ + player_->GetTransform().GetForward() * moveValue_;
 	}
 
 	// 回転補間範囲内にいるかどうか
-	assisted_ = CheckInRange(attackLookAtCircleRange_, PlayerIState::GetDistanceToBossEnemy());
+	assisted_ = CheckInRange(attackLookAtCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
 	if (assisted_) {
 
 		// カメラの向きを補正させる
@@ -69,7 +66,7 @@ void PlayerAttack_1stState::Update() {
 	} else {
 
 		// 前に前進させる
-		PlayerBaseAttackState::UpdateTimer(moveTimer_);
+		moveTimer_.Update();
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
 		player_->SetTranslation(pos);
 	}

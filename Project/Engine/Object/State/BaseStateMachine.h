@@ -73,6 +73,8 @@ namespace SakuEngine {
 
 		// 現在の状態Idを取得
 		StateId GetCurrentId() const noexcept { return currentId_; }
+		// 前の状態Idを取得
+		StateId GetPreviousId() const noexcept { return previousId_; }
 		// 現在の状態を取得
 		StateBase& GetCurrent();
 
@@ -92,6 +94,8 @@ namespace SakuEngine {
 
 		// 現在の状態Id
 		StateId currentId_{};
+		// 前の状態Id
+		StateId previousId_{};
 		// 遷移要求Id
 		std::optional<StateId> requested_ = std::nullopt;
 
@@ -121,6 +125,9 @@ namespace SakuEngine {
 	inline void BaseStateMachine<Config>::Tick() {
 
 		ASSERT(current_ != nullptr, "StateMachine::Tick: currentState is nullptr.");
+
+		// 前回状態の保存
+		previousId_ = currentId_;
 
 		// 外部リクエストがあれば先に反映
 		if (requested_) {
@@ -169,10 +176,8 @@ namespace SakuEngine {
 
 			// 現在状態の終了処理
 			current_->Exit();
-			// PreState設定可能なら設定する
-			if constexpr (requires(StateBase & state, StateId prev) { state.SetPreState(prev); }) {
-				current_->SetPreState(currentId_);
-			}
+			// 前状態設定
+			current_->SetPreviousState(currentId_);
 
 			// 同じ状態へ遷移
 			current_->Enter();
@@ -188,10 +193,8 @@ namespace SakuEngine {
 		currentId_ = next;
 		current_ = &storage_.Get(next);
 
-		// PreState設定可能なら設定する
-		if constexpr (requires(StateBase & s, StateId prevId) { s.SetPreState(prevId); }) {
-			current_->SetPreState(preId);
-		}
+		// 前状態設定
+		current_->SetPreviousState(preId);
 
 		// 次状態へ遷移
 		current_->Enter();
@@ -236,10 +239,8 @@ namespace SakuEngine {
 		currentId_ = next;
 		current_ = &storage_.Get(next);
 
-		// PreState設定可能なら設定する
-		if constexpr (requires(StateBase & s, StateId prevId) { s.SetPreState(prevId); }) {
-			current_->SetPreState(preId);
-		}
+		// 前状態設定
+		current_->SetPreviousState(preId);
 
 		// 次状態へ遷移
 		current_->Enter();

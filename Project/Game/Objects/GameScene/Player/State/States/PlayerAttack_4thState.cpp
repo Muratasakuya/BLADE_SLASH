@@ -13,10 +13,7 @@
 //	PlayerAttack_4thState classMethods
 //============================================================================
 
-PlayerAttack_4thState::PlayerAttack_4thState(Player* player) {
-
-	player_ = nullptr;
-	player_ = player;
+void PlayerAttack_4thState::CreateEffect() {
 
 	// エフェクト作成
 	// 地割れエフェクト
@@ -42,7 +39,7 @@ void PlayerAttack_4thState::Enter() {
 
 	// 敵が攻撃可能範囲にいるかチェック
 	SakuEngine::Vector3 playerPos = player_->GetTranslation();
-	assisted_ = CheckInRange(attackPosLerpCircleRange_, PlayerIState::GetDistanceToBossEnemy());
+	assisted_ = CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
 
 	// 補間座標を設定
 	if (!assisted_) {
@@ -56,7 +53,7 @@ void PlayerAttack_4thState::Enter() {
 	}
 
 	// 回転補間範囲内に入っていたら
-	if (CheckInRange(attackLookAtCircleRange_, PlayerIState::GetDistanceToBossEnemy())) {
+	if (CheckInRange(attackLookAtCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true))) {
 
 		// カメラアニメーション開始
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_4th);
@@ -76,7 +73,7 @@ void PlayerAttack_4thState::Update() {
 	} else {
 
 		// 前に前進させる
-		PlayerBaseAttackState::UpdateTimer(moveTimer_);
+		moveTimer_.Update();
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(startPos_, targetPos_, moveTimer_.easedT_);
 		player_->SetTranslation(pos);
 	}

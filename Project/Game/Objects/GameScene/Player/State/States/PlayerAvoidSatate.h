@@ -17,7 +17,7 @@ public:
 	//	public Methods
 	//========================================================================
 
-	PlayerAvoidSatate(Player* player);
+	PlayerAvoidSatate() = default;
 	~PlayerAvoidSatate() = default;
 
 	void Enter() override;
@@ -32,6 +32,10 @@ public:
 	// json
 	void ApplyJson(const Json& data) override;
 	void SaveJson(Json& data) override;
+
+	//--------- accessor -----------------------------------------------------
+
+	bool IsAvoidance() const override { return isAvoiding_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -47,4 +51,7 @@ private:
 
 	SakuEngine::Vector3 startPos_;  // 開始座標
 	SakuEngine::Vector3 targetPos_; // 目標座標
+
+	// 回避中か
+	bool isAvoiding_ = false;
 };

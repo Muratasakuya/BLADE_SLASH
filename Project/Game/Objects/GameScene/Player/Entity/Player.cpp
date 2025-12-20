@@ -255,6 +255,7 @@ void Player::Update() {
 
 	// 状態の更新
 	stateController_->Update();
+	ClampInitPosY();
 
 	// 武器の更新
 	rightWeapon_->Update();

@@ -43,9 +43,6 @@ public:
 	// エディター
 	void DerivedImGui() override;
 
-	// Y座標の制限
-	void ClampInitPosY();
-
 	/*-------- collision ----------*/
 
 	// 衝突コールバック関数
@@ -144,4 +141,7 @@ private:
 	// helper
 	void SetInitTransform();
 	void CheckBossEnemyParry();
+
+	// Y座標の制限
+	void ClampInitPosY();
 };

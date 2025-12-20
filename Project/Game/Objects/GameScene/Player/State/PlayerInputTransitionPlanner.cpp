@@ -33,16 +33,15 @@ void PlayerInputTransitionPlanner::Reset() {
 	isDashInput_ = false;
 }
 
-void PlayerInputTransitionPlanner::Update(
-	PlayerStateController& controller, const PlayerStats& stats) {
+void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, const PlayerStats& stats) {
 
 	auto& machine = controller.GetMachine();
 	// 現在の状態を取得
 	PlayerState currentState = machine.GetCurrentId();
 
 	// コンボ中は判定をスキップする
-	bool inCombat = controller.IsCombatState(currentState);
-	bool actionLocked = (inCombat && !machine.GetCurrent().GetCanExit()) || (inCombat && controller.IsInChain());
+	bool inCombat = IsCombatState(currentState);
+	bool actionLocked = (inCombat && !machine.GetCurrent().GetCanExit()) || (inCombat && IsInChain(controller));
 
 	// 移動方向
 	SakuEngine::Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX),
@@ -141,5 +140,33 @@ void PlayerInputTransitionPlanner::Update(
 	if (currentState == PlayerState::Dash && inputMapper_->IsTriggered(PlayerInputAction::Dash)) {
 
 		controller.SetForcedState(PlayerState::Dash);
+	}
+}
+
+bool PlayerInputTransitionPlanner::IsInChain(PlayerStateController& controller) const {
+
+	auto& machine = controller.GetMachine();
+
+	auto it = controller.conditions_.find(machine.GetCurrentId());
+	if (it == controller.conditions_.end()) {
+		return false;
+	}
+
+	float elapsed = SakuEngine::GameTimer::GetTotalTime() - controller.currentEnterTime_;
+	return (it->second.chainInputTime > 0.0f) && (elapsed <= it->second.chainInputTime);
+}
+
+bool PlayerInputTransitionPlanner::IsCombatState(PlayerState state) const {
+
+	switch (state) {
+	case PlayerState::Attack_1st:
+	case PlayerState::Attack_2nd:
+	case PlayerState::Attack_3rd:
+	case PlayerState::Attack_4th:
+	case PlayerState::SkilAttack:
+	case PlayerState::Parry:
+		return true;
+	default:
+		return false;
 	}
 }

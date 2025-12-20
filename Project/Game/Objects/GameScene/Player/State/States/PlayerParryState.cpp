@@ -16,8 +16,9 @@
 //	PlayerParryState classMethods
 //============================================================================
 
-PlayerParryState::PlayerParryState() {
+PlayerParryState::PlayerParryState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
 
+	inputMapper_ = inputMapper;
 	isEmitedBlur_ = false;
 
 	// エフェクト作成
@@ -114,8 +115,9 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 			parryHitEffect_->Emit(effectPos);
 
 			// ブラー手の位置に発生させる
-			postProcess_->Start(PostProcessType::RadialBlur);
-			RadialBlurUpdater* blur = postProcess_->GetUpdater<RadialBlurUpdater>(
+			SakuEngine::PostProcessSystem* postProcess = SakuEngine::PostProcessSystem::GetInstance();
+			postProcess->Start(PostProcessType::RadialBlur);
+			RadialBlurUpdater* blur = postProcess->GetUpdater<RadialBlurUpdater>(
 				PostProcessType::RadialBlur);
 			// 自動で元の値に戻すように設定
 			blur->StartState();
