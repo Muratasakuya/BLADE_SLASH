@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/GameTimer.h>
-#include <Game/Camera/Follow/FollowCamera.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 

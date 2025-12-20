@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/Base/IInputDevice.h>
-#include <Game/Camera/Follow/Input/FollowCameraInputAction.h>
+#include <Game/Gameplay/Camera/FollowCamera/Input/Actions/FollowCameraInputAction.h>
 
 //============================================================================
 //	FollowCameraGamePadInput class

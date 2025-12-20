@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/Base/IInputDevice.h>
-#include <Game/Objects/Common/Input/SelectUIInputAction.h>
+#include <Game/UI/Input/Actions/SelectUIInputAction.h>
 
 //============================================================================
 //	SelectUIGamePadInput class

@@ -10,13 +10,13 @@
 #include <Engine/Scene/Manager/SceneManager.h>
 
 // postEffect
-#include <Game/PostEffect/DepthOutlineUpdater.h>
-#include <Game/PostEffect/RadialBlurUpdater.h>
-#include <Game/PostEffect/GlitchUpdater.h>
-#include <Game/PostEffect/CRTDisplayUpdater.h>
-#include <Game/PostEffect/GrayscaleUpdater.h>
-#include <Game/PostEffect/PlayerAfterImageUpdater.h>
-#include <Game/PostEffect/DefaultDistortionUpdater.h>
+#include <Game/Effects/PostProcess/DepthOutlineUpdater.h>
+#include <Game/Effects/PostProcess/RadialBlurUpdater.h>
+#include <Game/Effects/PostProcess/GlitchUpdater.h>
+#include <Game/Effects/PostProcess/CRTDisplayUpdater.h>
+#include <Game/Effects/PostProcess/GrayscaleUpdater.h>
+#include <Game/Effects/PostProcess/PlayerAfterImageUpdater.h>
+#include <Game/Effects/PostProcess/DefaultDistortionUpdater.h>
 
 //============================================================================
 //	TitleScene classMethods

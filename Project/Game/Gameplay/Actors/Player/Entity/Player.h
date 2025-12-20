@@ -7,15 +7,15 @@
 #include <Engine/Object/Base/GameObject3D.h>
 
 // weapon
-#include <Game/Objects/GameScene/Player/Entity/PlayerWeapon.h>
+#include <Game/Gameplay/Actors/Player/Entity/PlayerWeapon.h>
 // state
-#include <Game/Objects/GameScene/Player/State/PlayerStateController.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateController.h>
 // collision
-#include <Game/Objects/GameScene/Player/Collision/PlayerAttackCollision.h>
+#include <Game/Gameplay/Actors/Player/Collision/PlayerAttackCollision.h>
 // HUD
-#include <Game/Objects/GameScene/HUD/Player/PlayerHUD.h>
-#include <Game/Objects/GameScene/HUD/Player/PlayerStunHUD.h>
-#include <Game/Objects/GameScene/HUD/Player/TargetNavigation/TargetNavigation.h>
+#include <Game/UI/HUD/Player/PlayerHUD.h>
+#include <Game/UI/HUD/Player/PlayerStunHUD.h>
+#include <Game/UI/HUD/Player/TargetNavigation/TargetNavigation.h>
 
 // front
 class SubPlayer;

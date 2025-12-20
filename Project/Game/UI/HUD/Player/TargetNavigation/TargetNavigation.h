@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 // front
 class FollowCamera;

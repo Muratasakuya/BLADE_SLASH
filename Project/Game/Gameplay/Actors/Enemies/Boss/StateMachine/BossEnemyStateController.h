@@ -4,8 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Object/State/BaseStateController.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/BossEnemyStateConfig.h>
-#include <Game/Objects/GameScene/Enemy/Boss/HUD/BossEnemyAttackSign.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/BossEnemyStateConfig.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/UI/BossEnemyAttackSign.h>
 
 // c++
 #include <memory>

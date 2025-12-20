@@ -6,8 +6,8 @@
 #include <Engine/Scene/Methods/IScene.h>
 
 // scene
-#include <Game/Scene/GameState/Interface/IGameSceneState.h>
-#include <Game/Scene/Transition/FadeTransition.h>
+#include <Game/Scenes/Game/GameState/Interface/IGameSceneState.h>
+#include <Game/Scenes/Transition/FadeTransition.h>
 
 //============================================================================
 //	GameScene class

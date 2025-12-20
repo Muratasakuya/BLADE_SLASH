@@ -9,7 +9,7 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Config.h>
-#include <Game/Objects/Common/GameButtonBlinkingUpdater.h>
+#include <Game/UI/Widgets/Button/GameButtonBlinkingUpdater.h>
 
 //============================================================================
 //	GameResultDisplay classMethods

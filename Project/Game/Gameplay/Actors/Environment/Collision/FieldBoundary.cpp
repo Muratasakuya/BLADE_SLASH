@@ -5,8 +5,8 @@
 //============================================================================
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 //============================================================================
 //	FieldBoundary classMethods

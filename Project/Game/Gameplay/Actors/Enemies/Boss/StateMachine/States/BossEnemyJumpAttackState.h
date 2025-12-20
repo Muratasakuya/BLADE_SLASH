@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Effect/User/Helper/SlashEffectHelper.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyIState.h>
 
 //============================================================================
 //	BossEnemyJumpAttackState class

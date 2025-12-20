@@ -3,9 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Camera/Follow/FollowCamera.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
 //	PlayerFalterState classMethods

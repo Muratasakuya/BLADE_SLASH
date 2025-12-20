@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Player/State/Interface/PlayerIState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerIState.h>
 #include <Engine/Utility/Timer/StateTimer.h>
 
 //============================================================================

@@ -4,11 +4,11 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 // state
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackApproach.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/States/BossEnemyGreatAttackInOutArea.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/States/BossEnemyGreatAttackApproach.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/States/BossEnemyGreatAttackInOutArea.h>
 
 //============================================================================
 //	BossEnemyGreatAttackState classMethods

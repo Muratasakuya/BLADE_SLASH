@@ -6,11 +6,11 @@
 #include <Engine/Editor/Base/IGameEditor.h>
 
 // scene
-#include <Game/Scene/GameState/GameSceneState.h>
+#include <Game/Scenes/Game/GameState/GameSceneState.h>
 // cameras
-#include <Game/Camera/Follow/FollowCamera.h>
-#include <Game/Camera/EndGame/EndGameCamera.h>
-#include <Game/Camera/ResultCamera/ClearResultCamera.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
+#include <Game/Gameplay/Camera/EndGame/EndGameCamera.h>
+#include <Game/Gameplay/Camera/ResultCamera/ClearResultCamera.h>
 // front
 class Player;
 class BossEnemy;

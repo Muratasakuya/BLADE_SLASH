@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/Effect/User/EffectGroup.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
 // imgui
 #include <imgui.h>

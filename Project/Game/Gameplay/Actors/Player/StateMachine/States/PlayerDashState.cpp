@@ -6,8 +6,8 @@
 #include <Engine/Config.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
-#include <Game/Camera/Follow/FollowCamera.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 
 //============================================================================
 //	PlayerDashState classMethods

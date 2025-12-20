@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Utility/Timer/GameTimer.h>
@@ -11,18 +11,18 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 // state
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyIdleState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyTeleportationState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyStunState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyFalterState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyLightAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyJumpAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyStrongAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyChargeAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyRushAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyContinuousAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/BossEnemyProjectileAttackState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/BossEnemyGreatAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyIdleState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyTeleportationState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyStunState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyFalterState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyLightAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyJumpAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyStrongAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyChargeAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyRushAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyContinuousAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyProjectileAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/BossEnemyGreatAttackState.h>
 
 //============================================================================
 //	BossEnemyStateController classMethods

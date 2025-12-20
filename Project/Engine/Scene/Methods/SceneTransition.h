@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Helper/Transition/ITransition.h>
+#include <Game/Scenes/Transition/ITransition.h>
 
 // c++
 #include <memory>

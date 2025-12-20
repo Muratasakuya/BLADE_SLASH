@@ -8,7 +8,7 @@
 #include <Engine/Utility/Enum/Direction.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
-#include <Game/Objects/Common/Input/SelectUIInputAction.h>
+#include <Game/UI/Input/Actions/SelectUIInputAction.h>
 
 //============================================================================
 //	GameUIFocusNavigator class

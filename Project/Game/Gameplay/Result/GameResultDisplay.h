@@ -6,9 +6,9 @@
 #include <Engine/Editor/Base/IGameEditor.h>
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
-#include <Game/Helper/HUD/GamecButtonFocusNavigator.h>
-#include <Game/Helper/HUD/GameTimerDisplay.h>
-#include <Game/Helper/HUD/GameButton.h>
+#include <Game/UI/Navigation/GamecButtonFocusNavigator.h>
+#include <Game/UI/Widgets/TimerDisplay/GameTimerDisplay.h>
+#include <Game/UI/Widgets/Button/GameButton.h>
 
 //============================================================================
 //	GameResultDisplay enum class

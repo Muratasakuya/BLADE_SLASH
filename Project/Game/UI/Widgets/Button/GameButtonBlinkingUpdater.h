@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Animation/AnimationLoop.h>
-#include <Game/Helper/HUD/IGameButtonResponseUpdater.h>
+#include <Game/UI/Widgets/Button/IGameButtonResponseUpdater.h>
 #include <Engine/Utility/Enum/Easing.h>
 
 //============================================================================

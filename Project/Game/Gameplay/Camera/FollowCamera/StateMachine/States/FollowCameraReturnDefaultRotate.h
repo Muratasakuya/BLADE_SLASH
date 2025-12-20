@@ -3,9 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Camera/Follow/State/Interface/FollowCameraIState.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
 #include <Engine/Utility/Timer/StateTimer.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/Interface/FollowCameraIState.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 //============================================================================
 //	FollowCameraReturnDefaultRotate class

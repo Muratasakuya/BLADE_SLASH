@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 // front
 class BossEnemy;

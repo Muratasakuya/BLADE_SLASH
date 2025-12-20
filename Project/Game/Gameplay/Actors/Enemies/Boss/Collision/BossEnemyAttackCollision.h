@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Collision/Collider.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
 //============================================================================
 //	BossEnemyAttackCollision class

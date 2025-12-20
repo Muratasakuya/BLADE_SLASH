@@ -4,8 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Effect/User/EffectGroup.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/Interface/BossEnemyIState.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyIState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
 //	BossEnemyGreatAttackState class

@@ -6,12 +6,12 @@
 #include <Engine/Scene/Methods/IScene.h>
 
 // controller
-#include <Game/Objects/TitleScene/TitleController.h>
+#include <Game/Scenes/Title/TitleController.h>
 
 // scene
 #include <Engine/Scene/Light/PunctualLight.h>
-#include <Game/Camera/Title/TitleViewCamera.h>
-#include <Game/Scene/Transition/FadeTransition.h>
+#include <Game/Gameplay/Camera/Title/TitleViewCamera.h>
+#include <Game/Scenes/Transition/FadeTransition.h>
 
 //============================================================================
 //	TitleScene class

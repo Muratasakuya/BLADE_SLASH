@@ -4,10 +4,10 @@
 //	include
 //============================================================================
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
-#include <Game/Camera/Follow/FollowCamera.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/BossEnemyGreatAttackState.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/BossEnemyGreatAttackState.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
 //	BossEnemyGreatAttackInOutArea classMethods

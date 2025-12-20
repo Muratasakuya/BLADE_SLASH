@@ -6,8 +6,8 @@
 #include <Engine/Input/Base/InputMapper.h>
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Object/State/StateNode.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
-#include <Game/Objects/GameScene/Player/Input/PlayerInputAction.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Actors/Player/Input/Actions/PlayerInputAction.h>
 
 // front
 class Player;

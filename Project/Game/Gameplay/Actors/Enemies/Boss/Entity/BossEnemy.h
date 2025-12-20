@@ -6,18 +6,18 @@
 #include <Engine/Object/Base/GameObject3D.h>
 
 // scene
-#include <Game/Scene/GameState/GameSceneState.h>
+#include <Game/Scenes/Game/GameState/GameSceneState.h>
 // weapon
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemyWeapon.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemyWeapon.h>
 // state
-#include <Game/Objects/GameScene/Enemy/Boss/State/BossEnemyStateController.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/BossEnemyRequestFalter.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/BossEnemyStateController.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Requests/BossEnemyRequestFalter.h>
 // collision
-#include <Game/Objects/GameScene/Enemy/Boss/Collision/BossEnemyAttackCollision.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Collision/BossEnemyAttackCollision.h>
 // HUD
-#include <Game/Objects/GameScene/HUD/Enemy/Boss/BossEnemyHUD.h>
+#include <Game/UI/HUD/Enemy/Boss/BossEnemyHUD.h>
 // animation
-#include <Game/Objects/GameScene/Enemy/Boss/Start/BossEnemyStartAnimation.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Start/BossEnemyStartAnimation.h>
 
 // front
 class Player;

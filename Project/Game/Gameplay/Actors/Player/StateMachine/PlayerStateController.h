@@ -4,9 +4,9 @@
 //	include
 //============================================================================
 #include <Engine/Object/State/BaseStateController.h>
-#include <Game/Objects/GameScene/Player/State/PlayerStateConfig.h>
-#include <Game/Objects/GameScene/Player/State/PlayerInputTransitionPlanner.h>
-#include <Game/Objects/GameScene/Player/Parry/PlayerParrySystem.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateConfig.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/PlayerInputTransitionPlanner.h>
+#include <Game/Gameplay/Actors/Player/Systems/PlayerParrySystem.h>
 
 // c++
 #include <memory>

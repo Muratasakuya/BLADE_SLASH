@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/InputStructures.h>
-#include <Game/Helper/HUD/IGameButtonResponseUpdater.h>
+#include <Game/UI/Widgets/Button/IGameButtonResponseUpdater.h>
 
 //============================================================================
 //	GameButton enum class

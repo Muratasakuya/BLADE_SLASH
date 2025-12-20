@@ -828,7 +828,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
         <ClCompile Include="Game\Effects\SpriteEffect\FadeSprite.cpp">
             <SubType/>
         </ClCompile>
-        <ClCompile Include="Game\Transition\FadeTransition.cpp"/>
+        <ClCompile Include="Game\Scenes\Transition\FadeTransition.cpp"/>
         <ClCompile Include="Game\Scenes\Title\Background\TitleBackground.cpp">
             <SubType/>
         </ClCompile>
@@ -1611,7 +1611,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
         <ClInclude Include="Game\UI\Input\Actions\SelectUIInputAction.h">
             <SubType/>
         </ClInclude>
-        <ClInclude Include="Game\Transition\ITransition.h"/>
+        <ClInclude Include="Game\Scenes\Transition\ITransition.h"/>
         <ClInclude Include="Game\UI\Widgets\Button\GameButtonBlinkingUpdater.h">
             <SubType/>
         </ClInclude>
@@ -1726,7 +1726,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
         <ClInclude Include="Game\Effects\SpriteEffect\FadeSprite.h">
             <SubType/>
         </ClInclude>
-        <ClInclude Include="Game\Transition\FadeTransition.h"/>
+        <ClInclude Include="Game\Scenes\Transition\FadeTransition.h"/>
         <ClInclude Include="Game\Scenes\Title\Background\TitleBackground.h">
             <SubType/>
         </ClInclude>

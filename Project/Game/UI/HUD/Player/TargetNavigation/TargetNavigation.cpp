@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Game/Camera/Follow/FollowCamera.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 
 //============================================================================
 //	TargetNavigation classMethods

@@ -8,25 +8,21 @@
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
-
-// inputDevice
-#include <Game/Objects/GameScene/Player/Input/Device/PlayerKeyInput.h>
-#include <Game/Objects/GameScene/Player/Input/Device/PlayerGamePadInput.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 // state
-#include <Game/Objects/GameScene/Player/State/States/PlayerIdleState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerWalkState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerDashState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerAvoidSatate.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerAttack_1stState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerAttack_2ndState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerAttack_3rdState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerAttack_4thState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerSkilAttackState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerParryState.h>
-#include <Game/Objects/GameScene/Player/State/States/PlayerFalterState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerIdleState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerWalkState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerDashState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerAvoidSatate.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerAttack_1stState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerAttack_2ndState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerAttack_3rdState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerAttack_4thState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerSkilAttackState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerParryState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerFalterState.h>
 
 //============================================================================
 //	PlayerStateController classMethods

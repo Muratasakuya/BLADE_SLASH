@@ -5,8 +5,8 @@
 //============================================================================
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
-#include <Game/PostEffect/DepthOutlineUpdater.h>
-#include <Game/PostEffect/PlayerAfterImageUpdater.h>
+#include <Game/Effects/PostProcess/DepthOutlineUpdater.h>
+#include <Game/Effects/PostProcess/PlayerAfterImageUpdater.h>
 
 //============================================================================
 //	PlayerAfterImageEffect classMethods

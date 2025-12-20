@@ -7,7 +7,7 @@
 #include <Engine/Utility/Enum/Easing.h>
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Object/State/StateNode.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
 // front
 class BossEnemy;

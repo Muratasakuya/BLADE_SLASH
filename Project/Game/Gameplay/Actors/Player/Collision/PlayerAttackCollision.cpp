@@ -8,7 +8,7 @@
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Helper/Algorithm.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 // imgui
 #include <imgui.h>

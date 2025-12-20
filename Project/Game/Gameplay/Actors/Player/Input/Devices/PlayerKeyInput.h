@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/Base/IInputDevice.h>
-#include <Game/Objects/GameScene/Player/Input/PlayerInputAction.h>
+#include <Game/Gameplay/Actors/Player/Input/Actions/PlayerInputAction.h>
 
 //============================================================================
 //	PlayerKeyInput class

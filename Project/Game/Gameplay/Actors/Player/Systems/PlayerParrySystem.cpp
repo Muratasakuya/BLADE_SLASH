@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
-#include <Game/Objects/GameScene/Player/State/PlayerStateController.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateController.h>
 
 //============================================================================
 //	PlayerParrySystem classMethods

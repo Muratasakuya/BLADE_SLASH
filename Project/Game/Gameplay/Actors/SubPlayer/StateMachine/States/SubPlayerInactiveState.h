@@ -1,9 +1,9 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Objects/GameScene/SubPlayer/State/Interface/SubPlayerIState.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/Interface/SubPlayerIState.h>
 
 //============================================================================
 //	SubPlayerInactiveState class

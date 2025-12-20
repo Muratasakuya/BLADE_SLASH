@@ -4,10 +4,11 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
-#include <Game/Helper/HUD/GameHPBar.h>
-#include <Game/Helper/HUD/GameDisplayDamage.h>
-#include <Game/Helper/HUD/GameCommonStructures.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Structures/BossEnemyStructures.h>
+#include <Game/UI/Widgets/HPBar/GameHPBar.h>
+#include <Game/UI/Widgets/DigitDisplay/GameDigitDisplay.h>
+#include <Game/UI/Widgets/DamageDisplay/GameDisplayDamage.h>
+#include <Game/UI/Structures/GameCommonStructures.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
 // c++
 #include <deque>

@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/MathLib/ConicalPendulum.h>
 #include <Engine//Utility/Animation/SimpleAnimation.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 
 //============================================================================
 //	BossEnemyGreatAttackApproach class

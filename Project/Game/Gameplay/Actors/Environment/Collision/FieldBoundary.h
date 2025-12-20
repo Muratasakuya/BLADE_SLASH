@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Base/IGameEditor.h>
-#include <Game/Objects/GameScene/Environment/Collision/FieldWallCollision.h>
+#include <Game/Gameplay/Actors/Environment/Collision/FieldWallCollision.h>
 
 //============================================================================
 //	FieldBoundary class

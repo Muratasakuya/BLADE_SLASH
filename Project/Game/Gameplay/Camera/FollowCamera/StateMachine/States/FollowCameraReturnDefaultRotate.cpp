@@ -7,8 +7,8 @@
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Game/Camera/Follow/FollowCamera.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
 //	FollowCameraReturnDefaultRotate classMethods

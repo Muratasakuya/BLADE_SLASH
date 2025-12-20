@@ -7,8 +7,8 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 // state
-#include <Game/Objects/GameScene/SubPlayer/State/States/SubPlayerInactiveState.h>
-#include <Game/Objects/GameScene/SubPlayer/State/States/SubPlayerPunchAttackState.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/States/SubPlayerInactiveState.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/States/SubPlayerPunchAttackState.h>
 
 //============================================================================
 //	SubPlayerStateController classMethods

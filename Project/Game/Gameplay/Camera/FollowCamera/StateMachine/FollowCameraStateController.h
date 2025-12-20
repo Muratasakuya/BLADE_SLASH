@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Camera/Follow/State/Interface/FollowCameraIState.h>
-#include <Game/Camera/Follow/Structures/FollowCameraStructures.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/Interface/FollowCameraIState.h>
+#include <Game/Gameplay/Camera/FollowCamera/Structures/FollowCameraStructures.h>
 
 // c++
 #include <memory>

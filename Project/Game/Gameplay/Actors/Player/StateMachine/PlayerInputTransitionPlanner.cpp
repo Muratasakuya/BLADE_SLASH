@@ -5,12 +5,12 @@
 //============================================================================
 #include <Engine/Config.h>
 #include <Engine/Input/Input.h>
-#include <Game/Objects/GameScene/Player/State/PlayerStateController.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateController.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 // inputDevice
-#include <Game/Objects/GameScene/Player/Input/Device/PlayerKeyInput.h>
-#include <Game/Objects/GameScene/Player/Input/Device/PlayerGamePadInput.h>
+#include <Game/Gameplay/Actors/Player/Input/Devices/PlayerKeyInput.h>
+#include <Game/Gameplay/Actors/Player/Input/Devices/PlayerGamePadInput.h>
 
 //============================================================================
 //	PlayerInputTransitionPlanner classMethods

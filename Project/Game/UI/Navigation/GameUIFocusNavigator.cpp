@@ -7,8 +7,8 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Helper/Algorithm.h>
-#include <Game/Objects/Common/Input/Device/SelectUIKeyInput.h>
-#include <Game/Objects/Common/Input/Device/SelectUIGamePadInput.h>
+#include <Game/UI/Input/Devices/SelectUIKeyInput.h>
+#include <Game/UI/Input/Devices/SelectUIGamePadInput.h>
 
 //============================================================================
 //	GameUIFocusNavigator classMethods

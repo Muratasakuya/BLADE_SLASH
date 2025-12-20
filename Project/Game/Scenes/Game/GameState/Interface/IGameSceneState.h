@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Scene/GameState/GameContext.h>
-#include <Game/Scene/GameState/GameSceneState.h>
+#include <Game/Scenes/Game/GameState/GameContext.h>
+#include <Game/Scenes/Game/GameState/GameSceneState.h>
 
 //============================================================================
 //	IGameSceneState class

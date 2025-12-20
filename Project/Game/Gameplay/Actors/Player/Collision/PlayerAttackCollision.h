@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Collision/Collider.h>
 #include <Engine/Effect/User/GameEffect.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 // front
 class BossEnemy;

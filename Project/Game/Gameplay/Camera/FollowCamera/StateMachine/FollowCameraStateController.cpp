@@ -4,21 +4,21 @@
 //	include
 //============================================================================
 #include <Engine/Input/Input.h>
-#include <Game/Camera/Follow/FollowCamera.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 // inputDevice
-#include <Game/Camera/Follow/Input/Device/FollowCameraKeyInput.h>
-#include <Game/Camera/Follow/Input/Device/FollowCameraGamePadInput.h>
+#include <Game/Gameplay/Camera/FollowCamera/Input/Devices/FollowCameraKeyInput.h>
+#include <Game/Gameplay/Camera/FollowCamera/Input/Devices/FollowCameraGamePadInput.h>
 
 // state
-#include <Game/Camera/Follow/State/States/FollowCameraFollowState.h>
-#include <Game/Camera/Follow/State/States/FollowCameraSwitchAllyState.h>
-#include <Game/Camera/Follow/State/States/FollowCameraAllyAttackState.h>
-#include <Game/Camera/Follow/State/States/FollowCameraStunAttackState.h>
-#include <Game/Camera/Follow/State/States/FollowCameraShakeState.h>
-#include <Game/Camera/Follow/State/States/FollowCameraReturnDefaultRotate.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/States/FollowCameraFollowState.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/States/FollowCameraSwitchAllyState.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/States/FollowCameraAllyAttackState.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/States/FollowCameraStunAttackState.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/States/FollowCameraShakeState.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/States/FollowCameraReturnDefaultRotate.h>
 
 // imgui
 #include <imgui.h>

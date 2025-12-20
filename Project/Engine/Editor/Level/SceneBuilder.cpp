@@ -11,7 +11,7 @@ using namespace SakuEngine;
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 
 // object
-#include <Game/Objects/GameScene/Environment/Object/FieldCrossMarkWall.h>
+#include <Game/Gameplay/Actors/Environment/Object/FieldCrossMarkWall.h>
 
 //============================================================================
 //	SceneBuilder classMethods

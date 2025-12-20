@@ -4,8 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
-#include <Game/Objects/GameScene/SubPlayer/State/Interface/SubPlayerIState.h>
-#include <Game/Objects/GameScene/SubPlayer/Structure/SubPlayerStructure.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/Interface/SubPlayerIState.h>
+#include <Game/Gameplay/Actors/SubPlayer/Structure/SubPlayerStructure.h>
 
 //============================================================================
 //	SubPlayerStateController class

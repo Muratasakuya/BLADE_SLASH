@@ -4,8 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Effect/User/EffectGroup.h>
-#include <Game/Objects/GameScene/Player/Effect/PlayerAfterImageEffect.h>
-#include <Game/Objects/GameScene/Player/State/Interface/PlayerBaseAttackState.h>
+#include <Game/Gameplay/Actors/Player/Effect/PlayerAfterImageEffect.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerBaseAttackState.h>
 
 //============================================================================
 //	PlayerAttack_3rdState class

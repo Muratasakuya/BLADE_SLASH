@@ -4,8 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Object/State/StateMachineConfig.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
-#include <Game/Objects/GameScene/Player/State/Interface/PlayerIState.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerIState.h>
 
 //============================================================================
 //	PlayerStateConfig structure

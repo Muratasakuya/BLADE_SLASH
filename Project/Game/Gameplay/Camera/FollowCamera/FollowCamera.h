@@ -4,10 +4,10 @@
 //	include
 //============================================================================
 #include <Engine/Scene/Camera/BaseCamera.h>
-#include <Game/Objects/GameScene/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 // state
-#include <Game/Camera/Follow/State/FollowCameraStateController.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/FollowCameraStateController.h>
 
 //============================================================================
 //	FollowCamera class

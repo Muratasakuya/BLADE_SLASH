@@ -8,7 +8,7 @@
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Enum/Direction.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 //============================================================================
 //	Player classMethods

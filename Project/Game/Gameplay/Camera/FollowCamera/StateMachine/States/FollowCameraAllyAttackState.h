@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Camera/Follow/State/Interface/FollowCameraIState.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/Interface/FollowCameraIState.h>
 #include <Engine/Utility/Enum/Easing.h>
 
 //============================================================================

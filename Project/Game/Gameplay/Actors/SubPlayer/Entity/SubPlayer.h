@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Base/IGameEditor.h>
-#include <Game/Objects/GameScene/SubPlayer/State/SubPlayerStateController.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/SubPlayerStateController.h>
 
 //============================================================================
 //	SubPlayer class

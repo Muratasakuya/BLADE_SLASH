@@ -4,9 +4,9 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
-#include <Game/Objects/GameScene/Enemy/Boss/State/BossEnemyStateController.h>
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/BossEnemyStateController.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
 //	BossEnemyRequestFalter classMethods

@@ -8,8 +8,8 @@
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Object/Data/Transform.h>
-#include <Game/Camera/Follow/Structures/FollowCameraStructures.h>
-#include <Game/Camera/Follow/Input/FollowCameraInputAction.h>
+#include <Game/Gameplay/Camera/FollowCamera/Structures/FollowCameraStructures.h>
+#include <Game/Gameplay/Camera/FollowCamera/Input/Actions/FollowCameraInputAction.h>
 
 // front
 class FollowCamera;

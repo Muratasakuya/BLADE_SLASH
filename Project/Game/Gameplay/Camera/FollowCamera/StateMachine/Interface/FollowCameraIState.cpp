@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Object/Data/Transform.h>
-#include <Game/Camera/Follow/FollowCamera.h>
+#include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 
 //============================================================================
 //	FollowCameraIState classMethods

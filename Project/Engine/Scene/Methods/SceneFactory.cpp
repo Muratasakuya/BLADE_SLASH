@@ -1,13 +1,13 @@
-﻿#include "SceneFactory.h"
+#include "SceneFactory.h"
 
 using namespace SakuEngine;
 
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Scene/EffectScene.h>
-#include <Game/Scene/TitleScene.h>
-#include <Game/Scene/GameScene.h>
+#include <Game/Scenes/Title/TitleScene.h>
+#include <Game/Scenes/Game/GameScene.h>
+#include <Game/Scenes/Effect/EffectScene.h>
 
 //============================================================================
 //	SceneFactory classMethods

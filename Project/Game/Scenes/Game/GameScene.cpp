@@ -8,12 +8,12 @@
 #include <Engine/Editor/Camera/CameraEditor.h>
 
 // scene
-#include <Game/Scene/GameState/States/StartGameState.h>
-#include <Game/Scene/GameState/States/BeginGameState.h>
-#include <Game/Scene/GameState/States/PlayGameState.h>
-#include <Game/Scene/GameState/States/EndGameState.h>
-#include <Game/Scene/GameState/States/ResultGameState.h>
-#include <Game/Scene/GameState/States/PauseState.h>
+#include <Game/Scenes/Game/GameState/States/StartGameState.h>
+#include <Game/Scenes/Game/GameState/States/BeginGameState.h>
+#include <Game/Scenes/Game/GameState/States/PlayGameState.h>
+#include <Game/Scenes/Game/GameState/States/EndGameState.h>
+#include <Game/Scenes/Game/GameState/States/ResultGameState.h>
+#include <Game/Scenes/Game/GameState/States/PauseState.h>
 
 //============================================================================
 //	GameScene classMethods

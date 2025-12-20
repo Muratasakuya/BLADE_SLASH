@@ -5,17 +5,17 @@
 //============================================================================
 
 // scene
-#include <Game/Camera/Manager/CameraManager.h>
-#include <Game/Light/GameLight.h>
-#include <Game/Objects/GameScene/Environment/Collision/FieldBoundary.h>
+#include <Game/Gameplay/Camera/CameraManager.h>
+#include <Game/Gameplay/Lighting/GameLight.h>
+#include <Game/Gameplay/Actors/Environment/Collision/FieldBoundary.h>
 
 // object
-#include <Game/Objects/GameScene/Player/Entity/Player.h>
-#include <Game/Objects/GameScene/Enemy/Boss/Entity/BossEnemy.h>
-#include <Game/Objects/GameScene/Result/GameResultDisplay.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
+#include <Game/Gameplay/Result/GameResultDisplay.h>
 
 // sprite
-#include <Game/Objects/GameScene/SpriteEffect/FadeSprite.h>
+#include <Game/Effects/SpriteEffect/FadeSprite.h>
 
 //============================================================================
 //	GameContext

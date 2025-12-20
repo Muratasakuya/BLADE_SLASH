@@ -4,8 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Base/IGameEditor.h>
-#include <Game/Objects/Common/UI/GameUIFocusNavigator.h>
-#include <Game/Objects/TitleScene/Background/TitleBackground.h>
+#include <Game/UI/Navigation/GameUIFocusNavigator.h>
+#include <Game/Scenes/Title/Background/TitleBackground.h>
 
 //============================================================================
 //	TitleController class

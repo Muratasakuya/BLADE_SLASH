@@ -6,7 +6,7 @@
 #include <Engine/Object/Base/KeyframeObject3D.h>
 #include <Engine/Effect/User/EffectGroup.h>
 #include <Engine/Utility/Animation/AnimationLoop.h>
-#include <Game/Objects/GameScene/SubPlayer/State/Interface/SubPlayerIState.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/Interface/SubPlayerIState.h>
 
 //============================================================================
 //	SubPlayerPunchAttackState class

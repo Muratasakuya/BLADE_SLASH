@@ -2,604 +2,604 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup>
         <Filter Include="Assets">
-            <UniqueIdentifier>{E73F12F9-38B0-4F2C-8FD6-66CE86A44B78}</UniqueIdentifier>
+            <UniqueIdentifier>{EB9C8DDC-A82B-416F-9FD4-B7D78ED67558}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine">
-            <UniqueIdentifier>{DA779518-1C37-4524-84D5-DFBCD2A643A9}</UniqueIdentifier>
+            <UniqueIdentifier>{DB8DCA70-B2F4-474B-8E0B-DB4CBC72E82B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game">
-            <UniqueIdentifier>{1FA8FB13-41F9-4CDB-B937-C6B5D18CDD00}</UniqueIdentifier>
+            <UniqueIdentifier>{05691A92-BCB6-4024-8AEF-80A07AA8D213}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine">
-            <UniqueIdentifier>{22867A12-583D-4E12-875A-687B498368FB}</UniqueIdentifier>
+            <UniqueIdentifier>{21C205DA-A89E-4956-9BC2-1EBEA19B2499}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Asset">
-            <UniqueIdentifier>{7D17C18A-1C23-421B-BE3E-1FC61C36C4D4}</UniqueIdentifier>
+            <UniqueIdentifier>{5F672559-C3E3-40DF-9D18-4A9F062B1EC5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Collision">
-            <UniqueIdentifier>{2E396DE8-AC73-4FF0-8F1B-80CB512341E8}</UniqueIdentifier>
+            <UniqueIdentifier>{2BFD9779-19BB-4F67-AEB9-97FFC5863BCA}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core">
-            <UniqueIdentifier>{F8471045-B61B-40E0-9164-FB020B1A2CCA}</UniqueIdentifier>
+            <UniqueIdentifier>{48100A61-E42D-4CA4-B0B5-8D36A1C8ECA5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor">
-            <UniqueIdentifier>{511B2F3D-4E23-488B-B9C9-B70E7D0A5CF5}</UniqueIdentifier>
+            <UniqueIdentifier>{7F7FD9D2-DB21-4C29-B21F-6134B7596DD0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect">
-            <UniqueIdentifier>{35D7128F-865F-45E7-9062-0D3DE84EB309}</UniqueIdentifier>
+            <UniqueIdentifier>{2ECBC7A7-1427-4AF0-B154-A471160560E6}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\External">
-            <UniqueIdentifier>{2B109E52-0FFF-471B-A1F5-05E1D2146F4D}</UniqueIdentifier>
+            <UniqueIdentifier>{7C062243-AE14-491F-8261-C375FEB39435}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Input">
-            <UniqueIdentifier>{0DADBBC4-A9EF-4AE0-8D2D-BA13CEB58FC2}</UniqueIdentifier>
+            <UniqueIdentifier>{0259C46B-B7E2-44EF-BEB9-7802C379BCC0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\MathLib">
-            <UniqueIdentifier>{AE6A68E0-91DF-404C-BD2C-CFB28D75CD15}</UniqueIdentifier>
+            <UniqueIdentifier>{B8B891B2-BA70-41C2-A37E-FDA8571E1F3B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object">
-            <UniqueIdentifier>{1E8984F5-3306-4B5D-8C7E-109EAC1325D6}</UniqueIdentifier>
+            <UniqueIdentifier>{35731398-4AC1-4A51-8265-FD9AE644A6DE}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Scene">
-            <UniqueIdentifier>{A3E4D1EB-7AB8-4A21-9D97-3548CE280879}</UniqueIdentifier>
+            <UniqueIdentifier>{5ED70D19-4472-4802-9D34-4FC22A5642F1}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility">
-            <UniqueIdentifier>{63648FA9-D33D-4E5C-AEC5-7720381AFB3F}</UniqueIdentifier>
+            <UniqueIdentifier>{59C3BA6B-59BF-4696-B2CA-78245B9C97A6}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Effects">
-            <UniqueIdentifier>{AD7096A5-8C8E-4466-831A-F64BF627ED98}</UniqueIdentifier>
+            <UniqueIdentifier>{DF360C3E-7834-494D-B5D7-2DB898D2066D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay">
-            <UniqueIdentifier>{8930034B-8D42-45A6-9E59-795827B717A1}</UniqueIdentifier>
+            <UniqueIdentifier>{CBFDBA26-37EE-4F02-B8C0-4DE757CBF072}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes">
-            <UniqueIdentifier>{BFA42282-0C36-4861-A4C4-802056F2F513}</UniqueIdentifier>
-        </Filter>
-        <Filter Include="Game\Transition">
-            <UniqueIdentifier>{1B0E555D-8EA8-4035-8692-44C56B4ABEA7}</UniqueIdentifier>
+            <UniqueIdentifier>{3399556A-6403-445F-B446-356EF030BAEA}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI">
-            <UniqueIdentifier>{11D17A3A-4B03-4793-BA6A-A617E721A2F3}</UniqueIdentifier>
+            <UniqueIdentifier>{D2D13004-B624-4109-871D-FE1FCE6AE8DC}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders">
-            <UniqueIdentifier>{83578EE8-EC52-4214-B6A1-6D04F41DD937}</UniqueIdentifier>
+            <UniqueIdentifier>{FF6D4FD5-0C22-4F39-8D41-224DE2BEA706}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Asset\Async">
-            <UniqueIdentifier>{FEE6236C-8158-44F7-855D-D286F45FE4C0}</UniqueIdentifier>
+            <UniqueIdentifier>{E73609BE-7B7D-403B-A8C7-1B79BE03595B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Debug">
-            <UniqueIdentifier>{41C9AD96-8E79-4E28-A547-84E89AB1ED9C}</UniqueIdentifier>
+            <UniqueIdentifier>{5A2B3BEC-A2AC-49A0-984C-58ED55B2AB01}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics">
-            <UniqueIdentifier>{E454C1C2-48D7-451A-9717-C4DE6F2CFE1E}</UniqueIdentifier>
+            <UniqueIdentifier>{6135715E-6F7B-4D17-84C1-F25DD05ADFEC}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Window">
-            <UniqueIdentifier>{378E0948-C81A-4492-84F9-F1EBD8231744}</UniqueIdentifier>
+            <UniqueIdentifier>{83D90A0D-4E8C-448B-BEA5-C8A66A99C1DE}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor\Base">
-            <UniqueIdentifier>{3543C824-B116-4369-8757-0D161863FFBF}</UniqueIdentifier>
+            <UniqueIdentifier>{A5675909-5D4A-42E6-9726-16B9EE9EA3F5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor\Camera">
-            <UniqueIdentifier>{58C607C3-D86E-4203-9772-4B6A74C086F4}</UniqueIdentifier>
+            <UniqueIdentifier>{B148E058-5492-4984-A2F2-8074EE5BD88D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor\Curve">
-            <UniqueIdentifier>{7C23119F-A7D6-48E8-B267-A931B1ADEAE4}</UniqueIdentifier>
+            <UniqueIdentifier>{F1D6C23D-AF2D-493B-9A48-0353699A4F47}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor\GameObject">
-            <UniqueIdentifier>{16F84D15-BCE2-48E7-8286-573B0528E676}</UniqueIdentifier>
+            <UniqueIdentifier>{A0EC0AEE-F8A8-40DF-93FA-5D1D21FBE466}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor\Level">
-            <UniqueIdentifier>{3E2CB2FD-ABE8-4273-8C61-812A848F7F86}</UniqueIdentifier>
+            <UniqueIdentifier>{F2160106-F7D0-4CD0-AC24-F005A68030A3}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Editor\Manager">
-            <UniqueIdentifier>{F2759BE2-B906-4809-BCBB-9AC79CC8F069}</UniqueIdentifier>
+            <UniqueIdentifier>{F153DA46-C56C-4629-84C6-92E23E3490ED}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle">
-            <UniqueIdentifier>{6E9E414D-0B77-411F-B248-9F3E4843E783}</UniqueIdentifier>
+            <UniqueIdentifier>{EF020E13-4A3E-4EB5-A1D7-EFCFD67B32B4}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Trail">
-            <UniqueIdentifier>{A43FC95D-2461-4AD9-A287-45B26149D7BD}</UniqueIdentifier>
+            <UniqueIdentifier>{AA5568D7-728F-4572-84CC-F6374465A7A7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\User">
-            <UniqueIdentifier>{62DA464E-624F-4605-B33D-C582B4007B8B}</UniqueIdentifier>
+            <UniqueIdentifier>{73BD59F9-1CF5-4938-BC88-670281103A61}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Input\Base">
-            <UniqueIdentifier>{C5BDD6AA-1771-42BF-B9AE-A91814FDA18C}</UniqueIdentifier>
+            <UniqueIdentifier>{F316406A-97A5-479E-B25E-CE703CB9DAD1}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\Base">
-            <UniqueIdentifier>{FBC8C805-271C-4903-AF39-500A76458EB0}</UniqueIdentifier>
+            <UniqueIdentifier>{8A23628F-7AAD-46A3-A364-071D643D117A}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\Core">
-            <UniqueIdentifier>{022D582A-863E-49ED-93F0-3FC8206A1DBB}</UniqueIdentifier>
+            <UniqueIdentifier>{83DBAC98-6FBB-48D5-83A9-F98E73605BC7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\Data">
-            <UniqueIdentifier>{309B071F-9F37-452D-A04F-9C3EDE8D5908}</UniqueIdentifier>
+            <UniqueIdentifier>{B2B0104A-9F22-472D-B9EC-E63764F71A63}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\State">
-            <UniqueIdentifier>{5126E5A0-3FAE-4A7E-81DF-E5516A532962}</UniqueIdentifier>
+            <UniqueIdentifier>{10519CED-2084-448B-8B66-D7C830BA642F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\System">
-            <UniqueIdentifier>{84358D6F-F831-4675-B338-D0832996E015}</UniqueIdentifier>
+            <UniqueIdentifier>{C8274F02-2F89-438B-A80B-55E2E1509639}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Scene\Camera">
-            <UniqueIdentifier>{DF6D9A8B-0E88-45E6-A1F8-BBB7B6685A9C}</UniqueIdentifier>
+            <UniqueIdentifier>{BD2A7597-71B2-48B0-8C6E-F91F92439202}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Scene\Light">
-            <UniqueIdentifier>{A91D09DF-81E2-4365-A156-D8D12EBA56C9}</UniqueIdentifier>
+            <UniqueIdentifier>{9B19F596-2774-4BAB-A529-0A9FF7FB2433}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Scene\Manager">
-            <UniqueIdentifier>{DE7C735E-A4B9-4695-B8D5-2C2867082102}</UniqueIdentifier>
+            <UniqueIdentifier>{3A9BC2F3-A688-46DE-B275-1510F9EC124D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Scene\Methods">
-            <UniqueIdentifier>{5A6687A1-A11B-4DEC-99A4-B00D2CC825F9}</UniqueIdentifier>
+            <UniqueIdentifier>{16B8F07F-DE47-43D0-B899-E4A37B48B698}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Animation">
-            <UniqueIdentifier>{5CD83618-8DB8-49F5-BF42-900188233EE2}</UniqueIdentifier>
+            <UniqueIdentifier>{0828C47E-DC30-4109-B85B-6A8D25A38366}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Curve">
-            <UniqueIdentifier>{0E3B03D3-67D2-42D2-8EBE-163E0BDF23EC}</UniqueIdentifier>
+            <UniqueIdentifier>{ACE4F55D-C343-4D03-AB22-E2BE458CE6EC}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Enum">
-            <UniqueIdentifier>{70F37642-FB1D-48DD-855A-CBFFF0688F61}</UniqueIdentifier>
+            <UniqueIdentifier>{95A658B4-281C-4F6D-9D0A-0F127A7713AF}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Helper">
-            <UniqueIdentifier>{3F16CDF3-68CC-467F-A60B-16CA4F0D022A}</UniqueIdentifier>
+            <UniqueIdentifier>{B3748664-01ED-4FF3-8C54-083DC7F2FED2}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Json">
-            <UniqueIdentifier>{BEED73FB-58FB-47DF-94B8-BBF15E1DC68B}</UniqueIdentifier>
+            <UniqueIdentifier>{9BC720AA-9118-48BC-B731-EAE2E0235459}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Material">
-            <UniqueIdentifier>{561E7EDF-AD5A-4862-A69E-03958FF89276}</UniqueIdentifier>
+            <UniqueIdentifier>{B205446D-3B04-4E11-B6EC-FC7BFE18D3C1}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Object">
-            <UniqueIdentifier>{BBFC0F81-9BC6-43ED-A19D-FA84AB8CFF77}</UniqueIdentifier>
+            <UniqueIdentifier>{75EB9B8C-B401-4F4C-BB12-4458197F8047}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Random">
-            <UniqueIdentifier>{AE089939-EF8A-4B22-9538-4128CA6F966F}</UniqueIdentifier>
+            <UniqueIdentifier>{17AEC994-EEA1-411F-A472-63B9DC3174F3}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Timer">
-            <UniqueIdentifier>{41084A48-1098-42BD-832F-1E56DD03092E}</UniqueIdentifier>
+            <UniqueIdentifier>{37054DE5-5B41-4FD4-A95A-CEE592231D64}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Effects\PostProcess">
-            <UniqueIdentifier>{1C379A19-8250-41A7-8F51-A910F6799D4F}</UniqueIdentifier>
+            <UniqueIdentifier>{EFC1905C-8C12-4855-84CE-79D5D73CBC31}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Effects\SpriteEffect">
-            <UniqueIdentifier>{C22850C9-4DB9-4883-939A-DA4F83D71605}</UniqueIdentifier>
+            <UniqueIdentifier>{DB672800-98AB-4130-ADF6-52A41A17A44D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors">
-            <UniqueIdentifier>{4C9D0529-E12C-4813-B7F9-27815FF30C59}</UniqueIdentifier>
+            <UniqueIdentifier>{9354A741-12F9-44B3-BBEB-51399AB7562E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera">
-            <UniqueIdentifier>{01F29B78-700C-43A8-80A5-A5D240F4E3F2}</UniqueIdentifier>
+            <UniqueIdentifier>{295B3A6B-378C-4B8E-B200-DDF11589BEA7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Lighting">
-            <UniqueIdentifier>{69EEBC9D-E4F7-4618-8025-D904E1B9EF83}</UniqueIdentifier>
+            <UniqueIdentifier>{9483E851-0AD6-4AC0-A3AE-193D0F8122F0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Result">
-            <UniqueIdentifier>{19DA3D56-D04D-48B6-8114-A0A2CF5B1D7F}</UniqueIdentifier>
+            <UniqueIdentifier>{701439C7-E82A-4600-B0DF-E6B9D2E6728B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Systems">
-            <UniqueIdentifier>{0600273F-5737-4D7C-85AC-C0008BB218C2}</UniqueIdentifier>
+            <UniqueIdentifier>{2B4D2D47-982E-409C-B7AC-A3131311F7C1}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Effect">
-            <UniqueIdentifier>{6A1AB24C-6B33-4558-B91F-BC1C4E387B1C}</UniqueIdentifier>
+            <UniqueIdentifier>{EFF7DF4C-0117-474B-A372-432CF92F0B4C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Game">
-            <UniqueIdentifier>{4B0C3942-9FD5-4031-91C9-E7D9244B8C6D}</UniqueIdentifier>
+            <UniqueIdentifier>{CA2B3262-E5F8-42F4-B675-54E0607B6081}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Title">
-            <UniqueIdentifier>{0D392B45-268D-4420-B06E-C7D49707C2D0}</UniqueIdentifier>
+            <UniqueIdentifier>{94F8AAC3-5C22-47FC-9876-17599EAF61C5}</UniqueIdentifier>
+        </Filter>
+        <Filter Include="Game\Scenes\Transition">
+            <UniqueIdentifier>{335B88DD-632A-4CB7-A46A-028CB3BD50C0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\HUD">
-            <UniqueIdentifier>{22C1DB59-2275-4532-9FC1-1B21B90B6926}</UniqueIdentifier>
+            <UniqueIdentifier>{4C1B3160-5028-4F52-AD46-9886EE12555E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Input">
-            <UniqueIdentifier>{7ED4878B-EAFD-4F9B-9E46-73C580D119C9}</UniqueIdentifier>
+            <UniqueIdentifier>{E3FDE24E-38AC-471B-9DF4-ABCE73FC4459}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Navigation">
-            <UniqueIdentifier>{9794C1D9-821D-4BA2-A9AC-9CEA97FFBC60}</UniqueIdentifier>
+            <UniqueIdentifier>{C06AB0D6-B87D-4FAC-BC56-111672002C44}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Structures">
-            <UniqueIdentifier>{082D695C-2F54-4F65-B8F6-F29E827D3D70}</UniqueIdentifier>
+            <UniqueIdentifier>{7E418A42-697A-4FDB-B787-06505C98BD3F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Widgets">
-            <UniqueIdentifier>{9A431C48-48A4-4AFB-9151-5EE1D9788947}</UniqueIdentifier>
+            <UniqueIdentifier>{91B8FB15-0B28-4220-B33D-EF8ECCE2B3F1}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Math">
-            <UniqueIdentifier>{2581B091-7C70-4EC2-8168-C0D0F7046B3E}</UniqueIdentifier>
+            <UniqueIdentifier>{9263DCA4-94AD-4E59-B5FC-B018B4598517}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Mesh">
-            <UniqueIdentifier>{11F7809A-C2FD-487E-9BEF-7F687532008A}</UniqueIdentifier>
+            <UniqueIdentifier>{29B28443-7C71-489C-BB21-1A618F5614B9}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle">
-            <UniqueIdentifier>{07475D13-4747-487D-8178-12938F32A4D0}</UniqueIdentifier>
+            <UniqueIdentifier>{02D973AD-1C81-450F-9562-3FCC6237DA83}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess">
-            <UniqueIdentifier>{0CEF6BB2-4A49-403A-B5A2-23D8FF850B5E}</UniqueIdentifier>
+            <UniqueIdentifier>{7A5E1D34-C16C-45CB-AC80-EBAA2491B236}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Raytracing">
-            <UniqueIdentifier>{A39754CB-D119-4117-AD91-C9483F8BEBCF}</UniqueIdentifier>
+            <UniqueIdentifier>{41913C28-3355-4471-B200-CC3E2F1D6576}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Skybox">
-            <UniqueIdentifier>{6847517F-0E8C-42A2-B123-2F1C40A11A42}</UniqueIdentifier>
+            <UniqueIdentifier>{3E4F2648-6A2F-4DE8-B9C3-0906AB60B1C7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\Context">
-            <UniqueIdentifier>{9B032C4A-75BA-4BBC-AA9D-860E3B32E385}</UniqueIdentifier>
+            <UniqueIdentifier>{AF5EE11C-3B40-4A2C-BE37-4F8EDC195E08}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\Descriptors">
-            <UniqueIdentifier>{0AF2E5F0-2B91-447D-B165-59331FDEB93A}</UniqueIdentifier>
+            <UniqueIdentifier>{EEE26F81-6FEE-4E95-8E98-BDE952F4295E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\DxLib">
-            <UniqueIdentifier>{E363F734-C504-46DB-BFAC-28436F74C16B}</UniqueIdentifier>
+            <UniqueIdentifier>{15541208-3063-4D7B-B5DD-54337CC30FA0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\DxObject">
-            <UniqueIdentifier>{389CF757-C110-4BB5-ACFD-0B57B67BCF2A}</UniqueIdentifier>
+            <UniqueIdentifier>{794EFA51-2C9A-438C-B57B-2AF9F4674E41}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\GPUObject">
-            <UniqueIdentifier>{1AC75E62-3D7D-43F6-932D-BA024C78033C}</UniqueIdentifier>
+            <UniqueIdentifier>{E1E86C42-2DCA-4BB0-AE94-5C606767C7B8}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\Mesh">
-            <UniqueIdentifier>{76BBB410-80E6-4AF9-8917-00F23B498DEC}</UniqueIdentifier>
+            <UniqueIdentifier>{86C067D8-95AE-4886-9DD6-72A678D37CB1}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\Pipeline">
-            <UniqueIdentifier>{084462EC-DBEE-4C37-A0E0-22A5CBF45775}</UniqueIdentifier>
+            <UniqueIdentifier>{7F659A71-78A6-40CB-96F6-024A7A8A9FCC}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\PostProcess">
-            <UniqueIdentifier>{2BE29B43-75E7-4714-8394-7F2C9EEF3AB1}</UniqueIdentifier>
+            <UniqueIdentifier>{D14313B5-9DF1-4DC4-90D5-BB898CD5566D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\Raytracing">
-            <UniqueIdentifier>{5F512CEE-56EC-4D5A-BC80-AC26974B4FD7}</UniqueIdentifier>
+            <UniqueIdentifier>{89F82524-18B4-4E1A-885A-D9ED8E638133}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\Renderer">
-            <UniqueIdentifier>{6BA0282C-BFF8-45F6-B687-51A5E7B31395}</UniqueIdentifier>
+            <UniqueIdentifier>{FB9F9855-C8DC-4323-B3F7-871BD51702F8}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Command">
-            <UniqueIdentifier>{D498028F-143C-4498-A666-359AAAAC5682}</UniqueIdentifier>
+            <UniqueIdentifier>{C4D8799C-59D4-455C-8ABF-FD206E208B03}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Core">
-            <UniqueIdentifier>{402DFC3D-0A57-4CBF-98A8-D30B108E701B}</UniqueIdentifier>
+            <UniqueIdentifier>{601321E6-7257-459A-8D22-257DD6908C11}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Data">
-            <UniqueIdentifier>{10407441-AA4A-42D6-9FBF-F61B15F2A64F}</UniqueIdentifier>
+            <UniqueIdentifier>{CE55D332-0031-4D12-B379-14BCD9BB1792}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module">
-            <UniqueIdentifier>{D0CE7DF5-19AD-453B-AE96-782053349106}</UniqueIdentifier>
+            <UniqueIdentifier>{1DFFCE4A-BE17-4B51-A062-1B2E118B4149}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Phase">
-            <UniqueIdentifier>{0882B7BF-9279-4B1F-9802-BA0FA2BCEC54}</UniqueIdentifier>
+            <UniqueIdentifier>{FF48BB54-2473-446C-A350-C0707EC3E3D7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Structures">
-            <UniqueIdentifier>{10BEE2B0-6D0E-4FC3-8766-372EF7539828}</UniqueIdentifier>
+            <UniqueIdentifier>{E52A1011-446E-42C0-84FB-30608C82C890}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\System">
-            <UniqueIdentifier>{46D05AB1-4651-4C85-9E1D-BAD9CFBC1CF0}</UniqueIdentifier>
+            <UniqueIdentifier>{2A8D3267-9001-4FFF-A2E5-439212F65F8B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Trail\Core">
-            <UniqueIdentifier>{D9526D11-9827-4B1D-9C7A-17B12592D8B6}</UniqueIdentifier>
+            <UniqueIdentifier>{96704D00-6E73-4394-B7CC-2811B714AD44}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Trail\Editor">
-            <UniqueIdentifier>{3F1F41A4-22CA-4EC4-B5C2-EF32A94800F2}</UniqueIdentifier>
+            <UniqueIdentifier>{820EA29A-CEAB-45D2-AEDB-5BD161958EC6}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Trail\Structures">
-            <UniqueIdentifier>{569DD174-0F4E-4A4C-BED1-736DC6F4F874}</UniqueIdentifier>
+            <UniqueIdentifier>{CD9A46FC-B3CD-4309-9BF5-92EA1A7CC2E7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\User\Helper">
-            <UniqueIdentifier>{725BFE74-90C8-4159-B5BE-E36953BAE019}</UniqueIdentifier>
+            <UniqueIdentifier>{DA6FC7BA-56F8-4F3D-BD08-3EF91F27527B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\User\Methods">
-            <UniqueIdentifier>{F9B0023C-464D-49D1-8DDC-3D818DE3A26A}</UniqueIdentifier>
+            <UniqueIdentifier>{28C8E356-4EBC-4722-8FC6-CD6B8B2B927E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\Base\Interface">
-            <UniqueIdentifier>{DC59DC15-8111-4EA9-8E2C-CEAF207D4965}</UniqueIdentifier>
+            <UniqueIdentifier>{DB782724-3D3F-4E18-8822-5B3D8CB9284F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\System\Base">
-            <UniqueIdentifier>{5AE5CF33-89C8-4B49-A4BE-7D6869F6D016}</UniqueIdentifier>
+            <UniqueIdentifier>{B7B64367-330B-4745-9B6A-F5EABEE00F13}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\System\Manager">
-            <UniqueIdentifier>{86592C6E-9716-4711-9D60-914B41656B1F}</UniqueIdentifier>
+            <UniqueIdentifier>{4FDE0621-208B-462C-A49C-3D9C9CFBF406}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Object\System\Systems">
-            <UniqueIdentifier>{E9B9AB1D-A30B-49E3-A846-0DAFF53F89AC}</UniqueIdentifier>
+            <UniqueIdentifier>{74D72CBE-7B47-466E-B3FD-03394B335BA3}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Animation\ValueSource">
-            <UniqueIdentifier>{4871D236-D4EF-456C-9B2E-F984FDE0293B}</UniqueIdentifier>
+            <UniqueIdentifier>{7C3CCBB3-B021-49DD-8222-D66419020420}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies">
-            <UniqueIdentifier>{2C768310-E625-4823-9250-BBB5A3090363}</UniqueIdentifier>
+            <UniqueIdentifier>{76A8FB8E-8390-4DB5-99D4-2DFAF3803985}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Environment">
-            <UniqueIdentifier>{E19740A9-1092-49A3-8B6A-FEB6D5DAF126}</UniqueIdentifier>
+            <UniqueIdentifier>{5228DF7F-B99C-4C72-A83F-43525D7633B5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player">
-            <UniqueIdentifier>{9A445D20-20E4-46B2-91FD-CD370D2C84AB}</UniqueIdentifier>
+            <UniqueIdentifier>{4010E703-A5FA-4F9F-98FF-7470DC556325}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\SubPlayer">
-            <UniqueIdentifier>{73645B2E-74F3-4E32-9D48-5CA478A513C0}</UniqueIdentifier>
+            <UniqueIdentifier>{F27F6038-5F1F-4474-B1DE-B09AFB6E034C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\EndGame">
-            <UniqueIdentifier>{261142AB-A61C-4E8C-BB07-7CD2F11976F9}</UniqueIdentifier>
+            <UniqueIdentifier>{CA1C658C-A03A-48E4-B41E-E2ACE06A7517}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera">
-            <UniqueIdentifier>{67560B6F-29B4-49FB-9036-FDC8017292E1}</UniqueIdentifier>
+            <UniqueIdentifier>{2C7061C3-6CF8-4BE0-94FC-63BC7AC02184}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\ResultCamera">
-            <UniqueIdentifier>{40C94783-F284-4459-BCB1-E164A1B84B04}</UniqueIdentifier>
+            <UniqueIdentifier>{EB33297E-C9D0-4E5B-A380-9FF3121750BB}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\Title">
-            <UniqueIdentifier>{C376E74A-AE71-4DEE-986C-AB2379D06B45}</UniqueIdentifier>
+            <UniqueIdentifier>{0780230E-1E29-4F95-8455-7ADEF80F0BAB}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Systems\Area">
-            <UniqueIdentifier>{F71B5F5C-38F8-4686-BB59-757C182BB2B1}</UniqueIdentifier>
+            <UniqueIdentifier>{B773DF72-72D3-4623-A58C-05E0C966B33D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Game\GameState">
-            <UniqueIdentifier>{ED6F3DF5-B6A6-44BF-8211-30A08E0FF0DA}</UniqueIdentifier>
+            <UniqueIdentifier>{D355298C-379D-46E5-8009-1239828E56B0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Title\Background">
-            <UniqueIdentifier>{DFF4F428-02E0-4FCE-B892-81A84EB73C81}</UniqueIdentifier>
+            <UniqueIdentifier>{9750A439-A37B-4766-B0A1-CDC42CB993C5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\HUD\Enemy">
-            <UniqueIdentifier>{47033941-B3C9-4AFF-99E0-D26D07EC2B41}</UniqueIdentifier>
+            <UniqueIdentifier>{507BC0BD-50AF-4D63-AE1E-7DCCF804FC2C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\HUD\Player">
-            <UniqueIdentifier>{4EE4E816-2211-4701-B78C-89EE0FA765A8}</UniqueIdentifier>
+            <UniqueIdentifier>{4442841C-54F2-4399-BEB8-08AD1FEEA2CC}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Input\Actions">
-            <UniqueIdentifier>{3CEC2342-060D-4C54-8046-19EB634DB389}</UniqueIdentifier>
+            <UniqueIdentifier>{823E9AD1-F473-41D9-81D5-4D5BEB57ABDA}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Input\Devices">
-            <UniqueIdentifier>{74C1F385-4F0B-4FF9-8107-26F0ECE6CA0B}</UniqueIdentifier>
+            <UniqueIdentifier>{66BD8EA4-BFEB-4294-9285-5CB75DA872B5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Widgets\Button">
-            <UniqueIdentifier>{9A1057B3-A033-4282-90E3-BE8318EDFDE9}</UniqueIdentifier>
+            <UniqueIdentifier>{27944389-947A-40B6-B85D-7BB02D2C9E9D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Widgets\DamageDisplay">
-            <UniqueIdentifier>{C537D376-CE01-42F8-80CA-4C78BB25F5CD}</UniqueIdentifier>
+            <UniqueIdentifier>{7328088E-7E0C-4BFA-92F6-D3F4DF6A8A4F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Widgets\DigitDisplay">
-            <UniqueIdentifier>{ED063F3C-87AE-4862-8C44-3F2FDD354E2C}</UniqueIdentifier>
+            <UniqueIdentifier>{4B93E312-12D4-4E17-9E6B-114A459DAE1F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Widgets\HPBar">
-            <UniqueIdentifier>{CAFC1884-D220-4043-B0F2-2669D2C878A3}</UniqueIdentifier>
+            <UniqueIdentifier>{573D3B00-3200-4C86-9519-F574AAF2FD28}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\Widgets\TimerDisplay">
-            <UniqueIdentifier>{D4885DA8-2EFA-41E9-B62E-F08305773350}</UniqueIdentifier>
+            <UniqueIdentifier>{DB115C07-16AF-4638-9D79-6929DB9886D0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Mesh\CS">
-            <UniqueIdentifier>{BADFF261-50C7-4BEE-A52F-80AB82ABFBBB}</UniqueIdentifier>
+            <UniqueIdentifier>{FAE0ECD9-BB42-4DD4-8645-2138287F69D0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Mesh\MS">
-            <UniqueIdentifier>{191A5BD4-1CD4-4065-9F3E-F895D178874D}</UniqueIdentifier>
+            <UniqueIdentifier>{A22AFD0E-3A72-4CB2-BFB4-7CE5B84D899C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\CPUParticle">
-            <UniqueIdentifier>{1A4B72BE-6DC8-48E8-9128-D9B3209591BC}</UniqueIdentifier>
+            <UniqueIdentifier>{0DFFC3C0-F841-44E4-B188-987C6F34E1DD}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\Common">
-            <UniqueIdentifier>{26E997C8-89E3-4D53-BE33-ED3EF26BD907}</UniqueIdentifier>
+            <UniqueIdentifier>{3C7F62A4-7396-479D-8984-1E27A57321BF}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle">
-            <UniqueIdentifier>{9562F20D-FD71-491F-9D60-5A82E5F0F7EE}</UniqueIdentifier>
+            <UniqueIdentifier>{2E62CD0B-DAA9-49A0-B0C2-2ECAADEC6FB5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\Bloom">
-            <UniqueIdentifier>{A013A07A-8612-4F9A-8A76-559B99C03C24}</UniqueIdentifier>
+            <UniqueIdentifier>{E13364C0-E34C-431F-9433-0F1460D123EF}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\CRTDisplay">
-            <UniqueIdentifier>{E571584A-6088-4B6A-8ED7-8860EB21E279}</UniqueIdentifier>
+            <UniqueIdentifier>{3B066FAF-ECE6-4CDA-ABBC-891B7CBACB52}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\Copy">
-            <UniqueIdentifier>{A0D657F5-9215-4E3F-9C20-9576671BFC34}</UniqueIdentifier>
+            <UniqueIdentifier>{29D21728-91CA-4184-8ED8-E27F29E1D24B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\Distortion">
-            <UniqueIdentifier>{3EAB6293-AEA2-444F-B24B-7AE2407CBEE1}</UniqueIdentifier>
+            <UniqueIdentifier>{FA39094B-9381-4E04-A374-2006A43CD455}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\Glitch">
-            <UniqueIdentifier>{DA1A31D3-7D77-4C54-8B17-E0EBBC8B74E7}</UniqueIdentifier>
+            <UniqueIdentifier>{5F6BC3CD-3B91-4BFD-B7A9-57DB68FA59CD}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\Lut">
-            <UniqueIdentifier>{943A4923-3E5A-481F-A1A5-4D98DD2F6C5C}</UniqueIdentifier>
+            <UniqueIdentifier>{7BB66C77-7549-4488-9256-931617B7B22C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\PostProcess\PlayerAfterImage">
-            <UniqueIdentifier>{010E1B01-6BB9-43C1-A2A5-E7A41B4290A7}</UniqueIdentifier>
+            <UniqueIdentifier>{57A87C4C-F2A0-412F-93FD-3B5A962F3788}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\PostProcess\Buffer">
-            <UniqueIdentifier>{1DD1FB70-A93B-43C8-85EC-1B996733DEC5}</UniqueIdentifier>
+            <UniqueIdentifier>{4A8F4D62-3092-4F44-A160-0E5EA5B0BC26}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\PostProcess\Core">
-            <UniqueIdentifier>{665D1ABA-DC80-4ECA-BF1B-A593E3318E27}</UniqueIdentifier>
+            <UniqueIdentifier>{A10E7B0D-684D-47A0-A0AB-549EA5489827}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\PostProcess\Texture">
-            <UniqueIdentifier>{CCD060DD-C2AB-4CE1-97AA-11DB522764A9}</UniqueIdentifier>
+            <UniqueIdentifier>{E0318E0E-D7D5-4EA0-AC16-FFD46CEE92FB}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Data\Base">
-            <UniqueIdentifier>{44DC0F5F-0E28-436F-968A-137B51474289}</UniqueIdentifier>
+            <UniqueIdentifier>{57C07A14-7D7F-4860-82B0-E3283871BF0A}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Base">
-            <UniqueIdentifier>{229BEA55-BBD0-44B0-B80B-53D922905C07}</UniqueIdentifier>
+            <UniqueIdentifier>{22CECFB2-CC9D-4D2B-9BA8-8FB77F4DDA58}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Spawner">
-            <UniqueIdentifier>{DE57B2D8-298E-4048-A6EE-E31057832A46}</UniqueIdentifier>
+            <UniqueIdentifier>{88BA4EC9-C7A6-40F3-B644-49B569C80D33}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater">
-            <UniqueIdentifier>{D58E4D93-4E24-46DF-9809-BF1E15AFCA51}</UniqueIdentifier>
+            <UniqueIdentifier>{1F14218D-0096-4C18-BF76-49168DB19C4D}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Utility\Animation\ValueSource\Interface">
-            <UniqueIdentifier>{8F003818-78FA-4622-BED9-F5CE07AD3281}</UniqueIdentifier>
+            <UniqueIdentifier>{FDDA5B99-7F49-4821-8D98-E311D9391480}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss">
-            <UniqueIdentifier>{9A339A61-4EDC-4A6D-B574-2B585DA26FB3}</UniqueIdentifier>
+            <UniqueIdentifier>{753904DF-6811-4923-A3D0-744D44B7ED1C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Environment\Collision">
-            <UniqueIdentifier>{67B9E50E-CF91-4125-87A7-0A9755C826BC}</UniqueIdentifier>
+            <UniqueIdentifier>{4A48C617-87F4-43F5-A5BF-B6FDC49EECD6}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Environment\Object">
-            <UniqueIdentifier>{AF6516C2-6128-45BE-8DED-1CD610E50578}</UniqueIdentifier>
+            <UniqueIdentifier>{66247F9A-F4E7-49FA-AB69-4D9D83411FC5}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Collision">
-            <UniqueIdentifier>{D2518F81-6DEF-4586-B5D9-237DB8A90967}</UniqueIdentifier>
+            <UniqueIdentifier>{56E50BCF-A33D-44D4-8777-01D0D79FE3AC}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Effect">
-            <UniqueIdentifier>{75FA6D11-BB4A-4511-80F1-B1AAFAE57838}</UniqueIdentifier>
+            <UniqueIdentifier>{2E4E0C8B-53A3-46F5-8B20-1B7C6FB10A38}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Entity">
-            <UniqueIdentifier>{E029DC84-8E73-4B97-A5A6-01AE03FFB0AE}</UniqueIdentifier>
+            <UniqueIdentifier>{429220D2-D0BD-4584-BA26-DE1862458E9B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Input">
-            <UniqueIdentifier>{264C57D7-D9BE-44C1-ADF9-3B99673625BD}</UniqueIdentifier>
+            <UniqueIdentifier>{032C462D-6436-435D-97A6-7EF820D41477}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\StateMachine">
-            <UniqueIdentifier>{1414453C-C954-44A4-A13C-251B6670416A}</UniqueIdentifier>
+            <UniqueIdentifier>{B6D15568-1B1E-435A-B036-D6C28A70EB78}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Structure">
-            <UniqueIdentifier>{1EFBC46F-DA59-4EBF-BB59-E5BC29952E7D}</UniqueIdentifier>
+            <UniqueIdentifier>{DE262E1C-AF87-46A5-AF5B-E653218395AD}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Systems">
-            <UniqueIdentifier>{3905BF0F-90DF-4DEE-8A10-750EAC61A425}</UniqueIdentifier>
+            <UniqueIdentifier>{3FBD764D-65D3-4863-9DB6-181837028808}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\SubPlayer\Entity">
-            <UniqueIdentifier>{7F0C054A-3A08-420E-92B8-CC171EFEDE85}</UniqueIdentifier>
+            <UniqueIdentifier>{5D90F7BD-3436-4FBA-9F8B-93AF1BCB6B96}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\SubPlayer\StateMachine">
-            <UniqueIdentifier>{ED1BBD92-2746-44E2-B329-C51943C454AD}</UniqueIdentifier>
+            <UniqueIdentifier>{B4057A91-B4D0-4D08-9173-D38EC9DFF888}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\SubPlayer\Structure">
-            <UniqueIdentifier>{D7EE787F-318A-44B1-8E7B-C89377FD64EE}</UniqueIdentifier>
+            <UniqueIdentifier>{C956712F-40F8-42E6-8938-BA68A3A6818A}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\Input">
-            <UniqueIdentifier>{454E2185-3F4D-4791-ACF2-589A0DE11E39}</UniqueIdentifier>
+            <UniqueIdentifier>{E37C937E-8D9A-4A6C-84C3-B4A7F67D235A}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\StateMachine">
-            <UniqueIdentifier>{D4053896-D9E8-4CB6-83AA-66D81765E2FD}</UniqueIdentifier>
+            <UniqueIdentifier>{6DDF08D2-ABA5-436B-A612-351D20B0BA54}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\Structures">
-            <UniqueIdentifier>{F6F285AD-6BFB-4359-82FB-098EB18F0036}</UniqueIdentifier>
+            <UniqueIdentifier>{444316E1-BEA7-4D7C-9281-621E37660824}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Game\GameState\Interface">
-            <UniqueIdentifier>{D07869BF-4809-4025-96C2-B903CF04FCA5}</UniqueIdentifier>
+            <UniqueIdentifier>{EC75C5D0-A818-46EE-BAB1-93804C53B982}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Scenes\Game\GameState\States">
-            <UniqueIdentifier>{2FF9FF59-2A98-42FE-90EB-0DAD8343E6FF}</UniqueIdentifier>
+            <UniqueIdentifier>{B46ED7AD-083C-483F-9C24-2C9416629D1E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\HUD\Enemy\Boss">
-            <UniqueIdentifier>{B96EB5C5-C7CA-4672-B959-E29B8F259F00}</UniqueIdentifier>
+            <UniqueIdentifier>{BBED966F-41C9-405F-B154-D3480A92B716}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\UI\HUD\Player\TargetNavigation">
-            <UniqueIdentifier>{945C599A-87D0-4E62-A985-E4A32D639675}</UniqueIdentifier>
+            <UniqueIdentifier>{F03FFE49-5B5E-4349-80AE-A49187A23778}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\CPUParticle\PS">
-            <UniqueIdentifier>{7B166A27-7AD0-4770-8E05-BDDB5B86E30D}</UniqueIdentifier>
+            <UniqueIdentifier>{4686FF77-8BB7-4DB0-BE65-9CC3009249AE}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\Common\Primitive">
-            <UniqueIdentifier>{761EC5B2-1B2D-4B59-ABA7-AF9ECA4D0E1F}</UniqueIdentifier>
+            <UniqueIdentifier>{769EB5DA-6BDA-43E7-9F03-A72309762C75}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS">
-            <UniqueIdentifier>{BD59CA61-EDF8-495A-BCD5-7428F525DC23}</UniqueIdentifier>
+            <UniqueIdentifier>{E61AC3D4-6415-4EF5-B7E7-0D3043D0E1E0}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\PS">
-            <UniqueIdentifier>{54E4174C-B20A-4D02-BEC7-3098DC124FE1}</UniqueIdentifier>
+            <UniqueIdentifier>{DF21F8B5-A033-492B-AC77-CAF0C6EEED5E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\PostProcess\Buffer\Updater">
-            <UniqueIdentifier>{C98D3B75-A934-4E5B-A640-60C0DB24E4D7}</UniqueIdentifier>
+            <UniqueIdentifier>{F91F3801-DDCD-4E5E-BDD0-8EF18BC689BF}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Material">
-            <UniqueIdentifier>{CEB3239B-3AED-443C-81BA-67FC778725C6}</UniqueIdentifier>
+            <UniqueIdentifier>{2D0D4C93-F222-4B09-AB33-6F06974B580A}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Move">
-            <UniqueIdentifier>{7EBFC4CF-B542-4F5D-AC75-8572FDF9FA40}</UniqueIdentifier>
+            <UniqueIdentifier>{077E50D5-6541-4F4A-92EE-712E1C746E42}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Primitive">
-            <UniqueIdentifier>{DEF06225-B75A-4510-9F7B-754C3B5AC0C1}</UniqueIdentifier>
+            <UniqueIdentifier>{1B4AF495-18EA-4F97-B012-79627B12405C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Time">
-            <UniqueIdentifier>{B6E56A62-CDB9-4023-B046-7CCAA434DE8E}</UniqueIdentifier>
+            <UniqueIdentifier>{3B868DDB-5734-4DFC-AC3D-309C85EE5074}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Trail">
-            <UniqueIdentifier>{6D1A9AD7-6F62-4E1B-BA29-9EE11EA1C239}</UniqueIdentifier>
+            <UniqueIdentifier>{BF6DC709-F97D-4417-8EE6-F1D5153C784F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Transform">
-            <UniqueIdentifier>{DC982DC9-8278-4987-AFD1-23F175841466}</UniqueIdentifier>
+            <UniqueIdentifier>{3B5090A2-7FF0-4464-9079-57791A9E76C4}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\Collision">
-            <UniqueIdentifier>{E34107CC-A90E-4AA9-B611-660BF83A1FEA}</UniqueIdentifier>
+            <UniqueIdentifier>{27E3B679-92A3-44D0-93D2-C0977EDC0A23}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\Entity">
-            <UniqueIdentifier>{1217FAAE-52D7-40A0-8CF8-9D927A9E8FEC}</UniqueIdentifier>
+            <UniqueIdentifier>{DE7ACCE3-497C-4CA3-AC74-2F633D1E5E0E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\Start">
-            <UniqueIdentifier>{2B8C67B2-7E4A-4636-9B2E-2EACE029FF0B}</UniqueIdentifier>
+            <UniqueIdentifier>{EF2CD72C-0F26-4EA9-8685-B6DF6EE0D3D4}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine">
-            <UniqueIdentifier>{4D0F7EFA-4963-4317-9232-A14F7CDFD11F}</UniqueIdentifier>
+            <UniqueIdentifier>{9F3241C9-8784-4C59-9FDC-981DE21CF290}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\Structures">
-            <UniqueIdentifier>{5D385873-6576-421A-9B8C-ACC1BEAC6950}</UniqueIdentifier>
+            <UniqueIdentifier>{8250CC16-53DF-4265-A075-0E1D1104A3D2}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\UI">
-            <UniqueIdentifier>{F0761DA7-EF89-4048-A9C1-AF2CE3900675}</UniqueIdentifier>
+            <UniqueIdentifier>{59E27F68-C23C-4514-B686-3FA195ADE967}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Input\Actions">
-            <UniqueIdentifier>{4FA0D72A-8D91-4B7B-A7EF-AC01594DBCC5}</UniqueIdentifier>
+            <UniqueIdentifier>{4BFBA229-CF7D-4B8A-A722-85256C8246F2}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\Input\Devices">
-            <UniqueIdentifier>{47BD1DA2-2AC8-4E10-8C5E-D0544508B8BA}</UniqueIdentifier>
+            <UniqueIdentifier>{ACBBF42D-BD5D-408B-851C-9001F3936572}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\StateMachine\Interface">
-            <UniqueIdentifier>{FF4E2DC6-EC0F-4EEA-A4EB-E8C7DAA2A42A}</UniqueIdentifier>
+            <UniqueIdentifier>{FEC9F91F-5A67-4EE0-800A-7D17B2BDF715}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Player\StateMachine\States">
-            <UniqueIdentifier>{70A8F034-2CF9-47AC-A643-AE16EAB582B4}</UniqueIdentifier>
+            <UniqueIdentifier>{3AE62C6B-8712-49B5-ABE9-F9937FCD4828}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\SubPlayer\StateMachine\Interface">
-            <UniqueIdentifier>{E2B689E3-7809-411D-9357-F7A7F55D8A79}</UniqueIdentifier>
+            <UniqueIdentifier>{B3479857-2A1E-48D6-95CD-5D16F3E0DE8E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States">
-            <UniqueIdentifier>{F32CC5BA-D948-405D-BC5F-72894EBCAE44}</UniqueIdentifier>
+            <UniqueIdentifier>{BABB5BE8-0424-48AD-BA82-6521507F6A4F}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\Input\Actions">
-            <UniqueIdentifier>{87EB76FE-302F-495B-8146-6219705328BD}</UniqueIdentifier>
+            <UniqueIdentifier>{43FC3DD2-CD57-47F1-B112-05601402D0F3}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\Input\Devices">
-            <UniqueIdentifier>{535C7968-1BC6-44B0-9EF4-2CEF44506424}</UniqueIdentifier>
+            <UniqueIdentifier>{37E76351-1DB4-45CC-9AB7-1B98103AF3E8}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface">
-            <UniqueIdentifier>{46603C24-35A9-4F9C-BEC5-78148E90540A}</UniqueIdentifier>
+            <UniqueIdentifier>{0D7E6B60-3FF6-4A20-8708-C0F73346EB2B}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States">
-            <UniqueIdentifier>{824854F4-AC5E-47AD-9382-8A8B39725837}</UniqueIdentifier>
+            <UniqueIdentifier>{597BE8B8-3E2F-48F1-8293-1101A3191D57}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS\Emit">
-            <UniqueIdentifier>{59CCC7BB-252C-4C72-A14F-C2856D04D725}</UniqueIdentifier>
+            <UniqueIdentifier>{30FB6AAA-08A9-4DDD-800D-EA669B3F16AA}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS\Init">
-            <UniqueIdentifier>{5117506E-5C01-45C1-9240-17E2198A8F39}</UniqueIdentifier>
+            <UniqueIdentifier>{D0BC1A47-2251-47ED-B07F-9DAA17683F18}</UniqueIdentifier>
         </Filter>
         <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS\Update">
-            <UniqueIdentifier>{C710D1C2-F326-40E8-AE8F-F1A5642D79AA}</UniqueIdentifier>
+            <UniqueIdentifier>{FF06A90D-D985-4B90-9CA9-D28C62DD0941}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Core\Graphics\PostProcess\Buffer\Updater\Interface">
-            <UniqueIdentifier>{260A299A-D5FE-4E95-8A0E-12F6913A95B6}</UniqueIdentifier>
+            <UniqueIdentifier>{E9879ECB-8C89-4514-B213-0B5E960D84FB}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived">
-            <UniqueIdentifier>{556D87EA-6A29-4999-A23C-7E57A4F2349E}</UniqueIdentifier>
+            <UniqueIdentifier>{F1FDE8E8-88D5-4E31-84AD-2B5B8C4F68DD}</UniqueIdentifier>
         </Filter>
         <Filter Include="Engine\Effect\Particle\Module\Updater\Primitive\Interface">
-            <UniqueIdentifier>{376E4528-391F-4F88-9D8C-0F192F94C30F}</UniqueIdentifier>
+            <UniqueIdentifier>{DFF6C077-631F-4995-B213-C23B10C9C188}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface">
-            <UniqueIdentifier>{9A2D3721-8B27-4087-81AD-2EBC2FE20A73}</UniqueIdentifier>
+            <UniqueIdentifier>{8A33062D-1B1C-4030-A504-F6FB0B7BA48E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests">
-            <UniqueIdentifier>{7D8DF332-5F7C-462D-BB2E-5DB119DAA487}</UniqueIdentifier>
+            <UniqueIdentifier>{BF2BE614-FD2A-4ECC-BE95-3ECB708E23D7}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States">
-            <UniqueIdentifier>{DEC5C969-1CF5-41D3-993C-3B005AEC3570}</UniqueIdentifier>
+            <UniqueIdentifier>{C3F150A0-E31C-4A47-B5A6-2C64005E0F0C}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState">
-            <UniqueIdentifier>{FE8FE058-5DE7-4A3E-83AE-162175FDCBE7}</UniqueIdentifier>
+            <UniqueIdentifier>{21F28E94-DA6A-4625-BF7A-EAEE2A9CD60A}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\Interface">
-            <UniqueIdentifier>{DDC3ED18-EF59-486E-AFBA-FD6BE7952F32}</UniqueIdentifier>
+            <UniqueIdentifier>{E2B3DA76-406D-4B4D-9C74-7B82D246FA1E}</UniqueIdentifier>
         </Filter>
         <Filter Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States">
-            <UniqueIdentifier>{AAFBCF29-6CBD-4F76-9CDD-F878A7C98D36}</UniqueIdentifier>
+            <UniqueIdentifier>{61DC1CA3-000E-486A-84C4-B7C299FD2E0B}</UniqueIdentifier>
         </Filter>
     </ItemGroup>
     <ItemGroup>
@@ -1359,8 +1359,8 @@
         <ClCompile Include="Game\Effects\SpriteEffect\FadeSprite.cpp">
             <Filter>Game\Effects\SpriteEffect</Filter>
         </ClCompile>
-        <ClCompile Include="Game\Transition\FadeTransition.cpp">
-            <Filter>Game\Transition</Filter>
+        <ClCompile Include="Game\Scenes\Transition\FadeTransition.cpp">
+            <Filter>Game\Scenes\Transition</Filter>
         </ClCompile>
         <ClCompile Include="Game\Scenes\Title\Background\TitleBackground.cpp">
             <Filter>Game\Scenes\Title\Background</Filter>
@@ -2250,8 +2250,8 @@
         <ClInclude Include="Game\UI\Input\Actions\SelectUIInputAction.h">
             <Filter>Game\UI\Input\Actions</Filter>
         </ClInclude>
-        <ClInclude Include="Game\Transition\ITransition.h">
-            <Filter>Game\Transition</Filter>
+        <ClInclude Include="Game\Scenes\Transition\ITransition.h">
+            <Filter>Game\Scenes\Transition</Filter>
         </ClInclude>
         <ClInclude Include="Game\UI\Widgets\Button\GameButtonBlinkingUpdater.h">
             <Filter>Game\UI\Widgets\Button</Filter>
@@ -2409,8 +2409,8 @@
         <ClInclude Include="Game\Effects\SpriteEffect\FadeSprite.h">
             <Filter>Game\Effects\SpriteEffect</Filter>
         </ClInclude>
-        <ClInclude Include="Game\Transition\FadeTransition.h">
-            <Filter>Game\Transition</Filter>
+        <ClInclude Include="Game\Scenes\Transition\FadeTransition.h">
+            <Filter>Game\Scenes\Transition</Filter>
         </ClInclude>
         <ClInclude Include="Game\Scenes\Title\Background\TitleBackground.h">
             <Filter>Game\Scenes\Title\Background</Filter>

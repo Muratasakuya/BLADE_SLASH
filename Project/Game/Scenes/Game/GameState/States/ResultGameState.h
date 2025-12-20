@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Scene/GameState/Interface/IGameSceneState.h>
+#include <Game/Scenes/Game/GameState/Interface/IGameSceneState.h>
 
 //============================================================================
 //	ResultGameState class
