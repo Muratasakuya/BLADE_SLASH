@@ -183,7 +183,6 @@ void BossEnemy::DerivedInit() {
 
 	// 一度更新しておく
 	// HUDの更新
-	hudSprites_->SetStatas(stats_);
 	hudSprites_->Update();
 
 	// ポストエフェクトの設定
@@ -344,7 +343,6 @@ void BossEnemy::UpdatePlayGame() {
 	weapon_->Update();
 
 	// HUDの更新
-	hudSprites_->SetStatas(stats_);
 	hudSprites_->Update();
 
 	// 衝突情報更新

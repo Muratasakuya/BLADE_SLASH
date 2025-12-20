@@ -93,13 +93,15 @@ void BossEnemyHUD::Update() {
 
 void BossEnemyHUD::UpdateSprite() {
 
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
+
 	// HP残量を更新
-	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
+	hpBar_->Update(stats.currentHP, stats.maxHP, true);
 	// 撃破靭性値を更新
-	destroyBar_->Update(stats_.currentDestroyToughness, stats_.maxDestroyToughness, true);
+	destroyBar_->Update(stats.currentDestroyToughness, stats.maxDestroyToughness, true);
 
 	// 撃破靭性値の数字を更新
-	destroyNumDisplay_->Update(2, stats_.currentDestroyToughness);
+	destroyNumDisplay_->Update(2, stats.currentDestroyToughness);
 
 	// ダメージ表記の更新
 	damageDisplay_->Update(*bossEnemy_, *followCamera_);
@@ -151,17 +153,19 @@ void BossEnemyHUD::UpdateAlpha() {
 
 void BossEnemyHUD::UpdatePhaseThresholdPos() {
 
+	const BossEnemyStats& stats = bossEnemy_->GetStats();
+
 	// 閾値が設定されていない場合は何もしない
-	if (!phaseThreshold_ || stats_.hpThresholds.empty()) {
+	if (!phaseThreshold_ || stats.hpThresholds.empty()) {
 		return;
 	}
 
 	// 最後の閾（HP%を取得)
-	int lastThreshold = stats_.hpThresholds.back();
+	int lastThreshold = stats.hpThresholds.back();
 	float thresholdRatio = std::clamp(lastThreshold / 100.0f, 0.0f, 1.0f);
 
 	// フェーズ閾値表示位置の更新
-	phaseThreshold_->SetTranslation(hpBar_->GetThresholdPos(stats_.hpThresholds.back()));
+	phaseThreshold_->SetTranslation(hpBar_->GetThresholdPos(stats.hpThresholds.back()));
 
 	// 無効時の色設定
 	// 現在のHPが閾値以下の場合は無効色にする
@@ -169,7 +173,7 @@ void BossEnemyHUD::UpdatePhaseThresholdPos() {
 	float alpha = phaseThreshold_->GetColor().a;
 	disablePhaseThresholdColor_.a = alpha;
 	enablePhaseThresholdColor_.a = alpha;
-	if (stats_.currentHP <= static_cast<int>(stats_.maxHP * thresholdRatio)) {
+	if (stats.currentHP <= static_cast<int>(stats.maxHP * thresholdRatio)) {
 
 		phaseThreshold_->SetColor(disablePhaseThresholdColor_);
 	} else {

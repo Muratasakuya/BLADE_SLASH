@@ -39,7 +39,6 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetStatas(const BossEnemyStats& stats) { stats_ = stats; }
 	void SetDamage(int damage);
 	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
@@ -56,9 +55,6 @@ private:
 
 	const BossEnemy* bossEnemy_;
 	const FollowCamera* followCamera_;
-
-	// ステータス
-	BossEnemyStats stats_;
 
 	// HP背景
 	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;
