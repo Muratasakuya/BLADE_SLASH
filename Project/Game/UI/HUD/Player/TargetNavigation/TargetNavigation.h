@@ -4,10 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
+#include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
-
-// front
-class FollowCamera;
 
 //============================================================================
 //	TargetNavigation class
@@ -33,7 +31,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetCamera(FollowCamera* camera) { camera_ = camera; }
+	void SetCamera(const SakuEngine::BaseCamera* camera) { camera_ = camera; }
 
 	// 注視点とピボットの座標設定
 	void SetTargetPos(const SakuEngine::Vector3& targetPos) { targetPos_ = targetPos; }
@@ -54,7 +52,7 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	const FollowCamera* camera_;
+	const SakuEngine::BaseCamera* camera_;
 
 	// 表示するオブジェクト
 	std::unique_ptr<SakuEngine::GameObject2DArray> objectArray_;

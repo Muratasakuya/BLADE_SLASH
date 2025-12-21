@@ -24,6 +24,12 @@ void PlayGameState::Update() {
 	context_->result->Measurement();
 
 	//========================================================================
+	//	hud
+	//========================================================================
+
+	context_->hudSynchronizer->Update();
+
+	//========================================================================
 	//	sprite
 	//========================================================================
 
@@ -47,12 +53,8 @@ void PlayGameState::Update() {
 	if (context_->player->IsDead() ||
 		context_->boss->IsDead()) {
 
+		// フェード開始
 		requestNext_ = true;
-
-		// HUDの表示を消す
-		context_->player->GetHUD()->SetDisable();
-		context_->player->GetTargetNavigation()->SetDisable(true);
-		context_->boss->GetHUD()->SetDisable();
 	}
 }
 
@@ -60,9 +62,6 @@ void PlayGameState::NonActiveUpdate() {
 }
 
 void PlayGameState::Enter() {
-
-	// 矢印UIのカメラ範囲チェックを有効にする
-	context_->player->GetTargetNavigation()->SetInFrustumCheck(true);
 }
 
 void PlayGameState::ImGui() {

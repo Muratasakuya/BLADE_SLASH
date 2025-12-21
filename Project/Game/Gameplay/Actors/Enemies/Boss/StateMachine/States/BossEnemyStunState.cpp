@@ -46,9 +46,6 @@ void BossEnemyStunState::Update() {
 			bossEnemy_->SetNextAnimation("bossEnemy_stunUpdate", true, nextAnimDuration_);
 
 			currentState_ = State::Update;
-
-			// HUDを元に戻す
-			bossEnemy_->GetHUD()->SetValid();
 		}
 		break;
 	}

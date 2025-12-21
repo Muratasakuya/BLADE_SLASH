@@ -6,6 +6,7 @@
 #include <Engine/Input/InputStructures.h>
 #include <Engine/Utility/Material/SpriteVertexColorAnimation.h>
 #include <Engine/Object/Base/GameObject2DArray.h>
+#include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/UI/Widgets/HPBar/GameHPBar.h>
 #include <Game/UI/Widgets/DigitDisplay/GameDigitDisplay.h>
 #include <Game/UI/Widgets/DamageDisplay/GameDisplayDamage.h>
@@ -18,7 +19,6 @@
 // front
 class Player;
 class BossEnemy;
-class FollowCamera;
 
 //============================================================================
 //	PlayerHUD class
@@ -37,7 +37,7 @@ public:
 	void Init();
 
 	// HUD表示の更新
-	void Update(const Player& player);
+	void Update();
 
 	// エディター
 	void ImGui();
@@ -48,10 +48,10 @@ public:
 	void StartInputSuggest();
 	void EndInputSuggest();
 
-	void SetStatas(const PlayerStats& stats) { stats_ = stats; }
-	void SetDamage(int damage);
-	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
+	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
+	void SetCamera(const SakuEngine::BaseCamera* camera) { camera_ = camera; }
+	void SetDamage(int damage);
 	void SetDisable();
 	void SetValid();
 private:
@@ -75,11 +75,10 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	const FollowCamera* followCamera_;
+	const Player* player_;
+	const SakuEngine::BaseCamera* camera_;
 	const BossEnemy* bossEnemy_;
 
-	// ステータス
-	PlayerStats stats_;
 	// 現在の入力状態
 	InputType inputType_;
 	InputType preInputType_;
@@ -141,7 +140,7 @@ private:
 	void InitSprite();
 
 	// update
-	void UpdateSprite(const Player& player);
+	void UpdateSprite();
 	void UpdateAlpha();
 
 	// バー更新

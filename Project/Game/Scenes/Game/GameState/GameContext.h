@@ -13,6 +13,8 @@
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Result/GameResultDisplay.h>
+// hud
+#include <Game/UI/HUD/GameHUDStateSynchronizer.h>
 
 // sprite
 #include <Game/Effects/SpriteEffect/FadeSprite.h>
@@ -33,6 +35,9 @@ struct GameContext {
 	Player* player = nullptr;
 	BossEnemy* boss = nullptr;
 	GameResultDisplay* result = nullptr;
+
+	// hud
+	GameHUDStateSynchronizer* hudSynchronizer = nullptr;
 
 	// sprite
 	FadeSprite* fadeSprite = nullptr;

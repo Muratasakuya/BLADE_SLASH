@@ -104,7 +104,7 @@ void BossEnemyHUD::UpdateSprite() {
 	destroyNumDisplay_->Update(2, stats.currentDestroyToughness);
 
 	// ダメージ表記の更新
-	damageDisplay_->Update(*bossEnemy_, *followCamera_);
+	damageDisplay_->Update(*bossEnemy_, *camera_);
 
 	// フェーズ閾値表示の更新
 	UpdatePhaseThresholdPos();

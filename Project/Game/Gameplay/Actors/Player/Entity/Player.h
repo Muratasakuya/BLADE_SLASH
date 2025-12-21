@@ -12,13 +12,10 @@
 #include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateController.h>
 // collision
 #include <Game/Gameplay/Actors/Player/Collision/PlayerAttackCollision.h>
-// HUD
-#include <Game/UI/HUD/Player/PlayerHUD.h>
-#include <Game/UI/HUD/Player/PlayerStunHUD.h>
-#include <Game/UI/HUD/Player/TargetNavigation/TargetNavigation.h>
 
 // front
 class SubPlayer;
+class GameEventBus;
 
 //============================================================================
 //	Player class
@@ -52,6 +49,7 @@ public:
 
 	void SetBossEnemy(BossEnemy* bossEnemy);
 	void SetFollowCamera(FollowCamera* followCamera);
+	void SetEventBus(GameEventBus* bus) { eventBus_ = bus; }
 
 	// 武器の向きを反転させる
 	void SetReverseWeapon(bool isReverse, PlayerWeaponType type);
@@ -63,10 +61,7 @@ public:
 
 	const PlayerStats& GetStats() const { return stats_; }
 	PlayerAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
-	PlayerHUD* GetHUD() const { return hudSprites_.get(); }
-	PlayerStunHUD* GetStunHUD() const { return stunHudSprites_.get(); }
 	PlayerWeapon* GetWeapon(PlayerWeaponType type) const;
-	TargetNavigation* GetTargetNavigation() const { return targetNavigation_.get(); }
 
 	int GetDamage() const;
 	int GetToughness() const { return stats_.toughness; }
@@ -92,13 +87,11 @@ private:
 	// 攻撃の衝突
 	std::unique_ptr<PlayerAttackCollision> attackCollision_;
 
-	// HUD
-	std::unique_ptr<PlayerHUD> hudSprites_;
-	std::unique_ptr<PlayerStunHUD> stunHudSprites_;
-	std::unique_ptr<TargetNavigation> targetNavigation_;
-
 	// 回避エフェクト
 	std::unique_ptr<SakuEngine::EffectGroup> avoidEffect_;
+
+	// イベント発行先
+	GameEventBus* eventBus_ = nullptr;
 
 	// parameters
 	SakuEngine::Transform3D initTransform_; // 初期化時の値
@@ -107,10 +100,6 @@ private:
 
 	// 敵のスタン中の更新になったか
 	bool isStunUpdate_;
-
-	// ボスの状態を監視してパリィ入力示唆を出す
-	std::optional<BossEnemyState> exitParryBossEnemyState_;
-	bool isCanParryBossEnemy_;
 
 	// json
 	Json cacheJsonData_;
@@ -131,17 +120,12 @@ private:
 	void InitAnimations();
 	void InitCollision();
 	void InitState();
-	void InitHUD();
 	void InitEffects();
 
 	// update
-	void UpdateTargetNavigation();
 	void UpdateSKilPoint();
 
 	// helper
 	void SetInitTransform();
-	void CheckBossEnemyParry();
-
-	// Y座標の制限
 	void ClampInitPosY();
 };

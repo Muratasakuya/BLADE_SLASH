@@ -51,7 +51,6 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
 	// プレイヤー
 	context_->player->Init("player", "player", "Player", "player_idle");
-	context_->player->GetTargetNavigation()->SetInFrustumCheck(false);
 
 	// 必要なデータをセット
 	context_->boss->SetPlayer(context_->player);
@@ -70,6 +69,14 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
 	// カメラの位置を最初のプレイヤー位置まで動かす
 	context_->camera->GetFollowCamera()->UpdateInitialSettings();
+
+	//========================================================================
+	//	hud
+	//========================================================================
+
+	// HUD同期
+	context_->hudSynchronizer->Init(context_->player, context_->boss,
+		context_->camera->GetFollowCamera());
 
 	//========================================================================
 	//	sprites
@@ -102,6 +109,12 @@ void StartGameState::Update() {
 
 	context_->player->Update();
 	context_->boss->Update(currentState);
+
+	//========================================================================
+	//	hud
+	//========================================================================
+
+	context_->hudSynchronizer->Update();
 
 	//========================================================================
 	//	scene

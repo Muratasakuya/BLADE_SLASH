@@ -67,9 +67,6 @@ void BossEnemyGreatAttackState::Enter() {
 	// 表示を消す
 	bossEnemy_->SetIsRejection(true);
 	bossEnemy_->SetWeaponRejection(true);
-
-	// 攻撃無効状態にする
-	bossEnemy_->GetHUD()->SetDisable();
 }
 
 void BossEnemyGreatAttackState::Update() {
@@ -145,9 +142,6 @@ void BossEnemyGreatAttackState::Exit() {
 	// 表示を元に戻す
 	bossEnemy_->SetIsRejection(false);
 	bossEnemy_->SetWeaponRejection(false);
-
-	// 攻撃有効状態にする
-	bossEnemy_->GetHUD()->SetValid();
 
 	// パリィ不可にする
 	parryParam_.canParry = false;

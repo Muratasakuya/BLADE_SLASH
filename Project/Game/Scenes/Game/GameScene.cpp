@@ -37,6 +37,8 @@ void GameScene::InitStates() {
 	context_.player = player_.get();
 	context_.boss = bossEnemy_.get();
 	context_.result = result_.get();
+	// hud
+	context_.hudSynchronizer = hudSynchronizer_.get();
 	// sprite
 	context_.fadeSprite = fadeSprite_.get();
 
@@ -81,6 +83,8 @@ void GameScene::Init() {
 	bossEnemy_ = std::make_unique<BossEnemy>();
 	result_ = std::make_unique<GameResultDisplay>();
 
+	hudSynchronizer_ = std::make_unique<GameHUDStateSynchronizer>();
+
 	fadeSprite_ = std::make_unique<FadeSprite>();
 
 	// フィールドエフェクト
@@ -114,6 +118,7 @@ void GameScene::Update() {
 		if (states_[stateIndex]->GetNextState() == GameSceneState::Result) {
 
 			// プレイヤーと敵を消す
+			hudSynchronizer_.reset();
 			player_.reset();
 			bossEnemy_.reset();
 		}
@@ -148,6 +153,9 @@ void GameScene::EndFrame() {
 
 void GameScene::RequestNextState(GameSceneState next) {
 
+	// 前の状態を保存
+	GameSceneState prev = currentState_;
+
 	// 現在の状態を終了させる
 	uint32_t stateIndex = static_cast<uint32_t>(currentState_);
 	states_[stateIndex]->Exit();
@@ -155,6 +163,9 @@ void GameScene::RequestNextState(GameSceneState next) {
 	// 遷移
 	currentState_ = next;
 	uint32_t nextIndex = static_cast<uint32_t>(next);
+
+	// HUDへ状態変更の通知
+	context_.hudSynchronizer->NotifySceneStateChanged(prev, next);
 
 	// 次の状態を設定
 	states_[nextIndex]->Enter();

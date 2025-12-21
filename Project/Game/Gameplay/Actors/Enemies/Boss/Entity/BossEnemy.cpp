@@ -8,6 +8,8 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
+#include <Game/Event/GameEventBus/GameEventBus.h>
+#include <Game/Event/GameHUDEvents/GameHUDEvents.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
@@ -83,16 +85,6 @@ void BossEnemy::InitState() {
 	stateController_ = std::make_unique<BossEnemyStateController>();
 	stateController_->Init(this, static_cast<uint32_t>(stats_.hpThresholds.size()));
 	requestFalter_ = std::make_unique<BossEnemyRequestFalter>();
-}
-
-void BossEnemy::InitHUD() {
-
-	// HUDの初期化
-	hudSprites_ = std::make_unique<BossEnemyHUD>();
-	hudSprites_->Init();
-	hudSprites_->SetBossEnemy(this);
-	// 最初は表示しない
-	hudSprites_->SetDisable();
 }
 
 void BossEnemy::InitAnimation() {
@@ -175,15 +167,11 @@ void BossEnemy::DerivedInit() {
 	// 状態初期化
 	InitState();
 
-	// HUD初期化
-	InitHUD();
-
 	// アニメーション初期化
 	InitAnimation();
 
-	// 一度更新しておく
-	// HUDの更新
-	hudSprites_->Update();
+	// 最初はダメージを受けないようにする
+	isNormalDamageEnabled_ = false;
 
 	// ポストエフェクトの設定
 	SetPostProcessMask(Bit_RadialBlur);
@@ -202,7 +190,6 @@ void BossEnemy::SetPlayer(Player* player) {
 void BossEnemy::SetFollowCamera(FollowCamera* followCamera) {
 
 	stateController_->SetFollowCamera(followCamera);
-	hudSprites_->SetFollowCamera(followCamera);
 }
 
 void BossEnemy::SetAlpha(float alpha) {
@@ -232,8 +219,13 @@ void BossEnemy::RequestHit() {
 	const int damage = player_->GetDamage();
 	stats_.currentHP = (std::max)(0, stats_.currentHP - damage);
 
-	// HUDに通知
-	hudSprites_->SetDamage(damage);
+	// ダメージイベント発行
+	GameHUDEvents::DamageTakenEvent event{};
+	event.victim = GameHUDEvents::MakeEntityId(this);      // ダメージを受けたエンティティ
+	event.attacker = GameHUDEvents::MakeEntityId(player_); // 攻撃を与えたエンティティ
+	// ダメージを設定
+	event.damage = damage;
+	eventBus_->Publish(event);
 }
 
 SakuEngine::Vector3 BossEnemy::GetWeaponTranslation() const {
@@ -342,9 +334,6 @@ void BossEnemy::UpdatePlayGame() {
 	// 武器の更新
 	weapon_->Update();
 
-	// HUDの更新
-	hudSprites_->Update();
-
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
 	attackCollision_->Update(*transform_);
@@ -364,14 +353,21 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 	// シーンが切り替わったとき
 	if (preSceneState_ != sceneState) {
 		switch (preSceneState_) {
-		case GameSceneState::Start:
+		case GameSceneState::Start: {
 
 			// 登場アニメーション開始
 			startAnimation_->Start();
 
+			// ダメージを受け付けるようにする
+			isNormalDamageEnabled_ = true;
+
 			// HUDの表示を行う
-			hudSprites_->SetValid();
+			GameHUDEvents::VisibilityChangedEvent event{};
+			event.target = GameHUDEvents::MakeEntityId(this);
+			event.visible = true;
+			eventBus_->Publish(event);
 			break;
+		}
 		case GameSceneState::BeginGame:
 			break;
 		case GameSceneState::PlayGame:
@@ -386,7 +382,7 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 
 	// 無効状態の時ダメージを受けない
-	if (hudSprites_->IsDisable()) {
+	if (!isNormalDamageEnabled_) {
 		return;
 	}
 
@@ -407,11 +403,24 @@ void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody)
 			// 靭性値が最大にまで行ったらHUDの表示を消す
 			if (stats_.currentDestroyToughness == stats_.maxDestroyToughness) {
 
-				hudSprites_->SetDisable();
+				// ダメージを受け付けないようにする
+				isNormalDamageEnabled_ = false;
+
+				// HUD非表示
+				GameHUDEvents::VisibilityChangedEvent event{};
+				event.target = GameHUDEvents::MakeEntityId(this);
+				event.visible = false;
+				eventBus_->Publish(event);
 			}
 		}
-		// HUDに通知
-		hudSprites_->SetDamage(damage);
+		
+		// ダメージイベント発行
+		GameHUDEvents::DamageTakenEvent event{};
+		event.victim = GameHUDEvents::MakeEntityId(this);      // ダメージを受けたエンティティ
+		event.attacker = GameHUDEvents::MakeEntityId(player_); // 攻撃を与えたエンティティ
+		// ダメージを設定
+		event.damage = damage;
+		eventBus_->Publish(event);
 
 		// 怯むかどうかチェックしてtrueを返すなら怯ませる
 		if (requestFalter_->Check(*stateController_.get())) {
@@ -584,12 +593,6 @@ void BossEnemy::DerivedImGui() {
 		if (ImGui::BeginTabItem("StateTable")) {
 
 			stateController_->EditStateTable();
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("HUD")) {
-
-			hudSprites_->ImGui();
 			ImGui::EndTabItem();
 		}
 

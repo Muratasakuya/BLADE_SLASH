@@ -122,25 +122,25 @@ void PlayerHUD::SetValid() {
 	returnVaild_ = true;
 }
 
-void PlayerHUD::Update(const Player& player) {
+void PlayerHUD::Update() {
 
 	// input状態を取得
 	inputType_ = SakuEngine::Input::GetInstance()->GetType();
 
 	// sprite更新
-	UpdateSprite(player);
+	UpdateSprite();
 
 	// alpha値を表示切替で更新
 	UpdateAlpha();
 }
 
-void PlayerHUD::UpdateSprite(const Player& player) {
+void PlayerHUD::UpdateSprite() {
 
 	// バーの更新
 	UpdateBar();
 
 	// ダメージ表記の更新
-	damageDisplay_->Update(player, *followCamera_);
+	damageDisplay_->Update(*player_, *camera_);
 
 	// 入力示唆の更新
 	UpdateInputSuggest();
@@ -241,10 +241,12 @@ void PlayerHUD::UpdateBar() {
 		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetVertexColor(vertex, skilBar_->GetVertexColor(vertex));
 	}
 
+	const PlayerStats& stats = player_->GetStats();
+
 	// HP残量を更新
-	hpBar_->Update(stats_.currentHP, stats_.maxHP, true);
+	hpBar_->Update(stats.currentHP, stats.maxHP, true);
 	// スキル値を更新
-	skilBar_->Update(stats_.currentSkilPoint, stats_.maxSkilPoint, true);
+	skilBar_->Update(stats.currentSkilPoint, stats.maxSkilPoint, true);
 }
 
 void PlayerHUD::UpdateInputSuggest() {
@@ -301,8 +303,10 @@ void PlayerHUD::UpdateInputSuggest() {
 
 void PlayerHUD::UpdateSkillThreshold() {
 
+	const PlayerStats& stats = player_->GetStats();
+
 	// スキルP閾値表示の更新
-	skillThreshold_->SetTranslation(skilBar_->GetThresholdPos(stats_.skilCost));
+	skillThreshold_->SetTranslation(skilBar_->GetThresholdPos(stats.skilCost));
 
 	// 無効時の色設定
 	// スキルPが足りない場合は灰色にする
@@ -310,7 +314,7 @@ void PlayerHUD::UpdateSkillThreshold() {
 	float alpha = skillThreshold_->GetColor().a;
 	disableSkillThresholdColor_.a = alpha;
 	enableSkillThresholdColor_.a = alpha;
-	if (stats_.currentSkilPoint < stats_.skilCost) {
+	if (stats.currentSkilPoint < stats.skilCost) {
 
 		skillThreshold_->SetColor(disableSkillThresholdColor_);
 		skilBar_->SetColor(disableSkillThresholdColor_);

@@ -8,6 +8,8 @@
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Enum/Direction.h>
+#include <Game/Event/GameEventBus/GameEventBus.h>
+#include <Game/Event/GameHUDEvents/GameHUDEvents.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 //============================================================================
@@ -85,21 +87,6 @@ void Player::InitState() {
 	stateController_->Init(this);
 }
 
-void Player::InitHUD() {
-
-	// HUDの初期化
-	hudSprites_ = std::make_unique<PlayerHUD>();
-	hudSprites_->Init();
-
-	stunHudSprites_ = std::make_unique<PlayerStunHUD>();
-	stunHudSprites_->Init();
-
-	targetNavigation_ = std::make_unique<TargetNavigation>();
-	targetNavigation_->Init();
-
-	isCanParryBossEnemy_ = false;
-}
-
 void Player::InitEffects() {
 
 	// 回避エフェクトの初期化
@@ -133,9 +120,6 @@ void Player::DerivedInit() {
 	// 状態初期化
 	InitState();
 
-	// HUD初期化
-	InitHUD();
-
 	// エフェクト初期化
 	InitEffects();
 
@@ -156,15 +140,12 @@ void Player::SetBossEnemy(BossEnemy* bossEnemy) {
 	bossEnemy_ = bossEnemy;
 
 	stateController_->SetBossEnemy(bossEnemy);
-	hudSprites_->SetBossEnemy(bossEnemy);
 	attackCollision_->SetBossEnemy(bossEnemy);
 }
 
 void Player::SetFollowCamera(FollowCamera* followCamera) {
 
 	stateController_->SetFollowCamera(followCamera);
-	hudSprites_->SetFollowCamera(followCamera);
-	targetNavigation_->SetCamera(followCamera);
 }
 
 void Player::SetReverseWeapon(bool isReverse, PlayerWeaponType type) {
@@ -247,12 +228,6 @@ void Player::Update() {
 		return;
 	}
 
-	// パリィ可能状態のチェック
-	CheckBossEnemyParry();
-
-	// 方向UIの更新
-	UpdateTargetNavigation();
-
 	// 状態の更新
 	stateController_->Update();
 	ClampInitPosY();
@@ -264,11 +239,6 @@ void Player::Update() {
 	// スキルポイントの更新
 	UpdateSKilPoint();
 
-	// HUDの更新
-	hudSprites_->SetStatas(stats_);
-	hudSprites_->Update(*this);
-	stunHudSprites_->Update();
-
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
 	attackCollision_->Update(*transform_);
@@ -277,20 +247,12 @@ void Player::Update() {
 	avoidEffect_->Update();
 
 	// 入力で攻撃を無効化できるようにする
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_F9)) {
 
 		isInvincible_ = !isInvincible_;
 	}
-}
-
-void Player::UpdateTargetNavigation() {
-
-	// 座標を設定
-	targetNavigation_->SetTargetPos(bossEnemy_->GetTranslation());
-	targetNavigation_->SetPivotPos(transform_->translation);
-
-	// オブジェクト更新
-	targetNavigation_->Update();
+#endif
 }
 
 void Player::UpdateSKilPoint() {
@@ -311,38 +273,6 @@ void Player::UpdateSKilPoint() {
 
 		// スキルポイントを消費
 		stats_.currentSkilPoint = (std::max)(0, stats_.currentSkilPoint - stats_.skilCost);
-	}
-}
-
-void Player::CheckBossEnemyParry() {
-
-	// ボスの状態が切り替わったら、パリィ可能状態をリセット
-	if (exitParryBossEnemyState_.has_value()) {
-		if (exitParryBossEnemyState_.value() != bossEnemy_->GetCurrentState()) {
-
-			exitParryBossEnemyState_ = std::nullopt;
-		}
-	}
-
-	// パリィ可能状態になったかどうか
-	const ParryParameter& parryParam = bossEnemy_->GetParryParam();
-	if (!exitParryBossEnemyState_.has_value() &&
-		!isCanParryBossEnemy_ && parryParam.canParry) {
-
-		isCanParryBossEnemy_ = true;
-		// パリィ可能状態になったら入力示唆を開始
-		hudSprites_->StartInputSuggest();
-		targetNavigation_->SetIsBlink(true);
-	}
-	// 入力不可になったら入力示唆を終了
-	if (isCanParryBossEnemy_ && !parryParam.canParry) {
-
-		// この時点のボスの状態を取得
-		exitParryBossEnemyState_ = bossEnemy_->GetCurrentState();
-		isCanParryBossEnemy_ = false;
-
-		hudSprites_->EndInputSuggest();
-		targetNavigation_->SetIsBlink(false);
 	}
 }
 
@@ -372,8 +302,13 @@ void Player::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 		const int damage = isInvincible_ ? 0 : bossEnemy_->GetDamage();
 		stats_.currentHP = (std::max)(0, stats_.currentHP - damage);
 
-		// HUDに通知
-		hudSprites_->SetDamage(damage);
+		// ダメージイベント発行
+		GameHUDEvents::DamageTakenEvent event{};
+		event.victim = GameHUDEvents::MakeEntityId(this);         // ダメージを受けたエンティティ
+		event.attacker = GameHUDEvents::MakeEntityId(bossEnemy_); // 攻撃を与えたエンティティ
+		// ダメージを設定
+		event.damage = damage;
+		eventBus_->Publish(event);
 
 		// 怯み状態遷移へリクエスト
 		stateController_->RequestFalterState();
@@ -444,20 +379,6 @@ void Player::DerivedImGui() {
 
 		if (ImGui::BeginTabItem("AttackCollision")) {
 			attackCollision_->ImGui();
-			ImGui::EndTabItem();
-		}
-
-		// ---- HUD -----------------------------------------------------
-		if (ImGui::BeginTabItem("HUD")) {
-			hudSprites_->ImGui();
-			ImGui::EndTabItem();
-		}
-		if (ImGui::BeginTabItem("StunHUD")) {
-			stunHudSprites_->ImGui();
-			ImGui::EndTabItem();
-		}
-		if (ImGui::BeginTabItem("Navigation")) {
-			targetNavigation_->ImGui();
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

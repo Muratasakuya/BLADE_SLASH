@@ -14,13 +14,12 @@
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Requests/BossEnemyRequestFalter.h>
 // collision
 #include <Game/Gameplay/Actors/Enemies/Boss/Collision/BossEnemyAttackCollision.h>
-// HUD
-#include <Game/UI/HUD/Enemy/Boss/BossEnemyHUD.h>
 // animation
 #include <Game/Gameplay/Actors/Enemies/Boss/Start/BossEnemyStartAnimation.h>
 
 // front
 class Player;
+class GameEventBus;
 
 //============================================================================
 //	BossEnemy class
@@ -63,6 +62,7 @@ public:
 
 	void SetPlayer(Player* player);
 	void SetFollowCamera(FollowCamera* followCamera);
+	void SetEventBus(GameEventBus* bus) { eventBus_ = bus; }
 
 	void SetAlpha(float alpha);
 	void SetCastShadow(bool cast);
@@ -71,7 +71,6 @@ public:
 
 	const BossEnemyStats& GetStats() const { return stats_; }
 	BossEnemyAttackCollision* GetAttackCollision() const { return attackCollision_.get(); }
-	BossEnemyHUD* GetHUD() const { return hudSprites_.get(); }
 
 	SakuEngine::Vector3 GetWeaponTranslation() const;
 	SakuEngine::Quaternion GetWeaponRotation() const;
@@ -80,7 +79,7 @@ public:
 
 	int GetDamage() const;
 	bool IsDead() const;
-	bool IsInvincible() const { return hudSprites_->IsDisable(); }
+	bool IsInvincible() const { return  !isNormalDamageEnabled_; }
 	uint32_t GetCurrentPhaseIndex() const;
 	const ParryParameter& GetParryParam() const { return stateController_->GetParryParam(); }
 private:
@@ -104,8 +103,10 @@ private:
 	// 攻撃の衝突
 	std::unique_ptr<BossEnemyAttackCollision>  attackCollision_;
 
-	// HUD
-	std::unique_ptr<BossEnemyHUD> hudSprites_;
+	// ダメージを受けるかどうか
+	bool isNormalDamageEnabled_ = false;
+	// イベント発行先
+	GameEventBus* eventBus_ = nullptr;
 
 	// アニメーション
 	std::unique_ptr<BossEnemyStartAnimation> startAnimation_;
@@ -122,7 +123,7 @@ private:
 
 	//--------- functions ----------------------------------------------------
 
-	// json
+	  // json
 	void ApplyJson();
 	void SaveJson();
 
@@ -131,7 +132,6 @@ private:
 	void InitAnimations();
 	void InitCollision();
 	void InitState();
-	void InitHUD();
 	void InitAnimation();
 
 	// update

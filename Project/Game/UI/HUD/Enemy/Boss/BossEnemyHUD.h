@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
+#include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/UI/Widgets/HPBar/GameHPBar.h>
 #include <Game/UI/Widgets/DigitDisplay/GameDigitDisplay.h>
 #include <Game/UI/Widgets/DamageDisplay/GameDisplayDamage.h>
@@ -14,7 +15,6 @@
 #include <deque>
 // front
 class BossEnemy;
-class FollowCamera;
 
 //============================================================================
 //	BossEnemyHUD class
@@ -40,9 +40,9 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetDamage(int damage);
 	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
-	void SetFollowCamera(const FollowCamera* followCamera) { followCamera_ = followCamera; }
+	void SetFollowCamera(const SakuEngine::BaseCamera* camera) { camera_ = camera; }
+	void SetDamage(int damage);
 	void SetDisable();
 	void SetValid();
 
@@ -55,7 +55,7 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	const BossEnemy* bossEnemy_;
-	const FollowCamera* followCamera_;
+	const SakuEngine::BaseCamera* camera_;
 
 	// HP背景
 	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;

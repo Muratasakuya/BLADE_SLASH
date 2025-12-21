@@ -54,6 +54,9 @@ private:
 	std::unique_ptr<BossEnemy> bossEnemy_;
 	std::unique_ptr<GameResultDisplay> result_;
 
+	// hud
+	std::unique_ptr<GameHUDStateSynchronizer> hudSynchronizer_;
+
 	// sprites
 	std::unique_ptr<FadeSprite> fadeSprite_;
 

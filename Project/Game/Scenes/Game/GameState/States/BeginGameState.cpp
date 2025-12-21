@@ -33,6 +33,12 @@ void BeginGameState::Update() {
 	context_->boss->Update(currentState);
 
 	//========================================================================
+	//	hud
+	//========================================================================
+
+	context_->hudSynchronizer->Update();
+
+	//========================================================================
 	//	scene
 	//========================================================================
 
@@ -61,10 +67,8 @@ void BeginGameState::NonActiveUpdate() {
 
 void BeginGameState::Enter() {
 
-	// 表示を消す
-	context_->player->GetTargetNavigation()->SetDisable(true);
-	context_->player->Update();
 	// アイドル状態に戻す
+	context_->player->Update();
 	context_->player->ResetState();
 
 	// プレイヤーの座標をゲーム開始座標にする
@@ -75,9 +79,6 @@ void BeginGameState::Enter() {
 }
 
 void BeginGameState::Exit() {
-
-	// プレイヤーの表示を戻す
-	context_->player->GetTargetNavigation()->SetDisable(false);
 
 	// エディターによる更新を止めさせる
 	context_->camera->GetFollowCamera()->SetIsUpdateEditor(false);
