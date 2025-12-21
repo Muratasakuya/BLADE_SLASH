@@ -50,6 +50,7 @@ public:
 
 	bool IsTriggerParry() const { return inputTransitionPlanner_.GetInputMapper()->IsTriggered(PlayerInputAction::Parry); }
 	bool IsActiveParry() const { return parrySystem_.IsActive(); }
+	bool IsExecuteParry() const { return parrySystem_.GetSession().done != 0; }
 
 	// 今の状態で回避中か
 	bool IsAvoidance() { return BaseStateController::GetMachine().GetCurrent().IsAvoidance(); }

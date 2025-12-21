@@ -1025,10 +1025,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Game\UI\HUD\Controllers\GameHUDControllers.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Game\UI\HUD\Controllers\Player\PlayerHUDController.h">
       <SubType>
       </SubType>

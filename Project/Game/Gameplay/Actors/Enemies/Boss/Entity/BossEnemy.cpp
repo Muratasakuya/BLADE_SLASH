@@ -357,6 +357,9 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 
 			// 登場アニメーション開始
 			startAnimation_->Start();
+			break;
+		}
+		case GameSceneState::BeginGame: {
 
 			// ダメージを受け付けるようにする
 			isNormalDamageEnabled_ = true;
@@ -368,8 +371,6 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 			eventBus_->Publish(event);
 			break;
 		}
-		case GameSceneState::BeginGame:
-			break;
 		case GameSceneState::PlayGame:
 			break;
 		case GameSceneState::EndGame:
@@ -436,6 +437,7 @@ bool BossEnemy::ConsumeParryTiming() {
 	if (parryTimingTickets_ == 0) {
 		return false;
 	}
+	// パリィ処理回数を減らす
 	--parryTimingTickets_;
 	return true;
 }

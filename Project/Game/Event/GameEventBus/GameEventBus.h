@@ -15,7 +15,7 @@
 
 //============================================================================
 //	GameEventBus class
-//	クラスの説明がここに入る
+//	型ごとのイベントチャンネルを持つ同期イベントバス
 //============================================================================
 class GameEventBus {
 public:
@@ -31,7 +31,7 @@ public:
 
 	//============================================================================
 	//	Subscription class
-	//	クラスの説明がここに入る
+	//	Subscribe()の戻り値で購読を表すハンドル
 	//============================================================================
 	template <typename Event>
 	class Subscription {
@@ -53,7 +53,7 @@ public:
 		}
 		Subscription& operator=(Subscription&& other) noexcept;
 
-		// リセット
+		// 購読を解除して無効化する
 		void Reset();
 
 		//--------- accessor -----------------------------------------------------
@@ -71,15 +71,15 @@ public:
 		Subscription(GameEventBus* bus, size_t id) : bus_(bus), id_(id) {}
 
 		GameEventBus* bus_ = nullptr;
-		// 関数ハンドラID
+		// ハンドラ識別用ID
 		size_t id_ = 0;
 	};
 
-	// ここに関数の説明が入る
+	// 指定イベント型Eventのハンドラを登録し、解除用のSubscriptionを返す
 	template <typename Event>
 	Subscription<Event> Subscribe(std::function<void(const Event&)> handler);
 
-	// ここに関数の説明が入る
+	// 指定イベントを購読者へ即時配信する
 	template <typename Event>
 	void Publish(const Event& event) const;
 private:
@@ -89,25 +89,25 @@ private:
 
 	//--------- structure ----------------------------------------------------
 
-	// チャンネルインターフェース
+	// チャンネルの共通基底
 	struct IChannel {
 
 		virtual ~IChannel() = default;
 	};
-	// ここに構造体の説明が入る
+	// イベント型ごとのチャンネル
 	template <typename Event>
 	struct Channel :
 		IChannel {
 
-		// ここに変数の説明が入る
+		// 次に発行する購読ID
 		size_t nextId = 1;
-		// ここに変数の説明が入る
+		// 購読ハンドラ一覧
 		std::unordered_map<size_t, std::function<void(const Event&)>> handlers;
 	};
 
 	//--------- variables ----------------------------------------------------
 
-	// チャンネル群
+	// イベント型(type_index)->Channelの辞書
 	mutable std::unordered_map<std::type_index, std::unique_ptr<IChannel>> channels_;
 
 	//--------- functions ----------------------------------------------------

@@ -50,6 +50,7 @@ void PlayerParrySystem::TryReserveByInput(PlayerState currentState,
 	session_.done = 0;
 	session_.active = true;
 	session_.reserved = true;
+	// パリィ回数設定
 	session_.total = std::max<uint32_t>(1, parryParam.continuousCount);
 	session_.reservedStart = SakuEngine::GameTimer::GetTotalTime();
 }

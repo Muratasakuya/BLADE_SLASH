@@ -238,6 +238,8 @@ void Player::Update() {
 
 	// スキルポイントの更新
 	UpdateSKilPoint();
+	// パリィ成功の確認
+	CheckExecutedParry();
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(*transform_);
@@ -273,6 +275,21 @@ void Player::UpdateSKilPoint() {
 
 		// スキルポイントを消費
 		stats_.currentSkilPoint = (std::max)(0, stats_.currentSkilPoint - stats_.skilCost);
+	}
+}
+
+void Player::CheckExecutedParry() {
+
+	// パリィが成功したら入力示唆を消す
+	if (stateController_->IsExecuteParry()) {
+		// イベント発行
+		if (eventBus_) {
+
+			GameHUDEvents::ParrySuggestEvent event{};
+			event.owner = GameHUDEvents::MakeEntityId(this);
+			event.visible = false;
+			eventBus_->Publish(event);
+		}
 	}
 }
 

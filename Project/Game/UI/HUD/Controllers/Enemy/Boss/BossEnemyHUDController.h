@@ -49,9 +49,9 @@ private:
 	// HP、名前、ダメージ表示
 	std::unique_ptr<BossEnemyHUD> bossHud_;
 
-	// ここに変数の説明が入る
+	// ダメージイベント
 	GameEventBus::Subscription<GameHUDEvents::DamageTakenEvent> subDamage_;
-	// ここに変数の説明が入る
+	// HUDの表示、非表示イベント
 	GameEventBus::Subscription<GameHUDEvents::VisibilityChangedEvent> subVisible_;
 
 	// ボスのエンティティID

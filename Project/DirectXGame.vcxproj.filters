@@ -2635,7 +2635,6 @@
   <ItemGroup>
     <ClInclude Include="Game\Event\GameEventBus\GameEventBus.h" />
     <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h" />
-    <ClInclude Include="Game\UI\HUD\Controllers\GameHUDControllers.h" />
     <ClInclude Include="Game\UI\HUD\Interface\IGameHUDController.h" />
     <ClInclude Include="Game\UI\HUD\Controllers\Player\PlayerHUDController.h" />
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h" />

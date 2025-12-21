@@ -42,19 +42,20 @@ private:
 
 	//--------- structure ----------------------------------------------------
 
+	// シーン状態遷移を購読し、状態に応じたUIコマンド
 	struct SceneUIRules {
 
 		GameEventBus& bus_;
 		GameHUDEvents::EntityId playerId_{}; // プレイヤーのエンティティID
 		GameHUDEvents::EntityId bossId_{};   // ボスのエンティティID
 
-		// ここに変数の説明が入る
+		// SceneStateChangedEvent購読ハンドル
 		GameEventBus::Subscription<GameHUDEvents::SceneStateChangedEvent> subScene_;
 
 		// 必要な値のセット
 		SceneUIRules(GameEventBus& bus, GameHUDEvents::EntityId playerId, GameHUDEvents::EntityId bossId);
 
-		// ここに関数の説明が入る
+		// 必要なイベント購読を登録し、状態に応じたUI制御を開始する
 		void Install();
 	};
 
@@ -64,7 +65,7 @@ private:
 	const BossEnemy* boss_;
 	const SakuEngine::BaseCamera* camera_;
 
-	// ここに変数の説明が入る
+	// HUD関連イベントの中継を行うイベントバス
 	GameEventBus bus_;
 
 	// プレイヤー

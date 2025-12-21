@@ -90,6 +90,25 @@ void PlayerHUDController::Init() {
 			targetNavigation_->SetInFrustumCheck(event.enable);
 		}
 	);
+	// パリィ可能状態イベントを登録
+	subParrySuggest_ = bus_.Subscribe<GameHUDEvents::ParrySuggestEvent>(
+		[this](const GameHUDEvents::ParrySuggestEvent& event) {
+			// 自分の表示状態変更の場合のみ処理
+			if (event.owner != playerId_) {
+				return;
+			}
+			// 入力示唆を開始、停止
+			if (event.visible) {
+
+				playerHud_->StartInputSuggest();
+				targetNavigation_->SetIsBlink(true);
+			} else {
+
+				playerHud_->EndInputSuggest();
+				targetNavigation_->SetIsBlink(false);
+			}
+		}
+	);
 }
 
 void PlayerHUDController::Update() {

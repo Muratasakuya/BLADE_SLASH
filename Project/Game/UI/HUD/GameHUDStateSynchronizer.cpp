@@ -57,6 +57,11 @@ void GameHUDStateSynchronizer::SceneUIRules::Install() {
 
 void GameHUDStateSynchronizer::NotifySceneStateChanged(GameSceneState prev, GameSceneState next) {
 
+	// Reusltに遷移した場合は何もしない
+	if (next == GameSceneState::Result) {
+		return;
+	}
+
 	// シーン状態変更イベントの発行
 	bus_.Publish(GameHUDEvents::SceneStateChangedEvent{ prev, next });
 }

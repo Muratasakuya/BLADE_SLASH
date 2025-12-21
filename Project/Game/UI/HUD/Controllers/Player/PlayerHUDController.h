@@ -66,6 +66,8 @@ private:
 	GameEventBus::Subscription<GameHUDEvents::TargetNavigationDisableEvent> subNavDisable_;
 	// 目標ナビゲーションのフラスタム内チェックイベント
 	GameEventBus::Subscription<GameHUDEvents::TargetNavigationInFrustumCheckEvent> subNavFrustum_;
+	// パリィ可能状態イベント
+	GameEventBus::Subscription<GameHUDEvents::ParrySuggestEvent> subParrySuggest_;
 
 	// ボスパリィ状態の終了を待つための変数
 	std::optional<int32_t> exitParryBossStateInt_;
@@ -76,8 +78,8 @@ private:
 
 	//--------- functions ----------------------------------------------------
 
-	// 
+	// パリィ時の入力示唆を更新
 	void UpdateParrySuggest();
-	// 
+	// 目標ナビゲーションの更新
 	void UpdateTargetNavigation();
 };

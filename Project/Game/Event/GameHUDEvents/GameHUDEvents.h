@@ -10,10 +10,10 @@
 
 namespace GameHUDEvents {
 
-	// ここにusingの説明が入る
+	// Entityをイベント上で識別するためのID型
 	using EntityId = std::uintptr_t;
 
-	// ここに関数の説明が入る
+	// ポインタをEntityIdに変換するヘルパー
 	EntityId MakeEntityId(const void* ptr) noexcept;
 
 	// ダメージを受けた
@@ -35,14 +35,21 @@ namespace GameHUDEvents {
 	struct TargetNavigationDisableEvent {
 
 		EntityId owner{};
-		bool disable{};
+		bool disable;
 	};
 
 	// 目標ナビゲーションのフラスタム内チェックの有効、無効
 	struct TargetNavigationInFrustumCheckEvent {
 
 		EntityId owner{};
-		bool enable{};
+		bool enable;
+	};
+
+	// パリィ入力示唆の表示、非表示
+	struct ParrySuggestEvent {
+
+		EntityId owner{};
+		bool visible;
 	};
 
 	// ゲームシーンの遷移に応じたイベント

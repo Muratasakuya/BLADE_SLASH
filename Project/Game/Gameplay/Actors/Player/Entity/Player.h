@@ -126,6 +126,7 @@ private:
 	void UpdateSKilPoint();
 
 	// helper
+	void CheckExecutedParry();
 	void SetInitTransform();
 	void ClampInitPosY();
 };
