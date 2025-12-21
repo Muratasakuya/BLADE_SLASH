@@ -16,7 +16,7 @@ void ClearResultCamera::Init() {
 
 	initRotateX_ = transform_.eulerRotate.x;
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// 初期化値設定

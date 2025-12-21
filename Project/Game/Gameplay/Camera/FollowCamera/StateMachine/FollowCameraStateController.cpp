@@ -42,7 +42,7 @@ void FollowCameraStateController::Init(FollowCamera& owner) {
 	overlayStates_.emplace(FollowCameraOverlayState::Shake, std::make_unique<FollowCameraShakeState>());
 	overlayStates_.emplace(FollowCameraOverlayState::ReturnDefaultRotate, std::make_unique<FollowCameraReturnDefaultRotate>());
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// inputを設定

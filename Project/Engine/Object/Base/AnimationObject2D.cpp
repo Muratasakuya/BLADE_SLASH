@@ -168,12 +168,12 @@ void AnimationObject2D::ApplyJsonAndAnimation(const Json& data) {
 		return;
 	}
 
-	// 基底クラスのjson適応
+	// 基底クラスのjson適用
 	GameObject2D::ApplyJson(data);
 
 	for (const auto& key : animationKeys_) {
 
-		// アニメーションのjson適応
+		// アニメーションのjson適用
 		translationChannels_.at(key).FromJson(data.at(key).at("TranslationChannels"));
 		sizeChannels_.at(key).FromJson(data.at(key).at("SizeChannels"));
 		scaleChannels_.at(key).FromJson(data.at(key).at("ScaleChannels"));

@@ -95,7 +95,7 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 	body->SetType(ColliderType::Type_Event);
 	body->SetTargetType(ColliderType::Type_Player);
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

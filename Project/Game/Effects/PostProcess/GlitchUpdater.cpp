@@ -16,7 +16,7 @@ void GlitchUpdater::Init() {
 	// 初期化値
 	currentState_ = State::None;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

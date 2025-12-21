@@ -1299,10 +1299,7 @@
     <ClCompile Include="Game\Gameplay\Actors\Player\Entity\Player.cpp">
       <Filter>Game\Gameplay\Actors\Player\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\HUD\Player\PlayerHUD.cpp">
-      <Filter>Game\UI\HUD\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\HUD\Player\PlayerStunHUD.cpp">
+    <ClCompile Include="Game\UI\HUD\Player\Stun\PlayerStunHUD.cpp">
       <Filter>Game\UI\HUD\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerGamePadInput.cpp">
@@ -2343,10 +2340,7 @@
     <ClInclude Include="Game\Gameplay\Actors\Player\Entity\Player.h">
       <Filter>Game\Gameplay\Actors\Player\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\HUD\Player\PlayerHUD.h">
-      <Filter>Game\UI\HUD\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\HUD\Player\PlayerStunHUD.h">
+    <ClInclude Include="Game\UI\HUD\Player\Stun\PlayerStunHUD.h">
       <Filter>Game\UI\HUD\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerGamePadInput.h">
@@ -2631,6 +2625,8 @@
     <ClCompile Include="Game\UI\HUD\Controllers\Player\PlayerHUDController.cpp" />
     <ClCompile Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.cpp" />
     <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Event\GameEventBus\GameEventBus.h" />
@@ -2638,5 +2634,7 @@
     <ClInclude Include="Game\UI\HUD\Interface\IGameHUDController.h" />
     <ClInclude Include="Game\UI\HUD\Controllers\Player\PlayerHUDController.h" />
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.h" />
   </ItemGroup>
 </Project>

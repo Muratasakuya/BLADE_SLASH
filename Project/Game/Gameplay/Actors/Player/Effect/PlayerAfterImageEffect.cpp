@@ -16,7 +16,7 @@ void PlayerAfterImageEffect::Init(const std::string& fileName) {
 
 	// ファイル名保存
 	fileName_ = fileName;
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

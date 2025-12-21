@@ -22,7 +22,7 @@ void RadialBlurUpdater::Init() {
 	type_ = RadialBlurType::Parry;
 	isAutoReturn_ = true;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

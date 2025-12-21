@@ -16,7 +16,7 @@ void BossEnemyStartAnimation::Init() {
 	isStarted_ = false;
 	isWaited_ = false;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

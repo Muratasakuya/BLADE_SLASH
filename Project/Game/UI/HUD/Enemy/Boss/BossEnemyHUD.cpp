@@ -52,7 +52,7 @@ void BossEnemyHUD::Init() {
 	// sprite初期化
 	InitSprite();
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

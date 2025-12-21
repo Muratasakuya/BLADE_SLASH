@@ -3,40 +3,33 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Input/InputStructures.h>
 #include <Engine/Utility/Material/SpriteVertexColorAnimation.h>
 #include <Engine/Object/Base/GameObject2DArray.h>
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/UI/Widgets/HPBar/GameHPBar.h>
-#include <Game/UI/Widgets/DigitDisplay/GameDigitDisplay.h>
 #include <Game/UI/Widgets/DamageDisplay/GameDisplayDamage.h>
 #include <Game/UI/Structures/GameCommonStructures.h>
-#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
-#include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
-// c++
-#include <utility>
 // front
 class Player;
-class BossEnemy;
 
 //============================================================================
-//	PlayerHUD class
-//	プレイヤーの情報を表示するHUD
+//	PlayerStatsHUD class
+//	プレイヤーのステータス表示HUD
 //============================================================================
-class PlayerHUD {
+class PlayerStatsHUD {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerHUD() = default;
-	~PlayerHUD() = default;
+	PlayerStatsHUD() = default;
+	~PlayerStatsHUD() = default;
 
 	// 初期化
 	void Init();
 
-	// HUD表示の更新
+	// 更新
 	void Update();
 
 	// エディター
@@ -44,46 +37,23 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	// 入力示唆アニメーション開始、終了呼び出し
-	void StartInputSuggest();
-	void EndInputSuggest();
-
 	void SetPlayer(const Player* player) { player_ = player; }
-	void SetBossEnemy(const BossEnemy* bossEnemy) { bossEnemy_ = bossEnemy; }
 	void SetCamera(const SakuEngine::BaseCamera* camera) { camera_ = camera; }
+
+	// ダメージ表示設定
 	void SetDamage(int damage);
-	void SetDisable();
-	void SetValid();
+
+	// 表示、非表示設定
+	void SetIsDisplay(bool isDisplay);
 private:
 	//========================================================================
 	//	private Methods
 	//========================================================================
 
-	//--------- structure ----------------------------------------------------
-
-	// 入力示唆
-	struct Suggest {
-
-		// 表示スプライト
-		std::unique_ptr<SakuEngine::GameObject2D> sprite;
-
-		// アニメーション
-		SakuEngine::SimpleAnimation<SakuEngine::Vector2> sizeAnim;
-		SakuEngine::SimpleAnimation<SakuEngine::Color> colorAnim;
-		SakuEngine::SimpleAnimation<float> emissiveAnim;
-	};
-
 	//--------- variables ----------------------------------------------------
 
 	const Player* player_;
 	const SakuEngine::BaseCamera* camera_;
-	const BossEnemy* bossEnemy_;
-
-	// 現在の入力状態
-	InputType inputType_;
-	InputType preInputType_;
-
-	//----------- stats ------------------------//
 
 	// HP背景
 	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;
@@ -95,7 +65,6 @@ private:
 	// スキル値
 	std::unique_ptr<GameHPBar> skilBar_;
 	GameCommon::HUDInitParameter skilBarParameter_;
-	SakuEngine::SpriteVertexColorAnimation skilBarColorAnim_;
 
 	// 名前文字表示
 	std::unique_ptr<SakuEngine::GameObject2D> nameText_;
@@ -104,31 +73,10 @@ private:
 	// ダメージ表示
 	std::unique_ptr<GameDisplayDamage> damageDisplay_;
 
-	// ボタン入力示唆
-	static const uint32_t kInputSuggestCount_ = 2;
-	std::array<Suggest, kInputSuggestCount_> inputSuggests_;
-
 	// スキルP閾値表示
 	std::unique_ptr<SakuEngine::GameObject2DArray> skillThreshold_;
 	SakuEngine::Color enableSkillThresholdColor_;  // 有効時の色
 	SakuEngine::Color disableSkillThresholdColor_; // 無効時の色
-
-	//----------- operate ----------------------//
-
-	// 入力アイコン表示
-	std::unique_ptr<SakuEngine::GameObject2DArray> operateIcons_;
-
-	float returnAlphaTimer_; // alpha値を元に戻すときの経過時間
-	float returnAlphaTime_;  // alpha値を元に戻すときの時間
-	EasingType returnAlphaEasingType_;
-	// 入力示唆
-	bool isInputSuggestActive_;    // 入力示唆アニメーションが有効かどうか
-	bool endDelayInputSuggest_;    // 遅延時間が終わったかどうか
-	SakuEngine::StateTimer inputSuggestDelay_; // 表示遅延時間、初期発生時
-	SakuEngine::Vector3 inputSuggestEmissionColor_; // 入力示唆の発光色
-
-	bool isDisable_;   // 無効状態かどうか
-	bool returnVaild_; // 再度有効にする
 
 	//--------- functions ----------------------------------------------------
 
@@ -136,20 +84,8 @@ private:
 	void ApplyJson();
 	void SaveJson();
 
-	// init
-	void InitSprite();
-
-	// update
-	void UpdateSprite();
-	void UpdateAlpha();
-
 	// バー更新
 	void UpdateBar();
-	// 入力示唆更新
-	void UpdateInputSuggest();
 	// スキルP閾値表示更新
 	void UpdateSkillThreshold();
-
-	// helper
-	void ChangeAllOperateSprite();
 };

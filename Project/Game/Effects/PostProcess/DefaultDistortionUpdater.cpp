@@ -15,7 +15,7 @@ void DefaultDistortionUpdater::Init() {
 	// デフォルト
 	processTextureName_ = "distortion_1";
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

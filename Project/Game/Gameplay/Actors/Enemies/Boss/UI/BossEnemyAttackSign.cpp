@@ -33,7 +33,7 @@ void BossEnemyAttackSign::Init() {
 	// 初期状態
 	currentState_ = State::None;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

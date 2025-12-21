@@ -18,7 +18,7 @@ void BeginGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 	// ゲーム開始時のカメラアニメーションデータを読み込み
 	SakuEngine::CameraEditor::GetInstance()->LoadJson("Scene/startGameCamera.json");
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

@@ -80,7 +80,7 @@ void BossEnemyStateController::Init(BossEnemy* owner, uint32_t phaseCount) {
 		machine.Get(state).CreateEffect();
 		});
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// 初期状態を設定

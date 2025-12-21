@@ -13,7 +13,7 @@ void DepthOutlineUpdater::Init() {
 
 	bufferData_ = SakuEngine::DepthBasedOutlineForGPU{};
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// Resetで効果を消す

@@ -34,7 +34,7 @@ void FadeTransition::Init() {
 	loadSprite_->SetCenterTranslation();
 	loadSprite_->SetAlpha(0.0f);
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

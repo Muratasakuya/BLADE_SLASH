@@ -143,7 +143,7 @@ void FollowCamera::Init() {
 	displayFrustum_ = false;
 	isLoadedAnim_ = false;
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	stateController_ = std::make_unique<FollowCameraStateController>();

@@ -14,7 +14,7 @@
 
 void FieldBoundary::Init() {
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// 1度だけ更新

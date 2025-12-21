@@ -47,7 +47,7 @@ void PlayerStunHUD::Init() {
 	isCountFinished_ = false;
 	currentState_ = State::Begin;
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// 最初は表示を切る

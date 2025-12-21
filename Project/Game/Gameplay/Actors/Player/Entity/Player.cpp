@@ -123,7 +123,7 @@ void Player::DerivedInit() {
 	// エフェクト初期化
 	InitEffects();
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// ポストエフェクト設定

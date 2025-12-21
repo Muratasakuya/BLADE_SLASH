@@ -104,7 +104,17 @@ void GameHUDStateSynchronizer::Update() {
 
 void GameHUDStateSynchronizer::ImGui() {
 
-	// 各HUDコントローラーのエディター
-	playerHudController_->ImGui();
-	bossEnemyHudController_->ImGui();
+	if (ImGui::BeginTabBar("PlayerHUDControllerTabBar")) {
+		if (ImGui::BeginTabItem("Player")) {
+
+			playerHudController_->ImGui();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("BossEnemy")) {
+
+			bossEnemyHudController_->ImGui();
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
 }

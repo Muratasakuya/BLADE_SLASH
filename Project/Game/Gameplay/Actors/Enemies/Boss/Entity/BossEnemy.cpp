@@ -161,7 +161,7 @@ void BossEnemy::DerivedInit() {
 	// collision初期化、設定
 	InitCollision();
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// 状態初期化
