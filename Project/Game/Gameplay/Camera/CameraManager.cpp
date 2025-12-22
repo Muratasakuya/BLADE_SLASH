@@ -40,14 +40,8 @@ void CameraManager::Init(SakuEngine::SceneView* sceneView) {
 
 void CameraManager::SetTarget(const Player* player, const BossEnemy* bossEnemy) {
 
-	player_ = nullptr;
-	player_ = player;
-
-	followCamera_->SetPlayer(player);
-	// 追従先を設定する: player
-	followCamera_->SetTarget(FollowCameraTargetType::Player, player_->GetTransform());
-	// bossEnemy
-	followCamera_->SetTarget(FollowCameraTargetType::BossEnemy, bossEnemy->GetTransform());
+	followCamera_->SetAnchorObject(player);
+	followCamera_->SetLookAtTargetObject(bossEnemy);
 }
 
 void CameraManager::Update(GameSceneState sceneState) {

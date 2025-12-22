@@ -55,7 +55,6 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	SakuEngine::SceneView* sceneView_;
-	const Player* player_;
 	GameSceneState preSceneState_;
 
 	// 追従カメラ

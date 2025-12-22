@@ -29,8 +29,7 @@ void PlayerFalterState::Enter() {
 	SakuEngine::GameTimer::StartHitStop(hitStopTime_, 0.0f);
 
 	// カメラの向きを補正させる
-	followCamera_->StartLookToTarget(FollowCameraTargetType::Player,
-		FollowCameraTargetType::BossEnemy, true, true, targetCameraRotateX_);
+	followCamera_->StartLookToTarget(true, true, targetCameraRotateX_);
 
 	canExit_ = false;
 }

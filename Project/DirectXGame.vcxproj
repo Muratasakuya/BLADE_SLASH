@@ -230,6 +230,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Lighting\GameLight.cpp">
       <SubType />
     </ClCompile>
@@ -678,28 +682,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateController.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraAllyAttackState.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraReturnDefaultRotate.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraStunAttackState.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraSwitchAllyState.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp">
@@ -1021,6 +1007,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateConfig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1589,28 +1583,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Actions\FollowCameraInputAction.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateController.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraAllyAttackState.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraReturnDefaultRotate.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraStunAttackState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraSwitchAllyState.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Structures\FollowCameraStructures.h">

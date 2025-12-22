@@ -9,15 +9,27 @@
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 
+// inputDevice
+#include <Game/Gameplay/Camera/FollowCamera/Input/Devices/FollowCameraKeyInput.h>
+#include <Game/Gameplay/Camera/FollowCamera/Input/Devices/FollowCameraGamePadInput.h>
+
 //============================================================================
 //	FollowCameraFollowState classMethods
 //============================================================================
 
-void FollowCameraFollowState::SnapToCamera(const FollowCamera& camera) {
+FollowCameraFollowState::FollowCameraFollowState() {
+
+	// 入力クラスを初期化
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+	inputMapper_ = std::make_unique<SakuEngine::InputMapper<FollowCameraInputAction>>();
+	inputMapper_->AddDevice(std::make_unique<FollowCameraGamePadInput>(input));
+}
+
+void FollowCameraFollowState::SnapToCamera() {
 
 	// 補間位置を初期化
-	interTarget_ = targets_[FollowCameraTargetType::Player]->translation;
-	const auto& transform = camera.GetTransform();
+	interTarget_ = anchorObject_->GetTranslation();
+	const auto& transform = followCamera_->GetTransform();
 	offsetTranslation_ = SakuEngine::Quaternion::Conjugate(
 		SakuEngine::Quaternion::Normalize(transform.rotation)) * (transform.translation - interTarget_);
 	// 現在位置のオフセットを記録
@@ -29,22 +41,22 @@ void FollowCameraFollowState::SnapToCamera(const FollowCamera& camera) {
 	smoothedInput_ = SakuEngine::Vector2::AnyInit(0.0f);
 }
 
-void FollowCameraFollowState::UpdateInitialSettings(FollowCamera& followCamera) {
+void FollowCameraFollowState::UpdateInitialSettings() {
 
 	// 画角
-	followCamera.SetFovY(defaultFovY_);
+	followCamera_->SetFovY(defaultFovY_);
 
 	// 回転を考慮したオフセットと追従先の座標を足す
-	SakuEngine::Vector3 translation = targets_[FollowCameraTargetType::Player]->translation +
-		followCamera.GetTransform().rotation * offsetTranslation_;
+	SakuEngine::Vector3 translation = anchorObject_->GetTranslation() +
+		followCamera_->GetTransform().rotation * offsetTranslation_;
 	interTarget_ = translation;
-	followCamera.SetTranslation(translation);
+	followCamera_->SetTranslation(translation);
 }
 
-void FollowCameraFollowState::Enter([[maybe_unused]] FollowCamera& followCamera) {
+void FollowCameraFollowState::Enter() {
 }
 
-void FollowCameraFollowState::Update(FollowCamera& followCamera) {
+void FollowCameraFollowState::Update() {
 
 	// deltaTime取得
 	float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
@@ -52,14 +64,14 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	// 画角に変更があっても常に初期値に補間させる
 	{
 		float t = std::clamp(fovYLerpRate_ * deltaTime, 0.0f, 1.0f);
-		float fovY = std::lerp(followCamera.GetFovY(), defaultFovY_, t);
-		followCamera.SetFovY(fovY);
+		float fovY = std::lerp(followCamera_->GetFovY(), defaultFovY_, t);
+		followCamera_->SetFovY(fovY);
 	}
 
 	// 追従ターゲット位置の補間
 	{
 		float t = std::clamp(lerpRate_ * deltaTime, 0.0f, 1.0f);
-		interTarget_ = SakuEngine::Vector3::Lerp(interTarget_, targets_[FollowCameraTargetType::Player]->translation, t);
+		interTarget_ = SakuEngine::Vector3::Lerp(interTarget_, anchorObject_->GetTranslation(), t);
 	}
 
 	// 入力から移動量を取得する
@@ -88,7 +100,7 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	float yawDelta = smoothedInput_.x * yawSpeed * deltaTime;
 	float pitchDelta = -smoothedInput_.y * pitchSpeed * deltaTime;
 
-	SakuEngine::Quaternion currentRotation = followCamera.GetTransform().rotation;
+	SakuEngine::Quaternion currentRotation = followCamera_->GetTransform().rotation;
 	// Y軸の回転
 	SakuEngine::Quaternion yawRotation = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::MakeAxisAngle(
 		Direction::Get(Direction3D::Up), yawDelta) * currentRotation);
@@ -169,20 +181,21 @@ void FollowCameraFollowState::Update(FollowCamera& followCamera) {
 	SakuEngine::Vector3 translation = interTarget_ + rotation * offsetTranslation_;
 
 	// カメラにセット
-	followCamera.SetRotation(rotation);
-	followCamera.SetTranslation(translation);
+	followCamera_->SetRotation(rotation);
+	followCamera_->SetTranslation(translation);
 }
 
 void FollowCameraFollowState::Exit() {
 }
 
-void FollowCameraFollowState::ImGui([[maybe_unused]] const FollowCamera& followCamera) {
+void FollowCameraFollowState::ImGui() {
 
 	ImGui::Text("clampBlendT: %.3f", clampBlendT_);
 	ImGui::Text("handoffBlendT: %.3f", handoffBlendT_);
 
 	ImGui::DragFloat3("offsetTranslation", &offsetTranslation_.x, 0.1f);
 
+	ImGui::DragFloat("defaultFovY", &defaultFovY_, 0.01f);
 	ImGui::DragFloat("lerpRate", &lerpRate_, 0.01f);
 	ImGui::DragFloat("inputLerpRate_", &inputLerpRate_, 0.01f);
 
@@ -212,6 +225,7 @@ void FollowCameraFollowState::ApplyJson(const Json& data) {
 	// 現在位置のオフセットを記録
 	handoffDefault_ = offsetTranslation_;
 
+	defaultFovY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "defaultFovY_");
 	lerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpRate_");
 	inputLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "inputLerpRate_");
 	mouseSensitivity_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["mouseSensitivity_"]);
@@ -237,6 +251,7 @@ void FollowCameraFollowState::ApplyJson(const Json& data) {
 
 void FollowCameraFollowState::SaveJson(Json& data) {
 
+	data["defaultFovY_"] = defaultFovY_;
 	data["offsetTranslation_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector3>(offsetTranslation_);
 	data["lerpRate_"] = lerpRate_;
 	data["inputLerpRate_"] = inputLerpRate_;

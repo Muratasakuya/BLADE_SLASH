@@ -25,12 +25,6 @@ void PlayerDashState::Enter() {
 	// 加速開始
 	currentState_ = State::Accel;
 	accelLerp_->Start();
-
-	if (followCamera_->IsFinishedHandoffBlend() && StateNode::GetPreviousState() != PlayerState::Parry) {
-
-		// カメラを見やすい位置まで補間させる
-		followCamera_->SetOverlayState(FollowCameraOverlayState::ReturnDefaultRotate, true);
-	}
 }
 
 void PlayerDashState::Update() {

@@ -47,7 +47,7 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	case PlayerState::Parry:
 
 		// 目標回転
-		const SakuEngine::Quaternion baseTarget = targets_[FollowCameraTargetType::BossEnemy]->rotation;
+		const SakuEngine::Quaternion baseTarget = lookAtTargetObject_->GetRotation();
 		// y軸最短補間方向
 		int direction = SakuEngine::Math::YawShortestDirection(transform_.rotation, baseTarget);
 
@@ -82,12 +82,11 @@ void FollowCamera::EndPlayerActionAnim(bool isWarmStart) {
 	editor->EndAnim();
 	if (isWarmStart) {
 
-		stateController_->WarmStartFollow(*this);
+		stateMachine_->WarmStartFollow();
 	}
 }
 
-void FollowCamera::StartLookToTarget(FollowCameraTargetType from,
-	FollowCameraTargetType to, bool isReset, bool isLockTarget,
+void FollowCamera::StartLookToTarget(bool isReset, bool isLockTarget,
 	std::optional<float> targetXRotation, float lookTimerRate) {
 
 	// 処理中なら受け付けない
@@ -99,8 +98,6 @@ void FollowCamera::StartLookToTarget(FollowCameraTargetType from,
 	lookStart_ = true;
 	lookTimer_.Reset();
 	lookTimerRate_ = lookTimerRate;
-	lookPair_.first = from;
-	lookPair_.second = to;
 	startFovY_ = fovY_;
 
 	// 開始回転を設定
@@ -146,47 +143,35 @@ void FollowCamera::Init() {
 	// json適用
 	ApplyJson();
 
-	stateController_ = std::make_unique<FollowCameraStateController>();
-	stateController_->Init(*this);
+	stateMachine_ = std::make_unique<FollowCameraStateMachine>();
+	stateMachine_->Init(this);
 }
 
 void FollowCamera::UpdateInitialSettings() {
 
 	// 初期位置に持って行く
-	stateController_->UpdateInitialSettings(*this);
-	
+	stateMachine_->UpdateInitialSettings();
+
 	// 行列更新
 	BaseCamera::UpdateView(UpdateMode::Quaternion);
 }
 
-void FollowCamera::SetOverlayState(FollowCameraOverlayState state, bool isStart) {
+void FollowCamera::SetAnchorObject(const SakuEngine::GameObject3D* anchor) {
 
-	if (isStart) {
-
-		// 状態を設定する
-		stateController_->SetOverlayState(*this, state);
-	} else {
-
-		// 状態を止める
-		stateController_->ExitOverlayState(state);
-	}
+	anchorObject_ = anchor;
+	stateMachine_->SetAnchorObject(anchor);
 }
 
-void FollowCamera::SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target) {
+void FollowCamera::SetLookAtTargetObject(const SakuEngine::GameObject3D* lookAtTarget) {
 
-	stateController_->SetTarget(type, target);
-	targets_[type] = &target;
-}
-
-void FollowCamera::SetState(FollowCameraState state) {
-
-	stateController_->SetState(state);
+	lookAtTargetObject_ = lookAtTarget;
+	stateMachine_->SetLookAtTargetObject(lookAtTarget);
 }
 
 void FollowCamera::Update() {
 
 	// 状態の更新
-	stateController_->Update(*this);
+	stateMachine_->Update();
 
 	// エディターで更新しているときは処理しない
 	if (isUpdateEditor_) {
@@ -245,10 +230,6 @@ void FollowCamera::UpdateLookAlwaysTarget() {
 		return;
 	}
 
-	// 視点と注視点は固定
-	lookPair_.first = FollowCameraTargetType::Player;
-	lookPair_.second = FollowCameraTargetType::BossEnemy;
-
 	// 目標回転
 	SakuEngine::Quaternion targetRotation = GetTargetRotation();
 
@@ -262,8 +243,8 @@ SakuEngine::Quaternion FollowCamera::GetTargetRotation() const {
 
 	// 注視点に向ける
 	// 視点と注視点
-	const SakuEngine::Transform3D fromTransform = *targets_.at(lookPair_.first);
-	const SakuEngine::Transform3D toTransform = *targets_.at(lookPair_.second);
+	const SakuEngine::Transform3D fromTransform = anchorObject_->GetTransform();
+	const SakuEngine::Transform3D toTransform = lookAtTargetObject_->GetTransform();
 
 	// ワールド座標
 	const SakuEngine::Vector3 fromPos = fromTransform.GetWorldPos();
@@ -314,15 +295,14 @@ void FollowCamera::ImGui() {
 
 		if (ImGui::BeginTabItem("State")) {
 
-			stateController_->ImGui(*this);
+			stateMachine_->ImGui();
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("LookTarget")) {
 
 			if (ImGui::Button("Start")) {
 
-				StartLookToTarget(FollowCameraTargetType::Player,
-					FollowCameraTargetType::BossEnemy, true);
+				StartLookToTarget(true);
 			}
 
 			ImGui::Text(std::format("lookTimer_.IsReached(): {}", lookTimer_.IsReached()).c_str());

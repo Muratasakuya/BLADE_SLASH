@@ -5,9 +5,7 @@
 //============================================================================
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
-
-// state
-#include <Game/Gameplay/Camera/FollowCamera/StateMachine/FollowCameraStateController.h>
+#include <Game/Gameplay/Camera/FollowCamera/StateMachine/FollowCameraStateMachine.h>
 
 //============================================================================
 //	FollowCamera class
@@ -35,12 +33,11 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetPlayer(const Player* player) { stateController_->SetPlayer(player); }
-	void SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target);
-	void SetFovY(float fovY) { fovY_ = fovY; }
-	void SetState(FollowCameraState state);
-	void SetOverlayState(FollowCameraOverlayState state, bool isStart);
-	void WarmStart() { stateController_->WarmStartFollow(*this); }
+	void SetAnchorObject(const SakuEngine::GameObject3D* anchor);
+	void SetLookAtTargetObject(const SakuEngine::GameObject3D* lookAtTarget);
+
+	void WarmStart() { stateMachine_->WarmStartFollow(); }
+	bool IsFinishedHandoffBlend() const { return  stateMachine_->IsFinishedHandoffBlend(); }
 
 	// エディターによるカメラアニメーション
 	void StartPlayerActionAnim(PlayerState state);
@@ -48,13 +45,12 @@ public:
 	void EndPlayerActionAnim(bool isWarmStart);
 
 	// 視点を注視点に向ける
-	void StartLookToTarget(FollowCameraTargetType from, FollowCameraTargetType to,
-		bool isReset = false, bool isLockTarget = false,
+	void StartLookToTarget(bool isReset = false, bool isLockTarget = false,
 		std::optional<float> targetXRotation = std::nullopt, float lookTimerRate = 1.0f);
 	void SetLookAlwaysTarget(bool look) { lookAlwaysTarget_ = look; }
 
 	// ブレンド処理が終了しているか
-	bool IsFinishedHandoffBlend() const { return  stateController_->IsFinishedHandoffBlend(); }
+
 private:
 	//========================================================================
 	//	private Methods
@@ -63,14 +59,14 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 状態の管理
-	std::unique_ptr<FollowCameraStateController> stateController_;
-	std::unordered_map<FollowCameraTargetType, const SakuEngine::Transform3D*> targets_;
+	std::unique_ptr<FollowCameraStateMachine> stateMachine_;
+	const SakuEngine::GameObject3D* anchorObject_;       // 基準点
+	const SakuEngine::GameObject3D* lookAtTargetObject_; // 注視点
 
 	// 視点を注視点に向ける処理
 	bool lookStart_ = false;         // 補間開始するか
-	bool  lookAlwaysTarget_ = false; // trueの間ずっと向ける
+	bool lookAlwaysTarget_ = false; // trueの間ずっと向ける
 	float lookTargetLerpRate_; // フレーム補間割合
-	std::pair<FollowCameraTargetType, FollowCameraTargetType> lookPair_;
 	SakuEngine::Quaternion lookToStart_;  // 補間開始時の回転
 	std::optional<SakuEngine::Quaternion> lookToTarget_; // 補間目標の回転
 	SakuEngine::StateTimer lookTimer_;   // 補間までの時間

@@ -3,7 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/Base/InputMapper.h>
 #include <Game/Gameplay/Camera/FollowCamera/StateMachine/Interface/FollowCameraIState.h>
+#include <Game/Gameplay/Camera/FollowCamera/Input/Actions/FollowCameraInputAction.h>
 
 //============================================================================
 //	FollowCameraFollowState class
@@ -16,27 +18,27 @@ public:
 	//	public Methods
 	//========================================================================
 
-	FollowCameraFollowState(float defaultFovY) :defaultFovY_(defaultFovY) {}
+	FollowCameraFollowState();
 	~FollowCameraFollowState() = default;
 
-	void Enter(FollowCamera& followCamera) override;
+	void Enter() override;
 
-	void Update(FollowCamera& followCamera) override;
+	void Update() override;
 
 	void Exit() override;
 
-	// imgui
-	void ImGui(const FollowCamera& followCamera) override;
+	// エディター
+	void ImGui() override;
 
 	// json
 	void ApplyJson(const Json& data) override;
 	void SaveJson(Json& data)  override;
 
 	// 今のカメラ姿勢からフォローの基準値を作る
-	void SnapToCamera(const FollowCamera& camera);
+	void SnapToCamera();
 
 	// 最初にカメラが一気に移動してしまうのを防ぐ
-	void UpdateInitialSettings(FollowCamera& followCamera);
+	void UpdateInitialSettings();
 
 	//--------- accessor -----------------------------------------------------
 
@@ -61,6 +63,9 @@ private:
 	};
 
 	//--------- variables ----------------------------------------------------
+
+	// 入力クラス
+	std::unique_ptr<SakuEngine::InputMapper<FollowCameraInputAction>> inputMapper_;
 
 	SakuEngine::Vector2 smoothedInput_; // 入力の値補間用
 	float defaultFovY_;

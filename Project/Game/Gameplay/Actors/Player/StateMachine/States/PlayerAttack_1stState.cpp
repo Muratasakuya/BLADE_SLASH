@@ -42,8 +42,7 @@ void PlayerAttack_1stState::Enter() {
 	if (assisted_) {
 
 		// カメラの向きを補正させる
-		followCamera_->StartLookToTarget(FollowCameraTargetType::Player,
-			FollowCameraTargetType::BossEnemy, true, true, targetCameraRotateX_);
+		followCamera_->StartLookToTarget(true, true, targetCameraRotateX_);
 
 		startPos_ = playerPos;
 		targetPos_ = startPos_ + player_->GetTransform().GetForward() * moveValue_;

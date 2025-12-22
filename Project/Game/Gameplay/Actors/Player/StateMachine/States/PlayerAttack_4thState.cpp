@@ -100,8 +100,6 @@ void PlayerAttack_4thState::Update() {
 		followCamera_->EndPlayerActionAnim(false);
 
 		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
-		// 画面シェイクを行わせる
-		followCamera_->SetOverlayState(FollowCameraOverlayState::Shake, true);
 	}
 }
 

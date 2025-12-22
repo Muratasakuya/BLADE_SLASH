@@ -32,8 +32,8 @@ namespace {
 
 	// 全てのBossEnemyStateに対して関数を実行
 	// Countは除外
-	template<class Fn>
-	static void ForEachBossEnemyState(Fn&& function) {
+	template <typename Fn>
+	static void ForEachState(Fn&& function) {
 		for (uint32_t i = 0; i < static_cast<uint32_t>(BossEnemyState::Count); ++i) {
 			BossEnemyState state = static_cast<BossEnemyState>(i);
 			if (state == BossEnemyState::Count) {
@@ -68,7 +68,7 @@ void BossEnemyStateController::Init(BossEnemy* owner, uint32_t phaseCount) {
 	machine.Add<BossEnemyJumpAttackState>(BossEnemyState::JumpAttack);
 	machine.Add<BossEnemyProjectileAttackState>(BossEnemyState::ProjectileAttack, phaseCount);
 
-	ForEachBossEnemyState([&](BossEnemyState state) {
+	ForEachState([&](BossEnemyState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
@@ -96,7 +96,7 @@ void BossEnemyStateController::SetPlayer(Player* player) {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 各状態にplayerをセット
-	ForEachBossEnemyState([&](BossEnemyState state) {
+	ForEachState([&](BossEnemyState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
@@ -109,7 +109,7 @@ void BossEnemyStateController::SetFollowCamera(FollowCamera* followCamera) {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 各状態にfollowCameraをセット
-	ForEachBossEnemyState([&](BossEnemyState state) {
+	ForEachState([&](BossEnemyState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
@@ -155,7 +155,7 @@ void BossEnemyStateController::Update() {
 		machine.GetCurrent().Update();
 
 		// 全ての状態の常に行う更新処理
-		ForEachBossEnemyState([&](BossEnemyState state) {
+		ForEachState([&](BossEnemyState state) {
 			if (machine.Has(state)) {
 
 				machine.Get(state).UpdateAlways();
@@ -170,7 +170,7 @@ void BossEnemyStateController::Update() {
 	OnStateChanged();
 
 	// 全ての状態の常に行う更新処理
-	ForEachBossEnemyState([&](BossEnemyState state) {
+	ForEachState([&](BossEnemyState state) {
 		if (machine.Has(state)) {
 
 			machine.Get(state).UpdateAlways();
@@ -885,7 +885,7 @@ void BossEnemyStateController::ApplyJson() {
 		if (SakuEngine::JsonAdapter::LoadCheck(kStateJsonPath_, data)) {
 
 			// 各状態に対して処理
-			ForEachBossEnemyState([&](BossEnemyState state) {
+			ForEachState([&](BossEnemyState state) {
 
 				// キー取得
 				const auto& key = SakuEngine::EnumAdapter<BossEnemyState>::ToString(state);
@@ -927,7 +927,7 @@ void BossEnemyStateController::SaveJson() {
 		Json data;
 
 		// 各状態に対して処理
-		ForEachBossEnemyState([&](BossEnemyState state) {
+		ForEachState([&](BossEnemyState state) {
 			if (!machine.Has(state)) {
 				return;
 			}

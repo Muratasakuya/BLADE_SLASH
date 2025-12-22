@@ -32,8 +32,8 @@ namespace {
 
 	// 全てのPlayerStateに対して関数を実行
 	// NoneとCountは除外
-	template<class Fn>
-	static void ForEachPlayerState(Fn&& function) {
+	template <typename Fn>
+	static void ForEachState(Fn&& function) {
 		for (uint32_t i = 0; i < static_cast<uint32_t>(PlayerState::Count); ++i) {
 			PlayerState state = static_cast<PlayerState>(i);
 			if (state == PlayerState::None || state == PlayerState::Count) {
@@ -67,7 +67,7 @@ void PlayerStateController::Init(Player* owner) {
 	machine.Add<PlayerParryState>(PlayerState::Parry, inputMapper);
 	machine.Add<PlayerFalterState>(PlayerState::Falter);
 
-	ForEachPlayerState([&](PlayerState state) {
+	ForEachState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
@@ -96,7 +96,7 @@ void PlayerStateController::SetBossEnemy(BossEnemy* bossEnemy) {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 各状態にbossEnemyをセット
-	ForEachPlayerState([&](PlayerState state) {
+	ForEachState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
@@ -112,7 +112,7 @@ void PlayerStateController::SetFollowCamera(FollowCamera* followCamera) {
 
 	// 各状態にfollowCameraをセット
 	// 必要なクラスを設定
-	ForEachPlayerState([&](PlayerState state) {
+	ForEachState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;
 		}
@@ -158,7 +158,7 @@ void PlayerStateController::Update() {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 全ての状態の常に行う前処理
-	ForEachPlayerState([&](PlayerState state) {
+	ForEachState([&](PlayerState state) {
 		if (machine.Has(state)) {
 
 			machine.Get(state).BeginUpdateAlways();
@@ -175,7 +175,7 @@ void PlayerStateController::Update() {
 	parrySystem_.PostStateUpdate(machine.GetCurrentId(), machine.GetCurrent().GetCanExit());
 
 	// 全ての状態の常に行う更新処理
-	ForEachPlayerState([&](PlayerState state) {
+	ForEachState([&](PlayerState state) {
 		if (machine.Has(state)) {
 
 			machine.Get(state).UpdateAlways();
@@ -463,7 +463,7 @@ void PlayerStateController::ApplyJson() {
 		auto& machine = BaseStateController::GetMachine();
 
 		// 各状態に対して処理
-		ForEachPlayerState([&](PlayerState state) {
+		ForEachState([&](PlayerState state) {
 
 			// キー取得
 			const auto& key = SakuEngine::EnumAdapter<PlayerState>::ToString(state);
@@ -491,7 +491,7 @@ void PlayerStateController::SaveJson() {
 	auto& machine = BaseStateController::GetMachine();
 
 	// 各状態に対して処理
-	ForEachPlayerState([&](PlayerState state) {
+	ForEachState([&](PlayerState state) {
 		if (!machine.Has(state)) {
 			return;
 		}

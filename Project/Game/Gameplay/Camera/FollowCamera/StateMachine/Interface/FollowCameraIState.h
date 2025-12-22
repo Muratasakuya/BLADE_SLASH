@@ -3,23 +3,19 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Input/Base/InputMapper.h>
-#include <Engine/Utility/Enum/Direction.h>
-#include <Engine/Utility/Timer/StateTimer.h>
-#include <Engine/MathLib/MathUtils.h>
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/State/StateNode.h>
+#include <Engine/Object/Base/GameObject3D.h>
 #include <Game/Gameplay/Camera/FollowCamera/Structures/FollowCameraStructures.h>
-#include <Game/Gameplay/Camera/FollowCamera/Input/Actions/FollowCameraInputAction.h>
 
 // front
 class FollowCamera;
-class Player;
 
 //============================================================================
 //	FollowCameraIState class
 //	追従カメラの状態インターフェース
 //============================================================================
-class FollowCameraIState {
+class FollowCameraIState :
+	public SakuEngine::StateNode<FollowCameraState> {
 public:
 	//========================================================================
 	//	public Methods
@@ -28,17 +24,8 @@ public:
 	FollowCameraIState() = default;
 	virtual ~FollowCameraIState() = default;
 
-	// 状態遷移時
-	virtual void Enter(FollowCamera& followCamera) = 0;
-
-	// 更新処理
-	virtual void Update(FollowCamera& followCamera) = 0;
-
-	// 状態終了時
-	virtual void Exit() = 0;
-
-	// imgui
-	virtual void ImGui(const FollowCamera& followCamera) = 0;
+	// エディター
+	virtual void ImGui() = 0;
 
 	// json
 	virtual void ApplyJson(const Json& data) = 0;
@@ -46,12 +33,9 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetInputMapper(const SakuEngine::InputMapper<FollowCameraInputAction>* inputMapper) { inputMapper_ = inputMapper; }
-	void SetPlayer(const Player* player) { player_ = player; }
-	void SetTarget(FollowCameraTargetType type, const SakuEngine::Transform3D& target);
-	void SetCanExit(bool canExit) { canExit_ = canExit; }
-
-	virtual bool GetCanExit() const { return canExit_; }
+	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; }
+	void SetAnchorObject(const SakuEngine::GameObject3D* anchor) { anchorObject_ = anchor; }
+	void SetLookAtTargetObject(const SakuEngine::GameObject3D* lookAtTarget) { lookAtTargetObject_ = lookAtTarget; }
 protected:
 	//========================================================================
 	//	protected Methods
@@ -59,10 +43,8 @@ protected:
 
 	//--------- variables ----------------------------------------------------
 
-	const SakuEngine::InputMapper<FollowCameraInputAction>* inputMapper_;
-	const Player* player_;
-	std::unordered_map<FollowCameraTargetType, const SakuEngine::Transform3D*> targets_;
-
-	// 共通parameters
-	bool canExit_ = true; // 遷移可能かどうか
+	// 状態遷移対象
+	FollowCamera* followCamera_;
+	const SakuEngine::GameObject3D* anchorObject_;       // 基準点
+	const SakuEngine::GameObject3D* lookAtTargetObject_; // 注視点
 };

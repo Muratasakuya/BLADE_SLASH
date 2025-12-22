@@ -24,12 +24,6 @@ void PlayerWalkState::Enter() {
 	canExit_ = true;
 
 	player_->SetNextAnimation("player_walk", true, nextAnimDuration_);
-
-	if (followCamera_->IsFinishedHandoffBlend() && StateNode::GetPreviousState() != PlayerState::Parry) {
-
-		// カメラを見やすい位置まで補間させる
-		followCamera_->SetOverlayState(FollowCameraOverlayState::ReturnDefaultRotate, true);
-	}
 }
 
 void PlayerWalkState::Update() {

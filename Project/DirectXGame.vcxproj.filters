@@ -1143,28 +1143,10 @@
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\Input\Devices</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateController.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraAllyAttackState.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraReturnDefaultRotate.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraStunAttackState.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraSwitchAllyState.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp">
@@ -2166,28 +2148,13 @@
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Actions\FollowCameraInputAction.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\Input\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateController.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraAllyAttackState.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraReturnDefaultRotate.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraStunAttackState.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraSwitchAllyState.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Structures\FollowCameraStructures.h">
@@ -2628,6 +2595,7 @@
     <ClCompile Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.cpp" />
     <ClCompile Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.cpp" />
     <ClCompile Include="Game\UI\HUD\Player\Share\PlayerShareHUD.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Event\GameEventBus\GameEventBus.h" />
@@ -2638,5 +2606,7 @@
     <ClInclude Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.h" />
     <ClInclude Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.h" />
     <ClInclude Include="Game\UI\HUD\Player\Share\PlayerShareHUD.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateConfig.h" />
   </ItemGroup>
 </Project>
