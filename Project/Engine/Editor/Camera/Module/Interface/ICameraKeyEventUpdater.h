@@ -37,7 +37,7 @@ namespace SakuEngine {
 
 		// json
 		virtual void FromJson(const Json& data) = 0;
-		virtual void ToJson(Json& data) const = 0;
+		virtual void ToJson(Json& data) = 0;
 
 		//--------- accessor -----------------------------------------------------
 
@@ -46,6 +46,11 @@ namespace SakuEngine {
 
 		// 識別IDの取得
 		virtual CameraKeyEventUpdaterID GetID() const = 0;
+
+		// 処理が終了したか
+		bool IsEnd() const { return isEnd_; }
+		// イベント処理中、キーを進めるか
+		bool IsAdvanceKey() const { return isAdvanceKey_; }
 	protected:
 		//========================================================================
 		//	private Methods
@@ -55,5 +60,12 @@ namespace SakuEngine {
 
 		// 処理対象のカメラ
 		BaseCamera* camera_ = nullptr;
+
+		// 処理を終了したか
+		bool isEnd_ = false;
+
+		// イベント処理中、キーを進めるか
+		// trueならそのまま補間を行い、falseなら現在の位置で停止する
+		bool isAdvanceKey_ = true;
 	};
-}
+} // SakuEngine

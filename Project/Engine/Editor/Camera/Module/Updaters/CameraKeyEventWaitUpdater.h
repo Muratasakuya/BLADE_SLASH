@@ -9,18 +9,18 @@
 namespace SakuEngine {
 
 	//============================================================================
-	//	CameraKeyEventShakeUpdater class
-	//	画面シェイク処理を行うカメラキーイベント更新クラス
+	//	CameraKeyEventWaitUpdater class
+	//	キーの位置で停止させるカメラキーイベント更新クラス
 	//============================================================================
-	class CameraKeyEventShakeUpdater :
+	class CameraKeyEventWaitUpdater :
 		public ICameraKeyEventUpdater {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		CameraKeyEventShakeUpdater() = default;
-		~CameraKeyEventShakeUpdater() = default;
+		CameraKeyEventWaitUpdater() = default;
+		~CameraKeyEventWaitUpdater() = default;
 
 		// 初期化
 		void Init() override;
@@ -42,7 +42,7 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
-		CameraKeyEventUpdaterID GetID() const override { return CameraKeyEventUpdaterID::ScreenShake; }
+		CameraKeyEventUpdaterID GetID() const override { return CameraKeyEventUpdaterID::Stop; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -50,7 +50,6 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		Vector3 intensity_; // シェイク強度
-		StateTimer timer_;  // 時間
+		StateTimer timer_; // 時間
 	};
 } // SakuEngine
