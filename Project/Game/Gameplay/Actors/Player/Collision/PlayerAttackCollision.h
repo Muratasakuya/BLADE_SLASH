@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Collision/Collider.h>
-#include <Engine/Effect/User/GameEffect.h>
+#include <Engine/Editor/Effect/User/GameEffect.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 // front

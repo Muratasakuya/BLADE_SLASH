@@ -6,6 +6,7 @@
 
 // c++
 #include <typeinfo>
+
 namespace SakuEngine {
 
 	// front

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Effect/User/Helper/SlashEffectHelper.h>
+#include <Engine/Editor/Effect/User/Helper/SlashEffectHelper.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyIState.h>
 

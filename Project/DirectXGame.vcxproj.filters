@@ -633,13 +633,13 @@
     <ClCompile Include="Engine\Editor\Camera\CameraEditor.cpp">
       <Filter>Engine\Editor\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Helper\SlashEffectHelper.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <Filter>Engine\Effect\User\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp">
@@ -714,151 +714,151 @@
     <ClCompile Include="Engine\Editor\Curve\CurveValueEditor.cpp">
       <Filter>Engine\Editor\Curve</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnCircleModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnCircleModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateNoiseUVModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateNoiseUVModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleLightningUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleLightningUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateTranslateModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Transform\ParticleUpdateTranslateModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\EffectGroup.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\EffectGroup.cpp">
       <Filter>Engine\Effect\User</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\GameEffect.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\GameEffect.cpp">
       <Filter>Engine\Effect\User</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Core\GPUParticleUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Core\GPUParticleUpdater.cpp">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Core\ParticleManager.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Core\ParticleManager.cpp">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Core\ParticleRenderer.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Core\ParticleRenderer.cpp">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Data\Base\BaseParticleGroup.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Data\Base\BaseParticleGroup.cpp">
       <Filter>Engine\Effect\Particle\Data\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Data\CPUParticleGroup.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Data\CPUParticleGroup.cpp">
       <Filter>Engine\Effect\Particle\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Data\GPUParticleGroup.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Data\GPUParticleGroup.cpp">
       <Filter>Engine\Effect\Particle\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Base\ICPUParticleSpawnModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Base\ICPUParticleSpawnModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Base\ParticleLoopableModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Base\ParticleLoopableModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnBoxModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnBoxModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnConeModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnConeModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnHemisphereModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnHemisphereModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnModuleUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnModuleUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnPolygonVertexModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnPolygonVertexModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnSphereModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnSphereModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateAlphaReferenceModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateAlphaReferenceModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateColorModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateColorModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateEmissiveModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateEmissiveModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateGravityModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateGravityModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateKeyframePathModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateKeyframePathModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateNoiseForceModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateNoiseForceModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCrescentUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCrescentUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCylinderUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCylinderUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticlePlaneUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticlePlaneUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleRingUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleRingUpdater.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Time\ParticleUpdateLifeTimeModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Time\ParticleUpdateLifeTimeModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Time</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Primitive\ParticleUpdatePrimitiveModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\ParticleUpdatePrimitiveModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Trail\ParticleUpdateTrailModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Trail\ParticleUpdateTrailModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Trail</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateRotationModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Transform\ParticleUpdateRotationModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateScaleModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Transform\ParticleUpdateScaleModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateColorUVModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateColorUVModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateVelocityModule.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateVelocityModule.cpp">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Phase\ParticlePhase.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Phase\ParticlePhase.cpp">
       <Filter>Engine\Effect\Particle\Phase</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\Structures\ParticleLoop.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\Structures\ParticleLoop.cpp">
       <Filter>Engine\Effect\Particle\Structures</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Particle\System\ParticleSystem.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Particle\System\ParticleSystem.cpp">
       <Filter>Engine\Effect\Particle\System</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Trail\Core\GPUTrailEffectUpdater.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Trail\Core\GPUTrailEffectUpdater.cpp">
       <Filter>Engine\Effect\Trail\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Trail\Core\TrailEffectRenderer.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Trail\Core\TrailEffectRenderer.cpp">
       <Filter>Engine\Effect\Trail\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\Trail\Editor\TrailEffectEditor.cpp">
+    <ClCompile Include="Engine\Editor\Effect\Trail\Editor\TrailEffectEditor.cpp">
       <Filter>Engine\Effect\Trail\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Methods\EffectCommandRouter.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Methods\EffectCommandRouter.cpp">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Methods\EffectEmitController.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Methods\EffectEmitController.cpp">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Methods\EffectModuleBinder.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Methods\EffectModuleBinder.cpp">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Methods\EffectNode.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Methods\EffectNode.cpp">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Methods\EffectSequencer.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Methods\EffectSequencer.cpp">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\User\Methods\EffectStopController.cpp">
+    <ClCompile Include="Engine\Editor\Effect\User\Methods\EffectStopController.cpp">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Base\AnimationObject2D.cpp">
@@ -1494,13 +1494,13 @@
     <ClInclude Include="Engine\Editor\Camera\CameraEditor.h">
       <Filter>Engine\Editor\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Helper\SlashEffectHelper.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <Filter>Engine\Effect\User\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h">
@@ -1620,193 +1620,190 @@
     <ClInclude Include="Engine\Editor\Curve\CurveValueEditor.h">
       <Filter>Engine\Editor\Curve</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnCircleModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnCircleModule.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateNoiseUVModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateNoiseUVModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleLightningUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleLightningUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateTranslateModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Transform\ParticleUpdateTranslateModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\EffectGroup.h">
+    <ClInclude Include="Engine\Editor\Effect\User\EffectGroup.h">
       <Filter>Engine\Effect\User</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\GameEffect.h">
+    <ClInclude Include="Engine\Editor\Effect\User\GameEffect.h">
       <Filter>Engine\Effect\User</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectCommandRouter.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectCommandRouter.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectEmitController.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectEmitController.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectModuleBinder.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectModuleBinder.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectNode.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectNode.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectSequencer.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectSequencer.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectStopController.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectStopController.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\User\Methods\EffectStructures.h">
+    <ClInclude Include="Engine\Editor\Effect\User\Methods\EffectStructures.h">
       <Filter>Engine\Effect\User\Methods</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Command\ParticleCommand.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Command\ParticleCommand.h">
       <Filter>Engine\Effect\Particle\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Core\GPUParticleUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Core\GPUParticleUpdater.h">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Core\ParticleManager.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Core\ParticleManager.h">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Core\ParticleRenderer.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Core\ParticleRenderer.h">
       <Filter>Engine\Effect\Particle\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Data\Base\BaseParticleGroup.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Data\Base\BaseParticleGroup.h">
       <Filter>Engine\Effect\Particle\Data\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Data\CPUParticleGroup.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Data\CPUParticleGroup.h">
       <Filter>Engine\Effect\Particle\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Data\GPUParticleGroup.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Data\GPUParticleGroup.h">
       <Filter>Engine\Effect\Particle\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Base\ICPUParticleSpawnModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Base\ICPUParticleSpawnModule.h">
       <Filter>Engine\Effect\Particle\Module\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Base\ICPUParticleModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Base\ICPUParticleModule.h">
       <Filter>Engine\Effect\Particle\Module\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Base\ICPUParticleUpdateModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Base\ICPUParticleUpdateModule.h">
       <Filter>Engine\Effect\Particle\Module\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Base\ParticleLoopableModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Base\ParticleLoopableModule.h">
       <Filter>Engine\Effect\Particle\Module\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\ParticleModuleID.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\ParticleModuleID.h">
       <Filter>Engine\Effect\Particle\Module</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\ParticleModuleRegistry.h">
-      <Filter>Engine\Effect\Particle\Module</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnBoxModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnBoxModule.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnConeModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnConeModule.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnHemisphereModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnHemisphereModule.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnModuleUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnModuleUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnPolygonVertexModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnPolygonVertexModule.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Spawner\ParticleSpawnSphereModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Spawner\ParticleSpawnSphereModule.h">
       <Filter>Engine\Effect\Particle\Module\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateAlphaReferenceModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateAlphaReferenceModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateColorModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateColorModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateEmissiveModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateEmissiveModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateGravityModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateGravityModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateKeyframePathModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateKeyframePathModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateNoiseForceModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateNoiseForceModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCrescentUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCrescentUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCylinderUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleCylinderUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticlePlaneUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticlePlaneUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Derived\ParticleRingUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleRingUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Interface\IParticlePrimitiveUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Interface\IParticlePrimitiveUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\Interface\BaseParticlePrimitiveUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Interface\BaseParticlePrimitiveUpdater.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Time\ParticleUpdateLifeTimeModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Time\ParticleUpdateLifeTimeModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Time</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Primitive\ParticleUpdatePrimitiveModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\ParticleUpdatePrimitiveModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Primitive</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Trail\ParticleUpdateTrailModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Trail\ParticleUpdateTrailModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Trail</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateRotationModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Transform\ParticleUpdateRotationModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Transform\ParticleUpdateScaleModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Transform\ParticleUpdateScaleModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Material\ParticleUpdateColorUVModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Material\ParticleUpdateColorUVModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Module\Updater\Move\ParticleUpdateVelocityModule.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateVelocityModule.h">
       <Filter>Engine\Effect\Particle\Module\Updater\Move</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\ParticleConfig.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\ParticleConfig.h">
       <Filter>Engine\Effect\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Phase\ParticlePhase.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Phase\ParticlePhase.h">
       <Filter>Engine\Effect\Particle\Phase</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Structures\ParticleLoop.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Structures\ParticleLoop.h">
       <Filter>Engine\Effect\Particle\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\System\ParticleSystem.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\System\ParticleSystem.h">
       <Filter>Engine\Effect\Particle\System</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Structures\ParticleEmitterStructures.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Structures\ParticleEmitterStructures.h">
       <Filter>Engine\Effect\Particle\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Structures\ParticlePrimitiveStructures.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Structures\ParticlePrimitiveStructures.h">
       <Filter>Engine\Effect\Particle\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Structures\ParticleStructures.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Structures\ParticleStructures.h">
       <Filter>Engine\Effect\Particle\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Particle\Structures\ParticleValue.h">
+    <ClInclude Include="Engine\Editor\Effect\Particle\Structures\ParticleValue.h">
       <Filter>Engine\Effect\Particle\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Trail\Core\GPUTrailEffectUpdater.h">
+    <ClInclude Include="Engine\Editor\Effect\Trail\Core\GPUTrailEffectUpdater.h">
       <Filter>Engine\Effect\Trail\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Trail\Core\TrailEffectRenderer.h">
+    <ClInclude Include="Engine\Editor\Effect\Trail\Core\TrailEffectRenderer.h">
       <Filter>Engine\Effect\Trail\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Trail\Editor\TrailEffectEditor.h">
+    <ClInclude Include="Engine\Editor\Effect\Trail\Editor\TrailEffectEditor.h">
       <Filter>Engine\Effect\Trail\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\Trail\Structures\TrailEffectStructures.h">
+    <ClInclude Include="Engine\Editor\Effect\Trail\Structures\TrailEffectStructures.h">
       <Filter>Engine\Effect\Trail\Structures</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\Base\IInputDevice.h">
@@ -2553,9 +2550,6 @@
     <FxCompile Include="Assets\Engine\Shaders\Raytracing\ShadowRay_RayGeneration.hlsl">
       <Filter>Assets\Engine\Shaders\Raytracing</Filter>
     </FxCompile>
-    <FxCompile Include="Assets\Engine\Shaders\Particle\Common\Primitive\PlaneParticle.MS.hlsl">
-      <Filter>Assets\Engine\Shaders\Particle\Common\Primitive</Filter>
-    </FxCompile>
     <FxCompile Include="Assets\Engine\Shaders\Particle\GPUParticle\PS\GPUParticle.PS.hlsl">
       <Filter>Assets\Engine\Shaders\Particle\GPUParticle\PS</Filter>
     </FxCompile>
@@ -2568,17 +2562,8 @@
     <None Include="Assets\Engine\Shaders\Math\Math.hlsli">
       <Filter>Assets\Engine\Shaders\Math</Filter>
     </None>
-    <None Include="Assets\Engine\Shaders\Particle\Common\ParticleOutput.hlsli">
-      <Filter>Assets\Engine\Shaders\Particle\Common</Filter>
-    </None>
-    <None Include="Assets\Engine\Shaders\Particle\Common\TrailParticle.hlsli">
-      <Filter>Assets\Engine\Shaders\Particle\Common</Filter>
-    </None>
     <None Include="Assets\Engine\Shaders\Particle\GPUParticle\ParticleEmitterStructures.hlsli">
       <Filter>Assets\Engine\Shaders\Particle\GPUParticle</Filter>
-    </None>
-    <None Include="Assets\Engine\Shaders\Particle\Common\ParticleCommonSturctures.hlsli">
-      <Filter>Assets\Engine\Shaders\Particle\Common</Filter>
     </None>
     <None Include="Assets\Engine\Shaders\PostProcess\PostProcessCommon.hlsli">
       <Filter>Assets\Engine\Shaders\PostProcess</Filter>
@@ -2596,6 +2581,7 @@
     <ClCompile Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.cpp" />
     <ClCompile Include="Game\UI\HUD\Player\Share\PlayerShareHUD.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.cpp" />
+    <ClCompile Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventShakeUpdater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Event\GameEventBus\GameEventBus.h" />
@@ -2608,5 +2594,9 @@
     <ClInclude Include="Game\UI\HUD\Player\Share\PlayerShareHUD.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateConfig.h" />
+    <ClInclude Include="Engine\Editor\Camera\Module\Interface\ICameraKeyEventUpdater.h" />
+    <ClInclude Include="Engine\Editor\Camera\Module\CameraKeyEventUpdaterID.h" />
+    <ClInclude Include="Engine\Editor\Base\EditorModuleRegistry.h" />
+    <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventShakeUpdater.h" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Engine/Object/Base/GameObject3D.h>
 
 // weapon

@@ -27,142 +27,141 @@ enum class AnimationApplyMode {
 //============================================================================
 namespace SakuEngine {
 
-template <class Target, typename T>
-struct AnimationChannel {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	template <class Target, typename T>
+	struct AnimationChannel {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	AnimationChannel() = default;
-	~AnimationChannel() = default;
+		AnimationChannel() = default;
+		~AnimationChannel() = default;
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// 値の取得関数
-	std::function<T(const Target&)> getter;
-	// 値の設定関数
-	std::function<void(Target&, const T&)> setter;
+		// 値の取得関数
+		std::function<T(const Target&)> getter;
+		// 値の設定関数
+		std::function<void(Target&, const T&)> setter;
 
-	// 補間などを行った値
-	std::unique_ptr<IValueSource<T>> valueSource;
+		// 補間などを行った値
+		std::unique_ptr<IValueSource<T>> valueSource;
 
-	// 処理をするかどうか、falseならなにもしない
-	bool isEnable = false;
+		// 処理をするかどうか、falseならなにもしない
+		bool isEnable = false;
 
-	// 状態
-	bool isActive = false;
-	// アニメーションの適用方法
-	AnimationApplyMode applyMode = AnimationApplyMode::Absolute;
-	// 基準値
-	T baseValue{};
+		// 状態
+		bool isActive = false;
+		// アニメーションの適用方法
+		AnimationApplyMode applyMode = AnimationApplyMode::Absolute;
+		// 基準値
+		T baseValue{};
 
-	// 値に対しての処理を開始させる
-	void Start(Target& object);
+		// 値に対しての処理を開始させる
+		void Start(Target& object);
 
-	// 更新処理を行い、値を適用する
-	void Update(Target& object);
+		// 更新処理を行い、値を適用する
+		void Update(Target& object);
 
-	// リセット
-	void Reset();
+		// リセット
+		void Reset();
 
-	// エディター
-	void ImGui(const char* label);
+		// エディター
+		void ImGui(const char* label);
 
-	// json
-	void FromJson(const Json& data);
-	void ToJson(Json& data);
-};
+		// json
+		void FromJson(const Json& data);
+		void ToJson(Json& data);
+	};
 
-//============================================================================
-//	AnimationChannel templateMethods
-//============================================================================
+	//============================================================================
+	//	AnimationChannel templateMethods
+	//============================================================================
 
-template<class Target, typename T>
-inline void AnimationChannel<Target, T>::Start(Target& object) {
+	template<class Target, typename T>
+	inline void AnimationChannel<Target, T>::Start(Target& object) {
 
-	// 無効状態の時は処理しない
-	if (!isEnable) {
-		return;
+		// 無効状態の時は処理しない
+		if (!isEnable) {
+			return;
+		}
+
+		// アクティブにする
+		isActive = true;
+
+		// 基準値を取得して開始
+		baseValue = getter(object);
+		valueSource->Start(baseValue);
 	}
 
-	// アクティブにする
-	isActive = true;
+	template<class Target, typename T>
+	inline void AnimationChannel<Target, T>::Update(Target& object) {
 
-	// 基準値を取得して開始
-	baseValue = getter(object);
-	valueSource->Start(baseValue);
-}
+		// 無効状態の時は処理しない
+		if (!isEnable) {
+			return;
+		}
 
-template<class Target, typename T>
-inline void AnimationChannel<Target, T>::Update(Target& object) {
+		// 非アクティブ状態の時は処理しない
+		if (!isActive) {
+			return;
+		}
 
-	// 無効状態の時は処理しない
-	if (!isEnable) {
-		return;
-	}
+		// 値の更新
+		valueSource->Update();
+		// 更新した値を取得する
+		T value = valueSource->GetValue();
+		if constexpr (!std::is_same_v<T, Color>) {
+			if (applyMode == AnimationApplyMode::Additive) {
 
-	// 非アクティブ状態の時は処理しない
-	if (!isActive) {
-		return;
-	}
+				value = baseValue + value;
+			}
+		}
+		setter(object, value);
 
-	// 値の更新
-	valueSource->Update();
-	// 更新した値を取得する
-	T value = valueSource->GetValue();
-	if constexpr (!std::is_same_v<T, Color>) {
-		if (applyMode == AnimationApplyMode::Additive) {
+		// 処理が終了したら非アクティブ状態にする
+		if (valueSource->IsFinished()) {
 
-			value = baseValue + value;
+			isActive = false;
 		}
 	}
-	setter(object, value);
 
-	// 処理が終了したら非アクティブ状態にする
-	if (valueSource->IsFinished()) {
+	template<class Target, typename T>
+	inline void AnimationChannel<Target, T>::Reset() {
 
+		// 無効状態の時は処理しない
+		if (!isEnable) {
+			return;
+		}
+
+		// リセット
 		isActive = false;
-	}
-}
-
-template<class Target, typename T>
-inline void AnimationChannel<Target, T>::Reset() {
-
-	// 無効状態の時は処理しない
-	if (!isEnable) {
-		return;
+		valueSource->Reset();
 	}
 
-	// リセット
-	isActive = false;
-	valueSource->Reset();
-}
+	template<class Target, typename T>
+	inline void AnimationChannel<Target, T>::ImGui(const char* label) {
 
-template<class Target, typename T>
-inline void AnimationChannel<Target, T>::ImGui(const char* label) {
-
-	valueSource->ImGui(label);
-}
-
-template<class Target, typename T>
-inline void AnimationChannel<Target, T>::FromJson(const Json& data) {
-
-	if (data.empty()) {
-		return;
+		valueSource->ImGui(label);
 	}
 
-	isEnable = data.value("isEnable", true);
-	applyMode = SakuEngine::EnumAdapter<AnimationApplyMode>::FromString(data.value("applyMode", "Absolute")).value();
-	valueSource->FromJson(data["ValueSource"]);
-}
+	template<class Target, typename T>
+	inline void AnimationChannel<Target, T>::FromJson(const Json& data) {
 
-template<class Target, typename T>
-inline void AnimationChannel<Target, T>::ToJson(Json& data) {
+		if (data.empty()) {
+			return;
+		}
 
-	data["isEnable"] = isEnable;
-	data["applyMode"] = SakuEngine::EnumAdapter<AnimationApplyMode>::ToString(applyMode);
-	valueSource->ToJson(data["ValueSource"]);
-}
+		isEnable = data.value("isEnable", true);
+		applyMode = EnumAdapter<AnimationApplyMode>::FromString(data.value("applyMode", "Absolute")).value();
+		valueSource->FromJson(data["ValueSource"]);
+	}
 
+	template<class Target, typename T>
+	inline void AnimationChannel<Target, T>::ToJson(Json& data) {
+
+		data["isEnable"] = isEnable;
+		data["applyMode"] = EnumAdapter<AnimationApplyMode>::ToString(applyMode);
+		valueSource->ToJson(data["ValueSource"]);
+	}
 }; // SakuEngine

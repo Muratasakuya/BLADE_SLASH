@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -6,7 +6,7 @@
 #include <Engine/Core/Graphics/GPUObject/DxConstBuffer.h>
 #include <Engine/Core/Graphics/Raytracing/RaytracingStructures.h>
 #include <Engine/Core/Graphics/GPUObject/DitherStructures.h>
-#include <Engine/Effect/Particle/Structures/ParticleStructures.h>
+#include <Engine/Editor/Effect/Particle/Structures/ParticleStructures.h>
 #include <Engine/Scene/Light/PunctualLight.h>
 #include <Engine/MathLib/Vector3.h>
 #include <Engine/MathLib/Matrix4x4.h>

@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Object/Base/KeyframeObject3D.h>
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Engine/Utility/Timer/DelayedHitstop.h>
 #include <Game/Gameplay/Actors/Player/Effect/PlayerAfterImageEffect.h>
 #include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerBaseAttackState.h>

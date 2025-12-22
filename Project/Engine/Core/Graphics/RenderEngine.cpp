@@ -11,7 +11,7 @@ using namespace SakuEngine;
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/InstancedMeshSystem.h>
-#include <Engine/Effect/Particle/Core/ParticleManager.h>
+#include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
 #include <Engine/Scene/SceneView.h>
 #include <Engine/Config.h>
 
