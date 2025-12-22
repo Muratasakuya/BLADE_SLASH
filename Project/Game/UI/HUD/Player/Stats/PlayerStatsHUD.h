@@ -11,6 +11,7 @@
 #include <Game/UI/Structures/GameCommonStructures.h>
 
 // front
+class PlayerShareHUD;
 class Player;
 
 //============================================================================
@@ -39,6 +40,7 @@ public:
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetCamera(const SakuEngine::BaseCamera* camera) { camera_ = camera; }
+	void SetShareHUD(const PlayerShareHUD* shareHud) { shareHud_ = shareHud; }
 
 	// ダメージ表示設定
 	void SetDamage(int damage);
@@ -54,6 +56,7 @@ private:
 
 	const Player* player_;
 	const SakuEngine::BaseCamera* camera_;
+	const PlayerShareHUD* shareHud_;
 
 	// HP背景
 	std::unique_ptr<SakuEngine::GameObject2D> hpBackground_;
@@ -75,8 +78,6 @@ private:
 
 	// スキルP閾値表示
 	std::unique_ptr<SakuEngine::GameObject2DArray> skillThreshold_;
-	SakuEngine::Color enableSkillThresholdColor_;  // 有効時の色
-	SakuEngine::Color disableSkillThresholdColor_; // 無効時の色
 
 	//--------- functions ----------------------------------------------------
 

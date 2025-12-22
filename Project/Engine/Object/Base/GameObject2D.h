@@ -58,30 +58,31 @@ namespace SakuEngine {
 
 		// transform
 		// 座標
-		void SetTranslation(const SakuEngine::Vector2& translation) { transform_->translation = translation; }
+		void SetTranslation(const Vector2& translation) { transform_->translation = translation; }
 		void SetCenterTranslation();
-		void ProjectToScreen(const SakuEngine::Vector3& translation, const BaseCamera& camera);
+		void ProjectToScreen(const Vector3& translation, const BaseCamera& camera);
 		// サイズ
-		void SetSize(const SakuEngine::Vector2& size) { transform_->size = size; }
-		void SetTextureSize(const SakuEngine::Vector2& size) { transform_->textureSize = size; }
-		void SetTextureLeftTop(const SakuEngine::Vector2& leftTop) { transform_->textureLeftTop = leftTop; }
+		void SetSize(const Vector2& size) { transform_->size = size; }
+		void SetTextureSize(const Vector2& size) { transform_->textureSize = size; }
+		void SetTextureLeftTop(const Vector2& leftTop) { transform_->textureLeftTop = leftTop; }
 		// スケール
-		void SetSizeScale(const SakuEngine::Vector2& sizeScale) { transform_->sizeScale = sizeScale; }
+		void SetSizeScale(const Vector2& sizeScale) { transform_->sizeScale = sizeScale; }
 		// 回転
 		void SetRotation(float rotation) { transform_->rotation = rotation; }
 		// アンカー
-		void SetAnchor(const SakuEngine::Vector2& anchor) { transform_->anchorPoint = anchor; }
+		void SetAnchor(const Vector2& anchor) { transform_->anchorPoint = anchor; }
 		// 親
 		void SetParent(const Transform2D& parent) { transform_->parent = &parent; }
 		// 頂点オフセット
-		void SetVertexOffset(uint32_t index, const SakuEngine::Vector2& offset) { transform_->vertexOffset_[index] = offset; };
+		void SetVertexOffset(uint32_t index, const Vector2& offset) { transform_->vertexOffset_[index] = offset; };
 
 		// material
 		// 色
-		void SetColor(const SakuEngine::Color& color) { material_->material.color = color; }
+		void SetColor(const Color& color) { material_->material.color = color; }
+		void SetColorRGB(const Vector3& color) { material_->material.color.FromRGB(color); }
 		void SetAlpha(float alpha) { material_->material.color.a = alpha; }
 		void SetEmissiveIntensity(float intensity) { material_->material.emissiveIntensity = intensity; }
-		void SetEmissionColor(const SakuEngine::Vector3& color) { material_->material.emissionColor = color; }
+		void SetEmissionColor(const Vector3& color) { material_->material.emissionColor = color; }
 		void SetUseVertexColor(bool use) { material_->material.useVertexColor = use; }
 		// UV
 		void SetUVTranslationX(float uvX) { material_->uvTransform.translation.x = uvX; }
@@ -105,12 +106,12 @@ namespace SakuEngine {
 
 		// transform
 		const Transform2D& GetTransform() const { return *transform_; }
-		const SakuEngine::Vector2& GetTranslation() const { return transform_->translation; }
-		const SakuEngine::Vector2& GetSize() const { return transform_->size; }
-		const SakuEngine::Vector2& GetTextureSize() const { return transform_->textureSize; }
+		const Vector2& GetTranslation() const { return transform_->translation; }
+		const Vector2& GetSize() const { return transform_->size; }
+		const Vector2& GetTextureSize() const { return transform_->textureSize; }
 
 		// material
-		const SakuEngine::Color& GetColor() const { return material_->material.color; }
+		const Color& GetColor() const { return material_->material.color; }
 		float GetEmissiveIntensity() const { return material_->material.emissiveIntensity; }
 
 		// sprite

@@ -46,6 +46,8 @@ namespace SakuEngine {
 		RightBottom,
 		RightTop
 	};
+	// 頂点数
+	static constexpr const uint32_t kSpriteVertexPosNum = 4;
 
 	//============================================================================
 	//	Sprite class

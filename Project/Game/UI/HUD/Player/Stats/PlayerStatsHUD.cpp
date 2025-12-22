@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
+#include <Game/UI/HUD/Player/Share/PlayerShareHUD.h>
 
 //============================================================================
 //	PlayerStatsHUD classMethods
@@ -85,7 +86,17 @@ void PlayerStatsHUD::UpdateBar() {
 	// HP残量を更新
 	hpBar_->Update(stats.currentHP, stats.maxHP, true);
 	// スキル値を更新
-	skilBar_->Update(stats.currentSkilPoint, stats.maxSkilPoint, true);
+	skilBar_->Update(stats.currentSkillPoint, stats.maxSkillPoint, true);
+
+	// スキル値の色を取得して設定
+	skilBar_->SetColorRGB(shareHud_->GetCurrentSkillColor());
+	skilBar_->SetUseVertexColor(shareHud_->IsActiveSkillColor());
+	for (uint32_t i = 0; i < SakuEngine::kSpriteVertexPosNum; ++i) {
+
+		// 頂点カラーを設定
+		SakuEngine::SpriteVertexPos pos = static_cast<SakuEngine::SpriteVertexPos>(i);
+		skilBar_->SetVertexColor(pos, shareHud_->GetCurrentSkillVertexColor(pos));
+	}
 }
 
 void PlayerStatsHUD::UpdateSkillThreshold() {
@@ -93,7 +104,10 @@ void PlayerStatsHUD::UpdateSkillThreshold() {
 	const PlayerStats& stats = player_->GetStats();
 
 	// スキルP閾値表示の更新
-	skillThreshold_->SetTranslation(skilBar_->GetThresholdPos(stats.skilCost));
+	skillThreshold_->SetTranslation(skilBar_->GetThresholdPos(stats.skillCost));
+
+	// スキル値の色を取得して設定
+	skillThreshold_->SetColorRGB(shareHud_->GetCurrentSkillColor());
 }
 
 void PlayerStatsHUD::ImGui() {

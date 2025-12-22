@@ -10,12 +10,12 @@
 #include <Engine/Object/Data/SkinnedAnimation.h>
 #include <Engine/Object/Data/MeshRender.h>
 
-//============================================================================
-//	GameObject3D class
-//	3Dオブジェクトの基底クラス
-//============================================================================
 namespace SakuEngine {
 
+	//============================================================================
+	//	GameObject3D class
+	//	3Dオブジェクトの基底クラス
+	//============================================================================
 	class GameObject3D :
 		public IGameObject,
 		public Collider {

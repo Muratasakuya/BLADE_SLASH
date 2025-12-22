@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Json/JsonAdapter.h>
+#include <Game/UI/HUD/Player/Share/PlayerShareHUD.h>
 
 //============================================================================
 //	PlayerOperateHUD classMethods
@@ -51,7 +52,7 @@ void PlayerOperateHUD::Init() {
 		// 最初は非表示
 		inputSuggest.sprite->SetAlpha(0.0f);
 	}
-	
+
 	// json適用
 	ApplyJson();
 }
@@ -114,6 +115,8 @@ void PlayerOperateHUD::Update() {
 
 	// 入力示唆の更新
 	UpdateInputSuggest();
+	// スキルアイコンの色更新
+	UpdateSkillIconColor();
 }
 
 void PlayerOperateHUD::UpdateInputSuggest() {
@@ -165,6 +168,20 @@ void PlayerOperateHUD::UpdateInputSuggest() {
 			inputSuggest.colorAnim.Start();
 			inputSuggest.emissiveAnim.Start();
 		}
+	}
+}
+
+void PlayerOperateHUD::UpdateSkillIconColor() {
+
+	// スキルアイコンの色を更新
+	// スキル値の色を取得して設定
+	operateIcons_->SetColorRGB(shareHud_->GetCurrentSkillColor(), kSkilIconIndex);
+	operateIcons_->GetObjectPtr(kSkilIconIndex)->SetUseVertexColor(shareHud_->IsActiveSkillColor());
+	for (uint32_t i = 0; i < SakuEngine::kSpriteVertexPosNum; ++i) {
+
+		// 頂点カラーを設定
+		SakuEngine::SpriteVertexPos pos = static_cast<SakuEngine::SpriteVertexPos>(i);
+		operateIcons_->GetObjectPtr(kSkilIconIndex)->SetVertexColor(pos, shareHud_->GetCurrentSkillVertexColor(pos));
 	}
 }
 

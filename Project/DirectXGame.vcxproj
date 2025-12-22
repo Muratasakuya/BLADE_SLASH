@@ -248,6 +248,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Game\UI\HUD\Player\Share\PlayerShareHUD.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.cpp">
       <SubType>
       </SubType>
@@ -1042,6 +1046,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\UI\HUD\Player\Share\PlayerShareHUD.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -2627,6 +2627,7 @@
     <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp" />
     <ClCompile Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.cpp" />
     <ClCompile Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Share\PlayerShareHUD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Event\GameEventBus\GameEventBus.h" />
@@ -2636,5 +2637,6 @@
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h" />
     <ClInclude Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.h" />
     <ClInclude Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Share\PlayerShareHUD.h" />
   </ItemGroup>
 </Project>

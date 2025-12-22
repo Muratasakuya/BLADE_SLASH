@@ -18,16 +18,24 @@ PlayerHUDController::PlayerHUDController(GameEventBus& bus, const Player* player
 void PlayerHUDController::Init() {
 
 	// 各HUDの初期化
+	// 共有HUD部分
+	shareHud_ = std::make_unique<PlayerShareHUD>();
+	shareHud_->Init();
+	// 処理に必要な情報をセット
+	shareHud_->SetPlayer(player_);
 	// ステータス表示
 	statsHud_ = std::make_unique<PlayerStatsHUD>();
 	statsHud_->Init();
 	// 処理に必要な情報をセット
 	statsHud_->SetPlayer(player_);
 	statsHud_->SetCamera(camera_);
+	statsHud_->SetShareHUD(shareHud_.get());
 
 	// 操作方法表示
 	operateHud_ = std::make_unique<PlayerOperateHUD>();
 	operateHud_->Init();
+	// 処理に必要な情報をセット
+	operateHud_->SetShareHUD(shareHud_.get());
 
 	// スタンHUD
 	stunHud_ = std::make_unique<PlayerStunHUD>();
@@ -111,6 +119,8 @@ void PlayerHUDController::Init() {
 
 void PlayerHUDController::Update() {
 
+	// 共有HUD部分更新
+	shareHud_->Update();
 	// ステータス表示更新
 	statsHud_->Update();
 	// 操作方法表示更新
@@ -167,6 +177,12 @@ void PlayerHUDController::ImGui() {
 
 	// 各HUDのImGui表示
 	if (ImGui::BeginTabBar("PlayerHUDControllerTabBar")) {
+		if (ImGui::BeginTabItem("Share")) {
+
+			// 共有HUD部分
+			shareHud_->ImGui();
+			ImGui::EndTabItem();
+		}
 		if (ImGui::BeginTabItem("Stats")) {
 
 			// ステータス表示HUD

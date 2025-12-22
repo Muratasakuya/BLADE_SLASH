@@ -118,7 +118,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 
 		// スキル攻撃
 		// スキルポイントが足りていてスキル入力があればスキル攻撃状態に遷移
-		if (stats.skilCost <= stats.currentSkilPoint &&
+		if (stats.skillCost <= stats.currentSkillPoint &&
 			inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
 
 			controller.Request(PlayerState::SkilAttack);

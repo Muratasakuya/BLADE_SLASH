@@ -38,18 +38,18 @@ enum class PlayerWeaponType {
 // ステータス
 struct PlayerStats {
 
-	int maxHP;     // 最大HP
-	int currentHP; // 現在のHP
+	int32_t maxHP;     // 最大HP
+	int32_t currentHP; // 現在のHP
 
-	int maxSkilPoint;     // 最大スキルポイント
-	int currentSkilPoint; // 現在のスキルポイント
-	int skilCost;         // スキル攻撃の消費スキルポイント
-	int incrementSkilPoint; // スキルポイントの回復量
+	int32_t maxSkillPoint;      // 最大スキルポイント
+	int32_t currentSkillPoint;  // 現在のスキルポイント
+	int32_t skillCost;           // スキル攻撃の消費スキルポイント
+	int32_t incrementSkillPoint; // スキルポイントの回復量
 
-	std::unordered_map<PlayerState, int> damages; // 各攻撃のダメージ量
-	int damageRandomRange;                        // ダメージのランダム範囲
+	std::unordered_map<PlayerState, int32_t> damages; // 各攻撃のダメージ量
+	int32_t damageRandomRange;                        // ダメージのランダム範囲
 
-	int toughness; // 攻撃した時に敵に入る靭性ダメージ量
+	int32_t toughness; // 攻撃した時に敵に入る靭性ダメージ量
 };
 
 // 遷移条件

@@ -5,6 +5,9 @@
 //============================================================================
 #include <Engine/Object/Base/GameObject2DArray.h>
 
+// front
+class PlayerShareHUD;
+
 //============================================================================
 //	PlayerOperateHUD class
 //	プレイヤーの操作表示HUD
@@ -33,6 +36,8 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	void SetShareHUD(const PlayerShareHUD* shareHud) { shareHud_ = shareHud; }
+
 	// 表示、非表示設定
 	void SetIsDisplay(bool isDisplay);
 private:
@@ -56,6 +61,8 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	const PlayerShareHUD* shareHud_;
+
 	// 入力アイコン表示
 	std::unique_ptr<SakuEngine::GameObject2DArray> operateIcons_;
 
@@ -76,4 +83,6 @@ private:
 
 	// 入力示唆更新
 	void UpdateInputSuggest();
+	// スキル色更新
+	void UpdateSkillIconColor();
 };

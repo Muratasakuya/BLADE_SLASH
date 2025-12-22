@@ -8,6 +8,7 @@
 #include <Game/UI/HUD/Interface/IGameHUDController.h>
 
 // HUD
+#include <Game/UI/HUD/Player/Share/PlayerShareHUD.h>
 #include <Game/UI/HUD/Player/Stats/PlayerStatsHUD.h>
 #include <Game/UI/HUD/Player/Operate/PlayerOperateHUD.h>
 #include <Game/UI/HUD/Player/Stun/PlayerStunHUD.h>
@@ -55,6 +56,8 @@ private:
 	const BossEnemy* bossEnemy_;
 	const SakuEngine::BaseCamera* camera_;
 
+	// 共有HUD部分
+	std::unique_ptr<PlayerShareHUD> shareHud_;
 	// ステータス表示
 	std::unique_ptr<PlayerStatsHUD> statsHud_;
 	// 操作方法表示
