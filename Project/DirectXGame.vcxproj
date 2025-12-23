@@ -236,6 +236,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.cpp">
       <SubType />
     </ClCompile>
@@ -1032,6 +1036,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateConfig.h">
       <SubType />

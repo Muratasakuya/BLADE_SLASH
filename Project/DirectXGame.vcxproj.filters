@@ -2677,6 +2677,7 @@
     <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp" />
     <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.cpp" />
     <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.h" />
@@ -2684,5 +2685,6 @@
     <ClInclude Include="Game\Gameplay\Systems\Input\Actions\GameInputAction.h" />
     <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.h" />
     <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.h" />
   </ItemGroup>
 </Project>

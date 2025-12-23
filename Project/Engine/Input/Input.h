@@ -78,6 +78,9 @@ namespace SakuEngine {
 		void SetDeadZone(float deadZone);
 		float GetDeadZone() const { return deadZone_; }
 
+		// maxStickValue
+		float GetMaxStickValue() const { return maxStickValue_; }
+
 		// view
 		void SetViewRect(InputViewArea viewArea, const SakuEngine::Vector2& dstPos, Vector2 dstSize);
 		bool IsMouseOnView(InputViewArea viewArea) const;
@@ -140,6 +143,8 @@ namespace SakuEngine {
 
 		// デッドゾーンの閾値
 		float deadZone_ = 8000.0f;
+		// スティック入力の最大値
+		const float maxStickValue_ = 32767.0f;
 
 		// LTボタン
 		float leftTriggerValue_ = 0.0f;

@@ -3,9 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Input/Base/InputMapper.h>
 #include <Game/Gameplay/Camera/FollowCamera/StateMachine/Interface/FollowCameraIState.h>
-#include <Game/Gameplay/Camera/FollowCamera/Input/Actions/FollowCameraInputAction.h>
+#include <Game/Gameplay/Camera/FollowCamera/Methods/FollowCameraLookInputSmoother.h>
 
 //============================================================================
 //	FollowCameraFollowState class
@@ -65,9 +64,8 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	// 入力クラス
-	std::unique_ptr<SakuEngine::InputMapper<FollowCameraInputAction>> inputMapper_;
+	std::unique_ptr<FollowCameraLookInputSmoother> inputSmoother_;
 
-	SakuEngine::Vector2 smoothedInput_; // 入力の値補間用
 	float defaultFovY_;
 	float fovYLerpRate_; // fov補間割合
 
@@ -76,10 +74,6 @@ private:
 	SakuEngine::Vector3 interTarget_;       // 追従中間target位置
 
 	float lerpRate_;           // 補間割合
-	float inputLerpRate_;      // 入力補間割合
-	SakuEngine::Vector2 mouseSensitivity_; // マウス感度
-	SakuEngine::Vector2 padSensitivity_;   // パッド操作の感度
-
 	SakuEngine::Vector3 defaultOffset_;  // 初期化時のオフセット
 	SakuEngine::Vector3 offsetLerpRate_; // 補間割合
 

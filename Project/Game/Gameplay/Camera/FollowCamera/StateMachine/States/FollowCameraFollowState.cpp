@@ -21,9 +21,8 @@
 FollowCameraFollowState::FollowCameraFollowState() {
 
 	// 入力クラスを初期化
-	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
-	inputMapper_ = std::make_unique<SakuEngine::InputMapper<FollowCameraInputAction>>();
-	inputMapper_->AddDevice(std::make_unique<FollowCameraGamePadInput>(input));
+	inputSmoother_ = std::make_unique<FollowCameraLookInputSmoother>();
+	inputSmoother_->Init();
 }
 
 void FollowCameraFollowState::SnapToCamera() {
@@ -39,7 +38,7 @@ void FollowCameraFollowState::SnapToCamera() {
 	// 初期化
 	handoffBlendT_ = 0.0f;
 	clampBlendT_ = 0.0f;
-	smoothedInput_ = SakuEngine::Vector2::AnyInit(0.0f);
+	inputSmoother_->ResetSmoothedInput();
 }
 
 void FollowCameraFollowState::UpdateInitialSettings() {
@@ -62,6 +61,10 @@ void FollowCameraFollowState::Update() {
 	// deltaTime取得
 	float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 
+	// 入力補間更新
+	inputSmoother_->Update(deltaTime);
+	const SakuEngine::Vector2& frameRotationDelta = inputSmoother_->GetFrameRotationDelta();
+
 	// 画角に変更があっても常に初期値に補間させる
 	{
 		float t = std::clamp(fovYLerpRate_ * deltaTime, 0.0f, 1.0f);
@@ -75,40 +78,14 @@ void FollowCameraFollowState::Update() {
 		interTarget_ = SakuEngine::Vector3::Lerp(interTarget_, anchorObject_->GetTranslation(), t);
 	}
 
-	// 入力から移動量を取得する
-	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
-	SakuEngine::Vector2 rawInput(inputMapper_->GetVector(FollowCameraInputAction::RotateX), inputMapper_->GetVector(FollowCameraInputAction::RotateY));
-	// 入力が合ったらブレンド処理を終了させる
-	if (rawInput.Length() > Config::kEpsilon) {
-
-		handoffBlendT_ = 1.0f;
-		clampBlendT_ = 1.0f;
-		handoffDefault_ = defaultOffset_;
-	}
-
-	// 入力補間を適応する
-	{
-		float t = std::clamp(inputLerpRate_ * deltaTime, 0.0f, 1.0f);
-		smoothedInput_ = SakuEngine::Vector2::Lerp(smoothedInput_, rawInput, t);
-	}
-
-	// X軸とY軸の入力量
-	// Y軸
-	float yawSpeed = (inputType == InputType::Keyboard) ? mouseSensitivity_.y : padSensitivity_.y;
-	// X軸
-	float pitchSpeed = (inputType == InputType::Keyboard) ? mouseSensitivity_.x : padSensitivity_.x;
-	// 1フレーム分の回転量
-	float yawDelta = smoothedInput_.x * yawSpeed * deltaTime;
-	float pitchDelta = -smoothedInput_.y * pitchSpeed * deltaTime;
-
 	SakuEngine::Quaternion currentRotation = followCamera_->GetTransform().rotation;
 	// Y軸の回転
 	SakuEngine::Quaternion yawRotation = SakuEngine::Quaternion::Normalize(SakuEngine::Quaternion::MakeAxisAngle(
-		Direction::Get(Direction3D::Up), yawDelta) * currentRotation);
+		Direction::Get(Direction3D::Up), frameRotationDelta.x) * currentRotation);
 	// X軸の回転
 	SakuEngine::Vector3 rightAxis = (yawRotation * Direction::Get(Direction3D::Right)).Normalize();
 	SakuEngine::Quaternion pitchRotation = SakuEngine::Quaternion::Normalize(
-		SakuEngine::Quaternion::MakeAxisAngle(rightAxis, pitchDelta));
+		SakuEngine::Quaternion::MakeAxisAngle(rightAxis, frameRotationDelta.y));
 	// X軸回転とY軸回転を合成
 	SakuEngine::Quaternion candidateRotation = SakuEngine::Quaternion::Normalize(pitchRotation * yawRotation);
 
@@ -191,55 +168,58 @@ void FollowCameraFollowState::Exit() {
 
 void FollowCameraFollowState::ImGui() {
 
-	ImGui::Text("clampBlendT: %.3f", clampBlendT_);
-	ImGui::Text("handoffBlendT: %.3f", handoffBlendT_);
+	if (ImGui::CollapsingHeader("Input")) {
 
-	ImGui::DragFloat3("offsetTranslation", &offsetTranslation_.x, 0.1f);
-
-	ImGui::DragFloat("defaultFovY", &defaultFovY_, 0.01f);
-	ImGui::DragFloat("lerpRate", &lerpRate_, 0.01f);
-	ImGui::DragFloat("inputLerpRate_", &inputLerpRate_, 0.01f);
-
-	ImGui::DragFloat("clampBlendSpeed", &clampBlendSpeed_, 0.01f);
-	ImGui::DragFloat("handoffBlendSpeed", &handoffBlendSpeed_, 0.01f);
-	ImGui::DragFloat2("mouseSensitivity", &mouseSensitivity_.x, 0.001f);
-	ImGui::DragFloat2("padSensitivity", &padSensitivity_.x, 0.001f);
-	ImGui::DragFloat2("smoothedInput", &smoothedInput_.x, 0.001f);
-
-	ImGui::DragFloat("fovYLerpRate", &fovYLerpRate_, 0.001f);
-	ImGui::DragFloat("offsetLerpRate", &offsetLerpRate_.x, 0.001f);
-	ImGui::DragFloat("rotateZLerpRate", &rotateZLerpRate_, 0.001f);
-	ImGui::DragFloat("rotatePlusParam.rotateClampX", &rotatePlusParam_.rotateClampX, 0.001f);
-	ImGui::DragFloat("rotatePlusParam.offsetZNear", &rotatePlusParam_.offsetZNear, 0.001f);
-	ImGui::DragFloat("rotatePlusParam.clampThreshold", &rotatePlusParam_.clampThreshold, 0.001f);
-
-	ImGui::DragFloat("rotateMinusParam.rotateClampX", &rotateMinusParam_.rotateClampX, 0.001f);
-	ImGui::DragFloat("rotateMinusParam.offsetZNear", &rotateMinusParam_.offsetZNear, 0.001f);
-	ImGui::DragFloat("rotateMinusParam.clampThreshold", &rotateMinusParam_.clampThreshold, 0.001f);
-
-	ImGui::Checkbox("isDrawDebugLine", &isDrawDebugLine_);
-	ImGui::DragFloat("lookAtDistanceRate", &lookAtDistanceRate_, 0.001f, 0.0f, 1.0f);
-
-	if (!isDrawDebugLine_) {
-		return;
+		inputSmoother_->ImGui();
 	}
+	if (ImGui::CollapsingHeader("Before")) {
 
-	// デバッグ用ライン描画
-	{
-		SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
+		ImGui::Text("clampBlendT: %.3f", clampBlendT_);
+		ImGui::Text("handoffBlendT: %.3f", handoffBlendT_);
 
-		// 基準点
-		SakuEngine::Vector3 anchorPos = anchorObject_->GetTranslation();
-		lineRenderer->DrawSphere(6, 2.0f, anchorPos, SakuEngine::Color::White());
-		// 注視点
-		SakuEngine::Vector3 lookAtPos = lookAtTargetObject_->GetTranslation();
-		lineRenderer->DrawSphere(6, 2.0f, lookAtPos, SakuEngine::Color::White());
-		// 間をつなぐ
-		lineRenderer->DrawLine3D(anchorPos, lookAtPos, SakuEngine::Color::White());
+		ImGui::DragFloat3("offsetTranslation", &offsetTranslation_.x, 0.1f);
 
-		// 距離割合に応じた位置を取得する
-		SakuEngine::Vector3 targetPos = SakuEngine::Vector3::Lerp(anchorPos, lookAtPos, lookAtDistanceRate_);
-		lineRenderer->DrawSphere(6, 2.0f, targetPos, SakuEngine::Color::Red());
+		ImGui::DragFloat("defaultFovY", &defaultFovY_, 0.01f);
+		ImGui::DragFloat("lerpRate", &lerpRate_, 0.01f);
+
+		ImGui::DragFloat("clampBlendSpeed", &clampBlendSpeed_, 0.01f);
+		ImGui::DragFloat("handoffBlendSpeed", &handoffBlendSpeed_, 0.01f);
+
+		ImGui::DragFloat("fovYLerpRate", &fovYLerpRate_, 0.001f);
+		ImGui::DragFloat("offsetLerpRate", &offsetLerpRate_.x, 0.001f);
+		ImGui::DragFloat("rotateZLerpRate", &rotateZLerpRate_, 0.001f);
+		ImGui::DragFloat("rotatePlusParam.rotateClampX", &rotatePlusParam_.rotateClampX, 0.001f);
+		ImGui::DragFloat("rotatePlusParam.offsetZNear", &rotatePlusParam_.offsetZNear, 0.001f);
+		ImGui::DragFloat("rotatePlusParam.clampThreshold", &rotatePlusParam_.clampThreshold, 0.001f);
+
+		ImGui::DragFloat("rotateMinusParam.rotateClampX", &rotateMinusParam_.rotateClampX, 0.001f);
+		ImGui::DragFloat("rotateMinusParam.offsetZNear", &rotateMinusParam_.offsetZNear, 0.001f);
+		ImGui::DragFloat("rotateMinusParam.clampThreshold", &rotateMinusParam_.clampThreshold, 0.001f);
+
+		ImGui::Checkbox("isDrawDebugLine", &isDrawDebugLine_);
+		ImGui::DragFloat("lookAtDistanceRate", &lookAtDistanceRate_, 0.001f, 0.0f, 1.0f);
+
+		if (!isDrawDebugLine_) {
+			return;
+		}
+
+		// デバッグ用ライン描画
+		{
+			SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
+
+			// 基準点
+			SakuEngine::Vector3 anchorPos = anchorObject_->GetTranslation();
+			lineRenderer->DrawSphere(6, 2.0f, anchorPos, SakuEngine::Color::White());
+			// 注視点
+			SakuEngine::Vector3 lookAtPos = lookAtTargetObject_->GetTranslation();
+			lineRenderer->DrawSphere(6, 2.0f, lookAtPos, SakuEngine::Color::White());
+			// 間をつなぐ
+			lineRenderer->DrawLine3D(anchorPos, lookAtPos, SakuEngine::Color::White());
+
+			// 距離割合に応じた位置を取得する
+			SakuEngine::Vector3 targetPos = SakuEngine::Vector3::Lerp(anchorPos, lookAtPos, lookAtDistanceRate_);
+			lineRenderer->DrawSphere(6, 2.0f, targetPos, SakuEngine::Color::Red());
+		}
 	}
 }
 
@@ -253,9 +233,6 @@ void FollowCameraFollowState::ApplyJson(const Json& data) {
 
 	defaultFovY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "defaultFovY_");
 	lerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpRate_");
-	inputLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "inputLerpRate_");
-	mouseSensitivity_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["mouseSensitivity_"]);
-	padSensitivity_ = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector2>(data["padSensitivity_"]);
 
 	fovYLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fovYLerpRate_");
 	offsetLerpRate_.x = SakuEngine::JsonAdapter::GetValue<float>(data, "offsetXLerpRate_");
@@ -280,9 +257,6 @@ void FollowCameraFollowState::SaveJson(Json& data) {
 	data["defaultFovY_"] = defaultFovY_;
 	data["offsetTranslation_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector3>(offsetTranslation_);
 	data["lerpRate_"] = lerpRate_;
-	data["inputLerpRate_"] = inputLerpRate_;
-	data["mouseSensitivity_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(mouseSensitivity_);
-	data["padSensitivity_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector2>(padSensitivity_);
 
 	data["fovYLerpRate_"] = fovYLerpRate_;
 	data["offsetXLerpRate_"] = offsetLerpRate_.x;
