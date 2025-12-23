@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -42,7 +42,8 @@ enum class MouseButton {
 enum class InputType {
 
 	Keyboard,
-	GamePad
+	GamePad,
+	Count
 };
 
 // 入力検知位置

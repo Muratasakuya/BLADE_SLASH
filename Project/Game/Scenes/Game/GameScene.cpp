@@ -95,6 +95,13 @@ void GameScene::Init() {
 	fieldEffect_->Emit(SakuEngine::Vector3::AnyInit(0.0f));
 
 	//========================================================================
+	//	input
+	//========================================================================
+
+	inputController_ = std::make_unique<GameInputDeviceController>();
+	inputController_->Init();
+
+	//========================================================================
 	//	state
 	//========================================================================
 
@@ -107,6 +114,9 @@ void GameScene::Init() {
 }
 
 void GameScene::Update() {
+
+	// 入力更新
+	inputController_->Update();
 
 	// 状態に応じて更新
 	uint32_t stateIndex = static_cast<uint32_t>(currentState_);

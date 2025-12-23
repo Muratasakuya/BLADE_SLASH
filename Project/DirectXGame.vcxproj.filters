@@ -1209,9 +1209,6 @@
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp">
       <Filter>Game\Gameplay\Camera</Filter>
     </ClCompile>
@@ -2256,9 +2253,6 @@
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraShakeState.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Structures\FollowCameraStructures.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\Structures</Filter>
     </ClInclude>
@@ -2680,8 +2674,15 @@
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </None>
     <ClCompile Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\GameInputDeviceController.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\Actions\GameInputAction.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.h" />
   </ItemGroup>
 </Project>
