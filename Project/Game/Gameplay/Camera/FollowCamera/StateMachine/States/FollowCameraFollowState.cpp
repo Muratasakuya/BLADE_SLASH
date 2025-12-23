@@ -23,6 +23,10 @@ FollowCameraFollowState::FollowCameraFollowState() {
 	// 入力クラスを初期化
 	inputSmoother_ = std::make_unique<FollowCameraLookInputSmoother>();
 	inputSmoother_->Init();
+
+	// 画角を元に戻すクラスを初期化
+	returnFov_ = std::make_unique<FollowCameraReturnFov>();
+	returnFov_->Init();
 }
 
 void FollowCameraFollowState::SnapToCamera() {
@@ -38,13 +42,9 @@ void FollowCameraFollowState::SnapToCamera() {
 	// 初期化
 	handoffBlendT_ = 0.0f;
 	clampBlendT_ = 0.0f;
-	inputSmoother_->ResetSmoothedInput();
 }
 
 void FollowCameraFollowState::UpdateInitialSettings() {
-
-	// 画角
-	followCamera_->SetFovY(defaultFovY_);
 
 	// 回転を考慮したオフセットと追従先の座標を足す
 	SakuEngine::Vector3 translation = anchorObject_->GetTranslation() +
@@ -61,16 +61,23 @@ void FollowCameraFollowState::Update() {
 	// deltaTime取得
 	float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
 
-	// 入力補間更新
-	inputSmoother_->Update(deltaTime);
-	const SakuEngine::Vector2& frameRotationDelta = inputSmoother_->GetFrameRotationDelta();
+	// コンテキストとサービス作成
+	// コンテキスト
+	FollowCameraContext context{};
+	context.cameraFovY = followCamera_->GetFovY();
+	context.cameraTranslation = followCamera_->GetTransform().translation;
+	context.cameraRotation = followCamera_->GetTransform().rotation;
+	// サービス
+	FollowCameraFrameService service{};
+	service.inputSmoother = inputSmoother_.get();
+	service.returnFov = returnFov_.get();
 
-	// 画角に変更があっても常に初期値に補間させる
-	{
-		float t = std::clamp(fovYLerpRate_ * deltaTime, 0.0f, 1.0f);
-		float fovY = std::lerp(followCamera_->GetFovY(), defaultFovY_, t);
-		followCamera_->SetFovY(fovY);
-	}
+	// 入力補間更新
+	inputSmoother_->Execute(context, service, deltaTime);
+	const SakuEngine::Vector2& frameRotationDelta = inputSmoother_->GetFrameRotationDelta();
+	// 画角補間更新
+	returnFov_->Execute(context, service, deltaTime);
+	followCamera_->SetFovY(context.cameraFovY);
 
 	// 追従ターゲット位置の補間
 	{
@@ -172,20 +179,21 @@ void FollowCameraFollowState::ImGui() {
 
 		inputSmoother_->ImGui();
 	}
+	if (ImGui::CollapsingHeader("ReturnFov")) {
+
+		returnFov_->ImGui();
+	}
 	if (ImGui::CollapsingHeader("Before")) {
 
 		ImGui::Text("clampBlendT: %.3f", clampBlendT_);
 		ImGui::Text("handoffBlendT: %.3f", handoffBlendT_);
 
 		ImGui::DragFloat3("offsetTranslation", &offsetTranslation_.x, 0.1f);
-
-		ImGui::DragFloat("defaultFovY", &defaultFovY_, 0.01f);
 		ImGui::DragFloat("lerpRate", &lerpRate_, 0.01f);
 
 		ImGui::DragFloat("clampBlendSpeed", &clampBlendSpeed_, 0.01f);
 		ImGui::DragFloat("handoffBlendSpeed", &handoffBlendSpeed_, 0.01f);
 
-		ImGui::DragFloat("fovYLerpRate", &fovYLerpRate_, 0.001f);
 		ImGui::DragFloat("offsetLerpRate", &offsetLerpRate_.x, 0.001f);
 		ImGui::DragFloat("rotateZLerpRate", &rotateZLerpRate_, 0.001f);
 		ImGui::DragFloat("rotatePlusParam.rotateClampX", &rotatePlusParam_.rotateClampX, 0.001f);
@@ -231,10 +239,7 @@ void FollowCameraFollowState::ApplyJson(const Json& data) {
 	// 現在位置のオフセットを記録
 	handoffDefault_ = offsetTranslation_;
 
-	defaultFovY_ = SakuEngine::JsonAdapter::GetValue<float>(data, "defaultFovY_");
 	lerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "lerpRate_");
-
-	fovYLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "fovYLerpRate_");
 	offsetLerpRate_.x = SakuEngine::JsonAdapter::GetValue<float>(data, "offsetXLerpRate_");
 	offsetLerpRate_.y = SakuEngine::JsonAdapter::GetValue<float>(data, "offsetYLerpRate_");
 	offsetLerpRate_.z = SakuEngine::JsonAdapter::GetValue<float>(data, "offsetZLerpRate_");
@@ -254,11 +259,9 @@ void FollowCameraFollowState::ApplyJson(const Json& data) {
 
 void FollowCameraFollowState::SaveJson(Json& data) {
 
-	data["defaultFovY_"] = defaultFovY_;
 	data["offsetTranslation_"] = SakuEngine::JsonAdapter::FromObject<SakuEngine::Vector3>(offsetTranslation_);
 	data["lerpRate_"] = lerpRate_;
 
-	data["fovYLerpRate_"] = fovYLerpRate_;
 	data["offsetXLerpRate_"] = offsetLerpRate_.x;
 	data["offsetZLerpRate_"] = offsetLerpRate_.z;
 	data["offsetYLerpRate_"] = offsetLerpRate_.y;

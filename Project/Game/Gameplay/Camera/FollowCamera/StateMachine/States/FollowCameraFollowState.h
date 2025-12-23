@@ -5,6 +5,7 @@
 //============================================================================
 #include <Game/Gameplay/Camera/FollowCamera/StateMachine/Interface/FollowCameraIState.h>
 #include <Game/Gameplay/Camera/FollowCamera/Methods/FollowCameraLookInputSmoother.h>
+#include <Game/Gameplay/Camera/FollowCamera/Methods/FollowCameraReturnFov.h>
 
 //============================================================================
 //	FollowCameraFollowState class
@@ -65,9 +66,8 @@ private:
 
 	// 入力クラス
 	std::unique_ptr<FollowCameraLookInputSmoother> inputSmoother_;
-
-	float defaultFovY_;
-	float fovYLerpRate_; // fov補間割合
+	// 画角を元に戻すクラス
+	std::unique_ptr<FollowCameraReturnFov> returnFov_;
 
 	// parameters
 	SakuEngine::Vector3 offsetTranslation_; // 追従相手との距離

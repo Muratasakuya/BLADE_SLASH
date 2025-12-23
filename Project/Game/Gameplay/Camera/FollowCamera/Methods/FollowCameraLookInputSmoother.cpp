@@ -11,9 +11,6 @@
 #include <Game/Gameplay/Camera/FollowCamera/Input/Devices/FollowCameraKeyInput.h>
 #include <Game/Gameplay/Camera/FollowCamera/Input/Devices/FollowCameraGamePadInput.h>
 
-// imgui
-#include <imgui.h>
-
 //============================================================================
 //	FollowCameraLookInputSmoother classMethods
 //============================================================================
@@ -30,7 +27,8 @@ void FollowCameraLookInputSmoother::Init() {
 	ApplyJson();
 }
 
-void FollowCameraLookInputSmoother::Update(float deltaTime) {
+void FollowCameraLookInputSmoother::Execute([[maybe_unused]] FollowCameraContext& context,
+	[[maybe_unused]] const FollowCameraFrameService& service, float deltaTime) {
 
 	// 現在の入力タイプ
 	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
