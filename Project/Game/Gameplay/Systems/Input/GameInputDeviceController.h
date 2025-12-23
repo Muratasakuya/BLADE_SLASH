@@ -34,6 +34,12 @@ public:
 
 	// エディター
 	void ImGui() override;
+
+	//--------- accessor -----------------------------------------------------
+
+	// フラグの設定
+	void SetIsDisplayMouse(bool isDisplay) { isDisplayMouse_ = isDisplay; }
+	void SetIsControlMoveMouse(bool isControl) { isControlMoveMouse_ = isControl; }
 private:
 	//========================================================================
 	//	private Methods

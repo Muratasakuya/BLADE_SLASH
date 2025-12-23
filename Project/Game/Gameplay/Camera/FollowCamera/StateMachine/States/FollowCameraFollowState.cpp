@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Config.h>
 #include <Engine/Input/Input.h>
+#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
@@ -215,6 +216,31 @@ void FollowCameraFollowState::ImGui() {
 	ImGui::DragFloat("rotateMinusParam.rotateClampX", &rotateMinusParam_.rotateClampX, 0.001f);
 	ImGui::DragFloat("rotateMinusParam.offsetZNear", &rotateMinusParam_.offsetZNear, 0.001f);
 	ImGui::DragFloat("rotateMinusParam.clampThreshold", &rotateMinusParam_.clampThreshold, 0.001f);
+
+	ImGui::Checkbox("isDrawDebugLine", &isDrawDebugLine_);
+	ImGui::DragFloat("lookAtDistanceRate", &lookAtDistanceRate_, 0.001f, 0.0f, 1.0f);
+
+	if (!isDrawDebugLine_) {
+		return;
+	}
+
+	// デバッグ用ライン描画
+	{
+		SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
+
+		// 基準点
+		SakuEngine::Vector3 anchorPos = anchorObject_->GetTranslation();
+		lineRenderer->DrawSphere(6, 2.0f, anchorPos, SakuEngine::Color::White());
+		// 注視点
+		SakuEngine::Vector3 lookAtPos = lookAtTargetObject_->GetTranslation();
+		lineRenderer->DrawSphere(6, 2.0f, lookAtPos, SakuEngine::Color::White());
+		// 間をつなぐ
+		lineRenderer->DrawLine3D(anchorPos, lookAtPos, SakuEngine::Color::White());
+
+		// 距離割合に応じた位置を取得する
+		SakuEngine::Vector3 targetPos = SakuEngine::Vector3::Lerp(anchorPos, lookAtPos, lookAtDistanceRate_);
+		lineRenderer->DrawSphere(6, 2.0f, targetPos, SakuEngine::Color::Red());
+	}
 }
 
 void FollowCameraFollowState::ApplyJson(const Json& data) {

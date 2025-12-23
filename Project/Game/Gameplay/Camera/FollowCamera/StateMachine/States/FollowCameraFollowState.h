@@ -95,4 +95,14 @@ private:
 	float handoffBlendSpeed_;    // 補間速度
 	// 補間アニメーション終了直後のオフセット位置
 	SakuEngine::Vector3 handoffDefault_;
+
+	// 基準点から注視点までの距離割合、割合に応じた座標を取得する
+	float lookAtDistanceRate_;
+
+	// エディター
+	bool isDrawDebugLine_ = false;
+
+	//--------- functions ----------------------------------------------------
+
+
 };
