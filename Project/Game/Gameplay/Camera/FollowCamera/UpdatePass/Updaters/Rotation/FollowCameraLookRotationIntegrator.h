@@ -3,24 +3,22 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Input/Base/InputMapper.h>
-#include <Engine/MathLib/Vector2.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
-#include <Game/Gameplay/Camera/FollowCamera/Input/Actions/FollowCameraInputAction.h>
 
 //============================================================================
-//	FollowCameraLookInputSmoother class
-//	カメラの視点入力を処理し、滑らかに補間処理するクラス
+//	FollowCameraLookRotationIntegrator class
+//	カメラの注視回転を積分して更新するクラス
 //============================================================================
-class FollowCameraLookInputSmoother :
+class FollowCameraLookRotationIntegrator :
 	public IFollowCameraUpdatePass {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	FollowCameraLookInputSmoother() = default;
-	~FollowCameraLookInputSmoother() = default;
+	FollowCameraLookRotationIntegrator() = default;
+	~FollowCameraLookRotationIntegrator() = default;
+
 
 	// 初期化
 	void Init() override;
@@ -33,8 +31,12 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	// 1フレームの入力による回転量を取得
-	const SakuEngine::Vector2& GetFrameRotationDelta() const { return frameRotationDelta_; }
+	// ヨー回転の取得
+	const SakuEngine::Quaternion& GetYawRotation() const { return yawRotation_; }
+
+	// 識別IDの取得
+	static constexpr FollowCameraUpdatePassID ID = FollowCameraUpdatePassID::LookRotationIntegrator;
+	virtual FollowCameraUpdatePassID GetID() const override { return ID; }
 private:
 	//========================================================================
 	//	private Methods
@@ -42,24 +44,6 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	// 入力クラス
-	std::unique_ptr<SakuEngine::InputMapper<FollowCameraInputAction>> inputMapper_;
-
-	// 入力の値補間用
-	SakuEngine::Vector2 smoothedInput_;
-	// 入力補間割合速度
-	float inputLerpRate_;
-
-	// 各入力の感度
-	SakuEngine::Vector2 padSensitivity_;   // ゲームパッド
-	SakuEngine::Vector2 mouseSensitivity_; // マウス
-
-	// 1フレームの入力による回転量
-	SakuEngine::Vector2 frameRotationDelta_;
-
-	//--------- functions ----------------------------------------------------
-
-	// json
-	void ApplyJson();
-	void SaveJson();
+	// ヨー回転(Y軸回転)
+	SakuEngine::Quaternion yawRotation_;
 };

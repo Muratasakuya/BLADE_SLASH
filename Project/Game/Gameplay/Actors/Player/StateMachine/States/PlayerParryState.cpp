@@ -146,12 +146,6 @@ void PlayerParryState::UpdateLerpTranslation() {
 
 	if (parryLerp_.isFinised) {
 
-		// 攻撃入力がされていなければ滑らかに元のカメラに戻るようにする
-		if (!request_.has_value()) {
-
-			followCamera_->WarmStart();
-		}
-
 		// 補間終了後剣先エフェクトを停止させる
 		tipScrackEffect_->Stop();
 	}
@@ -199,7 +193,7 @@ void PlayerParryState::UpdateAnimation() {
 		request_ = RequestState::AttackAnimation;
 
 		// カメラアニメーションを終了させる
-		followCamera_->EndPlayerActionAnim(true);
+		followCamera_->EndPlayerActionAnim();
 		// パリィ攻撃は4段目の攻撃と同じ
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_4th);
 
@@ -273,7 +267,7 @@ SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, S
 void PlayerParryState::Exit() {
 
 	// カメラアニメーションを終了させる
-	followCamera_->EndPlayerActionAnim(true);
+	followCamera_->EndPlayerActionAnim();
 
 	// リセット
 	request_ = std::nullopt;

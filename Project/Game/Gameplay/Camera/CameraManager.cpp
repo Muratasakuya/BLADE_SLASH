@@ -40,8 +40,8 @@ void CameraManager::Init(SakuEngine::SceneView* sceneView) {
 
 void CameraManager::SetTarget(const Player* player, const BossEnemy* bossEnemy) {
 
-	followCamera_->SetAnchorObject(player);
-	followCamera_->SetLookAtTargetObject(bossEnemy);
+	// 依存オブジェクトを設定
+	followCamera_->BindDependencies({ followCamera_.get(), player, bossEnemy });
 }
 
 void CameraManager::Update(GameSceneState sceneState) {

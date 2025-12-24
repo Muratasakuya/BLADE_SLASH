@@ -97,8 +97,7 @@ void PlayerAttack_4thState::Update() {
 		}
 
 		// シェイク前にアニメーションを終了させる
-		followCamera_->EndPlayerActionAnim(false);
-
+		followCamera_->EndPlayerActionAnim();
 		exitTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 	}
 }
@@ -127,7 +126,7 @@ void PlayerAttack_4thState::Exit() {
 	groundCrackEmitted_ = false;
 
 	// カメラアニメーションを終了させる
-	followCamera_->EndPlayerActionAnim(false);
+	followCamera_->EndPlayerActionAnim();
 }
 
 void PlayerAttack_4thState::ImGui() {

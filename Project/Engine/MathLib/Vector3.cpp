@@ -237,6 +237,10 @@ Vector3 Vector3::CalculateValue(const std::vector<Keyframe<Vector3>>& keyframes,
 Vector3 Vector3::Lerp(const Vector3& v0, const Vector3& v1, float t) {
 	return Vector3(std::lerp(v0.x, v1.x, t), std::lerp(v0.y, v1.y, t), std::lerp(v0.z, v1.z, t));
 }
+Vector3 Vector3::Lerp(const Vector3& v0, const Vector3& v1, const Vector3& lerpT) {
+
+	return Vector3(std::lerp(v0.x, v1.x, lerpT.x), std::lerp(v0.y, v1.y, lerpT.y), std::lerp(v0.z, v1.z, lerpT.z));
+}
 
 Vector3 Vector3::Reflect(const Vector3& input, const Vector3& normal) {
 	float dotProduct = Dot(input, normal);

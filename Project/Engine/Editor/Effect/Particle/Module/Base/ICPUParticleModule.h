@@ -9,34 +9,33 @@
 // imgui
 #include <imgui.h>
 
-//============================================================================
-//	ICPUParticleModule class
-//	CPUパーティクルモジュールの基底クラス
-//============================================================================
 namespace SakuEngine {
 
-class ICPUParticleModule {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	ICPUParticleModule class
+	//	CPUパーティクルモジュールの基底クラス
+	//============================================================================
+	class ICPUParticleModule {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	ICPUParticleModule() = default;
-	virtual ~ICPUParticleModule() = default;
+		ICPUParticleModule() = default;
+		virtual ~ICPUParticleModule() = default;
 
-	virtual void Init() = 0;
+		virtual void Init() = 0;
 
-	virtual void ImGui() = 0;
+		virtual void ImGui() = 0;
 
-	// json
-	virtual Json ToJson() = 0;
-	virtual void FromJson(const Json& data) = 0;
+		// json
+		virtual Json ToJson() = 0;
+		virtual void FromJson(const Json& data) = 0;
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	virtual void SetCommand([[maybe_unused]] const ParticleCommand& command) {}
+		virtual void SetCommand([[maybe_unused]] const ParticleCommand& command) {}
 
-	virtual const char* GetName() const = 0;
-};
-
+		virtual const char* GetName() const = 0;
+	};
 }; // SakuEngine

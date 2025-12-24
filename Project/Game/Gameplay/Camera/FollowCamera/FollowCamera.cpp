@@ -9,6 +9,8 @@
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/MathLib/MathUtils.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 //============================================================================
 //	FollowCamera classMethods
@@ -33,6 +35,16 @@ void FollowCamera::LoadAnim() {
 
 	// 読み込み済み
 	isLoadedAnim_ = true;
+}
+
+void FollowCamera::BindDependencies(const FollowCameraDependencies& dependencies) {
+
+	// 更新パスに依存オブジェクトを設定
+	updatePass_->BindDependencies(dependencies);
+
+	// 基準点、注視点を設定
+	anchorObject_ = dependencies.player;
+	lookAtTargetObject_ = dependencies.bossEnemy;
 }
 
 void FollowCamera::StartPlayerActionAnim(PlayerState state) {
@@ -74,16 +86,12 @@ void FollowCamera::StartPlayerActionAnim(const std::string& animName) {
 	}
 }
 
-void FollowCamera::EndPlayerActionAnim(bool isWarmStart) {
+void FollowCamera::EndPlayerActionAnim() {
 
 	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 
 	// アニメーションを終了させる
 	editor->EndAnim();
-	if (isWarmStart) {
-
-		stateMachine_->WarmStartFollow();
-	}
 }
 
 void FollowCamera::StartLookToTarget(bool isReset, bool isLockTarget,
@@ -143,35 +151,15 @@ void FollowCamera::Init() {
 	// json適用
 	ApplyJson();
 
-	stateMachine_ = std::make_unique<FollowCameraStateMachine>();
-	stateMachine_->Init(this);
-}
-
-void FollowCamera::UpdateInitialSettings() {
-
-	// 初期位置に持って行く
-	stateMachine_->UpdateInitialSettings();
-
-	// 行列更新
-	BaseCamera::UpdateView(UpdateMode::Quaternion);
-}
-
-void FollowCamera::SetAnchorObject(const SakuEngine::GameObject3D* anchor) {
-
-	anchorObject_ = anchor;
-	stateMachine_->SetAnchorObject(anchor);
-}
-
-void FollowCamera::SetLookAtTargetObject(const SakuEngine::GameObject3D* lookAtTarget) {
-
-	lookAtTargetObject_ = lookAtTarget;
-	stateMachine_->SetLookAtTargetObject(lookAtTarget);
+	// 更新パス初期化
+	updatePass_ = std::make_unique<FollowCameraUpdatePass>();
+	updatePass_->Init();
 }
 
 void FollowCamera::Update() {
 
-	// 状態の更新
-	stateMachine_->Update();
+	// 更新パスの更新
+	updatePass_->Update(*this);
 
 	// エディターで更新しているときは処理しない
 	if (isUpdateEditor_) {
@@ -295,7 +283,7 @@ void FollowCamera::ImGui() {
 
 		if (ImGui::BeginTabItem("State")) {
 
-			stateMachine_->ImGui();
+			updatePass_->ImGui();
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("LookTarget")) {

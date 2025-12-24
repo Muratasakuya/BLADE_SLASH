@@ -236,16 +236,46 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraReturnFov.cpp">
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.cpp">
-      <SubType />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Lighting\GameLight.cpp">
       <SubType />
@@ -702,9 +732,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp">
       <SubType />
     </ClCompile>
@@ -1041,11 +1068,43 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraReturnFov.h">
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1053,13 +1112,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateConfig.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraFrameService.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1633,15 +1690,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Actions\FollowCameraInputAction.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Structures\FollowCameraStructures.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\CameraManager.h">

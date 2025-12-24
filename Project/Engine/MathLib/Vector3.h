@@ -34,7 +34,7 @@ namespace SakuEngine {
 		Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 		//--------- operators ----------------------------------------------------
-		
+
 		Vector3 operator+(const Vector3& other) const;
 		Vector3 operator-(const Vector3& other) const;
 		Vector3 operator*(const Vector3& other) const;
@@ -64,7 +64,7 @@ namespace SakuEngine {
 		//----------- json -------------------------------------------------------
 
 		Json ToJson() const;
-		static SakuEngine::Vector3 FromJson(const Json& data);
+		static Vector3 FromJson(const Json& data);
 
 		//--------- functions ----------------------------------------------------
 
@@ -74,32 +74,33 @@ namespace SakuEngine {
 
 		Vector3 Normalize() const;
 
-		static SakuEngine::Vector3 AnyInit(float value);
+		static Vector3 AnyInit(float value);
 
-		static SakuEngine::Vector3 RotateVector(const SakuEngine::Vector3& baseDirection, float angleRad);
+		static Vector3 RotateVector(const Vector3& baseDirection, float angleRad);
 
-		static SakuEngine::Vector3 Cross(const SakuEngine::Vector3& v0, const SakuEngine::Vector3& v1);
-		static float Dot(const SakuEngine::Vector3& v0, const SakuEngine::Vector3& v1);
+		static Vector3 Cross(const Vector3& v0, const Vector3& v1);
+		static float Dot(const Vector3& v0, const Vector3& v1);
 
-		static float Length(const SakuEngine::Vector3& v);
+		static float Length(const Vector3& v);
 
-		static SakuEngine::Vector3 Normalize(const SakuEngine::Vector3& v);
+		static Vector3 Normalize(const Vector3& v);
 
-		static SakuEngine::Vector3 CalculateValue(const std::vector<Keyframe<Vector3>>& keyframes, float time);
+		static Vector3 CalculateValue(const std::vector<Keyframe<Vector3>>& keyframes, float time);
 
-		static SakuEngine::Vector3 Lerp(const SakuEngine::Vector3& v0, const SakuEngine::Vector3& v1, float t);
+		static Vector3 Lerp(const Vector3& v0, const Vector3& v1, float t);
+		static Vector3 Lerp(const Vector3& v0, const Vector3& v1, const Vector3& lerpT);
 
-		static SakuEngine::Vector3 Reflect(const SakuEngine::Vector3& input, const SakuEngine::Vector3& normal);
+		static Vector3 Reflect(const Vector3& input, const Vector3& normal);
 
-		static SakuEngine::Vector3 Transform(const SakuEngine::Vector3& v, const Matrix4x4& matrix);
+		static Vector3 Transform(const Vector3& v, const Matrix4x4& matrix);
 
-		static SakuEngine::Vector3 TransferNormal(const SakuEngine::Vector3& v, const Matrix4x4& m);
+		static Vector3 TransferNormal(const Vector3& v, const Matrix4x4& m);
 
-		static SakuEngine::Vector3 Projection(const SakuEngine::Vector3& v0, const SakuEngine::Vector3& v1);
+		static Vector3 Projection(const Vector3& v0, const Vector3& v1);
 
-		static SakuEngine::Vector3 ClosestPointOnLine(const SakuEngine::Vector3& point, const SakuEngine::Vector3& origin, const SakuEngine::Vector3& diff);
-		static SakuEngine::Vector3 ClosestPointOnRay(const SakuEngine::Vector3& point, const SakuEngine::Vector3& origin, const SakuEngine::Vector3& diff);
-		static SakuEngine::Vector3 ClosestPointOnSegment(const SakuEngine::Vector3& point, const SakuEngine::Vector3& origin, const SakuEngine::Vector3& diff);
+		static Vector3 ClosestPointOnLine(const Vector3& point, const Vector3& origin, const Vector3& diff);
+		static Vector3 ClosestPointOnRay(const Vector3& point, const Vector3& origin, const Vector3& diff);
+		static Vector3 ClosestPointOnSegment(const Vector3& point, const Vector3& origin, const Vector3& diff);
 	};
 
 	Vector3 operator*(float scalar, const Vector3& v);

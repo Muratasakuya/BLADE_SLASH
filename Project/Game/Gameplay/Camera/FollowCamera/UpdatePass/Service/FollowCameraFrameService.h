@@ -13,11 +13,30 @@ class FollowCamera; // 処理対象カメラ
 
 // ServiceClasses
 class FollowCameraLookInputSmoother;
-class FollowCameraReturnFov;
+class FollowCameraTargetResolver;
+class FollowCameraLookRotationIntegrator;
+class FollowCameraPitchClamper;
+class FollowCameraZoomOffsetResolver;
+class FollowCameraOffsetSmoother;
 
 //============================================================================
 //	FollowCameraFrameService structure
 //============================================================================
+
+// 更新パスID
+enum class FollowCameraUpdatePassID {
+
+	LookInputSmoother,        // 視点入力補間
+	TargetResolver,           // 追従目標位置の決定
+	InterTargetSmoother,      // 追従位置の目標を補間
+	LookRotationIntegrator,   // 注視回転積分
+	PitchClamper,             // ピッチ角度制限
+	RollStabilizer,           // ロール回転安定化
+	ZoomOffsetResolver,       // ズームオフセット計算
+	OffsetSmoother,           // オフセット補間
+	OrbitTranslationComposer, // 最終座標構成
+	ReturnFov,                // 画角元に戻す
+};
 
 // パス間で共有するデータ
 struct FollowCameraContext {
@@ -25,6 +44,8 @@ struct FollowCameraContext {
 	SakuEngine::Vector3 cameraTranslation; // 座標
 	SakuEngine::Quaternion cameraRotation; // 回転
 	float cameraFovY;                      // 画角
+
+	SakuEngine::Vector3 interTarget; // 追従中間目標位置
 };
 // 処理依存オブジェクト
 struct FollowCameraDependencies {
@@ -36,6 +57,10 @@ struct FollowCameraDependencies {
 // フレーム毎の各パスが処理したデータを共有するサービス
 struct FollowCameraFrameService {
 
-	const FollowCameraLookInputSmoother* inputSmoother; // 回転入力補間
-	const FollowCameraReturnFov* returnFov;             // 画角元に戻す
+	const FollowCameraLookInputSmoother* inputSmoother;           // 視点入力補間
+	const FollowCameraLookRotationIntegrator* rotationIntegrator; // 注視回転積分
+	const FollowCameraPitchClamper* pitchClamper;                 // ピッチ角度制限
+	const FollowCameraZoomOffsetResolver* zoomOffsetResolver;     // ズームオフセット計算
+	const FollowCameraTargetResolver* targetResolver;             // 追従目標位置の決定
+	const FollowCameraOffsetSmoother* offsetSmoother;             // オフセット補間
 };

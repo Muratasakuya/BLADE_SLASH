@@ -66,8 +66,6 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
 	// 追従先を設定する
 	context_->camera->SetTarget(context_->player, context_->boss);
-	// カメラの位置を最初のプレイヤー位置まで動かす
-	context_->camera->GetFollowCamera()->UpdateInitialSettings();
 
 	//========================================================================
 	//	hud

@@ -702,9 +702,6 @@
     <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp">
       <Filter>Game\Event\GameHUDEvents</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Lighting\GameLight.cpp">
       <Filter>Game\Gameplay\Lighting</Filter>
     </ClCompile>
@@ -1206,9 +1203,6 @@
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\Input\Devices</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.cpp">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp">
       <Filter>Game\Gameplay\Camera</Filter>
     </ClCompile>
@@ -1616,12 +1610,6 @@
     </ClInclude>
     <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h">
       <Filter>Game\Event\GameHUDEvents</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateConfig.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\FollowCameraStateMachine.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine</Filter>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Lighting\GameLight.h">
       <Filter>Game\Gameplay\Lighting</Filter>
@@ -2247,15 +2235,6 @@
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Actions\FollowCameraInputAction.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\Input\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\Interface\FollowCameraIState.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\StateMachine\States\FollowCameraFollowState.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\StateMachine\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Structures\FollowCameraStructures.h">
-      <Filter>Game\Gameplay\Camera\FollowCamera\Structures</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\CameraManager.h">
       <Filter>Game\Gameplay\Camera</Filter>
     </ClInclude>
@@ -2677,8 +2656,17 @@
     <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp" />
     <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.cpp" />
     <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.cpp" />
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.cpp" />
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraReturnFov.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.h" />
@@ -2686,9 +2674,18 @@
     <ClInclude Include="Game\Gameplay\Systems\Input\Actions\GameInputAction.h" />
     <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.h" />
     <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.h" />
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraLookInputSmoother.h" />
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Methods\FollowCameraReturnFov.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Interface\IFollowCameraUpdatePass.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraFrameService.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.h" />
   </ItemGroup>
 </Project>

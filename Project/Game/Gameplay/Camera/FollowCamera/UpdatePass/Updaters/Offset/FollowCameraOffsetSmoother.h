@@ -6,18 +6,18 @@
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
 
 //============================================================================
-//	FollowCameraReturnFov class
-//	カメラのFOVを元に戻す処理を行うクラス
+//	FollowCameraOffsetSmoother class
+//	カメラのオフセットを滑らかに補間するクラス
 //============================================================================
-class FollowCameraReturnFov :
+class FollowCameraOffsetSmoother :
 	public IFollowCameraUpdatePass {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	FollowCameraReturnFov() = default;
-	~FollowCameraReturnFov() = default;
+	FollowCameraOffsetSmoother() = default;
+	~FollowCameraOffsetSmoother() = default;
 
 	// 初期化
 	void Init() override;
@@ -27,6 +27,15 @@ public:
 
 	// エディター
 	void ImGui() override;
+
+	//--------- accessor -----------------------------------------------------
+
+	// 現在のオフセット距離を取得
+	const SakuEngine::Vector3& GetCurrentOffset() const { return currentOffset_; }
+
+	// 識別IDの取得
+	static constexpr FollowCameraUpdatePassID ID = FollowCameraUpdatePassID::OffsetSmoother;
+	virtual FollowCameraUpdatePassID GetID() const override { return ID; }
 private:
 	//========================================================================
 	//	private Methods
@@ -34,11 +43,14 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	// デフォルトの画角
-	float defaultFovY_;
+	// 初期化済みフラグ
+	bool initialized_ = false;
+
+	// 現在のオフセット距離
+	SakuEngine::Vector3 currentOffset_;
 
 	// 補間割合速度
-	float lerpRate_;
+	SakuEngine::Vector3 lerpRate_;
 
 	//--------- functions ----------------------------------------------------
 

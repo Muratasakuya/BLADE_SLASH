@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
-#include <Game/Gameplay/Camera/FollowCamera/StateMachine/FollowCameraStateMachine.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/FollowCameraUpdatePass.h>
 
 //============================================================================
 //	FollowCamera class
@@ -28,21 +28,15 @@ public:
 
 	void ImGui() override;
 
-	// 最初にカメラが一気に移動してしまうのを防ぐ
-	void UpdateInitialSettings();
-
 	//--------- accessor -----------------------------------------------------
 
-	void SetAnchorObject(const SakuEngine::GameObject3D* anchor);
-	void SetLookAtTargetObject(const SakuEngine::GameObject3D* lookAtTarget);
-
-	void WarmStart() { stateMachine_->WarmStartFollow(); }
-	bool IsFinishedHandoffBlend() const { return  stateMachine_->IsFinishedHandoffBlend(); }
+	// 処理依存オブジェクトを設定
+	void BindDependencies(const FollowCameraDependencies& dependencies);
 
 	// エディターによるカメラアニメーション
 	void StartPlayerActionAnim(PlayerState state);
 	void StartPlayerActionAnim(const std::string& animName);
-	void EndPlayerActionAnim(bool isWarmStart);
+	void EndPlayerActionAnim();
 
 	// 視点を注視点に向ける
 	void StartLookToTarget(bool isReset = false, bool isLockTarget = false,
@@ -58,10 +52,12 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	// 更新パス
+	std::unique_ptr<FollowCameraUpdatePass> updatePass_;
+
 	// 状態の管理
-	std::unique_ptr<FollowCameraStateMachine> stateMachine_;
-	const SakuEngine::GameObject3D* anchorObject_;       // 基準点
-	const SakuEngine::GameObject3D* lookAtTargetObject_; // 注視点
+	const Player* anchorObject_;          // 基準点
+	const BossEnemy* lookAtTargetObject_; // 注視点
 
 	// 視点を注視点に向ける処理
 	bool lookStart_ = false;         // 補間開始するか

@@ -3,51 +3,49 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Enum/Direction.h>
-#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Service/FollowCameraFrameService.h>
-
-// imgui
-#include <imgui.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
 
 //============================================================================
-//	IFollowCameraUpdatePass class
-//	カメラの更新を行うパスのインターフェース
+//	FollowCameraInterTargetSmoother class
+//	カメラの現在座標を追従先の座標に滑らかに補間処理するクラス
 //============================================================================
-class IFollowCameraUpdatePass {
+class FollowCameraInterTargetSmoother :
+	public IFollowCameraUpdatePass {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	IFollowCameraUpdatePass() = default;
-	virtual ~IFollowCameraUpdatePass() = default;
+	FollowCameraInterTargetSmoother() = default;
+	~FollowCameraInterTargetSmoother() = default;
 
 	// 初期化
-	virtual void Init() = 0;
+	void Init() override;
 
 	// 更新
-	virtual void Execute(FollowCameraContext& context, const FollowCameraFrameService& service, float deltaTime) = 0;
-
-	// 処理開始
-	virtual void Begin([[maybe_unused]] FollowCameraContext& context) {}
+	void Execute(FollowCameraContext& context, const FollowCameraFrameService& service, float deltaTime) override;
 
 	// エディター
-	virtual void ImGui() {}
+	void ImGui() override;
 
 	//--------- accessor -----------------------------------------------------
 
-	// 処理依存オブジェクトを設定
-	void BindDependencies(const FollowCameraDependencies& dependencies) { dependencies_ = dependencies; }
-
 	// 識別IDの取得
-	virtual FollowCameraUpdatePassID GetID() const = 0;
-protected:
+	static constexpr FollowCameraUpdatePassID ID = FollowCameraUpdatePassID::InterTargetSmoother;
+	virtual FollowCameraUpdatePassID GetID() const override { return ID; }
+private:
 	//========================================================================
 	//	private Methods
 	//========================================================================
 
 	//--------- variables ----------------------------------------------------
 
-	// 処理対象カメラ
-	FollowCameraDependencies dependencies_{};
+	// 補間割合速度
+	float lerpRate_;
+
+	//--------- functions ----------------------------------------------------
+
+	// json
+	void ApplyJson();
+	void SaveJson();
 };

@@ -1,0 +1,17 @@
+{
+    "defaultOffset_": {
+        "x": 0.0,
+        "y": 9.0,
+        "z": -50.0
+    },
+    "rotateMinusParam_": {
+        "clampThreshold": 0.20000000298023224,
+        "offsetZNear": -34.0,
+        "rotateClampX": -0.46000000834465027
+    },
+    "rotatePlusParam_": {
+        "clampThreshold": 0.20000000298023224,
+        "offsetZNear": -32.0,
+        "rotateClampX": 0.11999999731779099
+    }
+}
