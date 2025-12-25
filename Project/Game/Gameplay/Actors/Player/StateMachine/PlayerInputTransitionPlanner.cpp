@@ -22,7 +22,7 @@ void PlayerInputTransitionPlanner::Init() {
 	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 	inputMapper_ = std::make_unique<SakuEngine::InputMapper<PlayerInputAction>>();
 	inputMapper_->AddDevice(std::make_unique<PlayerGamePadInput>(input));
-	inputMapper_->AddDevice(std::make_unique<PlayerKeyInput>(input));
+	//inputMapper_->AddDevice(std::make_unique<PlayerKeyInput>(input));
 
 	// リセット
 	Reset();

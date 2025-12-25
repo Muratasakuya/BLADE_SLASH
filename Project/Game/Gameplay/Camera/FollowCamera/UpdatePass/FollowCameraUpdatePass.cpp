@@ -73,7 +73,6 @@ void FollowCameraUpdatePass::BuildFrameService() {
 	frameService_.offsetSmoother = static_cast<FollowCameraOffsetSmoother*>(GetPassByID(FollowCameraUpdatePassID::OffsetSmoother));
 	frameService_.inputSmoother = static_cast<FollowCameraLookInputSmoother*>(GetPassByID(FollowCameraUpdatePassID::LookInputSmoother));
 	frameService_.pitchClamper = static_cast<FollowCameraPitchClamper*>(GetPassByID(FollowCameraUpdatePassID::PitchClamper));
-
 }
 
 IFollowCameraUpdatePass* FollowCameraUpdatePass::GetPassByID(FollowCameraUpdatePassID id) {

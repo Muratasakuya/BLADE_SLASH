@@ -128,9 +128,24 @@ namespace SakuEngine {
 		// 更新中の情報
 		struct Runtime {
 
-			bool hasStartKey = false;              // スタート値を使うかどうか
-			SakuEngine::Transform3D startTransform;            // スタート時のTransform
-			std::vector<AnyValue> startAnyValues;  // スタート時の任意値
+			bool hasStartKey = false;               // スタート値を使うかどうか
+			SakuEngine::Transform3D startTransform; // スタート時のTransform
+			std::vector<AnyValue> startAnyValues;   // スタート時の任意値
+		};
+
+		// 反転設定
+		struct InverseSetting {
+
+			bool isInversePos = false;      // 位置反転
+			bool isInverseRotation = false; // 回転反転
+			// 位置反転軸に合わせて回転も反転させるかどうか
+			bool isRotationFollowPosAxis = false;
+
+			// 反転軸
+			// 位置
+			std::unordered_map<Math::Axis, bool> inversePosAxisMap;
+			// 回転
+			std::unordered_map<Math::Axis, bool> inverseRotateAxisMap;
 		};
 
 		// コピー、複製データ
@@ -195,6 +210,8 @@ namespace SakuEngine {
 		CopyData copyData_;    // コピー、複製データ
 		Vector3 editAllTranslation_; // 全てのキーの位置を移動させる
 		Vector3 editAllPosRotation_; // 全てのキーの位置を回転させる
+		InverseSetting editInverseSetting_; // 反転設定
+		bool isInverseHeaderOpen_ = false;
 
 		//--------- functions ----------------------------------------------------
 
@@ -218,6 +235,14 @@ namespace SakuEngine {
 		// 任意の型の補間後の値取得
 		template<typename T>
 		T GetLerpedAnyValue(uint32_t trackIndex, float currentT) const;
+
+		// 反転用ヘルパー
+		static bool IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis);
+		// 回転の鏡映し
+		static Quaternion MirrorRotationByNormalAxes(const Quaternion& source,
+			const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap);
+		// 反転後のTransform作成
+		Transform3D MakeInversedTransform(const Transform3D& src, const InverseSetting& setting) const;
 
 		// キータイムラインの描画
 		void DrawKeyTimeline();

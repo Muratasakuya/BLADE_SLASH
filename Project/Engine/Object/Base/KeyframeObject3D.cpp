@@ -43,6 +43,16 @@ void KeyframeObject3D::Init(const std::string& name, const std::string& modelNam
 
 	isEditUpdate_ = false;
 	isDrawKeyframe_ = false;
+
+	// 反転設定
+	editInverseSetting_.isInversePos = true;
+	editInverseSetting_.isInverseRotation = true;
+	editInverseSetting_.inversePosAxisMap[Math::Axis::X] = true;
+	editInverseSetting_.inversePosAxisMap[Math::Axis::Y] = false;
+	editInverseSetting_.inversePosAxisMap[Math::Axis::Z] = false;
+	editInverseSetting_.inverseRotateAxisMap[Math::Axis::X] = false;
+	editInverseSetting_.inverseRotateAxisMap[Math::Axis::Y] = true;
+	editInverseSetting_.inverseRotateAxisMap[Math::Axis::Z] = false;
 }
 
 const Transform3D& KeyframeObject3D::GetIndexTransform(uint32_t index) const {
@@ -898,6 +908,29 @@ void KeyframeObject3D::ImGui() {
 		}
 	}
 
+	isInverseHeaderOpen_ = ImGui::CollapsingHeader("Inverse");
+	if (isInverseHeaderOpen_) {
+
+		ImGui::SeparatorText("Pos");
+
+		ImGui::Checkbox("isInversePos", &editInverseSetting_.isInversePos);
+		for (auto& [axis, vaild] : editInverseSetting_.inversePosAxisMap) {
+
+			std::string label = "Pos:" + std::string(EnumAdapter<Math::Axis>::ToString(axis));
+			ImGui::Checkbox(label.c_str(), &vaild);
+		}
+
+		ImGui::SeparatorText("Rotation");
+
+		ImGui::Checkbox("isRotationFollowPosAxis", &editInverseSetting_.isRotationFollowPosAxis);
+		ImGui::Checkbox("isInverseRotation", &editInverseSetting_.isInverseRotation);
+		for (auto& [axis, vaild] : editInverseSetting_.inverseRotateAxisMap) {
+
+			std::string label = "Rotate:" + std::string(EnumAdapter<Math::Axis>::ToString(axis));
+			ImGui::Checkbox(label.c_str(), &vaild);
+		}
+	}
+
 	ImGui::PopItemWidth();
 
 	// Deleteキー入力でエディターで操作中のキーを削除する
@@ -975,6 +1008,59 @@ void KeyframeObject3D::ImGui() {
 		// 複製終了後クリップボードをクリア
 		copyData_.copyID = std::nullopt;
 	}
+}
+
+bool SakuEngine::KeyframeObject3D::IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis) {
+
+	auto it = axisMap.find(axis);
+	if (it == axisMap.end()) {
+		return false;
+	}
+	return it->second;
+}
+
+Quaternion SakuEngine::KeyframeObject3D::MirrorRotationByNormalAxes(const Quaternion& source,
+	const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap) {
+
+	// 有効な軸のみ反転
+	Quaternion q = source;
+	if (IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::X)) {
+		q.y = -q.y;
+		q.z = -q.z;
+	}
+	if (IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::Y)) {
+		q.x = -q.x;
+		q.z = -q.z;
+	}
+	if (IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::Z)) {
+		q.x = -q.x;
+		q.y = -q.y;
+	}
+	return Quaternion::Normalize(q);
+}
+
+Transform3D KeyframeObject3D::MakeInversedTransform(
+	const Transform3D& source, const InverseSetting& setting) const {
+
+	Transform3D dst = source;
+	// 座標を反転
+	if (setting.isInversePos) {
+
+		const float sx = IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::X) ? -1.0f : 1.0f;
+		const float sy = IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::Y) ? -1.0f : 1.0f;
+		const float sz = IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::Z) ? -1.0f : 1.0f;
+
+		dst.translation.x *= sx;
+		dst.translation.y *= sy;
+		dst.translation.z *= sz;
+	}
+	// 回転を反転
+	if (setting.isInverseRotation) {
+
+		const auto& axisMap = setting.isRotationFollowPosAxis ? setting.inversePosAxisMap : setting.inverseRotateAxisMap;
+		dst.rotation = MirrorRotationByNormalAxes(dst.rotation, axisMap);
+	}
+	return dst;
 }
 
 void KeyframeObject3D::DrawKeyTimeline() {
@@ -1171,9 +1257,36 @@ void KeyframeObject3D::DrawKeyLine() {
 		}
 	}
 
+	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+
 	// 現在の時間の点の位置
-	LineRenderer::GetInstance()->DrawOBB(currentTransform_.translation,
+	lineRenderer->DrawOBB(currentTransform_.translation,
 		currentTransform_.scale, currentTransform_.rotation, obbColor, LineType::DepthIgnore);
+
+	if (isInverseHeaderOpen_) {
+
+		// keys_の反転位置、回転を表示
+		for (const auto& key : keys_) {
+
+			// 反転したTransformを作成
+			Transform3D inverse = MakeInversedTransform(key.transform, editInverseSetting_);
+			// OBB
+			lineRenderer->DrawOBB(inverse.translation,
+				inverse.scale, inverse.rotation, Color::Cyan(), LineType::DepthIgnore);
+			// 軸
+			lineRenderer->DrawAxis(inverse.scale.Length(),
+				inverse.translation, inverse.rotation, LineType::DepthIgnore);
+		}
+
+		// 現在のTransformも反転した位置、回転を表示
+		Transform3D inverseCurrent = MakeInversedTransform(currentTransform_, editInverseSetting_);
+		// OBB
+		lineRenderer->DrawOBB(inverseCurrent.translation,
+			inverseCurrent.scale, inverseCurrent.rotation, Color::Cyan(), LineType::DepthIgnore);
+		// 軸
+		lineRenderer->DrawAxis(inverseCurrent.scale.Length(),
+			inverseCurrent.translation, inverseCurrent.rotation, LineType::DepthIgnore);
+	}
 #endif
 }
 
