@@ -36,6 +36,7 @@ enum class FollowCameraUpdatePassID {
 	OffsetSmoother,           // オフセット補間
 	OrbitTranslationComposer, // 最終座標構成
 	ReturnFov,                // 画角元に戻す
+	ActionAutoLookTarget,     // 自動で注視点を向かせる
 };
 
 // パス間で共有するデータ

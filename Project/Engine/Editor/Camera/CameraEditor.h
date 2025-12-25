@@ -40,7 +40,8 @@ namespace SakuEngine {
 
 		// アニメーション処理
 		// 開始呼び出し
-		void StartAnim(const std::string& keyName, bool isAddFirstKey = true, bool isUpdateKey = false);
+		void StartAnim(const std::string& keyName, bool isAddFirstKey = true, bool isUpdateKey = false,
+			const std::optional<KeyframeInverseSetting>& inverseSetting = std::nullopt);
 		// 現在アクティブなアニメーションの終了呼び出し
 		void EndAnim();
 
@@ -114,6 +115,8 @@ namespace SakuEngine {
 		// Play
 		float previewLoopSpacing_ = 1.0f; // ループ間隔
 		float previewLoopTimer_ = 0.0f;   // ループ管理経過時間
+		// 反転した状態のキーフレームを取得してプレビューを行うか
+		bool isPreviewInverseKeyframe_ = false;
 
 		//--------- functions ----------------------------------------------------
 
@@ -132,7 +135,8 @@ namespace SakuEngine {
 		void EditSelectedKeyObject();
 
 		// カメラへの適応
-		void ApplyToCamera(BaseCamera& camera, const KeyframeObject3D& keyObject);
+		void ApplyToCamera(BaseCamera& camera, const KeyframeObject3D& keyObject,
+			const std::optional<KeyframeInverseSetting>& inverseSetting);
 		// 値操作中のキーインデックスの同期
 		void SynchSelectedKeyIndex();
 

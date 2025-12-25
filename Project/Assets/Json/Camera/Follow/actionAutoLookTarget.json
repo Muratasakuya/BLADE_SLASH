@@ -1,0 +1,52 @@
+{
+    "allowInterruptOnEqualPriority_": false,
+    "allowInterrupt_": true,
+    "bossRules_": [
+        {
+            "enabled": true,
+            "parameter": {
+                "isLockTarget": false,
+                "lookTimer": {
+                    "easeingType_": "EaseInSine",
+                    "target_": 0.800000011920929
+                },
+                "lookYawOffset": 0.0,
+                "targetXRotation": 0.0
+            },
+            "priority": 30,
+            "state": "JumpAttack"
+        }
+    ],
+    "playerRules_": [
+        {
+            "enabled": true,
+            "parameter": {
+                "isLockTarget": true,
+                "lookTimer": {
+                    "easeingType_": "EaseOutQuint",
+                    "target_": 0.3199999928474426
+                },
+                "lookYawOffset": 0.3199999928474426,
+                "targetXRotation": 0.10000000149011612
+            },
+            "priority": 0,
+            "state": "Attack_1st"
+        },
+        {
+            "enabled": true,
+            "parameter": {
+                "isLockTarget": true,
+                "lookTimer": {
+                    "easeingType_": "EaseOutQuint",
+                    "target_": 0.5
+                },
+                "lookYawOffset": 0.3199999928474426,
+                "targetXRotation": 0.10000000149011612
+            },
+            "priority": 20,
+            "state": "Falter"
+        }
+    ],
+    "tieBreak_": "PreferBoss",
+    "triggerOnFirstFrame_": true
+}

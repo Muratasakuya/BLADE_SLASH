@@ -41,9 +41,6 @@ void PlayerAttack_1stState::Enter() {
 	assisted_ = CheckInRange(attackLookAtCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
 	if (assisted_) {
 
-		// カメラの向きを補正させる
-		followCamera_->StartLookToTarget(true, true, targetCameraRotateX_);
-
 		startPos_ = playerPos;
 		targetPos_ = startPos_ + player_->GetTransform().GetForward() * moveValue_;
 

@@ -15,6 +15,7 @@
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Input/FollowCameraLookInputSmoother.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraTargetResolver.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraInterTargetSmoother.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraActionAutoLookTarget.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraZoomOffsetResolver.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraOffsetSmoother.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Fov/FollowCameraReturnFov.h>
@@ -38,6 +39,7 @@ void FollowCameraUpdatePass::Init() {
 	registry.Register<FollowCameraOffsetSmoother>();
 	registry.Register<FollowCameraOrbitTranslationComposer>();
 	registry.Register<FollowCameraReturnFov>();
+	registry.Register<FollowCameraActionAutoLookTarget>();
 
 	// 登録されているパスを生成して格納
 	for (const auto& name : SakuEngine::EnumAdapter<FollowCameraUpdatePassID>::GetEnumArray()) {

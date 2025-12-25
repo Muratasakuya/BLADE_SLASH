@@ -80,6 +80,31 @@ KeyframeObject3D::AnyValue KeyframeObject3D::GetIndexAnyValue(uint32_t index, co
 	return AnyValue{};
 }
 
+Transform3D KeyframeObject3D::GetIndexKeyTransformInversed(
+	uint32_t index, const KeyframeInverseSetting& setting) const {
+
+	// インデックスが範囲外ならデフォルト値を返す
+	if (keys_.size() <= index) {
+		return Transform3D{};
+	}
+	return MakeInversedTransform(keys_[index].transform, setting);
+}
+
+Transform3D SakuEngine::KeyframeObject3D::GetCurrentTransformForPlayback() const {
+
+	// StartLerp()で設定されたruntimeInverseSettingがあれば反転して返す
+	if (runtimeInverseSetting_.has_value()) {
+
+		return MakeInversedTransform(currentTransform_, runtimeInverseSetting_.value());
+	}
+	return currentTransform_;
+}
+
+Transform3D SakuEngine::KeyframeObject3D::GetCurrentTransformInversed(const KeyframeInverseSetting& setting) const {
+
+	return MakeInversedTransform(currentTransform_, setting);
+}
+
 KeyframeObject3D::AnyValue KeyframeObject3D::GetCurrentAnyValue(const std::string& name) const {
 
 	// 名前を探してindex番目の値を返す
@@ -134,8 +159,14 @@ bool KeyframeObject3D::IsNextKeyReached() const {
 	return (currentState_ == State::Updating) && reachedKeyThisFrame_;
 }
 
+const std::optional<KeyframeInverseSetting>& SakuEngine::KeyframeObject3D::GetRuntimeInverseSetting() const {
+
+	return runtimeInverseSetting_;
+}
+
 void KeyframeObject3D::StartLerp(const std::optional<Transform3D>& transform,
-	const std::optional<std::vector<AnyValue>>& anyValues) {
+	const std::optional<std::vector<AnyValue>>& anyValues,
+	const std::optional<KeyframeInverseSetting>& inverseSetting) {
 
 	// 補間中は開始できない
 	if (currentState_ == State::Updating) {
@@ -144,6 +175,7 @@ void KeyframeObject3D::StartLerp(const std::optional<Transform3D>& transform,
 
 	// ランタイム情報リセット
 	runtime_ = Runtime{};
+	runtimeInverseSetting_ = inverseSetting;
 
 	// 補間開始
 	currentState_ = State::Updating;
@@ -197,6 +229,7 @@ void KeyframeObject3D::Reset() {
 	reachedKeyThisFrame_ = false;
 	runtime_.hasStartKey = false;
 	runtime_.startAnyValues.clear();
+	runtimeInverseSetting_ = std::nullopt;
 }
 
 void KeyframeObject3D::AddKeyValue(AnyMold mold, const std::string& name) {
@@ -1040,7 +1073,7 @@ Quaternion SakuEngine::KeyframeObject3D::MirrorRotationByNormalAxes(const Quater
 }
 
 Transform3D KeyframeObject3D::MakeInversedTransform(
-	const Transform3D& source, const InverseSetting& setting) const {
+	const Transform3D& source, const KeyframeInverseSetting& setting) const {
 
 	Transform3D dst = source;
 	// 座標を反転
