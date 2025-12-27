@@ -94,6 +94,10 @@ public:
 	// 配列のstringをComboで表示する
 	static bool ComboFromStrings(const char* label, int* currentIndex,
 		const std::vector<std::string>& items, int popupMaxHeightInItems = -1);
+	// 選択中の文字列(ioSelected)を items から選ばせる Combo
+	static bool ComboFromStrings(const char* label, std::string* ioSelected,
+		const std::vector<std::string>& items, int popupMaxHeightInItems = -1,
+		const char* nonePreview = "(None)");
 	template <typename T>
 	static bool ComboFromKeys(const char* label, int* currentIndex,
 		const T& container, std::string* outSelectedKey = nullptr,

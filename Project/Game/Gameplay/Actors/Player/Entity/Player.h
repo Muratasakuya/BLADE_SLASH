@@ -12,6 +12,8 @@
 #include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateController.h>
 // collision
 #include <Game/Gameplay/Actors/Player/Collision/PlayerAttackCollision.h>
+// editor
+#include <Game/Gameplay/Actors/Player/ComboAction/Editor/PlayerComboActionEditor.h>
 
 // front
 class SubPlayer;
@@ -68,6 +70,9 @@ public:
 	bool IsDead() const { return stats_.currentHP == 0; }
 	bool IsActiveParry() const { return stateController_->IsActiveParry(); }
 	const SakuEngine::Transform3D& GetInitTransform() const { return initTransform_; }
+
+	// アニメーション名一覧の取得
+	const std::vector<std::string>& GetAnimNames() const { return animNames_; }
 private:
 	//========================================================================
 	//	private Methods
@@ -76,6 +81,12 @@ private:
 	//--------- variables ----------------------------------------------------
 
 	const BossEnemy* bossEnemy_;
+
+	// アニメーション名一覧
+	std::vector<std::string> animNames_;
+
+	// コンボアクションエディター
+	std::unique_ptr<PlayerComboActionEditor> comboActionEditor_;
 
 	// 使用する武器
 	std::unique_ptr<PlayerWeapon> rightWeapon_; // 右手

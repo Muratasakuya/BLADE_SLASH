@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -12,103 +12,103 @@
 //============================================================================
 namespace SakuEngine {
 
-template <typename T>
-class LerpValueSource :
-	public IValueSource<T> {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	template <typename T>
+	class LerpValueSource :
+		public IValueSource<T> {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	LerpValueSource() = default;
-	~LerpValueSource() = default;
+		LerpValueSource() = default;
+		~LerpValueSource() = default;
 
-	// 更新開始
-	void Start(const T& base) override;
+		// 更新開始
+		void Start(const T& base) override;
 
-	// 値の更新
-	void Update() override;
+		// 値の更新
+		void Update() override;
 
-	// 終了判定
-	bool IsFinished() const override;
+		// 終了判定
+		bool IsFinished() const override;
 
-	// リセット
-	void Reset() override;
+		// リセット
+		void Reset() override;
 
-	// エディター
-	void ImGui(const char* label) override;
+		// エディター
+		void ImGui(const char* label) override;
 
-	// json
-	void FromJson(const Json& data) override;
-	void ToJson(Json& data) override;
+		// json
+		void FromJson(const Json& data) override;
+		void ToJson(Json& data) override;
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	// 値の取得
-	T GetValue() const override { return current_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// 値の取得
+		T GetValue() const override { return current_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// 基準値
-	T base_;
-	// 現在値
-	T current_;
+		// 基準値
+		T base_;
+		// 現在値
+		T current_;
 
-	// 値補間
-	SimpleAnimation<T> animation_;
-};
+		// 値補間
+		SimpleAnimation<T> animation_;
+	};
 
-//============================================================================
-//	LerpValueSource templateMethods
-//============================================================================
+	//============================================================================
+	//	LerpValueSource templateMethods
+	//============================================================================
 
-template<typename T>
-inline void LerpValueSource<T>::Start(const T& base) {
+	template<typename T>
+	inline void LerpValueSource<T>::Start(const T& base) {
 
-	// 補間開始
-	base_ = base;
-	animation_.Start();
-}
+		// 補間開始
+		base_ = base;
+		animation_.Start();
+	}
 
-template<typename T>
-inline void LerpValueSource<T>::Update() {
+	template<typename T>
+	inline void LerpValueSource<T>::Update() {
 
-	// 値の補間更新、current_に渡す
-	animation_.LerpValue(current_);
-}
+		// 値の補間更新、current_に渡す
+		animation_.LerpValue(current_);
+	}
 
-template<typename T>
-inline bool LerpValueSource<T>::IsFinished() const {
+	template<typename T>
+	inline bool LerpValueSource<T>::IsFinished() const {
 
-	return animation_.IsFinished();
-}
+		return animation_.IsFinished();
+	}
 
-template<typename T>
-inline void LerpValueSource<T>::Reset() {
+	template<typename T>
+	inline void LerpValueSource<T>::Reset() {
 
-	animation_.Reset();
-}
+		animation_.Reset();
+	}
 
-template<typename T>
-inline void LerpValueSource<T>::ImGui(const char* label) {
+	template<typename T>
+	inline void LerpValueSource<T>::ImGui(const char* label) {
 
-	animation_.ImGui(label, false);
-}
+		animation_.ImGui(label, false);
+	}
 
-template<typename T>
-inline void LerpValueSource<T>::FromJson(const Json& data) {
+	template<typename T>
+	inline void LerpValueSource<T>::FromJson(const Json& data) {
 
-	animation_.FromJson(data);
-}
+		animation_.FromJson(data);
+	}
 
-template<typename T>
-inline void LerpValueSource<T>::ToJson(Json& data) {
+	template<typename T>
+	inline void LerpValueSource<T>::ToJson(Json& data) {
 
-	animation_.ToJson(data);
-}
+		animation_.ToJson(data);
+	}
 
 }; // SakuEngine

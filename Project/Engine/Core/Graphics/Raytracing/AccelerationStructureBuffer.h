@@ -1,11 +1,10 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/Core/Graphics/DxLib/ComPtr.h>
 
-// directX
 #include <d3d12.h>
 // c++
 #include <cassert>

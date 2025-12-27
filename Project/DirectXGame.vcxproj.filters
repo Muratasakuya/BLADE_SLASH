@@ -2668,6 +2668,12 @@
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionEditorUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.h" />
@@ -2689,5 +2695,14 @@
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Interface\PlayerIActionNode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\PlayerActionNode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.h" />
+    <ClInclude Include="Engine\Utility\Animation\LerpValue.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionEditorUI.h" />
   </ItemGroup>
 </Project>

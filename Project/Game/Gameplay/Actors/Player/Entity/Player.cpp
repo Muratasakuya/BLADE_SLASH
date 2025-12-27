@@ -39,22 +39,29 @@ void Player::InitWeapon() {
 
 void Player::InitAnimations() {
 
+	// アニメーション名を登録
+	animNames_.emplace_back("player_idle");
+	animNames_.emplace_back("player_walk");
+	animNames_.emplace_back("player_dash");
+	animNames_.emplace_back("player_avoid");
+	animNames_.emplace_back("player_attack_1st");
+	animNames_.emplace_back("player_attack_2nd");
+	animNames_.emplace_back("player_attack_3rd");
+	animNames_.emplace_back("player_attack_4th");
+	animNames_.emplace_back("player_skilAttack_1st");
+	animNames_.emplace_back("player_skilAttack_2nd");
+	animNames_.emplace_back("player_stunAttack");
+	animNames_.emplace_back("player_parry");
+	animNames_.emplace_back("player_falter");
+
 	// 最初は待機状態で初期化
 	animation_->SetPlayAnimation("player_idle", true);
 
-	// animationのデータを設定
-	animation_->SetAnimationData("player_walk");
-	animation_->SetAnimationData("player_dash");
-	animation_->SetAnimationData("player_avoid");
-	animation_->SetAnimationData("player_attack_1st");
-	animation_->SetAnimationData("player_attack_2nd");
-	animation_->SetAnimationData("player_attack_3rd");
-	animation_->SetAnimationData("player_attack_4th");
-	animation_->SetAnimationData("player_skilAttack_1st");
-	animation_->SetAnimationData("player_skilAttack_2nd");
-	animation_->SetAnimationData("player_stunAttack");
-	animation_->SetAnimationData("player_parry");
-	animation_->SetAnimationData("player_falter");
+	// animationのデータを一括設定
+	for (const auto& name : animNames_) {
+
+		animation_->SetAnimationData(name);
+	}
 
 	// 両手を親として更新させる
 	animation_->SetParentJoint("rightHand");
@@ -132,6 +139,10 @@ void Player::DerivedInit() {
 	SetPostProcessMask(postProcessBit);
 	leftWeapon_->SetPostProcessMask(postProcessBit);
 	rightWeapon_->SetPostProcessMask(postProcessBit);
+
+	// コンボアクションエディター初期化
+	comboActionEditor_ = std::make_unique<PlayerComboActionEditor>();
+	comboActionEditor_->Init(this);
 }
 
 void Player::SetBossEnemy(BossEnemy* bossEnemy) {
@@ -141,6 +152,7 @@ void Player::SetBossEnemy(BossEnemy* bossEnemy) {
 
 	stateController_->SetBossEnemy(bossEnemy);
 	attackCollision_->SetBossEnemy(bossEnemy);
+	comboActionEditor_->SetAttackTarget(bossEnemy);
 }
 
 void Player::SetFollowCamera(FollowCamera* followCamera) {
@@ -222,6 +234,8 @@ int Player::GetDamage() const {
 }
 
 void Player::Update() {
+
+	comboActionEditor_->Update();
 
 	// 更新モードがNotの時は更新しない
 	if (updateMode_ == ObjectUpdateMode::Not) {

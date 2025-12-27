@@ -158,6 +158,51 @@ bool SakuEngine::ImGuiHelper::ComboFromStrings(const char* label, int* currentIn
 	return changed || (before != *currentIndex);
 }
 
+bool SakuEngine::ImGuiHelper::ComboFromStrings(const char* label, std::string* ioSelected,
+	const std::vector<std::string>& items, int popupMaxHeightInItems, const char* nonePreview) {
+
+	// プレビュー文字列
+	const char* preview = nonePreview;
+	if (ioSelected && !ioSelected->empty()) {
+		preview = ioSelected->c_str();
+	}
+
+	// 高さ制限（item数で制御したい場合）
+	if (popupMaxHeightInItems > 0) {
+		const float maxH =
+			ImGui::GetTextLineHeightWithSpacing() * popupMaxHeightInItems +
+			ImGui::GetStyle().WindowPadding.y * 2.0f;
+		ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, maxH));
+	}
+
+	bool changed = false;
+
+	// items が空でも BeginCombo は出せる（選択肢がないだけ）
+	if (ImGui::BeginCombo(label, preview)) {
+
+		if (items.empty()) {
+			ImGui::TextUnformatted("(empty)");
+		} else {
+			for (const auto& s : items) {
+				const bool selected = (ioSelected && *ioSelected == s);
+				if (ImGui::Selectable(s.c_str(), selected)) {
+					if (ioSelected) {
+						*ioSelected = s;
+					}
+					changed = true;
+				}
+				if (selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+
+	return changed;
+}
+
 bool SakuEngine::ImGuiHelper::SelectableListFromStrings(const char* label, int* currentIndex,
 	const std::vector<std::string>& items, int heightInItems) {
 
