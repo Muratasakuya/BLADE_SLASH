@@ -22,6 +22,7 @@ void PlayerInputTransitionPlanner::Init() {
 	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 	inputMapper_ = std::make_unique<SakuEngine::InputMapper<PlayerInputAction>>();
 	inputMapper_->AddDevice(std::make_unique<PlayerGamePadInput>(input));
+	//inputMapper_->AddDevice(std::make_unique<PlayerKeyInput>(input));
 
 	// リセット
 	Reset();
@@ -118,7 +119,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 
 		// スキル攻撃
 		// スキルポイントが足りていてスキル入力があればスキル攻撃状態に遷移
-		if (stats.skilCost <= stats.currentSkilPoint &&
+		if (stats.skillCost <= stats.currentSkillPoint &&
 			inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
 
 			controller.Request(PlayerState::SkilAttack);

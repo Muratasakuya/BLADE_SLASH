@@ -4,7 +4,7 @@
 
 #include "../../../Common/ParticleCommonSturctures.hlsli"
 #include "../../ParticleEmitterStructures.hlsli"
-#include "../../../../../../../Engine/Effect/Particle/ParticleConfig.h"
+#include "../../../../../../../Engine/Editor/Effect/Particle/ParticleConfig.h"
 
 #include "../../../../Math/Math.hlsli"
 

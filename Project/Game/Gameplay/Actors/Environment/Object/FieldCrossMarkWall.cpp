@@ -12,7 +12,7 @@
 
 void FieldCrossMarkWall::DerivedInit() {
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

@@ -8,6 +8,8 @@
 // scene
 #include <Game/Scenes/Game/GameState/Interface/IGameSceneState.h>
 #include <Game/Scenes/Transition/FadeTransition.h>
+// input
+#include <Game/Gameplay/Systems/Input/GameInputDeviceController.h>
 
 //============================================================================
 //	GameScene class
@@ -62,6 +64,9 @@ private:
 
 	// effects
 	std::unique_ptr<SakuEngine::EffectGroup> fieldEffect_;
+
+	// input
+	std::unique_ptr<GameInputDeviceController> inputController_;
 
 	//--------- functions ----------------------------------------------------
 

@@ -67,9 +67,6 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 	// 追従先を設定する
 	context_->camera->SetTarget(context_->player, context_->boss);
 
-	// カメラの位置を最初のプレイヤー位置まで動かす
-	context_->camera->GetFollowCamera()->UpdateInitialSettings();
-
 	//========================================================================
 	//	hud
 	//========================================================================
@@ -95,7 +92,7 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 	body->SetType(ColliderType::Type_Event);
 	body->SetTargetType(ColliderType::Type_Player);
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

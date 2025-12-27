@@ -32,9 +32,12 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		float GetVector(Enum action) const;
+		float GetVector(Enum action, InputType inputType) const;
 
 		bool IsPressed(Enum button) const;
+		bool IsPressed(Enum button, InputType inputType) const;
 		bool IsTriggered(Enum button) const;
+		bool IsTriggered(Enum button, InputType inputType) const;
 	private:
 		//========================================================================
 		//	private Methods
@@ -70,6 +73,20 @@ namespace SakuEngine {
 	}
 
 	template<InputEnum Enum>
+	inline float InputMapper<Enum>::GetVector(Enum action, InputType inputType) const {
+
+		// 指定された入力デバイスを探す
+		for (const auto& device : devices_) {
+			if (device->GetInputType() == inputType) {
+
+				return device->GetVector(action);
+			}
+		}
+		// 見つからなかった場合は0.0fを返す
+		return 0.0f;
+	}
+
+	template<InputEnum Enum>
 	inline bool InputMapper<Enum>::IsPressed(Enum button) const {
 
 		// 入力結果を取得
@@ -77,6 +94,19 @@ namespace SakuEngine {
 			if (device->IsPressed(button)) {
 
 				return true;
+			}
+		}
+		return false;
+	}
+
+	template<InputEnum Enum>
+	inline bool InputMapper<Enum>::IsPressed(Enum button, InputType inputType) const {
+
+		// 指定された入力デバイスを探す
+		for (const auto& device : devices_) {
+			if (device->GetInputType() == inputType) {
+
+				return device->IsPressed(button);
 			}
 		}
 		return false;
@@ -95,4 +125,16 @@ namespace SakuEngine {
 		return false;
 	}
 
+	template<InputEnum Enum>
+	inline bool InputMapper<Enum>::IsTriggered(Enum button, InputType inputType) const {
+
+		// 指定された入力デバイスを探す
+		for (const auto& device : devices_) {
+			if (device->GetInputType() == inputType) {
+
+				return device->IsTriggered(button);
+			}
+		}
+		return false;
+	}
 }; // SakuEngine

@@ -1,4 +1,4 @@
-﻿#include "GrayscaleUpdater.h"
+#include "GrayscaleUpdater.h"
 
 //============================================================================
 //	GrayscaleUpdater classMethods
@@ -11,7 +11,7 @@ void GrayscaleUpdater::Init() {
 	// グレー値0.0fで初期化
 	bufferData_.rate = 0.0f;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

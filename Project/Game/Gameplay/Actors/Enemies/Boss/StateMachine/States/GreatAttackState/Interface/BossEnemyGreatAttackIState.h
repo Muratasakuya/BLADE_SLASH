@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
 // imgui

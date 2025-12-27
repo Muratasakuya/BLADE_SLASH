@@ -3,9 +3,11 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/InputStructures.h>
 
 // c++
 #include <typeinfo>
+
 namespace SakuEngine {
 
 	// front
@@ -37,6 +39,9 @@ namespace SakuEngine {
 		// 単入力
 		virtual bool IsPressed(Enum button) const = 0;
 		virtual bool IsTriggered(Enum button) const = 0;
+
+		// 入力デバイスの種類を取得、デフォルトはキーボード
+		virtual InputType GetInputType() const { return InputType::Keyboard; }
 	protected:
 		//========================================================================
 		//	protected Methods

@@ -20,7 +20,7 @@ void SubPlayerStateController::Init() {
 	states_.emplace(SubPlayerState::Inactive, std::make_unique<SubPlayerInactiveState>());
 	states_.emplace(SubPlayerState::PunchAttack, std::make_unique<SubPlayerPunchAttackState>());
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// 最初の状態を設定
@@ -177,7 +177,7 @@ void SubPlayerStateController::ApplyJson() {
 		return;
 	}
 
-	// 各状態にjson適応
+	// 各状態にjson適用
 	for (const auto& [state, ptr] : states_) {
 
 		// 存在しないキーでは処理しない

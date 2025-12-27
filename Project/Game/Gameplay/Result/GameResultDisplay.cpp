@@ -81,7 +81,7 @@ void GameResultDisplay::Init() {
 	// ナビゲーター初期化
 	InitNavigator();
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

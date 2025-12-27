@@ -6,9 +6,16 @@
 #include <Game/Event/GameEventBus/GameEventBus.h>
 #include <Game/Event/GameHUDEvents/GameHUDEvents.h>
 #include <Game/UI/HUD/Interface/IGameHUDController.h>
-#include <Game/UI/HUD/Player/PlayerHUD.h>
-#include <Game/UI/HUD/Player/PlayerStunHUD.h>
+
+// HUD
+#include <Game/UI/HUD/Player/Share/PlayerShareHUD.h>
+#include <Game/UI/HUD/Player/Stats/PlayerStatsHUD.h>
+#include <Game/UI/HUD/Player/Operate/PlayerOperateHUD.h>
+#include <Game/UI/HUD/Player/Stun/PlayerStunHUD.h>
 #include <Game/UI/HUD/Player/TargetNavigation/TargetNavigation.h>
+
+// front
+class BossEnemy;
 
 //============================================================================
 //	PlayerHUDController class
@@ -49,12 +56,14 @@ private:
 	const BossEnemy* bossEnemy_;
 	const SakuEngine::BaseCamera* camera_;
 
-	// HP、スキルバー、名前、ダメージ表示
-	std::unique_ptr<PlayerHUD> playerHud_;
-
+	// 共有HUD部分
+	std::unique_ptr<PlayerShareHUD> shareHud_;
+	// ステータス表示
+	std::unique_ptr<PlayerStatsHUD> statsHud_;
+	// 操作方法表示
+	std::unique_ptr<PlayerOperateHUD> operateHud_;
 	// 敵がスタンしているときの表示
 	std::unique_ptr<PlayerStunHUD> stunHud_;
-
 	// 目標をナビゲートするUI
 	std::unique_ptr<TargetNavigation> targetNavigation_;
 

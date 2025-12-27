@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Input/Input.h>
+#include <Engine/Config.h>
 
 //============================================================================
 //	FollowCameraGamePadInput classMethods
@@ -11,7 +12,8 @@
 
 float FollowCameraGamePadInput::GetVector(FollowCameraInputAction axis) const {
 
-	const SakuEngine::Vector2 value = SakuEngine::Input::GetInstance()->GetRightStickVal() * 1.0f / 32767.0f;
+	// 正規化して返す
+	SakuEngine::Vector2 value = input_->GetRightStickVal() * 1.0f / input_->GetMaxStickValue();
 	switch (axis) {
 	case FollowCameraInputAction::RotateX: {
 
@@ -23,30 +25,4 @@ float FollowCameraGamePadInput::GetVector(FollowCameraInputAction axis) const {
 	}
 	}
 	return 0.0f;
-}
-
-bool FollowCameraGamePadInput::IsPressed(FollowCameraInputAction button) const {
-
-	switch (button) {
-	case FollowCameraInputAction::RotateX: {
-		return false;
-	}
-	case FollowCameraInputAction::RotateY: {
-		return false;
-	}
-	}
-	return false;
-}
-
-bool FollowCameraGamePadInput::IsTriggered(FollowCameraInputAction button) const {
-
-	switch (button) {
-	case FollowCameraInputAction::RotateX: {
-		return false;
-	}
-	case FollowCameraInputAction::RotateY: {
-		return false;
-	}
-	}
-	return false;
 }

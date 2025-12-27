@@ -10,7 +10,11 @@
 #include <Engine/MathLib/Matrix4x4.h>
 #include <Engine/Utility/Enum/Direction.h>
 
+// windows
+#include <windows.h>
+#include <windef.h>
 // c++
+#include <cmath>
 #include <numbers>
 #include <vector>
 #include <algorithm>
@@ -45,6 +49,9 @@ namespace SakuEngine {
 		// 角度を[-π,π]範囲に折り返す
 		float WrapDegree(float value);
 		float WrapPi(float value);
+
+		// クライアント座標系の矩形を作成する
+		RECT MakeClientRect(const Vector2& size, const Vector2& pos);
 
 		//============================================================================
 		// 回転関連

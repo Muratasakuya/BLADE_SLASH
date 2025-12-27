@@ -3,7 +3,7 @@
 //============================================================================
 
 #include "../../../Common/ParticleCommonSturctures.hlsli"
-#include "../../../../../../../Engine/Effect/Particle/ParticleConfig.h"
+#include "../../../../../../../Engine/Editor/Effect/Particle/ParticleConfig.h"
 
 //============================================================================
 //	RWStructuredBuffer

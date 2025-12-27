@@ -7,12 +7,27 @@
 #include <Engine/Utility/Animation/LerpKeyframe.h>
 #include <Engine/Utility/Enum/AnyMoldEnum.h>
 
-//============================================================================
-//	KeyframeObject3D class
-//	キーフレーム補間オブジェクト
-//============================================================================
 namespace SakuEngine {
 
+	// 反転設定
+	struct KeyframeInverseSetting {
+
+		bool isInversePos = false;      // 位置反転
+		bool isInverseRotation = false; // 回転反転
+		// 位置反転軸に合わせて回転も反転させるかどうか
+		bool isRotationFollowPosAxis = false;
+
+		// 反転軸
+		// 位置
+		std::unordered_map<Math::Axis, bool> inversePosAxisMap;
+		// 回転
+		std::unordered_map<Math::Axis, bool> inverseRotateAxisMap;
+	};
+
+	//============================================================================
+	//	KeyframeObject3D class
+	//	キーフレーム補間オブジェクト
+	//============================================================================
 	class KeyframeObject3D {
 	public:
 		//========================================================================
@@ -50,8 +65,9 @@ namespace SakuEngine {
 		void ToJson(Json& data);
 
 		// 補間開始、初期値が入っていれば最初のキーにする
-		void StartLerp(const std::optional<SakuEngine::Transform3D>& transform = std::nullopt,
-			const std::optional<std::vector<AnyValue>>& anyValues = std::nullopt);
+		void StartLerp(const std::optional<Transform3D>& transform = std::nullopt,
+			const std::optional<std::vector<AnyValue>>& anyValues = std::nullopt,
+			const std::optional<KeyframeInverseSetting>& inverseSetting = std::nullopt);
 		// 補間のリセット、終了
 		void Reset();
 
@@ -61,23 +77,29 @@ namespace SakuEngine {
 		//--------- accessor ----------------------------------------------------
 
 		// 親の設定
-		void SetParent(const std::string& name, const SakuEngine::Transform3D& parent);
+		void SetParent(const std::string& name, const Transform3D& parent);
 
 		// 再生中かどうか
 		bool IsUpdating() const { return currentState_ == State::Updating; }
 
 		// 最初、最後のキーのトランスフォームを返す
-		const SakuEngine::Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
-		const SakuEngine::Transform3D& GetLastKeyTransform() const { return keys_.back().transform; }
+		const Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
+		const Transform3D& GetLastKeyTransform() const { return keys_.back().transform; }
 
 		// 指定インデックス番目のトランスフォームを返す
-		const SakuEngine::Transform3D& GetIndexTransform(uint32_t index) const;
-		const SakuEngine::Transform3D& GetIndexKeyTransform(uint32_t index) const;
+		const Transform3D& GetIndexTransform(uint32_t index) const;
+		const Transform3D& GetIndexKeyTransform(uint32_t index) const;
 		// 指定インデックス番目の任意の型の現在の値を返す
 		AnyValue GetIndexAnyValue(uint32_t index, const std::string& name) const;
 
+		// 指定インデックス番目のトランスフォームを反転設定付きで返す
+		Transform3D GetIndexKeyTransformInversed(uint32_t index, const KeyframeInverseSetting& setting) const;
+
 		// 現在のトランスフォームを返す
-		const SakuEngine::Transform3D& GetCurrentTransform() const { return currentTransform_; }
+		const Transform3D& GetCurrentTransform() const { return currentTransform_; }
+		// 現在のトランスフォームを再生用に返す
+		Transform3D GetCurrentTransformForPlayback() const;
+		Transform3D GetCurrentTransformInversed(const KeyframeInverseSetting& setting) const;
 		// 追加されている任意の型の現在の値を返す
 		AnyValue GetCurrentAnyValue(const std::string& name) const;
 
@@ -93,6 +115,11 @@ namespace SakuEngine {
 		bool IsNextKeyReached() const;
 		// 目標のキーインデックスを取得
 		uint32_t GetNextKeyIndex() const { return nextKeyIndex_; }
+
+		// エディター用の反転設定取得
+		const KeyframeInverseSetting& GetEditInverseSetting() const { return editInverseSetting_; }
+		// ランタイム用の反転設定取得
+		const std::optional<KeyframeInverseSetting>& GetRuntimeInverseSetting() const;
 	private:
 		//========================================================================
 		//	private Methods
@@ -117,7 +144,7 @@ namespace SakuEngine {
 		// キー情報
 		struct Key {
 
-			SakuEngine::Transform3D transform; // トランスフォーム
+			Transform3D transform; // トランスフォーム
 			float time;            // 時間
 			EasingType easeType;   // イージング
 
@@ -128,9 +155,9 @@ namespace SakuEngine {
 		// 更新中の情報
 		struct Runtime {
 
-			bool hasStartKey = false;              // スタート値を使うかどうか
-			SakuEngine::Transform3D startTransform;            // スタート時のTransform
-			std::vector<AnyValue> startAnyValues;  // スタート時の任意値
+			bool hasStartKey = false;               // スタート値を使うかどうか
+			Transform3D startTransform; // スタート時のTransform
+			std::vector<AnyValue> startAnyValues;   // スタート時の任意値
 		};
 
 		// コピー、複製データ
@@ -158,7 +185,7 @@ namespace SakuEngine {
 
 		// 親トランスフォーム、回転と座標
 		std::string parentName_;
-		const SakuEngine::Transform3D* parent_ = nullptr;
+		const Transform3D* parent_ = nullptr;
 
 		// キー情報
 		std::vector<Key> keys_;
@@ -166,9 +193,12 @@ namespace SakuEngine {
 		std::vector<AnyTrack> anyTracks_;
 
 		// 現在のトランスフォーム
-		SakuEngine::Transform3D currentTransform_;
+		Transform3D currentTransform_;
 		// 現在の任意な型の値
 		std::vector<AnyValue> currentAnyValues_;
+
+		// 反転設定
+		std::optional<KeyframeInverseSetting> runtimeInverseSetting_;
 
 		// 補間
 		LerpKeyframe::Type lerpType_; // 補間タイプ
@@ -195,11 +225,13 @@ namespace SakuEngine {
 		CopyData copyData_;    // コピー、複製データ
 		Vector3 editAllTranslation_; // 全てのキーの位置を移動させる
 		Vector3 editAllPosRotation_; // 全てのキーの位置を回転させる
+		KeyframeInverseSetting editInverseSetting_; // 反転設定
+		bool isInverseHeaderOpen_ = false;
 
 		//--------- functions ----------------------------------------------------
 
 		// キーオブジェクトの作成
-		std::unique_ptr<GameObject3D> CreateKeyObject(const SakuEngine::Transform3D& transform);
+		std::unique_ptr<GameObject3D> CreateKeyObject(const Transform3D& transform);
 
 		// キートランスフォームの取得
 		std::vector<Vector3> GetScales() const;
@@ -218,6 +250,14 @@ namespace SakuEngine {
 		// 任意の型の補間後の値取得
 		template<typename T>
 		T GetLerpedAnyValue(uint32_t trackIndex, float currentT) const;
+
+		// 反転用ヘルパー
+		static bool IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis);
+		// 回転の鏡映し
+		static Quaternion MirrorRotationByNormalAxes(const Quaternion& source,
+			const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap);
+		// 反転後のTransform作成
+		Transform3D MakeInversedTransform(const Transform3D& src, const KeyframeInverseSetting& setting) const;
 
 		// キータイムラインの描画
 		void DrawKeyTimeline();

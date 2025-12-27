@@ -327,7 +327,7 @@ void PlayerSkilAttackState::Exit() {
 	groundCrackEmitted_ = false;
 
 	// カメラアニメーション終了
-	followCamera_->EndPlayerActionAnim(true);
+	followCamera_->EndPlayerActionAnim();
 
 	// 初期Y座標に戻す
 	SakuEngine::Vector3 currentPos = player_->GetTranslation();

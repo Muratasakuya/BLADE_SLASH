@@ -14,11 +14,14 @@
 // using
 using Json = nlohmann::json;
 
-//============================================================================
-//	Vector4 class
-//============================================================================
 namespace SakuEngine {
 
+	// front
+	class Vector3;
+
+	//============================================================================
+	//	Vector4 class
+	//============================================================================
 	class Vector4 final {
 	public:
 
@@ -81,6 +84,8 @@ namespace SakuEngine {
 		static Color FromJson(const Json& data);
 
 		//--------- functions ----------------------------------------------------
+
+		void FromRGB(const Vector3& rgb);
 
 		static Color Convert(int color);
 		Color ToLinear() const;

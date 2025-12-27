@@ -1,4 +1,4 @@
-﻿#include "DxCommand.h"
+#include "DxCommand.h"
 
 using namespace SakuEngine;
 

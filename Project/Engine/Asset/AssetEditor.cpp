@@ -117,7 +117,7 @@ void AssetEditor::Init(Asset* asset) {
 
 	BuildDirectoryTree(false);
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

@@ -27,7 +27,7 @@ void TargetNavigation::Init() {
 	inFrustumCheck_ = false;
 	isBlink_ = false;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

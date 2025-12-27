@@ -33,7 +33,7 @@ void BossEnemyBladeCollision::Init(const std::string& typeName) {
 	isEmit_ = false;
 	lifeTimer_ = 0.0f;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

@@ -1,61 +1,93 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/MathLib/Vector2.h>
 
 // windows
 #include <Windows.h>
 // c++
 #include <cstdint>
 
-//============================================================================
-//	WinApp class
-//	Windowsウィンドウの生成/メッセージ処理/フルスクリーン切替を担当する。
-//============================================================================
 namespace SakuEngine {
 
-class WinApp {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	WinApp class
+	//	Windowsウィンドウの生成/メッセージ処理/フルスクリーン切替を担当する。
+	//============================================================================
+	class WinApp {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	WinApp() = default;
-	~WinApp() = default;
+		WinApp() = default;
+		~WinApp() = default;
 
-	// ウィンドウクラス登録とウィンドウ生成を行う
-	void Create();
+		// ウィンドウクラス登録とウィンドウ生成を行う
+		void Create();
 
-	// メッセージキューを処理し、WM_QUITを検出したらtrueを返す
-	bool ProcessMessage();
+		// メッセージキューを処理し、WM_QUITを検出したらtrueを返す
+		bool ProcessMessage();
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	// フルスクリーンの有効/無効を切り替える
-	void SetFullscreen(bool fullscreen);
+		// フルスクリーンの有効/無効を切り替える
+		static void SetFullscreen(bool fullscreen);
+		// カーソル範囲制限をON/OFF
+		static void SetCursorClipEnabled(bool enabled);
+		// クライアント座標系の任意矩形でクリップ
+		static void ClipCursorToClientRect(const Vector2& size, const Vector2& pos);
+		// ウィンドウのクライアント領域にクリップ
+		static void ClipCursorToClient();
+		// 解除
+		static void ReleaseCursorClip();
 
-	// 現在のウィンドウハンドル(HWND)を返す
-	static HWND GetHwnd() { return hwnd_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// カーソルクリップ範囲のセット
+		static void SetCursorClipRect(const Vector2& size, const Vector2& pos);
 
-	//--------- variables ----------------------------------------------------
+		// カーソルの表示/非表示
+		static void SetCursorVisible(bool visible);
+		static bool IsCursorVisible() { return cursorVisible_; }
 
-	static HWND hwnd_;
+		// 現在のウィンドウハンドル(HWND)を返す
+		static HWND GetHwnd() { return hwnd_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	UINT windowStyle_;
-	RECT windowRect_;
+		//--------- variables ----------------------------------------------------
 
-	//--------- functions ----------------------------------------------------
+		static HWND hwnd_;
 
-	// Win32のウィンドウプロシージャ
-	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+		static bool cursorClipEnabled_;
+		static bool useCustomClipRect_;
+		static RECT customClientClipRect_;
 
-	// ウィンドウクラスを登録する
-	void RegisterWindowClass();
-};
+		static bool cursorVisible_;
 
+		UINT windowStyle_;
+		static RECT windowRect_;
+
+		//--------- functions ----------------------------------------------------
+
+		// カーソルの強制表示/非表示
+		static void ForceShowCursor(bool show);
+		// 必要に応じてカーソルの表示/非表示を行う
+		static void ApplyCursorVisibilityIfNeeded();
+
+		// 必要に応じてカーソルのクリッピングを行う
+		static void ApplyCursorClipIfNeeded();
+
+		// クライアント領域のRECTをスクリーン座標のRECTに変換する
+		static RECT ClientRectToScreenRect(HWND hwnd, const RECT& clientRect);
+
+		// Win32のウィンドウプロシージャ
+		static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+
+		// ウィンドウクラスを登録する
+		void RegisterWindowClass();
+	};
 }; // SakuEngine

@@ -9,7 +9,7 @@ void PlayerAfterImageUpdater::Init() {
 	// 初期値設定
 	bufferData_.rate = 0.0f;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

@@ -10,6 +10,9 @@ using namespace SakuEngine;
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Config.h>
 
+// imgui
+#include <imgui.h>
+
 #pragma comment(lib,"dInput8.lib")
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib, "xinput.lib")
@@ -218,6 +221,11 @@ bool Input::PushGamepadButton(GamePadButtons button, const std::source_location&
 	return now;
 }
 bool Input::TriggerGamepadButton(GamePadButtons button, const std::source_location& location) {
+
+	// ボタン番号が範囲外の場合はfalseを返す
+	if (gamepadButtons_.size() <= static_cast<size_t>(button)) {
+		return false;
+	}
 
 	bool trigger = gamepadButtons_[static_cast<size_t>(button)] && !gamepadButtonsPre_[static_cast<size_t>(button)];
 	if (trigger) {
@@ -464,33 +472,6 @@ void Input::Update() {
 	// ゲームパッドの現在の状態を取得
 	ZeroMemory(&gamepadState_, sizeof(XINPUT_STATE));
 	DWORD dwResult = XInputGetState(0, &gamepadState_);
-
-	for (const auto& key : key_) {
-		if (key) {
-
-			inputType_ = InputType::Keyboard;
-			break;
-		}
-	}
-	// マウス入力があれば
-	if (mouseButtons_[0] || mouseButtons_[1] || mouseButtons_[2] || GetMouseMoveValue().Length() != 0.0f) {
-		inputType_ = InputType::Keyboard;
-	}
-
-	if (dwResult == ERROR_SUCCESS) {
-		for (const auto& button : gamepadButtons_) {
-			if (button) {
-
-				inputType_ = InputType::GamePad;
-				break;
-			}
-		}
-
-		// スティック入力があれば
-		if (GetLeftStickVal().Length() > deadZone_ || GetRightStickVal().Length() > deadZone_) {
-			inputType_ = InputType::GamePad;
-		}
-	}
 
 	if (dwResult == ERROR_SUCCESS) {
 

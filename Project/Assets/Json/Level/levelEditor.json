@@ -178,31 +178,6 @@
         },
         {
             "type": "MESH",
-            "name": "platformField_3",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "platformField",
-            "transform": {
-                "translation": [
-                    -99.0,
-                    -93.0,
-                    0.36000001430511475
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scaling": [
-                    40.80000305175781,
-                    38.400001525878906,
-                    1.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "propRailOrigin_1",
             "entity_flag": true,
             "entity_type": "",
@@ -248,56 +223,6 @@
                     16.0,
                     14.0,
                     16.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "platformRound_0",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "platformRound",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.3837784230709076
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scaling": [
-                    1.600000023841858,
-                    1.600000023841858,
-                    1.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "propCableLong_1",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "propCableLong",
-            "transform": {
-                "translation": [
-                    -8.317342758178711,
-                    -36.18461227416992,
-                    0.3186110258102417
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.9946590065956116,
-                    0.1032157614827156
-                ],
-                "scaling": [
-                    6.79405403137207,
-                    15.535101890563965,
-                    4.0
                 ]
             }
         },
@@ -503,56 +428,6 @@
         },
         {
             "type": "MESH",
-            "name": "propCableLong_3",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "propCableLong",
-            "transform": {
-                "translation": [
-                    39.820579528808594,
-                    -3.4608821868896484,
-                    0.3186110258102417
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.637967586517334,
-                    0.7700632214546204
-                ],
-                "scaling": [
-                    6.794053554534912,
-                    15.535101890563965,
-                    4.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "propCableLong_4",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "propCableLong",
-            "transform": {
-                "translation": [
-                    -8.317342758178711,
-                    -36.18461227416992,
-                    0.3186110258102417
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.9946590065956116,
-                    0.1032157614827156
-                ],
-                "scaling": [
-                    6.79405403137207,
-                    15.535101890563965,
-                    4.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "steelbeams_20",
             "entity_flag": true,
             "entity_type": "",
@@ -748,81 +623,6 @@
                     2.879999876022339,
                     7.599999904632568,
                     4.400000095367432
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "platformField_0",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "platformField",
-            "transform": {
-                "translation": [
-                    -100.0,
-                    96.0,
-                    0.36000001430511475
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scaling": [
-                    40.80000305175781,
-                    38.400001525878906,
-                    1.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "platformField_1",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "platformField",
-            "transform": {
-                "translation": [
-                    100.0,
-                    96.0,
-                    0.36000001430511475
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scaling": [
-                    40.80000305175781,
-                    38.400001525878906,
-                    1.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "platformField_2",
-            "entity_flag": true,
-            "entity_type": "",
-            "modelName": "platformField",
-            "transform": {
-                "translation": [
-                    100.0,
-                    -93.0,
-                    0.36000001430511475
-                ],
-                "rotation_quaternion": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scaling": [
-                    40.80000305175781,
-                    38.400001525878906,
-                    1.0
                 ]
             }
         },
@@ -2878,10 +2678,10 @@
         },
         {
             "type": "MESH",
-            "name": "field_1",
+            "name": "frontField_0",
             "entity_flag": true,
             "entity_type": "None",
-            "modelName": "field",
+            "modelName": "frontField",
             "transform": {
                 "translation": [
                     0.0,
@@ -3203,10 +3003,10 @@
         },
         {
             "type": "MESH",
-            "name": "field_0",
+            "name": "playField_0",
             "entity_flag": true,
             "entity_type": "None",
-            "modelName": "field",
+            "modelName": "playField",
             "transform": {
                 "translation": [
                     0.0,

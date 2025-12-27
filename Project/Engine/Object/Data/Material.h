@@ -57,6 +57,7 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		void SetTextureName(const std::string& textureName);
+		void SetNormalMapTextureName(const std::string& textureName);
 
 		//--------- variables ----------------------------------------------------
 
@@ -110,6 +111,11 @@ namespace SakuEngine {
 
 		Asset* asset_;
 
+		// 使用しているテクスチャ名
+		std::string textureName_;
+		std::string normalMapTextureName_;
+
+		// 前フレームのUVTransform
 		UVTransform prevUVTransform_;
 
 		//--------- functions ----------------------------------------------------

@@ -196,30 +196,6 @@
             "timeScaleEasing": "Linear",
             "waitTime": 0.07999999821186066
         },
-        "StunAttack": {
-            "centerOffset": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "hitInterval": 0.10000000149011612,
-            "hitWindows": [
-                {
-                    "offTime": 4.0,
-                    "onTime": 3.75
-                }
-            ],
-            "isEnemyBased": false,
-            "lerpSpeed": 1.0,
-            "size": {
-                "x": 8.0,
-                "y": 8.0,
-                "z": 10.0
-            },
-            "timeScale": 1.0,
-            "timeScaleEasing": "Linear",
-            "waitTime": 0.07999999821186066
-        },
         "Walk": {
             "centerOffset": {
                 "x": 0.0,
@@ -835,9 +811,9 @@
             "z": -340.0
         }
     },
-    "incrementSkilPoint": 1,
+    "incrementSkillPoint": 1,
     "maxHP": 12000,
-    "maxSkilPoint": 100,
-    "skilCost": 50,
+    "maxSkillPoint": 100,
+    "skillCost": 50,
     "toughness": 0
 }

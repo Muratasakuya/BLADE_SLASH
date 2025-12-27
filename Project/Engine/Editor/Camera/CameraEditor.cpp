@@ -38,6 +38,9 @@ void CameraEditor::Init(SceneView* sceneView) {
 
 	sceneView_ = nullptr;
 	sceneView_ = sceneView;
+
+	// 初期化
+	isPreviewInverseKeyframe_ = false;
 }
 
 void CameraEditor::LoadJson(const std::string& fileName, bool isInEditor) {
@@ -111,7 +114,8 @@ void CameraEditor::SetParentTransform(const std::string& keyName, const SakuEngi
 	}
 }
 
-void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey, bool isUpdateKey) {
+void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey,
+	bool isUpdateKey, const std::optional<KeyframeInverseSetting>& inverseSetting) {
 
 	// 無ければ処理できない
 	auto it = keyObjects_.find(keyName);
@@ -150,7 +154,7 @@ void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey, boo
 		}
 
 		// 補間開始
-		activeKeyObject_->StartLerp(cameraTransform, anyValues);
+		activeKeyObject_->StartLerp(cameraTransform, anyValues, inverseSetting);
 	}
 	// 追加しない場合
 	else {
@@ -162,7 +166,7 @@ void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey, boo
 		}
 
 		// 補間開始
-		activeKeyObject_->StartLerp();
+		activeKeyObject_->StartLerp(std::nullopt, std::nullopt, inverseSetting);
 	}
 }
 
@@ -229,7 +233,7 @@ void CameraEditor::UpdateKeyObjects() {
 	// 時間を進めてキー更新
 	activeKeyObject_->SelfUpdate();
 	// カメラに適応
-	ApplyToCamera(*sceneView_->GetCamera(), *activeKeyObject_);
+	ApplyToCamera(*sceneView_->GetCamera(), *activeKeyObject_, std::nullopt);
 
 	// 補間が終了したらアクティブ状態を解除
 	if (!activeKeyObject_->IsUpdating()) {
@@ -256,6 +260,13 @@ void CameraEditor::UpdateEditor() {
 		return;
 	}
 
+	// プレビュー反転設定
+	std::optional<KeyframeInverseSetting> previewInverseSetting = std::nullopt;
+	if (isPreviewInverseKeyframe_) {
+
+		previewInverseSetting = keyObjects_[selectedKeyObjectName_]->GetEditInverseSetting();
+	}
+
 	// モード別の更新
 	switch (previewMode_) {
 	case CameraEditor::PreviewMode::Keyframe: {
@@ -269,9 +280,18 @@ void CameraEditor::UpdateEditor() {
 		}
 
 		// 現在のキー位置のカメラ情報を取得して反映させる
-		SakuEngine::Transform3D transform = keyObjects_[selectedKeyObjectName_]->GetIndexTransform(previewKeyIndex_);
+		SakuEngine::Transform3D transform;
+		if (previewInverseSetting.has_value()) {
+
+			transform = keyObjects_[selectedKeyObjectName_]->GetIndexKeyTransformInversed(
+				static_cast<uint32_t>(previewKeyIndex_), previewInverseSetting.value());
+		} else {
+
+			transform = keyObjects_[selectedKeyObjectName_]->GetIndexKeyTransform(static_cast<uint32_t>(previewKeyIndex_));
+		}
 		float fovY = 0.0f;
-		KeyframeObject3D::AnyValue fovValue = keyObjects_[selectedKeyObjectName_]->GetIndexAnyValue(previewKeyIndex_, addKeyValueFov_);
+		KeyframeObject3D::AnyValue fovValue =
+			keyObjects_[selectedKeyObjectName_]->GetIndexAnyValue(static_cast<uint32_t>(previewKeyIndex_), addKeyValueFov_);
 		if (const auto& keyFovY = std::get_if<float>(&fovValue)) {
 
 			fovY = *keyFovY;
@@ -292,7 +312,7 @@ void CameraEditor::UpdateEditor() {
 		keyObjects_[selectedKeyObjectName_]->ExternalInputTUpdate(previewTimer_);
 
 		// カメラへ適応
-		ApplyToCamera(*camera, *keyObjects_[selectedKeyObjectName_].get());
+		ApplyToCamera(*camera, *keyObjects_[selectedKeyObjectName_].get(), previewInverseSetting);
 		break;
 	}
 	case CameraEditor::PreviewMode::Play: {
@@ -301,7 +321,7 @@ void CameraEditor::UpdateEditor() {
 		keyObjects_[selectedKeyObjectName_]->SelfUpdate();
 
 		// カメラへ適応
-		ApplyToCamera(*camera, *keyObjects_[selectedKeyObjectName_].get());
+		ApplyToCamera(*camera, *keyObjects_[selectedKeyObjectName_].get(), previewInverseSetting);
 
 		// 再生中は時間を更新しない
 		if (keyObjects_[selectedKeyObjectName_]->IsUpdating()) {
@@ -324,10 +344,19 @@ void CameraEditor::UpdateEditor() {
 #endif
 }
 
-void CameraEditor::ApplyToCamera(BaseCamera& camera, const KeyframeObject3D& keyObject) {
+void CameraEditor::ApplyToCamera(BaseCamera& camera, const KeyframeObject3D& keyObject,
+	const std::optional<KeyframeInverseSetting>& inverseSetting) {
 
 	// 現在のキー位置のカメラ情報
-	SakuEngine::Transform3D transform = keyObject.GetCurrentTransform();
+	SakuEngine::Transform3D transform;
+	// 反転設定がある場合と無い場合で反転
+	if (inverseSetting.has_value()) {
+
+		transform = keyObject.GetCurrentTransformInversed(inverseSetting.value());
+	} else {
+
+		transform = keyObject.GetCurrentTransformForPlayback();
+	}
 
 	float fovY = 0.0f;
 	KeyframeObject3D::AnyValue fovValue = keyObject.GetCurrentAnyValue(addKeyValueFov_);
@@ -573,7 +602,8 @@ void CameraEditor::EditSelectedKeyObject() {
 		if (ImGui::BeginTabItem("GameCamera")) {
 
 			// モード選択
-			ImGui::Checkbox("isPreViewGameCamera_", &isPreViewGameCamera_);
+			ImGui::Checkbox("isPreViewGameCamera", &isPreViewGameCamera_);
+			ImGui::Checkbox("isPreviewInverseKeyframe", &isPreviewInverseKeyframe_);
 			SakuEngine::EnumAdapter<PreviewMode>::Combo("PreviewMode", &previewMode_);
 
 			ImGui::SeparatorText("Option");

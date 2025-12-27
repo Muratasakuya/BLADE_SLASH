@@ -11,7 +11,7 @@
 
 float FollowCameraKeyInput::GetVector(FollowCameraInputAction axis) const {
 
-	const SakuEngine::Vector2 value = input_->GetMouseMoveValue();
+	SakuEngine::Vector2 value = input_->GetMouseMoveValue();
 	if (axis == FollowCameraInputAction::RotateX) {
 
 		return value.x;
@@ -21,30 +21,4 @@ float FollowCameraKeyInput::GetVector(FollowCameraInputAction axis) const {
 		return value.y;
 	}
 	return 0.0f;
-}
-
-bool FollowCameraKeyInput::IsPressed(FollowCameraInputAction button) const {
-
-	switch (button) {
-	case FollowCameraInputAction::RotateX: {
-		return false;
-	}
-	case FollowCameraInputAction::RotateY: {
-		return false;
-	}
-	}
-	return false;
-}
-
-bool FollowCameraKeyInput::IsTriggered(FollowCameraInputAction button) const {
-
-	switch (button) {
-	case FollowCameraInputAction::RotateX: {
-		return false;
-	}
-	case FollowCameraInputAction::RotateY: {
-		return false;
-	}
-	}
-	return false;
 }

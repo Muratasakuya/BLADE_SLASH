@@ -62,6 +62,10 @@ namespace SakuEngine {
 		void DrawSegment(int division, float radius, const Vector3& pointA,
 			const Vector3& pointB, const Color& color, LineType type = LineType::None);
 
+		// 軸を描画
+		template <typename T>
+		void DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type = LineType::None);
+
 		// N角形の枠線を描く(3〜12)
 		template <typename T>
 		void DrawPolygon(int polygonCount, const Vector3& centerPos, float scale,
@@ -158,6 +162,33 @@ namespace SakuEngine {
 	//============================================================================
 	//	LineRenderer templateMethods
 	//============================================================================
+
+	template<typename T>
+	inline void LineRenderer::DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type) {
+
+		// X軸(赤)Y軸(青)Z軸(緑)
+		// 回転
+		Matrix4x4 rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		if constexpr (std::is_same_v<T, Vector3>) {
+
+			rotationMatrix = Matrix4x4::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Quaternion>) {
+
+			rotationMatrix = Quaternion::MakeRotateMatrix(rotation);
+		} else if constexpr (std::is_same_v<T, Matrix4x4>) {
+
+			rotationMatrix = rotation;
+		}
+
+		// 基準軸を回転させて、ワールド空間の軸方向にする
+		Vector3 xDirection = Vector3::TransferNormal(Direction::Get(Direction3D::Right), rotationMatrix).Normalize();
+		Vector3 yDirection = Vector3::TransferNormal(Direction::Get(Direction3D::Up), rotationMatrix).Normalize();
+		Vector3 zDirection = Vector3::TransferNormal(Direction::Get(Direction3D::Forward), rotationMatrix).Normalize();
+
+		DrawLine3D(centerPos, centerPos + xDirection * length, Color::Red(), type);
+		DrawLine3D(centerPos, centerPos + yDirection * length, Color::Blue(), type);
+		DrawLine3D(centerPos, centerPos + zDirection * length, Color::Green(), type);
+	}
 
 	template<typename T>
 	inline void LineRenderer::DrawPolygon(int polygonCount, const Vector3& centerPos,

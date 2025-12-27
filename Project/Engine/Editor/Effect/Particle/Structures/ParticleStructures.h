@@ -1,0 +1,313 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/Effect/Particle/Structures/ParticlePrimitiveStructures.h>
+#include <Engine/Editor/Effect/Particle/Structures/ParticleValue.h>
+#include <Engine/Core/Graphics/GPUObject/DxStructuredBuffer.h>
+#include <Engine/Core/Graphics/DxLib/DxStructures.h>
+#include <Engine/Object/Data/Transform.h>
+#include <Engine/Utility/Enum/Easing.h>
+#include <Engine/MathLib/MathUtils.h>
+
+// c++
+#include <deque>
+
+//============================================================================
+//	ParticleStructures
+//============================================================================
+
+// パーティクルの種類
+enum class ParticleType {
+
+	CPU, // CPUで処理を行う
+	GPU, // GPUで処理を行う
+	Count
+};
+
+// billboardの種類
+enum class ParticleBillboardType {
+
+	All,
+	YAxis,
+	None
+};
+
+//============================================================================
+//	Common
+//============================================================================
+
+namespace SakuEngine {
+
+namespace ParticleCommon {
+
+	// samplerの種類
+	enum class SamplerType {
+
+		WRAP,
+		CLMAP
+	};
+
+	// 描画情報
+	template<bool kMultiple = false>
+	struct PrimitiveData {
+
+		ParticlePrimitiveType type;
+
+		// 平面
+		std::conditional_t<kMultiple, std::vector<PlaneForGPU>, PlaneForGPU> plane;
+		// リング
+		std::conditional_t<kMultiple, std::vector<RingForGPU>, RingForGPU> ring;
+		// 円柱
+		std::conditional_t<kMultiple, std::vector<CylinderForGPU>, CylinderForGPU> cylinder;
+		// 三日月
+		std::conditional_t<kMultiple, std::vector<CrescentForGPU>, CrescentForGPU> crescent;
+		// 雷
+		std::conditional_t<kMultiple, std::vector<LightningForGPU>, LightningForGPU> lightning;
+		// テストメッシュ
+		std::conditional_t<kMultiple, std::vector<TestMeshForGPU>, TestMeshForGPU> testMesh;
+	};
+	struct PrimitiveBufferData {
+
+		ParticlePrimitiveType type;
+
+		// 平面
+		DxStructuredBuffer<PlaneForGPU> plane;
+		// リング
+		DxStructuredBuffer<RingForGPU> ring;
+		// 円柱
+		DxStructuredBuffer<CylinderForGPU> cylinder;
+		// 三日月
+		DxStructuredBuffer<CrescentForGPU> crescent;
+		// 雷
+		DxStructuredBuffer<LightningForGPU> lightning;
+		// テストメッシュ
+		DxStructuredBuffer<TestMeshForGPU> testMesh;
+	};
+
+	struct TransformForGPU {
+
+		Vector3 translation;
+		Vector3 scale;
+		Matrix4x4 rotationMatrix;
+		Matrix4x4 parentMatrix;
+
+		// 0: full
+		// 1: yAxis(XZ回転を適応)
+		// 2: none(XYZ回転を適応)
+		uint32_t billboardMode;
+
+		// 0: 親無し
+		// 1: 親有り
+		uint32_t aliveParent = false;
+	};
+
+	struct PerFrameForGPU {
+
+		float time;
+		float deltaTime;
+		float pad0[2];
+	};
+
+	struct PerViewForGPU {
+
+		Vector3 cameraPos;
+		float pad0;
+
+		Matrix4x4 viewProjection;
+		Matrix4x4 billboardMatrix;
+	};
+
+	template <typename T>
+	struct LerpValue {
+
+		T start;
+		T target;
+	};
+
+	template <typename T>
+	struct EditLerpValue {
+
+		ParticleValue<T> start;
+		ParticleValue<T> target;
+	};
+
+	// トレイル位置の情報
+	struct TrailPoint {
+
+		Vector3 pos; // 座標
+		float age;   // 寿命
+	};
+	struct TrailRuntime {
+
+		std::deque<TrailPoint> nodes; // リングバッファ
+		Vector3 prePos;               // 前回のサンプル位置
+
+		bool isInitialized = false;   // 初期化済みか
+		float time;                   // サンプル間隔
+		bool isDetaching = false;     // 追従先が消えた後の処理を行うか
+	};
+
+	// トレイルのGPU転送データ
+	// 頂点(MS)
+	struct TrailHeaderForGPU {
+
+		uint32_t start;
+		uint32_t vertexCount;
+	};
+	struct TrailVertexForGPU {
+
+		Vector3 worldPos;
+		Vector2 uv;
+		Color color;
+	};
+	// マテリアル(PS)
+	struct TrailTextureInfoForGPU {
+
+		// texture
+		uint32_t colorTextureIndex;
+		uint32_t noiseTextureIndex;
+
+		// sampler
+		// 0...WRAP
+		// 1...CLAMP
+		int32_t samplerType;
+
+		// flags
+		int32_t useNoiseTexture;
+	};
+};
+
+//============================================================================
+//	GPU
+//============================================================================
+
+namespace GPUParticle {
+
+	// 更新の種類
+	enum class UpdateType {
+
+		None,
+		Noise,
+		Count
+	};
+
+	// material
+	struct MaterialForGPU {
+
+		Color color;
+
+		// 適応するポストエフェクトのビット
+		uint32_t postProcessMask;
+	};
+
+	// particleUpdate
+	struct ParticleForGPU {
+
+		float lifeTime;
+		float currentTime;
+
+		Vector3 velocity;
+	};
+
+	// ノイズで動かす更新処理の時に使用する
+	struct NoiseForGPU {
+
+		float scale;
+		float strength;
+		float speed;
+
+		void Init() {
+
+			scale = 0.04f;
+			strength = 1.0f;
+			speed = 0.1f;
+		}
+	};
+}
+
+//============================================================================
+//	CPU
+//============================================================================
+
+namespace CPUParticle {
+
+	struct MaterialForGPU {
+
+		Color color;
+
+		// 発光
+		float emissiveIntecity;
+		Vector3 emissionColor;
+
+		// 閾値
+		float alphaReference;
+		float noiseAlphaReference;
+
+		Matrix4x4 colorUVTransform = Matrix4x4::MakeIdentity4x4();
+		Matrix4x4 noiseUVTransform = Matrix4x4::MakeIdentity4x4();
+
+		// 適応するポストエフェクトのビット
+		uint32_t postProcessMask;
+	};
+
+	struct TextureInfoForGPU {
+
+		// texture
+		uint32_t colorTextureIndex;
+		uint32_t noiseTextureIndex;
+
+		// sampler
+		// 0...WRAP
+		// 1...CLAMP
+		int32_t samplerType;
+
+		// flags
+		int32_t useNoiseTexture;
+	};
+
+	struct ParticleData {
+
+		// 生存時間
+		float lifeTime;
+
+		// 経過時間
+		float currentTime;
+		float progress;
+		// 現在のフェーズ
+		uint32_t phaseIndex;
+		// 発生したときのインデックス
+		uint32_t spawnIndex;
+
+		// キー補間の開始したときの補間t
+		float keyPathStartT = -1.0f;
+		bool hasKeyPathStart = false;
+		float keyPathSpawnAngle = 0.0f;
+		bool hasKeyPathSpawnAngle = false;
+
+		// 発生したときの座標
+		Vector3 spawnTranlation;
+		// 回転の保持
+		Quaternion rotation;
+
+		// 発生させたエミッターの座標
+		Vector3 emitterTranslation;
+
+		// トレイル
+		ParticleCommon::TrailRuntime trailRuntime;
+
+		// bufferを更新するデータ
+		// 移動速度
+		Vector3 velocity;
+
+		// bufferに渡すデータ
+		MaterialForGPU material;
+		TextureInfoForGPU textureInfo;
+		ParticleCommon::TrailTextureInfoForGPU trailTextureInfo;
+		ParticleCommon::TransformForGPU transform;
+		ParticleCommon::PrimitiveData<false> primitive;
+	};
+}
+
+}; // SakuEngine

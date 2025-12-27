@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/Base/IGameEditor.h>
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Game/UI/HUD/Controllers/Player/PlayerHUDController.h>
 #include <Game/UI/HUD/Controllers/Enemy/Boss/BossEnemyHUDController.h>
@@ -11,13 +12,14 @@
 //	GameHUDStateSynchronizer class
 //	Entityの状態とHUDの表示を同期させるクラス
 //============================================================================
-class GameHUDStateSynchronizer {
+class GameHUDStateSynchronizer :
+	public SakuEngine::IGameEditor {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	GameHUDStateSynchronizer() = default;
+	GameHUDStateSynchronizer() :IGameEditor("GameHUD") {}
 	~GameHUDStateSynchronizer() = default;
 
 	// 初期化
@@ -27,7 +29,7 @@ public:
 	void Update();
 
 	// エディター
-	void ImGui();
+	void ImGui() override;
 
 	// シーン状態変更の通知
 	void NotifySceneStateChanged(GameSceneState prev, GameSceneState next);

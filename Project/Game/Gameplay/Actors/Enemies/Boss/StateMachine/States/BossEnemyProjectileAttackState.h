@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Engine/Collision/Collider.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyIState.h>
 

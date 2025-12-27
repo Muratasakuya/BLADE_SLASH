@@ -9,6 +9,7 @@ using namespace SakuEngine;
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+#include <Engine/Utility/Helper/ImGuiHelper.h>
 
 // imgui
 #include <imgui.h>
@@ -34,6 +35,9 @@ void Material::InitParameter() {
 	emissiveIntensity = 0.0f;
 	emissionColor = Vector3(1.0f, 1.0f, 1.0f);
 	uvMatrix = Matrix4x4::MakeIdentity4x4();
+
+	textureName_.clear();
+	normalMapTextureName_.clear();
 }
 
 void Material::Init(Asset* asset) {
@@ -61,6 +65,44 @@ void Material::UpdateUVTransform() {
 }
 
 void Material::ImGui(float itemSize) {
+
+	// Texture
+	ImGui::SeparatorText("Texture");
+
+	// テクスチャ選択
+	// 表示サイズ
+	const float imageSize = 88.0f;
+	SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
+		(ImTextureID)asset_->GetGPUHandle(textureName_).ptr, { imageSize, imageSize });
+	std::string dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+	if (!dragTextureName.empty()) {
+
+		// textureを設定
+		SetTextureName(dragTextureName);
+	}
+
+	// NormalMap
+	ImGui::SeparatorText("NormalMap");
+
+	bool enableNormalMapBool = static_cast<bool>(enableNormalMap);
+	if (ImGui::Checkbox("enableNormalMap", &enableNormalMapBool)) {
+		enableNormalMap = static_cast<int32_t>(enableNormalMapBool);
+		if (enableNormalMapBool && normalMapTextureName_.empty()) {
+
+			SetNormalMapTextureName(textureName_);
+		}
+	}
+	// テクスチャ選択
+	if (enableNormalMapBool) {
+		SakuEngine::ImGuiHelper::ImageButtonWithLabel("normalMap", normalMapTextureName_,
+			(ImTextureID)asset_->GetGPUHandle(normalMapTextureName_).ptr, { imageSize, imageSize });
+		dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+		if (!dragTextureName.empty()) {
+
+			// textureを設定
+			SetNormalMapTextureName(dragTextureName);
+		}
+	}
 
 	// 色
 	ImGui::SeparatorText("Color");
@@ -109,15 +151,15 @@ void Material::ImGui(float itemSize) {
 
 	ImGui::SliderInt("enableDithering", &enableDithering, 0, 1);
 
-	ImGui::SeparatorText("PostProcess");
-
-	SakuEngine::ImGuiHelper::EditPostProcessMask(postProcessMask);
-
 	int32_t isRejectionInt = static_cast<int32_t>(isRejection);
 	if (ImGui::DragInt("isRejection", &isRejectionInt, 1, 0, 1)) {
 
 		isRejection = static_cast<uint32_t>(isRejectionInt);
 	}
+
+	ImGui::SeparatorText("PostProcess");
+
+	SakuEngine::ImGuiHelper::EditPostProcessMask(postProcessMask);
 
 	ImGui::PopItemWidth();
 }
@@ -175,6 +217,13 @@ void Material::FromJson(const Json& data) {
 void Material::SetTextureName(const std::string& textureName) {
 
 	textureIndex = asset_->GetTextureGPUIndex(textureName);
+	textureName_ = textureName;
+}
+
+void Material::SetNormalMapTextureName(const std::string& textureName) {
+
+	normalMapTextureIndex = asset_->GetTextureGPUIndex(textureName);
+	normalMapTextureName_ = textureName;
 }
 
 //============================================================================

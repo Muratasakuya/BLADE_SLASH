@@ -14,7 +14,7 @@ void EndGameCamera::Init() {
 
 	displayFrustum_ = true;
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Effect/User/EffectGroup.h>
+#include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Engine/Object/Base/KeyframeObject3D.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/Interface/BossEnemyGreatAttackIState.h>
 

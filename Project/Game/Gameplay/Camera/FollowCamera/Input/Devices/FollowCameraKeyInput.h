@@ -26,6 +26,9 @@ public:
 	float GetVector(FollowCameraInputAction axis)  const override;
 
 	// 単入力
-	bool IsPressed(FollowCameraInputAction button) const override;
-	bool IsTriggered(FollowCameraInputAction button) const override;
+	bool IsPressed([[maybe_unused]] FollowCameraInputAction button) const override { return false; }
+	bool IsTriggered([[maybe_unused]] FollowCameraInputAction button) const override { return false; }
+
+	// 入力デバイスの種類を取得
+	InputType GetInputType() const override { return InputType::Keyboard; }
 };

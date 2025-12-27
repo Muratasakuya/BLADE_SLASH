@@ -18,7 +18,7 @@ void FadeSprite::DerivedInit() {
 	SetSize(SakuEngine::Vector2(Config::kWindowWidthf, Config::kWindowHeightf));
 	SetColor(SakuEngine::Color::Convert(0x02020200));
 
-	// json適応
+	// json適用
 	ApplyJson();
 	Reset();
 }

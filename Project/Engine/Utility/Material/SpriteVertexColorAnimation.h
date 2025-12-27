@@ -18,11 +18,12 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		SpriteVertexColorAnimation() = default;
+		SpriteVertexColorAnimation();
 		~SpriteVertexColorAnimation() = default;
 
 		// 更新
 		void Update(GameObject2D& object);
+		void Update();
 
 		// エディター
 		void ImGui(const std::string& label);
@@ -38,6 +39,9 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
+		// 現在の頂点カラー取得
+		const std::array<Color, kSpriteVertexPosNum>& GetCurrentColors() const { return currentColors_; }
+		const Color& GetCurrentColor(SpriteVertexPos pos) const { return currentColors_[static_cast<uint32_t>(pos)]; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -48,14 +52,11 @@ namespace SakuEngine {
 		// アニメーション有効フラグ
 		bool isEnable_ = false;
 
+		// 各頂点の現在の色
+		std::array<Color, kSpriteVertexPosNum> currentColors_;
+
 		// 頂点カラーアニメーション
-		SakuEngine::SimpleAnimation<SakuEngine::Color> leftBottomColorAnim_;
-		SakuEngine::SimpleAnimation<SakuEngine::Color> leftTopColorAnim_;
-		SakuEngine::SimpleAnimation<SakuEngine::Color> rightBottomColorAnim_;
-		SakuEngine::SimpleAnimation<SakuEngine::Color> rightTopColorAnim_;
-
-		//--------- functions ----------------------------------------------------
-
+		std::array<SimpleAnimation<Color>, kSpriteVertexPosNum> colorAnims_;
 	};
 
 }; // SakuEngine

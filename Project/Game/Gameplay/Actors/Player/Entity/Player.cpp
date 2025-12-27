@@ -123,7 +123,7 @@ void Player::DerivedInit() {
 	// エフェクト初期化
 	InitEffects();
 
-	// json適応
+	// json適用
 	ApplyJson();
 
 	// ポストエフェクト設定
@@ -264,7 +264,7 @@ void Player::UpdateSKilPoint() {
 	if (recoverSkilPointTimer_.IsReached()) {
 
 		// スキルポイントの回復
-		stats_.currentSkilPoint = (std::min)(stats_.maxSkilPoint, stats_.currentSkilPoint + stats_.incrementSkilPoint);
+		stats_.currentSkillPoint = (std::min)(stats_.maxSkillPoint, stats_.currentSkillPoint + stats_.incrementSkillPoint);
 		// タイマーリセット
 		recoverSkilPointTimer_.Reset();
 	}
@@ -274,7 +274,7 @@ void Player::UpdateSKilPoint() {
 	if (stateController_->GetCurrentState() == PlayerState::SkilAttack) {
 
 		// スキルポイントを消費
-		stats_.currentSkilPoint = (std::max)(0, stats_.currentSkilPoint - stats_.skilCost);
+		stats_.currentSkillPoint = (std::max)(0, stats_.currentSkillPoint - stats_.skillCost);
 	}
 }
 
@@ -346,14 +346,14 @@ void Player::DerivedImGui() {
 			ImGui::Text(std::format("isInvincible: {}", isInvincible_).c_str());
 
 			ImGui::Text("HP : %d / %d", stats_.currentHP, stats_.maxHP);
-			ImGui::Text("SP : %d / %d", stats_.currentSkilPoint, stats_.maxSkilPoint);
+			ImGui::Text("SP : %d / %d", stats_.currentSkillPoint, stats_.maxSkillPoint);
 
 			ImGui::DragInt("Max HP", &stats_.maxHP, 1, 0);
 			ImGui::DragInt("Cur HP", &stats_.currentHP, 1, 0, stats_.maxHP);
-			ImGui::DragInt("Max SP", &stats_.maxSkilPoint, 1, 0);
-			ImGui::DragInt("Cur SP", &stats_.currentSkilPoint, 1, 0, stats_.maxSkilPoint);
-			ImGui::DragInt("Skil Cost", &stats_.skilCost, 1, 0, stats_.maxSkilPoint);
-			ImGui::DragInt("Increment SP", &stats_.incrementSkilPoint, 1, 0);
+			ImGui::DragInt("Max SP", &stats_.maxSkillPoint, 1, 0);
+			ImGui::DragInt("Cur SP", &stats_.currentSkillPoint, 1, 0, stats_.maxSkillPoint);
+			ImGui::DragInt("Skil Cost", &stats_.skillCost, 1, 0, stats_.maxSkillPoint);
+			ImGui::DragInt("Increment SP", &stats_.incrementSkillPoint, 1, 0);
 
 			recoverSkilPointTimer_.ImGui("Recover SP Timer");
 
@@ -370,7 +370,7 @@ void Player::DerivedImGui() {
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Reset SP")) {
-				stats_.currentSkilPoint = stats_.maxSkilPoint / 2;
+				stats_.currentSkillPoint = stats_.maxSkillPoint / 2;
 			}
 			ImGui::EndTabItem();
 		}
@@ -432,12 +432,12 @@ void Player::ApplyJson() {
 	attackCollision_->ApplyJson(cacheJsonData_["AttackCollision"]);
 
 	stats_.maxHP = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxHP");
-	stats_.maxSkilPoint = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxSkilPoint");
-	stats_.skilCost = cacheJsonData_.value("skilCost", 50);
-	stats_.incrementSkilPoint = cacheJsonData_.value("incrementSkilPoint", 1);
+	stats_.maxSkillPoint = SakuEngine::JsonAdapter::GetValue<int>(cacheJsonData_, "maxSkillPoint");
+	stats_.skillCost = cacheJsonData_.value("skillCost", 50);
+	stats_.incrementSkillPoint = cacheJsonData_.value("incrementSkillPoint", 1);
 	// 初期化時は最大と同じ値にする
 	stats_.currentHP = stats_.maxHP;
-	stats_.currentSkilPoint = 0;
+	stats_.currentSkillPoint = 0;
 
 	recoverSkilPointTimer_.FromJson(cacheJsonData_.value("RecoverSkilPointTimer", Json()));
 
@@ -467,9 +467,9 @@ void Player::SaveJson() {
 	attackCollision_->SaveJson(data["AttackCollision"]);
 
 	data["maxHP"] = stats_.maxHP;
-	data["maxSkilPoint"] = stats_.maxSkilPoint;
-	data["skilCost"] = stats_.skilCost;
-	data["incrementSkilPoint"] = stats_.incrementSkilPoint;
+	data["maxSkillPoint"] = stats_.maxSkillPoint;
+	data["skillCost"] = stats_.skillCost;
+	data["incrementSkillPoint"] = stats_.incrementSkillPoint;
 
 	recoverSkilPointTimer_.ToJson(data["RecoverSkilPointTimer"]);
 

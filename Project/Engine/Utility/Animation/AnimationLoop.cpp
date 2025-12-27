@@ -69,7 +69,7 @@ void AnimationLoop::ImGuiLoopParam(bool isSeparate) {
 		loopCount_ = static_cast<uint32_t>(loopCount);
 	}
 	ImGui::Checkbox("infinityLoop", &isInfinityLoop_);
-	SakuEngine::EnumAdapter<AnimationLoopType>::Combo("loopType", &loopType_);
+	EnumAdapter<AnimationLoopType>::Combo("loopType", &loopType_);
 }
 
 void AnimationLoop::ToLoopJson(Json& data) {
@@ -78,7 +78,7 @@ void AnimationLoop::ToLoopJson(Json& data) {
 
 	data[key]["loopCount"] = loopCount_;
 	data[key]["isInfinityLoop"] = isInfinityLoop_;
-	data[key]["type"] = SakuEngine::EnumAdapter<AnimationLoopType>::ToString(loopType_);
+	data[key]["type"] = EnumAdapter<AnimationLoopType>::ToString(loopType_);
 }
 
 void AnimationLoop::FromLoopJson(const Json& data) {
@@ -89,7 +89,7 @@ void AnimationLoop::FromLoopJson(const Json& data) {
 		loopCount_ = data[key].value("loopCount", 1);
 		isInfinityLoop_ = data[key].value("isInfinityLoop", false);
 
-		const auto& type = SakuEngine::EnumAdapter<AnimationLoopType>::FromString(data[key]["type"]);
+		const auto& type = EnumAdapter<AnimationLoopType>::FromString(data[key]["type"]);
 		loopType_ = type.value();
 	} else {
 

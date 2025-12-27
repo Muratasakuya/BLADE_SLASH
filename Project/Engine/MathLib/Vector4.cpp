@@ -16,6 +16,11 @@ namespace {
 }
 
 //============================================================================*/
+//	include
+//============================================================================*/
+#include <Engine/MathLib/Vector3.h>
+
+//============================================================================*/
 //	Vector4 classMethods
 //============================================================================*/
 
@@ -106,6 +111,13 @@ Color operator*(float scalar, const SakuEngine::Color& v) {
 
 Color Color::operator-() const {
 	return Color(-r, -g, -b, -a);
+}
+
+void Color::FromRGB(const Vector3& rgb) {
+
+	this->r = rgb.x;
+	this->g = rgb.y;
+	this->b = rgb.z;
 }
 
 Color Color::Convert(int color) {

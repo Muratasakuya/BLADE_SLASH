@@ -1,0 +1,134 @@
+{
+    "disableSkillColor_": {
+        "x": 0.08923077583312988,
+        "y": 0.08923077583312988,
+        "z": 0.08923077583312988
+    },
+    "enableSkillColor_": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+    },
+    "skillVertexColorAnim_": {
+        "leftBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.2586497962474823,
+                "g": 0.0,
+                "r": 0.9153789281845093
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "useReturnTimer_": false
+        },
+        "leftTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "Linear",
+                "target_": 1.600000023841858
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.2586497962474823,
+                "g": 0.0,
+                "r": 0.9153789281845093
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "useReturnTimer_": false
+        },
+        "rightBottomColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutSine",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.3435717821121216,
+                "g": 0.0,
+                "r": 0.9264164566993713
+            },
+            "useReturnTimer_": false
+        },
+        "rightTopColorAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": true,
+                    "loopCount": 1,
+                    "type": "PingPong"
+                }
+            },
+            "ReturnTimer": {
+                "easeingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easeingType_": "EaseOutSine",
+                "target_": 2.0
+            },
+            "move_.end": {
+                "a": 1.0,
+                "b": 0.002845817944034934,
+                "g": 0.38590875267982483,
+                "r": 0.9668874144554138
+            },
+            "move_.start": {
+                "a": 1.0,
+                "b": 0.3435717821121216,
+                "g": 0.0,
+                "r": 0.9264164566993713
+            },
+            "useReturnTimer_": false
+        }
+    }
+}

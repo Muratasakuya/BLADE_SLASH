@@ -18,13 +18,24 @@ PlayerHUDController::PlayerHUDController(GameEventBus& bus, const Player* player
 void PlayerHUDController::Init() {
 
 	// 各HUDの初期化
-	// プレイヤーHUD
-	playerHud_ = std::make_unique<PlayerHUD>();
-	playerHud_->Init();
+	// 共有HUD部分
+	shareHud_ = std::make_unique<PlayerShareHUD>();
+	shareHud_->Init();
 	// 処理に必要な情報をセット
-	playerHud_->SetPlayer(player_);
-	playerHud_->SetCamera(camera_);
-	playerHud_->SetBossEnemy(bossEnemy_);
+	shareHud_->SetPlayer(player_);
+	// ステータス表示
+	statsHud_ = std::make_unique<PlayerStatsHUD>();
+	statsHud_->Init();
+	// 処理に必要な情報をセット
+	statsHud_->SetPlayer(player_);
+	statsHud_->SetCamera(camera_);
+	statsHud_->SetShareHUD(shareHud_.get());
+
+	// 操作方法表示
+	operateHud_ = std::make_unique<PlayerOperateHUD>();
+	operateHud_->Init();
+	// 処理に必要な情報をセット
+	operateHud_->SetShareHUD(shareHud_.get());
 
 	// スタンHUD
 	stunHud_ = std::make_unique<PlayerStunHUD>();
@@ -49,7 +60,7 @@ void PlayerHUDController::Init() {
 			if (event.victim == playerId_) {
 
 				// ダメージをHUDに反映
-				playerHud_->SetDamage(event.damage);
+				statsHud_->SetDamage(event.damage);
 			}
 		}
 	);
@@ -61,13 +72,8 @@ void PlayerHUDController::Init() {
 				return;
 			}
 			// 表示、非表示を切り替え
-			if (event.visible) {
-
-				playerHud_->SetValid();
-			} else {
-
-				playerHud_->SetDisable();
-			}
+			statsHud_->SetIsDisplay(event.visible);
+			operateHud_->SetIsDisplay(event.visible);
 		}
 	);
 	// 目標ナビゲーション無効化イベントを登録
@@ -100,11 +106,11 @@ void PlayerHUDController::Init() {
 			// 入力示唆を開始、停止
 			if (event.visible) {
 
-				playerHud_->StartInputSuggest();
+				operateHud_->StartInputSuggest();
 				targetNavigation_->SetIsBlink(true);
 			} else {
 
-				playerHud_->EndInputSuggest();
+				operateHud_->EndInputSuggest();
 				targetNavigation_->SetIsBlink(false);
 			}
 		}
@@ -113,9 +119,12 @@ void PlayerHUDController::Init() {
 
 void PlayerHUDController::Update() {
 
-	// HUD更新
-	playerHud_->Update();
-
+	// 共有HUD部分更新
+	shareHud_->Update();
+	// ステータス表示更新
+	statsHud_->Update();
+	// 操作方法表示更新
+	operateHud_->Update();
 	// 敵がスタンしているときのHUD更新
 	stunHud_->Update();
 
@@ -123,19 +132,6 @@ void PlayerHUDController::Update() {
 	UpdateParrySuggest();
 	// ターゲットナビ
 	UpdateTargetNavigation();
-}
-
-void PlayerHUDController::ImGui() {
-
-	// 各HUDのImGui表示
-	// プレイヤーHUD
-	playerHud_->ImGui();
-
-	// スタンHUD
-	stunHud_->ImGui();
-
-	// 目標ナビHUD
-	targetNavigation_->ImGui();
 }
 
 void PlayerHUDController::UpdateParrySuggest() {
@@ -155,7 +151,7 @@ void PlayerHUDController::UpdateParrySuggest() {
 
 		// パリィ可能状態に入った
 		isCanParryBoss_ = true;
-		playerHud_->StartInputSuggest();
+		operateHud_->StartInputSuggest();
 		targetNavigation_->SetIsBlink(true);
 	}
 
@@ -164,7 +160,7 @@ void PlayerHUDController::UpdateParrySuggest() {
 
 		isCanParryBoss_ = false;
 		exitParryBossStateInt_ = static_cast<int32_t>(bossEnemy_->GetCurrentState());
-		playerHud_->EndInputSuggest();
+		operateHud_->EndInputSuggest();
 		targetNavigation_->SetIsBlink(false);
 	}
 }
@@ -175,4 +171,42 @@ void PlayerHUDController::UpdateTargetNavigation() {
 	targetNavigation_->SetTargetPos(bossEnemy_->GetTranslation());
 	targetNavigation_->SetPivotPos(player_->GetTranslation());
 	targetNavigation_->Update();
+}
+
+void PlayerHUDController::ImGui() {
+
+	// 各HUDのImGui表示
+	if (ImGui::BeginTabBar("PlayerHUDControllerTabBar")) {
+		if (ImGui::BeginTabItem("Share")) {
+
+			// 共有HUD部分
+			shareHud_->ImGui();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Stats")) {
+
+			// ステータス表示HUD
+			statsHud_->ImGui();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Operate")) {
+
+			// 操作方法HUD
+			operateHud_->ImGui();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Stun")) {
+
+			// スタンHUD
+			stunHud_->ImGui();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("TargetNav")) {
+
+			// 目標ナビHUD
+			targetNavigation_->ImGui();
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
 }

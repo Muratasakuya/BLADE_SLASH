@@ -322,7 +322,7 @@ void PlayerAttack_3rdState::Exit() {
 	player_->ResetWeaponTransform(PlayerWeaponType::Right);
 
 	// カメラアニメーションを終了させる
-	followCamera_->EndPlayerActionAnim(false);
+	followCamera_->EndPlayerActionAnim();
 }
 
 void PlayerAttack_3rdState::ImGui() {

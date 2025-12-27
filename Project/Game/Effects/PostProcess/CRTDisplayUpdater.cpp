@@ -12,7 +12,7 @@
 
 void CRTDisplayUpdater::Init() {
 
-	// json適応
+	// json適用
 	ApplyJson();
 }
 
