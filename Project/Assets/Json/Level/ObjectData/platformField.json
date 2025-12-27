@@ -22,9 +22,9 @@
         "phongRefShininess": 8.0,
         "shadowRate": 0.4000000059604645,
         "specularColor": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.126153826713562,
+            "y": 0.126153826713562,
+            "z": 0.126153826713562
         },
         "uvRotate": {
             "x": 0.0,
@@ -62,12 +62,12 @@
         "enableImageBasedLighting": 0,
         "enableLighting": 1,
         "environmentCoefficient": 0.25,
-        "phongRefShininess": 8.0,
+        "phongRefShininess": 16.0,
         "shadowRate": 0.4000000059604645,
         "specularColor": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.2769230604171753,
+            "y": 0.2769230604171753,
+            "z": 0.2769230604171753
         },
         "uvRotate": {
             "x": 0.0,
@@ -105,12 +105,12 @@
         "enableImageBasedLighting": 0,
         "enableLighting": 1,
         "environmentCoefficient": 0.25,
-        "phongRefShininess": 8.0,
+        "phongRefShininess": 16.0,
         "shadowRate": 0.4000000059604645,
         "specularColor": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.20923078060150146,
+            "y": 0.20923078060150146,
+            "z": 0.20923078060150146
         },
         "uvRotate": {
             "x": 0.0,

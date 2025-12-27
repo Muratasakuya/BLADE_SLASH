@@ -19,12 +19,12 @@
         "enableImageBasedLighting": 0,
         "enableLighting": 1,
         "environmentCoefficient": 0.07999999821186066,
-        "phongRefShininess": 1.0,
+        "phongRefShininess": 16.0,
         "shadowRate": 0.4000000059604645,
         "specularColor": {
-            "x": 0.36627689003944397,
-            "y": 0.37773481011390686,
-            "z": 0.381538450717926
+            "x": 0.3753846287727356,
+            "y": 0.3753846287727356,
+            "z": 0.3753846287727356
         },
         "uvRotate": {
             "x": 0.0,

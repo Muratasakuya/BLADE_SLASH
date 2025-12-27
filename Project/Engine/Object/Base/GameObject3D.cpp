@@ -125,6 +125,16 @@ void GameObject3D::TransformImGui() {
 }
 
 void GameObject3D::MaterialImGui() {
+	
+	if (ImGui::Button("Same All Material0")) {
+		
+		Json data{};
+		materials_->front().ToJson(data);
+		for (auto& material : *materials_) {
+
+			material.FromJson(data);
+		}
+	}
 
 	if (ImGui::BeginCombo("SelectMaterial",
 		("Material " + std::to_string(selectedMaterialIndex_)).c_str())) {

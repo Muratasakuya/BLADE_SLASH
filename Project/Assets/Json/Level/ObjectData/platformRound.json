@@ -22,9 +22,9 @@
         "phongRefShininess": 8.0,
         "shadowRate": 0.4000000059604645,
         "specularColor": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.23076921701431274,
+            "y": 0.23076921701431274,
+            "z": 0.23076921701431274
         },
         "uvRotate": {
             "x": 0.0,
@@ -62,12 +62,12 @@
         "enableImageBasedLighting": 0,
         "enableLighting": 1,
         "environmentCoefficient": 0.25,
-        "phongRefShininess": 0.4000000059604645,
+        "phongRefShininess": 8.0,
         "shadowRate": 0.4000000059604645,
         "specularColor": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 0.28923076391220093,
+            "y": 0.28923076391220093,
+            "z": 0.28923076391220093
         },
         "uvRotate": {
             "x": 0.0,

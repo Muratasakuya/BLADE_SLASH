@@ -1,4 +1,4 @@
-﻿#include "MaterialSystem.h"
+#include "MaterialSystem.h"
 
 using namespace SakuEngine;
 
@@ -20,14 +20,12 @@ void MaterialSystem::Init(std::vector<Material>& materials,
 	for (uint32_t meshIndex = 0; meshIndex < modelData.meshes.size(); ++meshIndex) {
 
 		materials[meshIndex].Init(asset);
-		materials[meshIndex].textureIndex =
-			asset->GetTextureGPUIndex(modelData.meshes[meshIndex].textureName.value_or("white"));
+		materials[meshIndex].SetTextureName(modelData.meshes[meshIndex].textureName.value_or("white"));
 
 		// normalMap用のTextureがあれば設定する
 		if (modelData.meshes[meshIndex].normalMapTexture.has_value()) {
 
-			materials[meshIndex].normalMapTextureIndex =
-				asset->GetTextureGPUIndex(modelData.meshes[meshIndex].normalMapTexture.value());
+			materials[meshIndex].SetNormalMapTextureName(modelData.meshes[meshIndex].normalMapTexture.value());
 			materials[meshIndex].enableNormalMap = true;
 		}
 

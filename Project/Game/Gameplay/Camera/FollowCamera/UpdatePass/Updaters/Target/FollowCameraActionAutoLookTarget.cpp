@@ -79,11 +79,6 @@ void FollowCameraActionAutoLookTarget::UpdateLookToTarget(FollowCameraContext& c
 
 Quaternion FollowCameraActionAutoLookTarget::GetTargetRotation(const Parameter& parameter) const {
 
-	// 注視点に向ける
-	// 視点と注視点
-	const Transform3D& fromTransform = dependencies_.player->GetTransform();
-	const Transform3D& toTransform = dependencies_.bossEnemy->GetTransform();
-
 	// 向きを取得
 	SakuEngine::Vector3 direction = Math::GetDirection3D(*dependencies_.player, *dependencies_.bossEnemy);
 
