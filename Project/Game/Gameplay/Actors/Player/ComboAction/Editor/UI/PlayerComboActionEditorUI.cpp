@@ -48,8 +48,7 @@ void PlayerComboActionEditorUI::Draw(PlayerComboActionModel& model, PlayerComboA
 	}
 	ImGui::SetWindowFontScale(1.0f);
 
-	ImGui::Begin("Timeline", nullptr, ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Timeline", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
 
 	ImGui::SetWindowFontScale(0.64f);
 

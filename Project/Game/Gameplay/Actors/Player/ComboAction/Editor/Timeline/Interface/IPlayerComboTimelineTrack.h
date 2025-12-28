@@ -25,28 +25,32 @@ struct PlayerComboTimelineRuntime {
 	// コマ送り時間
 	float stepTime = 0.1f;
 	// 再生速度
-	float playSpeed = 1.0f;
+	float playSpeed = 0.1f;
 };
 
 // タイムラインの表示設定
 struct PlayerComboTimelineView {
 
 	// 1秒あたりのピクセル
-	float pixelsPerSecond = 240.0f;
+	float pixelsPerSecond = 200.0f;
+	// マウスドラッグ感度
+	float dragsSensitivity = 190.0f;
 
 	// グリッド間隔
-	float gridStep = 0.1f;
+	float gridStep = 0.2f;
 	// 大グリッド間隔
-	float majorGridStep = 1.0f;
+	float majorGridStep = 0.2f;
+	// ルーラーの数字だけフォントスケール
+	float rulerFontScale = 0.8f;
 	// 左のトラック名領域幅
 	float trackNameWidth = 190.0f;
 	// トラック高さ
-	float trackHeight = 44.0f;
+	float trackHeight = 40.0f;
 	// ルーラー高さ
-	float rulerHeight = 34.0f;
+	float rulerHeight = 30.0f;
 
 	// 余白
-	SakuEngine::Vector2 contentPadding = SakuEngine::Vector2(8.0f, 6.0f);
+	SakuEngine::Vector2 contentPadding = SakuEngine::Vector2::AnyInit(0.0f);
 };
 
 // タイムライン描画コンテキスト
@@ -76,7 +80,7 @@ struct PlayerComboTimelineDrawContext {
 	float totalTime = 0.0f;
 	// 表示範囲の時間
 	float visibleTimeStart = 0.0f;
-	float visibleTimeEnd = 0.0f;
+	float visibleTimeEnd = 8.0f;
 };
 
 //============================================================================
@@ -113,6 +117,9 @@ namespace PlayerComboTimelineHelper {
 	float TimeToLocalX(const PlayerComboTimelineView& view, float time);
 	// ローカルX座標から時間を取得
 	float LocalXToTime(const PlayerComboTimelineView& view, float localX);
+
+	// トラックグリッド縦線描画
+	void DrawTrackGridLines(const PlayerComboTimelineDrawContext& context, float trackTopY);
 }
 
 //============================================================================

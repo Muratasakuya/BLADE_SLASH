@@ -34,8 +34,11 @@ private:
 	PlayerComboTimelineRuntime runtime_;
 	PlayerComboTimelineView view_;
 
-	// track list
+	// タイムライントラックリスト
 	std::vector<std::unique_ptr<IPlayerComboTimelineTrack>> tracks_;
+
+	// エディター
+	bool isEditParam_ = false;
 
 	//--------- functions ----------------------------------------------------
 
@@ -45,11 +48,14 @@ private:
 	void DrawRuler(PlayerComboTimelineDrawContext& context);
 
 	// トラック名領域
-	void DrawTrackNames(const std::vector<std::unique_ptr<IPlayerComboTimelineTrack>>& tracks, float totalTrackHeight, float syncedScrollY);
+	void DrawTrackNames(const std::vector<std::unique_ptr<IPlayerComboTimelineTrack>>& tracks, float syncedScrollY);
 
 	// content領域
 	void DrawTracks(PlayerComboTimelineDrawContext& context, const std::vector<std::unique_ptr<IPlayerComboTimelineTrack>>& tracks);
 
 	// 入力
 	void HandleKeyStep(PlayerComboTimelineDrawContext& context);
+
+	// エディターパラメータ調整
+	void EditParam();
 };

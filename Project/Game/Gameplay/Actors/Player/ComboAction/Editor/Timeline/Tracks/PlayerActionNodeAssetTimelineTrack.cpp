@@ -3,7 +3,10 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Config.h>
+#include <Engine/Input/Input.h>
+
+// imgui
+#include <imgui_internal.h>
 
 //============================================================================
 //	PlayerActionNodeAssetTimelineTrack classMethods
@@ -11,11 +14,84 @@
 
 namespace {
 
-	// 入力猶予がノード終了とほぼ一致しているか
-	bool IsInputGraceLinked(const PlayerComboActionModel::ComboStep& step) {
+	// マウスのX移動量を取得
+	float GetMouseDeltaX() {
 
-		float endTime = step.startTime + step.duration;
-		return std::fabs(step.inputGraceStartTime - endTime) <= Config::kEpsilon;
+		auto* input = SakuEngine::Input::GetInstance();
+		if (input) {
+			return input->GetMouseMoveValue().x;
+		}
+		return ImGui::GetIO().MouseDelta.x;
+	}
+
+	// 省略テキストを作成
+	std::string MakeEllipsisText(const std::string& text, float maxWidth) {
+
+		const char* ellipsis = "...";
+		float ellW = ImGui::CalcTextSize(ellipsis).x;
+
+		if (maxWidth <= 0.0f) {
+			return std::string();
+		}
+
+		// そのまま入る
+		if (ImGui::CalcTextSize(text.c_str()).x <= maxWidth) {
+			return text;
+		}
+
+		// 省略記号すら入らない
+		if (maxWidth <= ellW) {
+			return std::string(ellipsis);
+		}
+
+		// 二分探索で入る文字数を探す
+		int lo = 0;
+		int hi = static_cast<int>(text.size());
+		while (lo < hi) {
+
+			int mid = (lo + hi) / 2;
+			std::string sub = text.substr(0, static_cast<size_t>(mid));
+			float w = ImGui::CalcTextSize(sub.c_str()).x;
+
+			if (w + ellW <= maxWidth) {
+				lo = mid + 1;
+			} else {
+				hi = mid;
+			}
+		}
+		int count = (std::max)(0, lo - 1);
+		return text.substr(0, static_cast<size_t>(count)) + ellipsis;
+	}
+
+	// マウスがクリップ上か判定（ActionNodeトラック用）
+	bool IsMouseOverAnyClip(const PlayerComboTimelineDrawContext& context,
+		const std::vector<PlayerComboActionModel::ComboStep>& steps,
+		float trackTopY) {
+
+		ImVec2 m = ImGui::GetIO().MousePos;
+
+		for (const auto& step : steps) {
+
+			float x0 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, step.startTime) - context.scroll.x;
+			float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, step.startTime + step.duration) - context.scroll.x;
+
+			float y0 = trackTopY + 6.0f;
+			float y1 = trackTopY + context.view.trackHeight - 6.0f;
+
+			// 最低幅（掴みやすさ）
+			if ((x1 - x0) < 18.0f) {
+				x1 = x0 + 18.0f;
+			}
+
+			ImVec2 p0 = { context.contentScreenPos.x + x0, y0 };
+			ImVec2 p1 = { context.contentScreenPos.x + x1, y1 };
+
+			if (p0.x <= m.x && m.x <= p1.x && p0.y <= m.y && m.y <= p1.y) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
@@ -31,95 +107,61 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 	ImVec2 b = { context.contentScreenPos.x + context.contentScreenSize.x, trackTopY + context.view.trackHeight };
 	context.drawList->AddRectFilled(a, b, bg);
 
+	// グリッド線描画
+	PlayerComboTimelineHelper::DrawTrackGridLines(context, trackTopY);
+
+	// マウスがクリップ上か
+	bool mouseOverClip = IsMouseOverAnyClip(context, steps, trackTopY);
+
 	//===================================================================================================================
-	// 空クリックで作成ポップアップ
+	// 空領域：クリックでCreate、Drag&Dropで追加
 	//===================================================================================================================
-	{
-		ImGui::PushID("ActionNodeTrackEmpty");
+
+	bool isRowHovered = false;
+	bool isDroppedThisFrame = false;
+
+	if (!mouseOverClip) {
+
+		ImGui::PushID("ActionNodeTrackRow");
+
 		ImVec2 rowPos = { context.contentScreenPos.x, trackTopY };
 		ImGui::SetCursorScreenPos(rowPos);
-		ImGui::InvisibleButton("##empty_row_btn", ImVec2(context.contentScreenSize.x, context.view.trackHeight));
 
-		//===================================================================================================================
-		// Drag&Dropで追加
-		//===================================================================================================================
+		ImGui::InvisibleButton("##row_area",
+			ImVec2((std::max)(1.0f, context.contentScreenSize.x), (std::max)(1.0f, context.view.trackHeight)));
 
+		isRowHovered = ImGui::IsItemHovered();
+
+		// Drag&Drop（空領域に落としたら追加）
 		if (ImGui::BeginDragDropTarget()) {
+
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(PlayerComboTimelinePayload::kActionNodeAssetId)) {
+
 				if (payload->DataSize == sizeof(uint32_t)) {
 
-					// ドロップされたアセットID
 					uint32_t assetId = *static_cast<const uint32_t*>(payload->Data);
 
-					// ドロップ位置の時間
 					float localX = (ImGui::GetIO().MousePos.x - context.contentScreenPos.x) + context.scroll.x - context.view.contentPadding.x;
 					float t = (std::max)(0.0f, PlayerComboTimelineHelper::LocalXToTime(context.view, localX));
 					t = PlayerComboTimelineHelper::SnapTime(t);
 
-					// ステップを追加
-					uint32_t newStepId = 0;
-					context.model.AddStepAtTime(context.comboIndex, assetId, t, &newStepId);
+					context.model.AddStepAtTime(context.comboIndex, assetId, t, nullptr);
 					context.model.SortStepsByStartTime(context.comboIndex);
-
-					// 選択追従
-					int32_t newIndex = context.model.FindStepIndexById(context.comboIndex, newStepId);
-					context.select.selectedStepId = newStepId;
-					context.select.selectedStepIndex = newIndex;
+					isDroppedThisFrame = true;
 				}
 			}
+
 			ImGui::EndDragDropTarget();
 		}
 
-		//===================================================================================================================
-		// 左クリックでノードを作成
-		//===================================================================================================================
-
-		if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
-
-			// クリック位置の時間を保存
-			float localX = (ImGui::GetIO().MousePos.x - context.contentScreenPos.x) + context.scroll.x - context.view.contentPadding.x;
-			float t = (std::max)(0.0f, PlayerComboTimelineHelper::LocalXToTime(context.view, localX));
-			createTime_ = PlayerComboTimelineHelper::SnapTime(t);
-			ImGui::OpenPopup("##CreateActionNodePopup");
-		}
-
-		//===================================================================================================================
-		// 左クリックでノード作成ポップアップ
-		//===================================================================================================================
-
-		if (ImGui::BeginPopup("##CreateActionNodePopup")) {
-
-			ImGui::TextUnformatted("Create ActionNode");
-			SakuEngine::EnumAdapter<PlayerActionNodeType>::Combo("Type", &createType_);
-			if (ImGui::Button("Create")) {
-
-				// ノードを作成する
-				uint32_t assetId = context.model.AddActionNode(createType_);
-
-				// クリック時間にステップを追加する
-				uint32_t newStepId = 0;
-				context.model.AddStepAtTime(context.comboIndex, assetId, createTime_, &newStepId);
-				context.model.SortStepsByStartTime(context.comboIndex);
-
-				// 選択追従
-				int32_t newIndex = context.model.FindStepIndexById(context.comboIndex, newStepId);
-				context.select.selectedStepId = newStepId;
-				context.select.selectedStepIndex = newIndex;
-				ImGui::CloseCurrentPopup();
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Cancel")) {
-
-				ImGui::CloseCurrentPopup();
-			}
-			ImGui::EndPopup();
-		}
 		ImGui::PopID();
 	}
 
 	//===================================================================================================================
 	// クリップ表示
 	//===================================================================================================================
+
+	bool isAnyClipActiveThisFrame = false;
 
 	for (int32_t i = 0; i < static_cast<int32_t>(steps.size()); ++i) {
 
@@ -131,6 +173,11 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 
 		float y0 = trackTopY + 6.0f;
 		float y1 = trackTopY + context.view.trackHeight - 6.0f;
+
+		// 最低幅
+		if ((x1 - x0) < 18.0f) {
+			x1 = x0 + 18.0f;
+		}
 
 		// 画面外は省略
 		if (x1 < 0.0f || context.contentScreenSize.x < x0) {
@@ -147,32 +194,30 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, p0, p1, color, 6.0f);
 		context.drawList->AddRect(p0, p1, IM_COL32(20, 20, 20, 255), 6.0f);
 
-		// ラベル
-		std::string label = asset != nullptr ? asset->name : "MissingNode";
-		context.drawList->AddText(ImVec2(p0.x + 6.0f, p0.y + 6.0f), IM_COL32(255, 255, 255, 255), label.c_str());
-
-		// クリック、ドラッグ
 		ImGui::PushID(step.stepId);
 
-		ImVec2 btnPos = { p0.x, p0.y };
-		ImGui::SetCursorScreenPos(btnPos);
-		ImGui::InvisibleButton("##clip_btn", ImVec2(p1.x - p0.x, p1.y - p0.y));
-
-		//===================================================================================================================
-		// Drag&Dropで差し替え
-		//===================================================================================================================
+		// クリック、ドラッグ領域
+		ImGui::SetCursorScreenPos(p0);
+		float w = (std::max)(1.0f, p1.x - p0.x);
+		float h = (std::max)(1.0f, p1.y - p0.y);
+		ImGui::InvisibleButton("##clip_btn", ImVec2(w, h));
 
 		if (ImGui::BeginDragDropTarget()) {
 
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(PlayerComboTimelinePayload::kActionNodeAssetId)) {
+
 				if (payload->DataSize == sizeof(uint32_t)) {
 
-					// ドロップされたアセットID
 					uint32_t assetId = *static_cast<const uint32_t*>(payload->Data);
 					step.nodeAssetId = assetId;
 				}
 			}
+
 			ImGui::EndDragDropTarget();
+		}
+
+		if (ImGui::IsItemActive()) {
+			isAnyClipActiveThisFrame = true;
 		}
 
 		// 選択
@@ -190,10 +235,9 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 
 			if (ImGui::MenuItem("Remove")) {
 
-				// indexは変わる可能性があるので再検索
-				int32_t index = context.model.FindStepIndexById(context.comboIndex, step.stepId);
-				if (0 <= index) {
-					context.model.RemoveComboStep(context.comboIndex, static_cast<size_t>(index));
+				int32_t idx = context.model.FindStepIndexById(context.comboIndex, step.stepId);
+				if (0 <= idx) {
+					context.model.RemoveComboStep(context.comboIndex, static_cast<size_t>(idx));
 				}
 				context.select.selectedStepId = 0;
 				context.select.selectedStepIndex = -1;
@@ -207,79 +251,98 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 
 		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
 
-			// 入力猶予がノード終了にリンクしている場合は、ノード移動に追従させる
-			bool isGraceLinked = IsInputGraceLinked(step);
-			float oldEnd = step.startTime + step.duration;
-
-			// 移動量計算
-			float deltaX = ImGui::GetIO().MouseDelta.x;
+			float deltaX = GetMouseDeltaX();
 			float deltaT = deltaX / context.view.pixelsPerSecond;
 
-			// 開始時間をマウス移動分ずらす
 			float newStart = step.startTime + deltaT;
 			newStart = (std::max)(0.0f, newStart);
 			newStart = PlayerComboTimelineHelper::SnapTime(newStart);
 
-			// 更新
 			step.startTime = newStart;
-			// 入力猶予も追従するか
-			if (isGraceLinked) {
-
-				float newEnd = step.startTime + step.duration;
-				step.inputGraceStartTime += (newEnd - oldEnd);
-				step.inputGraceStartTime = (std::max)(0.0f, PlayerComboTimelineHelper::SnapTime(step.inputGraceStartTime));
-			}
 			isMovedThisFrame_ = true;
 		}
 
-		//===================================================================================================================
-		// 離したらソートさせる処理
-		//===================================================================================================================
-
+		// 離したらソート
 		if (isMovedThisFrame_ && ImGui::IsItemDeactivatedAfterEdit()) {
 
 			uint32_t keepId = step.stepId;
 			context.model.SortStepsByStartTime(context.comboIndex);
 
-			// 選択追従
 			int32_t newIndex = context.model.FindStepIndexById(context.comboIndex, keepId);
 			context.select.selectedStepId = keepId;
 			context.select.selectedStepIndex = newIndex;
 			isMovedThisFrame_ = false;
 		}
 
-		// リサイズ
-		float handleW = 10.0f;
-		ImVec2 handle0 = { p1.x - handleW, p0.y };
-		ImVec2 handle1 = { p1.x, p1.y };
+		//===================================================================================================================
+		// ラベル：はみ出し防止 + ... 省略表示
+		//===================================================================================================================
+		{
+			const float padX = 6.0f;
+			const float padY = 6.0f;
 
-		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, handle0, handle1, IM_COL32(220, 220, 220, 140), 4.0f);
+			ImVec2 clipMin = ImVec2(p0.x + 2.0f, p0.y + 2.0f);
+			ImVec2 clipMax = ImVec2(p1.x - 2.0f, p1.y - 2.0f);
 
-		ImGui::SetCursorScreenPos(handle0);
-		ImGui::InvisibleButton("##resize_handle", ImVec2(handleW, p1.y - p0.y));
-		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+			std::string label = asset != nullptr ? asset->name : "MissingNode";
 
-			bool isGraceLinked = IsInputGraceLinked(step);
-			float oldEnd = step.startTime + step.duration;
+			float availW = (clipMax.x - clipMin.x) - (padX * 2.0f);
+			std::string drawText = MakeEllipsisText(label, availW);
 
-			// 移動量計算
-			float deltaX = ImGui::GetIO().MouseDelta.x;
-			float deltaT = deltaX / context.view.pixelsPerSecond;
+			context.drawList->PushClipRect(clipMin, clipMax, true);
+			context.drawList->AddText(ImVec2(p0.x + padX, p0.y + padY),
+				IM_COL32(255, 255, 255, 255), drawText.c_str());
+			context.drawList->PopClipRect();
+		}
 
-			// 処理時間をマウス移動分ずらす
-			float newDuration = step.duration + deltaT;
-			newDuration = (std::max)(context.view.gridStep, newDuration);
-			newDuration = PlayerComboTimelineHelper::SnapTime(newDuration);
-			step.duration = newDuration;
+		ImGui::PopID();
+	}
 
-			// 入力猶予も追従するか
-			if (isGraceLinked) {
+	//===================================================================================================================
+	// 空クリックでCreate
+	//===================================================================================================================
+	{
+		bool mouseReleased = ImGui::IsMouseReleased(ImGuiMouseButton_Left);
 
-				float newEnd = step.startTime + step.duration;
-				step.inputGraceStartTime += (newEnd - oldEnd);
-				step.inputGraceStartTime = (std::max)(0.0f, PlayerComboTimelineHelper::SnapTime(step.inputGraceStartTime));
+		if (mouseReleased) {
+
+			// dragged判定
+			bool dragged = ImGui::IsMouseDragPastThreshold(ImGuiMouseButton_Left);
+
+			// 空領域クリック判定
+			if (!isDroppedThisFrame && isRowHovered && !dragged && !isAnyClipActiveThisFrame) {
+
+				float localX = (ImGui::GetIO().MousePos.x - context.contentScreenPos.x) + context.scroll.x - context.view.contentPadding.x;
+				float t = (std::max)(0.0f, PlayerComboTimelineHelper::LocalXToTime(context.view, localX));
+				createTime_ = PlayerComboTimelineHelper::SnapTime(t);
+
+				ImGui::OpenPopup("##CreateActionNodePopup");
 			}
 		}
-		ImGui::PopID();
+
+		// 作成ポップアップ
+		if (ImGui::BeginPopup("##CreateActionNodePopup")) {
+
+			ImGui::TextUnformatted("Create ActionNode");
+			SakuEngine::EnumAdapter<PlayerActionNodeType>::Combo("Type", &createType_);
+
+			// 作成
+			if (ImGui::Button("Create")) {
+
+				uint32_t assetId = context.model.AddActionNode(createType_);
+				context.model.AddStepAtTime(context.comboIndex, assetId, createTime_, nullptr);
+				context.model.SortStepsByStartTime(context.comboIndex);
+
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+
+			// キャンセル
+			if (ImGui::Button("Cancel")) {
+
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
 	}
 }

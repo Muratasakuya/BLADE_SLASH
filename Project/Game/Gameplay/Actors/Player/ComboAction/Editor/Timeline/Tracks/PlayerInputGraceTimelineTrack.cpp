@@ -5,9 +5,55 @@
 //============================================================================
 #include <Engine/Input/Input.h>
 
+// imgui
+#include <imgui.h>
+
 //============================================================================
 //	PlayerInputGraceTimelineTrack classMethods
 //============================================================================
+
+namespace {
+
+	//===================================================================================================================
+	//	猶予時間の制限
+	//===================================================================================================================
+
+	template <typename StepsT, typename StepT>
+	inline float GetNextActionStartTime(const StepsT& steps, const StepT& self, float defaultValue) {
+
+		float nextStart = defaultValue;
+		for (const auto& step : steps) {
+			if (step.stepId == self.stepId) {
+				continue;
+			}
+			// 自分より後の最小startTimeを探す
+			if (self.startTime < step.startTime) {
+
+				nextStart = (std::min)(nextStart, step.startTime);
+			}
+		}
+		return nextStart;
+	}
+
+	inline void ClampInputGraceRange(
+		float actionMinTime, float actionMaxTime,
+		float& graceStartTime, float& graceDuration) {
+
+		// durationは0.0f以上
+		graceDuration = (std::max)(0.0f, graceDuration);
+
+		// Startを範囲内へ
+		graceStartTime = (std::max)(actionMinTime, graceStartTime);
+		graceStartTime = (std::min)(actionMaxTime, graceStartTime);
+
+		// Endを範囲内へ
+		float endTime = graceStartTime + graceDuration;
+		endTime = (std::min)(actionMaxTime, endTime);
+		endTime = (std::max)(graceStartTime, endTime);
+		graceDuration = endTime - graceStartTime;
+	}
+}
+
 
 void PlayerInputGraceTimelineTrack::DrawTrack(
 	PlayerComboTimelineDrawContext& context, float trackTopY) {
@@ -21,6 +67,9 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 	ImVec2 b = { context.contentScreenPos.x + context.contentScreenSize.x, trackTopY + context.view.trackHeight };
 	context.drawList->AddRectFilled(a, b, bg);
 
+	// グリッド線描画
+	PlayerComboTimelineHelper::DrawTrackGridLines(context, trackTopY);
+
 	//===================================================================================================================
 	// 猶予バーの描画
 	//===================================================================================================================
@@ -29,20 +78,42 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 		auto& step = steps[static_cast<size_t>(i)];
 
-		float graceStart = (std::max)(0.0f, step.inputGraceStartTime);
-		float graceLen = (std::max)(0.0f, step.inputGraceTime);
-		float graceEnd = graceStart + graceLen;
+		//---------------------------------------------------------------------------------------------------------------
+		// 入力猶予の有効範囲、自分のアクションより前に行かない + 次のアクションの開始より先に行かない
+		//---------------------------------------------------------------------------------------------------------------
 
-		float x0 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, graceStart) - context.scroll.x;
-		float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, graceEnd) - context.scroll.x;
+		// 自身のアクションより前に行かない
+		float minTime = step.startTime;
+		// 次のアクションまでの時間を最大にする
+		float maxTime = GetNextActionStartTime(steps, step, context.totalTime);
+		maxTime = (std::max)(minTime, maxTime);
+
+		// モデル側に入力猶予開始時間を持たせる
+		float& graceStartTime = step.inputGraceStartTime;
+		float& graceDuration = step.inputGraceTime;
+
+		// 入力猶予時間を制限する
+		ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+
+		float graceEndTime = graceStartTime + graceDuration;
+
+		//---------------------------------------------------------------------------------------------------------------
+		// 表示座標へ変換
+		//---------------------------------------------------------------------------------------------------------------
+		float x0 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, graceStartTime) - context.scroll.x;
+		float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, graceEndTime) - context.scroll.x;
 
 		float y0 = trackTopY + 10.0f;
 		float y1 = trackTopY + context.view.trackHeight - 10.0f;
 
-		// 小さすぎると掴めないので最低幅
-		if ((x1 - x0) < 6.0f) {
-			x1 = x0 + 6.0f;
+		// ハンドルを置ける最低幅
+		constexpr float kHandleW = 10.0f;
+		constexpr float kMinBarW = kHandleW * 2.0f + 4.0f;
+		if ((x1 - x0) < kMinBarW) {
+			x1 = x0 + kMinBarW;
 		}
+
+		// 画面外は省略
 		if (x1 < 0.0f || context.contentScreenSize.x < x0) {
 			continue;
 		}
@@ -57,104 +128,111 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, p0, p1, color, 6.0f);
 		context.drawList->AddRect(p0, p1, IM_COL32(20, 20, 20, 255), 6.0f);
 
-		//===================================================================================================================
-		// 値表示
-		//===================================================================================================================
-		{
-			char buf[64];
-			std::snprintf(buf, sizeof(buf), "%.2f", step.inputGraceTime);
-			context.drawList->AddText(ImVec2(p0.x + 6.0f, p0.y + 2.0f), IM_COL32(20, 20, 20, 255), buf);
-		}
-
 		ImGui::PushID(step.stepId);
 
-		// ハンドル幅
-		const float leftHandleW = 10.0f;
-		const float rightHandleW = 10.0f;
+		//---------------------------------------------------------------------------------------------------------------
+		// クリック領域
+		//---------------------------------------------------------------------------------------------------------------
+		float barH = (std::max)(1.0f, p1.y - p0.y);
 
 		// 左ハンドル
-		ImVec2 leftHandle0 = { p0.x, p0.y };
-		ImVec2 leftHandle1 = { p0.x + leftHandleW, p1.y };
-		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, leftHandle0, leftHandle1, IM_COL32(255, 255, 255, 120), 4.0f);
-		ImGui::SetCursorScreenPos(leftHandle0);
-		ImGui::InvisibleButton("##grace_left", ImVec2(leftHandleW, p1.y - p0.y));
+		ImVec2 left0 = { p0.x, p0.y };
+		ImVec2 left1 = { p0.x + kHandleW, p1.y };
+		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, left0, left1, IM_COL32(255, 255, 255, 140), 4.0f);
+		ImGui::SetCursorScreenPos(left0);
+		ImGui::InvisibleButton("##grace_left", ImVec2((std::max)(1.0f, left1.x - left0.x), barH));
+
+		// 左ハンドル、開始時間変更
 		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
 
-			// マウス移動量から時間変化を計算
-			float deltaT = ImGui::GetIO().MouseDelta.x / context.view.pixelsPerSecond;
-			// 終了時間は固定、開始時間を変更して長さを再計算
-			float endTime = step.inputGraceStartTime + (std::max)(0.0f, step.inputGraceTime);
-			float newStart = step.inputGraceStartTime + deltaT;
-			newStart = (std::max)(0.0f, newStart);
-			// 最低長さ確保
-			float maxStart = (std::max)(0.0f, endTime - context.view.gridStep);
-			newStart = (std::min)(maxStart, newStart);
+			auto* input = SakuEngine::Input::GetInstance();
+			float deltaX = input != nullptr ? input->GetMouseMoveValue().x : ImGui::GetIO().MouseDelta.x;
+			float deltaT = deltaX / context.view.dragsSensitivity;
+
+			float endFixed = graceStartTime + graceDuration;
+			float newStart = graceStartTime + deltaT;
 			newStart = PlayerComboTimelineHelper::SnapTime(newStart);
 
-			// 長さ再計算
-			float newLen = endTime - newStart;
-			newLen = (std::max)(0.0f, newLen);
-			newLen = PlayerComboTimelineHelper::SnapTime(newLen);
+			// Clamp
+			newStart = (std::max)(minTime, newStart);
+			newStart = (std::min)(endFixed, newStart);
+			endFixed = (std::min)(maxTime, endFixed);
+			if (endFixed < newStart) {
+				endFixed = newStart;
+			}
 
-			// 更新
-			step.inputGraceStartTime = newStart;
-			step.inputGraceTime = newLen;
+			graceStartTime = newStart;
+			graceDuration = endFixed - newStart;
+			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 		}
 
 		// 右ハンドル
-		ImVec2 rightHandle0 = { p1.x - rightHandleW, p0.y };
-		ImVec2 rightHandle1 = { p1.x, p1.y };
-		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, rightHandle0, rightHandle1, IM_COL32(255, 255, 255, 140), 4.0f);
-		ImGui::SetCursorScreenPos(rightHandle0);
-		ImGui::InvisibleButton("##grace_right", ImVec2(rightHandleW, p1.y - p0.y));
+		ImVec2 right0 = { p1.x - kHandleW, p0.y };
+		ImVec2 right1 = { p1.x, p1.y };
+		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, right0, right1, IM_COL32(255, 255, 255, 140), 4.0f);
+		ImGui::SetCursorScreenPos(right0);
+		ImGui::InvisibleButton("##grace_right", ImVec2((std::max)(1.0f, right1.x - right0.x), barH));
+
+		// 右ハンドル、終了時間変更
 		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
 
-			// マウス移動量から時間変化を計算
-			float deltaT = ImGui::GetIO().MouseDelta.x / context.view.pixelsPerSecond;
-			float newGrace = step.inputGraceTime + deltaT;
-			newGrace = (std::max)(0.0f, newGrace);
-			newGrace = PlayerComboTimelineHelper::SnapTime(newGrace);
-			step.inputGraceTime = newGrace;
+			auto* input = SakuEngine::Input::GetInstance();
+			float deltaX = input != nullptr ? input->GetMouseMoveValue().x : ImGui::GetIO().MouseDelta.x;
+			float deltaT = deltaX / context.view.dragsSensitivity;
+
+			float newEnd = graceStartTime + graceDuration + deltaT;
+			newEnd = PlayerComboTimelineHelper::SnapTime(newEnd);
+			newEnd = (std::max)(graceStartTime, newEnd);
+			newEnd = (std::min)(maxTime, newEnd);
+
+			graceDuration = newEnd - graceStartTime;
+			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 		}
 
 		// 本体
-		ImVec2 body0 = { p0.x + leftHandleW, p0.y };
-		ImVec2 body1 = { p1.x - rightHandleW, p1.y };
-		if (body1.x < body0.x) {
-			body1.x = body0.x;
-		}
+		ImVec2 body0 = { p0.x + kHandleW, p0.y };
+		ImVec2 body1 = { p1.x - kHandleW, p1.y };
+		float bodyW = (std::max)(1.0f, body1.x - body0.x);
 		ImGui::SetCursorScreenPos(body0);
-		ImGui::InvisibleButton("##grace_body", ImVec2(body1.x - body0.x, body1.y - body0.y));
+		ImGui::InvisibleButton("##grace_body", ImVec2(bodyW, barH));
 
 		// 選択
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
-
 			context.select.selectedStepId = step.stepId;
 			context.select.selectedStepIndex = i;
+		}
+
+		// ドラッグ移動
+		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+
+			auto* input = SakuEngine::Input::GetInstance();
+			float deltaX = input != nullptr ? input->GetMouseMoveValue().x : ImGui::GetIO().MouseDelta.x;
+			float deltaT = deltaX / context.view.dragsSensitivity;
+
+			float dur = graceDuration;
+			float maxStart = maxTime - dur;
+			maxStart = (std::max)(minTime, maxStart);
+
+			float newStart = graceStartTime + deltaT;
+			newStart = PlayerComboTimelineHelper::SnapTime(newStart);
+			newStart = (std::max)(minTime, newStart);
+			newStart = (std::min)(maxStart, newStart);
+
+			graceStartTime = newStart;
+			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+		}
+
+		// クリックで設定表示
+		if (ImGui::IsItemClicked(ImGuiMouseButton_Left) && !ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
 
 			editStepId_ = step.stepId;
 			ImGui::OpenPopup("##StepInputSettingPopup");
 		}
 
-		// 本体ドラッグで開始位置変更
-		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
-
-			float deltaT = ImGui::GetIO().MouseDelta.x / context.view.pixelsPerSecond;
-			float newStart = step.inputGraceStartTime + deltaT;
-			newStart = (std::max)(0.0f, newStart);
-			newStart = PlayerComboTimelineHelper::SnapTime(newStart);
-			step.inputGraceStartTime = newStart;
-		}
-
-		// 右クリックメニュー
+		// 右クリック、メニュー
 		if (ImGui::BeginPopupContextItem("##grace_context")) {
-
-			if (ImGui::MenuItem("Reset Start To ActionEnd")) {
-				step.inputGraceStartTime = step.startTime + step.duration;
-				step.inputGraceStartTime = (std::max)(0.0f, PlayerComboTimelineHelper::SnapTime(step.inputGraceStartTime));
-			}
 			if (ImGui::MenuItem("Set Grace 0.0")) {
-				step.inputGraceTime = 0.0f;
+				graceDuration = 0.0f;
 			}
 			ImGui::EndPopup();
 		}
@@ -175,9 +253,31 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 			auto& step = context.model.Combos()[context.comboIndex].steps[static_cast<size_t>(idx)];
 
-			// 入力猶予はここでも調整可能
-			ImGui::DragFloat("InputGraceStart(sec)", &step.inputGraceStartTime, 0.01f, 0.0f, 99.0f, "%.2f");
-			ImGui::DragFloat("InputGraceTime(sec)", &step.inputGraceTime, 0.01f, 0.0f, 3.0f, "%.2f");
+			// 入力猶予の制限
+			float minTime = step.startTime;
+			float maxTime = GetNextActionStartTime(context.model.Combos()[context.comboIndex].steps, step, context.totalTime);
+			maxTime = (std::max)(minTime, maxTime);
+
+			float& graceStartTime = step.inputGraceStartTime;
+			float& graceDuration = step.inputGraceTime;
+			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+
+			// Start
+			ImGui::DragFloat("GraceStart(sec)", &graceStartTime, 0.01f, minTime, maxTime, "%.2f");
+			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+
+			// End
+			float endTime = graceStartTime + graceDuration;
+			if (ImGui::DragFloat("GraceEnd(sec)", &endTime, 0.01f, minTime, maxTime, "%.2f")) {
+				endTime = (std::max)(graceStartTime, endTime);
+				endTime = (std::min)(maxTime, endTime);
+				graceDuration = endTime - graceStartTime;
+				ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+			}
+
+			// Duration
+			ImGui::DragFloat("GraceDuration(sec)", &graceDuration, 0.01f, 0.0f, (std::max)(0.0f, maxTime - graceStartTime), "%.2f");
+			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 
 			ImGui::Separator();
 
@@ -190,7 +290,6 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 			if (step.input.isUseKeyboard) {
 
-				// キー入力コンボ
 				SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &step.input.keyDIKCode);
 
 				ImGui::SameLine();
@@ -263,10 +362,6 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 			ImGui::TextUnformatted("Step not found.");
 		}
 		ImGui::Separator();
-
-		//===================================================================================================================
-		// ポップアップを閉じる
-		//===================================================================================================================
 
 		if (ImGui::Button("Close")) {
 

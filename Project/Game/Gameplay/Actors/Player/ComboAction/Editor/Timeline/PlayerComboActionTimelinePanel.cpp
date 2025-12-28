@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/GameTimer.h>
+#include <Engine/Config.h>
 
 // タイムライントラック
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/Timeline/Tracks/PlayerActionNodeAssetTimelineTrack.h>
@@ -18,10 +19,36 @@ PlayerComboActionTimelinePanel::PlayerComboActionTimelinePanel() {
 	// トラック作成
 	tracks_.emplace_back(std::make_unique<PlayerActionNodeAssetTimelineTrack>());
 	tracks_.emplace_back(std::make_unique<PlayerInputGraceTimelineTrack>());
+
+	// 初期設定
+	isEditParam_ = false;
+}
+
+void PlayerComboActionTimelinePanel::EditParam() {
+
+	if (!isEditParam_) {
+		return;
+	}
+
+	ImGui::Begin("Timeline Editor Param");
+
+	ImGui::DragFloat("pixelsPerSecond", &view_.pixelsPerSecond, 0.1f);
+	ImGui::DragFloat("dragsSensitivity", &view_.dragsSensitivity, 0.1f);
+	ImGui::DragFloat("rulerFontScale", &view_.rulerFontScale, 0.01f);
+	ImGui::DragFloat("gridStep", &view_.gridStep, 0.01f);
+	ImGui::DragFloat("majorGridStep", &view_.majorGridStep, 0.1f);
+	ImGui::DragFloat("trackNameWidth", &view_.trackNameWidth, 0.1f);
+	ImGui::DragFloat("trackHeight", &view_.trackHeight, 0.1f);
+	ImGui::DragFloat("rulerHeight", &view_.rulerHeight, 0.1f);
+	ImGui::DragFloat2("contentPadding", &view_.contentPadding.x, 0.1f);
+
+	ImGui::End();
 }
 
 void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 	PlayerComboActionEditorSelection& select) {
+
+	EditParam();
 
 	// コンボ未選択なら表示しない
 	if (select.selectedComboIndex < 0 || static_cast<int32_t>(model.Combos().size()) <= select.selectedComboIndex) {
@@ -76,48 +103,37 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 	// タイムライン本体描画
 	//=========================================================================================================================
 
-	float totalTrackHeight = context.view.rulerHeight + context.view.trackHeight * static_cast<float>(tracks_.size());
-
 	ImGuiTableFlags tableFlags =
-		ImGuiTableFlags_Resizable |
 		ImGuiTableFlags_BordersInnerV |
 		ImGuiTableFlags_BordersOuterV |
-		ImGuiTableFlags_SizingStretchSame;
+		ImGuiTableFlags_SizingFixedFit;
 
-	if (ImGui::BeginTable("##timeline_layout", 2, tableFlags)) {
+	if (ImGui::BeginTable("##timeline_table", 2, tableFlags)) {
 
-		ImGui::TableSetupColumn("##track_names", ImGuiTableColumnFlags_WidthFixed, view_.trackNameWidth);
-		ImGui::TableSetupColumn("##timeline_content", ImGuiTableColumnFlags_WidthStretch);
+		ImGui::TableSetupColumn("##track_name_col", ImGuiTableColumnFlags_WidthFixed, view_.trackNameWidth);
+		ImGui::TableSetupColumn("##timeline_col", ImGuiTableColumnFlags_WidthStretch);
+
 		ImGui::TableNextRow();
 
-		float syncedScrollY = 0.0f;
-
 		//============================================================================================
-		// 右：タイムライン本体
+		// タイムライン
 		//============================================================================================
 		ImGui::TableSetColumnIndex(1);
-		ImGui::BeginChild("##timeline_content", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
 
-		// contentChildのスクロール
+		ImGui::BeginChild("##timeline_content", ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_HorizontalScrollbar);
+
+		// スクロール
 		context.scroll.x = ImGui::GetScrollX();
 		context.scroll.y = ImGui::GetScrollY();
-		syncedScrollY = context.scroll.y;
-
-		// 可視時間範囲
-		{
-			float px0 = context.scroll.x;
-			float px1 = context.scroll.x + ImGui::GetContentRegionAvail().x;
-
-			context.visibleTimeStart = PlayerComboTimelineHelper::LocalXToTime(context.view, (std::max)(0.0f, px0));
-			context.visibleTimeEnd = PlayerComboTimelineHelper::LocalXToTime(context.view, (std::max)(0.0f, px1));
-		}
+		float syncedScrollY = context.scroll.y;
 
 		// content描画領域
 		context.contentScreenPos = ImGui::GetCursorScreenPos();
 		context.contentScreenSize = ImGui::GetContentRegionAvail();
 		context.drawList = ImGui::GetWindowDrawList();
 
-		// スクロール領域確保、総時間に応じて幅を作る
+		// 全体の領域確保
+		float totalTrackHeight = context.view.rulerHeight + context.view.trackHeight * static_cast<float>(tracks_.size());
 		float contentWidth = context.view.contentPadding.x * 2.0f + PlayerComboTimelineHelper::TimeToLocalX(context.view, context.totalTime);
 		ImGui::Dummy(ImVec2(contentWidth, totalTrackHeight));
 
@@ -133,42 +149,28 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 		ImGui::EndChild();
 
 		//============================================================================================
-		// 左：トラック名
+		// 左：トラック名（縦スクロールを右と完全同期）
 		//============================================================================================
-
 		ImGui::TableSetColumnIndex(0);
+
 		ImGuiWindowFlags nameFlags =
 			ImGuiWindowFlags_NoScrollbar |
 			ImGuiWindowFlags_NoScrollWithMouse;
 
-		ImGui::BeginChild("##timeline_track_names", ImVec2(0, 0), true, nameFlags);
+		ImGui::BeginChild("##timeline_track_names", ImVec2(0.0f, 0.0f), true, nameFlags);
 		ImGui::SetScrollY(syncedScrollY);
 
-		// ヘッダー
-		{
-			ImVec2 p = ImGui::GetCursorScreenPos();
-			ImDrawList* dl = ImGui::GetWindowDrawList();
-			ImVec2 q = ImVec2(p.x + ImGui::GetContentRegionAvail().x, p.y + context.view.rulerHeight);
-			dl->AddRectFilled(p, q, IM_COL32(18, 18, 18, 255));
-			dl->AddText(ImVec2(p.x + 8.0f, p.y + 8.0f), IM_COL32(230, 230, 230, 255), "Tracks");
-			ImGui::Dummy(ImVec2(0.0f, context.view.rulerHeight));
-		}
-
-		// トラック名行
-		for (size_t ti = 0; ti < tracks_.size(); ++ti) {
-
-			ImGui::PushID(static_cast<int32_t>(ti));
-			ImGui::Selectable(tracks_[ti]->TrackName(), false, 0, ImVec2(0.0f, context.view.trackHeight));
-			ImGui::PopID();
-		}
+		DrawTrackNames(tracks_, syncedScrollY);
 
 		ImGui::EndChild();
+
 		ImGui::EndTable();
 	}
 }
 
 void PlayerComboActionTimelinePanel::DrawRuntime(PlayerComboTimelineDrawContext& context) {
 
+	ImGui::Checkbox("Edit Parameters", &isEditParam_);
 	ImGui::Text("TotalTime : %.2f", context.totalTime);
 	ImGui::Text("Current   : %.2f", context.runtime.currentTime);
 
@@ -217,32 +219,75 @@ void PlayerComboActionTimelinePanel::DrawRuler(PlayerComboTimelineDrawContext& c
 	context.drawList->AddRectFilled(ImVec2(context.contentScreenPos.x, y0),
 		ImVec2(context.contentScreenPos.x + context.contentScreenSize.x, y1), IM_COL32(18, 18, 18, 255));
 
-	// グリッド線
+	// グリッド
 	float grid = context.view.gridStep;
-	// 0.0f防止
 	if (grid <= 0.0f) {
 		grid = 0.1f;
 	}
 
-	// 開始、終了時間
-	float start = std::floor(context.visibleTimeStart / grid) * grid;
-	float end = std::ceil(context.visibleTimeEnd / grid) * grid;
-	for (float t = start; t <= end + 0.0001f; t += grid) {
+	float major = context.view.majorGridStep;
+	if (major <= 0.0f) {
+		major = 1.0f;
+	}
+
+	// ルーラー文字サイズ
+	ImFont* font = ImGui::GetFont();
+	float fontSize = ImGui::GetFontSize() * (std::max)(0.5f, context.view.rulerFontScale);
+
+	// 表示範囲
+	int32_t iStart = static_cast<int32_t>(std::floor(context.visibleTimeStart / grid));
+	int32_t iEnd = static_cast<int32_t>(std::ceil(context.visibleTimeEnd / grid));
+
+	// 左右の描画境界
+	float boundL = context.contentScreenPos.x + 2.0f;
+	float boundR = context.contentScreenPos.x + context.contentScreenSize.x - 2.0f;
+
+	// ラベル重なり防止
+	float lastLabelRight = -FLT_MAX;
+	const float labelPadding = 6.0f;
+
+	for (int32_t i = iStart; i <= iEnd; ++i) {
+
+		float t = static_cast<float>(i) * grid;
 
 		float localX = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, t) - context.scroll.x;
 		float x = context.contentScreenPos.x + localX;
 
-		bool isMajor = (std::fmod(std::fabs(t), context.view.majorGridStep) < 0.0001f);
+		// 線
+		{
+			// major判定roundを使って誤差に強くする
+			float majorIndexF = std::round(t / major);
+			float majorTime = majorIndexF * major;
+			bool isMajor = (std::fabs(t - majorTime) <= (grid * 0.25f + Config::kEpsilon));
 
-		ImU32 color = isMajor ? IM_COL32(90, 90, 90, 255) : IM_COL32(45, 45, 45, 255);
-		float lineTop = y0;
-		float lineBot = y0 + context.view.rulerHeight;
-		context.drawList->AddLine(ImVec2(x, lineTop), ImVec2(x, lineBot), color);
-		if (isMajor) {
+			ImU32 color = isMajor ? IM_COL32(90, 90, 90, 255) : IM_COL32(45, 45, 45, 255);
+			context.drawList->AddLine(ImVec2(x, y0), ImVec2(x, y1), color);
 
-			char buf[32];
-			std::snprintf(buf, sizeof(buf), "%.1f", t);
-			context.drawList->AddText(ImVec2(x + 2.0f, y0 + 2.0f), IM_COL32(220, 220, 220, 255), buf);
+			// majorラベル
+			if (isMajor) {
+
+				char buf[32];
+				std::snprintf(buf, sizeof(buf), "%.1f", t);
+
+				ImVec2 textSize = font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, buf);
+
+				// 線の中心に文字が来るように配置
+				float tx = x - (textSize.x * 0.5f);
+				float ty = y0 + (context.view.rulerHeight - textSize.y) * 0.5f;
+
+				// 画面外にはみ出すものは描かない
+				if (tx < boundL || (tx + textSize.x) > boundR) {
+					continue;
+				}
+
+				// ラベルが重なるなら描かない
+				if (tx <= lastLabelRight + labelPadding) {
+					continue;
+				}
+
+				context.drawList->AddText(font, fontSize, ImVec2(tx, ty), IM_COL32(220, 220, 220, 255), buf);
+				lastLabelRight = tx + textSize.x;
+			}
 		}
 	}
 
@@ -252,13 +297,14 @@ void PlayerComboActionTimelinePanel::DrawRuler(PlayerComboTimelineDrawContext& c
 			context.view, context.runtime.currentTime) - context.scroll.x;
 		float x = context.contentScreenPos.x + localX;
 
+		float totalH = context.view.rulerHeight + context.view.trackHeight * static_cast<float>(tracks_.size());
 		context.drawList->AddLine(ImVec2(x, y0),
-			ImVec2(x, context.contentScreenPos.y + context.view.rulerHeight + context.view.trackHeight *
-				static_cast<float>(tracks_.size())), IM_COL32(80, 170, 255, 255), 2.0f);
+			ImVec2(x, context.contentScreenPos.y + totalH), IM_COL32(80, 170, 255, 255), 2.0f);
 
 		// ルーラー部ドラッグで時間変更
 		ImGui::SetCursorScreenPos(ImVec2(context.contentScreenPos.x, y0));
-		ImGui::InvisibleButton("##RulerDrag", ImVec2(context.contentScreenSize.x, context.view.rulerHeight));
+		ImGui::InvisibleButton("##RulerDrag",
+			ImVec2((std::max)(1.0f, context.contentScreenSize.x), (std::max)(1.0f, context.view.rulerHeight)));
 
 		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
 
@@ -271,13 +317,58 @@ void PlayerComboActionTimelinePanel::DrawRuler(PlayerComboTimelineDrawContext& c
 	}
 }
 
-void PlayerComboActionTimelinePanel::DrawTrackNames(const std::vector<std::unique_ptr<IPlayerComboTimelineTrack>>& tracks,
-	float totalTrackHeight, float syncedScrollY) {
+void PlayerComboActionTimelinePanel::DrawTrackNames(
+	const std::vector<std::unique_ptr<IPlayerComboTimelineTrack>>& tracks, float syncedScrollY) {
 
-	// 次の段階で「左だけ別child」＋「ScrollY同期」にする場合に使う
-	(void)tracks;
-	(void)totalTrackHeight;
 	(void)syncedScrollY;
+
+	ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+	// この子ウィンドウの描画開始位置
+	ImVec2 base = ImGui::GetCursorScreenPos();
+	float width = ImGui::GetContentRegionAvail().x;
+
+	// タイムラインと同じ総高さを確保
+	float totalHeight = view_.rulerHeight + view_.trackHeight * static_cast<float>(tracks.size());
+	ImGui::Dummy(ImVec2(width, totalHeight));
+
+	//============================================================================================================
+	// Tracks ヘッダー
+	//============================================================================================================
+
+	{
+		ImVec2 p0 = base;
+		ImVec2 p1 = ImVec2(base.x + width, base.y + view_.rulerHeight);
+
+		drawList->AddRectFilled(p0, p1, IM_COL32(18, 18, 18, 255));
+		drawList->AddRect(p0, p1, IM_COL32(10, 10, 10, 255));
+
+		const char* text = "Tracks";
+		ImVec2 ts = ImGui::CalcTextSize(text);
+		ImVec2 tp = ImVec2(p0.x + (width - ts.x) * 0.5f, p0.y + (view_.rulerHeight - ts.y) * 0.5f);
+		drawList->AddText(tp, IM_COL32(230, 230, 230, 255), text);
+	}
+
+	//============================================================================================================
+	// 各トラック名
+	//============================================================================================================
+
+	for (size_t ti = 0; ti < tracks.size(); ++ti) {
+
+		float y = base.y + view_.rulerHeight + view_.trackHeight * static_cast<float>(ti);
+
+		ImVec2 p0 = ImVec2(base.x, y);
+		ImVec2 p1 = ImVec2(base.x + width, y + view_.trackHeight);
+
+		ImU32 bg = (ti % 2 == 0) ? IM_COL32(25, 25, 25, 255) : IM_COL32(22, 22, 22, 255);
+		drawList->AddRectFilled(p0, p1, bg);
+		drawList->AddRect(p0, p1, IM_COL32(10, 10, 10, 255));
+
+		const char* name = tracks[ti]->TrackName();
+		ImVec2 ts = ImGui::CalcTextSize(name);
+		ImVec2 tp = ImVec2(p0.x + (width - ts.x) * 0.5f, p0.y + (view_.trackHeight - ts.y) * 0.5f);
+		drawList->AddText(tp, IM_COL32(230, 230, 230, 255), name);
+	}
 }
 
 void PlayerComboActionTimelinePanel::DrawTracks(PlayerComboTimelineDrawContext& context,
@@ -286,36 +377,12 @@ void PlayerComboActionTimelinePanel::DrawTracks(PlayerComboTimelineDrawContext& 
 	// ルーラーの下から開始
 	float baseY = context.contentScreenPos.y + context.view.rulerHeight;
 
-	// トラック全体グリッド縦線をトラック領域にも描く
-	{
-		float grid = context.view.gridStep;
-		// 0.0f防止
-		if (grid <= 0.0f) {
-			grid = 0.1f;
-		}
-		// 開始、終了時間
-		float start = std::floor(context.visibleTimeStart / grid) * grid;
-		float end = std::ceil(context.visibleTimeEnd / grid) * grid;
-
-		// トラック領域
-		float trackTop = baseY;
-		float trackBottom = baseY + context.view.trackHeight * static_cast<float>(tracks.size());
-		for (float t = start; t <= end + 0.0001f; t += grid) {
-
-			float localX = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, t) - context.scroll.x;
-			float x = context.contentScreenPos.x + localX;
-
-			bool isMajor = (std::fmod(std::fabs(t), context.view.majorGridStep) < 0.0001f);
-			ImU32 color = isMajor ? IM_COL32(65, 65, 65, 255) : IM_COL32(35, 35, 35, 255);
-
-			context.drawList->AddLine(ImVec2(x, trackTop), ImVec2(x, trackBottom), color);
-		}
-	}
-
 	// 各トラック描画
 	for (size_t ti = 0; ti < tracks.size(); ++ti) {
 
 		float y = baseY + context.view.trackHeight * static_cast<float>(ti);
+
+		// 背景 → グリッド → 要素の順に描画
 		tracks[ti]->DrawTrack(context, y);
 
 		// トラック区切り線
@@ -333,7 +400,6 @@ void PlayerComboActionTimelinePanel::HandleKeyStep(PlayerComboTimelineDrawContex
 	}
 
 	// 左右矢印でコマ送り
-	// コマ戻し
 	if (ImGui::IsKeyPressed(ImGuiKey_LeftArrow)) {
 
 		float t = context.runtime.currentTime - context.runtime.stepTime;
@@ -341,7 +407,7 @@ void PlayerComboActionTimelinePanel::HandleKeyStep(PlayerComboTimelineDrawContex
 		context.runtime.currentTime = t;
 		context.runtime.isPlaying = false;
 	}
-	// コマ送り
+
 	if (ImGui::IsKeyPressed(ImGuiKey_RightArrow)) {
 
 		float t = context.runtime.currentTime + context.runtime.stepTime;
