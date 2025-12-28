@@ -8,6 +8,10 @@
 // imgui
 #include <imgui.h>
 
+// c++
+#include <algorithm>
+#include <cmath>
+
 //============================================================================
 //	PlayerInputGraceTimelineTrack classMethods
 //============================================================================
@@ -17,24 +21,34 @@ namespace {
 	//===================================================================================================================
 	//	猶予時間の制限
 	//===================================================================================================================
-
 	template <typename StepsT, typename StepT>
-	inline float GetNextActionStartTime(const StepsT& steps, const StepT& self, float defaultValue) {
+	inline bool TryGetNextActionStartTime(const StepsT& steps, const StepT& self, float& outNextStart) {
 
-		float nextStart = defaultValue;
+		bool hasNext = false;
+		float nextStart = FLT_MAX;
+
 		for (const auto& step : steps) {
+
 			if (step.stepId == self.stepId) {
 				continue;
 			}
+
 			// 自分より後の最小startTimeを探す
 			if (self.startTime < step.startTime) {
 
 				nextStart = (std::min)(nextStart, step.startTime);
+				hasNext = true;
 			}
 		}
-		return nextStart;
-	}
 
+		if (hasNext) {
+			outNextStart = nextStart;
+			return true;
+		}
+
+		outNextStart = 0.0f;
+		return false;
+	}
 	inline void ClampInputGraceRange(
 		float actionMinTime, float actionMaxTime,
 		float& graceStartTime, float& graceDuration) {
@@ -67,9 +81,6 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 	ImVec2 b = { context.contentScreenPos.x + context.contentScreenSize.x, trackTopY + context.view.trackHeight };
 	context.drawList->AddRectFilled(a, b, bg);
 
-	// グリッド線描画
-	PlayerComboTimelineHelper::DrawTrackGridLines(context, trackTopY);
-
 	//===================================================================================================================
 	// 猶予バーの描画
 	//===================================================================================================================
@@ -78,15 +89,17 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 		auto& step = steps[static_cast<size_t>(i)];
 
-		//---------------------------------------------------------------------------------------------------------------
-		// 入力猶予の有効範囲、自分のアクションより前に行かない + 次のアクションの開始より先に行かない
-		//---------------------------------------------------------------------------------------------------------------
+		// 自身のアクションが最後なら表示しない
+		float nextStart = 0.0f;
+		if (!TryGetNextActionStartTime(steps, step, nextStart)) {
+			continue;
+		}
 
 		// 自身のアクションより前に行かない
 		float minTime = step.startTime;
-		// 次のアクションまでの時間を最大にする
-		float maxTime = GetNextActionStartTime(steps, step, context.totalTime);
-		maxTime = (std::max)(minTime, maxTime);
+
+		// 次のアクション開始まで
+		float maxTime = (std::max)(minTime, nextStart);
 
 		// モデル側に入力猶予開始時間を持たせる
 		float& graceStartTime = step.inputGraceStartTime;
@@ -97,9 +110,7 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 		float graceEndTime = graceStartTime + graceDuration;
 
-		//---------------------------------------------------------------------------------------------------------------
 		// 表示座標へ変換
-		//---------------------------------------------------------------------------------------------------------------
 		float x0 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, graceStartTime) - context.scroll.x;
 		float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, graceEndTime) - context.scroll.x;
 
@@ -130,9 +141,7 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 		ImGui::PushID(step.stepId);
 
-		//---------------------------------------------------------------------------------------------------------------
 		// クリック領域
-		//---------------------------------------------------------------------------------------------------------------
 		float barH = (std::max)(1.0f, p1.y - p0.y);
 
 		// 左ハンドル
@@ -153,7 +162,6 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 			float newStart = graceStartTime + deltaT;
 			newStart = PlayerComboTimelineHelper::SnapTime(newStart);
 
-			// Clamp
 			newStart = (std::max)(minTime, newStart);
 			newStart = (std::min)(endFixed, newStart);
 			endFixed = (std::min)(maxTime, endFixed);
@@ -253,107 +261,115 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 			auto& step = context.model.Combos()[context.comboIndex].steps[static_cast<size_t>(idx)];
 
-			// 入力猶予の制限
-			float minTime = step.startTime;
-			float maxTime = GetNextActionStartTime(context.model.Combos()[context.comboIndex].steps, step, context.totalTime);
-			maxTime = (std::max)(minTime, maxTime);
+			// 最後のアクションなら編集対象外
+			float nextStart = 0.0f;
+			if (!TryGetNextActionStartTime(context.model.Combos()[context.comboIndex].steps, step, nextStart)) {
 
-			float& graceStartTime = step.inputGraceStartTime;
-			float& graceDuration = step.inputGraceTime;
-			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+				ImGui::TextUnformatted("This step is the last action. InputGrace is not available.");
+			} else {
 
-			// Start
-			ImGui::DragFloat("GraceStart(sec)", &graceStartTime, 0.01f, minTime, maxTime, "%.2f");
-			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+				// 入力猶予の制限
+				float minTime = step.startTime;
+				float maxTime = (std::max)(minTime, nextStart);
 
-			// End
-			float endTime = graceStartTime + graceDuration;
-			if (ImGui::DragFloat("GraceEnd(sec)", &endTime, 0.01f, minTime, maxTime, "%.2f")) {
-				endTime = (std::max)(graceStartTime, endTime);
-				endTime = (std::min)(maxTime, endTime);
-				graceDuration = endTime - graceStartTime;
+				float& graceStartTime = step.inputGraceStartTime;
+				float& graceDuration = step.inputGraceTime;
 				ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
-			}
 
-			// Duration
-			ImGui::DragFloat("GraceDuration(sec)", &graceDuration, 0.01f, 0.0f, (std::max)(0.0f, maxTime - graceStartTime), "%.2f");
-			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+				// Start
+				ImGui::DragFloat("GraceStart", &graceStartTime, 0.01f, minTime, maxTime, "%.2f");
+				ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 
-			ImGui::Separator();
+				// End
+				float endTime = graceStartTime + graceDuration;
+				if (ImGui::DragFloat("GraceEnd", &endTime, 0.01f, minTime, maxTime, "%.2f")) {
 
-			//===================================================================================================================
-			// キーボード入力
-			//===================================================================================================================
-
-			ImGui::TextUnformatted("Keyboard");
-			ImGui::Checkbox("UseKeyboard", &step.input.isUseKeyboard);
-
-			if (step.input.isUseKeyboard) {
-
-				SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &step.input.keyDIKCode);
-
-				ImGui::SameLine();
-				if (ImGui::Button("Capture")) {
-
-					isCaptureKeyboard_ = true;
+					endTime = (std::max)(graceStartTime, endTime);
+					endTime = (std::min)(maxTime, endTime);
+					graceDuration = endTime - graceStartTime;
+					ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 				}
 
-				if (isCaptureKeyboard_) {
+				// Duration
+				ImGui::DragFloat("GraceDuration(sec)", &graceDuration, 0.01f, 0.0f, (std::max)(0.0f, maxTime - graceStartTime), "%.2f");
+				ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 
-					ImGui::TextUnformatted("Press any key");
-					auto* input = SakuEngine::Input::GetInstance();
-					for (auto v : magic_enum::enum_values<KeyDIKCode>()) {
+				ImGui::Separator();
 
-						uint8_t raw = static_cast<uint8_t>(v);
-						if (input->TriggerKey(static_cast<BYTE>(raw))) {
+				//===================================================================================================================
+				// キーボード入力
+				//===================================================================================================================
 
-							step.input.keyDIKCode = v;
+				ImGui::TextUnformatted("Keyboard");
+				ImGui::Checkbox("UseKeyboard", &step.input.isUseKeyboard);
+
+				if (step.input.isUseKeyboard) {
+
+					SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &step.input.keyDIKCode);
+
+					ImGui::SameLine();
+					if (ImGui::Button("Capture")) {
+
+						isCaptureKeyboard_ = true;
+					}
+
+					if (isCaptureKeyboard_) {
+
+						ImGui::TextUnformatted("Press any key");
+						auto* input = SakuEngine::Input::GetInstance();
+						for (auto v : magic_enum::enum_values<KeyDIKCode>()) {
+
+							uint8_t raw = static_cast<uint8_t>(v);
+							if (input->TriggerKey(static_cast<BYTE>(raw))) {
+
+								step.input.keyDIKCode = v;
+								isCaptureKeyboard_ = false;
+								break;
+							}
+						}
+						if (ImGui::Button("CancelCapture")) {
+
 							isCaptureKeyboard_ = false;
-							break;
 						}
 					}
-					if (ImGui::Button("CancelCapture")) {
+				}
 
-						isCaptureKeyboard_ = false;
+				ImGui::Separator();
+
+				//===================================================================================================================
+				// ゲームパッド入力
+				//===================================================================================================================
+
+				ImGui::TextUnformatted("GamePad");
+				ImGui::Checkbox("UseGamePad", &step.input.isUseGamePad);
+
+				if (step.input.isUseGamePad) {
+
+					SakuEngine::EnumAdapter<GamePadButtons>::Combo("Button", &step.input.gamePadButton);
+
+					ImGui::SameLine();
+					if (ImGui::Button("Capture##Pad")) {
+
+						isCapturePad_ = true;
 					}
-				}
-			}
+					if (isCapturePad_) {
 
-			ImGui::Separator();
+						ImGui::TextUnformatted("Press any gamepad button...");
+						auto* input = SakuEngine::Input::GetInstance();
+						for (uint32_t bi = 0; bi < static_cast<uint32_t>(GamePadButtons::Counts); ++bi) {
 
-			//===================================================================================================================
-			// ゲームパッド入力
-			//===================================================================================================================
+							GamePadButtons button = static_cast<GamePadButtons>(bi);
+							if (input->TriggerGamepadButton(button)) {
 
-			ImGui::TextUnformatted("GamePad");
-			ImGui::Checkbox("UseGamePad", &step.input.isUseGamePad);
+								step.input.gamePadButton = button;
+								isCapturePad_ = false;
+								break;
+							}
+						}
+						if (ImGui::Button("CancelCapture##Pad")) {
 
-			if (step.input.isUseGamePad) {
-
-				SakuEngine::EnumAdapter<GamePadButtons>::Combo("Button", &step.input.gamePadButton);
-
-				ImGui::SameLine();
-				if (ImGui::Button("Capture##Pad")) {
-
-					isCapturePad_ = true;
-				}
-				if (isCapturePad_) {
-
-					ImGui::TextUnformatted("Press any gamepad button...");
-					auto* input = SakuEngine::Input::GetInstance();
-					for (uint32_t bi = 0; bi < static_cast<uint32_t>(GamePadButtons::Counts); ++bi) {
-
-						GamePadButtons button = static_cast<GamePadButtons>(bi);
-						if (input->TriggerGamepadButton(button)) {
-
-							step.input.gamePadButton = button;
 							isCapturePad_ = false;
-							break;
 						}
-					}
-					if (ImGui::Button("CancelCapture##Pad")) {
-
-						isCapturePad_ = false;
 					}
 				}
 			}

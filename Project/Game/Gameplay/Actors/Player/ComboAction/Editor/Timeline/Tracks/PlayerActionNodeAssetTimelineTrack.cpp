@@ -153,7 +153,6 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 
 			ImGui::EndDragDropTarget();
 		}
-
 		ImGui::PopID();
 	}
 
