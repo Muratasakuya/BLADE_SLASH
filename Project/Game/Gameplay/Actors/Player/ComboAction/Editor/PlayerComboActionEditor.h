@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Base/IGameEditor.h>
-#include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerComboActionEditorUI.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/PlayerComboActionEditorUI.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerReactionAreaChecker.h>
 
 //============================================================================

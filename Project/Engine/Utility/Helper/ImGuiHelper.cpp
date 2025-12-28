@@ -451,3 +451,9 @@ ImVec2 SakuEngine::ImGuiHelper::GetWindowAreaSizeRatio(float leftRatio, float ri
 
 	return result;
 }
+
+void SakuEngine::ImGuiHelper::AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
+	const ImVec2& max, ImU32 color, float rounding) {
+
+	draw->AddRectFilled(min, max, color, rounding);
+}

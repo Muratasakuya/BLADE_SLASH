@@ -2673,7 +2673,15 @@
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.cpp" />
-    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionEditorUI.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\PlayerComboActionEditorUI.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerActionNodeAssetTimelineTrack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerInputGraceTimelineTrack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Interface\IPlayerComboTimelineTrack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboListPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Interface\IPlayerComboActionEditorPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.h" />
@@ -2703,6 +2711,14 @@
     <ClInclude Include="Engine\Utility\Animation\LerpValue.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.h" />
-    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionEditorUI.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\PlayerComboActionEditorUI.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Interface\IPlayerComboTimelineTrack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerActionNodeAssetTimelineTrack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerInputGraceTimelineTrack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Interface\IPlayerComboActionEditorPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboListPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.h" />
   </ItemGroup>
 </Project>

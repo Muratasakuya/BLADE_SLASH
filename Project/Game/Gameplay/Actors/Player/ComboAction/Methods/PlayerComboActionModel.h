@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/InputStructures.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Action/Interface/PlayerIActionNode.h>
 
 //============================================================================
@@ -15,15 +16,18 @@ struct PlayerComboActionEditorSelection {
 	int32_t selectedNodeIndex = -1;  // アクションノードリスト
 	int32_t selectedComboIndex = -1; // コンボアクションリスト
 	int32_t selectedStepIndex = -1;  // コンボアクション内ステップリスト
+
+	// タイムライン操作中の追跡用ステップID
+	uint32_t selectedStepId = 0;
 };
 
 //============================================================================
 //	PlayerComboActionModel class
 //============================================================================
 class PlayerComboActionModel {
-private:
+public:
 	//========================================================================
-	//	private Methods
+	//	public Methods
 	//========================================================================
 
 	//--------- structure ----------------------------------------------------
@@ -38,6 +42,42 @@ private:
 		PlayerActionNodeType type;
 		// ノード実装
 		std::unique_ptr<PlayerIActionNode> implementation;
+
+		// キャンセル不可フラグ
+		bool isCancelDisabled = false;
+	};
+	// ステップ入力設定
+	struct StepInputSetting {
+
+		// キーボード入力を使うか(マウスも含まれる)
+		bool isUseKeyboard = true;
+		// ゲームパッド入力を使うか
+		bool isUseGamePad = true;
+
+		// DIKコード
+		KeyDIKCode keyDIKCode = KeyDIKCode::SPACE;
+		// GamePadButtons
+		GamePadButtons gamePadButton = GamePadButtons::A;
+	};
+
+	// コンボ内のステップ
+	struct ComboStep {
+
+		// アクションノードID
+		uint32_t nodeAssetId = 0;
+		// ステップ識別子
+		uint32_t stepId = 0;
+
+		// 入力
+		StepInputSetting input;
+		// 入力猶予開始時間
+		float inputGraceStartTime = 0.0f;
+		// 入力猶予
+		float inputGraceTime = 0.4f;
+
+		// タイムライン
+		float startTime = 0.0f; // 開始時間
+		float duration = 0.4f;  // 処理時間
 	};
 
 	// 1アクション
@@ -46,8 +86,9 @@ private:
 		// 識別子
 		uint32_t id = 0;
 		std::string name;
-		// アクションノードIDリスト
-		std::vector<uint32_t> nodeAssetIds;
+
+		// ステップリスト
+		std::vector<ComboStep> steps;
 	};
 public:
 	//========================================================================
@@ -59,6 +100,7 @@ public:
 
 	// IDを割り当てて次に進める
 	uint32_t AllocateId() { return ++nextId_; }
+	uint32_t AllocateStepId() { return ++nextStepId_; }
 
 	//========================================================================
 	//	ActionNode Methods
@@ -93,12 +135,22 @@ public:
 	// ステップ入替
 	bool SwapComboSteps(size_t comboIndex, size_t nodeAIndex, size_t nodeBIndex);
 	bool SwapCombos(size_t comboAIndex, size_t comboBIndex);
+	// コンボ複製
 	bool DuplicateCombo(size_t comboIndex);
 	// ステップ全消し
 	bool ClearComboSteps(size_t comboIndex);
+	// ステップを指定時間に追加
+	bool AddStepAtTime(size_t comboIndex, uint32_t nodeAssetId, float startTime, uint32_t* outStepId);
+
+	// 開始時間でソート
+	void SortStepsByStartTime(size_t comboIndex);
+	// コンボの総時間を計算
+	float CalculateTotalTime(size_t comboIndex) const;
 
 	// IDからコンボアクションを探す
 	ComboAction* FindComboById(uint32_t id);
+	// ステップIDからステップインデックスを探す
+	int32_t FindStepIndexById(size_t comboIndex, uint32_t stepId) const;
 
 	//--------- accessor -----------------------------------------------------
 
@@ -117,8 +169,16 @@ private:
 
 	// 次のID
 	uint32_t nextId_ = 1;
+	// 次のStepID
+	uint32_t nextStepId_ = 1;
+
 	// アクションノードリスト
 	std::vector<ActionNodeAsset> actionNodes_;
 	// コンボアクションリスト
 	std::vector<ComboAction> combos_;
+
+	//--------- functions ----------------------------------------------------
+
+	// ステップのデフォルト値
+	ComboStep CreateDefaultStep(uint32_t nodeAssetId);
 };

@@ -3,11 +3,28 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/Input.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerActionNodeFactory.h>
 
 //============================================================================
 //	PlayerComboActionModel classMethods
 //============================================================================
+
+PlayerComboActionModel::ComboStep PlayerComboActionModel::CreateDefaultStep(uint32_t nodeAssetId) {
+
+	ComboStep step;
+	step.stepId = AllocateStepId();
+	step.nodeAssetId = nodeAssetId;
+	step.startTime = 0.0f;
+	step.duration = 0.3f;
+	step.inputGraceStartTime = step.startTime + step.duration;
+	step.inputGraceTime = 0.2f;
+	step.input.isUseKeyboard = true;
+	step.input.isUseGamePad = true;
+	step.input.keyDIKCode = KeyDIKCode::SPACE;
+	step.input.gamePadButton = GamePadButtons::A;
+	return step;
+}
 
 uint32_t PlayerComboActionModel::AddActionNode(PlayerActionNodeType type, const std::string& nameOverride) {
 
@@ -17,6 +34,13 @@ uint32_t PlayerComboActionModel::AddActionNode(PlayerActionNodeType type, const 
 	asset.type = type;
 	asset.name = nameOverride.empty() ? SakuEngine::EnumAdapter<PlayerActionNodeType>::ToString(type) : nameOverride;
 	asset.implementation = PlayerActionNodeFactory::CreateNode(type);
+
+	// 初期値
+	asset.isCancelDisabled = false;
+	if (asset.implementation) {
+
+		asset.implementation->SetIsCancelDisabled(asset.isCancelDisabled);
+	}
 
 	// リストに追加
 	actionNodes_.emplace_back(std::move(asset));
@@ -37,8 +61,9 @@ bool PlayerComboActionModel::RemoveActionNode(size_t index) {
 	// コンボ内の参照除去
 	for (auto& combo : combos_) {
 
-		auto& nodes = combo.nodeAssetIds;
-		nodes.erase(std::remove(nodes.begin(), nodes.end(), removedId), nodes.end());
+		auto& steps = combo.steps;
+		steps.erase(std::remove_if(steps.begin(), steps.end(),
+			[&](const ComboStep& step) { return step.nodeAssetId == removedId; }), steps.end());
 	}
 	return true;
 }
@@ -66,17 +91,28 @@ bool PlayerComboActionModel::DuplicateActionNode(size_t index) {
 	// 複製元取得
 	const auto& source = actionNodes_[index];
 	// 複製作成して追加
-	AddActionNode(source.type, source.name);
+	uint32_t newId = AddActionNode(source.type, source.name);
+
+	// 複製したノードにキャンセル不可フラグを反映
+	auto* newAsset = FindNodeAssetById(newId);
+	if (newAsset) {
+		newAsset->isCancelDisabled = source.isCancelDisabled;
+		if (newAsset->implementation) {
+
+			newAsset->implementation->SetIsCancelDisabled(newAsset->isCancelDisabled);
+		}
+	}
 	return true;
 }
 
 uint32_t PlayerComboActionModel::CreateCombo(const std::string& nameOverride) {
 
+
 	// コンボ作成
 	ComboAction combo;
 	combo.id = AllocateId();
 	combo.name = nameOverride.empty() ? "Action" : nameOverride;
-	combo.nodeAssetIds.clear();
+	combo.steps.clear();
 
 	// リストに追加
 	combos_.emplace_back(std::move(combo));
@@ -100,8 +136,23 @@ bool PlayerComboActionModel::AppendNodeToCombo(size_t comboIndex, uint32_t nodeA
 		return false;
 	}
 
-	// ノード追加
-	combos_[comboIndex].nodeAssetIds.emplace_back(nodeAssetId);
+	// 末尾に追加
+	auto& combo = combos_[comboIndex];
+	ComboStep newStep = CreateDefaultStep(nodeAssetId);
+
+	// 末尾に繋がる開始時間
+	float lastEnd = 0.0f;
+	for (const auto& step : combo.steps) {
+		// 各ステップの終了時間を計算
+		float end = step.startTime + step.duration;
+		if (lastEnd < end) {
+
+			lastEnd = end;
+		}
+	}
+	newStep.startTime = lastEnd;
+	newStep.inputGraceStartTime = newStep.startTime + newStep.duration;
+	combo.steps.emplace_back(newStep);
 	return true;
 }
 
@@ -112,13 +163,16 @@ bool PlayerComboActionModel::InsertNodeToCombo(size_t comboIndex, size_t insertP
 		return false;
 	}
 
-	auto& nodes = combos_[comboIndex].nodeAssetIds;
+	auto& steps = combos_[comboIndex].steps;
+
 	// 範囲外参照チェック
-	if (nodes.size() < insertPos) {
-		// 末尾に追加
-		insertPos = nodes.size();
+	if (steps.size() < insertPos) {
+		insertPos = steps.size();
 	}
-	nodes.insert(nodes.begin() + static_cast<std::ptrdiff_t>(insertPos), nodeAssetId);
+
+	// 指定位置に挿入
+	ComboStep step = CreateDefaultStep(nodeAssetId);
+	steps.insert(steps.begin() + static_cast<std::ptrdiff_t>(insertPos), step);
 	return true;
 }
 
@@ -129,12 +183,12 @@ bool PlayerComboActionModel::RemoveComboStep(size_t comboIndex, size_t stepIndex
 		return false;
 	}
 
-	auto& nodes = combos_[comboIndex].nodeAssetIds;
+	auto& steps = combos_[comboIndex].steps;
 	// 範囲外参照チェック
-	if (nodes.size() < stepIndex) {
+	if (steps.size() <= stepIndex) {
 		return false;
 	}
-	nodes.erase(nodes.begin() + static_cast<std::ptrdiff_t>(stepIndex));
+	steps.erase(steps.begin() + static_cast<std::ptrdiff_t>(stepIndex));
 	return true;
 }
 
@@ -145,16 +199,16 @@ bool PlayerComboActionModel::SwapComboSteps(size_t comboIndex, size_t nodeAIndex
 		return false;
 	}
 
-	auto& nodes = combos_[comboIndex].nodeAssetIds;
+	auto& steps = combos_[comboIndex].steps;
 	// 範囲外参照チェック
-	if (nodes.size() <= nodeAIndex || nodes.size() <= nodeBIndex) {
+	if (steps.size() <= nodeAIndex || steps.size() <= nodeBIndex) {
 		return false;
 	}
 	// 同じインデックスは処理しない
 	if (nodeAIndex == nodeBIndex) {
 		return true;
 	}
-	std::swap(nodes[nodeAIndex], nodes[nodeBIndex]);
+	std::swap(steps[nodeAIndex], steps[nodeBIndex]);
 	return true;
 }
 
@@ -178,13 +232,22 @@ bool PlayerComboActionModel::DuplicateCombo(size_t comboIndex) {
 	if (combos_.size() <= comboIndex) {
 		return false;
 	}
+
 	const auto& source = combos_[comboIndex];
 
-	ComboAction combo{};
-	combo.id = AllocateId();
-	combo.name = source.name + "_Copy";
-	combo.nodeAssetIds = source.nodeAssetIds;
-	combos_.emplace_back(std::move(combo));
+	// 複製作成して追加
+	ComboAction copy;
+	copy.id = AllocateId();
+	copy.name = source.name + "_Copy";
+	copy.steps = source.steps;
+
+	// stepIdは重複しないように振り直す
+	for (auto& step : copy.steps) {
+
+		step.stepId = AllocateStepId();
+	}
+
+	combos_.emplace_back(std::move(copy));
 	return true;
 }
 
@@ -195,8 +258,73 @@ bool PlayerComboActionModel::ClearComboSteps(size_t comboIndex) {
 		return false;
 	}
 	// ステップ全消し
-	combos_[comboIndex].nodeAssetIds.clear();
+	combos_[comboIndex].steps.clear();
 	return true;
+}
+
+bool PlayerComboActionModel::AddStepAtTime(size_t comboIndex, uint32_t nodeAssetId, float startTime, uint32_t* outStepId) {
+
+	// 範囲外参照チェック
+	if (combos_.size() <= comboIndex) {
+		return false;
+	}
+
+	auto& combo = combos_[comboIndex];
+
+	// 指定時間位置に追加
+	ComboStep step = CreateDefaultStep(nodeAssetId);
+	step.startTime = (std::max)(0.0f, startTime);
+	// デフォルトは、ノード終了から入力猶予開始
+	step.inputGraceStartTime = step.startTime + step.duration;
+	if (outStepId) {
+		*outStepId = step.stepId;
+	}
+	combo.steps.emplace_back(step);
+	return true;
+}
+
+void PlayerComboActionModel::SortStepsByStartTime(size_t comboIndex) {
+
+	// 範囲外参照チェック
+	if (combos_.size() <= comboIndex) {
+		return;
+	}
+
+	// 開始時間が早い順にソート、同じ場合はstepIdでソートする
+	auto& steps = combos_[comboIndex].steps;
+	std::sort(steps.begin(), steps.end(),
+		[](const ComboStep& a, const ComboStep& b) {
+			if (a.startTime == b.startTime) {
+				return a.stepId < b.stepId;
+			}
+			return a.startTime < b.startTime;
+		});
+}
+
+float PlayerComboActionModel::CalculateTotalTime(size_t comboIndex) const {
+
+	// 範囲外参照チェック
+	if (combos_.size() <= comboIndex) {
+		return 0.0f;
+	}
+
+	const auto& steps = combos_[comboIndex].steps;
+	float total = 0.0f;
+	for (const auto& step : steps) {
+
+		// 各ステップの終了時間を計算
+		// ノードの処理時間
+		float nodeEnd = step.startTime + step.duration;
+		// 入力猶予終了時間
+		float graceEnd = step.inputGraceStartTime + (std::max)(0.0f, step.inputGraceTime);
+		// 終了時間の大きい方を取得
+		float end = (std::max)(nodeEnd, graceEnd);
+		if (total < end) {
+
+			total = end;
+		}
+	}
+	return total;
 }
 
 PlayerComboActionModel::ActionNodeAsset* PlayerComboActionModel::FindNodeAssetById(uint32_t id) {
@@ -219,4 +347,21 @@ PlayerComboActionModel::ComboAction* PlayerComboActionModel::FindComboById(uint3
 		}
 	}
 	return nullptr;
+}
+
+int32_t PlayerComboActionModel::FindStepIndexById(size_t comboIndex, uint32_t stepId) const {
+
+	// 範囲外参照チェック
+	if (combos_.size() <= comboIndex) {
+		return -1;
+	}
+
+	const auto& steps = combos_[comboIndex].steps;
+	for (int32_t i = 0; i < static_cast<int32_t>(steps.size()); ++i) {
+		if (steps[static_cast<size_t>(i)].stepId == stepId) {
+
+			return i;
+		}
+	}
+	return -1;
 }

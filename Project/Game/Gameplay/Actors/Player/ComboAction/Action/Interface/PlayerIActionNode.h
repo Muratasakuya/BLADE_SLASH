@@ -46,6 +46,10 @@ public:
 	// リアクションエリアチェッカーを設定
 	void SetAreaChecker(const PlayerReactionAreaChecker* checker) { areaChecker_ = checker; }
 
+	// キャンセル不可フラグ
+	void SetIsCancelDisabled(bool isCancelDisabled) { isCancelDisabled_ = isCancelDisabled; }
+	bool IsCancelDisabled() const { return isCancelDisabled_; }
+
 	// 処理進捗設定
 	virtual void SetProgress(float progress) = 0;
 	// 処理進捗取得
@@ -63,4 +67,7 @@ protected:
 	SakuEngine::GameObject3D* attackTarget_;
 	// リアクションエリアチェッカー
 	const PlayerReactionAreaChecker* areaChecker_;
+
+	// キャンセル不可フラグ
+	bool isCancelDisabled_ = false;
 };
