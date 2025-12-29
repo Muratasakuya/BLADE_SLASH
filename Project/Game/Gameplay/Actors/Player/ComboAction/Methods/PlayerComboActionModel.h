@@ -117,6 +117,7 @@ public:
 
 	// IDからアクションノードを探す
 	ActionNodeAsset* FindNodeAssetById(uint32_t id);
+	const ActionNodeAsset* FindNodeAssetById(uint32_t id) const;
 
 	//========================================================================
 	//	ComboAction Methods
@@ -154,6 +155,13 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	// 処理対象のプレイヤーを設定
+	void SetPlayer(Player* player) { player_ = player; }
+	// 攻撃対象を設定
+	void SetAttackTarget(const SakuEngine::GameObject3D* target) { attackTarget_ = target; }
+	// リアクションエリアチェッカーを設定
+	void SetAreaChecker(const PlayerReactionAreaChecker* checker) { areaChecker_ = checker; }
+
 	// アクションノードリスト取得
 	std::vector<ActionNodeAsset>& ActionNodes() { return actionNodes_; }
 	const std::vector<ActionNodeAsset>& ActionNodes() const { return actionNodes_; }
@@ -166,6 +174,13 @@ private:
 	//========================================================================
 
 	//--------- variables ----------------------------------------------------
+
+	// 処理対象
+	Player* player_;
+	// 攻撃対象
+	const SakuEngine::GameObject3D* attackTarget_;
+	// リアクションエリアチェッカー
+	const PlayerReactionAreaChecker* areaChecker_;
 
 	// 次のID
 	uint32_t nextId_ = 1;

@@ -34,6 +34,7 @@ public:
 
 	void SetProgress(float progress) override;
 	float GetProgress() const override;
+	float GetTotalTime() const override;
 private:
 	//========================================================================
 	//	private Methods
@@ -55,7 +56,7 @@ private:
 	EndCondition endCondition_;
 
 	// 処理開始時に再生するアニメーションの名前
-	std::string animationName_;
+	std::string animationName_ = "player_idle";
 	// アニメーションの遷移時間
 	float nextAnimDuration_;
 

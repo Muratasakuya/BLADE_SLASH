@@ -72,8 +72,17 @@ namespace {
 
 		for (const auto& step : steps) {
 
+			auto* asset = context.model.FindNodeAssetById(step.nodeAssetId);
+
 			float x0 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, step.startTime) - context.scroll.x;
-			float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, step.startTime + step.duration) - context.scroll.x;
+			// 実装がある場合は実装の合計時間を優先
+			float duration = step.duration;
+			if (asset && asset->implementation) {
+
+				duration = (std::max)(0.0f, asset->implementation->GetTotalTime());
+			}
+			float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(
+				context.view, step.startTime + duration) - context.scroll.x;
 
 			float y0 = trackTopY + 6.0f;
 			float y1 = trackTopY + context.view.trackHeight - 6.0f;
@@ -168,7 +177,16 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 		auto* asset = context.model.FindNodeAssetById(step.nodeAssetId);
 
 		float x0 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, step.startTime) - context.scroll.x;
-		float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, step.startTime + step.duration) - context.scroll.x;
+
+		// 実装がある場合は実装の合計時間を優先
+		float duration = step.duration;
+		if (asset && asset->implementation) {
+
+			duration = (std::max)(0.0f, asset->implementation->GetTotalTime());
+			step.duration = duration;
+		}
+		float x1 = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(
+			context.view, step.startTime + duration) - context.scroll.x;
 
 		float y0 = trackTopY + 6.0f;
 		float y1 = trackTopY + context.view.trackHeight - 6.0f;
@@ -288,9 +306,19 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 			float availW = (clipMax.x - clipMin.x) - (padX * 2.0f);
 			std::string drawText = MakeEllipsisText(label, availW);
 
+			// 中央寄せ用の座標計算
+			ImVec2 textSize = ImGui::CalcTextSize(drawText.c_str());
+
+			ImVec2 areaSize = ImVec2(clipMax.x - clipMin.x, clipMax.y - clipMin.y);
+			ImVec2 textPos = ImVec2(clipMin.x + (areaSize.x - textSize.x) * 0.5f,
+				clipMin.y + (areaSize.y - textSize.y) * 0.5f);
+
+			// クリップ内に収める
+			textPos.x = (std::max)(textPos.x, clipMin.x + padX);
+			textPos.y = (std::max)(textPos.y, clipMin.y + padY);
+
 			context.drawList->PushClipRect(clipMin, clipMax, true);
-			context.drawList->AddText(ImVec2(p0.x + padX, p0.y + padY),
-				IM_COL32(255, 255, 255, 255), drawText.c_str());
+			context.drawList->AddText(textPos, IM_COL32(255, 255, 255, 255), drawText.c_str());
 			context.drawList->PopClipRect();
 		}
 

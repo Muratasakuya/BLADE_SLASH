@@ -139,6 +139,29 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 		SakuEngine::ImGuiHelper::AddRectFilledRound(context.drawList, p0, p1, color, 6.0f);
 		context.drawList->AddRect(p0, p1, IM_COL32(20, 20, 20, 255), 6.0f);
 
+		// バー内テキスト、猶予時間表示
+		{
+			// 表示文字列
+			char buf[32];
+			std::snprintf(buf, sizeof(buf), "%.2fs", graceDuration);
+
+			// ハンドル部分を避けたクリップ領域
+			ImVec2 clipMin = ImVec2(p0.x + kHandleW + 2.0f, p0.y + 2.0f);
+			ImVec2 clipMax = ImVec2(p1.x - kHandleW - 2.0f, p1.y - 2.0f);
+
+			// 幅が極端に小さいときは描かない
+			if (clipMax.x > clipMin.x + 4.0f && clipMax.y > clipMin.y + 4.0f) {
+
+				ImVec2 ts = ImGui::CalcTextSize(buf);
+				ImVec2 center = ImVec2((clipMin.x + clipMax.x) * 0.5f, (clipMin.y + clipMax.y) * 0.5f);
+				ImVec2 pos = ImVec2(center.x - ts.x * 0.5f, center.y - ts.y * 0.5f);
+
+				context.drawList->PushClipRect(clipMin, clipMax, true);
+				context.drawList->AddText(pos, IM_COL32(255, 255, 255, 255), buf);
+				context.drawList->PopClipRect();
+			}
+		}
+
 		ImGui::PushID(step.stepId);
 
 		// クリック領域
@@ -291,7 +314,7 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 				}
 
 				// Duration
-				ImGui::DragFloat("GraceDuration(sec)", &graceDuration, 0.01f, 0.0f, (std::max)(0.0f, maxTime - graceStartTime), "%.2f");
+				ImGui::DragFloat("GraceDuration", &graceDuration, 0.01f, 0.0f, (std::max)(0.0f, maxTime - graceStartTime), "%.2f");
 				ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 
 				ImGui::Separator();

@@ -8,6 +8,7 @@ void PlayerComboActionEditor::SetAttackTarget(const SakuEngine::GameObject3D* ta
 
 	// 攻撃対象を設定
 	areaChecker_->SetAttackTarget(target);
+	model_.SetAttackTarget(target);
 }
 
 void PlayerComboActionEditor::Init(Player* player) {
@@ -16,6 +17,10 @@ void PlayerComboActionEditor::Init(Player* player) {
 	areaChecker_ = std::make_unique<PlayerReactionAreaChecker>();
 	areaChecker_->Init();
 	areaChecker_->SetPlayer(player);
+
+	// モデルにプレイヤーとエリアチェッカーを設定
+	model_.SetPlayer(player);
+	model_.SetAreaChecker(areaChecker_.get());
 }
 
 void PlayerComboActionEditor::Update() {

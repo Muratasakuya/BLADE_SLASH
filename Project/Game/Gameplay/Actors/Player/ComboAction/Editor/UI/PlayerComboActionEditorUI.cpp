@@ -9,6 +9,7 @@
 // パネル
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerActionNodePoolPanel.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerComboListPanel.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerActionNodeEditPanel.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerComboTimelinePanel.h>
 
 //============================================================================
@@ -20,6 +21,7 @@ PlayerComboActionEditorUI::PlayerComboActionEditorUI() {
 	// 各パネル作成
 	panels_.emplace_back(std::make_unique<PlayerActionNodePoolPanel>());
 	panels_.emplace_back(std::make_unique<PlayerComboListPanel>());
+	panels_.emplace_back(std::make_unique<PlayerActionNodeEditPanel>());
 
 	// タイムラインパネル作成
 	timelinePanel_ = std::make_unique<PlayerComboTimelinePanel>();

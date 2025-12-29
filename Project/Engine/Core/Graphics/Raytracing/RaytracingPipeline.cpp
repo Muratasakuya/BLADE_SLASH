@@ -1,4 +1,4 @@
-﻿#include "RaytracingPipeline.h"
+#include "RaytracingPipeline.h"
 
 using namespace SakuEngine;
 

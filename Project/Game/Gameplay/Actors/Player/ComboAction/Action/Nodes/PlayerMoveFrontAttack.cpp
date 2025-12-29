@@ -39,6 +39,28 @@ float PlayerMoveFrontAttack::GetProgress() const {
 	return progress;
 }
 
+float PlayerMoveFrontAttack::GetTotalTime() const {
+
+	// 終了条件に基づいた合計時間を返す
+	float totalTime = 0.0f;
+	switch (endCondition_) {
+	case PlayerMoveFrontAttack::EndCondition::EndAnim:
+		
+		// アニメーションの合計時間
+		totalTime = player_->GetAnimationDuration(animationName_) + nextAnimDuration_;
+		break;
+	case PlayerMoveFrontAttack::EndCondition::LerpPos:
+
+		totalTime = lerpPos_.timer.target_;
+		break;
+	case PlayerMoveFrontAttack::EndCondition::LerpRotate:
+
+		totalTime = lerpRotate_.timer.target_;
+		break;
+	}
+	return totalTime;
+}
+
 void PlayerMoveFrontAttack::Enter() {
 
 	// タイマーリセット

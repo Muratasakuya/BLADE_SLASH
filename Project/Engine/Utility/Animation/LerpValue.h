@@ -42,23 +42,24 @@ namespace SakuEngine {
 			// 値の表示
 			if constexpr (std::is_same_v<T, float>) {
 
-				ImGui::Text("Start: %.3f, Target: %.3f", label.c_str(), start, target);
+				ImGui::Text("Start:  %.3f", label.c_str(), start);
+				ImGui::Text("Target: %.3f", label.c_str(), target);
 			} else if constexpr (std::is_same_v<T, Vector2>) {
 
-				ImGui::Text("Start: (%.3f, %.3f), Target: (%.3f, %.3f)",
-					start.x, start.y, target.x, target.y);
+				ImGui::Text("Start:  (%.3f, %.3f)", start.x, start.y);
+				ImGui::Text("Target: (%.3f, %.3f)", target.x, target.y);
 			} else if constexpr (std::is_same_v<T, Vector3>) {
 
-				ImGui::Text("Start: (%.3f, %.3f, %.3f), Target: (%.3f, %.3f, %.3f)",
-					start.x, start.y, start.z, target.x, target.y, target.z);
+				ImGui::Text("Start:  (%.3f, %.3f, %.3f)", start.x, start.y, start.z);
+				ImGui::Text("Target: (%.3f, %.3f, %.3f)", target.x, target.y, target.z);
 			} else if constexpr (std::is_same_v<T, Quaternion>) {
 
-				ImGui::Text("Start: (%.3f, %.3f, %.3f, %.3f), Target: (%.3f, %.3f, %.3f, %.3f)",
-					start.x, start.y, start.z, start.w, target.x, target.y, target.z, target.w);
+				ImGui::Text("Start:  (%.3f, %.3f, %.3f, %.3f)", start.x, start.y, start.z, start.w);
+				ImGui::Text("Target: (%.3f, %.3f, %.3f, %.3f)", target.x, target.y, target.z, target.w);
 			} else if constexpr (std::is_same_v<T, Color>) {
 
-				ImGui::Text("Start: (%.3f, %.3f, %.3f, %.3f), Target: (%.3f, %.3f, %.3f, %.3f)",
-					start.r, start.g, start.b, start.a, target.r, target.g, target.b, target.a);
+				ImGui::Text("Start:  (%.3f, %.3f, %.3f, %.3f)", start.r, start.g, start.b, start.a);
+				ImGui::Text("Target: (%.3f, %.3f, %.3f, %.3f)", target.r, target.g, target.b, target.a);
 			}
 		} else {
 			// 値の編集

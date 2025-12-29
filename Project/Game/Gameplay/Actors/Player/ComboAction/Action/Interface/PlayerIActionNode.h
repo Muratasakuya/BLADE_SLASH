@@ -42,7 +42,7 @@ public:
 	// 処理対象のプレイヤーを設定
 	void SetPlayer(Player* player) { player_ = player; }
 	// 攻撃対象を設定
-	void SetAttackTarget(SakuEngine::GameObject3D* target) { attackTarget_ = target; }
+	void SetAttackTarget(const SakuEngine::GameObject3D* target) { attackTarget_ = target; }
 	// リアクションエリアチェッカーを設定
 	void SetAreaChecker(const PlayerReactionAreaChecker* checker) { areaChecker_ = checker; }
 
@@ -54,6 +54,8 @@ public:
 	virtual void SetProgress(float progress) = 0;
 	// 処理進捗取得
 	virtual float GetProgress() const = 0;
+	// 処理合計時間
+	virtual float GetTotalTime() const = 0;
 protected:
 	//========================================================================
 	//	protected Methods
@@ -64,7 +66,7 @@ protected:
 	// 処理対象
 	Player* player_;
 	// 攻撃対象
-	SakuEngine::GameObject3D* attackTarget_;
+	const SakuEngine::GameObject3D* attackTarget_;
 	// リアクションエリアチェッカー
 	const PlayerReactionAreaChecker* areaChecker_;
 

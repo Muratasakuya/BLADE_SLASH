@@ -13,10 +13,20 @@
 PlayerComboActionModel::ComboStep PlayerComboActionModel::CreateDefaultStep(uint32_t nodeAssetId) {
 
 	ComboStep step;
+	// ID割り当て
 	step.stepId = AllocateStepId();
 	step.nodeAssetId = nodeAssetId;
+
+	// 時間の設定
 	step.startTime = 0.0f;
 	step.duration = 0.3f;
+	if (auto* asset = FindNodeAssetById(nodeAssetId)) {
+		// ノードの合計時間を取得して設定
+		if (asset->implementation) {
+			step.duration = (std::max)(0.0f, asset->implementation->GetTotalTime());
+		}
+	}
+	// 入力設定
 	step.inputGraceStartTime = step.startTime + step.duration;
 	step.inputGraceTime = 0.2f;
 	step.input.isUseKeyboard = true;
@@ -34,6 +44,10 @@ uint32_t PlayerComboActionModel::AddActionNode(PlayerActionNodeType type, const 
 	asset.type = type;
 	asset.name = nameOverride.empty() ? SakuEngine::EnumAdapter<PlayerActionNodeType>::ToString(type) : nameOverride;
 	asset.implementation = PlayerActionNodeFactory::CreateNode(type);
+	// 必要なポインタを設定
+	asset.implementation->SetPlayer(player_);
+	asset.implementation->SetAttackTarget(attackTarget_);
+	asset.implementation->SetAreaChecker(areaChecker_);
 
 	// 初期値
 	asset.isCancelDisabled = false;
@@ -303,7 +317,6 @@ void PlayerComboActionModel::SortStepsByStartTime(size_t comboIndex) {
 
 float PlayerComboActionModel::CalculateTotalTime(size_t comboIndex) const {
 
-	// 範囲外参照チェック
 	if (combos_.size() <= comboIndex) {
 		return 0.0f;
 	}
@@ -312,15 +325,21 @@ float PlayerComboActionModel::CalculateTotalTime(size_t comboIndex) const {
 	float total = 0.0f;
 	for (const auto& step : steps) {
 
-		// 各ステップの終了時間を計算
-		// ノードの処理時間
-		float nodeEnd = step.startTime + step.duration;
-		// 入力猶予終了時間
-		float graceEnd = step.inputGraceStartTime + (std::max)(0.0f, step.inputGraceTime);
-		// 終了時間の大きい方を取得
-		float end = (std::max)(nodeEnd, graceEnd);
-		if (total < end) {
+		// ノードの合計時間を取得
+		float duration = (std::max)(0.0f, step.duration);
+		if (const auto* asset = FindNodeAssetById(step.nodeAssetId)) {
+			// 実装がある場合は実装の合計時間を優先
+			if (asset->implementation) {
 
+				duration = (std::max)(0.0f, asset->implementation->GetTotalTime());
+			}
+		}
+
+		float nodeEnd = step.startTime + duration;
+		float graceEnd = step.inputGraceStartTime + (std::max)(0.0f, step.inputGraceTime);
+		float end = (std::max)(nodeEnd, graceEnd);
+		// 合計時間を更新
+		if (total < end) {
 			total = end;
 		}
 	}
@@ -331,6 +350,17 @@ PlayerComboActionModel::ActionNodeAsset* PlayerComboActionModel::FindNodeAssetBy
 
 	// 一致するIDを探して返す
 	for (auto& node : actionNodes_) {
+		if (node.id == id) {
+			return &node;
+		}
+	}
+	return nullptr;
+}
+
+const PlayerComboActionModel::ActionNodeAsset* PlayerComboActionModel::FindNodeAssetById(uint32_t id) const {
+
+	// 一致するIDを探して返す
+	for (const auto& node : actionNodes_) {
 		if (node.id == id) {
 			return &node;
 		}
