@@ -85,6 +85,8 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 	// 猶予バーの描画
 	//===================================================================================================================
 
+	// ポップアップメニューを開くか
+	bool openSettingsPopup = false;
 	for (int32_t i = 0; i < static_cast<int32_t>(steps.size()); ++i) {
 
 		auto& step = steps[static_cast<size_t>(i)];
@@ -227,6 +229,25 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 		ImGui::SetCursorScreenPos(body0);
 		ImGui::InvisibleButton("##grace_body", ImVec2(bodyW, barH));
 
+		// クリック開始を記録
+		if (ImGui::IsItemActivated() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+
+			popupCandidateStepId_ = step.stepId;
+			popupCandidateDragged_ = false;
+		}
+
+		// ドラッグしたか判定
+		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+			popupCandidateDragged_ = true;
+		}
+
+		// ダブルクリックで設定ポップアップ
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+
+			editStepId_ = step.stepId;
+			openSettingsPopup = true;
+		}
+
 		// 選択
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
 			context.select.selectedStepId = step.stepId;
@@ -253,13 +274,6 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 			ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
 		}
 
-		// クリックで設定表示
-		if (ImGui::IsItemClicked(ImGuiMouseButton_Left) && !ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
-
-			editStepId_ = step.stepId;
-			ImGui::OpenPopup("##StepInputSettingPopup");
-		}
-
 		// 右クリック、メニュー
 		if (ImGui::BeginPopupContextItem("##grace_context")) {
 			if (ImGui::MenuItem("Set Grace 0.0")) {
@@ -275,6 +289,11 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 	// 設定ポップアップ
 	//===================================================================================================================
 
+	// ポップアップを開く
+	if (openSettingsPopup) {
+
+		ImGui::OpenPopup("##StepInputSettingPopup");
+	}
 	if (ImGui::BeginPopup("##StepInputSettingPopup")) {
 
 		ImGui::TextUnformatted("StepInputSetting");
