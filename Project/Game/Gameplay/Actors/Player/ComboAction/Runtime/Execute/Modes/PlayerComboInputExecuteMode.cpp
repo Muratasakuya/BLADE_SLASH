@@ -86,6 +86,10 @@ bool PlayerComboInputExecuteMode::IsStepInputTriggered(
 
 		result |= input->TriggerKey(static_cast<BYTE>(inputSetting.keyDIKCode));
 	}
+	if (inputSetting.isUseMouse) {
+
+		result |= input->TriggerMouse(inputSetting.mouseButton);
+	}
 	if (inputSetting.isUseGamePad) {
 
 		result |= input->TriggerGamepadButton(inputSetting.gamePadButton);

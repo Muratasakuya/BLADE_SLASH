@@ -371,33 +371,20 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 				if (step.input.isUseKeyboard) {
 
 					SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &step.input.keyDIKCode);
-					SakuEngine::EnumAdapter<MouseButton>::Combo("Mouse", &step.input.mouseButton);
+				}
 
-					ImGui::SameLine();
-					if (ImGui::Button("Capture")) {
+				ImGui::Separator();
 
-						isCaptureKeyboard_ = true;
-					}
+				//===================================================================================================================
+				// マウス入力
+				//===================================================================================================================
 
-					if (isCaptureKeyboard_) {
+				ImGui::TextUnformatted("Mouse");
+				ImGui::Checkbox("UseMouse", &step.input.isUseMouse);
 
-						ImGui::TextUnformatted("Press any key");
-						auto* input = SakuEngine::Input::GetInstance();
-						for (auto v : magic_enum::enum_values<KeyDIKCode>()) {
+				if (step.input.isUseMouse) {
 
-							uint8_t raw = static_cast<uint8_t>(v);
-							if (input->TriggerKey(static_cast<BYTE>(raw))) {
-
-								step.input.keyDIKCode = v;
-								isCaptureKeyboard_ = false;
-								break;
-							}
-						}
-						if (ImGui::Button("CancelCapture")) {
-
-							isCaptureKeyboard_ = false;
-						}
-					}
+					SakuEngine::EnumAdapter<MouseButton>::Combo("MouseButton", &step.input.mouseButton);
 				}
 
 				ImGui::Separator();
@@ -411,32 +398,7 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 				if (step.input.isUseGamePad) {
 
-					SakuEngine::EnumAdapter<GamePadButtons>::Combo("Button", &step.input.gamePadButton);
-
-					ImGui::SameLine();
-					if (ImGui::Button("Capture##Pad")) {
-
-						isCapturePad_ = true;
-					}
-					if (isCapturePad_) {
-
-						ImGui::TextUnformatted("Press any gamepad button...");
-						auto* input = SakuEngine::Input::GetInstance();
-						for (uint32_t bi = 0; bi < static_cast<uint32_t>(GamePadButtons::Counts); ++bi) {
-
-							GamePadButtons button = static_cast<GamePadButtons>(bi);
-							if (input->TriggerGamepadButton(button)) {
-
-								step.input.gamePadButton = button;
-								isCapturePad_ = false;
-								break;
-							}
-						}
-						if (ImGui::Button("CancelCapture##Pad")) {
-
-							isCapturePad_ = false;
-						}
-					}
+					SakuEngine::EnumAdapter<GamePadButtons>::Combo("PadButton", &step.input.gamePadButton);
 				}
 			}
 		} else {

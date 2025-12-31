@@ -30,6 +30,7 @@ PlayerComboActionModel::ComboStep PlayerComboActionModel::CreateDefaultStep(uint
 	step.inputGraceStartTime = step.startTime + step.duration;
 	step.inputGraceTime = 0.2f;
 	step.input.isUseKeyboard = true;
+	step.input.isUseMouse = true;
 	step.input.isUseGamePad = true;
 	step.input.keyDIKCode = KeyDIKCode::SPACE;
 	step.input.mouseButton = MouseButton::Left;

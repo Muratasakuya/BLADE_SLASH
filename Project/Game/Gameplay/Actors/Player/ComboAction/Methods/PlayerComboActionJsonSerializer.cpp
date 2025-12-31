@@ -32,7 +32,9 @@ namespace {
 		Json data;
 		data["isUseKeyboard"] = step.isUseKeyboard;
 		data["isUseGamePad"] = step.isUseGamePad;
+		data["isUseMouse"] = step.isUseMouse;
 		data["keyDIKCode"] = EnumAdapter<KeyDIKCode>::ToString(step.keyDIKCode);
+		data["mouseButton"] = EnumAdapter<MouseButton>::ToString(step.mouseButton);
 		data["gamePadButton"] = EnumAdapter<GamePadButtons>::ToString(step.gamePadButton);
 		return data;
 	}
@@ -41,8 +43,10 @@ namespace {
 
 		out.isUseKeyboard = GetOr<bool>(data, "isUseKeyboard", out.isUseKeyboard);
 		out.isUseGamePad = GetOr<bool>(data, "isUseGamePad", out.isUseGamePad);
+		out.isUseMouse = GetOr<bool>(data, "isUseMouse", out.isUseMouse);
 
 		out.keyDIKCode = EnumAdapter<KeyDIKCode>::FromString(data.value("keyDIKCode", "SPACE")).value();
+		out.mouseButton = EnumAdapter<MouseButton>::FromString(data.value("mouseButton", "Left")).value();
 		out.gamePadButton = EnumAdapter<GamePadButtons>::FromString(data.value("gamePadButton", "A")).value();
 	}
 

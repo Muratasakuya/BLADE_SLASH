@@ -34,10 +34,6 @@ private:
 	// 今編集しているステップID
 	uint32_t editStepId_ = 0;
 
-	// 各デバイスの入力キャプチャ状態
-	bool isCaptureKeyboard_ = false;
-	bool isCapturePad_ = false;
-
 	// ポップアップメニュー関連
 	uint32_t popupCandidateStepId_ = 0;
 	bool popupCandidateDragged_ = false;

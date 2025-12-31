@@ -49,8 +49,10 @@ public:
 	// ステップ入力設定
 	struct StepInputSetting {
 
-		// キーボード入力を使うか(マウスも含まれる)
+		// キーボード入力を使うか
 		bool isUseKeyboard = true;
+		// マウス入力を使うか
+		bool isUseMouse = true;
 		// ゲームパッド入力を使うか
 		bool isUseGamePad = true;
 
