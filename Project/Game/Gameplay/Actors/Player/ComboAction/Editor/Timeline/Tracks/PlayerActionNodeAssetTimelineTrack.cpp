@@ -14,6 +14,80 @@
 
 namespace {
 
+	static void DrawStepInputSettingUI(
+		PlayerComboActionModel::StepInputSetting& input,
+		bool& isCaptureKeyboard,
+		bool& isCapturePad) {
+
+		ImGui::SeparatorText("Keyboard");
+		ImGui::Checkbox("UseKeyboard", &input.isUseKeyboard);
+
+		if (input.isUseKeyboard) {
+
+			SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &input.keyDIKCode);
+
+			ImGui::SameLine();
+			if (ImGui::Button("Capture##Key")) {
+				isCaptureKeyboard = true;
+			}
+
+			if (isCaptureKeyboard) {
+
+				ImGui::TextUnformatted("Press any key...");
+				auto* in = SakuEngine::Input::GetInstance();
+
+				for (auto v : magic_enum::enum_values<KeyDIKCode>()) {
+
+					uint8_t raw = static_cast<uint8_t>(v);
+					if (in->TriggerKey(static_cast<BYTE>(raw))) {
+
+						input.keyDIKCode = v;
+						isCaptureKeyboard = false;
+						break;
+					}
+				}
+
+				if (ImGui::Button("CancelCapture##Key")) {
+					isCaptureKeyboard = false;
+				}
+			}
+		}
+
+		ImGui::SeparatorText("GamePad");
+		ImGui::Checkbox("UseGamePad", &input.isUseGamePad);
+
+		if (input.isUseGamePad) {
+
+			SakuEngine::EnumAdapter<GamePadButtons>::Combo("Button", &input.gamePadButton);
+
+			ImGui::SameLine();
+			if (ImGui::Button("Capture##Pad")) {
+				isCapturePad = true;
+			}
+
+			if (isCapturePad) {
+
+				ImGui::TextUnformatted("Press any gamepad button...");
+				auto* in = SakuEngine::Input::GetInstance();
+
+				for (uint32_t bi = 0; bi < static_cast<uint32_t>(GamePadButtons::Counts); ++bi) {
+
+					GamePadButtons button = static_cast<GamePadButtons>(bi);
+					if (in->TriggerGamepadButton(button)) {
+
+						input.gamePadButton = button;
+						isCapturePad = false;
+						break;
+					}
+				}
+
+				if (ImGui::Button("CancelCapture##Pad")) {
+					isCapturePad = false;
+				}
+			}
+		}
+	}
+
 	// マウスのX移動量を取得
 	float GetMouseDeltaX() {
 
@@ -170,6 +244,22 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 	//===================================================================================================================
 
 	bool isAnyClipActiveThisFrame = false;
+	//最初のステップ
+	uint32_t firstStepId = 0;
+	{
+
+		float bestT = FLT_MAX;
+		uint32_t bestId = 0;
+		for (const auto& step : steps) {
+			// 最も早い開始時間のステップを探す
+			if (step.startTime < bestT || (step.startTime == bestT && step.stepId < bestId)) {
+				bestT = step.startTime;
+				bestId = step.stepId;
+			}
+		}
+		// 最初のステップIDを保存
+		firstStepId = bestId;
+	}
 
 	for (int32_t i = 0; i < static_cast<int32_t>(steps.size()); ++i) {
 
@@ -219,6 +309,36 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 		float h = (std::max)(1.0f, p1.y - p0.y);
 		ImGui::InvisibleButton("##clip_btn", ImVec2(w, h));
 
+		// 最初のアクションノードだけ、右クリックで開始入力設定
+		bool isFirstClip = (step.stepId != 0 && step.stepId == firstStepId);
+		if (isFirstClip && ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+
+			editComboId_ = combo.id;
+			isCaptureKeyboardStart_ = false;
+			isCapturePadStart_ = false;
+
+			ImGui::OpenPopup("##ComboStartInputPopup");
+		}
+		// 開始入力設定ポップアップ
+		if (ImGui::BeginPopup("##ComboStartInputPopup")) {
+
+			ImGui::TextUnformatted("Combo Start Input (First Action Only)");
+
+			auto* editCombo = context.model.FindComboById(editComboId_);
+			if (editCombo) {
+
+				DrawStepInputSettingUI(editCombo->startInput, isCaptureKeyboardStart_, isCapturePadStart_);
+			} else {
+
+				ImGui::TextUnformatted("Combo not found.");
+			}
+
+			if (ImGui::Button("Close")) {
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
 		if (ImGui::BeginDragDropTarget()) {
 
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(PlayerComboTimelinePayload::kActionNodeAssetId)) {

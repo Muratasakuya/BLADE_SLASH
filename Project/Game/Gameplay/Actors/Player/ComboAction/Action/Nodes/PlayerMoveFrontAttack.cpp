@@ -18,25 +18,9 @@ void PlayerMoveFrontAttack::SetProgress([[maybe_unused]] float progress) {
 	// そのまま設定を行い、それ以外は全体のうちどれくらいかを計算して進捗設定する
 }
 
-float PlayerMoveFrontAttack::GetProgress() const {
+bool PlayerMoveFrontAttack::IsFinished() const {
 
-	// 終了条件に基づいた進捗を返す
-	float progress = 0.0f;
-	switch (endCondition_) {
-	case PlayerMoveFrontAttack::EndCondition::EndAnim:
-
-		progress = player_->GetAnimationProgress();
-		break;
-	case PlayerMoveFrontAttack::EndCondition::LerpPos:
-
-		progress = lerpPos_.timer.t_;
-		break;
-	case PlayerMoveFrontAttack::EndCondition::LerpRotate:
-
-		progress = lerpRotate_.timer.t_;
-		break;
-	}
-	return progress;
+	return exitTimer_.IsReached();
 }
 
 float PlayerMoveFrontAttack::GetTotalTime() const {
@@ -45,7 +29,7 @@ float PlayerMoveFrontAttack::GetTotalTime() const {
 	float totalTime = 0.0f;
 	switch (endCondition_) {
 	case PlayerMoveFrontAttack::EndCondition::EndAnim:
-		
+
 		// アニメーションの合計時間
 		totalTime = player_->GetAnimationDuration(animationName_) + nextAnimDuration_;
 		break;
@@ -58,7 +42,30 @@ float PlayerMoveFrontAttack::GetTotalTime() const {
 		totalTime = lerpRotate_.timer.target_;
 		break;
 	}
+	// ExitTimeを加算
+	totalTime += exitTimer_.target_;
 	return totalTime;
+}
+
+bool PlayerMoveFrontAttack::IsEndConditionReached() const {
+
+	// 終了条件に基づいて時間が過ぎたかを返す
+	bool isReached = false;
+	switch (endCondition_) {
+	case PlayerMoveFrontAttack::EndCondition::EndAnim:
+
+		isReached = player_->IsAnimationFinished();
+		break;
+	case PlayerMoveFrontAttack::EndCondition::LerpPos:
+
+		isReached = lerpPos_.timer.IsReached();
+		break;
+	case PlayerMoveFrontAttack::EndCondition::LerpRotate:
+
+		isReached = lerpRotate_.timer.IsReached();
+		break;
+	}
+	return isReached;
 }
 
 void PlayerMoveFrontAttack::Enter() {
@@ -66,6 +73,7 @@ void PlayerMoveFrontAttack::Enter() {
 	// タイマーリセット
 	lerpPos_.timer.Reset();
 	lerpRotate_.timer.Reset();
+	exitTimer_.Reset();
 
 	// アニメーション再生
 	player_->SetNextAnimation(animationName_, false, nextAnimDuration_);
@@ -86,7 +94,7 @@ void PlayerMoveFrontAttack::Enter() {
 		// 範囲外の場合は正面方向に移動させる
 		else {
 
-			lerpPos_.target = targetPos - player_->GetTransform().GetForward() * distance_;
+			lerpPos_.target = lerpPos_.start + player_->GetTransform().GetForward() * distance_;
 		}
 	}
 	//============================================================================
@@ -111,7 +119,9 @@ void PlayerMoveFrontAttack::Enter() {
 void PlayerMoveFrontAttack::Update() {
 
 	// 時間経過で処理終了
-	if (1.0f <= GetProgress()) {
+	if (IsEndConditionReached()) {
+
+		exitTimer_.Update();
 		return;
 	}
 
@@ -134,13 +144,10 @@ void PlayerMoveFrontAttack::Exit() {
 	// タイマーリセット
 	lerpPos_.timer.Reset();
 	lerpRotate_.timer.Reset();
+	exitTimer_.Reset();
 }
 
 void PlayerMoveFrontAttack::ImGui() {
-
-	ImGui::SeparatorText("Runtime");
-
-	ImGui::ProgressBar(GetProgress());
 
 	ImGui::SeparatorText("Parameters");
 
@@ -148,6 +155,9 @@ void PlayerMoveFrontAttack::ImGui() {
 	ImGuiHelper::ComboFromStrings("AnimationName", &animationName_, player_->GetAnimNames());
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("distance", &distance_, 0.1f);
+
+	// 終了後タイマー
+	exitTimer_.ImGui("ExitTimer");
 
 	// 座標
 	lerpPos_.ImGui("LerpPos");
@@ -162,6 +172,7 @@ void PlayerMoveFrontAttack::FromJson(const Json& data) {
 	nextAnimDuration_ = data.value("NextAnimDuration", 0.0f);
 	distance_ = data.value("Distance", 0.0f);
 
+	exitTimer_.FromJson(data.value("ExitTimer", Json()));
 	lerpPos_.timer.FromJson(data["LerpPosTimer"]);
 	lerpRotate_.timer.FromJson(data["LerpRotateTimer"]);
 }
@@ -173,6 +184,7 @@ void PlayerMoveFrontAttack::ToJson(Json& data) {
 	data["NextAnimDuration"] = nextAnimDuration_;
 	data["Distance"] = distance_;
 
+	exitTimer_.ToJson(data["ExitTimer"]);
 	lerpPos_.timer.ToJson(data["LerpPosTimer"]);
 	lerpRotate_.timer.ToJson(data["LerpRotateTimer"]);
 }

@@ -27,8 +27,12 @@ void PlayerComboInputExecuteMode::Init(Player* player, PlayerComboActionModel* m
 
 void PlayerComboInputExecuteMode::Update() {
 
-	// 再生中でなければ何もしない
+	//未再生中なら開始入力を監視して、押されたらコンボ開始
 	if (!isPlaying_) {
+		TryStartComboByStartInput();
+		return;
+	}
+	if (!combo_ || !model_) {
 		return;
 	}
 
@@ -38,13 +42,11 @@ void PlayerComboInputExecuteMode::Update() {
 	}
 	current_.windowTimer.Update(current_.windowTotalTime);
 
-	// 入力更新
+	// 入力バッファ更新
 	UpdateInputBuffer();
-
-	// アクションノード更新
+	// ノード更新
 	UpdateNode();
-
-	// 次のアクションノードがあれば進み、なければ終了
+	// 次のステップに進むか、コンボを終了するか判定
 	TryAdvanceOrFinish();
 }
 
@@ -91,6 +93,25 @@ bool PlayerComboInputExecuteMode::IsStepInputTriggered(
 	return result;
 }
 
+void PlayerComboInputExecuteMode::TryStartComboByStartInput() {
+
+	// コンボ一覧を取得
+	const auto& combos = model_->Combos();
+	for (const auto& combo : combos) {
+
+		// ステップが無いコンボは開始できない
+		if (combo.steps.empty()) {
+			continue;
+		}
+
+		// 開始入力があればコンボ開始
+		if (IsStepInputTriggered(combo.startInput)) {
+			StartCombo(combo.id);
+			return;
+		}
+	}
+}
+
 void PlayerComboInputExecuteMode::UpdateNode() {
 
 	// アクションノードがないなら入力猶予待機のみ
@@ -108,7 +129,7 @@ void PlayerComboInputExecuteMode::UpdateNode() {
 	current_.node->Update();
 
 	// 終了判定
-	if (current_.node->GetProgress() <= 1.0f) {
+	if (current_.node->IsFinished()) {
 
 		current_.nodeFinished = true;
 	}

@@ -60,8 +60,8 @@ public:
 
 	// 処理進捗設定
 	virtual void SetProgress(float progress) = 0;
-	// 処理進捗取得
-	virtual float GetProgress() const = 0;
+	// 状態が終了したか
+	virtual bool IsFinished() const = 0;
 	// 処理合計時間
 	virtual float GetTotalTime() const = 0;
 protected:

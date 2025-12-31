@@ -33,7 +33,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	void SetProgress(float progress) override;
-	float GetProgress() const override;
+	bool IsFinished() const override;
 	float GetTotalTime() const override;
 private:
 	//========================================================================
@@ -50,7 +50,7 @@ private:
 		LerpRotate, // 回転補間完了
 	};
 
-	//--------- variables ----------------------------------------------------\
+	//--------- variables ----------------------------------------------------
 
 	// 処理終了条件
 	EndCondition endCondition_;
@@ -67,4 +67,12 @@ private:
 	SakuEngine::LerpValue<SakuEngine::Vector3> lerpPos_;
 	// 回転補間
 	SakuEngine::LerpValue<SakuEngine::Quaternion> lerpRotate_;
+
+	// 処理終了後の待機時間タイマー
+	SakuEngine::StateTimer exitTimer_;
+
+	//--------- functions ----------------------------------------------------
+
+	// 終了条件の時間が過ぎたか
+	bool IsEndConditionReached() const;
 };

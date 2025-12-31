@@ -89,6 +89,9 @@ public:
 		uint32_t id = 0;
 		std::string name;
 
+		// コンボ開始入力設定
+		StepInputSetting startInput;
+
 		// ステップリスト
 		std::vector<ComboStep> steps;
 	};
@@ -154,6 +157,17 @@ public:
 	ComboAction* FindComboById(uint32_t id);
 	// ステップIDからステップインデックスを探す
 	int32_t FindStepIndexById(size_t comboIndex, uint32_t stepId) const;
+
+	//========================================================================
+	//	Json Methods
+	//========================================================================
+
+	// 全クリア
+	void ClearAll();
+	// 全置換
+	void ReplaceAll(std::vector<ActionNodeAsset>&& nodes, std::vector<ComboAction>&& combos);
+	// 次のIDを再計算
+	void RecalculateNextIds();
 
 	//--------- accessor -----------------------------------------------------
 

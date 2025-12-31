@@ -21,7 +21,7 @@ public:
 
 	// 初期化
 	void Init(Player* player, PlayerComboActionModel* model,
-		const PlayerReactionAreaChecker* areaChecker, const  SakuEngine::GameObject3D* attackTarget) override;
+		const PlayerReactionAreaChecker* areaChecker, const SakuEngine::GameObject3D* attackTarget) override;
 
 	// 更新
 	void Update() override;
@@ -129,6 +129,7 @@ private:
 
 	// 入力判定
 	bool IsStepInputTriggered(const PlayerComboActionModel::StepInputSetting& input) const;
+	void TryStartComboByStartInput();
 
 	// 参照取得
 	PlayerComboActionModel::ActionNodeAsset* FindAsset(uint32_t nodeAssetId) const;

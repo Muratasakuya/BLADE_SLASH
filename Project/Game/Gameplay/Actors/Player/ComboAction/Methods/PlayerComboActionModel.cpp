@@ -254,6 +254,7 @@ bool PlayerComboActionModel::DuplicateCombo(size_t comboIndex) {
 	ComboAction copy;
 	copy.id = AllocateId();
 	copy.name = source.name + "_Copy";
+	copy.startInput = source.startInput;
 	copy.steps = source.steps;
 
 	// stepIdは重複しないように振り直す
@@ -395,4 +396,52 @@ int32_t PlayerComboActionModel::FindStepIndexById(size_t comboIndex, uint32_t st
 		}
 	}
 	return -1;
+}
+
+void PlayerComboActionModel::ClearAll() {
+
+	actionNodes_.clear();
+	combos_.clear();
+	nextId_ = 1;
+	nextStepId_ = 1;
+}
+
+void PlayerComboActionModel::ReplaceAll(std::vector<ActionNodeAsset>&& nodes, std::vector<ComboAction>&& combos) {
+
+	actionNodes_ = std::move(nodes);
+	combos_ = std::move(combos);
+	// ノード実装がないものは作成する
+	for (auto& node : actionNodes_) {
+		if (!node.implementation) {
+
+			node.implementation = PlayerActionNodeFactory::CreateNode(node.type);
+		}
+		if (node.implementation) {
+
+			node.implementation->SetIsCancelDisabled(node.isCancelDisabled);
+		}
+	}
+	RecalculateNextIds();
+}
+
+void PlayerComboActionModel::RecalculateNextIds() {
+
+	uint32_t maxId = 1;
+	uint32_t maxStepId = 1;
+
+	for (const auto& node : actionNodes_) {
+
+		maxId = (std::max)(maxId, node.id);
+	}
+	for (const auto& combo : combos_) {
+
+		maxId = (std::max)(maxId, combo.id);
+		for (const auto& step : combo.steps) {
+
+			maxStepId = (std::max)(maxStepId, step.stepId);
+		}
+	}
+	// 次のIDを最大値の次に設定
+	nextId_ = maxId;
+	nextStepId_ = maxStepId;
 }

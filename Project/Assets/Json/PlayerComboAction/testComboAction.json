@@ -1,0 +1,95 @@
+{
+    "actionNodes": [
+        {
+            "id": 3,
+            "implementation": {
+                "AnimationName": "player_attack_1st",
+                "Distance": 16.0,
+                "EndCondition": "LerpPos",
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.15000000596046448
+                },
+                "LerpPosTimer": {
+                    "easeingType_": "EaseInExpo",
+                    "target_": 0.15000000596046448
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.4000000059604645
+                },
+                "NextAnimDuration": 0.10000000149011612
+            },
+            "isCancelDisabled": false,
+            "name": "attack0",
+            "type": "MoveFrontAttack"
+        },
+        {
+            "id": 4,
+            "implementation": {
+                "AnimationName": "player_attack_4th",
+                "Distance": 16.0,
+                "EndCondition": "LerpPos",
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.10000000149011612
+                },
+                "LerpPosTimer": {
+                    "easeingType_": "EaseOutExpo",
+                    "target_": 0.800000011920929
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.20000000298023224
+                },
+                "NextAnimDuration": 0.07999999821186066
+            },
+            "isCancelDisabled": false,
+            "name": "action1",
+            "type": "MoveFrontAttack"
+        }
+    ],
+    "combos": [
+        {
+            "id": 2,
+            "name": "testAction",
+            "startInput": {
+                "gamePadButton": "B",
+                "isUseGamePad": true,
+                "isUseKeyboard": true,
+                "keyDIKCode": "SPACE"
+            },
+            "steps": [
+                {
+                    "duration": 0.30000001192092896,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "keyDIKCode": "SPACE"
+                    },
+                    "inputGraceStartTime": 0.0,
+                    "inputGraceTime": 0.30000001192092896,
+                    "nodeAssetId": 3,
+                    "startTime": 0.0,
+                    "stepId": 2
+                },
+                {
+                    "duration": 0.9000000357627869,
+                    "input": {
+                        "gamePadButton": "A",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "keyDIKCode": "SPACE"
+                    },
+                    "inputGraceStartTime": 0.6000000238418579,
+                    "inputGraceTime": 0.0,
+                    "nodeAssetId": 4,
+                    "startTime": 0.30000001192092896,
+                    "stepId": 3
+                }
+            ]
+        }
+    ],
+    "version": 1
+}
