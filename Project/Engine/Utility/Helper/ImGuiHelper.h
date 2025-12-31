@@ -94,6 +94,10 @@ public:
 	// 配列のstringをComboで表示する
 	static bool ComboFromStrings(const char* label, int* currentIndex,
 		const std::vector<std::string>& items, int popupMaxHeightInItems = -1);
+	// 選択中の文字列(ioSelected)を items から選ばせる Combo
+	static bool ComboFromStrings(const char* label, std::string* ioSelected,
+		const std::vector<std::string>& items, int popupMaxHeightInItems = -1,
+		const char* nonePreview = "(None)");
 	template <typename T>
 	static bool ComboFromKeys(const char* label, int* currentIndex,
 		const T& container, std::string* outSelectedKey = nullptr,
@@ -140,6 +144,10 @@ public:
 	// ウィンドウエリアのサイズを割合に応じて取得する(0 ~ 1、0.5:0.5で半分で分割)
 	// x = 左側、y = 右側
 	static ImVec2 GetWindowAreaSizeRatio(float leftRatio, float rightRatio);
+
+	// 四角形の角丸塗りつぶし
+	static void AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
+		const ImVec2& max, ImU32 color, float rounding);
 };
 
 //============================================================================

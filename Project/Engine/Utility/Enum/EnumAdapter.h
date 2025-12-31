@@ -88,8 +88,7 @@ namespace SakuEngine {
 		static bool Combo(const char* label, Enum* current) noexcept {
 
 			int idx = static_cast<int>(GetIndex(*current));
-			bool changed = ImGui::Combo(label,
-				&idx, GetEnumArray().data(),
+			bool changed = ImGui::Combo(label, &idx, GetEnumArray().data(),
 				static_cast<int>(GetEnumCount()));
 			if (changed) {
 
@@ -98,5 +97,4 @@ namespace SakuEngine {
 			return changed;
 		}
 	};
-
 }; // SakuEngine

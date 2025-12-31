@@ -206,8 +206,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp">
       <SubType />
@@ -216,6 +215,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\MathLib\ConicalPendulum.cpp">
@@ -236,65 +250,107 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Interface\IPlayerComboTimelineTrack.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerActionNodeAssetTimelineTrack.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerInputGraceTimelineTrack.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Interface\IPlayerComboActionEditorPanel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.cpp">
       <SubType>
       </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboListPanel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboInputExecuteMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboTimelineExecuteMode.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecutor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\PlayerComboActionEditorUI.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Lighting\GameLight.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.cpp">
       <SubType />
@@ -1018,8 +1074,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\Camera\Module\Updaters\CameraKeyEventWaitUpdater.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h">
       <SubType />
@@ -1028,6 +1083,33 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Animation\LerpValue.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Interface\PlayerIActionNode.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\PlayerActionNode.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\MathLib\ConicalPendulum.h">
@@ -1072,61 +1154,111 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Interface\IPlayerComboTimelineTrack.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerActionNodeAssetTimelineTrack.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerInputGraceTimelineTrack.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Interface\IPlayerComboActionEditorPanel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h">
       <SubType>
       </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboListPanel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Interface\IPlayerComboExecuteMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboInputExecuteMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboTimelineExecuteMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecuteMode.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecutor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\PlayerComboActionEditorUI.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Interface\IFollowCameraUpdatePass.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraFrameService.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Lighting\GameLight.h">
       <SubType />
@@ -1135,20 +1267,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Systems\Input\Actions\GameInputAction.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Systems\Input\GameInputDeviceController.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h">
       <SubType />

@@ -7,11 +7,11 @@
             "parameter": {
                 "isLockTarget": false,
                 "lookTimer": {
-                    "easeingType_": "EaseInSine",
-                    "target_": 0.800000011920929
+                    "easeingType_": "EaseOutSine",
+                    "target_": 0.7799999713897705
                 },
                 "lookYawOffset": 0.0,
-                "targetXRotation": 0.0
+                "targetXRotation": -0.05999999865889549
             },
             "priority": 30,
             "state": "JumpAttack"

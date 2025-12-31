@@ -66,10 +66,6 @@ private:
 		SakuEngine::Vector3 startPos;  // 開始座標(親子付けを外した瞬間のワールド座標)
 		SakuEngine::Vector3 targetPos; // 目標座標
 		SakuEngine::Vector3 rotation;  // 回転
-
-		// 処理進捗
-		float startProgress = 0.0f;
-		float endProgress = 0.0f;
 	};
 
 	//--------- variables ----------------------------------------------------
