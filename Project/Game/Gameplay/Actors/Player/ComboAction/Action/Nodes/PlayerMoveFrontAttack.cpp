@@ -14,8 +14,8 @@ using namespace SakuEngine;
 
 void PlayerMoveFrontAttack::SetProgress([[maybe_unused]] float progress) {
 
-	// 全体進捗がGetProgress()だとして、endCondition_になっているものは
-	// そのまま設定を行い、それ以外は全体のうちどれくらいかを計算して進捗設定する
+	// ここは時間がかかるのでまだ実装しない。
+	// とりあえず入力を完璧に実装する
 }
 
 bool PlayerMoveFrontAttack::IsFinished() const {
@@ -75,8 +75,15 @@ void PlayerMoveFrontAttack::Enter() {
 	lerpRotate_.timer.Reset();
 	exitTimer_.Reset();
 
-	// アニメーション再生
-	player_->SetNextAnimation(animationName_, false, nextAnimDuration_);
+	if (auto* animation = player_->GetSkinnedAnimation()) {
+
+		// 外部からポーズが設定されている場合、その情報を保存しておく
+		oldAnimName_ = animation->GetCurrentAnimationName();
+		oldAnimTime_ = animation->GetCurrentAnimTime();
+
+		// アニメーション再生
+		animation->SwitchAnimation(animationName_, false, nextAnimDuration_);
+	}
 
 	//============================================================================
 	// 移動開始位置、目標位置の設定

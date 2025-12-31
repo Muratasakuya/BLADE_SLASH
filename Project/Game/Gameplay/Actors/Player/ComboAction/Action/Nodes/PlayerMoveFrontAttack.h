@@ -71,6 +71,10 @@ private:
 	// 処理終了後の待機時間タイマー
 	SakuEngine::StateTimer exitTimer_;
 
+	// 外部からポーズを設定された場合の情報
+	std::string oldAnimName_;
+	float oldAnimTime_ = 0.0f;
+
 	//--------- functions ----------------------------------------------------
 
 	// 終了条件の時間が過ぎたか

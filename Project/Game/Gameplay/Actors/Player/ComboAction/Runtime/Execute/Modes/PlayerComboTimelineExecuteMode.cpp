@@ -318,7 +318,6 @@ void PlayerComboTimelineExecuteMode::RebuildStateAtTime(float timelineTime) {
 
 	// 全部終了して作り直す
 	EndActiveStep();
-	nextStartPos_ = 0;
 
 	// 時刻に応じてステップを開始する
 	StartStepsByTime(timelineTime);
