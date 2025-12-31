@@ -32,6 +32,7 @@ PlayerComboActionModel::ComboStep PlayerComboActionModel::CreateDefaultStep(uint
 	step.input.isUseKeyboard = true;
 	step.input.isUseGamePad = true;
 	step.input.keyDIKCode = KeyDIKCode::SPACE;
+	step.input.mouseButton = MouseButton::Left;
 	step.input.gamePadButton = GamePadButtons::A;
 	return step;
 }

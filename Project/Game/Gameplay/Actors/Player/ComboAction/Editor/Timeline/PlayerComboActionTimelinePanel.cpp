@@ -6,6 +6,7 @@
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Input/Input.h> 
 #include <Engine/Config.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Runtime/Execute/PlayerComboExecutor.h>
 
 // タイムライントラック
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/Timeline/Tracks/PlayerActionNodeAssetTimelineTrack.h>
@@ -46,6 +47,12 @@ void PlayerComboActionTimelinePanel::EditParam() {
 	ImGui::End();
 }
 
+bool PlayerComboActionTimelinePanel::IsUsingExecutorTimeline() const {
+
+	return executor_ != nullptr && executor_->IsEnabled() &&
+		executor_->GetMode() == PlayerComboExecuteMode::TimelineDriven;
+}
+
 void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 	PlayerComboActionEditorSelection& select) {
 
@@ -73,29 +80,43 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 		context.totalTime = 0.1f;
 	}
 
+	// Executorがタイムライン制御を使っているか
+	bool useExecTimeline = IsUsingExecutorTimeline();
+
 	//=========================================================================================================================
-	//	コンボ再生
+	//	エディタ内の疑似再生
 	//=========================================================================================================================
 
-	if (runtime_.isPlaying) {
+	if (!useExecTimeline) {
 
-		// 時間を進める
-		float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
-		runtime_.currentTime += deltaTime * runtime_.playSpeed;
+		// 再生中なら時間を進める
+		if (runtime_.isPlaying) {
 
-		// 総時間を超えたら停止
-		if (context.totalTime < runtime_.currentTime) {
+			float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
+			runtime_.currentTime += deltaTime * runtime_.playSpeed;
 
-			runtime_.currentTime = context.totalTime;
-			runtime_.isPlaying = false;
+			// 総時間を超えたら停止
+			if (context.totalTime < runtime_.currentTime) {
+				runtime_.currentTime = context.totalTime;
+				runtime_.isPlaying = false;
+			}
 		}
+	} else {
+
+		// Executorの時間情報を反映
+		float execTotal = executor_->GetTimelineTotalTime();
+		if (0.1f <= execTotal) {
+			context.totalTime = execTotal;
+		}
+		// 現在時間、再生状態を反映
+		runtime_.currentTime = executor_->GetTimelineTime();
+		runtime_.isPlaying = executor_->IsTimelinePlayback();
 	}
 
 	//=========================================================================================================================
 	// ランタイム表示
 	//=========================================================================================================================
 
-	// ランタイム表示
 	DrawRuntime(context);
 
 	ImGui::Separator();
@@ -108,7 +129,6 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 		ImGuiTableFlags_BordersInnerV |
 		ImGuiTableFlags_BordersOuterV |
 		ImGuiTableFlags_SizingFixedFit;
-
 	if (ImGui::BeginTable("##timeline_table", 2, tableFlags)) {
 
 		ImGui::TableSetupColumn("##track_name_col", ImGuiTableColumnFlags_WidthFixed, view_.trackNameWidth);
@@ -119,6 +139,7 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 		//============================================================================================
 		// タイムライン
 		//============================================================================================
+
 		ImGui::TableSetColumnIndex(1);
 
 		ImGui::BeginChild("##timeline_content", ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_HorizontalScrollbar);
@@ -132,64 +153,6 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 		context.contentScreenPos = ImGui::GetCursorScreenPos();
 		context.contentScreenSize = ImGui::GetContentRegionAvail();
 		context.drawList = ImGui::GetWindowDrawList();
-
-		// ルーラー上でのみズーム
-		const bool onRuler = ImGui::GetIO().MousePos.y >= context.contentScreenPos.y &&
-			ImGui::GetIO().MousePos.y <= context.contentScreenPos.y + context.view.rulerHeight;
-
-		float wheel = SakuEngine::Input::GetInstance()->GetMouseWheel();
-		if (onRuler && wheel != 0.0f) {
-
-			const float oldPPS = context.view.pixelsPerSecond;
-			const float zoomBase = 1.1f; // 1ノッチあたりの倍率
-			float newPPS = oldPPS * std::pow(zoomBase, wheel);
-
-			// クランプ（お好みで）
-			newPPS = std::clamp(newPPS, 20.0f, 1200.0f);
-
-			if (std::fabs(newPPS - oldPPS) > 0.001f) {
-
-				// マウス位置を基準にその時間がズーム後も同じ位置に来るようにscrollを補正
-				float mouseXIn = ImGui::GetIO().MousePos.x - context.contentScreenPos.x;
-				mouseXIn = std::clamp(mouseXIn, 0.0f, context.contentScreenSize.x);
-
-				// ズーム前のマウス下の時間
-				float anchorLocal = mouseXIn + context.scroll.x - context.view.contentPadding.x;
-				float anchorTime = PlayerComboTimelineHelper::LocalXToTime(context.view, anchorLocal);
-				anchorTime = std::clamp(anchorTime, 0.0f, context.totalTime);
-
-				// ズーム適用
-				context.view.pixelsPerSecond = newPPS;
-
-				// 新しいscroll
-				float newScrollX = context.view.contentPadding.x +
-					PlayerComboTimelineHelper::TimeToLocalX(context.view, anchorTime) - mouseXIn;
-
-				// スクロール範囲にクランプ
-				float contentWidth = context.view.contentPadding.x * 2.0f +
-					PlayerComboTimelineHelper::TimeToLocalX(context.view, context.totalTime);
-
-				// 最大スクロール位置
-				float maxScrollX = (std::max)(0.0f, contentWidth - context.contentScreenSize.x);
-				newScrollX = std::clamp(newScrollX, 0.0f, maxScrollX);
-
-				// スクロール適用
-				ImGui::SetScrollX(newScrollX);
-				context.scroll.x = newScrollX;
-			}
-		}
-
-		// 表示範囲(時間)を更新
-		{
-			float leftLocal = context.scroll.x - context.view.contentPadding.x;
-			float rightLocal = context.scroll.x + context.contentScreenSize.x - context.view.contentPadding.x;
-			// 0未満にならないように制限
-			context.visibleTimeStart = (std::max)(0.0f,
-				PlayerComboTimelineHelper::LocalXToTime(context.view, leftLocal));
-			// totalTimeを超えないように
-			context.visibleTimeEnd = (std::min)(context.totalTime,
-				PlayerComboTimelineHelper::LocalXToTime(context.view, rightLocal));
-		}
 
 		// 全体の領域確保
 		float totalTrackHeight = context.view.rulerHeight + context.view.trackHeight * static_cast<float>(tracks_.size());
@@ -208,8 +171,9 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 		ImGui::EndChild();
 
 		//============================================================================================
-		// 左、トラック名
+		// トラック名表示
 		//============================================================================================
+
 		ImGui::TableSetColumnIndex(0);
 
 		ImGuiWindowFlags nameFlags =
@@ -230,39 +194,165 @@ void PlayerComboActionTimelinePanel::Draw(PlayerComboActionModel& model,
 void PlayerComboActionTimelinePanel::DrawRuntime(PlayerComboTimelineDrawContext& context) {
 
 	ImGui::Checkbox("Edit Parameters", &isEditParam_);
+
+	if (executor_) {
+
+		// Executor有効無効の設定
+		bool enabled = executor_->IsEnabled();
+		if (ImGui::Checkbox("Execute", &enabled)) {
+			executor_->SetEnabled(enabled);
+		}
+
+		ImGui::SameLine();
+
+		// モード選択
+		PlayerComboExecuteMode mode = executor_->GetMode();
+		ImGui::SetNextItemWidth(176.0f);
+		if (SakuEngine::EnumAdapter<PlayerComboExecuteMode>::Combo("ModeEnum", &mode)) {
+
+			executor_->SetMode(mode);
+		}
+
+		// 選択中コンボID
+		uint32_t comboId = 0;
+		if (context.comboIndex < context.model.Combos().size()) {
+			comboId = context.model.Combos()[context.comboIndex].id;
+		}
+
+		ImGui::Text("TotalTime : %.2f", context.totalTime);
+		if (IsUsingExecutorTimeline()) {
+
+			ImGui::Text("Current : %.2f", executor_->GetTimelineTime());
+		} else {
+			ImGui::Text("Current : %.2f", context.runtime.currentTime);
+		}
+		// 無効の場合
+		if (!executor_->IsEnabled()) {
+			if (!context.runtime.isPlaying) {
+				if (ImGui::Button("Play Preview")) {
+
+					context.runtime.isPlaying = true;
+				}
+			} else {
+				if (ImGui::Button("Pause Preview")) {
+					context.runtime.isPlaying = false;
+				}
+			}
+
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(140.0f);
+			ImGui::DragFloat("Speed", &context.runtime.playSpeed, 0.01f);
+
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(140.0f);
+			ImGui::DragFloat("Step", &context.runtime.stepTime, 0.01f);
+
+			float currentTime = context.runtime.currentTime;
+			ImGui::SetNextItemWidth(-1.0f);
+			if (ImGui::SliderFloat("##TimeSlider", &currentTime, 0.0f, context.totalTime, "Time %.2f")) {
+				context.runtime.currentTime = currentTime;
+				context.runtime.isPlaying = false;
+			}
+			return;
+		}
+
+		// コンボ再生、停止
+		{
+			if (!executor_->IsPlaying()) {
+				if (ImGui::Button("Start Combo")) {
+
+					// コンボ開始
+					executor_->StartCombo(comboId);
+					if (executor_->GetMode() == PlayerComboExecuteMode::TimelineDriven) {
+
+						executor_->SetTimelinePlayback(true);
+					}
+				}
+			} else {
+				if (ImGui::Button("Stop Combo")) {
+
+					executor_->RequestCancel(true);
+				}
+			}
+		}
+		if (executor_->GetMode() == PlayerComboExecuteMode::TimelineDriven) {
+
+			ImGui::SameLine();
+
+			// コンボ再生、停止
+			bool play = executor_->IsTimelinePlayback();
+			if (!play) {
+				if (ImGui::Button("Play")) {
+
+					// 未開始なら開始
+					if (!executor_->IsPlaying()) {
+
+						executor_->StartCombo(comboId);
+					}
+					executor_->SetTimelinePlayback(true);
+				}
+			} else {
+				if (ImGui::Button("Pause")) {
+
+					executor_->SetTimelinePlayback(false);
+				}
+			}
+
+			// スライダーで現在時間を書き換える
+			float total = executor_->GetTimelineTotalTime();
+			if (total < 0.1f) {
+				total = context.totalTime;
+			}
+
+			float t = executor_->GetTimelineTime();
+			ImGui::SetNextItemWidth(-1.0f);
+			if (ImGui::SliderFloat("##ExecScrub", &t, 0.0f, total, "Scrub %.2f")) {
+
+				// Scrub操作した時点で確実にコンボ開始しておく
+				if (!executor_->IsPlaying() || executor_->GetPlayingComboId() != comboId) {
+					executor_->StartCombo(comboId);
+				}
+				executor_->ScrubTimeline(t, true);
+
+				// 表示側も合わせる
+				context.runtime.currentTime = t;
+				context.runtime.isPlaying = false;
+			}
+		} else {
+
+			ImGui::TextUnformatted("InputDriven: Trigger input during grace window to transition.");
+		}
+		return;
+	}
+
+	// Executor未設定時の通常表示
+
 	ImGui::Text("TotalTime : %.2f", context.totalTime);
 	ImGui::Text("Current   : %.2f", context.runtime.currentTime);
 
-	// 再生、停止ボタン
 	if (!context.runtime.isPlaying) {
 		if (ImGui::Button("Play")) {
-
 			context.runtime.isPlaying = true;
 		}
 	} else {
 		if (ImGui::Button("Pause")) {
-
 			context.runtime.isPlaying = false;
 		}
 	}
 
 	ImGui::SameLine();
 
-	// 再生速度
 	ImGui::SetNextItemWidth(140.0f);
 	ImGui::DragFloat("Speed", &context.runtime.playSpeed, 0.01f, 0.01f, 3.0f, "%.2f");
 
 	ImGui::SameLine();
 
-	// ステップ時間
 	ImGui::SetNextItemWidth(140.0f);
 	ImGui::DragFloat("Step", &context.runtime.stepTime, 0.01f, 0.01f, 1.0f, "%.2f");
 
-	// 現在の時間をスライダーで変更
 	float currentTime = context.runtime.currentTime;
 	ImGui::SetNextItemWidth(-1.0f);
 	if (ImGui::SliderFloat("##TimeSlider", &currentTime, 0.0f, context.totalTime, "Time %.2f")) {
-
 		context.runtime.currentTime = currentTime;
 		context.runtime.isPlaying = false;
 	}
@@ -297,60 +387,47 @@ void PlayerComboActionTimelinePanel::DrawRuler(PlayerComboTimelineDrawContext& c
 	int32_t iStart = static_cast<int32_t>(std::floor(context.visibleTimeStart / grid));
 	int32_t iEnd = static_cast<int32_t>(std::ceil(context.visibleTimeEnd / grid));
 
-	// 左右の描画境界
 	float boundL = context.contentScreenPos.x + 2.0f;
 	float boundR = context.contentScreenPos.x + context.contentScreenSize.x - 2.0f;
 
-	// ラベル重なり防止
 	float lastLabelRight = -FLT_MAX;
 	const float labelPadding = 6.0f;
 
 	for (int32_t i = iStart; i <= iEnd; ++i) {
 
 		float t = static_cast<float>(i) * grid;
-
 		float localX = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(context.view, t) - context.scroll.x;
 		float x = context.contentScreenPos.x + localX;
 
-		// 線
-		{
-			// major判定roundを使って誤差に強くする
-			float majorIndexF = std::round(t / major);
-			float majorTime = majorIndexF * major;
-			bool isMajor = (std::fabs(t - majorTime) <= (grid * 0.25f + Config::kEpsilon));
+		float majorIndexF = std::round(t / major);
+		float majorTime = majorIndexF * major;
+		bool isMajor = (std::fabs(t - majorTime) <= (grid * 0.25f + Config::kEpsilon));
 
-			ImU32 color = isMajor ? IM_COL32(90, 90, 90, 255) : IM_COL32(45, 45, 45, 255);
-			context.drawList->AddLine(ImVec2(x, y0), ImVec2(x, y1), color);
+		ImU32 color = isMajor ? IM_COL32(90, 90, 90, 255) : IM_COL32(45, 45, 45, 255);
+		context.drawList->AddLine(ImVec2(x, y0), ImVec2(x, y1), color);
 
-			// majorラベル
-			if (isMajor) {
+		if (isMajor) {
 
-				char buf[32];
-				std::snprintf(buf, sizeof(buf), "%.1f", t);
+			char buf[32];
+			std::snprintf(buf, sizeof(buf), "%.1f", t);
 
-				ImVec2 textSize = font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, buf);
+			ImVec2 textSize = font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, buf);
 
-				// 線の中心に文字が来るように配置
-				float tx = x - (textSize.x * 0.5f);
-				float ty = y0 + (context.view.rulerHeight - textSize.y) * 0.5f;
+			float tx = x - (textSize.x * 0.5f);
+			float ty = y0 + (context.view.rulerHeight - textSize.y) * 0.5f;
 
-				// 画面外にはみ出すものは描かない
-				if (tx < boundL || (tx + textSize.x) > boundR) {
-					continue;
-				}
-
-				// ラベルが重なるなら描かない
-				if (tx <= lastLabelRight + labelPadding) {
-					continue;
-				}
-
-				context.drawList->AddText(font, fontSize, ImVec2(tx, ty), IM_COL32(220, 220, 220, 255), buf);
-				lastLabelRight = tx + textSize.x;
+			if (tx < boundL || (tx + textSize.x) > boundR) {
+				continue;
 			}
+			if (tx <= lastLabelRight + labelPadding) {
+				continue;
+			}
+			context.drawList->AddText(font, fontSize, ImVec2(tx, ty), IM_COL32(220, 220, 220, 255), buf);
+			lastLabelRight = tx + textSize.x;
 		}
 	}
 
-	// スクラブ、現在時間線
+	// スクラブ線
 	{
 		float localX = context.view.contentPadding.x + PlayerComboTimelineHelper::TimeToLocalX(
 			context.view, context.runtime.currentTime) - context.scroll.x;
@@ -370,8 +447,30 @@ void PlayerComboActionTimelinePanel::DrawRuler(PlayerComboTimelineDrawContext& c
 			float local = (ImGui::GetIO().MousePos.x - context.contentScreenPos.x) + context.scroll.x - context.view.contentPadding.x;
 			float newTime = (std::max)(0.0f, PlayerComboTimelineHelper::LocalXToTime(context.view, local));
 			newTime = (std::min)(context.totalTime, PlayerComboTimelineHelper::SnapTime(newTime));
-			context.runtime.currentTime = newTime;
-			context.runtime.isPlaying = false;
+
+			// タイムライン使用中ならExecutorに反映
+			if (IsUsingExecutorTimeline()) {
+
+				uint32_t comboId = 0;
+				if (context.comboIndex < context.model.Combos().size()) {
+					comboId = context.model.Combos()[context.comboIndex].id;
+				}
+
+				// 再生中でなくてもScrubで動かせるように、必要なら開始する
+				if (!executor_->IsPlaying() || executor_->GetPlayingComboId() != comboId) {
+					executor_->StartCombo(comboId);
+				}
+
+				// スクラブ有効
+				executor_->ScrubTimeline(newTime, true);
+				context.runtime.currentTime = newTime;
+				context.runtime.isPlaying = false;
+			} else {
+
+				// 通常表示ならそのまま反映
+				context.runtime.currentTime = newTime;
+				context.runtime.isPlaying = false;
+			}
 		}
 	}
 }

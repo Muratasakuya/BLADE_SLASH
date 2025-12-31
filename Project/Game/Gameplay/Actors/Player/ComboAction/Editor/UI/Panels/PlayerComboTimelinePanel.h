@@ -25,6 +25,8 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	const char* PanelName() const override { return "Timeline"; }
+
+	void SetExecutor(PlayerComboExecutor* executor) { timeline_.SetExecutor(executor); }
 private:
 	//========================================================================
 	//	private Methods

@@ -30,6 +30,14 @@ public:
 	PlayerIActionNode() = default;
 	~PlayerIActionNode() = default;
 
+	// 更新処理
+	virtual void Update() override = 0;
+
+	// 状態遷移開始
+	virtual void Enter() override {}
+	// 状態遷移終了
+	virtual void Exit() override {}
+
 	// エディター
 	virtual void ImGui() {}
 

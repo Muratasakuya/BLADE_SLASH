@@ -10,7 +10,6 @@
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerActionNodePoolPanel.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerComboListPanel.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerActionNodeEditPanel.h>
-#include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Panels/PlayerComboTimelinePanel.h>
 
 //============================================================================
 //	PlayerComboActionEditorUI Utility Methods

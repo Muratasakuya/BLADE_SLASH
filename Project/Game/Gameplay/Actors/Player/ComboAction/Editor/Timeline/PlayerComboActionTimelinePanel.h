@@ -5,6 +5,9 @@
 //============================================================================
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/Timeline/Interface/IPlayerComboTimelineTrack.h>
 
+// front
+class PlayerComboExecutor;
+
 //============================================================================
 //	PlayerComboActionTimelinePanel class
 //	プレイヤーコンボアクションの調整、作成を行うタイムラインパネル
@@ -23,6 +26,8 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	// Executorをセット
+	void SetExecutor(PlayerComboExecutor* executor) { executor_ = executor; }
 private:
 	//========================================================================
 	//	private Methods
@@ -39,6 +44,9 @@ private:
 
 	// エディター
 	bool isEditParam_ = false;
+
+	// 実行用
+	PlayerComboExecutor* executor_;
 
 	//--------- functions ----------------------------------------------------
 
@@ -58,4 +66,7 @@ private:
 
 	// エディターパラメータ調整
 	void EditParam();
+
+	// Executorがタイムライン制御を使っているか
+	bool IsUsingExecutorTimeline() const;
 };

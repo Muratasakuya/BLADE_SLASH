@@ -56,6 +56,8 @@ public:
 
 		// DIKコード
 		KeyDIKCode keyDIKCode = KeyDIKCode::SPACE;
+		// Mouse
+		MouseButton mouseButton = MouseButton::Left;
 		// GamePadButtons
 		GamePadButtons gamePadButton = GamePadButtons::A;
 	};

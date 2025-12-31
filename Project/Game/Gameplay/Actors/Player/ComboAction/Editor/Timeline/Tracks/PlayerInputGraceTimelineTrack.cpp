@@ -348,6 +348,7 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 				if (step.input.isUseKeyboard) {
 
 					SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &step.input.keyDIKCode);
+					SakuEngine::EnumAdapter<MouseButton>::Combo("Mouse", &step.input.mouseButton);
 
 					ImGui::SameLine();
 					if (ImGui::Button("Capture")) {

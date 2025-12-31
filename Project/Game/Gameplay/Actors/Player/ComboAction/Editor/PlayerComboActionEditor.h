@@ -6,6 +6,7 @@
 #include <Engine/Editor/Base/IGameEditor.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/PlayerComboActionEditorUI.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerReactionAreaChecker.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Runtime/Execute/PlayerComboExecutor.h>
 
 //============================================================================
 //	PlayerComboActionEditor class
@@ -45,6 +46,8 @@ private:
 	PlayerComboActionModel model_;
 	// リアクションエリアチェッカー
 	std::unique_ptr<PlayerReactionAreaChecker> areaChecker_;
+	// コンボ実行
+	std::unique_ptr<PlayerComboExecutor> executor_;
 	// エディターUI
 	PlayerComboActionEditorSelection selection_;
 	PlayerComboActionEditorUI editorUI_;

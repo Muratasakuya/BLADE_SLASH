@@ -235,6 +235,7 @@ int Player::GetDamage() const {
 
 void Player::Update() {
 
+	// コンボアクションエディターの更新
 	comboActionEditor_->Update();
 
 	// 更新モードがNotの時は更新しない
