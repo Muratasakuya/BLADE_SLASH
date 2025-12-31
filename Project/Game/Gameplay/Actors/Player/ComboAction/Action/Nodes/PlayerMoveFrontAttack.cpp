@@ -75,15 +75,8 @@ void PlayerMoveFrontAttack::Enter() {
 	lerpRotate_.timer.Reset();
 	exitTimer_.Reset();
 
-	if (auto* animation = player_->GetSkinnedAnimation()) {
-
-		// 外部からポーズが設定されている場合、その情報を保存しておく
-		oldAnimName_ = animation->GetCurrentAnimationName();
-		oldAnimTime_ = animation->GetCurrentAnimTime();
-
-		// アニメーション再生
-		animation->SwitchAnimation(animationName_, false, nextAnimDuration_);
-	}
+	// アニメーション再生
+	player_->SetNextAnimation(animationName_, false, nextAnimDuration_);
 
 	//============================================================================
 	// 移動開始位置、目標位置の設定

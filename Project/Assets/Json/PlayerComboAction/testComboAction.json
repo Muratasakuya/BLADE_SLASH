@@ -21,14 +21,14 @@
                 "NextAnimDuration": 0.10000000149011612
             },
             "isCancelDisabled": false,
-            "name": "attack0",
+            "name": "attack1st",
             "type": "MoveFrontAttack"
         },
         {
             "id": 4,
             "implementation": {
                 "AnimationName": "player_attack_4th",
-                "Distance": 20.0,
+                "Distance": 12.0,
                 "EndCondition": "LerpPos",
                 "ExitTimer": {
                     "easeingType_": "Linear",
@@ -45,8 +45,35 @@
                 "NextAnimDuration": 0.07999999821186066
             },
             "isCancelDisabled": false,
-            "name": "action1",
+            "name": "action4th",
             "type": "MoveFrontAttack"
+        },
+        {
+            "id": 7,
+            "implementation": {
+                "AttackPosEaseType": "EaseOutQuint",
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.20000000298023224
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "EaseOutQuint",
+                    "target_": 0.3199999928474426
+                },
+                "approachForwardDistance_": 34.0,
+                "approachLeftPointAngle_": 0.09000000357627869,
+                "approachRightPointAngle_": 0.6100000143051147,
+                "approachSwayLength_": -8.720000267028809,
+                "attackPosLerpTime_": 0.47999998927116394,
+                "leftPointAngle_": 0.6399999856948853,
+                "nextAnimDuration_": 0.04800000041723251,
+                "offsetDistance_": 14.0,
+                "rightPointAngle_": 0.9200000166893005,
+                "swayRate_": -0.1599999964237213
+            },
+            "isCancelDisabled": false,
+            "name": "action2nd",
+            "type": "MoveWaysAttack"
         }
     ],
     "combos": [
@@ -75,6 +102,20 @@
                     "stepId": 2
                 },
                 {
+                    "duration": 0.49166667461395264,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "keyDIKCode": "SPACE"
+                    },
+                    "inputGraceStartTime": 0.3500000238418579,
+                    "inputGraceTime": 0.49166667461395264,
+                    "nodeAssetId": 7,
+                    "startTime": 0.3500000238418579,
+                    "stepId": 4
+                },
+                {
                     "duration": 0.9000000357627869,
                     "input": {
                         "gamePadButton": "A",
@@ -85,7 +126,7 @@
                     "inputGraceStartTime": 0.6000000238418579,
                     "inputGraceTime": 0.0,
                     "nodeAssetId": 4,
-                    "startTime": 0.3500000238418579,
+                    "startTime": 0.8416666984558105,
                     "stepId": 3
                 }
             ]

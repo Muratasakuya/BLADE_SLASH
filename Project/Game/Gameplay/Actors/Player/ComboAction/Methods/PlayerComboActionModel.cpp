@@ -419,6 +419,11 @@ void PlayerComboActionModel::ReplaceAll(std::vector<ActionNodeAsset>&& nodes, st
 		if (node.implementation) {
 
 			node.implementation->SetIsCancelDisabled(node.isCancelDisabled);
+
+			// 必要なポインタを設定
+			node.implementation->SetPlayer(player_);
+			node.implementation->SetAttackTarget(attackTarget_);
+			node.implementation->SetAreaChecker(areaChecker_);
 		}
 	}
 	RecalculateNextIds();

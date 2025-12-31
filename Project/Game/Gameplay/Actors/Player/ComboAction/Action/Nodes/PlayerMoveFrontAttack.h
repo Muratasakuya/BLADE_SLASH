@@ -59,6 +59,8 @@ private:
 	std::string animationName_ = "player_idle";
 	// アニメーションの遷移時間
 	float nextAnimDuration_;
+	// 処理終了後の待機時間タイマー
+	SakuEngine::StateTimer exitTimer_;
 
 	// 敵との距離
 	float distance_;
@@ -67,13 +69,6 @@ private:
 	SakuEngine::LerpValue<SakuEngine::Vector3> lerpPos_;
 	// 回転補間
 	SakuEngine::LerpValue<SakuEngine::Quaternion> lerpRotate_;
-
-	// 処理終了後の待機時間タイマー
-	SakuEngine::StateTimer exitTimer_;
-
-	// 外部からポーズを設定された場合の情報
-	std::string oldAnimName_;
-	float oldAnimTime_ = 0.0f;
 
 	//--------- functions ----------------------------------------------------
 

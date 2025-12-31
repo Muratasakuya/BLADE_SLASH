@@ -52,6 +52,8 @@ public:
 
 	// 範囲内にいるかチェック
 	bool IsInRange(AreaReactionType reactionType) const;
+	// 範囲の取得
+	float GetRange(AreaReactionType reactionType) const { return areaParams_[static_cast<uint32_t>(reactionType)].range; }
 private:
 	//========================================================================
 	//	private Methods
@@ -66,6 +68,8 @@ private:
 		float range;
 		// 範囲内にいるかチェック
 		bool isInRange;
+		// 色
+		SakuEngine::Color debugColor;
 	};
 
 	//--------- variables ----------------------------------------------------

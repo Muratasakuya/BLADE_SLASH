@@ -63,10 +63,6 @@ void PlayerAttack_2ndState::Enter() {
 
 void PlayerAttack_2ndState::Update() {
 
-	if (player_->GetUpdateMode() == ObjectUpdateMode::External) {
-		return;
-	}
-
 	// animationが終わったかチェック
 	canExit_ = player_->IsAnimationFinished();
 	// animationが終わったら時間経過を進める

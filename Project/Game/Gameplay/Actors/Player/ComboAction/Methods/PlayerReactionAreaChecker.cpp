@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -12,6 +13,10 @@
 //============================================================================
 
 void PlayerReactionAreaChecker::Init() {
+
+	areaParams_[static_cast<uint32_t>(AreaReactionType::LerpPos)].debugColor = SakuEngine::Color::Cyan();
+	areaParams_[static_cast<uint32_t>(AreaReactionType::LerpRotate)].debugColor = SakuEngine::Color::Red();
+	areaParams_[static_cast<uint32_t>(AreaReactionType::LerpCamera)].debugColor = SakuEngine::Color::Yellow();
 
 	// json適用
 	ApplyJson();
@@ -52,6 +57,9 @@ void PlayerReactionAreaChecker::ImGui() {
 
 		ImGui::Text(std::format("IsInRange: {}", param.isInRange).c_str());
 		ImGui::DragFloat("Range", &param.range, 0.1f);
+
+		SakuEngine::LineRenderer::GetInstance()->DrawCircle(
+			12, param.range, player_->GetTranslation(), param.debugColor);
 
 		ImGui::PopID();
 	}
