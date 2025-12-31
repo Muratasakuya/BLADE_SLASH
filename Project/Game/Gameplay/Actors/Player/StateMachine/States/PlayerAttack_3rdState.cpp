@@ -272,13 +272,6 @@ void PlayerAttack_3rdState::StartMoveWeapon(PlayerWeaponType type) {
 	// 補間開始
 	weaponParams_[type].isMoveStart = true;
 	weaponParams_[type].moveTimer = weaponMoveTimer_;
-
-	float duration = player_->GetAnimationDuration("player_attack_3rd");
-	float currentProgress = player_->GetAnimationProgress();
-	float spanLength = weaponMoveTimer_.target_ / duration;
-
-	weaponParams_[type].startProgress = std::clamp(currentProgress, 0.0f, 1.0f);
-	weaponParams_[type].endProgress = std::clamp(currentProgress + spanLength, 0.0f, 1.0f);
 }
 
 SakuEngine::Vector3 PlayerAttack_3rdState::RotateYOffset(const SakuEngine::Vector3& direction, float offsetRotationY) {

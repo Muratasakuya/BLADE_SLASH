@@ -47,6 +47,8 @@ void Player::InitAnimations() {
 	animNames_.emplace_back("player_attack_1st");
 	animNames_.emplace_back("player_attack_2nd");
 	animNames_.emplace_back("player_attack_3rd");
+	animNames_.emplace_back("player_attack_3rd_Throw");
+	animNames_.emplace_back("player_attack_3rd_Catch");
 	animNames_.emplace_back("player_attack_4th");
 	animNames_.emplace_back("player_skilAttack_1st");
 	animNames_.emplace_back("player_skilAttack_2nd");

@@ -3,57 +3,44 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/Effect/User/EffectGroup.h>
-#include <Game/Gameplay/Actors/Player/Effect/PlayerAfterImageEffect.h>
-#include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerBaseAttackState.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Action/Interface/PlayerIActionNode.h>
 
 //============================================================================
-//	PlayerAttack_3rdState class
-//	3段目の攻撃
+//	PlayerThrowWeaponAttack class
+//	プレイヤーの投擲武器攻撃ノード
 //============================================================================
-class PlayerAttack_3rdState :
-	public PlayerBaseAttackState {
+class PlayerThrowWeaponAttack :
+	public PlayerIActionNode {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerAttack_3rdState() = default;
-	~PlayerAttack_3rdState() = default;
-
-	void CreateEffect() override;
+	PlayerThrowWeaponAttack() = default;
+	~PlayerThrowWeaponAttack() = default;
 
 	void Enter() override;
 
 	void Update() override;
-	void UpdateAlways() override;
 
 	void Exit() override;
 
-	// imgui
 	void ImGui() override;
 
-	// json
-	void ApplyJson(const Json& data) override;
-	void SaveJson(Json& data) override;
+	void FromJson(const Json& data) override;
+	void ToJson(Json& data) override;
 
 	//--------- accessor -----------------------------------------------------
 
-	bool GetCanExit() const override;
+	void SetProgress(float progress) override;
+	bool IsFinished() const override;
+	float GetTotalTime() const override;
 private:
 	//========================================================================
 	//	private Methods
 	//========================================================================
 
 	//--------- structure ----------------------------------------------------
-
-	// 状態
-	enum class State {
-
-		None,     // 何もなし
-		MoveBack, // 後ずさり
-		Catch     // 剣を取りに行く
-	};
 
 	// 武器のパラメータ
 	struct WeaponParam {
@@ -70,44 +57,38 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	bool assisted_;
+	// 敵が状態開始時に攻撃可能範囲にいるかチェックした結果
+	bool isInRange_;
 
-	// プレイヤーの現在の状態
-	State currentState_;
-	float initPosY_;
+	// アニメーションの遷移時間
+	float nextAnimDuration_;
 
-	// parameters
-	// プレイヤー
-	SakuEngine::StateTimer backMoveTimer_; // 後ずさりする時間
-	float backMoveValue_;      // 後ずさりする距離
-	SakuEngine::Vector3 backStartPos_;     // 後ずさり開始座標
-	SakuEngine::Vector3 backTargetPos_;    // 後ずさり目標座標
+	// 後ずさりする距離
+	float backMoveDistance_;
 
-	SakuEngine::StateTimer catchSwordTimer_; // 飛ばした剣の場所まで行く時間
-	SakuEngine::Vector3 catchTargetPos_;     // 剣の目標座標(2つの剣の間)
+	// 座標移動補間
+	SakuEngine::LerpValue<SakuEngine::Vector3> lerpPos_;
+	// 回転補間
+	SakuEngine::LerpValue<SakuEngine::Quaternion> lerpRotate_;
 
 	// 剣
-	std::unordered_map<PlayerWeaponType, WeaponParam> weaponParams_;
+	static const uint32_t kWeaponCount = 2;
+	std::array<WeaponParam, kWeaponCount> weaponParams_;
 	// 共通
 	SakuEngine::StateTimer weaponMoveTimer_; // 剣が目標座標に行くまでの時間
 	float bossEnemyDistance_;
 	float weaponPosY_;
 
-	// 剣を取りに行くダッシュエフェクト
-	std::unique_ptr<SakuEngine::EffectGroup> catchDashEffect_;
-	SakuEngine::Vector3 dashEffectOffset_;
-
-	// 残像表現エフェクト
-	std::unique_ptr<PlayerAfterImageEffect> afterImageEffect_;
-
 	//--------- functions ----------------------------------------------------
 
-	// update
+	// アニメーションキーイベントに応じた更新
 	void UpdateAnimKeyEvent();
-	void LerpWeapon(PlayerWeaponType type);
-	void LerpPlayer();
 
-	// helper
+	// 投擲武器の移動開始
 	void StartMoveWeapon(PlayerWeaponType type);
+	// 投擲武器の補間処理
+	void LerpWeapon(PlayerWeaponType type);
+
+	// Y軸回転オフセットをかけたベクトルを返す
 	SakuEngine::Vector3 RotateYOffset(const SakuEngine::Vector3& direction, float offsetRotationY);
 };

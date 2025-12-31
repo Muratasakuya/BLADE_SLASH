@@ -32,10 +32,10 @@
                 "EndCondition": "LerpPos",
                 "ExitTimer": {
                     "easeingType_": "Linear",
-                    "target_": 0.10000000149011612
+                    "target_": 0.03999999910593033
                 },
                 "LerpPosTimer": {
-                    "easeingType_": "EaseOutExpo",
+                    "easeingType_": "EaseOutQuart",
                     "target_": 0.800000011920929
                 },
                 "LerpRotateTimer": {
@@ -74,6 +74,59 @@
             "isCancelDisabled": false,
             "name": "action2nd",
             "type": "MoveWaysAttack"
+        },
+        {
+            "id": 8,
+            "implementation": {
+                "LerpPosTimer": {
+                    "easeingType_": "EaseInExpo",
+                    "target_": 0.11999999731779099
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "EaseOutSine",
+                    "target_": 0.10000000149011612
+                },
+                "Weapon": {
+                    "Left": {
+                        "moveValue": 80.0,
+                        "offsetRotationY": -0.2800000011920929,
+                        "rotateSpeed": 1.600000023841858
+                    },
+                    "Right": {
+                        "moveValue": 80.0,
+                        "offsetRotationY": 0.27000001072883606,
+                        "rotateSpeed": 1.600000023841858
+                    }
+                },
+                "WeaponMoveTimer": {
+                    "easeingType_": "EaseOutExpo",
+                    "target_": 0.09000000357627869
+                },
+                "backMoveDistance_": -48.0,
+                "bossEnemyDistance_": -12.699999809265137,
+                "nextAnimDuration_": 0.07999999821186066,
+                "weaponPosY_": 2.0
+            },
+            "isCancelDisabled": false,
+            "name": "throwWeapon",
+            "type": "ThrowWeaponAttack"
+        },
+        {
+            "id": 9,
+            "implementation": {
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.10000000149011612
+                },
+                "LerpPosTimer": {
+                    "easeingType_": "EaseOutExpo",
+                    "target_": 0.1599999964237213
+                },
+                "nextAnimDuration_": 0.07999999821186066
+            },
+            "isCancelDisabled": false,
+            "name": "catchWeapon",
+            "type": "CatchWeaponAttack"
         }
     ],
     "combos": [
@@ -116,17 +169,45 @@
                     "stepId": 4
                 },
                 {
-                    "duration": 0.9000000357627869,
+                    "duration": 0.49666666984558105,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "keyDIKCode": "SPACE"
+                    },
+                    "inputGraceStartTime": 0.8416666984558105,
+                    "inputGraceTime": 0.49666666984558105,
+                    "nodeAssetId": 8,
+                    "startTime": 0.8416666984558105,
+                    "stepId": 5
+                },
+                {
+                    "duration": 0.25999999046325684,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "keyDIKCode": "SPACE"
+                    },
+                    "inputGraceStartTime": 1.3383333683013916,
+                    "inputGraceTime": 0.25999999046325684,
+                    "nodeAssetId": 9,
+                    "startTime": 1.3383333683013916,
+                    "stepId": 6
+                },
+                {
+                    "duration": 0.8400000333786011,
                     "input": {
                         "gamePadButton": "A",
                         "isUseGamePad": true,
                         "isUseKeyboard": true,
                         "keyDIKCode": "SPACE"
                     },
-                    "inputGraceStartTime": 0.6000000238418579,
+                    "inputGraceStartTime": 1.121666669845581,
                     "inputGraceTime": 0.0,
                     "nodeAssetId": 4,
-                    "startTime": 0.8416666984558105,
+                    "startTime": 1.5983333587646484,
                     "stepId": 3
                 }
             ]

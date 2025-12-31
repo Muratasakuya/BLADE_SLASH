@@ -11,6 +11,7 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Action/PlayerActionNode.h>
+#include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 
 // front
 class Player;

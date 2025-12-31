@@ -7,6 +7,8 @@
 // プレイヤーのアクションノードタイプ
 enum class PlayerActionNodeType {
 
-	MoveFrontAttack, // 前移動攻撃
-	MoveWaysAttack,  // 多方向移動攻撃
+	MoveFrontAttack,   // 前移動攻撃
+	MoveWaysAttack,    // 多方向移動攻撃
+	ThrowWeaponAttack, // 投擲武器攻撃
+	CatchWeaponAttack, // 武器回収攻撃
 };

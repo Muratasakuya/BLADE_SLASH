@@ -37,8 +37,8 @@ void PlayerComboActionTimelinePanel::EditParam() {
 	ImGui::DragFloat("pixelsPerSecond", &view_.pixelsPerSecond, 0.1f);
 	ImGui::DragFloat("dragsSensitivity", &view_.dragsSensitivity, 0.1f);
 	ImGui::DragFloat("rulerFontScale", &view_.rulerFontScale, 0.01f);
-	ImGui::DragFloat("gridStep", &view_.gridStep, 0.01f);
-	ImGui::DragFloat("majorGridStep", &view_.majorGridStep, 0.1f);
+	ImGui::DragFloat("gridStep", &view_.gridStep, 0.001f);
+	ImGui::DragFloat("majorGridStep", &view_.majorGridStep, 0.001f);
 	ImGui::DragFloat("trackNameWidth", &view_.trackNameWidth, 0.1f);
 	ImGui::DragFloat("trackHeight", &view_.trackHeight, 0.1f);
 	ImGui::DragFloat("rulerHeight", &view_.rulerHeight, 0.1f);
