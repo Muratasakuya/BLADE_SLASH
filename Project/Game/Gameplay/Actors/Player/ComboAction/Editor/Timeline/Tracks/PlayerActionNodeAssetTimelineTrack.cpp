@@ -372,12 +372,22 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 
 			if (ImGui::MenuItem("Remove")) {
 
-				int32_t idx = context.model.FindStepIndexById(context.comboIndex, step.stepId);
-				if (0 <= idx) {
-					context.model.RemoveComboStep(context.comboIndex, static_cast<size_t>(idx));
+				int32_t index = context.model.FindStepIndexById(context.comboIndex, step.stepId);
+				if (0 <= index) {
+					context.model.RemoveComboStep(context.comboIndex, static_cast<size_t>(index));
 				}
 				context.select.selectedStepId = 0;
 				context.select.selectedStepIndex = -1;
+			}
+			if (ImGui::MenuItem("Adjust Start")) {
+
+				int32_t index = context.model.FindStepIndexById(context.comboIndex, step.stepId);
+				// indexが1以上の時、前のステップの終了時間に合わせる
+				if (1 <= index) {
+
+					auto& prevStep = steps[static_cast<size_t>(index - 1)];
+					step.startTime = prevStep.startTime + prevStep.duration;
+				}
 			}
 			ImGui::EndPopup();
 		}

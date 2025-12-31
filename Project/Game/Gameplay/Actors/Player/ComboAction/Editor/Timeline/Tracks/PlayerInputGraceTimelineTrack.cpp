@@ -276,8 +276,31 @@ void PlayerInputGraceTimelineTrack::DrawTrack(
 
 		// 右クリック、メニュー
 		if (ImGui::BeginPopupContextItem("##grace_context")) {
-			if (ImGui::MenuItem("Set Grace 0.0")) {
-				graceDuration = 0.0f;
+			if (ImGui::MenuItem("Adjust Start")) {
+
+				// 開始時間をアクション開始時間に合わせる
+				int32_t index = context.model.FindStepIndexById(context.comboIndex, step.stepId);
+				if (0 <= index) {
+
+					auto& targetStep = context.model.Combos()[context.comboIndex].steps[static_cast<size_t>(index)];
+					graceStartTime = targetStep.startTime;
+					ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+				}
+			}
+			if (ImGui::MenuItem("Adjust End")) {
+
+				// 終了時間を次のアクション開始時間に合わせる
+				int32_t index = context.model.FindStepIndexById(context.comboIndex, step.stepId);
+				if (0 <= index) {
+
+					auto& targetStep = context.model.Combos()[context.comboIndex].steps[static_cast<size_t>(index)];
+					float nextStartTime = 0.0f;
+					if (TryGetNextActionStartTime(context.model.Combos()[context.comboIndex].steps, targetStep, nextStartTime)) {
+
+						graceDuration = nextStartTime - graceStartTime;
+						ClampInputGraceRange(minTime, maxTime, graceStartTime, graceDuration);
+					}
+				}
 			}
 			ImGui::EndPopup();
 		}

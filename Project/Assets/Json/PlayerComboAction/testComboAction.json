@@ -28,7 +28,7 @@
             "id": 4,
             "implementation": {
                 "AnimationName": "player_attack_4th",
-                "Distance": 16.0,
+                "Distance": 20.0,
                 "EndCondition": "LerpPos",
                 "ExitTimer": {
                     "easeingType_": "Linear",
