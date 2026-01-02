@@ -62,6 +62,12 @@ void PlayerComboInputExecuteMode::UpdateInputBuffer() {
 		return;
 	}
 
+	// 次が自動進行なら入力受付しないでtrueにする
+	if (current_.step->input.isAutoAdvance) {
+		current_.bufferedNext = true;
+		return;
+	}
+
 	// 入力猶予進捗範囲内なら入力を受け付ける
 	float t = current_.windowTimer.t_;
 	bool inGrace = (current_.graceStartT <= t) && (t <= current_.graceEndT);

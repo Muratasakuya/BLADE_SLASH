@@ -49,6 +49,9 @@ public:
 	// ステップ入力設定
 	struct StepInputSetting {
 
+		// 入力問わず自動で次に進むか
+		bool isAutoAdvance = false;
+
 		// キーボード入力を使うか
 		bool isUseKeyboard = true;
 		// マウス入力を使うか

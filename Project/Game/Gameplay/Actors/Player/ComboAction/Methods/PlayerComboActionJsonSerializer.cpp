@@ -41,6 +41,7 @@ namespace {
 
 	static void DeserializeStepInput(const Json& data, PlayerComboActionModel::StepInputSetting& out) {
 
+		out.isAutoAdvance = GetOr<bool>(data, "isAutoAdvance", out.isAutoAdvance);
 		out.isUseKeyboard = GetOr<bool>(data, "isUseKeyboard", out.isUseKeyboard);
 		out.isUseGamePad = GetOr<bool>(data, "isUseGamePad", out.isUseGamePad);
 		out.isUseMouse = GetOr<bool>(data, "isUseMouse", out.isUseMouse);
