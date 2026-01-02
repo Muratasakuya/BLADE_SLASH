@@ -33,6 +33,8 @@ public:
 
 	// 更新処理
 	virtual void Update() override = 0;
+	// 常に行う更新処理
+	virtual void UpdateAlways() {}
 
 	// 状態遷移開始
 	virtual void Enter() override {}

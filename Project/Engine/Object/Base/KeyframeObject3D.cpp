@@ -1100,38 +1100,64 @@ void KeyframeObject3D::DrawKeyTimeline() {
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
-	// 表示バーのサイズ
-	const float barWidth = 520.0f;
-	const float barHeight = 12.0f;
+	// 以前の固定サイズを基準に、表示領域(Child/Column等)の幅に合わせて自動調整する
+	constexpr float kBaseBarWidth = 520.0f;
+	constexpr float kBaseBarHeight = 12.0f;
 
 	if (keys_.empty()) {
 		return;
 	}
 
+	// 末尾キーの時間(= 全体時間)
 	const float total = (std::max)(keys_.back().time, Config::kEpsilon);
 
-	// レイアウト領域を確保
-	ImGui::Dummy(ImVec2(barWidth, barHeight * 2.0f));
+	// 現在の描画領域に収まるようにバー幅を調整
+	float availW = ImGui::GetContentRegionAvail().x;
+	if (availW <= 0.0f) {
+		// 取得に失敗するケース(一部レイアウト)では従来値を使う
+		availW = kBaseBarWidth;
+	}
+	float barWidth = (std::min)(kBaseBarWidth, availW);
+
+	// 幅が狭いときは高さ/丸のサイズも縮小
+	float widthScale = std::clamp(barWidth / kBaseBarWidth, 0.55f, 1.0f);
+	float barHeight = (std::max)(kBaseBarHeight * widthScale, 6.0f);
+	float radius = (std::max)(barHeight * 0.7f, 3.0f);
+
+	// レイアウト領域を確保（丸が上下に収まる高さを確保）
+	const float dummyH = (std::max)(barHeight * 2.0f, radius * 2.0f + 8.0f);
+	ImGui::Dummy(ImVec2(barWidth, dummyH));
+
 	ImVec2 p0 = ImGui::GetItemRectMin();
 	ImVec2 p1 = ImGui::GetItemRectMax();
 	bool hoveredTimeline = ImGui::IsItemHovered();
 	ImDrawList* dl = ImGui::GetWindowDrawList();
 
+	// 丸が左右で欠けないように、バー描画範囲を少し内側に寄せる
+	const float padX = radius + 1.0f;
+	ImVec2 b0 = p0;
+	ImVec2 b1 = p1;
+	b0.x += padX;
+	b1.x -= padX;
+	if (b1.x <= b0.x) {
+		// 幅が極端に狭い場合はフォールバック
+		b0 = p0;
+		b1 = p1;
+	}
+
 	// 背景
-	dl->AddRectFilled(p0, p1, IM_COL32(70, 70, 70, 255), barHeight * 0.5f);
+	dl->AddRectFilled(b0, b1, IM_COL32(70, 70, 70, 255), barHeight * 0.5f);
 
 	// 進捗バー
 	float progT = 0.0f;
 	if (currentState_ != State::None) {
-
 		progT = std::clamp(timer_ / total, 0.0f, 1.0f);
 	}
-	ImVec2 pProg = ImVec2(std::lerp(p0.x, p1.x, progT), p1.y);
-	dl->AddRectFilled(p0, pProg, IM_COL32(240, 200, 0, 255), barHeight * 0.5f);
+	ImVec2 pProg = ImVec2(std::lerp(b0.x, b1.x, progT), b1.y);
+	dl->AddRectFilled(b0, pProg, IM_COL32(240, 200, 0, 255), barHeight * 0.5f);
 
 	// 丸の描画とドラッグ
 	const float yCenter = (p0.y + p1.y) * 0.5f;
-	const float radius = barHeight * 0.7f;
 
 	// 状態保持
 	static int32_t s_dragIndex = -1;
@@ -1146,7 +1172,7 @@ void KeyframeObject3D::DrawKeyTimeline() {
 
 		float t = (total > 0.0f) ? (keys_[i].time / total) : 0.0f;
 		t = std::clamp(t, 0.0f, 1.0f);
-		float x = std::lerp(p0.x, p1.x, t);
+		float x = std::lerp(b0.x, b1.x, t);
 		ImVec2 center(x, yCenter);
 
 		// 通過済み → 緑 / 未来 → 灰
@@ -1174,9 +1200,9 @@ void KeyframeObject3D::DrawKeyTimeline() {
 		if (s_dragging && s_dragIndex == i) {
 			if (ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
 
-				// マウスx → 時間（絶対秒）に写像
+				// マウスx → 時間（絶対秒）に写像（バー範囲(b0-b1)基準）
 				float u = 0.0f;
-				if (p1.x > p0.x) u = (mouse.x - p0.x) / (p1.x - p0.x);
+				if (b1.x > b0.x) u = (mouse.x - b0.x) / (b1.x - b0.x);
 				u = std::clamp(u, 0.0f, 1.0f);
 				float newTime = u * (std::max)(total, 1e-6f);
 
@@ -1218,11 +1244,10 @@ void KeyframeObject3D::DrawKeyTimeline() {
 	// 丸以外クリックで区間を選択 → イージング選択ポップアップを開く
 	if (!s_dragging && hoveredTimeline && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !anyHovered) {
 
-		// クリック位置 → t → どの区間か
-		float u = (p1.x > p0.x) ? (mouse.x - p0.x) / (p1.x - p0.x) : 0.0f;
+		// クリック位置 → t → どの区間か（バー範囲(b0-b1)基準）
+		float u = (b1.x > b0.x) ? (mouse.x - b0.x) / (b1.x - b0.x) : 0.0f;
 		u = std::clamp(u, 0.0f, 1.0f);
 
-		// キーの正規化時刻配列を作る
 		int32_t seg = -1;
 		if (keys_.size() >= 2) {
 			for (int32_t i = 0; i + 1 < static_cast<int32_t>(keys_.size()); ++i) {

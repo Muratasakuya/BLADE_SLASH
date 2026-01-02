@@ -81,6 +81,8 @@ namespace SakuEngine {
 
 		// 再生中かどうか
 		bool IsUpdating() const { return currentState_ == State::Updating; }
+		// 再生時間
+		float GetTotalTime() const { return (keys_.empty()) ? 0.0f : keys_.back().time; }
 
 		// 最初、最後のキーのトランスフォームを返す
 		const Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }

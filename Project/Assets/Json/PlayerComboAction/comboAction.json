@@ -1,0 +1,747 @@
+{
+    "actionNodes": [
+        {
+            "id": 3,
+            "implementation": {
+                "AnimationName": "player_attack_1st",
+                "Distance": 16.0,
+                "EndCondition": "LerpPos",
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.20000000298023224
+                },
+                "LerpPosTimer": {
+                    "easeingType_": "EaseInExpo",
+                    "target_": 0.15000000596046448
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.4000000059604645
+                },
+                "NextAnimDuration": 0.10000000149011612
+            },
+            "isCancelDisabled": false,
+            "name": "attack1st",
+            "type": "MoveFrontAttack"
+        },
+        {
+            "id": 4,
+            "implementation": {
+                "AnimationName": "player_attack_4th",
+                "Distance": 12.0,
+                "EndCondition": "LerpPos",
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.03999999910593033
+                },
+                "LerpPosTimer": {
+                    "easeingType_": "EaseOutQuart",
+                    "target_": 0.800000011920929
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.20000000298023224
+                },
+                "NextAnimDuration": 0.07999999821186066
+            },
+            "isCancelDisabled": false,
+            "name": "action4th",
+            "type": "MoveFrontAttack"
+        },
+        {
+            "id": 7,
+            "implementation": {
+                "AttackPosEaseType": "EaseOutQuint",
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.20000000298023224
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "EaseOutQuint",
+                    "target_": 0.3199999928474426
+                },
+                "approachForwardDistance_": 34.0,
+                "approachLeftPointAngle_": 0.09000000357627869,
+                "approachRightPointAngle_": 0.6100000143051147,
+                "approachSwayLength_": -8.720000267028809,
+                "attackPosLerpTime_": 0.47999998927116394,
+                "leftPointAngle_": 0.6399999856948853,
+                "nextAnimDuration_": 0.04800000041723251,
+                "offsetDistance_": 14.0,
+                "rightPointAngle_": 0.9200000166893005,
+                "swayRate_": -0.1599999964237213
+            },
+            "isCancelDisabled": false,
+            "name": "action2nd",
+            "type": "MoveWaysAttack"
+        },
+        {
+            "id": 8,
+            "implementation": {
+                "LerpPosTimer": {
+                    "easeingType_": "EaseInExpo",
+                    "target_": 0.11999999731779099
+                },
+                "LerpRotateTimer": {
+                    "easeingType_": "EaseOutSine",
+                    "target_": 0.10000000149011612
+                },
+                "Weapon": {
+                    "Left": {
+                        "moveValue": 80.0,
+                        "offsetRotationY": -0.2800000011920929,
+                        "rotateSpeed": 1.600000023841858
+                    },
+                    "Right": {
+                        "moveValue": 80.0,
+                        "offsetRotationY": 0.27000001072883606,
+                        "rotateSpeed": 1.600000023841858
+                    }
+                },
+                "WeaponMoveTimer": {
+                    "easeingType_": "EaseOutExpo",
+                    "target_": 0.09000000357627869
+                },
+                "backMoveDistance_": -48.0,
+                "bossEnemyDistance_": -12.699999809265137,
+                "nextAnimDuration_": 0.07999999821186066,
+                "weaponPosY_": 2.0
+            },
+            "isCancelDisabled": false,
+            "name": "throwWeapon",
+            "type": "ThrowWeaponAttack"
+        },
+        {
+            "id": 9,
+            "implementation": {
+                "ExitTimer": {
+                    "easeingType_": "Linear",
+                    "target_": 0.10000000149011612
+                },
+                "LerpPosTimer": {
+                    "easeingType_": "EaseOutExpo",
+                    "target_": 0.1599999964237213
+                },
+                "nextAnimDuration_": 0.07999999821186066
+            },
+            "isCancelDisabled": false,
+            "name": "catchWeapon",
+            "type": "CatchWeaponAttack"
+        },
+        {
+            "id": 11,
+            "implementation": {
+                "MoveKey": {
+                    "Keys": [
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 1.30385160446167e-07,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": -0.05667102336883545,
+                                    "y": 0.4981783628463745,
+                                    "z": -20.663848876953125
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.0
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 5.587935447692871e-08,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": -0.19227981567382813,
+                                    "y": 1.3540287017822266,
+                                    "z": 21.36956787109375
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.08737692981958389
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 1.4028046280145645e-07,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": -27.901264190673828,
+                                    "y": 1.5064054727554321,
+                                    "z": -9.205108642578125
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.19128462672233582
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 7.078116937009327e-08,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 16.899887084960938,
+                                    "y": 11.307538986206055,
+                                    "z": 1.07623291015625
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.3070000112056732
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 9.69369536667881e-27,
+                                    "y": 7.450649519569197e-08,
+                                    "z": 4.545721603186661e-26
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 16.049755096435547,
+                                    "y": 3.292809009552002,
+                                    "z": -12.74969482421875
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.4156307876110077
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 9.31329537934289e-08,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": -16.27859878540039,
+                                    "y": 8.552984237670898,
+                                    "z": 7.3353271484375
+                                }
+                            },
+                            "ease": "EaseOutQuad",
+                            "time": 0.5242615342140198
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 6.593763828277588e-07,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": -0.4013214111328125,
+                                    "y": 2.9528679847717285,
+                                    "z": -12.115264892578125
+                                }
+                            },
+                            "ease": "EaseOutExpo",
+                            "time": 0.6328923106193542
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 6.631016731262207e-07,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 0.04567718505859375,
+                                    "y": 4.454836845397949,
+                                    "z": 22.162200927734375
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.7769462466239929
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 6.09084963798523e-07,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 0.9999570846557617,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": -0.3860511779785156,
+                                    "y": 4.373260498046875,
+                                    "z": 28.4129638671875
+                                }
+                            },
+                            "ease": "EaseOutExpo",
+                            "time": 0.9847115278244019
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 6.09084963798523e-07,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 0.9999567866325378,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 0.017740249633789063,
+                                    "y": 0.5345309376716614,
+                                    "z": -40.693878173828125
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 1.0779999494552612
+                        }
+                    ],
+                    "addKeyTimeStep_": 0.800000011920929,
+                    "isConnectEnds_": false,
+                    "isIgnoreParentScale_": false,
+                    "isUpdateKeyDuringLerp_": false,
+                    "keyRenderView_": "Scene",
+                    "lerpType_": "Linear",
+                    "parentName_": "thrustAttackFixedTargetTransform",
+                    "startDuration_": 0.0,
+                    "startEaseType_": "Linear"
+                },
+                "MoveTransform": {
+                    "isCompulsion_": true,
+                    "isIgnoreParentScale": false,
+                    "rotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 30.0
+                    }
+                },
+                "nextAnimDuration": 0.03200000151991844
+            },
+            "isCancelDisabled": false,
+            "name": "thrustAttack",
+            "type": "ThrustAttack"
+        },
+        {
+            "id": 12,
+            "implementation": {
+                "JumpKeyframeObject": {
+                    "Keys": [
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 0.0,
+                                    "y": 2.4423601627349854,
+                                    "z": -36.11090087890625
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.0
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 0.0,
+                                    "y": 10.1108980178833,
+                                    "z": -43.2225341796875
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.06276922672986984
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 0.0,
+                                    "y": 16.943294525146484,
+                                    "z": -48.56427001953125
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.1427692323923111
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 1.1920928955078125e-07,
+                                    "y": 23.818880081176758,
+                                    "z": -53.944549560546875
+                                }
+                            },
+                            "ease": "EaseOutSine",
+                            "time": 0.3209230601787567
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 1.1920928955078125e-07,
+                                    "y": 24.831125259399414,
+                                    "z": -55.044219970703125
+                                }
+                            },
+                            "ease": "EaseOutExpo",
+                            "time": 0.9390769004821777
+                        },
+                        {
+                            "Transform": {
+                                "isCompulsion_": false,
+                                "isIgnoreParentScale": false,
+                                "rotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "translation": {
+                                    "x": 1.1920928955078125e-07,
+                                    "y": -1.600000023841858,
+                                    "z": -4.30718994140625
+                                }
+                            },
+                            "ease": "Linear",
+                            "time": 0.9800000190734863
+                        }
+                    ],
+                    "addKeyTimeStep_": 0.800000011920929,
+                    "isConnectEnds_": false,
+                    "isIgnoreParentScale_": false,
+                    "isUpdateKeyDuringLerp_": false,
+                    "keyRenderView_": "Scene",
+                    "lerpType_": "Spline",
+                    "parentName_": "jumpAttackFixedTargetTransform",
+                    "startDuration_": 0.05999999865889549,
+                    "startEaseType_": "Linear"
+                },
+                "MoveTransform": {
+                    "isCompulsion_": true,
+                    "isIgnoreParentScale": false,
+                    "rotation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "translation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 30.0
+                    }
+                },
+                "exitTimer_": {
+                    "easeingType_": "Linear",
+                    "target_": 0.800000011920929
+                },
+                "nextAnimDuration": 0.6299999952316284
+            },
+            "isCancelDisabled": false,
+            "name": "jumpAttack",
+            "type": "JumpAttack"
+        }
+    ],
+    "combos": [
+        {
+            "id": 2,
+            "name": "normalAttack",
+            "startInput": {
+                "gamePadButton": "B",
+                "isUseGamePad": true,
+                "isUseKeyboard": false,
+                "isUseMouse": true,
+                "keyDIKCode": "SPACE",
+                "mouseButton": "Center"
+            },
+            "steps": [
+                {
+                    "duration": 0.3500000238418579,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
+                    },
+                    "inputGraceStartTime": 0.0,
+                    "inputGraceTime": 0.3500000238418579,
+                    "nodeAssetId": 3,
+                    "startTime": 0.0,
+                    "stepId": 2
+                },
+                {
+                    "duration": 0.49166667461395264,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
+                    },
+                    "inputGraceStartTime": 0.3500000238418579,
+                    "inputGraceTime": 0.49166667461395264,
+                    "nodeAssetId": 7,
+                    "startTime": 0.3500000238418579,
+                    "stepId": 4
+                },
+                {
+                    "duration": 0.49666666984558105,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
+                    },
+                    "inputGraceStartTime": 0.8416666984558105,
+                    "inputGraceTime": 0.49666666984558105,
+                    "nodeAssetId": 8,
+                    "startTime": 0.8416666984558105,
+                    "stepId": 5
+                },
+                {
+                    "duration": 0.25999999046325684,
+                    "input": {
+                        "gamePadButton": "B",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
+                    },
+                    "inputGraceStartTime": 1.3383333683013916,
+                    "inputGraceTime": 0.25999999046325684,
+                    "nodeAssetId": 9,
+                    "startTime": 1.3383333683013916,
+                    "stepId": 6
+                },
+                {
+                    "duration": 0.8400000333786011,
+                    "input": {
+                        "gamePadButton": "A",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Left"
+                    },
+                    "inputGraceStartTime": 1.121666669845581,
+                    "inputGraceTime": 0.0,
+                    "nodeAssetId": 4,
+                    "startTime": 1.5983333587646484,
+                    "stepId": 3
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": "skillAttack",
+            "startInput": {
+                "gamePadButton": "ARROW_UP",
+                "isUseGamePad": true,
+                "isUseKeyboard": true,
+                "isUseMouse": false,
+                "keyDIKCode": "E",
+                "mouseButton": "Left"
+            },
+            "steps": [
+                {
+                    "duration": 1.0779999494552612,
+                    "input": {
+                        "gamePadButton": "ARROW_UP",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "isUseMouse": false,
+                        "keyDIKCode": "E",
+                        "mouseButton": "Left"
+                    },
+                    "inputGraceStartTime": 0.0,
+                    "inputGraceTime": 1.0779999494552612,
+                    "nodeAssetId": 11,
+                    "startTime": 0.0,
+                    "stepId": 7
+                },
+                {
+                    "duration": 1.7799999713897705,
+                    "input": {
+                        "gamePadButton": "A",
+                        "isUseGamePad": true,
+                        "isUseKeyboard": true,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Left"
+                    },
+                    "inputGraceStartTime": 1.2000000476837158,
+                    "inputGraceTime": 0.20000000298023224,
+                    "nodeAssetId": 12,
+                    "startTime": 1.0779999494552612,
+                    "stepId": 8
+                }
+            ]
+        }
+    ],
+    "version": 1
+}

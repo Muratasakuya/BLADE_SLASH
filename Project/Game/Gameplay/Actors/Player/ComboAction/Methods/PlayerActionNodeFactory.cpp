@@ -7,6 +7,8 @@
 #include <Game/Gameplay/Actors/Player/ComboAction/Action/Nodes/PlayerMoveWaysAttack.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Action/Nodes/PlayerThrowWeaponAttack.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Action/Nodes/PlayerCatchWeaponAttack.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Action/Nodes/PlayerThrustAttack.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Action/Nodes/PlayerJumpAttack.h>
 
 //============================================================================
 //	PlayerActionNodeFactory classMethods
@@ -27,6 +29,12 @@ std::unique_ptr<PlayerIActionNode> PlayerActionNodeFactory::CreateNode(PlayerAct
 	case PlayerActionNodeType::CatchWeaponAttack:
 
 		return std::make_unique<PlayerCatchWeaponAttack>();
+	case PlayerActionNodeType::ThrustAttack:
+
+		return std::make_unique<PlayerThrustAttack>();
+	case PlayerActionNodeType::JumpAttack:
+
+		return std::make_unique<PlayerJumpAttack>();
 	}
 	return nullptr;
 }
