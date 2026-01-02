@@ -51,7 +51,12 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 処理対象のプレイヤーを設定
-	void SetPlayer(Player* player) { player_ = player; }
+	void SetPlayer(Player* player) {
+
+		player_ = player;
+		int a = 0;
+		a++;
+	}
 	// 攻撃対象を設定
 	void SetAttackTarget(const SakuEngine::GameObject3D* target) { attackTarget_ = target; }
 	// リアクションエリアチェッカーを設定

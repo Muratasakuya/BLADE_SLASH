@@ -109,15 +109,36 @@ void PlayerComboInputExecuteMode::TryStartComboByStartInput() {
 	const auto& combos = model_->Combos();
 	for (const auto& combo : combos) {
 
+		// 再生中のコンボがあれば開始できない
+		if (playingComboId_ == combo.id) {
+			break;
+		}
+
 		// ステップが無いコンボは開始できない
 		if (combo.steps.empty()) {
 			continue;
 		}
 
-		// 開始入力があればコンボ開始
+		// 開始入力があり、開始条件を満たしていたらコンボ開始
 		if (IsStepInputTriggered(combo.startInput)) {
-			StartCombo(combo.id);
-			return;
+
+			// 開始条件チェック
+			bool canStart = true;
+			for (const auto& condition : combo.startConditions) {
+				// 満たしていない時点で開始できない
+				if (!condition.implementation->GetResult()) {
+					canStart = false;
+					break;
+				}
+			}
+
+			if (canStart) {
+
+				// コンボ開始
+				StartCombo(combo.id);
+				// これ以上for文を回さない
+				break;
+			}
 		}
 	}
 }

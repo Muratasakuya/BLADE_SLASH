@@ -32,11 +32,11 @@
                 "EndCondition": "LerpPos",
                 "ExitTimer": {
                     "easeingType_": "Linear",
-                    "target_": 0.03999999910593033
+                    "target_": 0.019999999552965164
                 },
                 "LerpPosTimer": {
                     "easeingType_": "EaseOutQuart",
-                    "target_": 0.800000011920929
+                    "target_": 0.5699999928474426
                 },
                 "LerpRotateTimer": {
                     "easeingType_": "Linear",
@@ -605,8 +605,10 @@
         {
             "id": 2,
             "name": "normalAttack",
+            "startConditions": [],
             "startInput": {
                 "gamePadButton": "B",
+                "isAutoAdvance": false,
                 "isUseGamePad": true,
                 "isUseKeyboard": false,
                 "isUseMouse": true,
@@ -618,6 +620,7 @@
                     "duration": 0.3500000238418579,
                     "input": {
                         "gamePadButton": "B",
+                        "isAutoAdvance": false,
                         "isUseGamePad": true,
                         "isUseKeyboard": false,
                         "isUseMouse": true,
@@ -634,6 +637,7 @@
                     "duration": 0.49166667461395264,
                     "input": {
                         "gamePadButton": "B",
+                        "isAutoAdvance": false,
                         "isUseGamePad": true,
                         "isUseKeyboard": false,
                         "isUseMouse": true,
@@ -650,6 +654,7 @@
                     "duration": 0.49666666984558105,
                     "input": {
                         "gamePadButton": "B",
+                        "isAutoAdvance": true,
                         "isUseGamePad": false,
                         "isUseKeyboard": false,
                         "isUseMouse": false,
@@ -666,6 +671,7 @@
                     "duration": 0.1899999976158142,
                     "input": {
                         "gamePadButton": "B",
+                        "isAutoAdvance": false,
                         "isUseGamePad": true,
                         "isUseKeyboard": false,
                         "isUseMouse": true,
@@ -679,9 +685,10 @@
                     "stepId": 6
                 },
                 {
-                    "duration": 0.8400000333786011,
+                    "duration": 0.5899999737739563,
                     "input": {
                         "gamePadButton": "A",
+                        "isAutoAdvance": false,
                         "isUseGamePad": true,
                         "isUseKeyboard": true,
                         "isUseMouse": true,
@@ -699,8 +706,15 @@
         {
             "id": 10,
             "name": "skillAttack",
+            "startConditions": [
+                {
+                    "implementation": null,
+                    "type": "OverSkillGauge"
+                }
+            ],
             "startInput": {
                 "gamePadButton": "ARROW_UP",
+                "isAutoAdvance": false,
                 "isUseGamePad": true,
                 "isUseKeyboard": true,
                 "isUseMouse": false,
@@ -712,6 +726,7 @@
                     "duration": 1.0779999494552612,
                     "input": {
                         "gamePadButton": "ARROW_UP",
+                        "isAutoAdvance": true,
                         "isUseGamePad": false,
                         "isUseKeyboard": false,
                         "isUseMouse": false,
@@ -728,6 +743,7 @@
                     "duration": 1.7799999713897705,
                     "input": {
                         "gamePadButton": "A",
+                        "isAutoAdvance": false,
                         "isUseGamePad": true,
                         "isUseKeyboard": true,
                         "isUseMouse": true,

@@ -119,6 +119,8 @@ private:
 	PlayerState editingState_;
 	// フラグで攻撃を受けても食らわないようにする
 	bool isInvincible_ = false;
+	// 状態マシンで動かすか、今作ってる状態で動かすか
+	bool isExecuteStateMachine_ = true;
 
 	//--------- functions ----------------------------------------------------
 
