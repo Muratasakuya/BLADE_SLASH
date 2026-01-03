@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Input/InputStructures.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Action/Interface/PlayerIActionNode.h>
+#include <Game/Gameplay/Actors/Player/GuardCondition/Interface/IPlayerGuardCondition.h>
 
 //============================================================================
 // PlayerComboActionEditorSelection
@@ -49,8 +50,13 @@ public:
 	// ステップ入力設定
 	struct StepInputSetting {
 
-		// キーボード入力を使うか(マウスも含まれる)
+		// 入力問わず自動で次に進むか
+		bool isAutoAdvance = false;
+
+		// キーボード入力を使うか
 		bool isUseKeyboard = true;
+		// マウス入力を使うか
+		bool isUseMouse = true;
 		// ゲームパッド入力を使うか
 		bool isUseGamePad = true;
 
@@ -82,12 +88,24 @@ public:
 		float duration = 0.4f;  // 処理時間
 	};
 
+	// コンボ開始条件
+	struct StartComboCondition {
+
+		// ガード条件タイプ
+		PlayerGuardConditionType type;
+		// ガード条件実装
+		std::unique_ptr<IPlayerGuardCondition> implementation;
+	};
+
 	// 1アクション
 	struct ComboAction {
 
 		// 識別子
 		uint32_t id = 0;
 		std::string name;
+
+		// コンボ開始条件、満たしていなければコンボを開始できない
+		std::vector<StartComboCondition> startConditions;
 
 		// コンボ開始入力設定
 		StepInputSetting startInput;
@@ -157,6 +175,15 @@ public:
 	ComboAction* FindComboById(uint32_t id);
 	// ステップIDからステップインデックスを探す
 	int32_t FindStepIndexById(size_t comboIndex, uint32_t stepId) const;
+
+	//========================================================================
+	//	ComboCondition Methods
+	//========================================================================
+
+	// コンボ開始条件追加
+	void AddStartComboCondition(size_t comboIndex, PlayerGuardConditionType type);
+	// コンボ開始条件削除
+	void RemoveStartComboCondition(size_t comboIndex, size_t conditionIndex);
 
 	//========================================================================
 	//	Json Methods

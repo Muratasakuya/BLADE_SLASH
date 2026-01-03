@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Input/Input.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerActionNodeFactory.h>
+#include <Game/Gameplay/Actors/Player/GuardCondition/Methods/PlayerGuardConditionFactory.h>
 
 //============================================================================
 //	PlayerComboActionModel classMethods
@@ -29,7 +30,9 @@ PlayerComboActionModel::ComboStep PlayerComboActionModel::CreateDefaultStep(uint
 	// 入力設定
 	step.inputGraceStartTime = step.startTime + step.duration;
 	step.inputGraceTime = 0.2f;
+	step.input.isAutoAdvance = false;
 	step.input.isUseKeyboard = true;
+	step.input.isUseMouse = true;
 	step.input.isUseGamePad = true;
 	step.input.keyDIKCode = KeyDIKCode::SPACE;
 	step.input.mouseButton = MouseButton::Left;
@@ -120,9 +123,8 @@ bool PlayerComboActionModel::DuplicateActionNode(size_t index) {
 	return true;
 }
 
+
 uint32_t PlayerComboActionModel::CreateCombo(const std::string& nameOverride) {
-
-
 	// コンボ作成
 	ComboAction combo;
 	combo.id = AllocateId();
@@ -398,6 +400,48 @@ int32_t PlayerComboActionModel::FindStepIndexById(size_t comboIndex, uint32_t st
 	return -1;
 }
 
+void PlayerComboActionModel::AddStartComboCondition(size_t comboIndex, PlayerGuardConditionType type) {
+
+	// 範囲外参照チェック
+	if (combos_.size() <= comboIndex) {
+		return;
+	}
+
+	auto& conditions = combos_[comboIndex].startConditions;
+
+	// 同じ条件は追加できない
+	for (const auto& condition : conditions) {
+		if (condition.type == type) {
+			return;
+		}
+	}
+
+	// 条件追加
+	StartComboCondition condition;
+	condition.type = type;
+	condition.implementation = PlayerGuardConditionFactory::CreateCondition(type);
+	// 監視対象を設定
+	condition.implementation->SetPlayer(player_);
+	// リストに追加
+	conditions.emplace_back(std::move(condition));
+}
+
+void PlayerComboActionModel::RemoveStartComboCondition(size_t comboIndex, size_t conditionIndex) {
+
+	// 範囲外参照チェック
+	if (combos_.size() <= comboIndex) {
+		return;
+	}
+
+	auto& conditions = combos_[comboIndex].startConditions;
+	// 範囲外参照チェック
+	if (conditions.size() <= conditionIndex) {
+		return;
+	}
+	// 条件削除
+	conditions.erase(conditions.begin() + static_cast<std::ptrdiff_t>(conditionIndex));
+}
+
 void PlayerComboActionModel::ClearAll() {
 
 	actionNodes_.clear();
@@ -424,6 +468,19 @@ void PlayerComboActionModel::ReplaceAll(std::vector<ActionNodeAsset>&& nodes, st
 			node.implementation->SetPlayer(player_);
 			node.implementation->SetAttackTarget(attackTarget_);
 			node.implementation->SetAreaChecker(areaChecker_);
+		}
+	}
+	for (auto& combo : combos_) {
+		// ガード条件実装がないものは作成する
+		for (auto& condition : combo.startConditions) {
+			if (!condition.implementation) {
+				condition.implementation = PlayerGuardConditionFactory::CreateCondition(condition.type);
+			}
+			if (condition.implementation) {
+
+				// 監視対象を設定
+				condition.implementation->SetPlayer(player_);
+			}
 		}
 	}
 	RecalculateNextIds();

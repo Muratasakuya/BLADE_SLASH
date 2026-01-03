@@ -62,6 +62,12 @@ void PlayerComboInputExecuteMode::UpdateInputBuffer() {
 		return;
 	}
 
+	// 次が自動進行なら入力受付しないでtrueにする
+	if (current_.step->input.isAutoAdvance) {
+		current_.bufferedNext = true;
+		return;
+	}
+
 	// 入力猶予進捗範囲内なら入力を受け付ける
 	float t = current_.windowTimer.t_;
 	bool inGrace = (current_.graceStartT <= t) && (t <= current_.graceEndT);
@@ -86,6 +92,10 @@ bool PlayerComboInputExecuteMode::IsStepInputTriggered(
 
 		result |= input->TriggerKey(static_cast<BYTE>(inputSetting.keyDIKCode));
 	}
+	if (inputSetting.isUseMouse) {
+
+		result |= input->TriggerMouse(inputSetting.mouseButton);
+	}
 	if (inputSetting.isUseGamePad) {
 
 		result |= input->TriggerGamepadButton(inputSetting.gamePadButton);
@@ -99,15 +109,36 @@ void PlayerComboInputExecuteMode::TryStartComboByStartInput() {
 	const auto& combos = model_->Combos();
 	for (const auto& combo : combos) {
 
+		// 再生中のコンボがあれば開始できない
+		if (playingComboId_ == combo.id) {
+			break;
+		}
+
 		// ステップが無いコンボは開始できない
 		if (combo.steps.empty()) {
 			continue;
 		}
 
-		// 開始入力があればコンボ開始
+		// 開始入力があり、開始条件を満たしていたらコンボ開始
 		if (IsStepInputTriggered(combo.startInput)) {
-			StartCombo(combo.id);
-			return;
+
+			// 開始条件チェック
+			bool canStart = true;
+			for (const auto& condition : combo.startConditions) {
+				// 満たしていない時点で開始できない
+				if (!condition.implementation->GetResult()) {
+					canStart = false;
+					break;
+				}
+			}
+
+			if (canStart) {
+
+				// コンボ開始
+				StartCombo(combo.id);
+				// これ以上for文を回さない
+				break;
+			}
 		}
 	}
 }

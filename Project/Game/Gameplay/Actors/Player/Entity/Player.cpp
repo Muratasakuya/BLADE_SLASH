@@ -237,16 +237,20 @@ int Player::GetDamage() const {
 
 void Player::Update() {
 
-	// コンボアクションエディターの更新
-	comboActionEditor_->Update();
-
 	// 更新モードがNotの時は更新しない
 	if (updateMode_ == ObjectUpdateMode::Not) {
 		return;
 	}
 
-	// 状態の更新
-	stateController_->Update();
+	if (isExecuteStateMachine_) {
+
+		// 状態の更新
+		stateController_->Update();
+	} else {
+
+		// コンボアクションエディターの更新
+		comboActionEditor_->Update();
+	}
 	ClampInitPosY();
 
 	// 武器の更新
@@ -358,6 +362,8 @@ void Player::DerivedImGui() {
 
 		// ---- Stats ---------------------------------------------------
 		if (ImGui::BeginTabItem("Stats")) {
+
+			ImGui::Checkbox("isExecuteStateMachine", &isExecuteStateMachine_);
 
 			ImGui::Text(std::format("isStunUpdate: {}", isStunUpdate_).c_str());
 			ImGui::Text(std::format("isInvincible: {}", isInvincible_).c_str());

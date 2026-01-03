@@ -39,9 +39,6 @@ private:
 
 	// 開始入力編集用
 	uint32_t editComboId_ = 0;
-	// 入力キャプチャ、開始フラグ
-	bool isCaptureKeyboardStart_ = false;
-	bool isCapturePadStart_ = false;
 
 	// 今フレーム移動したか
 	bool isMovedThisFrame_ = false;

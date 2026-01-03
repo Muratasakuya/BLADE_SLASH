@@ -14,10 +14,7 @@
 
 namespace {
 
-	static void DrawStepInputSettingUI(
-		PlayerComboActionModel::StepInputSetting& input,
-		bool& isCaptureKeyboard,
-		bool& isCapturePad) {
+	static void DrawStepInputSettingUI(PlayerComboActionModel::StepInputSetting& input) {
 
 		ImGui::SeparatorText("Keyboard");
 		ImGui::Checkbox("UseKeyboard", &input.isUseKeyboard);
@@ -25,32 +22,14 @@ namespace {
 		if (input.isUseKeyboard) {
 
 			SakuEngine::EnumAdapter<KeyDIKCode>::Combo("Key", &input.keyDIKCode);
+		}
 
-			ImGui::SameLine();
-			if (ImGui::Button("Capture##Key")) {
-				isCaptureKeyboard = true;
-			}
+		ImGui::SeparatorText("Mouse");
+		ImGui::Checkbox("UseMouse", &input.isUseMouse);
 
-			if (isCaptureKeyboard) {
+		if (input.isUseMouse) {
 
-				ImGui::TextUnformatted("Press any key...");
-				auto* in = SakuEngine::Input::GetInstance();
-
-				for (auto v : magic_enum::enum_values<KeyDIKCode>()) {
-
-					uint8_t raw = static_cast<uint8_t>(v);
-					if (in->TriggerKey(static_cast<BYTE>(raw))) {
-
-						input.keyDIKCode = v;
-						isCaptureKeyboard = false;
-						break;
-					}
-				}
-
-				if (ImGui::Button("CancelCapture##Key")) {
-					isCaptureKeyboard = false;
-				}
-			}
+			SakuEngine::EnumAdapter<MouseButton>::Combo("MouseButton", &input.mouseButton);
 		}
 
 		ImGui::SeparatorText("GamePad");
@@ -58,33 +37,7 @@ namespace {
 
 		if (input.isUseGamePad) {
 
-			SakuEngine::EnumAdapter<GamePadButtons>::Combo("Button", &input.gamePadButton);
-
-			ImGui::SameLine();
-			if (ImGui::Button("Capture##Pad")) {
-				isCapturePad = true;
-			}
-
-			if (isCapturePad) {
-
-				ImGui::TextUnformatted("Press any gamepad button...");
-				auto* in = SakuEngine::Input::GetInstance();
-
-				for (uint32_t bi = 0; bi < static_cast<uint32_t>(GamePadButtons::Counts); ++bi) {
-
-					GamePadButtons button = static_cast<GamePadButtons>(bi);
-					if (in->TriggerGamepadButton(button)) {
-
-						input.gamePadButton = button;
-						isCapturePad = false;
-						break;
-					}
-				}
-
-				if (ImGui::Button("CancelCapture##Pad")) {
-					isCapturePad = false;
-				}
-			}
+			SakuEngine::EnumAdapter<GamePadButtons>::Combo("PadButton", &input.gamePadButton);
 		}
 	}
 
@@ -314,9 +267,6 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 		if (isFirstClip && ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
 
 			editComboId_ = combo.id;
-			isCaptureKeyboardStart_ = false;
-			isCapturePadStart_ = false;
-
 			ImGui::OpenPopup("##ComboStartInputPopup");
 		}
 		// 開始入力設定ポップアップ
@@ -327,7 +277,7 @@ void PlayerActionNodeAssetTimelineTrack::DrawTrack(
 			auto* editCombo = context.model.FindComboById(editComboId_);
 			if (editCombo) {
 
-				DrawStepInputSettingUI(editCombo->startInput, isCaptureKeyboardStart_, isCapturePadStart_);
+				DrawStepInputSettingUI(editCombo->startInput);
 			} else {
 
 				ImGui::TextUnformatted("Combo not found.");

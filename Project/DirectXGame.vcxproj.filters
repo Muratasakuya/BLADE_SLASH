@@ -2921,6 +2921,12 @@
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2933,5 +2939,13 @@
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Interface\IPlayerGuardCondition.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\PlayerGuardConditionType.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.h" />
   </ItemGroup>
 </Project>

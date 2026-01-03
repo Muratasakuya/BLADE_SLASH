@@ -3,27 +3,27 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Gameplay/Actors/Player/ComboAction/Editor/Timeline/Interface/IPlayerComboTimelineTrack.h>
+#include <Game/Gameplay/Actors/Player/ComboAction/Editor/UI/Interface/IPlayerComboActionEditorPanel.h>
 
 //============================================================================
-//	PlayerInputGraceTimelineTrack class
-//	プレイヤーの入力猶予時間を表示するタイムライントラック
+//	PlayerGuardConditionPanel class
+//	プレイヤーガード条件パネル
 //============================================================================
-class PlayerInputGraceTimelineTrack :
-	public IPlayerComboTimelineTrack {
+class PlayerGuardConditionPanel :
+	public IPlayerComboActionEditorPanel {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerInputGraceTimelineTrack() = default;
-	~PlayerInputGraceTimelineTrack() = default;
+	PlayerGuardConditionPanel() = default;
+	~PlayerGuardConditionPanel() = default;
 
-	void DrawTrack(PlayerComboTimelineDrawContext& context, float trackTopY) override;
+	void Draw(PlayerComboActionModel& model, PlayerComboActionEditorSelection& select) override;
 
 	//--------- accessor -----------------------------------------------------
 
-	const char* TrackName() const override { return "InputGrace"; }
+	const char* PanelName() const override { return "GuardCondition"; }
 private:
 	//========================================================================
 	//	private Methods
@@ -31,10 +31,10 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
-	// 今編集しているステップID
-	uint32_t editStepId_ = 0;
-
-	// ポップアップメニュー関連
-	uint32_t popupCandidateStepId_ = 0;
-	bool popupCandidateDragged_ = false;
+	// 追加する開始条件タイプ
+	PlayerGuardConditionType newStartConditionType_ = static_cast<PlayerGuardConditionType>(0);
+	// 選択中の開始条件インデックス
+	int32_t selectedStartConditionIndex_ = -1;
+	// 最後に描画したコンボインデックス
+	int32_t lastComboIndex_ = -1;
 };

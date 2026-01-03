@@ -33,6 +33,8 @@ public:
 
 	// 更新処理
 	virtual void Update() override = 0;
+	// 常に行う更新処理
+	virtual void UpdateAlways() {}
 
 	// 状態遷移開始
 	virtual void Enter() override {}
@@ -49,7 +51,12 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 処理対象のプレイヤーを設定
-	void SetPlayer(Player* player) { player_ = player; }
+	void SetPlayer(Player* player) {
+
+		player_ = player;
+		int a = 0;
+		a++;
+	}
 	// 攻撃対象を設定
 	void SetAttackTarget(const SakuEngine::GameObject3D* target) { attackTarget_ = target; }
 	// リアクションエリアチェッカーを設定

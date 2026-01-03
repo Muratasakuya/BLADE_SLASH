@@ -3,38 +3,46 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Game/Gameplay/Actors/Player/ComboAction/Editor/Timeline/Interface/IPlayerComboTimelineTrack.h>
+#include <Engine/Utility/Json/JsonAdapter.h>
+#include <Game/Gameplay/Actors/Player/GuardCondition/PlayerGuardConditionType.h>
+
+// front
+class Player;
 
 //============================================================================
-//	PlayerInputGraceTimelineTrack class
-//	プレイヤーの入力猶予時間を表示するタイムライントラック
+//	IPlayerGuardCondition class
+//	プレイヤーの状態からtrue/falseを返すインターフェース
 //============================================================================
-class PlayerInputGraceTimelineTrack :
-	public IPlayerComboTimelineTrack {
+class IPlayerGuardCondition {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerInputGraceTimelineTrack() = default;
-	~PlayerInputGraceTimelineTrack() = default;
+	IPlayerGuardCondition() = default;
+	virtual ~IPlayerGuardCondition() = default;
 
-	void DrawTrack(PlayerComboTimelineDrawContext& context, float trackTopY) override;
+	// エディター
+	virtual void ImGui() {}
+
+	// json
+	virtual void FromJson([[maybe_unused]] const Json& json) {}
+	virtual void ToJson([[maybe_unused]] Json& json) {}
 
 	//--------- accessor -----------------------------------------------------
 
-	const char* TrackName() const override { return "InputGrace"; }
-private:
+	// 監視対象の設定
+	void SetPlayer(const Player* player) { player_ = player; }
+
+	// 条件結果
+	virtual bool GetResult() const = 0;
+protected:
 	//========================================================================
-	//	private Methods
+	//	protected Methods
 	//========================================================================
 
 	//--------- variables ----------------------------------------------------
 
-	// 今編集しているステップID
-	uint32_t editStepId_ = 0;
-
-	// ポップアップメニュー関連
-	uint32_t popupCandidateStepId_ = 0;
-	bool popupCandidateDragged_ = false;
+	// 監視対象
+	const Player* player_;
 };

@@ -22,8 +22,9 @@ PlayerComboActionEditorUI::PlayerComboActionEditorUI() {
 	panels_.emplace_back(std::make_unique<PlayerComboListPanel>());
 	panels_.emplace_back(std::make_unique<PlayerActionNodeEditPanel>());
 
-	// タイムラインパネル作成
+	// 別描画パネル作成
 	timelinePanel_ = std::make_unique<PlayerComboTimelinePanel>();
+	guardConditionPanel_ = std::make_unique<PlayerGuardConditionPanel>();
 }
 
 void PlayerComboActionEditorUI::Draw(PlayerComboActionModel& model, PlayerComboActionEditorSelection& select) {
@@ -49,11 +50,25 @@ void PlayerComboActionEditorUI::Draw(PlayerComboActionModel& model, PlayerComboA
 	}
 	ImGui::SetWindowFontScale(1.0f);
 
-	ImGui::Begin("Timeline", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Timeline", nullptr, ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
 
 	ImGui::SetWindowFontScale(0.64f);
 
-	timelinePanel_->Draw(model, select);
+	if (ImGui::BeginTabBar("PlayerComboActionEditorUI")) {
+
+		if (ImGui::BeginTabItem("Timeline")) {
+
+			timelinePanel_->Draw(model, select);
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Condition")) {
+
+			guardConditionPanel_->Draw(model, select);
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
 
 	ImGui::SetWindowFontScale(1.0f);
 

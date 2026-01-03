@@ -136,8 +136,10 @@
             "startInput": {
                 "gamePadButton": "B",
                 "isUseGamePad": true,
-                "isUseKeyboard": true,
-                "keyDIKCode": "SPACE"
+                "isUseKeyboard": false,
+                "isUseMouse": true,
+                "keyDIKCode": "SPACE",
+                "mouseButton": "Center"
             },
             "steps": [
                 {
@@ -145,8 +147,10 @@
                     "input": {
                         "gamePadButton": "B",
                         "isUseGamePad": true,
-                        "isUseKeyboard": true,
-                        "keyDIKCode": "SPACE"
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
                     },
                     "inputGraceStartTime": 0.0,
                     "inputGraceTime": 0.3500000238418579,
@@ -159,8 +163,10 @@
                     "input": {
                         "gamePadButton": "B",
                         "isUseGamePad": true,
-                        "isUseKeyboard": true,
-                        "keyDIKCode": "SPACE"
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
                     },
                     "inputGraceStartTime": 0.3500000238418579,
                     "inputGraceTime": 0.49166667461395264,
@@ -173,8 +179,10 @@
                     "input": {
                         "gamePadButton": "B",
                         "isUseGamePad": true,
-                        "isUseKeyboard": true,
-                        "keyDIKCode": "SPACE"
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
                     },
                     "inputGraceStartTime": 0.8416666984558105,
                     "inputGraceTime": 0.49666666984558105,
@@ -187,8 +195,10 @@
                     "input": {
                         "gamePadButton": "B",
                         "isUseGamePad": true,
-                        "isUseKeyboard": true,
-                        "keyDIKCode": "SPACE"
+                        "isUseKeyboard": false,
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Center"
                     },
                     "inputGraceStartTime": 1.3383333683013916,
                     "inputGraceTime": 0.25999999046325684,
@@ -202,7 +212,9 @@
                         "gamePadButton": "A",
                         "isUseGamePad": true,
                         "isUseKeyboard": true,
-                        "keyDIKCode": "SPACE"
+                        "isUseMouse": true,
+                        "keyDIKCode": "SPACE",
+                        "mouseButton": "Left"
                     },
                     "inputGraceStartTime": 1.121666669845581,
                     "inputGraceTime": 0.0,

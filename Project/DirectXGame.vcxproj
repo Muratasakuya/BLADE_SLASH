@@ -217,7 +217,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -229,6 +234,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.cpp">
       <SubType />
     </ClCompile>
@@ -275,6 +281,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.cpp">
       <SubType>
       </SubType>
@@ -305,6 +315,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.cpp">
       <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
       <SubType />
@@ -1088,10 +1106,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Animation\LerpValue.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Interface\PlayerIActionNode.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1106,6 +1129,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\PlayerActionNode.h">
       <SubType />
     </ClInclude>
@@ -1179,6 +1203,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.h">
       <SubType>
       </SubType>
@@ -1217,6 +1245,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Interface\IPlayerGuardCondition.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\PlayerGuardConditionType.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
       <SubType />

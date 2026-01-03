@@ -7,6 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerActionNodeFactory.h>
+#include <Game/Gameplay/Actors/Player/GuardCondition/Methods/PlayerGuardConditionFactory.h>
 
 //============================================================================
 //	PlayerComboActionJsonSerializer classMethods
@@ -30,20 +31,54 @@ namespace {
 	static Json SerializeStepInput(const PlayerComboActionModel::StepInputSetting& step) {
 
 		Json data;
+		data["isAutoAdvance"] = step.isAutoAdvance;
 		data["isUseKeyboard"] = step.isUseKeyboard;
 		data["isUseGamePad"] = step.isUseGamePad;
+		data["isUseMouse"] = step.isUseMouse;
 		data["keyDIKCode"] = EnumAdapter<KeyDIKCode>::ToString(step.keyDIKCode);
+		data["mouseButton"] = EnumAdapter<MouseButton>::ToString(step.mouseButton);
 		data["gamePadButton"] = EnumAdapter<GamePadButtons>::ToString(step.gamePadButton);
 		return data;
 	}
 
 	static void DeserializeStepInput(const Json& data, PlayerComboActionModel::StepInputSetting& out) {
 
+		out.isAutoAdvance = GetOr<bool>(data, "isAutoAdvance", out.isAutoAdvance);
 		out.isUseKeyboard = GetOr<bool>(data, "isUseKeyboard", out.isUseKeyboard);
 		out.isUseGamePad = GetOr<bool>(data, "isUseGamePad", out.isUseGamePad);
+		out.isUseMouse = GetOr<bool>(data, "isUseMouse", out.isUseMouse);
 
 		out.keyDIKCode = EnumAdapter<KeyDIKCode>::FromString(data.value("keyDIKCode", "SPACE")).value();
+		out.mouseButton = EnumAdapter<MouseButton>::FromString(data.value("mouseButton", "Left")).value();
 		out.gamePadButton = EnumAdapter<GamePadButtons>::FromString(data.value("gamePadButton", "A")).value();
+	}
+
+	static Json SerializeStartComboCondition(const PlayerComboActionModel::StartComboCondition& condition) {
+
+		Json data;
+		data["type"] = EnumAdapter<PlayerGuardConditionType>::ToString(condition.type);
+
+		Json impl;
+		if (condition.implementation) {
+			condition.implementation->ToJson(impl);
+		}
+		data["implementation"] = impl;
+		return data;
+	}
+
+	static PlayerComboActionModel::StartComboCondition DeserializeStartComboCondition(const Json& data) {
+
+		PlayerComboActionModel::StartComboCondition condition;
+		condition.type = EnumAdapter<PlayerGuardConditionType>::FromString(
+			data.value("type", "OverSkillGauge")).value();
+
+		condition.implementation = PlayerGuardConditionFactory::CreateCondition(condition.type);
+		if (condition.implementation) {
+			if (data.contains("implementation")) {
+				condition.implementation->FromJson(data.at("implementation"));
+			}
+		}
+		return condition;
 	}
 
 	static Json SerializeComboStep(const PlayerComboActionModel::ComboStep& step) {
@@ -155,6 +190,13 @@ Json PlayerComboActionJsonSerializer::SerializeAll(const PlayerComboActionModel&
 			jsonCombo["name"] = combo.name;
 			SerializeStartInputIfExists(combo, jsonCombo);
 
+			Json conditions = Json::array();
+			for (const auto& condition : combo.startConditions) {
+
+				conditions.push_back(SerializeStartComboCondition(condition));
+			}
+			jsonCombo["startConditions"] = conditions;
+
 			Json steps = Json::array();
 			for (const auto& step : combo.steps) {
 
@@ -193,6 +235,13 @@ bool PlayerComboActionJsonSerializer::DeserializeAll(const Json& root, PlayerCom
 			combo.id = GetOr<uint32_t>(jsonCombo, "id", 0u);
 			combo.name = GetOr<std::string>(jsonCombo, "name", std::string{});
 			DeserializeStartInputIfExists(combo, jsonCombo);
+
+			if (jsonCombo.contains("startConditions") && jsonCombo.at("startConditions").is_array()) {
+				for (const auto& jsonCondition : jsonCombo.at("startConditions")) {
+
+					combo.startConditions.emplace_back(DeserializeStartComboCondition(jsonCondition));
+				}
+			}
 			if (jsonCombo.contains("steps") && jsonCombo.at("steps").is_array()) {
 				for (const auto& jsonStep : jsonCombo.at("steps")) {
 

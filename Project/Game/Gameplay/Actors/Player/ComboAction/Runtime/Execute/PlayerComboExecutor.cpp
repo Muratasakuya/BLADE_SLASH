@@ -81,6 +81,17 @@ void PlayerComboExecutor::SetTimelinePlayback(bool playing) {
 
 void PlayerComboExecutor::Update() {
 
+	// すべてのノードの常に行う更新処理
+	for (auto& combo : model_->Combos()) {
+		for (auto& step : combo.steps) {
+
+			auto* asset = model_->FindNodeAssetById(step.nodeAssetId);
+			if (asset && asset->implementation) {
+				asset->implementation->UpdateAlways();
+			}
+		}
+	}
+
 	// 現在の実行モードで更新
 	if (!activeMode_ || !isEnabled_) {
 		return;
