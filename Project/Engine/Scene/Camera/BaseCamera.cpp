@@ -52,6 +52,24 @@ void BaseCamera::StartAutoFocus(bool isFocus, const Vector3& target) {
 		Direction::Get(Direction3D::Up));
 }
 
+void BaseCamera::StartCameraAnim(const std::string& animName, bool isAddFirstKey,
+	bool isUpdateKey, const std::optional<KeyframeInverseSetting>& inverseSetting) {
+
+	CameraEditor* editor = CameraEditor::GetInstance();
+
+	// 名前が設定されていればアニメーションを再生
+	if (!animName.empty()) {
+
+		editor->StartAnim(animName, isAddFirstKey, isUpdateKey, inverseSetting);
+	}
+}
+
+void BaseCamera::EndCameraAnim() {
+
+	// アニメーションを終了させる
+	CameraEditor::GetInstance()->EndAnim();
+}
+
 void BaseCamera::SetEditorParentTransform(const std::string& keyName, const Transform3D& parent) {
 
 	CameraEditor::GetInstance()->SetParentTransform(keyName, parent);

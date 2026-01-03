@@ -28,6 +28,12 @@ enum class Direction2D {
 	Up,    // +Y
 	Bottom // -Y
 };
+// 左か右か
+enum class AnchorToDirection2D {
+
+	Right = -1,
+	Left = 1,
+};
 
 namespace Direction {
 

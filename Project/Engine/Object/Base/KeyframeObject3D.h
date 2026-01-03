@@ -255,6 +255,9 @@ namespace SakuEngine {
 
 		// 反転用ヘルパー
 		static bool IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis);
+		// 位置の鏡映し
+		static Vector3 MirrorVectorByNormalAxes(const Vector3& source,
+			const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap);
 		// 回転の鏡映し
 		static Quaternion MirrorRotationByNormalAxes(const Quaternion& source,
 			const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap);

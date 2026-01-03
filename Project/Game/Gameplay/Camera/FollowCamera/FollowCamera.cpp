@@ -9,6 +9,7 @@
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/MathLib/MathUtils.h>
+#include <Engine/Config.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
@@ -23,11 +24,10 @@ void FollowCamera::LoadAnim() {
 	}
 
 	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
-	// プレイヤーの攻撃
+	// プレイヤーの攻撃、全て左視点で作成済み
 	editor->LoadJson("Player/player3rdAttack.json");
 	editor->LoadJson("Player/player4thAttack.json");
-	editor->LoadJson("Player/playerParryRight.json");
-	editor->LoadJson("Player/playerParryLeft.json");
+	editor->LoadJson("Player/playerParry.json");
 	editor->LoadJson("Player/playerSkilMove.json");
 	editor->LoadJson("Player/playerSkilJump.json");
 	editor->LoadJson("Player/playerStunAttack.json");
@@ -56,42 +56,63 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	switch (state) {
 	case PlayerState::Attack_3rd: name = "player3rdAttack"; break;
 	case PlayerState::Attack_4th: name = "player4thAttack"; break;
-	case PlayerState::Parry:
-
-		// 目標回転
-		const SakuEngine::Quaternion baseTarget = lookAtTargetObject_->GetRotation();
-		// y軸最短補間方向
-		int direction = SakuEngine::Math::YawShortestDirection(transform_.rotation, baseTarget);
-
-		// 0か-1なら左、+1は右からの視点のパリィアニメーションを行わせる
-		name = (0 <= direction) ? "playerParryRight" : "playerParryLeft";
-		break;
+	case PlayerState::Parry: name = "playerParry"; break;
 	}
+
+	// 目標回転が基準点から見て左か右か
+	AnchorToDirection2D lookYawDirection{};
+	// yaw方向決定
+	const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
+	if (std::abs(yawDelta) <= Config::kEpsilon) {
+
+		// どちらでも良いので右にする
+		lookYawDirection = AnchorToDirection2D::Right;
+	} else {
+
+		// 最短方向
+		lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+	}
+
+	// エディター反転設定
+	// 位置に応じて反転するかしないかを決定する
+	editorInverseSetting_.isInversePos = lookYawDirection == AnchorToDirection2D::Right;
+	editorInverseSetting_.isInverseRotation = lookYawDirection == AnchorToDirection2D::Right;
 
 	// 名前が設定されていればアニメーションを再生
 	if (!name.empty()) {
 
-		editor->StartAnim(name, true, true);
+		editor->StartAnim(name, true, true, editorInverseSetting_);
 	}
 }
 
-void FollowCamera::StartPlayerActionAnim(const std::string& animName) {
+void FollowCamera::StratPlayerActionAnimString(const std::string& animName) {
 
 	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
+
+	// 目標回転が基準点から見て左か右か
+	AnchorToDirection2D lookYawDirection{};
+	// yaw方向決定
+	const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
+	if (std::abs(yawDelta) <= Config::kEpsilon) {
+
+		// どちらでも良いので右にする
+		lookYawDirection = AnchorToDirection2D::Right;
+	} else {
+
+		// 最短方向
+		lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+	}
+
+	// エディター反転設定
+	// 位置に応じて反転するかしないかを決定する
+	editorInverseSetting_.isInversePos = lookYawDirection == AnchorToDirection2D::Right;
+	editorInverseSetting_.isInverseRotation = lookYawDirection == AnchorToDirection2D::Right;
 
 	// 名前が設定されていればアニメーションを再生
 	if (!animName.empty()) {
 
-		editor->StartAnim(animName, true, true);
+		editor->StartAnim(animName, true, true, editorInverseSetting_);
 	}
-}
-
-void FollowCamera::EndPlayerActionAnim() {
-
-	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
-
-	// アニメーションを終了させる
-	editor->EndAnim();
 }
 
 void FollowCamera::Init() {
@@ -105,6 +126,16 @@ void FollowCamera::Init() {
 	// 更新パス初期化
 	updatePass_ = std::make_unique<FollowCameraUpdatePass>();
 	updatePass_->Init();
+
+	// 反転軸設定
+	// 位置反転軸設定
+	editorInverseSetting_.inversePosAxisMap[SakuEngine::Math::Axis::X] = true;
+	editorInverseSetting_.inversePosAxisMap[SakuEngine::Math::Axis::Y] = false;
+	editorInverseSetting_.inversePosAxisMap[SakuEngine::Math::Axis::Z] = false;
+	// 回転反転軸設定
+	editorInverseSetting_.inverseRotateAxisMap[SakuEngine::Math::Axis::X] = true;
+	editorInverseSetting_.inverseRotateAxisMap[SakuEngine::Math::Axis::Y] = false;
+	editorInverseSetting_.inverseRotateAxisMap[SakuEngine::Math::Axis::Z] = false;
 }
 
 void FollowCamera::Update() {
@@ -140,6 +171,20 @@ void FollowCamera::ImGui() {
 			ImGui::DragFloat("fovY", &fovY_, 0.01f);
 			ImGui::DragFloat("nearClip", &nearClip_, 0.001f);
 			ImGui::DragFloat("farClip", &farClip_, 1.0f);
+
+			ImGui::Text(std::format("isInversePos:      {}", editorInverseSetting_.isInversePos).c_str());
+			ImGui::Text(std::format("isInverseRotation: {}", editorInverseSetting_.isInverseRotation).c_str());
+			ImGui::Checkbox("isRotationFollowPosAxis", &editorInverseSetting_.isRotationFollowPosAxis);
+			for (auto& flag : editorInverseSetting_.inversePosAxisMap) {
+
+				std::string label = "InversePosAxis:" + std::string(SakuEngine::EnumAdapter<SakuEngine::Math::Axis>::ToString(flag.first));
+				ImGui::Checkbox(label.c_str(), &flag.second);
+			}
+			for (auto& flag : editorInverseSetting_.inverseRotateAxisMap) {
+
+				std::string label = "InverseRotateAxis:" + std::string(SakuEngine::EnumAdapter<SakuEngine::Math::Axis>::ToString(flag.first));
+				ImGui::Checkbox(label.c_str(), &flag.second);
+			}
 			ImGui::EndTabItem();
 		}
 
