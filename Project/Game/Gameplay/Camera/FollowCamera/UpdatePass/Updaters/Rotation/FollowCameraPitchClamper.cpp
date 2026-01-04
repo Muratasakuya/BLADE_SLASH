@@ -8,6 +8,7 @@ using namespace SakuEngine;
 #include <Engine/Config.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Rotation/FollowCameraLookRotationIntegrator.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Editor/FollowCameraReturnToFollowSmoother.h>
 
 //============================================================================
 //	FollowCameraPitchClamper classMethods
@@ -21,6 +22,11 @@ void FollowCameraPitchClamper::Init() {
 
 void FollowCameraPitchClamper::Execute(FollowCameraContext& context,
 	const FollowCameraFrameService& service, [[maybe_unused]] float deltaTime) {
+
+	// ブレンド処理中はピッチ制限を行わない
+	if (service.toFollowSmoother->IsBlending()) {
+		return;
+	}
 
 	// 現在の回転を取得
 	Quaternion rotation = context.cameraRotation;

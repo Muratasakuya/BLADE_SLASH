@@ -55,12 +55,12 @@ SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGa
 
 void SceneManager::Update() {
 
+	// エディター更新
 	levelEditor_->Update();
+	CameraEditor::GetInstance()->Update();
+
 	currentScene_->Update();
 	sceneTransition_->Update();
-
-	// cameraEditor更新
-	CameraEditor::GetInstance()->Update();
 }
 
 void SceneManager::BeginFrame() {

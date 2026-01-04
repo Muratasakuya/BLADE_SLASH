@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Editor/Base/EditorModuleRegistry.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Service/FollowCameraRuntimeDebug.h>
 
 // c++
 #include <vector>

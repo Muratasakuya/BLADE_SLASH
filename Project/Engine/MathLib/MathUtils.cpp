@@ -205,6 +205,20 @@ Vector3 Math::RotateY(const Vector3& v, float rad) {
 	return Vector3::Transform(v, rotate).Normalize();
 }
 
+float Math::QuaternionAngleDeg(const Quaternion& rotateA, const Quaternion& rotateB) {
+
+	// クォータニオンの内積を計算
+	float dot = Quaternion::Dot(rotateA, rotateB);
+	if (dot < 0.0f) {
+		dot = -dot;
+	}
+	if (dot > 1.0f) {
+		dot = 1.0f;
+	}
+	float angleRad = 2.0f * std::acos(dot);
+	return angleRad * 180.0f / pi;
+}
+
 void Math::ToColumnMajor(const Matrix4x4& matrix, float out[16]) {
 
 	for (int r = 0; r < 4; ++r) {

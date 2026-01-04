@@ -161,6 +161,8 @@ void FollowCamera::ImGui() {
 			ImGui::DragFloat("fovY", &fovY_, 0.01f);
 			ImGui::DragFloat("nearClip", &nearClip_, 0.001f);
 			ImGui::DragFloat("farClip", &farClip_, 1.0f);
+
+			ImGui::Text(std::format("isUpdateEditor: {}", isUpdateEditor_).c_str());
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("UpdatePass")) {

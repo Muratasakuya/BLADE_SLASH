@@ -75,6 +75,13 @@ void BaseCamera::SetEditorParentTransform(const std::string& keyName, const Tran
 	CameraEditor::GetInstance()->SetParentTransform(keyName, parent);
 }
 
+void BaseCamera::BindEndEditCameraPose() {
+
+	endEditTranslation_ = transform_.translation;
+	endEditRotation_ = transform_.rotation;
+	endEditFovY_ = fovY_;
+}
+
 void BaseCamera::UpdateView(UpdateMode updateMode) {
 
 	// 自動フォーカス設定

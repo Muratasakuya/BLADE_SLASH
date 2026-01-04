@@ -62,6 +62,9 @@ namespace SakuEngine {
 		// 親の設定、特定のキーにのみ設定
 		void SetEditorParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent);
 
+		// エディター更新が終了した瞬間のカメラ姿勢を取得
+		void BindEndEditCameraPose();
+
 		//--------- accessor -----------------------------------------------------
 
 		void SetParent(const SakuEngine::Transform3D* parent) { transform_.parent = parent; };
@@ -83,6 +86,11 @@ namespace SakuEngine {
 		const Matrix4x4& GetProjectionMatrix() const { return projectionMatrix_; }
 		const Matrix4x4& GetViewProjectionMatrix() const { return viewProjectionMatrix_; }
 		const Matrix4x4& GetBillboardMatrix() const { return billboardMatrix_; }
+
+		// エディター更新が終了した瞬間のカメラ姿勢を取得
+		const SakuEngine::Vector3& GetEndEditTranslation() const { return endEditTranslation_; }
+		const Quaternion& GetEndEditRotation() const { return endEditRotation_; }
+		float GetEndEditFovY() const { return endEditFovY_; }
 	protected:
 		//========================================================================
 		//	protected Methods
@@ -111,6 +119,11 @@ namespace SakuEngine {
 		Vector3 targetFocusTranslation_;
 		Quaternion startFocusRotation_;
 		Quaternion targetFocusRotation_;
+
+		// エディター更新が終了した瞬間のカメラ姿勢
+		Vector3 endEditTranslation_;
+		Quaternion endEditRotation_;
+		float endEditFovY_;
 
 		// debug
 		float frustumScale_;

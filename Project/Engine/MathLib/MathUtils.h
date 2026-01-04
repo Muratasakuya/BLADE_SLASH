@@ -75,6 +75,9 @@ namespace SakuEngine {
 		// Y軸回りにベクトルを回転させる
 		Vector3 RotateY(const Vector3& v, float rad);
 
+		// 2つのクォータニオン間の角度差を度数で取得する
+		float QuaternionAngleDeg(const Quaternion& rotateA, const Quaternion& rotateB);
+
 		//============================================================================
 		// 円弧関連
 		//============================================================================

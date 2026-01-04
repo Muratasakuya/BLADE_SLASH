@@ -1,8 +1,11 @@
 #include "FollowCameraUpdatePass.h"
 
+using namespace SakuEngine;
+
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
@@ -19,6 +22,7 @@
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraZoomOffsetResolver.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraOffsetSmoother.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Fov/FollowCameraReturnFov.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Editor/FollowCameraReturnToFollowSmoother.h>
 
 //============================================================================
 //	FollowCameraUpdatePass classMethods
@@ -40,16 +44,36 @@ void FollowCameraUpdatePass::Init() {
 	registry.Register<FollowCameraOrbitTranslationComposer>();
 	registry.Register<FollowCameraReturnFov>();
 	registry.Register<FollowCameraActionAutoLookTarget>();
+	registry.Register<FollowCameraReturnToFollowSmoother>();
+
+	// 実行順
+	static constexpr std::array<FollowCameraUpdatePassID, 12> kExecuteOrder = {
+
+		FollowCameraUpdatePassID::LookInputSmoother,        // 入力
+		FollowCameraUpdatePassID::TargetResolver,           // 追従ターゲット決定
+		FollowCameraUpdatePassID::InterTargetSmoother,      // interTarget 補間
+
+		FollowCameraUpdatePassID::LookRotationIntegrator,   // 入力回転の積分
+		FollowCameraUpdatePassID::ActionAutoLookTarget,     // 自動ロックオン等
+		FollowCameraUpdatePassID::PitchClamper,             // ピッチ制限
+		FollowCameraUpdatePassID::RollStabilizer,           // ロール安定化
+
+		FollowCameraUpdatePassID::ZoomOffsetResolver,       // 回転に依存するオフセット計算
+		FollowCameraUpdatePassID::OffsetSmoother,           // オフセット補間
+		FollowCameraUpdatePassID::OrbitTranslationComposer, // 最終座標合成
+
+		FollowCameraUpdatePassID::ReturnFov,                // 画角戻し
+		FollowCameraUpdatePassID::ToFollowSmoother,         // エディター戻し
+	};
 
 	// 登録されているパスを生成して格納
-	for (const auto& name : SakuEngine::EnumAdapter<FollowCameraUpdatePassID>::GetEnumArray()) {
+	updatePasses_.clear();
+	updatePasses_.reserve(kExecuteOrder.size());
 
-		// 名前をIDに変換
-		FollowCameraUpdatePassID id = SakuEngine::EnumAdapter<FollowCameraUpdatePassID>::FromString(name).value();
-		// 生成して初期化
+	for (FollowCameraUpdatePassID id : kExecuteOrder) {
+
 		std::unique_ptr<IFollowCameraUpdatePass> pass = registry.Create(id);
 		pass->Init();
-		// 格納
 		updatePasses_.emplace_back(std::move(pass));
 	}
 
@@ -75,6 +99,7 @@ void FollowCameraUpdatePass::BuildFrameService() {
 	frameService_.offsetSmoother = static_cast<FollowCameraOffsetSmoother*>(GetPassByID(FollowCameraUpdatePassID::OffsetSmoother));
 	frameService_.inputSmoother = static_cast<FollowCameraLookInputSmoother*>(GetPassByID(FollowCameraUpdatePassID::LookInputSmoother));
 	frameService_.pitchClamper = static_cast<FollowCameraPitchClamper*>(GetPassByID(FollowCameraUpdatePassID::PitchClamper));
+	frameService_.toFollowSmoother = static_cast<FollowCameraReturnToFollowSmoother*>(GetPassByID(FollowCameraUpdatePassID::ToFollowSmoother));
 }
 
 IFollowCameraUpdatePass* FollowCameraUpdatePass::GetPassByID(FollowCameraUpdatePassID id) {
@@ -94,12 +119,19 @@ void FollowCameraUpdatePass::Update(FollowCamera& followCamera) {
 	context_.cameraRotation = followCamera.GetTransform().rotation;
 	context_.cameraFovY = followCamera.GetFovY();
 
+	// デルタタイム取得
+	float deltaTime = GameTimer::GetDeltaTime();
 	for (auto& pass : updatePasses_) {
 
 		// 開始処理
 		pass->Begin(context_);
 		// 実行
-		pass->Execute(context_, frameService_, SakuEngine::GameTimer::GetDeltaTime());
+		pass->Execute(context_, frameService_, deltaTime);
+	}
+
+	// エディターによる更新中は反映しない
+	if (followCamera.IsUpdateEditor()) {
+		return;
 	}
 
 	// コンテキストの値をカメラに反映
@@ -110,15 +142,26 @@ void FollowCameraUpdatePass::Update(FollowCamera& followCamera) {
 
 void FollowCameraUpdatePass::ImGui() {
 
-	SakuEngine::EnumAdapter<FollowCameraUpdatePassID>::Combo("Edit UpdatePass", &editPassID_);
+	if (ImGui::BeginTabBar("CameraUpdatePass")) {
 
-	ImGui::SeparatorText(SakuEngine::EnumAdapter<FollowCameraUpdatePassID>::ToString(editPassID_));
+		//=========================================================================================================================
+		//	更新パスの編集
+		//=========================================================================================================================
+		if (ImGui::BeginTabItem("Edit Pass")) {
 
-	for (const auto& pass : updatePasses_) {
-		if (pass->GetID() == editPassID_) {
+			EnumAdapter<FollowCameraUpdatePassID>::Combo("Edit UpdatePass", &editPassID_);
 
-			pass->ImGui();
-			break;
+			ImGui::SeparatorText(EnumAdapter<FollowCameraUpdatePassID>::ToString(editPassID_));
+
+			for (const auto& pass : updatePasses_) {
+				if (pass->GetID() == editPassID_) {
+
+					pass->ImGui();
+					break;
+				}
+			}
+			ImGui::EndTabItem();
 		}
+		ImGui::EndTabBar();
 	}
 }
