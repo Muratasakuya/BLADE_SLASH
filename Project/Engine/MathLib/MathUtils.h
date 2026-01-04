@@ -66,6 +66,9 @@ namespace SakuEngine {
 		// from→toのヨー角の符号付き差(ラジアン)を返す
 		float YawSignedDelta(const Quaternion& from, const Quaternion& to);
 
+		// fromPos から見てtoPosが左右どちらにあるかを返す
+		AnchorToDirection2D YawSideFromPos(const Vector3& fromPos, const Quaternion& fromRot, const Vector3& toPos);
+
 		// ツイストQuaternionから指定軸の角度(ラジアン)を算出する
 		float AngleFromTwist(const Quaternion& twist, Axis axis);
 

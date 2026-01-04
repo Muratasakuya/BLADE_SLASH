@@ -247,17 +247,9 @@ void FollowCameraActionAutoLookTarget::StartCandidate(
 		targetRotation_ = baseTarget;
 	}
 
-	// yaw方向決定
-	const float yawDelta = SakuEngine::Math::YawSignedDelta(startRotation_, baseTarget);
-	if (std::abs(yawDelta) <= Config::kEpsilon) {
-
-		// どちらでも良いので右にする
-		lookYawDirection_ = AnchorToDirection2D::Right;
-	} else {
-
-		// 最短方向
-		lookYawDirection_ = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
-	}
+	// 最短方向を取得
+	lookYawDirection_ = SakuEngine::Math::YawSideFromPos(context.cameraTranslation,
+		context.cameraRotation, dependencies_.bossEnemy->GetTranslation());
 
 	// 現在実行中のソースと優先度を保存
 	currentSource_ = candidate.source;

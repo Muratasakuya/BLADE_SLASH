@@ -60,18 +60,8 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	}
 
 	// 目標回転が基準点から見て左か右か
-	AnchorToDirection2D lookYawDirection{};
-	// yaw方向決定
-	const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
-	if (std::abs(yawDelta) <= Config::kEpsilon) {
-
-		// どちらでも良いので右にする
-		lookYawDirection = AnchorToDirection2D::Right;
-	} else {
-
-		// 最短方向
-		lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
-	}
+	AnchorToDirection2D lookYawDirection = SakuEngine::Math::YawSideFromPos(
+		transform_.translation, transform_.rotation, lookAtTargetObject_->GetTranslation());
 
 	// エディター反転設定
 	// 位置に応じて反転するかしないかを決定する
@@ -171,6 +161,14 @@ void FollowCamera::ImGui() {
 			ImGui::DragFloat("fovY", &fovY_, 0.01f);
 			ImGui::DragFloat("nearClip", &nearClip_, 0.001f);
 			ImGui::DragFloat("farClip", &farClip_, 1.0f);
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("UpdatePass")) {
+
+			updatePass_->ImGui();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("EditorCamera")) {
 
 			ImGui::Text(std::format("isInversePos:      {}", editorInverseSetting_.isInversePos).c_str());
 			ImGui::Text(std::format("isInverseRotation: {}", editorInverseSetting_.isInverseRotation).c_str());
@@ -187,10 +185,14 @@ void FollowCamera::ImGui() {
 			}
 			ImGui::EndTabItem();
 		}
+		if (ImGui::BeginTabItem("Runtime")) {
 
-		if (ImGui::BeginTabItem("State")) {
-
-			updatePass_->ImGui();
+			// 目標回転が基準点から見て左か右か
+			{
+				AnchorToDirection2D lookYawDirection = SakuEngine::Math::YawSideFromPos(
+					transform_.translation, transform_.rotation, lookAtTargetObject_->GetTranslation());
+				ImGui::Text(SakuEngine::EnumAdapter<AnchorToDirection2D>::ToString(lookYawDirection));
+			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
