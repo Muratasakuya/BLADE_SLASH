@@ -12,7 +12,7 @@ using namespace SakuEngine;
 //============================================================================
 
 void PlayerComboTimelineExecuteMode::Init(Player* player, PlayerComboActionModel* model,
-	const PlayerReactionAreaChecker* areaChecker, const GameObject3D* attackTarget) {
+	const ObjectAreaChecker* areaChecker, const GameObject3D* attackTarget) {
 
 	// 初期化
 	player_ = player;

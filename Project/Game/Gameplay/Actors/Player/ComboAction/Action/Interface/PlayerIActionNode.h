@@ -15,7 +15,7 @@
 
 // front
 class Player;
-class PlayerReactionAreaChecker;
+class ObjectAreaChecker;
 
 //============================================================================
 //	PlayerIActionNode class
@@ -60,7 +60,7 @@ public:
 	// 攻撃対象を設定
 	void SetAttackTarget(const SakuEngine::GameObject3D* target) { attackTarget_ = target; }
 	// リアクションエリアチェッカーを設定
-	void SetAreaChecker(const PlayerReactionAreaChecker* checker) { areaChecker_ = checker; }
+	void SetAreaChecker(const ObjectAreaChecker* checker) { areaChecker_ = checker; }
 
 	// キャンセル不可フラグ
 	void SetIsCancelDisabled(bool isCancelDisabled) { isCancelDisabled_ = isCancelDisabled; }
@@ -84,7 +84,7 @@ protected:
 	// 攻撃対象
 	const SakuEngine::GameObject3D* attackTarget_;
 	// リアクションエリアチェッカー
-	const PlayerReactionAreaChecker* areaChecker_;
+	const ObjectAreaChecker* areaChecker_;
 
 	// キャンセル不可フラグ
 	bool isCancelDisabled_ = false;

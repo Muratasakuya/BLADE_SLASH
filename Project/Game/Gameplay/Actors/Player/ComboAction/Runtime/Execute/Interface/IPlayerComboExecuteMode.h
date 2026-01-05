@@ -6,11 +6,11 @@
 #include <Engine/Object/Base/GameObject3D.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Runtime/Execute/PlayerComboExecuteMode.h>
 #include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerComboActionModel.h>
+#include <Game/Gameplay/Systems/Area/ObjectAreaChecker.h>
 
 // front
 class Player;
 class PlayerComboActionModel;
-class PlayerReactionAreaChecker;
 
 //============================================================================
 //	IPlayerComboExecuteMode class
@@ -27,7 +27,7 @@ public:
 
 	// 初期化
 	virtual void Init(Player* player, PlayerComboActionModel* model,
-		const PlayerReactionAreaChecker* areaChecker, const SakuEngine::GameObject3D* attackTarget) = 0;
+		const ObjectAreaChecker* areaChecker, const SakuEngine::GameObject3D* attackTarget) = 0;
 
 	// 更新
 	virtual void Update() = 0;

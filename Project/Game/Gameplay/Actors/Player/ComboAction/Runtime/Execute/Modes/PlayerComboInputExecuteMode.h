@@ -21,7 +21,7 @@ public:
 
 	// 初期化
 	void Init(Player* player, PlayerComboActionModel* model,
-		const PlayerReactionAreaChecker* areaChecker, const SakuEngine::GameObject3D* attackTarget) override;
+		const ObjectAreaChecker* areaChecker, const SakuEngine::GameObject3D* attackTarget) override;
 
 	// 更新
 	void Update() override;
@@ -86,7 +86,7 @@ private:
 	// 処理対象
 	Player* player_;
 	PlayerComboActionModel* model_;
-	const PlayerReactionAreaChecker* areaChecker_;
+	const ObjectAreaChecker* areaChecker_;
 	const SakuEngine::GameObject3D* attackTarget_;
 
 	// 再生状態

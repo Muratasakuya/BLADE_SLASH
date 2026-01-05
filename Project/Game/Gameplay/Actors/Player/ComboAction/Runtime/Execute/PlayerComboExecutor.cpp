@@ -25,7 +25,7 @@ static PlayerComboTimelineExecuteMode* FindTimelineMode(
 }
 
 void PlayerComboExecutor::Init(Player* player,
-	PlayerComboActionModel* model, const PlayerReactionAreaChecker* areaChecker) {
+	PlayerComboActionModel* model, const ObjectAreaChecker* areaChecker) {
 
 	// 初期化
 	player_ = player;

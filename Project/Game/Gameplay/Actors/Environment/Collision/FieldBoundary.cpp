@@ -144,7 +144,7 @@ void FieldBoundary::SolveTargetsByCapsule() {
 #endif
 		};
 
-	// プレイヤーと敵の押し戻し処理
+	// 壁とのプレイヤーと敵の押し戻し処理
 	SolvePush(player_, prevPlayerPos_, hasPrevPlayerPos_, playerCapsule_, Color::Yellow());
 	SolvePush(bossEnemy_, prevBossPos_, hasPrevBossPos_, bossCapsule_, Color::Yellow());
 }

@@ -807,9 +807,6 @@
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.cpp">
       <Filter>Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.cpp">
-      <Filter>Game\Gameplay\Actors\Player\ComboAction\Methods</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\UpdatePass</Filter>
     </ClCompile>
@@ -1811,9 +1808,6 @@
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.h">
       <Filter>Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.h">
-      <Filter>Game\Gameplay\Actors\Player\ComboAction\Methods</Filter>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\UpdatePass</Filter>

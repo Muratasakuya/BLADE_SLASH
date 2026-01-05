@@ -37,7 +37,7 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// 処理依存オブジェクトを設定
-	void BindDependencies(const FollowCameraDependencies& dependencies) { dependencies_ = dependencies; }
+	virtual void BindDependencies(const FollowCameraDependencies& dependencies) { dependencies_ = dependencies; }
 
 	// 識別IDの取得
 	virtual FollowCameraUpdatePassID GetID() const = 0;

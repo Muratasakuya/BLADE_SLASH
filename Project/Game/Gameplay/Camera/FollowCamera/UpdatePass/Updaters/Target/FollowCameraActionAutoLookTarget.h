@@ -8,6 +8,7 @@
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
+#include <Game/Gameplay/Systems/Area/ObjectAreaChecker.h>
 
 //============================================================================
 //	FollowCameraActionAutoLookTarget class
@@ -34,6 +35,8 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	void BindDependencies(const FollowCameraDependencies& dependencies);
+
 	// 識別IDの取得
 	static constexpr FollowCameraUpdatePassID ID = FollowCameraUpdatePassID::ActionAutoLookTarget;
 	virtual FollowCameraUpdatePassID GetID() const override { return ID; }
@@ -46,6 +49,7 @@ private:
 
 	// 処理の起点
 	enum class Source {
+
 		None,
 		Player,
 		Boss,
@@ -56,7 +60,6 @@ private:
 		PreferPlayer,
 		PreferBoss,
 	};
-
 
 	// パラメータ
 	struct Parameter {
@@ -132,6 +135,9 @@ private:
 	std::optional<Parameter> currentParameter_ = std::nullopt;
 	Source currentSource_ = Source::None;
 	int32_t currentPriority_ = 0;
+
+	// エリアチェッカー
+	std::unique_ptr<ObjectAreaChecker> areaChecker_;
 
 	// ランタイム設定
 	bool triggerOnFirstFrame_ = true;            // 状態遷移扱いで起動するか
