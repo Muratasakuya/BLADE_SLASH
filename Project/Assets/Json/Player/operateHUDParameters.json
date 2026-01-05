@@ -197,7 +197,7 @@
                     }
                 },
                 "Sprite": {
-                    "blendMode": "kBlendModeAdd",
+                    "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -533,7 +533,7 @@
                     }
                 },
                 "Sprite": {
-                    "blendMode": "kBlendModeAdd",
+                    "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -869,7 +869,7 @@
                     }
                 },
                 "Sprite": {
-                    "blendMode": "kBlendModeAdd",
+                    "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -986,28 +986,28 @@
                     "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
-                        "b": 0.16732816398143768,
-                        "g": 0.13776881992816925,
-                        "r": 0.9337673783302307
+                        "b": 0.16766873002052307,
+                        "g": 0.13725505769252777,
+                        "r": 0.9336987733840942
                     },
                     "leftTopColor": {
                         "a": 1.0,
-                        "b": 0.16732816398143768,
-                        "g": 0.13776881992816925,
-                        "r": 0.9337673783302307
+                        "b": 0.002845817944034934,
+                        "g": 0.38590875267982483,
+                        "r": 0.9668874144554138
                     },
                     "postProccessEnable_": false,
                     "rightBottomColor": {
                         "a": 1.0,
-                        "b": 0.04355895519256592,
-                        "g": 0.3397967517375946,
-                        "r": 0.9620515704154968
+                        "b": 0.28211280703544617,
+                        "g": 0.0696088895201683,
+                        "r": 0.9337164759635925
                     },
                     "rightTopColor": {
                         "a": 1.0,
-                        "b": 0.04355895519256592,
-                        "g": 0.3397967517375946,
-                        "r": 0.9620515704154968
+                        "b": 0.3435717821121216,
+                        "g": 0.0,
+                        "r": 0.9264164566993713
                     },
                     "textureName": "playerSkillIcon"
                 },
@@ -1205,7 +1205,7 @@
                     }
                 },
                 "Sprite": {
-                    "blendMode": "kBlendModeAdd",
+                    "blendMode": "kBlendModeNormal",
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
