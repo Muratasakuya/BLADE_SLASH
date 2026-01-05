@@ -114,6 +114,30 @@ void CameraEditor::SetParentTransform(const std::string& keyName, const SakuEngi
 	}
 }
 
+const std::optional<std::string> SakuEngine::CameraEditor::GetActiveAnimationKeyName() const {
+
+	if (activeKeyObject_) {
+		for (const auto& [key, value] : keyObjects_) {
+			if (value.get() == activeKeyObject_) {
+				return key;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
+std::vector<std::string> SakuEngine::CameraEditor::GetKeyObjectNames() const {
+
+	std::vector<std::string> names;
+	names.reserve(keyObjects_.size());
+	for (const auto& [name, _] : keyObjects_) {
+
+		names.emplace_back(name);
+	}
+	std::sort(names.begin(), names.end());
+	return names;
+}
+
 void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey,
 	bool isUpdateKey, const std::optional<KeyframeInverseSetting>& inverseSetting) {
 
@@ -133,6 +157,7 @@ void CameraEditor::StartAnim(const std::string& keyName, bool isAddFirstKey,
 
 	// アクティブなキーオブジェクトに設定
 	activeKeyObject_ = it->second.get();
+	lastActiveKeyName_ = keyName;
 
 	// 最初のキーを追加するかどうか
 	// 追加する場合

@@ -61,12 +61,14 @@ private:
 	// パラメータ
 	float duration_;        // 戻し時間
 	EasingType easingType_; // 戻しイージング
-	// これ以下なら戻し開始しない閾値
-	float startPosThreshold_;
-	float startAngleThresholdRad_;
-	float startFovThreshold_;
-	// X軸回転
-	float pitchRotateX_;
+	float pitchRotateX_;    // X軸回転
+
+	// 処理対象のキーの名前
+	std::vector<std::string> targetKeyNames_;
+
+	// エディター
+	int32_t imguiAddKeyIndex_ = -1;
+	std::string imguiAddKeyName_;
 
 	//--------- functions ----------------------------------------------------
 

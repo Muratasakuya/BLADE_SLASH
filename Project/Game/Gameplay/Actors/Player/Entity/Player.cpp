@@ -54,6 +54,7 @@ void Player::InitAnimations() {
 	animNames_.emplace_back("player_skilAttack_2nd");
 	animNames_.emplace_back("player_stunAttack");
 	animNames_.emplace_back("player_parry");
+	animNames_.emplace_back("player_parryWait");
 	animNames_.emplace_back("player_falter");
 
 	// 最初は待機状態で初期化

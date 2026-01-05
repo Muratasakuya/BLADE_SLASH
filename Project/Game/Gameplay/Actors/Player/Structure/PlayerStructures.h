@@ -23,7 +23,8 @@ enum class PlayerState {
 	Attack_3rd,    // 通常攻撃3段目...  左クリック/Xボタン(2段目攻撃中にのみ入力受付)
 	Attack_4th,    // 通常攻撃4段目...  左クリック/Xボタン(3段目攻撃中にのみ入力受付)
 	SkilAttack,    // スキル攻撃...     E/Yボタン
-	Parry,         // 攻撃カウンター...  Space/ショルダーボタン
+	ParryWait,     // カウンター待機...  Space/ショルダーボタン
+	Parry,         // 攻撃カウンター...  左クリック/Xボタン
 	Falter,        // 攻撃を受けた時の怯み
 	Count,
 };

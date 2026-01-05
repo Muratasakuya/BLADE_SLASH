@@ -56,6 +56,14 @@ namespace SakuEngine {
 		// 親の設定、特定のキーにのみ設定
 		void SetParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent);
 
+		// 現在の再生中のアニメーションの名前
+		const std::optional<std::string> GetActiveAnimationKeyName() const;
+		// 最後に再生されたキーの名前
+		const std::string& GetLastActiveKeyName() const { return lastActiveKeyName_; }
+
+		// 現在登録されているキー名一覧
+		std::vector<std::string> GetKeyObjectNames() const;
+
 		// singleton
 		static CameraEditor* GetInstance();
 		static void Finalize();
@@ -97,6 +105,8 @@ namespace SakuEngine {
 
 		// ゲームで開始呼びだししたアクティブなキーオブジェクト
 		KeyframeObject3D* activeKeyObject_ = nullptr;
+		// 一番最近再生したキーの名前
+		std::string lastActiveKeyName_;
 
 		// エディター
 		std::string selectedKeyObjectName_; // 選択されているキーオブジェクトの名前

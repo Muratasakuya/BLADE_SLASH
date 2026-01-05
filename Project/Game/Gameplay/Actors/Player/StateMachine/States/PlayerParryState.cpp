@@ -55,9 +55,6 @@ void PlayerParryState::Enter() {
 	// ヒットストップ開始
 	SakuEngine::GameTimer::StartHitStop(deltaWaitTime_, 0.0f);
 
-	// パリィ用のカメラアニメーションを設定
-	followCamera_->StartPlayerActionAnim(PlayerState::Parry);
-
 	// 剣先の引っかきエフェクトを発生させる
 	tipScrackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 
@@ -192,8 +189,6 @@ void PlayerParryState::UpdateAnimation() {
 		SetLerpValue(startPos_, targetPos_, attackLerp_.moveDistance, false);
 		request_ = RequestState::AttackAnimation;
 
-		// カメラアニメーションを終了させる
-		followCamera_->EndCameraAnim();
 		// パリィ攻撃は4段目の攻撃と同じ
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_4th);
 
@@ -266,8 +261,11 @@ SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, S
 
 void PlayerParryState::Exit() {
 
-	// カメラアニメーションを終了させる
-	followCamera_->EndCameraAnim();
+	if (allowAttack_) {
+
+		// カメラアニメーションを終了させる
+		followCamera_->EndCameraAnim();
+	}
 
 	// リセット
 	request_ = std::nullopt;

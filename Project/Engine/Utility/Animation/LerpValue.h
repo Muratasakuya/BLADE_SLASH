@@ -6,6 +6,9 @@
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/MathLib/MathUtils.h>
 
+// imgui
+#include <imgui.h>
+
 namespace SakuEngine {
 
 	//============================================================================

@@ -7,6 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Config.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
+#include <Engine/Editor/Camera/CameraEditor.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 
 //============================================================================
@@ -50,6 +51,22 @@ void FollowCameraReturnToFollowSmoother::CheckEndEditorUpdate(FollowCameraContex
 
 void FollowCameraReturnToFollowSmoother::StartReturn(FollowCameraContext& context) {
 
+	// 処理を行う対象のキーかどうかチェック
+	CameraEditor* cameraEditor = CameraEditor::GetInstance();
+	bool isFoundKey = false;
+	for (const auto& keyName : targetKeyNames_) {
+		// 処理するキーが存在するので続行
+		if (cameraEditor->GetLastActiveKeyName() == keyName) {
+			isFoundKey = true;
+			break;
+		}
+	}
+	// 対象キーでなければ処理しない
+	if (!isFoundKey) {
+		isReturning_ = false;
+		return;
+	}
+
 	// 開始姿勢の取得
 	startTranslation_ = dependencies_.camera->GetTransform().translation;
 	startRotation_ = Quaternion::Normalize(dependencies_.camera->GetTransform().rotation);
@@ -58,26 +75,6 @@ void FollowCameraReturnToFollowSmoother::StartReturn(FollowCameraContext& contex
 
 	// 追従基準からのワールドオフセット
 	startWorldOffset_ = startTranslation_ - startInterTarget_;
-
-	// 既に十分近いなら戻し処理を開始しない
-	Vector3 desiredTranslation = context.cameraTranslation;
-	Quaternion desiredRotation = Quaternion::Normalize(context.cameraRotation);
-	float desiredFovY = context.cameraFovY;
-
-	float posDistance = (desiredTranslation - startTranslation_).Length();
-	float fovDistance = std::fabs(desiredFovY - startFovY_);
-
-	// クォータニオン内積から角度を計算
-	float dot = Quaternion::Dot(startRotation_, desiredRotation);
-	dot = std::fabs(dot);
-	dot = std::clamp(dot, 0.0f, 1.0f);
-	const float angleRad = 2.0f * std::acos(dot);
-
-	// 十分近いなら戻し処理を開始しない
-	if (posDistance < startPosThreshold_ && angleRad < startAngleThresholdRad_ && fovDistance < startFovThreshold_) {
-		isReturning_ = false;
-		return;
-	}
 
 	// 戻しブレンド開始
 	isReturning_ = true;
@@ -167,11 +164,91 @@ void FollowCameraReturnToFollowSmoother::ImGui() {
 	ImGui::SeparatorText("Parameters");
 
 	ImGui::DragFloat("durationSec", &duration_, 0.01f);
-	ImGui::DragFloat("startPosThreshold", &startPosThreshold_, 0.001f);
-	ImGui::DragFloat("startAngleThresholdRad", &startAngleThresholdRad_, 0.001f);
-	ImGui::DragFloat("startFovThreshold", &startFovThreshold_, 0.001f);
 	ImGui::DragFloat("pitchRotateX", &pitchRotateX_, 0.001f);
 	Easing::SelectEasingType(easingType_);
+
+	ImGui::SeparatorText("Target Keys");
+
+	CameraEditor* cameraEditor = CameraEditor::GetInstance();
+	std::vector<std::string> availableKeys;
+	if (cameraEditor) {
+		availableKeys = cameraEditor->GetKeyObjectNames();
+	}
+
+	// 選択インデックスの範囲補正
+	if (availableKeys.empty()) {
+		imguiAddKeyIndex_ = -1;
+		imguiAddKeyName_.clear();
+	} else {
+		imguiAddKeyIndex_ = std::clamp<int32_t>(imguiAddKeyIndex_, 0, static_cast<int32_t>(availableKeys.size() - 1));
+		if (imguiAddKeyName_.empty() && imguiAddKeyIndex_ >= 0) {
+			imguiAddKeyName_ = availableKeys[imguiAddKeyIndex_];
+		}
+	}
+
+	// 追加UI
+	{
+		// CameraEditorに存在するキー名から選択
+		int index = static_cast<int>(imguiAddKeyIndex_);
+		if (ImGuiHelper::ComboFromStrings("Available Key", &index, availableKeys, 12)) {
+
+			imguiAddKeyIndex_ = static_cast<int32_t>(index);
+			if (imguiAddKeyIndex_ >= 0 && imguiAddKeyIndex_ < static_cast<int32_t>(availableKeys.size())) {
+				imguiAddKeyName_ = availableKeys[imguiAddKeyIndex_];
+			} else {
+				imguiAddKeyName_.clear();
+			}
+		}
+
+		ImGui::SameLine();
+		const bool canAdd = !imguiAddKeyName_.empty();
+		if (!canAdd) {
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
+		}
+		if (ImGui::Button("Add##TargetKey")) {
+			const bool already =
+				(std::find(targetKeyNames_.begin(), targetKeyNames_.end(), imguiAddKeyName_) != targetKeyNames_.end());
+			if (!already) {
+				targetKeyNames_.emplace_back(imguiAddKeyName_);
+			}
+		}
+		if (!canAdd) {
+			ImGui::PopStyleVar();
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Clear##TargetKey")) {
+			targetKeyNames_.clear();
+		}
+	}
+
+	// 現在の対象キー一覧
+	{
+		ImGui::BeginChild("##ReturnToFollowSmoother_TargetKeys", ImVec2(0.0f, 140.0f), true);
+		for (size_t i = 0; i < targetKeyNames_.size();) {
+
+			ImGui::PushID(static_cast<int>(i));
+
+			const std::string& name = targetKeyNames_[i];
+			const bool existsInEditor =
+				(!availableKeys.empty() && std::binary_search(availableKeys.begin(), availableKeys.end(), name));
+			if (existsInEditor) {
+				ImGui::TextUnformatted(name.c_str());
+			} else {
+				ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "%s (Missing)", name.c_str());
+			}
+			ImGui::SameLine();
+			if (ImGui::SmallButton("Remove")) {
+				targetKeyNames_.erase(targetKeyNames_.begin() + static_cast<std::ptrdiff_t>(i));
+				ImGui::PopID();
+				continue;
+			}
+
+			ImGui::PopID();
+			++i;
+		}
+		ImGui::EndChild();
+	}
 }
 
 void FollowCameraReturnToFollowSmoother::ApplyJson() {
@@ -195,10 +272,17 @@ void FollowCameraReturnToFollowSmoother::ApplyJson() {
 		}
 	}
 
-	startPosThreshold_ = data.value("startPosThreshold_", startPosThreshold_);
-	startAngleThresholdRad_ = data.value("startAngleThresholdRad_", startAngleThresholdRad_);
-	startFovThreshold_ = data.value("startFovThreshold_", startFovThreshold_);
 	pitchRotateX_ = data.value("pitchRotateX_", pitchRotateX_);
+
+	if (data.contains("targetKeyNames_") && data["targetKeyNames_"].is_array()) {
+
+		targetKeyNames_.clear();
+		for (const auto& keyName : data["targetKeyNames_"]) {
+			if (keyName.is_string()) {
+				targetKeyNames_.emplace_back(keyName.get<std::string>());
+			}
+		}
+	}
 }
 
 void FollowCameraReturnToFollowSmoother::SaveJson() {
@@ -207,10 +291,12 @@ void FollowCameraReturnToFollowSmoother::SaveJson() {
 
 	data["durationSec_"] = duration_;
 	data["easingType_"] = EnumAdapter<EasingType>::ToString(easingType_);
-	data["startPosThreshold_"] = startPosThreshold_;
-	data["startAngleThresholdRad_"] = startAngleThresholdRad_;
-	data["startFovThreshold_"] = startFovThreshold_;
 	data["pitchRotateX_"] = pitchRotateX_;
+
+	for (const auto& keyName : targetKeyNames_) {
+
+		data["targetKeyNames_"].emplace_back(keyName);
+	}
 
 	JsonAdapter::Save("Camera/Follow/returnToFollowSmoother.json", data);
 }
