@@ -2924,6 +2924,9 @@
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionCapsule.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionResolution.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionDebugDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2948,5 +2951,8 @@
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraRuntimeDebug.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.h" />
+    <ClInclude Include="Engine\Collision\CollisionCapsule.h" />
+    <ClInclude Include="Engine\Collision\CollisionResolution.h" />
+    <ClInclude Include="Engine\Collision\CollisionDebugDraw.h" />
   </ItemGroup>
 </Project>

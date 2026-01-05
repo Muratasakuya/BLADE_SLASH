@@ -170,6 +170,14 @@
                 11
             ],
             "teleportType": 0
+        },
+        {
+            "allowRepeat": false,
+            "requiredDistanceLevels": null,
+            "sequence": [
+                3
+            ],
+            "teleportType": 0
         }
     ],
     "phases": [
@@ -182,7 +190,8 @@
                 8,
                 11,
                 14,
-                12
+                12,
+                16
             ],
             "nextStateDuration": 0.46000000834465027
         },

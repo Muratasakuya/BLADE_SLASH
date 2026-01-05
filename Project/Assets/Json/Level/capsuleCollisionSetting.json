@@ -1,0 +1,35 @@
+{
+    "bossCapsule": {
+        "centerOffset": {
+            "x": 0.0,
+            "y": -10.0,
+            "z": 0.0
+        },
+        "halfHeight": 20.0,
+        "radius": 6.0,
+        "up": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        }
+    },
+    "playerCapsule": {
+        "centerOffset": {
+            "x": 0.0,
+            "y": 5.0,
+            "z": 0.0
+        },
+        "halfHeight": 3.0,
+        "radius": 2.5999999046325684,
+        "up": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        }
+    },
+    "solveSettings": {
+        "maxResolveIterations": 6,
+        "maxStepLength": 0.0,
+        "skinWidth": 0.0010000000474974513
+    }
+}

@@ -79,7 +79,6 @@ SakuEngine::CollisionShape::AABB FieldWallCollision::MakeAABBProxy(const SakuEng
 			proxy.extent = half;
 		}
 		}, other->GetShape());
-
 	return proxy;
 }
 
@@ -110,6 +109,11 @@ SakuEngine::Vector3 FieldWallCollision::ComputePushVector(
 
 void FieldWallCollision::OnCollisionStay(const SakuEngine::CollisionBody* collisionBody) {
 
+	// 手動解決を使うなら従来押し戻しはOFF
+	if (!enableCallbackPushBack_) {
+		return;
+	}
+
 	// プレイヤーか敵が衝突したときに押し戻し処理を行う
 	if ((collisionBody->GetType() & (ColliderType::Type_Player | ColliderType::Type_BossEnemy))
 		!= ColliderType::Type_None) {
@@ -138,6 +142,7 @@ void FieldWallCollision::ImGui(uint32_t index) {
 
 	ImGui::PushID(index);
 
+	ImGui::Checkbox("enableCallbackPushBack", &enableCallbackPushBack_);
 	Collider::ImGui(192.0f);
 
 	ImGui::PopID();
@@ -146,9 +151,11 @@ void FieldWallCollision::ImGui(uint32_t index) {
 void FieldWallCollision::FromJson(const Json& data) {
 
 	Collider::ApplyBodyOffset(data);
+	enableCallbackPushBack_ = data.value("enableCallbackPushBack", false);
 }
 
 void FieldWallCollision::ToJson(Json& data) {
 
 	Collider::SaveBodyOffset(data);
+	data["enableCallbackPushBack"] = enableCallbackPushBack_;
 }

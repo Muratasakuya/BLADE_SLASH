@@ -13,7 +13,8 @@
                     "z": 96.0
                 }
             }
-        }
+        },
+        "enableCallbackPushBack": false
     },
     {
         "CollisionBody0": {
@@ -29,7 +30,8 @@
                     "z": 96.0
                 }
             }
-        }
+        },
+        "enableCallbackPushBack": false
     },
     {
         "CollisionBody0": {
@@ -45,7 +47,8 @@
                     "z": 3.0
                 }
             }
-        }
+        },
+        "enableCallbackPushBack": false
     },
     {
         "CollisionBody0": {
@@ -61,7 +64,8 @@
                     "z": 3.5999999046325684
                 }
             }
-        }
+        },
+        "enableCallbackPushBack": false
     },
     {
         "CollisionBody0": {
@@ -77,6 +81,7 @@
                     "z": 3.5999999046325684
                 }
             }
-        }
+        },
+        "enableCallbackPushBack": false
     }
 ]

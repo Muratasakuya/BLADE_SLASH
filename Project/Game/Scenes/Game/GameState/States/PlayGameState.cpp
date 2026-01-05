@@ -40,10 +40,11 @@ void PlayGameState::Update() {
 	//	scene
 	//========================================================================
 
-	context_->camera->Update(currentState);
-
 	// 移動範囲を制限する
-	context_->fieldBoundary->ControlTargetMove();
+	context_->fieldBoundary->ControlQuadPlayArea();
+
+	// カメラを更新する
+	context_->camera->Update(currentState);
 
 	//========================================================================
 	//	sceneEvent

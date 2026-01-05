@@ -86,7 +86,7 @@ void PlayerSkilAttackState::Enter() {
 	afterImageEffect_->Start(objects);
 
 	// カメラアニメーション開始
-	followCamera_->StratPlayerActionAnimString("playerSkilMove");
+	followCamera_->StratPlayerActionAnimString("playerSkilMove", false);
 }
 
 void PlayerSkilAttackState::Update() {
@@ -192,7 +192,7 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 		jumpKeyframeObject_->StartLerp();
 
 		// カメラアニメーション開始
-		followCamera_->StratPlayerActionAnimString("playerSkilJump");
+		followCamera_->StratPlayerActionAnimString("playerSkilJump", false);
 	}
 }
 
