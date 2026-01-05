@@ -35,7 +35,7 @@
     "startDuration_": 0.699999988079071,
     "startEaseType_": "EaseOutQuint"
   },
-  "keyName": "playerParryLeft",
+  "keyName": "playerParry",
   "previewLoopSpacing_": 1.0,
   "previewMode_": "Manual"
 }

@@ -238,6 +238,9 @@ void CameraEditor::UpdateKeyObjects() {
 	// 補間が終了したらアクティブ状態を解除
 	if (!activeKeyObject_->IsUpdating()) {
 
+		// 更新終了後のカメラ姿勢を取得
+		camera->BindEndEditCameraPose();
+
 		// 終了処理
 		EndAnim();
 	}
@@ -245,6 +248,11 @@ void CameraEditor::UpdateKeyObjects() {
 
 void CameraEditor::UpdateEditor() {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
+
+	// ゲーム側のカメラ操作がアクティブ状態の時はここを通らない
+	if (activeKeyObject_) {
+		return;
+	}
 
 	// 現在のゲームカメラ
 	BaseCamera* camera = sceneView_->GetCamera();

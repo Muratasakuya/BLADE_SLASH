@@ -86,7 +86,7 @@ void PlayerSkilAttackState::Enter() {
 	afterImageEffect_->Start(objects);
 
 	// カメラアニメーション開始
-	followCamera_->StartPlayerActionAnim("playerSkilMove");
+	followCamera_->StratPlayerActionAnimString("playerSkilMove");
 }
 
 void PlayerSkilAttackState::Update() {
@@ -192,7 +192,7 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 		jumpKeyframeObject_->StartLerp();
 
 		// カメラアニメーション開始
-		followCamera_->StartPlayerActionAnim("playerSkilJump");
+		followCamera_->StratPlayerActionAnimString("playerSkilJump");
 	}
 }
 
@@ -327,7 +327,7 @@ void PlayerSkilAttackState::Exit() {
 	groundCrackEmitted_ = false;
 
 	// カメラアニメーション終了
-	followCamera_->EndPlayerActionAnim();
+	followCamera_->EndCameraAnim();
 
 	// 初期Y座標に戻す
 	SakuEngine::Vector3 currentPos = player_->GetTranslation();

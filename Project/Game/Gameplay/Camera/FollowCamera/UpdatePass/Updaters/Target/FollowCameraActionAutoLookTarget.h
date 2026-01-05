@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Utility/Timer/StateTimer.h>
+#include <Engine/Utility/Enum/Direction.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
@@ -43,12 +44,6 @@ private:
 
 	//--------- structure ----------------------------------------------------
 
-	// 左か右か
-	enum class AnchorToDirection {
-
-		Right = -1,
-		Left = 1,
-	};
 	// 処理の起点
 	enum class Source {
 		None,
@@ -118,7 +113,7 @@ private:
 	std::unordered_map<PlayerState, Parameter> playerParameters_;
 	std::unordered_map<BossEnemyState, Parameter> bossParameters_;
 	// 目標回転が基準点から見て左か右か
-	AnchorToDirection lookYawDirection_;
+	AnchorToDirection2D lookYawDirection_;
 
 	// ルール
 	std::vector<PlayerRule> playerRules_;

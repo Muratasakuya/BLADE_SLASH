@@ -467,3 +467,18 @@ Quaternion Quaternion::ExtractTwistX(const Quaternion& qNorm) {
 	float invLen = 1.0f / std::sqrt(lenSq);
 	return Quaternion{ t.x * invLen, 0.0f, 0.0f, t.w * invLen };
 }
+
+Quaternion Quaternion::ExtractTwistZ(const Quaternion& qNorm) {
+
+	// Z軸成分だけを残す
+	Quaternion t{ 0.0f, 0.0f, qNorm.z, qNorm.w };
+	float lenSq = t.z * t.z + t.w * t.w;
+
+	// ほぼz成分なし、w=0のときはIdentityを返す
+	if (lenSq <= Config::kEpsilon) {
+		return Quaternion::Identity();
+	}
+
+	float invLen = 1.0f / std::sqrt(lenSq);
+	return Quaternion{ 0.0f, 0.0f, t.z * invLen, t.w * invLen };
+}

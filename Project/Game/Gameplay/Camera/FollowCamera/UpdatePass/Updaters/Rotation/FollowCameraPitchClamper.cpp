@@ -8,6 +8,7 @@ using namespace SakuEngine;
 #include <Engine/Config.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Rotation/FollowCameraLookRotationIntegrator.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Editor/FollowCameraReturnToFollowSmoother.h>
 
 //============================================================================
 //	FollowCameraPitchClamper classMethods

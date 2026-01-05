@@ -47,11 +47,12 @@ void KeyframeObject3D::Init(const std::string& name, const std::string& modelNam
 	// 反転設定
 	editInverseSetting_.isInversePos = true;
 	editInverseSetting_.isInverseRotation = true;
+	editInverseSetting_.isRotationFollowPosAxis = false;
 	editInverseSetting_.inversePosAxisMap[Math::Axis::X] = true;
 	editInverseSetting_.inversePosAxisMap[Math::Axis::Y] = false;
 	editInverseSetting_.inversePosAxisMap[Math::Axis::Z] = false;
-	editInverseSetting_.inverseRotateAxisMap[Math::Axis::X] = false;
-	editInverseSetting_.inverseRotateAxisMap[Math::Axis::Y] = true;
+	editInverseSetting_.inverseRotateAxisMap[Math::Axis::X] = true;
+	editInverseSetting_.inverseRotateAxisMap[Math::Axis::Y] = false;
 	editInverseSetting_.inverseRotateAxisMap[Math::Axis::Z] = false;
 }
 
@@ -90,7 +91,7 @@ Transform3D KeyframeObject3D::GetIndexKeyTransformInversed(
 	return MakeInversedTransform(keys_[index].transform, setting);
 }
 
-Transform3D SakuEngine::KeyframeObject3D::GetCurrentTransformForPlayback() const {
+Transform3D KeyframeObject3D::GetCurrentTransformForPlayback() const {
 
 	// StartLerp()で設定されたruntimeInverseSettingがあれば反転して返す
 	if (runtimeInverseSetting_.has_value()) {
@@ -100,7 +101,7 @@ Transform3D SakuEngine::KeyframeObject3D::GetCurrentTransformForPlayback() const
 	return currentTransform_;
 }
 
-Transform3D SakuEngine::KeyframeObject3D::GetCurrentTransformInversed(const KeyframeInverseSetting& setting) const {
+Transform3D KeyframeObject3D::GetCurrentTransformInversed(const KeyframeInverseSetting& setting) const {
 
 	return MakeInversedTransform(currentTransform_, setting);
 }
@@ -159,7 +160,7 @@ bool KeyframeObject3D::IsNextKeyReached() const {
 	return (currentState_ == State::Updating) && reachedKeyThisFrame_;
 }
 
-const std::optional<KeyframeInverseSetting>& SakuEngine::KeyframeObject3D::GetRuntimeInverseSetting() const {
+const std::optional<KeyframeInverseSetting>& KeyframeObject3D::GetRuntimeInverseSetting() const {
 
 	return runtimeInverseSetting_;
 }
@@ -1043,7 +1044,7 @@ void KeyframeObject3D::ImGui() {
 	}
 }
 
-bool SakuEngine::KeyframeObject3D::IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis) {
+bool KeyframeObject3D::IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis) {
 
 	auto it = axisMap.find(axis);
 	if (it == axisMap.end()) {
@@ -1052,46 +1053,127 @@ bool SakuEngine::KeyframeObject3D::IsAxisEnabled(const std::unordered_map<Math::
 	return it->second;
 }
 
-Quaternion SakuEngine::KeyframeObject3D::MirrorRotationByNormalAxes(const Quaternion& source,
+Vector3 KeyframeObject3D::MirrorVectorByNormalAxes(const Vector3& source,
 	const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap) {
 
-	// 有効な軸のみ反転
-	Quaternion q = source;
+	Vector3 result = source;
+	if (KeyframeObject3D::IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::X)) {
+		result.x = -result.x;
+	}
+	if (KeyframeObject3D::IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::Y)) {
+		result.y = -result.y;
+	}
+	if (KeyframeObject3D::IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::Z)) {
+		result.z = -result.z;
+	}
+	return result;
+}
+
+Quaternion KeyframeObject3D::MirrorRotationByNormalAxes(const Quaternion& source,
+	const std::unordered_map<Math::Axis, bool>& mirrorNormalAxisMap) {
+
+	Quaternion rotation = Quaternion::Normalize(source);
+
+	// YZ平面で鏡映
 	if (IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::X)) {
-		q.y = -q.y;
-		q.z = -q.z;
+		rotation.y = -rotation.y;
+		rotation.z = -rotation.z;
 	}
+
+	// XZ平面で鏡映
 	if (IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::Y)) {
-		q.x = -q.x;
-		q.z = -q.z;
+		rotation.x = -rotation.x;
+		rotation.z = -rotation.z;
 	}
+
+	// XY平面で鏡映
 	if (IsAxisEnabled(mirrorNormalAxisMap, Math::Axis::Z)) {
-		q.x = -q.x;
-		q.y = -q.y;
+		rotation.x = -rotation.x;
+		rotation.y = -rotation.y;
 	}
-	return Quaternion::Normalize(q);
+	return Quaternion::Normalize(rotation);
 }
 
 Transform3D KeyframeObject3D::MakeInversedTransform(
 	const Transform3D& source, const KeyframeInverseSetting& setting) const {
 
 	Transform3D dst = source;
-	// 座標を反転
+
+	// 親がいるか
+	const bool hasParent = (parent_ != nullptr);
+
+	// 親のワールド回転を求める
+	auto GetWorldRotationQuatOnly = [](const BaseTransform* transform) -> Quaternion
+		{
+			if (!transform) {
+				return Quaternion::Identity();
+			}
+
+			Quaternion world = Quaternion::Normalize(transform->rotation);
+
+			const BaseTransform* parent = transform->parent;
+			// 親がいるだけ回転を掛け合わせる
+			while (parent) {
+
+				Quaternion parentRotation = Quaternion::Normalize(parent->rotation);
+				world = Quaternion::Normalize(Quaternion::Multiply(parentRotation, world));
+				parent = parent->parent;
+			}
+			return world;
+		};
+
+	// 親のワールド位置
+	Vector3 parentWorldPos = hasParent ? parent_->translation : Vector3::AnyInit(0.0f);
+	// 親のワールド回転
+	Quaternion parentWorldRotation = hasParent ? GetWorldRotationQuatOnly(static_cast<const BaseTransform*>(parent_)) : Quaternion::Identity();
+	// 親のワールド回転の逆元
+	Quaternion invParentWorldRotation = Quaternion::Inverse(parentWorldRotation);
+	// 親スケール
+	Vector3 parentWorldScale = hasParent ? parent_->GetWorldScale() : Vector3::AnyInit(1.0f);
+
+	// 位置反転、親ローカルで反転してからワールドへ戻す
 	if (setting.isInversePos) {
 
-		const float sx = IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::X) ? -1.0f : 1.0f;
-		const float sy = IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::Y) ? -1.0f : 1.0f;
-		const float sz = IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::Z) ? -1.0f : 1.0f;
+		// 回転を除去して親ローカル座標へ
+		Vector3 diffWorld = source.translation - parentWorldPos;
+		Vector3 diffLocal = Quaternion::RotateVector(diffWorld, invParentWorldRotation);
 
-		dst.translation.x *= sx;
-		dst.translation.y *= sy;
-		dst.translation.z *= sz;
+		// 親ローカル、スケール補正をかける
+		if (hasParent && !isIgnoreParentScale_) {
+
+			diffLocal.x /= (std::abs(parentWorldScale.x) <= Config::kEpsilon) ? 1.0f : parentWorldScale.x;
+			diffLocal.y /= (std::abs(parentWorldScale.y) <= Config::kEpsilon) ? 1.0f : parentWorldScale.y;
+			diffLocal.z /= (std::abs(parentWorldScale.z) <= Config::kEpsilon) ? 1.0f : parentWorldScale.z;
+		}
+
+		// 鏡反転
+		if (IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::X)) { diffLocal.x = -diffLocal.x; }
+		if (IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::Y)) { diffLocal.y = -diffLocal.y; }
+		if (IsAxisEnabled(setting.inversePosAxisMap, Math::Axis::Z)) { diffLocal.z = -diffLocal.z; }
+
+		// 親ローカル、スケール補正をかけ直す
+		if (hasParent && !isIgnoreParentScale_) {
+
+			diffLocal.x *= parentWorldScale.x;
+			diffLocal.y *= parentWorldScale.y;
+			diffLocal.z *= parentWorldScale.z;
+		}
+
+		// 親ローカルからワールドへ
+		diffWorld = Quaternion::RotateVector(diffLocal, parentWorldRotation);
+		dst.translation = parentWorldPos + diffWorld;
 	}
-	// 回転を反転
+
+	// 回転反転、親ローカル回転で鏡映してからワールドへ戻す
 	if (setting.isInverseRotation) {
 
-		const auto& axisMap = setting.isRotationFollowPosAxis ? setting.inversePosAxisMap : setting.inverseRotateAxisMap;
-		dst.rotation = MirrorRotationByNormalAxes(dst.rotation, axisMap);
+		auto& axisMap = setting.isRotationFollowPosAxis ? setting.inversePosAxisMap : setting.inverseRotateAxisMap;
+
+		// source回転 -> 親ローカル回転
+		Quaternion localRotation = Quaternion::Normalize(Quaternion::Multiply(invParentWorldRotation, source.rotation));
+		localRotation = MirrorRotationByNormalAxes(localRotation, axisMap);
+		// 親ローカルからワールドへ
+		dst.rotation = Quaternion::Normalize(Quaternion::Multiply(parentWorldRotation, localRotation));
 	}
 	return dst;
 }

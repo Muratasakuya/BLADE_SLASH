@@ -3,6 +3,8 @@
         "Keys": [
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.9976032972335815,
                         "x": 0.059379324316978455,
@@ -23,11 +25,13 @@
                 "anyValues": {
                     "FovY": 0.6800000071525574
                 },
-                "ease": "EaseOutCubic",
+                "ease": "EaseOutExpo",
                 "time": 0.0
             },
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.9999788999557495,
                         "x": -0.006499954499304295,
@@ -54,13 +58,15 @@
         ],
         "addKeyTimeStep_": 0.800000011920929,
         "isConnectEnds_": false,
+        "isIgnoreParentScale_": false,
         "isUpdateKeyDuringLerp_": true,
+        "keyRenderView_": "Scene",
         "lerpType_": "Linear",
         "parentName_": "player",
         "startDuration_": 0.10000000149011612,
-        "startEaseType_": "EaseInCubic"
+        "startEaseType_": "EaseOutExpo"
     },
     "keyName": "player3rdAttack",
     "previewLoopSpacing_": 1.0,
-    "previewMode_": "Manual"
+    "previewMode_": "Play"
 }

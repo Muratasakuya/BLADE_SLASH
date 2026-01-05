@@ -95,6 +95,7 @@ namespace SakuEngine {
 			const Quaternion& rotation, float lerpRate);
 
 		static Quaternion ExtractTwistX(const Quaternion& qNorm);
+		static Quaternion ExtractTwistZ(const Quaternion& qNorm);
 	};
 
 	Quaternion operator*(float scalar, const Quaternion& q);

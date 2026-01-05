@@ -193,7 +193,7 @@ void PlayerParryState::UpdateAnimation() {
 		request_ = RequestState::AttackAnimation;
 
 		// カメラアニメーションを終了させる
-		followCamera_->EndPlayerActionAnim();
+		followCamera_->EndCameraAnim();
 		// パリィ攻撃は4段目の攻撃と同じ
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_4th);
 
@@ -267,7 +267,7 @@ SakuEngine::Vector3 PlayerParryState::SetLerpValue(SakuEngine::Vector3& start, S
 void PlayerParryState::Exit() {
 
 	// カメラアニメーションを終了させる
-	followCamera_->EndPlayerActionAnim();
+	followCamera_->EndCameraAnim();
 
 	// リセット
 	request_ = std::nullopt;

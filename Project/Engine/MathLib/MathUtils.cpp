@@ -108,6 +108,23 @@ float Math::YawSignedDelta(const Quaternion& from, const Quaternion& to) {
 	return WrapPi(angle);
 }
 
+AnchorToDirection2D Math::YawSideFromPos(const Vector3& fromPos, const Quaternion& fromRot, const Vector3& toPos) {
+
+	// 自分から相手への向き相手
+	Vector3 to = toPos - fromPos;
+	to.y = 0.0f;
+	to = to.Normalize();
+	// 自分の右方向ベクトル
+	Quaternion fromRotation = Quaternion::Normalize(fromRot);
+	Vector3 right = Quaternion::RotateVector(Direction::Get(Direction3D::Right), fromRotation);
+	right.y = 0.0f;
+	right = right.Normalize();
+
+	// 右方向との内積で左右判定
+	float side = Vector3::Dot(right, to);
+	return (side > 0.0f) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+}
+
 float Math::AngleFromTwist(const Quaternion& twist, Axis axis) {
 
 	float angle = 0.0f;
@@ -186,6 +203,20 @@ Vector3 Math::RotateY(const Vector3& v, float rad) {
 
 	Matrix4x4 rotate = Matrix4x4::MakeYawMatrix(rad);
 	return Vector3::Transform(v, rotate).Normalize();
+}
+
+float Math::QuaternionAngleDeg(const Quaternion& rotateA, const Quaternion& rotateB) {
+
+	// クォータニオンの内積を計算
+	float dot = Quaternion::Dot(rotateA, rotateB);
+	if (dot < 0.0f) {
+		dot = -dot;
+	}
+	if (dot > 1.0f) {
+		dot = 1.0f;
+	}
+	float angleRad = 2.0f * std::acos(dot);
+	return angleRad * 180.0f / pi;
 }
 
 void Math::ToColumnMajor(const Matrix4x4& matrix, float out[16]) {

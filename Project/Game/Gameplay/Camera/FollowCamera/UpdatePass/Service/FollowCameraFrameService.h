@@ -18,6 +18,7 @@ class FollowCameraLookRotationIntegrator;
 class FollowCameraPitchClamper;
 class FollowCameraZoomOffsetResolver;
 class FollowCameraOffsetSmoother;
+class FollowCameraReturnToFollowSmoother;
 
 //============================================================================
 //	FollowCameraFrameService structure
@@ -37,6 +38,7 @@ enum class FollowCameraUpdatePassID {
 	OrbitTranslationComposer, // 最終座標構成
 	ReturnFov,                // 画角元に戻す
 	ActionAutoLookTarget,     // 自動で注視点を向かせる
+	ToFollowSmoother,         // エディター更新から追従状態に戻る補間
 };
 
 // パス間で共有するデータ
@@ -64,4 +66,5 @@ struct FollowCameraFrameService {
 	const FollowCameraZoomOffsetResolver* zoomOffsetResolver;     // ズームオフセット計算
 	const FollowCameraTargetResolver* targetResolver;             // 追従目標位置の決定
 	const FollowCameraOffsetSmoother* offsetSmoother;             // オフセット補間
+	const FollowCameraReturnToFollowSmoother* toFollowSmoother;   // エディター更新から追従状態に戻る補間
 };
