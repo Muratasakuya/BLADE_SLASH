@@ -23,11 +23,6 @@ void FollowCameraPitchClamper::Init() {
 void FollowCameraPitchClamper::Execute(FollowCameraContext& context,
 	const FollowCameraFrameService& service, [[maybe_unused]] float deltaTime) {
 
-	// ブレンド処理中はピッチ制限を行わない
-	if (service.toFollowSmoother->IsBlending()) {
-		return;
-	}
-
 	// 現在の回転を取得
 	Quaternion rotation = context.cameraRotation;
 

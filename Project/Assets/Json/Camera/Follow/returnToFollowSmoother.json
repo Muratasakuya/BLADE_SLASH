@@ -1,10 +1,7 @@
 {
-    "finishFovEpsilon_": 0.10000000149011612,
-    "finishPosEpsilon_": 0.10000000149011612,
-    "finishRotateEpsilonDeg_": 0.10000000149011612,
-    "fovHalfLife_": 0.03999999910593033,
-    "maxBlendTime_": 0.8999999761581421,
-    "pitchRotateX_": 0.10000000149011612,
-    "posHalfLife_": 0.14000000059604645,
-    "rotateHalfLife_": 0.14000000059604645
+    "durationSec_": 0.7200000286102295,
+    "easingType_": "EaseOutSine",
+    "startAngleThresholdRad_": 0.0010000000474974513,
+    "startFovThreshold_": 0.0010000000474974513,
+    "startPosThreshold_": 0.009999999776482582
 }

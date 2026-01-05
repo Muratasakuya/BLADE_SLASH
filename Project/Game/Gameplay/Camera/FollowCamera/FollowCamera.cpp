@@ -157,6 +157,8 @@ void FollowCamera::ImGui() {
 			ImGui::DragFloat3("translation", &transform_.translation.x, 0.01f);
 			ImGui::Text("rotation: %.2f, %.2f, %.2f, %.2f", transform_.rotation.x,
 				transform_.rotation.y, transform_.rotation.z, transform_.rotation.w);
+			SakuEngine::Vector3 euler = SakuEngine::Quaternion::ToEulerAngles(transform_.rotation);
+			ImGui::Text("euler: %.2f, %.2f, %.2f", euler.x, euler.y, euler.z);
 
 			ImGui::DragFloat("fovY", &fovY_, 0.01f);
 			ImGui::DragFloat("nearClip", &nearClip_, 0.001f);

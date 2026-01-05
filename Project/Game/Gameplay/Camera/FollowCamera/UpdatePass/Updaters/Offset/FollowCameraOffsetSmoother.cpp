@@ -20,7 +20,7 @@ void FollowCameraOffsetSmoother::Init() {
 }
 
 void FollowCameraOffsetSmoother::Execute([[maybe_unused]] FollowCameraContext& context,
-	const FollowCameraFrameService& service, [[maybe_unused]] float deltaTime) {
+	const FollowCameraFrameService& service, float deltaTime) {
 
 	// 目標オフセット距離を取得
 	SakuEngine::Vector3 desired = service.zoomOffsetResolver->GetDesiredOffset();
@@ -33,7 +33,7 @@ void FollowCameraOffsetSmoother::Execute([[maybe_unused]] FollowCameraContext& c
 	}
 
 	// 現在のオフセット距離を目標オフセット距離にフレーム補間する
-	currentOffset_ = SakuEngine::Vector3::Lerp(currentOffset_, desired, lerpRate_);
+	currentOffset_ = SakuEngine::Vector3::Lerp(currentOffset_, desired, lerpRate_ * deltaTime);
 }
 
 void FollowCameraOffsetSmoother::ImGui() {

@@ -56,14 +56,14 @@ void FollowCameraUpdatePass::Init() {
 		FollowCameraUpdatePassID::LookRotationIntegrator,   // 入力回転の積分
 		FollowCameraUpdatePassID::ActionAutoLookTarget,     // 自動ロックオン等
 		FollowCameraUpdatePassID::PitchClamper,             // ピッチ制限
-		FollowCameraUpdatePassID::RollStabilizer,           // ロール安定化
 
 		FollowCameraUpdatePassID::ZoomOffsetResolver,       // 回転に依存するオフセット計算
 		FollowCameraUpdatePassID::OffsetSmoother,           // オフセット補間
 		FollowCameraUpdatePassID::OrbitTranslationComposer, // 最終座標合成
 
-		FollowCameraUpdatePassID::ReturnFov,                // 画角戻し
-		FollowCameraUpdatePassID::ToFollowSmoother,         // エディター戻し
+		FollowCameraUpdatePassID::RollStabilizer,   // ロール安定化
+		FollowCameraUpdatePassID::ReturnFov,        // 画角戻し
+		FollowCameraUpdatePassID::ToFollowSmoother, // エディター戻し
 	};
 
 	// 登録されているパスを生成して格納
