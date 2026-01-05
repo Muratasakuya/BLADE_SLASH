@@ -29,11 +29,6 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	// 戻しブレンド中か
-	bool IsReturning() const { return isReturning_; }
-	// ブレンド係数
-	float GetReturnBlendT() const { return returnTimer_.easedT_; }
-
 	static constexpr FollowCameraUpdatePassID ID = FollowCameraUpdatePassID::ToFollowSmoother;
 	FollowCameraUpdatePassID GetID() const override { return ID; }
 private:
@@ -48,27 +43,30 @@ private:
 
 	// 戻しブレンド中か
 	bool isReturning_ = false;
-	// 戻しブレンド開始フレーム(開始フレームはt=0で確定させたい)
+	// 戻しブレンド開始フレーム
 	bool justStartedReturn_ = false;
 
 	// 戻しブレンド用タイマー
 	SakuEngine::StateTimer returnTimer_;
 
 	// エディター更新終了時の姿勢
-	SakuEngine::Vector3 startTranslation_{};
-	SakuEngine::Quaternion startRotation_ = SakuEngine::Quaternion::Identity();
-	float startFovY_ = 0.0f;
+	SakuEngine::Vector3 startTranslation_;
+	SakuEngine::Quaternion startRotation_ ;
+	float startFovY_;
 
-	// エディター更新終了時の追従基準(interTarget)と、そこからのワールドオフセット
-	SakuEngine::Vector3 startInterTarget_{};
-	SakuEngine::Vector3 startWorldOffset_{};
+	// エディター更新終了時の追従基準と、そこからのワールドオフセット
+	SakuEngine::Vector3 startInterTarget_;
+	SakuEngine::Vector3 startWorldOffset_;
 
 	// パラメータ
-	float durationSec_ = 0.35f;                          // 戻し時間(秒)
-	EasingType easingType_ = EasingType::EaseOutExpo;    // 戻しイージング
-	float startPosThreshold_ = 0.01f;                    // これ以下なら戻し開始しない(位置)
-	float startAngleThresholdRad_ = 0.001f;              // これ以下なら戻し開始しない(回転)
-	float startFovThreshold_ = 0.001f;                   // これ以下なら戻し開始しない(画角)
+	float duration_;        // 戻し時間
+	EasingType easingType_; // 戻しイージング
+	// これ以下なら戻し開始しない閾値
+	float startPosThreshold_;
+	float startAngleThresholdRad_;
+	float startFovThreshold_;
+	// X軸回転
+	float pitchRotateX_;
 
 	//--------- functions ----------------------------------------------------
 
@@ -77,11 +75,9 @@ private:
 	void SaveJson();
 
 	// エディター更新の終了を検知して、必要ならブレンド開始
-	void CheckEndEditorUpdate(FollowCameraContext& context, const FollowCameraFrameService& service);
-
+	void CheckEndEditorUpdate(FollowCameraContext& context);
 	// 戻しブレンド開始
-	void StartReturn(FollowCameraContext& context, const FollowCameraFrameService& service);
-
+	void StartReturn(FollowCameraContext& context);
 	// 戻しブレンド適用
 	void ApplyReturnBlend(FollowCameraContext& context);
 };

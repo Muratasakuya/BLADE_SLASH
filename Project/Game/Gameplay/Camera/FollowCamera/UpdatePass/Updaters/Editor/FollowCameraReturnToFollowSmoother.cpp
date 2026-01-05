@@ -19,28 +19,20 @@ void FollowCameraReturnToFollowSmoother::Init() {
 	isReturning_ = false;
 	justStartedReturn_ = false;
 	returnTimer_.Reset();
-	returnTimer_.target_ = durationSec_;
+	returnTimer_.target_ = duration_;
 	returnTimer_.easeingType_ = easingType_;
+	pitchRotateX_ = 0.0f;
 
 	// json適用
 	ApplyJson();
 }
 
-void FollowCameraReturnToFollowSmoother::CheckEndEditorUpdate(
-	FollowCameraContext& context, const FollowCameraFrameService& service) {
-
-	// 依存が無ければ処理できない
-	if (!dependencies_.camera) {
-		wasInEditorUpdate_ = false;
-		isReturning_ = false;
-		justStartedReturn_ = false;
-		return;
-	}
+void FollowCameraReturnToFollowSmoother::CheckEndEditorUpdate(FollowCameraContext& context) {
 
 	// 現在のエディター更新フラグ
 	bool current = dependencies_.camera->IsUpdateEditor();
 
-	// エディター更新中は戻しブレンドしない(次に抜けたら開始)
+	// エディター更新中は戻しブレンドしない
 	if (current) {
 		isReturning_ = false;
 		justStartedReturn_ = false;
@@ -50,48 +42,39 @@ void FollowCameraReturnToFollowSmoother::CheckEndEditorUpdate(
 
 	// trueからfalseに変化した瞬間にブレンド処理を開始
 	if (wasInEditorUpdate_ && !current) {
-		StartReturn(context, service);
-	}
 
+		StartReturn(context);
+	}
 	wasInEditorUpdate_ = current;
 }
 
-void FollowCameraReturnToFollowSmoother::StartReturn(
-	FollowCameraContext& context, const FollowCameraFrameService& service) {
-	(void)service;
+void FollowCameraReturnToFollowSmoother::StartReturn(FollowCameraContext& context) {
 
-	// 開始姿勢(エディターの最終フレーム)
-	// BindEndEditCameraPose() が呼ばれていないケースもあるので、Transform優先で取得
+	// 開始姿勢の取得
 	startTranslation_ = dependencies_.camera->GetTransform().translation;
-	startRotation_ = SakuEngine::Quaternion::Normalize(dependencies_.camera->GetTransform().rotation);
+	startRotation_ = Quaternion::Normalize(dependencies_.camera->GetTransform().rotation);
 	startFovY_ = dependencies_.camera->GetFovY();
-
-	// 追従基準(interTarget)は直前の追従更新から維持されている値を使う。
-	// ※ここを強制的にプレイヤー座標へスナップすると、既に計算済みの desiredTranslation と
-	//   interTarget の整合性が崩れて 1フレーム目のブレンドが歪みやすい。
-	//   (旧FollowStateではSnapToCamera後に一連の計算を行っていたが、UpdatePass分割後は
-	//   このパスが最後に実行されるため)
 	startInterTarget_ = context.interTarget;
 
 	// 追従基準からのワールドオフセット
 	startWorldOffset_ = startTranslation_ - startInterTarget_;
 
-	// 既に十分近いなら戻しを開始しない
-	const SakuEngine::Vector3 desiredTranslation = context.cameraTranslation;
-	const SakuEngine::Quaternion desiredRotation = SakuEngine::Quaternion::Normalize(context.cameraRotation);
-	const float desiredFovY = context.cameraFovY;
+	// 既に十分近いなら戻し処理を開始しない
+	Vector3 desiredTranslation = context.cameraTranslation;
+	Quaternion desiredRotation = Quaternion::Normalize(context.cameraRotation);
+	float desiredFovY = context.cameraFovY;
 
-	const float posDist = (desiredTranslation - startTranslation_).Length();
-	const float fovDist = std::fabs(desiredFovY - startFovY_);
+	float posDistance = (desiredTranslation - startTranslation_).Length();
+	float fovDistance = std::fabs(desiredFovY - startFovY_);
 
-	// クォータニオン内積から角度(ラジアン)を計算
-	float dot = startRotation_.x * desiredRotation.x + startRotation_.y * desiredRotation.y +
-		startRotation_.z * desiredRotation.z + startRotation_.w * desiredRotation.w;
+	// クォータニオン内積から角度を計算
+	float dot = Quaternion::Dot(startRotation_, desiredRotation);
 	dot = std::fabs(dot);
 	dot = std::clamp(dot, 0.0f, 1.0f);
 	const float angleRad = 2.0f * std::acos(dot);
 
-	if (posDist < startPosThreshold_ && angleRad < startAngleThresholdRad_ && fovDist < startFovThreshold_) {
+	// 十分近いなら戻し処理を開始しない
+	if (posDistance < startPosThreshold_ && angleRad < startAngleThresholdRad_ && fovDistance < startFovThreshold_) {
 		isReturning_ = false;
 		return;
 	}
@@ -100,32 +83,42 @@ void FollowCameraReturnToFollowSmoother::StartReturn(
 	isReturning_ = true;
 	justStartedReturn_ = true;
 	returnTimer_.Reset();
-	returnTimer_.target_ = (std::max)(durationSec_, Config::kEpsilon);
+	returnTimer_.target_ = (std::max)(duration_, Config::kEpsilon);
 	returnTimer_.easeingType_ = easingType_;
 }
 
 void FollowCameraReturnToFollowSmoother::ApplyReturnBlend(FollowCameraContext& context) {
 
-	// 目標(通常追従の結果)を取得
-	const SakuEngine::Vector3 desiredTranslation = context.cameraTranslation;
-	const SakuEngine::Quaternion desiredRotation = SakuEngine::Quaternion::Normalize(context.cameraRotation);
-	const float desiredFovY = context.cameraFovY;
+	// 目標通常追従の結果を取得
+	Vector3 desiredTranslation = context.cameraTranslation;
+	Quaternion desiredRotation = Quaternion::Normalize(context.cameraRotation);
+	// ピッチを固定にする
+	{
+		Quaternion rotation = Quaternion::Normalize(desiredRotation);
+		// X軸回転成分だけ抽出 
+		Quaternion twistX = Quaternion::ExtractTwistX(rotation);
+		// Y、Z成分側の回転
+		Quaternion swing = Quaternion::Multiply(rotation, Quaternion::Inverse(twistX));
+		// 差し替えるX軸回転
+		Quaternion fixedTwistX = Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), pitchRotateX_);
+		// 合成して正規化 
+		desiredRotation = Quaternion::Normalize(Quaternion::Multiply(swing, fixedTwistX));
+	}
+	float desiredFovY = context.cameraFovY;
 
-	// 現在の追従基準からのオフセット(ワールド)をブレンド
-	// ※ローカル空間オフセット同士を直接Lerpすると基準回転が異なるため、ワールドで補間する
-	const SakuEngine::Vector3 desiredWorldOffset = desiredTranslation - context.interTarget;
-	const SakuEngine::Vector3 blendedWorldOffset =
-		SakuEngine::Vector3::Lerp(startWorldOffset_, desiredWorldOffset, returnTimer_.easedT_);
+	// 現在の追従基準からのオフセットをブレンド
+	Vector3 desiredWorldOffset = desiredTranslation - context.interTarget;
+	Vector3 blendedWorldOffset = Vector3::Lerp(startWorldOffset_, desiredWorldOffset, returnTimer_.easedT_);
 
 	// 姿勢ブレンド
-	context.cameraRotation = SakuEngine::Quaternion::Slerp(startRotation_, desiredRotation, returnTimer_.easedT_);
+	context.cameraRotation = Quaternion::Slerp(startRotation_, desiredRotation, returnTimer_.easedT_);
 	context.cameraTranslation = context.interTarget + blendedWorldOffset;
 	context.cameraFovY = std::lerp(startFovY_, desiredFovY, returnTimer_.easedT_);
 
 	// 終了処理
 	if (returnTimer_.IsReached()) {
 
-		// 目標にスナップ(誤差を消す)
+		// 目標にスナップ
 		context.cameraTranslation = desiredTranslation;
 		context.cameraRotation = desiredRotation;
 		context.cameraFovY = desiredFovY;
@@ -134,20 +127,21 @@ void FollowCameraReturnToFollowSmoother::ApplyReturnBlend(FollowCameraContext& c
 }
 
 void FollowCameraReturnToFollowSmoother::Execute(FollowCameraContext& context,
-	[[maybe_unused]] const FollowCameraFrameService& service, float deltaTime) {
-
-	(void)deltaTime;
+	[[maybe_unused]] const FollowCameraFrameService& service, [[maybe_unused]] float deltaTime) {
 
 	// エディター更新の終了を検知して必要ならブレンド開始
-	CheckEndEditorUpdate(context, service);
+	CheckEndEditorUpdate(context);
 
 	// 戻しブレンド
 	if (isReturning_) {
-		// 開始フレームは editor 最終姿勢をそのまま出したいので、t=0のまま適用する
+		// 開始フレームはエディター最終姿勢をそのまま適用する
 		if (justStartedReturn_) {
+
 			justStartedReturn_ = false;
 			ApplyReturnBlend(context);
 		} else {
+
+			// ブレンド更新
 			returnTimer_.Update();
 			ApplyReturnBlend(context);
 		}
@@ -172,10 +166,11 @@ void FollowCameraReturnToFollowSmoother::ImGui() {
 
 	ImGui::SeparatorText("Parameters");
 
-	ImGui::DragFloat("durationSec", &durationSec_, 0.01f, 0.01f, 10.0f);
-	ImGui::DragFloat("startPosThreshold", &startPosThreshold_, 0.001f, 0.0f, 10.0f);
-	ImGui::DragFloat("startAngleThresholdRad", &startAngleThresholdRad_, 0.0001f, 0.0f, 3.14f);
-	ImGui::DragFloat("startFovThreshold", &startFovThreshold_, 0.0001f, 0.0f, 10.0f);
+	ImGui::DragFloat("durationSec", &duration_, 0.01f);
+	ImGui::DragFloat("startPosThreshold", &startPosThreshold_, 0.001f);
+	ImGui::DragFloat("startAngleThresholdRad", &startAngleThresholdRad_, 0.001f);
+	ImGui::DragFloat("startFovThreshold", &startFovThreshold_, 0.001f);
+	ImGui::DragFloat("pitchRotateX", &pitchRotateX_, 0.001f);
 	Easing::SelectEasingType(easingType_);
 }
 
@@ -187,13 +182,11 @@ void FollowCameraReturnToFollowSmoother::ApplyJson() {
 	}
 
 	// duration
-	durationSec_ = data.value("durationSec_", durationSec_);
+	duration_ = data.value("durationSec_", duration_);
 
-	// easingType
-	// 文字列/数値のどちらでも読めるようにする
 	if (data.contains("easingType_")) {
 		if (data["easingType_"].is_string()) {
-			auto opt = SakuEngine::EnumAdapter<EasingType>::FromString(data["easingType_"]);
+			auto opt = EnumAdapter<EasingType>::FromString(data["easingType_"]);
 			if (opt.has_value()) {
 				easingType_ = opt.value();
 			}
@@ -205,17 +198,19 @@ void FollowCameraReturnToFollowSmoother::ApplyJson() {
 	startPosThreshold_ = data.value("startPosThreshold_", startPosThreshold_);
 	startAngleThresholdRad_ = data.value("startAngleThresholdRad_", startAngleThresholdRad_);
 	startFovThreshold_ = data.value("startFovThreshold_", startFovThreshold_);
+	pitchRotateX_ = data.value("pitchRotateX_", pitchRotateX_);
 }
 
 void FollowCameraReturnToFollowSmoother::SaveJson() {
 
 	Json data;
 
-	data["durationSec_"] = durationSec_;
-	data["easingType_"] = SakuEngine::EnumAdapter<EasingType>::ToString(easingType_);
+	data["durationSec_"] = duration_;
+	data["easingType_"] = EnumAdapter<EasingType>::ToString(easingType_);
 	data["startPosThreshold_"] = startPosThreshold_;
 	data["startAngleThresholdRad_"] = startAngleThresholdRad_;
 	data["startFovThreshold_"] = startFovThreshold_;
+	data["pitchRotateX_"] = pitchRotateX_;
 
 	JsonAdapter::Save("Camera/Follow/returnToFollowSmoother.json", data);
 }

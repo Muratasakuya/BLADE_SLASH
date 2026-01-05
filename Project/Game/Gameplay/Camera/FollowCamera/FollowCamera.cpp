@@ -60,8 +60,18 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	}
 
 	// 目標回転が基準点から見て左か右か
-	AnchorToDirection2D lookYawDirection = SakuEngine::Math::YawSideFromPos(
-		transform_.translation, transform_.rotation, lookAtTargetObject_->GetTranslation());
+	AnchorToDirection2D lookYawDirection{};
+	// yaw方向決定
+	const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
+	if (std::abs(yawDelta) <= Config::kEpsilon) {
+
+		// どちらでも良いので右にする
+		lookYawDirection = AnchorToDirection2D::Right;
+	} else {
+
+		// 最短方向
+		lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+	}
 
 	// エディター反転設定
 	// 位置に応じて反転するかしないかを決定する
@@ -191,12 +201,6 @@ void FollowCamera::ImGui() {
 		}
 		if (ImGui::BeginTabItem("Runtime")) {
 
-			// 目標回転が基準点から見て左か右か
-			{
-				AnchorToDirection2D lookYawDirection = SakuEngine::Math::YawSideFromPos(
-					transform_.translation, transform_.rotation, lookAtTargetObject_->GetTranslation());
-				ImGui::Text(SakuEngine::EnumAdapter<AnchorToDirection2D>::ToString(lookYawDirection));
-			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

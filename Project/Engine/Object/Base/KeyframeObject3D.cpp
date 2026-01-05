@@ -346,8 +346,6 @@ void KeyframeObject3D::SelfUpdate() {
 		float easedT = EasedValue(startEaseType_, local);
 
 		// 最初のキーのトランスフォーム
-		/*const Transform3D& key0Transform = runtimeInverseSetting_.has_value() ?
-			MakeInversedTransform(keys_.front().transform, runtimeInverseSetting_.value()) : keys_.front().transform;*/
 		const Transform3D& key0Transform = keys_.front().transform;
 
 		// トランスフォームを補間

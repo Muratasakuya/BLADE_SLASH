@@ -57,10 +57,11 @@ void SceneManager::Update() {
 
 	// エディター更新
 	levelEditor_->Update();
-	CameraEditor::GetInstance()->Update();
 
 	currentScene_->Update();
 	sceneTransition_->Update();
+
+	CameraEditor::GetInstance()->Update();
 }
 
 void SceneManager::BeginFrame() {
