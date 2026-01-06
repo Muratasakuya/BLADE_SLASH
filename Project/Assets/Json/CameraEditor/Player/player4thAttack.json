@@ -3,6 +3,8 @@
         "Keys": [
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.9815055727958679,
                         "x": 0.14783813059329987,
@@ -29,13 +31,33 @@
         ],
         "addKeyTimeStep_": 0.800000011920929,
         "isConnectEnds_": false,
+        "isIgnoreParentScale_": false,
         "isUpdateKeyDuringLerp_": true,
+        "keyRenderView_": "Scene",
         "lerpType_": "Linear",
         "parentName_": "player",
         "startDuration_": 0.7099999785423279,
         "startEaseType_": "EaseOutExpo"
     },
+    "keyEvents": [
+        {
+            "startTime": 0.4116121530532837,
+            "updater": {
+                "intensity_": {
+                    "x": 0.0,
+                    "y": 7.199999809265137,
+                    "z": 0.0
+                },
+                "isAdvanceKey_": true,
+                "timer_": {
+                    "easeingType_": "EaseInExpo",
+                    "target_": 0.7400000095367432
+                }
+            },
+            "updaterID": "ScreenShake"
+        }
+    ],
     "keyName": "player4thAttack",
     "previewLoopSpacing_": 1.0,
-    "previewMode_": "Manual"
+    "previewMode_": "Play"
 }

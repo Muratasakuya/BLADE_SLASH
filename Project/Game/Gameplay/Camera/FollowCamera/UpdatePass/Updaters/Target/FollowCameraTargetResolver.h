@@ -43,6 +43,10 @@ private:
 
 	//--------- variables ----------------------------------------------------
 
+	// 追従目標位置の距離割合
+	// 0.0fで基準位置、1.0fで目標位置
+	float distanceLerpRate_ = 0.0f;
+
 	// 追従目標位置
 	SakuEngine::Vector3 targetPos_;
 

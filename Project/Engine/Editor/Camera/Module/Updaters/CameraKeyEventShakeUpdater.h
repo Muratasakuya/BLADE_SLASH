@@ -42,6 +42,7 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
+		static constexpr CameraKeyEventUpdaterID ID = CameraKeyEventUpdaterID::ScreenShake;
 		CameraKeyEventUpdaterID GetID() const override { return CameraKeyEventUpdaterID::ScreenShake; }
 	private:
 		//========================================================================
