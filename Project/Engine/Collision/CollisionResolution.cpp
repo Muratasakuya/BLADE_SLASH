@@ -349,6 +349,33 @@ CollisionResolve::PenetrationResult CollisionResolve::ComputeAABBVSAABB(
 	return result;
 }
 
+CollisionResolve::PenetrationResult CollisionResolve::ComputeSphereVSSphere(
+	const CollisionShape::Sphere& moving, const CollisionShape::Sphere& fixed) {
+
+	PenetrationResult result{};
+
+	Vector3 d = moving.center - fixed.center;
+	float distSq = Vector3::Dot(d, d);
+	float r = moving.radius + fixed.radius;
+
+	if (distSq >= r * r) {
+		return result;
+	}
+
+	float dist = std::sqrt((std::max)(0.0f, distSq));
+	Vector3 n = Vector3(1.0f, 0.0f, 0.0f);
+	if (dist > Config::kEpsilon) {
+		n = d / dist;
+	}
+
+	float depth = r - dist;
+	result.isOverlapping = depth > 0.0f;
+	result.depth = depth;
+	result.normal = n;          // fixed→moving
+	result.push = n * depth;    // movingを押し出す
+	return result;
+}
+
 CollisionResolve::PenetrationResult CollisionResolve::ComputePenetration(
 	const Shape& moving, const Shape& fixed) {
 
@@ -370,6 +397,54 @@ CollisionResolve::PenetrationResult CollisionResolve::ComputePenetration(
 		}, moving, fixed);
 
 	return out;
+}
+
+bool SakuEngine::CollisionResolve::SweepSpherePairTOI(const CollisionShape::Sphere& sphereA,
+	const CollisionShape::Sphere& sphereB, const Vector3& deltaA, const Vector3& deltaB,
+	float skinWidth, bool useXZOnly, float& outTOI, Vector3& outNormal) {
+
+	Vector3 p = sphereA.center - sphereB.center;
+	Vector3 v = deltaA - deltaB;
+	float R = sphereA.radius + sphereB.radius + skinWidth;
+
+	if (useXZOnly) {
+		p.y = 0.0f;
+		v.y = 0.0f;
+	}
+
+	float c = Vector3::Dot(p, p) - R * R;
+
+	// 既に重なっている
+	if (c <= 0.0f) {
+		outTOI = 0.0f;
+		float len = p.Length();
+		outNormal = (len > Config::kEpsilon) ? (p / len) : Vector3(1.0f, 0.0f, 0.0f);
+		return true;
+	}
+
+	float a = Vector3::Dot(v, v);
+	// 相対速度ほぼゼロ
+	if (a <= Config::kEpsilon) {
+		return false;
+	}
+
+	float b = 2.0f * Vector3::Dot(p, v);
+	float disc = b * b - 4.0f * a * c;
+	if (disc < 0.0f) {
+		return false;
+	}
+
+	float sqrtDisc = std::sqrt(disc);
+	float t = (-b - sqrtDisc) / (2.0f * a);
+	if (t < 0.0f || t > 1.0f) {
+		return false;
+	}
+
+	Vector3 hitRel = p + v * t;
+	float hitLen = hitRel.Length();
+	outNormal = (hitLen > Config::kEpsilon) ? (hitRel / hitLen) : Vector3(1.0f, 0.0f, 0.0f);
+	outTOI = t;
+	return true;
 }
 
 Vector3 CollisionResolve::SolveCapsuleMoveAgainstAABBs(

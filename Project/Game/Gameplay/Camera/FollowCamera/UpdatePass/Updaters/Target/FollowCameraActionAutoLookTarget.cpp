@@ -479,7 +479,6 @@ void FollowCameraActionAutoLookTarget::ImGui() {
 				ImGui::PopID();
 				--i;
 				continue;
-				continue;
 			}
 			ImGui::PopID();
 		}

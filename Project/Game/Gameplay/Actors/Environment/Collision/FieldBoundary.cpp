@@ -15,6 +15,35 @@ using namespace SakuEngine;
 //	FieldBoundary classMethods
 //============================================================================
 
+namespace {
+
+	static CollisionShape::Sphere MakeWorldSphere(const Vector3& actorPos,
+		const FieldBoundary::SphereProxySettings& setting) {
+
+		CollisionShape::Sphere out{};
+		out.center = actorPos + setting.centerOffset;
+		out.radius = setting.radius;
+		return out;
+	}
+
+	static CollisionShape::Sphere MakeSolveSphere(const Vector3& actorPos,
+		const FieldBoundary::SphereProxySettings& setting) {
+
+		CollisionShape::Sphere out = MakeWorldSphere(actorPos, setting);
+		if (setting.useXZOnly) {
+			out.center.y = 0.0f;
+		}
+		return out;
+	}
+
+	static void ApplyXZOnlyPush(Vector3& push, bool xzOnly) {
+		if (xzOnly) {
+
+			push.y = 0.0f;
+		}
+	}
+}
+
 void FieldBoundary::Init() {
 
 	// json適用
@@ -46,12 +75,6 @@ void FieldBoundary::UpdateAllCollisionBody() {
 	for (const auto& collision : collisions_) {
 
 		collision->Update();
-	}
-
-	// カプセル押し戻し処理
-	if (useManualCapsuleSolver_) {
-
-		SolveTargetsByCapsule();
 	}
 }
 
@@ -101,6 +124,15 @@ void FieldBoundary::ControlPushBack() {
 #endif
 }
 
+void FieldBoundary::ControlActorPushBack() {
+
+	// アクター同士押し戻し処理
+	if (enableActorPushBack_) {
+
+		SolveTargetsBySpherePair();
+	}
+}
+
 void FieldBoundary::SolveTargetsByCapsule() {
 
 	if (collisions_.empty()) {
@@ -147,6 +179,115 @@ void FieldBoundary::SolveTargetsByCapsule() {
 	// 壁とのプレイヤーと敵の押し戻し処理
 	SolvePush(player_, prevPlayerPos_, hasPrevPlayerPos_, playerCapsule_, Color::Yellow());
 	SolvePush(bossEnemy_, prevBossPos_, hasPrevBossPos_, bossCapsule_, Color::Yellow());
+}
+
+void FieldBoundary::SolveTargetsBySpherePair() {
+
+	// アクター同士押し戻し解決
+	const float skin = 0.002f;
+
+	// 目標位置
+	Vector3 desiredP = player_->GetTranslation();
+	Vector3 desiredB = bossEnemy_->GetTranslation();
+
+	// 押し戻すかどうか
+	if (!hasPrevPlayerPosActor_) {
+
+		prevPlayerPosActor_ = desiredP;
+		hasPrevPlayerPosActor_ = true;
+	}
+	if (!hasPrevBossPosActor_) {
+
+		prevBossPosActor_ = desiredB;
+		hasPrevBossPosActor_ = true;
+	}
+
+	// 前フレームの位置
+	Vector3 startP = prevPlayerPosActor_;
+	Vector3 startB = prevBossPosActor_;
+	// 移動量
+	Vector3 deltaP = desiredP - startP;
+	Vector3 deltaB = desiredB - startB;
+
+	// 開始時の球
+	CollisionShape::Sphere sp0 = MakeSolveSphere(startP, playerSphere_);
+	CollisionShape::Sphere sb0 = MakeSolveSphere(startB, bossSphere_);
+
+	// すでにのめり込んでいるなら押し出す
+	{
+
+		// のめり込みチェック
+		CollisionResolve::PenetrationResult result = CollisionResolve::ComputeSphereVSSphere(
+			MakeSolveSphere(desiredP, playerSphere_), MakeSolveSphere(desiredB, bossSphere_));
+		// のめり込んでいたら押し出す
+		if (result.isOverlapping) {
+
+			// 押し出しベクトル
+			Vector3 push = result.push;
+			ApplyXZOnlyPush(push, playerSphere_.useXZOnly);
+
+			// 半分ずつ押し出す
+			desiredP += push * 0.5f;
+			desiredB -= push * 0.5f;
+			// 移動量再計算
+			deltaP = desiredP - startP;
+			deltaB = desiredB - startB;
+		}
+	}
+
+	// のめり込みそうなときの処理
+	float toi = 1.0f;
+	Vector3 normal = Vector3::AnyInit(0.0f);
+	// XZのみ判定するか
+	const bool xzOnly = playerSphere_.useXZOnly || bossSphere_.useXZOnly;
+
+	Vector3 dP = deltaP;
+	Vector3 dB = deltaB;
+	if (xzOnly) {
+		dP.y = 0.0f;
+		dB.y = 0.0f;
+	}
+
+	// 衝突判定
+	bool hit = CollisionResolve::SweepSpherePairTOI(sp0, sb0, dP, dB, skin, xzOnly, toi, normal);
+
+	float tStop = (std::max)(0.0f, (std::min)(1.0f, toi));
+	Vector3 newP = startP + deltaP * tStop;
+	Vector3 newB = startB + deltaB * tStop;
+	if (hit) {
+
+		// ほんの少し離す
+		Vector3 separate = normal * skin;
+		ApplyXZOnlyPush(separate, xzOnly);
+
+		// 半分ずつ離す
+		newP += separate * 0.5f;
+		newB -= separate * 0.5f;
+
+		// 座標更新
+		player_->SetTranslation(newP);
+		bossEnemy_->SetTranslation(newB);
+		prevPlayerPosActor_ = newP;
+		prevBossPosActor_ = newB;
+		return;
+	}
+
+	// 当たらないならそのまま
+	player_->SetTranslation(desiredP);
+	bossEnemy_->SetTranslation(desiredB);
+	prevPlayerPosActor_ = desiredP;
+	prevBossPosActor_ = desiredB;
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+	if (debugDrawActorCollision_) {
+
+		// デバッグ球
+		CollisionShape::Sphere drawP = MakeWorldSphere(newP, playerSphere_);
+		CollisionShape::Sphere drawB = MakeWorldSphere(newB, bossSphere_);
+		LineRenderer::GetInstance()->DrawSphere(6, drawP.radius, drawP.center, Color::Yellow());
+		LineRenderer::GetInstance()->DrawSphere(6, drawB.radius, drawB.center, Color::Yellow());
+	}
+#endif
 }
 
 void FieldBoundary::ImGui() {
@@ -225,6 +366,26 @@ void FieldBoundary::ImGui() {
 		ImGui::Separator();
 	}
 
+	ImGui::SeparatorText("Actor PushBack Settings");
+	{
+		ImGui::Checkbox("enableActorPushBack", &enableActorPushBack_);
+		ImGui::Checkbox("debugDrawActorCollision", &debugDrawActorCollision_);
+
+		ImGui::Text("Player SphereProxy");
+
+		ImGui::DragFloat3("CenterOffset##PlayerSphere", &playerSphere_.centerOffset.x, 0.01f);
+		ImGui::DragFloat("Radius##PlayerSphere", &playerSphere_.radius, 0.01f, 0.01f);
+		ImGui::Checkbox("useXZOnly##PlayerSphere", &playerSphere_.useXZOnly);
+
+		ImGui::Separator();
+
+		ImGui::Text("Boss SphereProxy");
+
+		ImGui::DragFloat3("CenterOffset##BossSphere", &bossSphere_.centerOffset.x, 0.01f);
+		ImGui::DragFloat("Radius##BossSphere", &bossSphere_.radius, 0.01f, 0.01f);
+		ImGui::Checkbox("useXZOnly##BossSphere", &bossSphere_.useXZOnly);
+	}
+
 	// 値操作中にのみ更新
 	UpdateAllCollisionBody();
 }
@@ -264,6 +425,9 @@ void FieldBoundary::ApplyJson() {
 			playerCapsule_.FromJson(data.value("playerCapsule", Json()));
 			bossCapsule_.FromJson(data.value("bossCapsule", Json()));
 			solveSettings_.FromJson(data.value("solveSettings", Json()));
+
+			playerSphere_.FromJson(data.value("playerSphere", Json()));
+			bossSphere_.FromJson(data.value("bossSphere", Json()));
 		}
 	}
 }
@@ -289,6 +453,26 @@ void FieldBoundary::SaveJson() {
 		bossCapsule_.ToJson(data["bossCapsule"]);
 		solveSettings_.ToJson(data["solveSettings"]);
 
+		playerSphere_.ToJson(data["playerSphere"]);
+		bossSphere_.ToJson(data["bossSphere"]);
+
 		JsonAdapter::Save("Level/capsuleCollisionSetting.json", data);
 	}
+}
+
+void FieldBoundary::SphereProxySettings::FromJson(const Json& data) {
+
+	if (data.empty()) {
+		return;
+	}
+	centerOffset = Vector3::FromJson(data.value("centerOffset", Json()));
+	radius = data.value("radius", radius);
+	useXZOnly = data.value("useXZOnly", useXZOnly);
+}
+
+void FieldBoundary::SphereProxySettings::ToJson(Json& data) {
+
+	data["centerOffset"] = centerOffset.ToJson();
+	data["radius"] = radius;
+	data["useXZOnly"] = useXZOnly;
 }

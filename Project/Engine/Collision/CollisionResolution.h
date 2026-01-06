@@ -43,8 +43,17 @@ namespace SakuEngine {
 		PenetrationResult ComputeAABBVSAABB(const CollisionShape::AABB& moving,
 			const CollisionShape::AABB& fixed);
 
+		// Sphere VS Sphere
+		PenetrationResult ComputeSphereVSSphere(const CollisionShape::Sphere& moving,
+			const CollisionShape::Sphere& fixed);
+
 		// Shape VS Shape
 		PenetrationResult ComputePenetration(const Shape& moving, const Shape& fixed);
+
+		// Sphere VS Sphereの時間的衝突判定
+		bool SweepSpherePairTOI(const CollisionShape::Sphere& sphereA,
+			const CollisionShape::Sphere& sphereB, const Vector3& deltaA, const Vector3& deltaB,
+			float skinWidth, bool useXZOnly, float& outTOI, Vector3& outNormal);
 
 		//============================================================================
 		//	サブステップ移動解決
