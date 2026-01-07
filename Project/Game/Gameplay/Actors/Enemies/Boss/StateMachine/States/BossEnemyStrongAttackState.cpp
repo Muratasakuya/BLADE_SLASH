@@ -93,6 +93,9 @@ void BossEnemyStrongAttackState::UpdateAlways() {
 
 void BossEnemyStrongAttackState::UpdateParrySign() {
 
+	// 再生速度の適用
+	BossEnemyBaseAttackState::CheckAndApplySpeedRate();
+
 	// 目標座標を常に更新する
 	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
 	SakuEngine::Vector3 direction = SakuEngine::Math::GetDirection3D(*player_, *bossEnemy_);
@@ -102,6 +105,9 @@ void BossEnemyStrongAttackState::UpdateParrySign() {
 
 	// アニメーションが終了次第攻撃する
 	if (bossEnemy_->IsAnimationFinished()) {
+
+		// 再生速度のリセット
+		BossEnemyBaseAttackState::ResetSpeedRate();
 
 		bossEnemy_->SetNextAnimation("bossEnemy_strongAttack", false, nextAnimDuration_);
 
@@ -224,6 +230,8 @@ void BossEnemyStrongAttackState::Exit() {
 	exitTimer_ = 0.0f;
 	currentState_ = State::ParrySign;
 	bossEnemy_->ResetParryTiming();
+	// 再生速度のリセット
+	BossEnemyBaseAttackState::ResetSpeedRate();
 }
 
 void BossEnemyStrongAttackState::ImGui() {
@@ -235,6 +243,7 @@ void BossEnemyStrongAttackState::ImGui() {
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("attack2ndAnimDuration", &attack2ndAnimDuration_, 0.001f);
 	ImGui::DragFloat("rotationLerpRate", &rotationLerpRate_, 0.001f);
+	ImGui::DragFloat("attackSpeedRate", &attackSpeedRate_, 0.01f);
 
 	ImGui::DragFloat("attackOffsetTranslation", &attackOffsetTranslation_, 0.1f);
 	ImGui::DragFloat("exitTime", &exitTime_, 0.01f);
@@ -265,6 +274,7 @@ void BossEnemyStrongAttackState::ApplyJson(const Json& data) {
 	attack2ndAnimDuration_ = data.value("attack2ndAnimDuration_", 0.4f);
 	attack2ndLerpTime_ = data.value("attack2ndLerpTime_", 0.4f);
 	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
+	attackSpeedRate_ = data.value("attackSpeedRate_", 1.0f);
 
 	attackOffsetTranslation_ = SakuEngine::JsonAdapter::GetValue<float>(data, "attackOffsetTranslation_");
 	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
@@ -280,6 +290,7 @@ void BossEnemyStrongAttackState::SaveJson(Json& data) {
 	data["attack2ndAnimDuration_"] = attack2ndAnimDuration_;
 	data["attack2ndLerpTime_"] = attack2ndLerpTime_;
 	data["rotationLerpRate_"] = rotationLerpRate_;
+	data["attackSpeedRate_"] = attackSpeedRate_;
 
 	data["attackOffsetTranslation_"] = attackOffsetTranslation_;
 	data["exitTime_"] = exitTime_;
