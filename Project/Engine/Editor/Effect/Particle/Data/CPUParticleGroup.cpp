@@ -86,7 +86,7 @@ void CPUParticleGroup::Update() {
 
 void CPUParticleGroup::FrequencyEmit() {
 
-	const float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	for (auto& phase : phases_) {
 
@@ -130,7 +130,7 @@ void CPUParticleGroup::UpdatePhase() {
 		return;
 	}
 
-	const float deltaTime = SakuEngine::GameTimer::GetDeltaTime();
+	const float deltaTime = SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// particleの数を最大数に制限する
 	if (createParticleInstanceCount_ < particles_.size()) {

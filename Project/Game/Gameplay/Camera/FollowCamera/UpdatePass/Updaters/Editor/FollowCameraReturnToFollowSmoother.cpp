@@ -86,29 +86,35 @@ void FollowCameraReturnToFollowSmoother::StartReturn(FollowCameraContext& contex
 
 void FollowCameraReturnToFollowSmoother::ApplyReturnBlend(FollowCameraContext& context) {
 
-	// 目標通常追従の結果を取得
 	Vector3 desiredTranslation = context.cameraTranslation;
-	Quaternion desiredRotation = Quaternion::Normalize(context.cameraRotation);
-	// ピッチを固定にする
-	{
-		Quaternion rotation = Quaternion::Normalize(desiredRotation);
-		// X軸回転成分だけ抽出 
-		Quaternion twistX = Quaternion::ExtractTwistX(rotation);
-		// Y、Z成分側の回転
-		Quaternion swing = Quaternion::Multiply(rotation, Quaternion::Inverse(twistX));
-		// 差し替えるX軸回転
-		Quaternion fixedTwistX = Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), pitchRotateX_);
-		// 合成して正規化 
-		desiredRotation = Quaternion::Normalize(Quaternion::Multiply(swing, fixedTwistX));
-	}
 	float desiredFovY = context.cameraFovY;
 
-	// 現在の追従基準からのオフセットをブレンド
-	Vector3 desiredWorldOffset = desiredTranslation - context.interTarget;
-	Vector3 blendedWorldOffset = Vector3::Lerp(startWorldOffset_, desiredWorldOffset, returnTimer_.easedT_);
+	Quaternion desiredRotationOriginal = Quaternion::Normalize(context.cameraRotation);
 
-	// 姿勢ブレンド
-	context.cameraRotation = Quaternion::Slerp(startRotation_, desiredRotation, returnTimer_.easedT_);
+	// X軸回転補正適用
+	Quaternion desiredRotationFixed = desiredRotationOriginal;
+	{
+		Quaternion twistX = Quaternion::ExtractTwistX(desiredRotationOriginal);
+		Quaternion swing = Quaternion::Multiply(desiredRotationOriginal, Quaternion::Inverse(twistX));
+		Quaternion fixedTwistX = Quaternion::MakeAxisAngle(Direction::Get(Direction3D::Right), pitchRotateX_);
+		desiredRotationFixed = Quaternion::Normalize(Quaternion::Multiply(swing, fixedTwistX));
+	}
+
+
+	// 補正後の回転でのワールドオフセット計算
+	Vector3 desiredWorldOffsetOriginal = desiredTranslation - context.interTarget;
+	Vector3 localOffset = Quaternion::RotateVector(desiredWorldOffsetOriginal,
+		Quaternion::Normalize(Quaternion::Inverse(desiredRotationOriginal)));
+
+	// 補正後回転でのワールドオフセット
+	Vector3 desiredWorldOffsetFixed = Quaternion::RotateVector(localOffset, desiredRotationFixed);
+	Vector3 desiredTranslationFixed = context.interTarget + desiredWorldOffsetFixed;
+
+	// オフセットのブレンド適用
+	Vector3 blendedWorldOffset = Vector3::Lerp(startWorldOffset_, desiredWorldOffsetFixed, returnTimer_.easedT_);
+
+	// カメラコンテキストに渡す
+	context.cameraRotation = Quaternion::Normalize(Quaternion::Slerp(startRotation_, desiredRotationFixed, returnTimer_.easedT_));
 	context.cameraTranslation = context.interTarget + blendedWorldOffset;
 	context.cameraFovY = std::lerp(startFovY_, desiredFovY, returnTimer_.easedT_);
 
@@ -117,7 +123,7 @@ void FollowCameraReturnToFollowSmoother::ApplyReturnBlend(FollowCameraContext& c
 
 		// 目標にスナップ
 		context.cameraTranslation = desiredTranslation;
-		context.cameraRotation = desiredRotation;
+		context.cameraRotation = desiredRotationFixed;
 		context.cameraFovY = desiredFovY;
 		isReturning_ = false;
 	}

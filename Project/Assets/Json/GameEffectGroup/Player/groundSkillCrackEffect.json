@@ -42,7 +42,7 @@
                 "updaterScaleValue": 1.0
             },
             "ParticleSystem": {
-                "path": "Particle/Player/playerSkilAttackGround.json"
+                "path": "Particle/Player/playerSkillAttackGround.json"
             },
             "StartAfter": {
                 "Condition": "None",

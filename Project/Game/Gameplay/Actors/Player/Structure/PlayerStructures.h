@@ -33,7 +33,8 @@ enum class PlayerState {
 enum class PlayerWeaponType {
 
 	Left,
-	Right
+	Right,
+	Count
 };
 
 // ステータス

@@ -93,6 +93,9 @@ private:
 	float bossEnemyDistance_;
 	float weaponPosY_;
 
+	// 剣を飛ばしたときのエフェクト
+	static constexpr const uint32_t throwSwordEffectCount_ = 2;
+	std::array<std::unique_ptr<SakuEngine::EffectGroup>, throwSwordEffectCount_> throwSwordEffects_;
 	// 剣を取りに行くダッシュエフェクト
 	std::unique_ptr<SakuEngine::EffectGroup> catchDashEffect_;
 	SakuEngine::Vector3 dashEffectOffset_;

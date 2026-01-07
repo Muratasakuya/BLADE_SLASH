@@ -89,8 +89,6 @@ void PlayerAttack_4thState::Update() {
 			// 地割れエフェクトの発生
 			// Y座標は固定
 			SakuEngine::Vector3 emitPos = player_->GetTranslation();
-			// 地面に隠れない位置に調整
-			emitPos.y = 1.0f;
 			groundCrackEffect_->Emit(emitPos);
 			// 発生済みにする
 			groundCrackEmitted_ = true;
@@ -124,9 +122,6 @@ void PlayerAttack_4thState::Exit() {
 	exitTimer_ = 0.0f;
 	moveTimer_.Reset();
 	groundCrackEmitted_ = false;
-
-	// カメラアニメーションを終了させる
-	followCamera_->EndCameraAnim();
 }
 
 void PlayerAttack_4thState::ImGui() {
