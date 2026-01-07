@@ -28,4 +28,7 @@ public:
 	// 単入力
 	bool IsPressed(PlayerInputAction button) const override;
 	bool IsTriggered(PlayerInputAction button) const override;
+
+	// 入力デバイスの種類を取得
+	InputType GetInputType() const override { return InputType::GamePad; }
 };

@@ -38,7 +38,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 
 	// パリィ待機状態の時はこれ以上の入力を受け付けない
 	if (controller.GetCurrentState() == PlayerState::ParryWait) {
-		if(controller.parrySystem_.IsActive()) {
+		if (controller.parrySystem_.IsActive()) {
 			return;
 		}
 	}
@@ -51,9 +51,12 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 	bool inCombat = IsCombatState(currentState);
 	bool actionLocked = (inCombat && !machine.GetCurrent().GetCanExit()) || (inCombat && IsInChain(controller));
 
+	// 現在の入力タイプ
+	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
+
 	// 移動方向
-	SakuEngine::Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX),
-		inputMapper_->GetVector(PlayerInputAction::MoveZ));
+	SakuEngine::Vector2 move(inputMapper_->GetVector(PlayerInputAction::MoveX, inputType, true),
+		inputMapper_->GetVector(PlayerInputAction::MoveZ, inputType, true));
 
 	// 動いたかどうか判定
 	bool isMove = move.Length() > Config::kEpsilon;
@@ -75,7 +78,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 	// ダッシュ、攻撃の状態遷移
 	{
 		// ダッシュ入力があったかどうか
-		if (inputMapper_->IsTriggered(PlayerInputAction::Dash)) {
+		if (inputMapper_->IsTriggered(PlayerInputAction::Dash, inputType)) {
 
 			isDashInput_ = true;
 		}
@@ -96,8 +99,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 			controller.Request(PlayerState::Idle);
 		}
 
-		if (inputMapper_->IsTriggered(PlayerInputAction::Attack)) {
-
+		if (inputMapper_->IsTriggered(PlayerInputAction::Attack, inputType)) {
 			if (currentState == PlayerState::Attack_1st) {
 
 				controller.Request(PlayerState::Attack_2nd);
@@ -127,7 +129,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 		// スキル攻撃
 		// スキルポイントが足りていてスキル入力があればスキル攻撃状態に遷移
 		if (stats.skillCost <= stats.currentSkillPoint &&
-			inputMapper_->IsTriggered(PlayerInputAction::Skill)) {
+			inputMapper_->IsTriggered(PlayerInputAction::Skill, inputType)) {
 
 			controller.Request(PlayerState::SkilAttack);
 			return;
@@ -135,7 +137,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 	}
 
 	// 回避入力、回避直後は状態を受け付けない
-	if (!isDashInput_ && inputMapper_->IsTriggered(PlayerInputAction::Avoid)) {
+	if (!isDashInput_ && inputMapper_->IsTriggered(PlayerInputAction::Avoid, inputType)) {
 
 		controller.Request(PlayerState::Avoid);
 		return;
@@ -145,7 +147,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 	controller.parrySystem_.TryReserveByInput(controller, *controller.bossEnemy_, *inputMapper_);
 
 	// ダッシュ中にダッシュ入力があればダッシュ状態を再度強制遷移させる
-	if (currentState == PlayerState::Dash && inputMapper_->IsTriggered(PlayerInputAction::Dash)) {
+	if (currentState == PlayerState::Dash && inputMapper_->IsTriggered(PlayerInputAction::Dash, inputType)) {
 
 		controller.SetForcedState(PlayerState::Dash);
 	}

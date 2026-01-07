@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Config.h>
+#include <Engine/Input/Input.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -80,9 +81,12 @@ void PlayerDashState::UpdateDash() {
 	// 速度の状態更新
 	UpdateState();
 
+	// 現在の入力タイプ
+	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
+
 	// 入力値取得
-	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX),
-		inputMapper_->GetVector(PlayerInputAction::MoveZ));
+	SakuEngine::Vector2 inputValue(inputMapper_->GetVector(PlayerInputAction::MoveX, inputType, true),
+		inputMapper_->GetVector(PlayerInputAction::MoveZ, inputType, true));
 	inputValue = SakuEngine::Vector2::Normalize(inputValue);
 	if (inputValue.Length() > Config::kEpsilon) {
 
