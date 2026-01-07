@@ -10,4 +10,4 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	game->Run();
 
 	return 0;
-}A
+}

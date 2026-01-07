@@ -38,7 +38,9 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 
 	// パリィ待機状態の時はこれ以上の入力を受け付けない
 	if (controller.GetCurrentState() == PlayerState::ParryWait) {
-		return;
+		if(controller.parrySystem_.IsActive()) {
+			return;
+		}
 	}
 
 	auto& machine = controller.GetMachine();

@@ -29,8 +29,14 @@ void PlayerParrySystem::Reset() {
 void PlayerParrySystem::TryReserveByInput(PlayerStateController& controller,
 	const BossEnemy& bossEnemy, const SakuEngine::InputMapper<PlayerInputAction>& inputMapper) {
 
-	// 攻撃を受けた、受けているときは無効
-	if (controller.GetCurrentState() == PlayerState::Falter) {
+	// 攻撃を受けた、受けているときは無効、または既にパリィ処理中なら何もしない
+	PlayerState current = controller.GetCurrentState();
+	if (current == PlayerState::Falter ||
+		current == PlayerState::Parry ||
+		current == PlayerState::ParryWait) {
+		return;
+	}
+	if (session_.active) {
 		return;
 	}
 
