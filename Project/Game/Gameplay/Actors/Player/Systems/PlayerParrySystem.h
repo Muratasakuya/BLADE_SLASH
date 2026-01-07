@@ -46,7 +46,7 @@ public:
 	void Reset();
 
 	// 入力によるパリィ予約を開始する
-	void TryReserveByInput(PlayerState currentState, const BossEnemy& bossEnemy,
+	void TryReserveByInput(PlayerStateController& controller, const BossEnemy& bossEnemy,
 		const SakuEngine::InputMapper<PlayerInputAction>& inputMapper);
 
 	// 外部遷移判定中に、ボスのパリィタイミング消費を見てパリィ状態へ遷移させる

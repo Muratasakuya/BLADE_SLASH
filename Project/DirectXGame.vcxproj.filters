@@ -807,9 +807,6 @@
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.cpp">
       <Filter>Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.cpp">
-      <Filter>Game\Gameplay\Actors\Player\ComboAction\Methods</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
       <Filter>Game\Gameplay\Camera\FollowCamera\UpdatePass</Filter>
     </ClCompile>
@@ -1811,9 +1808,6 @@
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.h">
       <Filter>Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerReactionAreaChecker.h">
-      <Filter>Game\Gameplay\Actors\Player\ComboAction\Methods</Filter>
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
       <Filter>Game\Gameplay\Camera\FollowCamera\UpdatePass</Filter>
@@ -2923,6 +2917,11 @@
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionCapsule.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionResolution.cpp" />
+    <ClCompile Include="Engine\Collision\CollisionDebugDraw.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2946,5 +2945,10 @@
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraRuntimeDebug.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.h" />
+    <ClInclude Include="Engine\Collision\CollisionCapsule.h" />
+    <ClInclude Include="Engine\Collision\CollisionResolution.h" />
+    <ClInclude Include="Engine\Collision\CollisionDebugDraw.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h" />
   </ItemGroup>
 </Project>

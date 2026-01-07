@@ -3,24 +3,24 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/MathLib/Vector3.h>
+#include <Engine/Object/Base/GameObject3D.h>
 
 //============================================================================
-//	ObjectAreaChecker enum class
+//	ObjectAreaChecker enum
 //============================================================================
 
-// 座標で見たオブジェクトのエリア
-enum class ObjectArea {
+// エリア内に入ったときのリアクションタイプ
+enum class AreaReactionType {
 
-	RightFront, // 右前(+x,+z)
-	LeftFront,  // 左前(-x,+z)
-	RightBack,  // 右後(+x,-z)
-	LeftBack    // 左後(-x,-z)
+	LerpPos,       // 座標補間
+	LerpRotate,    // 回転補間
+	LerpCamera,    // カメラ補間
+	Count
 };
 
 //============================================================================
 //	ObjectAreaChecker class
-//	オブジェクトのエリアを判定する
+//	対象からリアクションエリア内にいるかをチェックするクラス
 //============================================================================
 class ObjectAreaChecker {
 public:
@@ -31,9 +31,60 @@ public:
 	ObjectAreaChecker() = default;
 	~ObjectAreaChecker() = default;
 
-	// 座標からエリアを判定
-	static ObjectArea CheckArea(const SakuEngine::Vector3& pos, const SakuEngine::Vector3& origin = SakuEngine::Vector3::AnyInit(0.0f));
+	// 初期化
+	void Init(const std::string& jsonPath);
 
-	// エリアごとの向きの値を取得
-	static SakuEngine::Vector3 GetAreaDirection(ObjectArea area);
+	// 更新
+	void Update();
+
+	// エディター
+	void ImGui();
+
+	//--------- accessor -----------------------------------------------------
+
+	// 基準点設定
+	void SetAnchor(const SakuEngine::GameObject3D* anchor) { anchor_ = anchor; }
+	// 対象設定
+	void SetTarget(const SakuEngine::GameObject3D* target) { target_ = target; }
+
+	// 範囲内にいるかチェック
+	bool IsInRange(AreaReactionType reactionType) const;
+	// 範囲の取得
+	float GetRange(AreaReactionType reactionType) const { return areaParams_[static_cast<uint32_t>(reactionType)].range; }
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- structure ----------------------------------------------------
+
+	// タイプ
+	struct AreaParam {
+
+		// 範囲
+		float range;
+		// 範囲内にいるかチェック
+		bool isInRange;
+		// 色
+		SakuEngine::Color debugColor;
+	};
+
+	//--------- variables ----------------------------------------------------
+
+	// jsonパス
+	std::string jsonPath_;
+
+	// 基準点
+	const SakuEngine::GameObject3D* anchor_;
+	// 対象
+	const SakuEngine::GameObject3D* target_;
+
+	// エリアパラメーターリスト
+	std::array<AreaParam, static_cast<uint32_t>(AreaReactionType::Count)> areaParams_;
+
+	//--------- functions ----------------------------------------------------
+
+	// json
+	void ApplyJson();
+	void SaveJson();
 };

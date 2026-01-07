@@ -22,6 +22,7 @@
 #include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerAttack_4thState.h>
 #include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerSkilAttackState.h>
 #include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerParryState.h>
+#include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerParryWaitState.h>
 #include <Game/Gameplay/Actors/Player/StateMachine/States/PlayerFalterState.h>
 
 //============================================================================
@@ -65,6 +66,7 @@ void PlayerStateController::Init(Player* owner) {
 	machine.Add<PlayerAttack_4thState>(PlayerState::Attack_4th);
 	machine.Add<PlayerSkilAttackState>(PlayerState::SkilAttack);
 	machine.Add<PlayerParryState>(PlayerState::Parry, inputMapper);
+	machine.Add<PlayerParryWaitState>(PlayerState::ParryWait);
 	machine.Add<PlayerFalterState>(PlayerState::Falter);
 
 	ForEachState([&](PlayerState state) {

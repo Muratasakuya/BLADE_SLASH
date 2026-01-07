@@ -4,14 +4,14 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Effect/User/Helper/SlashEffectHelper.h>
-#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyIState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyBaseAttackState.h>
 
 //============================================================================
 //	BossEnemyLightAttackState class
 //	弱剣振り攻撃状態
 //============================================================================
 class BossEnemyLightAttackState :
-	public BossEnemyIState {
+	public BossEnemyBaseAttackState {
 public:
 	//========================================================================
 	//	public Methods

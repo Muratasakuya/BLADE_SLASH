@@ -117,6 +117,10 @@ void StartGameState::Update() {
 	//	scene
 	//========================================================================
 
+	// 移動範囲を制限する
+	context_->fieldBoundary->ControlPushBack();
+
+	// カメラを更新する
 	context_->camera->Update(currentState);
 
 	//========================================================================

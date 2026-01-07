@@ -203,7 +203,7 @@ public:
 	// 攻撃対象を設定
 	void SetAttackTarget(const SakuEngine::GameObject3D* target) { attackTarget_ = target; }
 	// リアクションエリアチェッカーを設定
-	void SetAreaChecker(const PlayerReactionAreaChecker* checker) { areaChecker_ = checker; }
+	void SetAreaChecker(const ObjectAreaChecker* checker) { areaChecker_ = checker; }
 
 	// アクションノードリスト取得
 	std::vector<ActionNodeAsset>& ActionNodes() { return actionNodes_; }
@@ -223,7 +223,7 @@ private:
 	// 攻撃対象
 	const SakuEngine::GameObject3D* attackTarget_;
 	// リアクションエリアチェッカー
-	const PlayerReactionAreaChecker* areaChecker_;
+	const ObjectAreaChecker* areaChecker_;
 
 	// 次のID
 	uint32_t nextId_ = 1;

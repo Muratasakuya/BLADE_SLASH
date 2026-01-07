@@ -49,12 +49,12 @@ void PlayerSkilAttackState::CreateEffect() {
 
 	// 移動エフェクト作成
 	moveAtackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
-	moveAtackEffect_->Init("skilMoveAtackEffect", "PlayerEffect");
+	moveAtackEffect_->Init("skillMoveAtackEffect", "PlayerEffect");
 	moveAtackEffect_->LoadJson("GameEffectGroup/Player/skilMoveAtackEffect.json");
 	// 地割れエフェクト作成
 	groundCrackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
-	groundCrackEffect_->Init("skilGroundCrack", "PlayerEffect");
-	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundSkilCrackEffect.json");
+	groundCrackEffect_->Init("skillGroundCrack", "PlayerEffect");
+	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundSkillCrackEffect.json");
 	groundCrackEmitted_ = false;
 }
 
@@ -86,7 +86,7 @@ void PlayerSkilAttackState::Enter() {
 	afterImageEffect_->Start(objects);
 
 	// カメラアニメーション開始
-	followCamera_->StratPlayerActionAnimString("playerSkilMove");
+	followCamera_->StratPlayerActionAnimString("playerSkilMove", false);
 }
 
 void PlayerSkilAttackState::Update() {
@@ -192,7 +192,7 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 		jumpKeyframeObject_->StartLerp();
 
 		// カメラアニメーション開始
-		followCamera_->StratPlayerActionAnimString("playerSkilJump");
+		followCamera_->StratPlayerActionAnimString("playerSkilJump", false);
 	}
 }
 
@@ -247,7 +247,7 @@ void PlayerSkilAttackState::UpdateJumpAttack() {
 			// Y座標は固定
 			SakuEngine::Vector3 emitPos = player_->GetTranslation();
 			// 地面に隠れない位置に調整
-			emitPos.y = 1.0f;
+			emitPos.y = 0.1f;
 			groundCrackEffect_->Emit(emitPos);
 			// 発生済みにする
 			groundCrackEmitted_ = true;

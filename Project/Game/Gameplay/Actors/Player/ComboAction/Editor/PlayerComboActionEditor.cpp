@@ -1,13 +1,18 @@
 #include "PlayerComboActionEditor.h"
 
 //============================================================================
+//	include
+//============================================================================
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+
+//============================================================================
 //	PlayerComboActionEditor classMethods
 //============================================================================
 
 void PlayerComboActionEditor::SetAttackTarget(const SakuEngine::GameObject3D* target) {
 
 	// 攻撃対象を設定
-	areaChecker_->SetAttackTarget(target);
+	areaChecker_->SetTarget(target);
 	model_.SetAttackTarget(target);
 	executor_->SetAttackTarget(target);
 }
@@ -15,9 +20,9 @@ void PlayerComboActionEditor::SetAttackTarget(const SakuEngine::GameObject3D* ta
 void PlayerComboActionEditor::Init(Player* player) {
 
 	// リアクションエリアチェッカー初期化
-	areaChecker_ = std::make_unique<PlayerReactionAreaChecker>();
-	areaChecker_->Init();
-	areaChecker_->SetPlayer(player);
+	areaChecker_ = std::make_unique<ObjectAreaChecker>();
+	areaChecker_->Init("Player/ActionCombo/Methos/reactionAreaChecker.json");
+	areaChecker_->SetAnchor(player);
 	// コンボ実行初期化
 	executor_ = std::make_unique<PlayerComboExecutor>();
 	executor_->Init(player, &model_, areaChecker_.get());

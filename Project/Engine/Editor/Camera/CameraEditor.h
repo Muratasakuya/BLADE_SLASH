@@ -56,6 +56,14 @@ namespace SakuEngine {
 		// 親の設定、特定のキーにのみ設定
 		void SetParentTransform(const std::string& keyName, const SakuEngine::Transform3D& parent);
 
+		// 現在の再生中のアニメーションの名前
+		const std::optional<std::string> GetActiveAnimationKeyName() const;
+		// 最後に再生されたキーの名前
+		const std::string& GetLastActiveKeyName() const { return lastActiveKeyName_; }
+
+		// 現在登録されているキー名一覧
+		std::vector<std::string> GetKeyObjectNames() const;
+
 		// singleton
 		static CameraEditor* GetInstance();
 		static void Finalize();
@@ -72,6 +80,31 @@ namespace SakuEngine {
 			Keyframe, // 操作中のキーフレームの視点
 			Manual,   // 手動で動かした補間値(0.0f~1.0f)の視点
 			Play      // 再生
+		};
+		
+		// キーイベント情報
+		struct KeyEvent {
+
+			// イベント処理状態
+			bool isStarted = false;
+			bool isFinished = false;
+
+			// イベント識別ID
+			uint32_t eventId = 0;
+			// イベント処理開始時間
+			float startTime = 0.0f;
+
+			// イベント更新クラス
+			std::unique_ptr<ICameraKeyEventUpdater> updater;
+		};
+
+		// キーマップ情報
+		struct KeyMap {
+
+			// キーオブジェクト
+			std::unique_ptr<KeyframeObject3D> keyObject;
+			// キーイベント情報配列
+			std::vector<KeyEvent> keyEvents;
 		};
 
 		//--------- variables ----------------------------------------------------
@@ -93,13 +126,17 @@ namespace SakuEngine {
 
 		// キーオブジェクト、補間の値
 		// std::stringがキーの名前
-		std::unordered_map<std::string, std::unique_ptr<KeyframeObject3D>> keyObjects_;
+		std::unordered_map<std::string, KeyMap> keyMaps_;
 
 		// ゲームで開始呼びだししたアクティブなキーオブジェクト
-		KeyframeObject3D* activeKeyObject_ = nullptr;
+		KeyMap* activeKeyMap_ = nullptr;
+		// 一番最近再生したキーの名前
+		std::string lastActiveKeyName_;
 
 		// エディター
 		std::string selectedKeyObjectName_; // 選択されているキーオブジェクトの名前
+		uint32_t selectedKeyEventUid_ = 0;  // 選択されているキーイベント
+		uint32_t keyEventUidCounter_ = 1;   // イベントID発行用
 		JsonSaveState jsonSaveState_;       // json保存状態
 		// 名前の累計カウント、重複しないようにするため
 		std::unordered_map<std::string, int32_t> nameCounts_;
@@ -128,11 +165,20 @@ namespace SakuEngine {
 		// エディター内の更新
 		void UpdateEditor();
 
+		// キーマップを初期状態に戻す
+		void ResetKeyEventRuntimeState(KeyMap& keyMap);
+		// キーイベントがブロック中かどうか
+		bool IsKeyEventBlocking(const KeyEvent& event) const;
+		// 全てのキーイベントが終了したかどうか
+		bool AreAllKeyEventsFinished(const KeyMap& keyMap) const;
+
 		// エディター
 		// キーオブジェクトの追加、選択
 		void AddAndSelectKeyObjectMap();
 		// 選択したキーオブジェクトの編集
 		void EditSelectedKeyObject();
+		// キーイベント編集
+		void EditSelectedKeyEvents(KeyMap& keyMap);
 
 		// カメラへの適応
 		void ApplyToCamera(BaseCamera& camera, const KeyframeObject3D& keyObject,

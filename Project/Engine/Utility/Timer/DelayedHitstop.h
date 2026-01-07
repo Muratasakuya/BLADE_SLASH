@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -8,68 +8,61 @@
 // c++
 #include <vector>
 
-//============================================================================
-//	DelayedHitstop class
-//	時間差でヒットストップを発生させるクラス
-//============================================================================
 namespace SakuEngine {
 
-class DelayedHitstop {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	DelayedHitstop class
+	//	時間差でヒットストップを発生させるクラス
+	//============================================================================
+	class DelayedHitstop {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	DelayedHitstop() = default;
-	~DelayedHitstop() = default;
+		DelayedHitstop() = default;
+		~DelayedHitstop() = default;
 
-	// 更新
-	void Update();
-	
-	// ヒットストップ開始
-	void Start();
-	// リセット
-	void Reset();
+		// 更新
+		void Update();
 
-	// エディター
-	void ImGui(const std::string& name, bool isSeparate = true);
+		// ヒットストップ開始
+		void Start();
+		// リセット
+		void Reset();
 
-	// json
-	void FromJson(const Json& data);
-	void ToJson(Json& data) const;
+		// エディター
+		void ImGui(const std::string& name, bool isSeparate = true);
 
-	//--------- accessor -----------------------------------------------------
+		// json
+		void FromJson(const Json& data);
+		void ToJson(Json& data) const;
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- structure ----------------------------------------------------
 
-	//--------- structure ----------------------------------------------------
+		// ヒットストップ情報
+		struct HitStopInfo {
 
-	// ヒットストップ情報
-	struct HitStopInfo {
+			float timeScale = 0.0f; // スケール値
+			float duration = 0.2f;  // 持続時間
+			float delay = 0.4f;     // 発生までの遅延時間
+		};
 
-		float timeScale = 0.0f; // スケール値
-		float duration = 0.2f;  // 持続時間
-		float delay = 0.4f;     // 発生までの遅延時間
+		//--------- variables ----------------------------------------------------
+
+		// 開始フラグ
+		bool isStart_ = false;
+
+		// ヒットストップ情報
+		std::vector<HitStopInfo> hitstopInfos_;
+
+		// 現在の処理インデックス
+		uint32_t currentIndex_ = 0;
+		// 遅延時間の経過
+		float delayElapsed_ = 0.0f;
 	};
-
-	//--------- variables ----------------------------------------------------
-
-	// 開始フラグ
-	bool isStart_ = false;
-
-	// ヒットストップ情報
-	std::vector<HitStopInfo> hitstopInfos_;
-
-	// 現在の処理インデックス
-	uint32_t currentIndex_ = 0;
-	// 遅延時間の経過
-	float delayElapsed_ = 0.0f;
-
-	//--------- functions ----------------------------------------------------
-
-};
-
 }; // SakuEngine

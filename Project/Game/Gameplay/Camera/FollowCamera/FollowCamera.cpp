@@ -47,7 +47,7 @@ void FollowCamera::BindDependencies(const FollowCameraDependencies& dependencies
 	lookAtTargetObject_ = dependencies.bossEnemy;
 }
 
-void FollowCamera::StartPlayerActionAnim(PlayerState state) {
+void FollowCamera::StartPlayerActionAnim(PlayerState state, bool isCheckInverse) {
 
 	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 
@@ -60,17 +60,20 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	}
 
 	// 目標回転が基準点から見て左か右か
-	AnchorToDirection2D lookYawDirection{};
-	// yaw方向決定
-	const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
-	if (std::abs(yawDelta) <= Config::kEpsilon) {
+	AnchorToDirection2D lookYawDirection = AnchorToDirection2D::Left;
+	if (isCheckInverse) {
 
-		// どちらでも良いので右にする
-		lookYawDirection = AnchorToDirection2D::Right;
-	} else {
+		// yaw方向決定
+		const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
+		if (std::abs(yawDelta) <= Config::kEpsilon) {
 
-		// 最短方向
-		lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+			// どちらでも良いので右にする
+			lookYawDirection = AnchorToDirection2D::Right;
+		} else {
+
+			// 最短方向
+			lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+		}
 	}
 
 	// エディター反転設定
@@ -85,22 +88,25 @@ void FollowCamera::StartPlayerActionAnim(PlayerState state) {
 	}
 }
 
-void FollowCamera::StratPlayerActionAnimString(const std::string& animName) {
+void FollowCamera::StratPlayerActionAnimString(const std::string& animName, bool isCheckInverse) {
 
 	SakuEngine::CameraEditor* editor = SakuEngine::CameraEditor::GetInstance();
 
 	// 目標回転が基準点から見て左か右か
-	AnchorToDirection2D lookYawDirection{};
-	// yaw方向決定
-	const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
-	if (std::abs(yawDelta) <= Config::kEpsilon) {
+	AnchorToDirection2D lookYawDirection = AnchorToDirection2D::Left;
+	if (isCheckInverse) {
 
-		// どちらでも良いので右にする
-		lookYawDirection = AnchorToDirection2D::Right;
-	} else {
+		// yaw方向決定
+		const float yawDelta = SakuEngine::Math::YawSignedDelta(transform_.rotation, lookAtTargetObject_->GetRotation());
+		if (std::abs(yawDelta) <= Config::kEpsilon) {
 
-		// 最短方向
-		lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+			// どちらでも良いので右にする
+			lookYawDirection = AnchorToDirection2D::Right;
+		} else {
+
+			// 最短方向
+			lookYawDirection = (0.0f < yawDelta) ? AnchorToDirection2D::Right : AnchorToDirection2D::Left;
+		}
 	}
 
 	// エディター反転設定

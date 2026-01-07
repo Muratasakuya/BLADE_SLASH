@@ -19,7 +19,7 @@ public:
 	~PlayerComboExecutor() = default;
 
 	// 初期化
-	void Init(Player* player, PlayerComboActionModel* model, const PlayerReactionAreaChecker* areaChecker);
+	void Init(Player* player, PlayerComboActionModel* model, const ObjectAreaChecker* areaChecker);
 
 	// 更新
 	void Update();
@@ -68,7 +68,7 @@ private:
 	// 処理対象
 	Player* player_;
 	PlayerComboActionModel* model_;
-	const PlayerReactionAreaChecker* areaChecker_;
+	const ObjectAreaChecker* areaChecker_;
 	const SakuEngine::GameObject3D* attackTarget_;
 
 	// Executorで動かすか

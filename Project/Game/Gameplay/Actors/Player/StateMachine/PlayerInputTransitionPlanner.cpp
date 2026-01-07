@@ -36,6 +36,13 @@ void PlayerInputTransitionPlanner::Reset() {
 
 void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, const PlayerStats& stats) {
 
+	// パリィ待機状態の時はこれ以上の入力を受け付けない
+	if (controller.GetCurrentState() == PlayerState::ParryWait) {
+		if(controller.parrySystem_.IsActive()) {
+			return;
+		}
+	}
+
 	auto& machine = controller.GetMachine();
 	// 現在の状態を取得
 	PlayerState currentState = machine.GetCurrentId();
@@ -135,7 +142,7 @@ void PlayerInputTransitionPlanner::Update(PlayerStateController& controller, con
 	}
 
 	// パリィの入力判定、攻撃を受けた、受けているときは無効
-	controller.parrySystem_.TryReserveByInput(currentState, *controller.bossEnemy_, *inputMapper_);
+	controller.parrySystem_.TryReserveByInput(controller, *controller.bossEnemy_, *inputMapper_);
 
 	// ダッシュ中にダッシュ入力があればダッシュ状態を再度強制遷移させる
 	if (currentState == PlayerState::Dash && inputMapper_->IsTriggered(PlayerInputAction::Dash)) {

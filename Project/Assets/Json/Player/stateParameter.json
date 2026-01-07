@@ -222,6 +222,14 @@
             ],
             "isArmor": true
         },
+        "ParryWait": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": true
+        },
         "SkilAttack": {
             "allowedPreState": [],
             "chainInputTime": 0.0,
@@ -304,11 +312,19 @@
         "deltaLerpSpeed_": 12.59000015258789,
         "deltaWaitTime_": 0.3140000104904175,
         "hitEffectOffsetY_": 3.0,
-        "nextAnimDuration_": 0.009999999776482582,
+        "nextAnimDuration_": 0.08500000089406967,
         "parryEffectPosY_": 4.0,
         "parryLerp_.easingType": 11,
         "parryLerp_.moveDistance": -50.0,
         "parryLerp_.time": 0.47999998927116394
+    },
+    "ParryWait": {
+        "enemyDistance_": -12.0,
+        "lerpPosTimer": {
+            "easeingType_": "EaseOutQuart",
+            "target_": 0.05000000074505806
+        },
+        "nextAnimDuration_": 0.007000000216066837
     },
     "SkilAttack": {
         "JumpAttackHitstop": {

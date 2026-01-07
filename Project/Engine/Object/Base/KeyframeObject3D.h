@@ -55,10 +55,12 @@ namespace SakuEngine {
 		// KeyframeObject3Dの時間で更新
 		void SelfUpdate();
 		// 外部からの値入力による更新
+		void AdvanceTime(float deltaSeconds);
 		void ExternalInputTUpdate(float inputT);
 
 		// エディター
 		void ImGui();
+		void DrawKeyTimelinePreview();
 
 		// json
 		void FromJson(const Json& data);
@@ -81,8 +83,16 @@ namespace SakuEngine {
 
 		// 再生中かどうか
 		bool IsUpdating() const { return currentState_ == State::Updating; }
+		// 現在の再生経過時間
+		float GetCurrentTimer() const { return timer_; }
 		// 再生時間
 		float GetTotalTime() const { return (keys_.empty()) ? 0.0f : keys_.back().time; }
+		// ランタイムで開始キーを持つ場合の最初の区間の長さ
+		float GetStartDuration() const { return startDuration_; }
+		// ランタイムで開始キーを持っているか
+		bool HasRuntimeStartKey() const { return runtime_.hasStartKey; }
+		// ランタイム全体の再生時間
+		float GetTotalRuntimeTime() const { return (keys_.empty()) ? 0.0f : (keys_.back().time + (runtime_.hasStartKey ? startDuration_ : 0.0f)); }
 
 		// 最初、最後のキーのトランスフォームを返す
 		const Transform3D& GetFirstKeyTransform() const { return keys_.front().transform; }
@@ -265,7 +275,7 @@ namespace SakuEngine {
 		Transform3D MakeInversedTransform(const Transform3D& src, const KeyframeInverseSetting& setting) const;
 
 		// キータイムラインの描画
-		void DrawKeyTimeline();
+		void DrawKeyTimelineInternal(bool allowKeyDrag, bool allowEndTimeDrag);
 
 		// キー位置、線の描画
 		void DrawKeyLine();

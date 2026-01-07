@@ -54,6 +54,7 @@ void Player::InitAnimations() {
 	animNames_.emplace_back("player_skilAttack_2nd");
 	animNames_.emplace_back("player_stunAttack");
 	animNames_.emplace_back("player_parry");
+	animNames_.emplace_back("player_parryWait");
 	animNames_.emplace_back("player_falter");
 
 	// 最初は待機状態で初期化
@@ -96,14 +97,6 @@ void Player::InitState() {
 	stateController_->Init(this);
 }
 
-void Player::InitEffects() {
-
-	// 回避エフェクトの初期化
-	avoidEffect_ = std::make_unique<SakuEngine::EffectGroup>();
-	avoidEffect_->Init("avoidEffect", "PlayerEffect");
-	avoidEffect_->LoadJson("GameEffectGroup/Player/playerAvoidEffect.json");
-}
-
 void Player::SetInitTransform() {
 
 	transform_->scale = initTransform_.scale;
@@ -128,9 +121,6 @@ void Player::DerivedInit() {
 
 	// 状態初期化
 	InitState();
-
-	// エフェクト初期化
-	InitEffects();
 
 	// json適用
 	ApplyJson();
@@ -266,9 +256,6 @@ void Player::Update() {
 	Collider::UpdateAllBodies(*transform_);
 	attackCollision_->Update(*transform_);
 
-	// エフェクトの更新
-	avoidEffect_->Update();
-
 	// 入力で攻撃を無効化できるようにする
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_F9)) {
@@ -324,17 +311,6 @@ void Player::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 	// 敵から攻撃を受けた時のみ
 	if ((collisionBody->GetType() & (ColliderType::Type_BossWeapon | ColliderType::Type_BossBlade))
 		!= ColliderType::Type_None) {
-
-		// 攻撃を受けた瞬間に回避行動をしていれば攻撃を受けない
-		if (stateController_->IsAvoidance()) {
-
-			// 回避エフェクトを出す
-			SakuEngine::PostProcessSystem::GetInstance()->Start(PostProcessType::Grayscale);
-
-			SakuEngine::Vector3 playerPos = transform_->translation;
-			avoidEffect_->Emit(playerPos);
-			return;
-		}
 
 		// ダメージを受ける、無敵状態の時は0
 		const int damage = isInvincible_ ? 0 : bossEnemy_->GetDamage();

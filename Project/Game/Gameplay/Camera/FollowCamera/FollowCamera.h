@@ -31,8 +31,8 @@ public:
 	//--------- accessor -----------------------------------------------------
 
 	// カメラアニメーションの開始
-	void StartPlayerActionAnim(PlayerState state);
-	void StratPlayerActionAnimString(const std::string& animName);
+	void StartPlayerActionAnim(PlayerState state, bool isCheckInverse = true);
+	void StratPlayerActionAnimString(const std::string& animName, bool isCheckInverse = true);
 
 	// 処理依存オブジェクトを設定
 	void BindDependencies(const FollowCameraDependencies& dependencies);

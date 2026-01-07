@@ -276,6 +276,12 @@ void KeyframeObject3D::SetParent(const std::string& name, const Transform3D& par
 
 void KeyframeObject3D::SelfUpdate() {
 
+	// KeyframeObject3Dの時間で更新
+	AdvanceTime(GameTimer::GetScaledDeltaTime());
+}
+
+void KeyframeObject3D::AdvanceTime(float deltaSeconds) {
+
 	// フレームごとのキー到達フラグリセット
 	reachedKeyThisFrame_ = false;
 
@@ -289,6 +295,7 @@ void KeyframeObject3D::SelfUpdate() {
 	if (currentState_ == State::None) {
 		return;
 	}
+	float deltaTime = (std::max)(deltaSeconds, 0.0f);
 
 	// 時間を更新
 	// keys分の合計時間
@@ -300,7 +307,7 @@ void KeyframeObject3D::SelfUpdate() {
 
 	// 時間を更新
 	float prevTime = timer_;
-	timer_ += GameTimer::GetScaledDeltaTime();
+	timer_ += deltaTime;
 	timer_ = std::clamp(timer_, 0.0f, total);
 
 	//============================================================================
@@ -389,8 +396,10 @@ void KeyframeObject3D::SelfUpdate() {
 		currentTransform_.rotation = keys_.empty() ? Quaternion::Identity() : keys_.back().transform.rotation;
 		currentTransform_.translation = keys_.empty() ? Vector3::AnyInit(0.0f) : keys_.back().transform.translation;
 
-		// リセットして終了
-		Reset();
+		// 自動リセットは行わず、停止状態にする
+		currentState_ = State::None;
+		reachedKeyThisFrame_ = false;
+		nextKeyIndex_ = static_cast<uint32_t>(keys_.size());
 	}
 }
 
@@ -667,7 +676,7 @@ void KeyframeObject3D::ImGui() {
 		ImGui::Text("progress: %.2f", progress);
 
 		// キータイムラインの描画
-		DrawKeyTimeline();
+		DrawKeyTimelineInternal(true, true);
 
 		// 任意の型の現在値
 		for (const auto& track : anyTracks_) {
@@ -1044,6 +1053,14 @@ void KeyframeObject3D::ImGui() {
 	}
 }
 
+void KeyframeObject3D::DrawKeyTimelinePreview() {
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+
+	DrawKeyTimelineInternal(false, false);
+#endif
+}
+
 bool KeyframeObject3D::IsAxisEnabled(const std::unordered_map<Math::Axis, bool>& axisMap, Math::Axis axis) {
 
 	auto it = axisMap.find(axis);
@@ -1178,8 +1195,8 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 	return dst;
 }
 
-void KeyframeObject3D::DrawKeyTimeline() {
-
+void SakuEngine::KeyframeObject3D::DrawKeyTimelineInternal(
+	bool allowKeyDrag, bool allowEndTimeDrag) {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	// 以前の固定サイズを基準に、表示領域(Child/Column等)の幅に合わせて自動調整する
@@ -1246,6 +1263,13 @@ void KeyframeObject3D::DrawKeyTimeline() {
 	static bool s_dragging = false;
 	static int32_t s_easeSeg = -1;
 
+	// プレビューではドラッグ状態を残さない
+	if (!allowKeyDrag) {
+		s_dragging = false;
+		s_dragIndex = -1;
+		s_easeSeg = -1;
+	}
+
 	// 先に丸のヒット＆ドラッグ処理
 	ImVec2 mouse = ImGui::GetIO().MousePos;
 	bool anyHovered = false;
@@ -1265,12 +1289,14 @@ void KeyframeObject3D::DrawKeyTimeline() {
 		if (hovered) {
 
 			anyHovered = true;
-			ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+			if (allowKeyDrag) {
+				ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+			}
 			dl->AddCircleFilled(center, radius, IM_COL32(255, 255, 255, 255));
 		}
 
 		// ドラッグ開始
-		if (!s_dragging && hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+		if (allowKeyDrag && !s_dragging && hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 			s_dragging = true;
 			s_dragIndex = i;
 		}
@@ -1279,7 +1305,7 @@ void KeyframeObject3D::DrawKeyTimeline() {
 		dl->AddCircleFilled(center, radius * 0.8f, col);
 
 		// ドラッグ中の更新
-		if (s_dragging && s_dragIndex == i) {
+		if (allowKeyDrag && s_dragging && s_dragIndex == i) {
 			if (ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
 
 				// マウスx → 時間（絶対秒）に写像（バー範囲(b0-b1)基準）
@@ -1312,19 +1338,21 @@ void KeyframeObject3D::DrawKeyTimeline() {
 	}
 
 	// 最後の時間はdragFloatで更新
-	ImGui::DragFloat("End Time", &keys_.back().time, 0.01f);
-	// timeを均等にする
-	if (ImGui::Button("Set AverageTime")) {
+	if (allowEndTimeDrag) {
+		ImGui::DragFloat("End Time", &keys_.back().time, 0.01f);
+		// timeを均等にする
+		if (ImGui::Button("Set AverageTime")) {
 
-		float timeStep = keys_.back().time / (static_cast<float>(keys_.size() - 1));
-		for (size_t i = 0; i < keys_.size(); ++i) {
+			float timeStep = keys_.back().time / (static_cast<float>(keys_.size() - 1));
+			for (size_t i = 0; i < keys_.size(); ++i) {
 
-			keys_[i].time = timeStep * static_cast<float>(i);
+				keys_[i].time = timeStep * static_cast<float>(i);
+			}
 		}
 	}
 
 	// 丸以外クリックで区間を選択 → イージング選択ポップアップを開く
-	if (!s_dragging && hoveredTimeline && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !anyHovered) {
+	if (allowKeyDrag && !s_dragging && hoveredTimeline && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !anyHovered) {
 
 		// クリック位置 → t → どの区間か（バー範囲(b0-b1)基準）
 		float u = (b1.x > b0.x) ? (mouse.x - b0.x) / (b1.x - b0.x) : 0.0f;
@@ -1351,7 +1379,7 @@ void KeyframeObject3D::DrawKeyTimeline() {
 	}
 
 	// ポップアップでイージング選択
-	if (ImGui::BeginPopup("EasePopup")) {
+	if (allowKeyDrag && ImGui::BeginPopup("EasePopup")) {
 		if (0 <= s_easeSeg && s_easeSeg + 1 < static_cast<int32_t>(keys_.size())) {
 
 			ImGui::Text("Segment: %d -> %d", s_easeSeg, s_easeSeg + 1);

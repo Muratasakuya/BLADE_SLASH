@@ -21,12 +21,29 @@ using namespace SakuEngine;
 
 void FollowCameraActionAutoLookTarget::Init() {
 
+	// エリアチェッカー初期化
+	areaChecker_ = std::make_unique<ObjectAreaChecker>();
+	areaChecker_->Init("Camera/Follow/autoLookAreaChecker.json");
+
 	// json適用
 	ApplyJson();
 }
 
+void FollowCameraActionAutoLookTarget::BindDependencies(
+	const FollowCameraDependencies& dependencies) {
+
+	// 依存設定
+	dependencies_ = dependencies;
+	// エリアチェッカーにオブジェクト設定
+	areaChecker_->SetAnchor(dependencies_.player);
+	areaChecker_->SetTarget(dependencies_.bossEnemy);
+}
+
 void FollowCameraActionAutoLookTarget::Execute(FollowCameraContext& context,
 	[[maybe_unused]] const FollowCameraFrameService& service, [[maybe_unused]] float deltaTime) {
+
+	// エリアチェッカー更新
+	areaChecker_->Update();
 
 	// 状態チェック
 	UpdateStateCheck(context);
@@ -98,6 +115,11 @@ Quaternion FollowCameraActionAutoLookTarget::GetTargetRotation(const Parameter& 
 //=======================================================================================================================
 
 void FollowCameraActionAutoLookTarget::UpdateStateCheck(const FollowCameraContext& context) {
+
+	// エリア内にいるかチェック、範囲外なら何もしない
+	if (!areaChecker_->IsInRange(AreaReactionType::LerpCamera)) {
+		return;
+	}
 
 	// プレイヤーの状態と敵の状態を取得
 	PlayerState playerState = dependencies_.player->GetCurrentState();
@@ -295,7 +317,7 @@ void FollowCameraActionAutoLookTarget::Parameter::ImGui(const std::string& label
 
 void FollowCameraActionAutoLookTarget::ImGui() {
 
-	if (ImGui::Button("Save Json")) {
+	if (ImGui::Button("Save Json##FollowCameraActionAutoLookTarget")) {
 
 		SaveJson();
 	}
@@ -457,11 +479,15 @@ void FollowCameraActionAutoLookTarget::ImGui() {
 				ImGui::PopID();
 				--i;
 				continue;
-				continue;
 			}
 			ImGui::PopID();
 		}
 		ImGui::PopID();
+	}
+
+	if (ImGui::CollapsingHeader("AreaChecker", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+		areaChecker_->ImGui();
 	}
 }
 

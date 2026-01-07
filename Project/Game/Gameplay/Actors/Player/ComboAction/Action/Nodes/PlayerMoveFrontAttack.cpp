@@ -6,7 +6,6 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
-#include <Game/Gameplay/Actors/Player/ComboAction/Methods/PlayerReactionAreaChecker.h>
 
 //============================================================================
 //	PlayerMoveFrontAttack classMethods

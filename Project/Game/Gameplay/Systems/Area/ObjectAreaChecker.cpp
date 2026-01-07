@@ -1,61 +1,106 @@
 #include "ObjectAreaChecker.h"
 
 //============================================================================
+//	include
+//============================================================================
+#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Engine/Utility/Json/JsonAdapter.h>
+#include <Game/Gameplay/Actors/Player/Entity/Player.h>
+
+//============================================================================
 //	ObjectAreaChecker classMethods
 //============================================================================
 
-ObjectArea ObjectAreaChecker::CheckArea(const SakuEngine::Vector3& pos, const SakuEngine::Vector3& origin) {
+void ObjectAreaChecker::Init(const std::string& jsonPath) {
 
-	ObjectArea area;
-	// 右側、原点よりx座標が大きい
-	if (origin.x <= pos.x) {
-		if (origin.z <= pos.z) {
+	jsonPath_ = jsonPath;
 
-			// 前側
-			area = ObjectArea::RightFront;
-		} else {
+	// エリアパラメーター初期化
+	areaParams_[static_cast<uint32_t>(AreaReactionType::LerpPos)].debugColor = SakuEngine::Color::Cyan();
+	areaParams_[static_cast<uint32_t>(AreaReactionType::LerpRotate)].debugColor = SakuEngine::Color::Red();
+	areaParams_[static_cast<uint32_t>(AreaReactionType::LerpCamera)].debugColor = SakuEngine::Color::Yellow();
 
-			// 後側
-			area = ObjectArea::RightBack;
-		}
-	}
-	// 左側、原点よりx座標が小さい
-	else {
-		if (origin.z <= pos.z) {
-
-			// 前側
-			area = ObjectArea::LeftFront;
-		} else {
-
-			// 後側
-			area = ObjectArea::LeftBack;
-		}
-	}
-	return area;
+	// json適用
+	ApplyJson();
 }
 
-SakuEngine::Vector3 ObjectAreaChecker::GetAreaDirection(ObjectArea area) {
+void ObjectAreaChecker::Update() {
 
-	// エリアごとの向きの値を取得
-	SakuEngine::Vector3 direction{};
-	switch (area) {
-	case ObjectArea::RightFront:
+	// 範囲内チェック
+	for (auto& param : areaParams_) {
 
-		direction = SakuEngine::Vector3(1.0f, 0.0f, 1.0f);
-		break;
-	case ObjectArea::LeftFront:
+		// 距離を取得
+		float distance = SakuEngine::Math::GetDistance3D(*anchor_, *target_, false, true);
+		// 範囲内チェック
+		if (distance <= param.range) {
 
-		direction = SakuEngine::Vector3(-1.0f, 0.0f, 1.0f);
-		break;
-	case ObjectArea::RightBack:
+			param.isInRange = true;
+		} else {
 
-		direction = SakuEngine::Vector3(1.0f, 0.0f, -1.0f);
-		break;
-	case ObjectArea::LeftBack:
-
-		direction = SakuEngine::Vector3(-1.0f, 0.0f, -1.0f);
-		break;
+			param.isInRange = false;
+		}
 	}
-	direction = direction.Normalize();
-	return direction;
+}
+
+void ObjectAreaChecker::ImGui() {
+
+	if (ImGui::Button("Save Json")) {
+
+		SaveJson();
+	}
+	ImGui::Text("Json Path: %s", jsonPath_.c_str());
+
+	for (uint32_t i = 0; i < static_cast<uint32_t>(AreaReactionType::Count); ++i) {
+
+		auto& param = areaParams_[i];
+
+		const char* typeName = SakuEngine::EnumAdapter<AreaReactionType>::ToString(static_cast<AreaReactionType>(i));
+		ImGui::SeparatorText(typeName);
+		ImGui::PushID(typeName);
+
+		ImGui::Text(std::format("IsInRange: {}", param.isInRange).c_str());
+		ImGui::DragFloat("Range", &param.range, 0.1f);
+
+		SakuEngine::LineRenderer::GetInstance()->DrawCircle(
+			12, param.range, anchor_->GetTranslation(), param.debugColor);
+
+		ImGui::PopID();
+	}
+}
+
+bool ObjectAreaChecker::IsInRange(AreaReactionType reactionType) const {
+
+	uint32_t typeIndex = static_cast<uint32_t>(reactionType);
+	return areaParams_[typeIndex].isInRange;
+}
+
+void ObjectAreaChecker::ApplyJson() {
+
+	Json data;
+	if (!SakuEngine::JsonAdapter::LoadCheck(jsonPath_, data)) {
+		return;
+	}
+
+	for (uint32_t i = 0; i < static_cast<uint32_t>(AreaReactionType::Count); ++i) {
+
+		auto& param = areaParams_[i];
+		const auto& paramJson = data["areaParams"][i];
+		param.range = paramJson.value("range", 0.0f);
+	}
+}
+
+void ObjectAreaChecker::SaveJson() {
+
+	Json data;
+
+	for (uint32_t i = 0; i < static_cast<uint32_t>(AreaReactionType::Count); ++i) {
+
+		const auto& param = areaParams_[i];
+		Json paramJson;
+		paramJson["range"] = param.range;
+		data["areaParams"].push_back(paramJson);
+	}
+
+	SakuEngine::JsonAdapter::Save(jsonPath_, data);
 }

@@ -26,11 +26,17 @@ void PlayerParrySystem::Reset() {
 	session_.Reset();
 }
 
-void PlayerParrySystem::TryReserveByInput(PlayerState currentState,
+void PlayerParrySystem::TryReserveByInput(PlayerStateController& controller,
 	const BossEnemy& bossEnemy, const SakuEngine::InputMapper<PlayerInputAction>& inputMapper) {
 
-	// 攻撃を受けた、受けているときは無効
-	if (currentState == PlayerState::Falter) {
+	// 攻撃を受けた、受けているときは無効、または既にパリィ処理中なら何もしない
+	PlayerState current = controller.GetCurrentState();
+	if (current == PlayerState::Falter ||
+		current == PlayerState::Parry ||
+		current == PlayerState::ParryWait) {
+		return;
+	}
+	if (session_.active) {
 		return;
 	}
 
@@ -44,6 +50,9 @@ void PlayerParrySystem::TryReserveByInput(PlayerState currentState,
 	if (!parryParam.canParry) {
 		return;
 	}
+
+	// 予約が入ったタイミングでパリィ待機状態に遷移させる
+	controller.SetForcedState(PlayerState::ParryWait);
 
 	// 入力があればパリィ処理を予約する
 	session_ = {};

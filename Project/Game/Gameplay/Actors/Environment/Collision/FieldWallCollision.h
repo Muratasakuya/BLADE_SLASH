@@ -45,6 +45,13 @@ public:
 
 	// 押し戻し対象の設定
 	void SetPushBackTarget(Player* player, BossEnemy* bossEnemy);
+
+	// 手動解決を使う場合は無効化して二重押し戻しを防ぐ
+	void SetEnableCallbackPushBack(bool enable) { enableCallbackPushBack_ = enable; }
+	bool IsEnableCallbackPushBack() const { return enableCallbackPushBack_; }
+
+	// FieldBoundary側が壁AABBを取得できるようにする
+	SakuEngine::CollisionShape::AABB GetWallAABB() const { return GetWorldAABB(); }
 private:
 	//========================================================================
 	//	private Methods
@@ -55,6 +62,9 @@ private:
 	// 押し戻し対象
 	Player* player_;
 	BossEnemy* bossEnemy_;
+
+	// コールバックの多重発火防止フラグ
+	bool enableCallbackPushBack_ = true;
 
 	//--------- functions ----------------------------------------------------
 

@@ -17,7 +17,7 @@ public:
 	//========================================================================
 
 	PlayerAfterImageEffect() = default;
-	~PlayerAfterImageEffect() = default;
+	~PlayerAfterImageEffect();
 
 	// 初期化
 	void Init(const std::string& fileName);

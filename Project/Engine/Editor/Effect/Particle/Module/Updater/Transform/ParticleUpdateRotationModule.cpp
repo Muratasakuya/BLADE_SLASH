@@ -253,6 +253,7 @@ Json ParticleUpdateRotationModule::ToJson() {
 	data["angleSpeedRadian_"] = angleSpeedRadian_;
 	data["slerpExtraTurns_"] = slerpExtraTurns_;
 	data["slerpPreferLongArc_"] = slerpPreferLongArc_;
+	data["lockAxisAngle_"] = lockAxisAngle_;
 
 	return data;
 }
@@ -284,4 +285,5 @@ void ParticleUpdateRotationModule::FromJson(const Json& data) {
 	angleSpeedRadian_ = data.value("angleSpeedRadian_", 0.0f);
 	slerpExtraTurns_ = data.value("slerpExtraTurns_", 0);
 	slerpPreferLongArc_ = data.value("slerpPreferLongArc_", false);
+	lockAxisAngle_ = data.value("lockAxisAngle_", 0.0f);
 }

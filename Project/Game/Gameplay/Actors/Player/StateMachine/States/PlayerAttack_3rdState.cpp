@@ -16,6 +16,22 @@
 
 void PlayerAttack_3rdState::CreateEffect() {
 
+	// 投げた剣エフェクト作成
+	{
+		uint32_t index = 0;
+		for (auto& effect : throwSwordEffects_) {
+
+			// エフェクト作成
+			effect = std::make_unique<SakuEngine::EffectGroup>();
+			effect->Init("throwSwordEffect", "PlayerEffect");
+			effect->LoadJson("GameEffectGroup/Player/playerThrowSwordEffect.json");
+
+			// 各インデントに対応する手を親にする
+			PlayerWeaponType parentType = static_cast<PlayerWeaponType>(index);
+			effect->SetParent("playerWeaponRotate",player_->GetWeapon(parentType)->GetTransform());
+		}
+	}
+
 	// ダッシュエフェクト作成
 	catchDashEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	catchDashEffect_->Init("catchDashEffect", "PlayerEffect");
@@ -56,6 +72,12 @@ void PlayerAttack_3rdState::Enter() {
 		// カメラアニメーション開始
 		followCamera_->StartPlayerActionAnim(PlayerState::Attack_3rd);
 	}
+
+	// 状態が始まった瞬間にエフェクトの発生を行う
+	for (const auto& effect : throwSwordEffects_) {
+
+		effect->Emit(SakuEngine::Vector3::AnyInit(0.0f));
+	}
 }
 
 void PlayerAttack_3rdState::Update() {
@@ -82,6 +104,12 @@ void PlayerAttack_3rdState::Update() {
 }
 
 void PlayerAttack_3rdState::UpdateAlways() {
+
+	// 投げる剣エフェクトの更新
+	for (const auto& effect : throwSwordEffects_) {
+
+		effect->Update();
+	}
 
 	// ダッシュエフェクトの更新
 	// 親の回転を設定する

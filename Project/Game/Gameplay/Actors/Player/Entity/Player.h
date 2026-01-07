@@ -98,9 +98,6 @@ private:
 	// 攻撃の衝突
 	std::unique_ptr<PlayerAttackCollision> attackCollision_;
 
-	// 回避エフェクト
-	std::unique_ptr<SakuEngine::EffectGroup> avoidEffect_;
-
 	// イベント発行先
 	GameEventBus* eventBus_ = nullptr;
 
@@ -133,7 +130,6 @@ private:
 	void InitAnimations();
 	void InitCollision();
 	void InitState();
-	void InitEffects();
 
 	// update
 	void UpdateSKilPoint();
