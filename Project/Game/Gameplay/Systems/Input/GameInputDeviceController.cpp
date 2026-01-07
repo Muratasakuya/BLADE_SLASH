@@ -24,12 +24,20 @@ void GameInputDeviceController::Init() {
 	validInputTypes_[static_cast<uint32_t>(InputType::GamePad)] = true;
 	validInputTypes_[static_cast<uint32_t>(InputType::Keyboard)] = true;
 
-	// マウスフラグ設定
-	isDisplayMouse_ = true;
-	isControlMoveMouse_ = false;
-
 	// json適用
 	ApplyJson();
+
+	// マウスフラグ設定
+	// リリース起動したとき、マウスを非表示、移動制御する
+#if defined(_RELEASE)
+
+	isDisplayMouse_ = false;
+	isControlMoveMouse_ = true;
+#else
+
+	isDisplayMouse_ = true;
+	isControlMoveMouse_ = false;
+#endif
 }
 
 void GameInputDeviceController::Update() {
@@ -68,15 +76,11 @@ void GameInputDeviceController::UpdateMouseControl() {
 	preIsDisplayMouse_ = isDisplayMouse_;
 	preIsControlMoveMouse_ = isControlMoveMouse_;
 
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
-
-	// ImGui上ではマウスを表示する
-	ImGui::GetIO().MouseDrawCursor = !isDisplayMouse_;
-	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+	if (SakuEngine::Input::GetInstance()->PushKey(DIK_RETURN) &&
+		SakuEngine::Input::GetInstance()->TriggerKey(DIK_F1)) {
 
 		isControlMoveMouse_ = false;
 	}
-#endif
 }
 
 void GameInputDeviceController::UpdateInputType() {
