@@ -12,6 +12,18 @@
 //	PlayerAfterImageEffect classMethods
 //============================================================================
 
+PlayerAfterImageEffect::~PlayerAfterImageEffect() {
+
+	// 完全に終了させる
+	// エフェクトリセット
+	SakuEngine::PostProcessSystem* postProcessSystem = SakuEngine::PostProcessSystem::GetInstance();
+
+	// 残像表現エフェクト
+	postProcessSystem->GetUpdater<PlayerAfterImageUpdater>(PostProcessType::PlayerAfterImage)->Reset();
+	// アウトライン
+	postProcessSystem->GetUpdater<DepthOutlineUpdater>(PostProcessType::DepthBasedOutline)->Reset();
+}
+
 void PlayerAfterImageEffect::Init(const std::string& fileName) {
 
 	// ファイル名保存
