@@ -41,8 +41,8 @@ namespace SakuEngine {
 		// 初期化
 		void Init();
 
-		// サウンドデータを読み込み
-		void Load(const std::string& filename, AudioType type);
+		// エディター
+		void ImGui();
 
 		// サウンドをループ再生
 		void Play(const std::string& name, float volume = 1.0f);
@@ -140,6 +140,11 @@ namespace SakuEngine {
 
 		//--------- functions ----------------------------------------------------
 
+		// Sounds/配下のファイルを全て走査して読み込み
+		void LoadAllSounds();
+
+		// サウンドデータを読み込み
+		void Load(const std::string& filename, AudioType type);
 		// サウンドデータを解放
 		void Unload();
 
@@ -164,6 +169,9 @@ namespace SakuEngine {
 
 		// 名前からサウンドデータを取得
 		SoundData* FindSoundLocked(const std::string& key);
+
+		// 拡張子から音源タイプを推測
+		AudioType GuessAudioTypeFromPath(const std::filesystem::path& p) const;
 
 		// 小文字化
 		static std::string ToLower(std::string string);

@@ -12,6 +12,8 @@ using namespace SakuEngine;
 #include <mfidl.h>
 #include <mfreadwrite.h>
 #include <mferror.h>
+// imgui
+#include <imgui.h>
 
 #pragma comment(lib, "xaudio2.lib")
 #pragma comment(lib, "mfplat.lib")
@@ -126,11 +128,56 @@ void Audio::Init() {
 
 	hr = xAudio2_->StartEngine();
 	assert(SUCCEEDED(hr));
+
+	// Sounds/配下のファイルをすべて読み込み
+	LoadAllSounds();
+}
+
+void Audio::LoadAllSounds() {
+
+	// 固定ファイルパス
+	const std::string& rootDir = "Assets/Sounds";
+
+	std::filesystem::path root(rootDir);
+
+	std::error_code ec;
+	if (!std::filesystem::exists(root, ec)) {
+		// 無いなら何もしない
+		return;
+	}
+
+	// recursive に走査
+	for (std::filesystem::recursive_directory_iterator it(root, ec), end;
+		it != end && !ec; it.increment(ec)) {
+
+		const auto& entry = *it;
+
+		// ディレクトリはスキップ
+		if (!entry.is_regular_file(ec)) {
+			continue;
+		}
+
+		const std::filesystem::path filePath = entry.path();
+		std::string ext = ToLower(filePath.extension().string());
+
+		// 対応拡張子のみ
+		const bool supported =
+			(ext == ".wav") || (ext == ".wave") || (ext == ".mp3");
+
+		if (!supported) {
+			continue;
+		}
+
+		AudioType type = GuessAudioTypeFromPath(filePath);
+
+		// string化
+		std::string fullpath = filePath.string();
+		Load(fullpath, type);
+	}
 }
 
 void Audio::Load(const std::string& filename, AudioType type) {
 
-	std::lock_guard<std::mutex> lock(mutex_);
 	assert(xAudio2_ && masteringVoice_ && "Audio::Init() must be called before Load()");
 
 	const std::string key = NormalizeKey(filename);
@@ -401,6 +448,24 @@ Audio::SoundData* Audio::FindSoundLocked(const std::string& key) {
 	return &it->second;
 }
 
+AudioType Audio::GuessAudioTypeFromPath(const std::filesystem::path& p) const {
+
+	// パスの構成要素に "BGM" or "SE" が含まれているかで判定
+	for (const auto& part : p) {
+
+		std::string s = part.string();
+		s = ToLower(s);
+
+		if (s == "bgm") {
+			return AudioType::BGM;
+		}
+		if (s == "se") {
+			return AudioType::SE;
+		}
+	}
+	return AudioType::SE;
+}
+
 std::string Audio::NormalizeKey(const std::string& nameOrPath) const {
 
 	std::filesystem::path p(nameOrPath);
@@ -560,4 +625,360 @@ Audio::SoundData Audio::LoadMp3FileWithMediaFoundation(const std::string& filena
 	sd.formatBlob = std::move(fmtBlob);
 	sd.pcmBuffer = std::move(pcm);
 	return sd;
+}
+
+void Audio::ImGui() {
+
+	// -----------------------------
+	// UI用の状態（フレームを跨いで保持）
+	// -----------------------------
+	static std::unordered_map<std::string, float> s_playVolume; // Play/OneShot時のインスタンス音量
+	static char s_filterSE[128] = "";
+	static char s_filterBGM[128] = "";
+
+	// -----------------------------
+	// 実行コマンド（ロック外で public API を呼ぶため）
+	// ※ ImGui中に lock して Play() を呼ぶと二重ロックでデッドロックになりやすいので、
+	//    「UIで押された内容」を一旦キューに積んで、最後に実行します。
+	// -----------------------------
+	enum class CmdType {
+		PlayLoop,
+		PlayOneShot,
+		Stop,
+		SetVolume,
+		SetMasterVolume,
+		StopAllSE,
+		StopAllBGM
+	};
+
+	struct Cmd {
+		CmdType type{};
+		std::string key;
+		float value = 1.0f;
+	};
+
+	std::vector<Cmd> cmds;
+	cmds.reserve(64);
+
+	// -----------------------------
+	// まずロックして現在のスナップショットを作る
+	// -----------------------------
+	struct SoundSnapshot {
+		std::string key;
+		AudioType type{};
+		float baseVolume = 1.0f;   // SoundData.volume
+		bool playing = false;
+		int activeCount = 0;
+		uint32_t sampleRate = 0;
+		uint16_t channels = 0;
+		uint16_t bits = 0;
+	};
+
+	std::vector<SoundSnapshot> seList;
+	std::vector<SoundSnapshot> bgmList;
+	float masterVol = 1.0f;
+
+	{
+		std::lock_guard<std::mutex> lock(mutex_);
+
+		// 終了済み voice を掃除して playing 判定が正しくなるように
+		CleanupAllFinishedVoicesLocked();
+
+		masterVol = masterVolume_;
+
+		seList.reserve(sounds_.size());
+		bgmList.reserve(sounds_.size());
+
+		for (auto& [key, sd] : sounds_) {
+			SoundSnapshot ss{};
+			ss.key = key;
+			ss.type = sd.type;
+			ss.baseVolume = sd.volume;
+
+			// format 情報
+			if (const WAVEFORMATEX* fmt = sd.GetFormat()) {
+				ss.sampleRate = static_cast<uint32_t>(fmt->nSamplesPerSec);
+				ss.channels = static_cast<uint16_t>(fmt->nChannels);
+				ss.bits = static_cast<uint16_t>(fmt->wBitsPerSample);
+			}
+
+			// 再生中判定
+			auto it = activeVoices_.find(key);
+			if (it != activeVoices_.end()) {
+				ss.activeCount = static_cast<int>(it->second.size());
+				ss.playing = (ss.activeCount > 0);
+			}
+
+			if (ss.type == AudioType::BGM) {
+				bgmList.push_back(std::move(ss));
+			} else {
+				seList.push_back(std::move(ss));
+			}
+		}
+	}
+
+	// 並びを安定させる（名前順）
+	auto byName = [](const SoundSnapshot& a, const SoundSnapshot& b) {
+		return a.key < b.key;
+		};
+	std::sort(seList.begin(), seList.end(), byName);
+	std::sort(bgmList.begin(), bgmList.end(), byName);
+
+	// フィルタ（大小無視）
+	auto toLowerLocal = [](std::string s) {
+		std::transform(s.begin(), s.end(), s.begin(),
+			[](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+		return s;
+		};
+	auto passFilter = [&](const std::string& key, const char* filter) {
+		if (!filter || filter[0] == '\0') return true;
+		return (toLowerLocal(key).find(toLowerLocal(filter)) != std::string::npos);
+		};
+
+	// -----------------------------
+	// UI 描画
+	// -----------------------------
+
+	// マスター音量（任意だが見やすいので置く）
+	{
+		float mv = masterVol;
+		if (ImGui::SliderFloat("Master Volume", &mv, 0.0f, 1.0f, "%.2f")) {
+			cmds.push_back(Cmd{ CmdType::SetMasterVolume, "", mv });
+			masterVol = mv;
+		}
+	}
+
+	ImGui::Separator();
+
+	// Tab
+	if (ImGui::BeginTabBar("AudioTabs")) {
+
+		// -----------------------------
+		// BGM
+		// -----------------------------
+		if (ImGui::BeginTabItem("BGM")) {
+
+			ImGui::Text("Loaded BGM: %d", (int)bgmList.size());
+			ImGui::InputTextWithHint("##filterBGM", "Search...", s_filterBGM, IM_ARRAYSIZE(s_filterBGM));
+			ImGui::SameLine();
+			if (ImGui::Button("Clear##BGM")) {
+				s_filterBGM[0] = '\0';
+			}
+
+			ImGui::Spacing();
+			if (ImGui::Button("Stop All BGM")) {
+				cmds.push_back(Cmd{ CmdType::StopAllBGM, "", 0.0f });
+			}
+
+			ImGui::Separator();
+
+			// 一覧
+			for (const auto& s : bgmList) {
+				if (!passFilter(s.key, s_filterBGM)) continue;
+
+				// Play/OneShot用のインスタンス音量のデフォルト確保
+				if (s_playVolume.find(s.key) == s_playVolume.end()) {
+					s_playVolume[s.key] = 1.0f;
+				}
+
+				ImGui::PushID(s.key.c_str());
+
+				// 見出し：名前 + 状態
+				{
+					// 表示名に状態を入れる（見やすさ）
+					std::string header = s.key;
+					header += s.playing ? "  [Playing]" : "  [Stopped]";
+
+					if (ImGui::CollapsingHeader(header.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+
+						// ちょい情報
+						ImGui::Text("Format: %u Hz, %u ch, %u bits", s.sampleRate, s.channels, s.bits);
+						ImGui::Text("Active Instances: %d", s.activeCount);
+
+						ImGui::Spacing();
+
+						// 2列で見やすく
+						if (ImGui::BeginTable("##bgm_controls", 2, ImGuiTableFlags_SizingFixedFit)) {
+							ImGui::TableNextRow();
+
+							// 左：ボタン群
+							ImGui::TableSetColumnIndex(0);
+							ImGui::Text("Actions");
+							ImGui::Spacing();
+
+							float instVol = s_playVolume[s.key];
+							if (ImGui::Button("Play (Loop)")) {
+								cmds.push_back(Cmd{ CmdType::PlayLoop, s.key, instVol });
+							}
+							if (ImGui::Button("Play OneShot")) {
+								cmds.push_back(Cmd{ CmdType::PlayOneShot, s.key, instVol });
+							}
+							if (ImGui::Button("Stop")) {
+								cmds.push_back(Cmd{ CmdType::Stop, s.key, 0.0f });
+							}
+
+							// 右：音量
+							ImGui::TableSetColumnIndex(1);
+							ImGui::Text("Volumes");
+							ImGui::Spacing();
+
+							// Base Volume（SetVolume）
+							float baseVol = s.baseVolume;
+							if (ImGui::SliderFloat("Base Volume", &baseVol, 0.0f, 1.0f, "%.2f")) {
+								cmds.push_back(Cmd{ CmdType::SetVolume, s.key, baseVol });
+							}
+
+							// Play Volume（インスタンス側：Play/OneShotに渡す）
+							float pv = s_playVolume[s.key];
+							if (ImGui::SliderFloat("Play Volume", &pv, 0.0f, 1.0f, "%.2f")) {
+								s_playVolume[s.key] = pv;
+							}
+
+							ImGui::EndTable();
+						}
+					}
+				}
+
+				ImGui::PopID();
+				ImGui::Spacing();
+			}
+
+			ImGui::EndTabItem();
+		}
+
+		// -----------------------------
+		// SE
+		// -----------------------------
+		if (ImGui::BeginTabItem("SE")) {
+
+			ImGui::Text("Loaded SE: %d", (int)seList.size());
+			ImGui::InputTextWithHint("##filterSE", "Search...", s_filterSE, IM_ARRAYSIZE(s_filterSE));
+			ImGui::SameLine();
+			if (ImGui::Button("Clear##SE")) {
+				s_filterSE[0] = '\0';
+			}
+
+			ImGui::Spacing();
+			if (ImGui::Button("Stop All SE")) {
+				cmds.push_back(Cmd{ CmdType::StopAllSE, "", 0.0f });
+			}
+
+			ImGui::Separator();
+
+			for (const auto& s : seList) {
+				if (!passFilter(s.key, s_filterSE)) continue;
+
+				if (s_playVolume.find(s.key) == s_playVolume.end()) {
+					s_playVolume[s.key] = 1.0f;
+				}
+
+				ImGui::PushID(s.key.c_str());
+
+				std::string header = s.key;
+				header += s.playing ? "  [Playing]" : "  [Stopped]";
+
+				if (ImGui::CollapsingHeader(header.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+
+					ImGui::Text("Format: %u Hz, %u ch, %u bits", s.sampleRate, s.channels, s.bits);
+					ImGui::Text("Active Instances: %d", s.activeCount);
+
+					ImGui::Spacing();
+
+					if (ImGui::BeginTable("##se_controls", 2, ImGuiTableFlags_SizingFixedFit)) {
+						ImGui::TableNextRow();
+
+						ImGui::TableSetColumnIndex(0);
+						ImGui::Text("Actions");
+						ImGui::Spacing();
+
+						float instVol = s_playVolume[s.key];
+						if (ImGui::Button("Play (Loop)")) {
+							cmds.push_back(Cmd{ CmdType::PlayLoop, s.key, instVol });
+						}
+						if (ImGui::Button("Play OneShot")) {
+							cmds.push_back(Cmd{ CmdType::PlayOneShot, s.key, instVol });
+						}
+						if (ImGui::Button("Stop")) {
+							cmds.push_back(Cmd{ CmdType::Stop, s.key, 0.0f });
+						}
+
+						ImGui::TableSetColumnIndex(1);
+						ImGui::Text("Volumes");
+						ImGui::Spacing();
+
+						float baseVol = s.baseVolume;
+						if (ImGui::SliderFloat("Base Volume", &baseVol, 0.0f, 1.0f, "%.2f")) {
+							cmds.push_back(Cmd{ CmdType::SetVolume, s.key, baseVol });
+						}
+
+						float pv = s_playVolume[s.key];
+						if (ImGui::SliderFloat("Play Volume", &pv, 0.0f, 1.0f, "%.2f")) {
+							s_playVolume[s.key] = pv;
+						}
+
+						ImGui::EndTable();
+					}
+				}
+
+				ImGui::PopID();
+				ImGui::Spacing();
+			}
+
+			ImGui::EndTabItem();
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	// -----------------------------
+	// UIで押された操作を、最後に実行（public API 呼び出し）
+	// -----------------------------
+	for (const auto& c : cmds) {
+		switch (c.type) {
+		case CmdType::PlayLoop:
+			Play(c.key, c.value);
+			break;
+		case CmdType::PlayOneShot:
+			PlayOneShot(c.key, c.value);
+			break;
+		case CmdType::Stop:
+			Stop(c.key);
+			break;
+		case CmdType::SetVolume:
+			SetVolume(c.key, c.value);
+			break;
+		case CmdType::SetMasterVolume:
+			// masterVolume_ に反映し、鳴っている全voiceにも反映させる
+		{
+			std::lock_guard<std::mutex> lock(mutex_);
+			masterVolume_ = std::clamp(c.value, 0.0f, 1.0f);
+			CleanupAllFinishedVoicesLocked();
+
+			for (auto& [k, vec] : activeVoices_) {
+				for (auto& inst : vec) {
+					ApplyVoiceVolumeLocked(k, inst);
+				}
+			}
+		}
+		break;
+		case CmdType::StopAllSE:
+			// SE だけ止める
+		{
+			// Stop()は内部でlockするので、ここではsnapshotから対象keyを集めて呼ぶ
+			for (const auto& s : seList) {
+				Stop(s.key);
+			}
+		}
+		break;
+		case CmdType::StopAllBGM:
+		{
+			for (const auto& s : bgmList) {
+				Stop(s.key);
+			}
+		}
+		break;
+		default:
+			break;
+		}
+	}
 }
