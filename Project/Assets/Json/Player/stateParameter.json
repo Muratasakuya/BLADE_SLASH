@@ -497,7 +497,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Spline",
-            "parentName_": "fixedEnemyTransform",
+            "parentName_": "playerSkilMoveFrontTransform",
             "startDuration_": 0.05999999865889549,
             "startEaseType_": "Linear"
         },
@@ -795,7 +795,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Linear",
-            "parentName_": "fixedEnemyTransform",
+            "parentName_": "playerSkilMoveFrontTransform",
             "startDuration_": 0.0,
             "startEaseType_": "Linear"
         },
@@ -806,6 +806,7 @@
         "attackPosLerpTime_": 0.4399999976158142,
         "exitTime_": 0.4000000059604645,
         "jumpEffectEmitProgress_": 0.9100000262260437,
+        "moveAttackSEVolume_": 0.1599999964237213,
         "nextAnimDuration_": 0.029999999329447746,
         "nextJumpAnimDuration_": 0.6299999952316284,
         "rotationAxis_": {

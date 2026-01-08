@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Audio/Audio.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Utility/Timer/GameTimer.h>
@@ -144,6 +145,10 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 		SakuEngine::Vector3 translation = moveKeyframeObject_->GetIndexKeyTransform(
 			moveKeyframeObject_->GetNextKeyIndex() - 1).translation;
 		moveAtackEffect_->Emit(translation);
+
+		// 移動攻撃SE再生、再生前に一度止める
+		SakuEngine::Audio::GetInstance()->Stop("skillMoveAttack");
+		SakuEngine::Audio::GetInstance()->PlayOneShot("skillMoveAttack", moveAttackSEVolume_);
 	}
 
 	// 補間処理終了後状態を終了
@@ -235,6 +240,9 @@ void PlayerSkilAttackState::UpdateJumpAttack() {
 			SakuEngine::Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
 		// プレイヤーの右手からエフェクト発生
 		moveAtackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Right)->GetTransform().GetWorldPos());
+
+		// 移動攻撃SE再生
+		SakuEngine::Audio::GetInstance()->PlayOneShot("skillMoveAttack", moveAttackSEVolume_);
 	}
 
 	// 補間処理終了後状態を終了
@@ -251,6 +259,9 @@ void PlayerSkilAttackState::UpdateJumpAttack() {
 			groundCrackEffect_->Emit(emitPos);
 			// 発生済みにする
 			groundCrackEmitted_ = true;
+
+			// 衝撃波SE再生
+			SakuEngine::Audio::GetInstance()->PlayOneShot("playerShowWave");
 		}
 
 		// 経過時間更新
@@ -361,7 +372,8 @@ void PlayerSkilAttackState::ImGui() {
 	ImGui::DragFloat("nextAnimDuration", &nextAnimDuration_, 0.001f);
 	ImGui::DragFloat("nextJumpAnimDuration", &nextJumpAnimDuration_, 0.001f);
 	ImGui::DragFloat("exitTime", &exitTime_, 0.01f);
-	ImGui::DragFloat("jumpEffectEmitProgres", &jumpEffectEmitProgress_, 0.01f);
+	ImGui::DragFloat("jumpEffectEmitProgress", &jumpEffectEmitProgress_, 0.01f);
+	ImGui::DragFloat("moveAttackSEVolume", &moveAttackSEVolume_, 0.01f);
 
 	ImGui::DragFloat3("rotationAxis", &rotationAxis_.x, 0.01f);
 	PlayerBaseAttackState::ImGui();
@@ -409,6 +421,7 @@ void PlayerSkilAttackState::ApplyJson(const Json& data) {
 	rotationLerpRate_ = SakuEngine::JsonAdapter::GetValue<float>(data, "rotationLerpRate_");
 	exitTime_ = SakuEngine::JsonAdapter::GetValue<float>(data, "exitTime_");
 	jumpEffectEmitProgress_ = data.value("jumpEffectEmitProgress_", 0.5f);
+	moveAttackSEVolume_ = data.value("moveAttackSEVolume_", 1.0f);
 
 	PlayerBaseAttackState::ApplyJson(data);
 
@@ -431,6 +444,7 @@ void PlayerSkilAttackState::SaveJson(Json& data) {
 	data["rotationLerpRate_"] = rotationLerpRate_;
 	data["exitTime_"] = exitTime_;
 	data["jumpEffectEmitProgress_"] = jumpEffectEmitProgress_;
+	data["moveAttackSEVolume_"] = moveAttackSEVolume_;
 
 	PlayerBaseAttackState::SaveJson(data);
 
