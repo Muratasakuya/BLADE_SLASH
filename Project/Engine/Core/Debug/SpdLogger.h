@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -26,74 +26,74 @@
 //============================================================================
 namespace SakuEngine {
 
-class SpdLogger {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class SpdLogger {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	SpdLogger() = default;
-	~SpdLogger() = default;
+		SpdLogger() = default;
+		~SpdLogger() = default;
 
-	// ログレベル種別
-	enum class LogLevel {
-		INFO,
-		ASSERT_ERROR
+		// ログレベル種別
+		enum class LogLevel {
+			INFO,
+			ASSERT_ERROR
+		};
+
+		// ロガー(エンジン用)を初期化。出力先とフォーマットを設定
+		static void Init(const std::string& fileName = "engine.log", bool truncate = true);
+		// ゲーム用ロガーを初期化。game.logへ出力
+		static void InitGame(const std::string& fileName = "game.log", bool truncate = true);
+		// アセット監視用ロガーを初期化。asset.logへ出力
+		static void InitAsset(const std::string& fileName = "assetCheck.log", bool truncate = true);
+		// 文字列を指定レベルで出力
+		static void Log(const std::string& message, LogLevel level = LogLevel::INFO);
+		static void LogGame(const std::string& msg, LogLevel level = LogLevel::INFO);
+
+		// 書式つきでログ出力(printf風/型安全)
+		template <typename... Args>
+		static void LogFormat(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args);
+
+		//--------- accessor -----------------------------------------------------
+
+		// 内部spdlogロガーへの参照を取得
+		static std::shared_ptr<spdlog::logger>& Get() { return logger_; }
+		static std::shared_ptr<spdlog::logger>& GetAsset() { return assetLogger_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		static inline std::shared_ptr<spdlog::logger> logger_;
+		static inline std::shared_ptr<spdlog::logger> gameLogger_;
+		static inline std::shared_ptr<spdlog::logger> assetLogger_;
 	};
 
-	// ロガー(エンジン用)を初期化。出力先とフォーマットを設定
-	static void Init(const std::string& fileName = "engine.log", bool truncate = true);
-	// ゲーム用ロガーを初期化。game.logへ出力
-	static void InitGame(const std::string& fileName = "game.log", bool truncate = true);
-	// アセット監視用ロガーを初期化。asset.logへ出力
-	static void InitAsset(const std::string& fileName = "assetCheck.log", bool truncate = true);
-	// 文字列を指定レベルで出力
-	static void Log(const std::string& message, LogLevel level = LogLevel::INFO);
-	static void LogGame(const std::string& msg, LogLevel level = LogLevel::INFO);
+	//============================================================================
+	//	SpdLogger templateMethods
+	//============================================================================
 
-	// 書式つきでログ出力(printf風/型安全)
-	template <typename... Args>
-	static void LogFormat(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args);
+	template<typename ...Args>
+	inline void SpdLogger::LogFormat(LogLevel level, fmt::format_string<Args...> fmt, Args && ...args) {
 
-	//--------- accessor -----------------------------------------------------
+		switch (level) {
+		case LogLevel::INFO:
 
-	// 内部spdlogロガーへの参照を取得
-	static std::shared_ptr<spdlog::logger>& Get() { return logger_; }
-	static std::shared_ptr<spdlog::logger>& GetAsset() { return assetLogger_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+			logger_->log(spdlog::level::info, fmt, std::forward<Args>(args)...);
+			break;
+		case LogLevel::ASSERT_ERROR:
 
-	//--------- variables ----------------------------------------------------
-
-	static inline std::shared_ptr<spdlog::logger> logger_;
-	static inline std::shared_ptr<spdlog::logger> gameLogger_;
-	static inline std::shared_ptr<spdlog::logger> assetLogger_;
-};
-
-//============================================================================
-//	SpdLogger templateMethods
-//============================================================================
-
-template<typename ...Args>
-inline void SpdLogger::LogFormat(LogLevel level, fmt::format_string<Args...> fmt, Args && ...args) {
-
-	switch (level) {
-	case LogLevel::INFO:
-
-		logger_->log(spdlog::level::info, fmt, std::forward<Args>(args)...);
-		break;
-	case LogLevel::ASSERT_ERROR:
-
-		logger_->log(spdlog::level::critical, fmt, std::forward<Args>(args)...);
-		break;
+			logger_->log(spdlog::level::critical, fmt, std::forward<Args>(args)...);
+			break;
+		}
 	}
-}
 
-//============================================================================
-//	SpdLogger defines
-//============================================================================
+	//============================================================================
+	//	SpdLogger defines
+	//============================================================================
 
 #define LOG_INFO(...)  SPDLOG_LOGGER_CALL(SpdLogger::Get(), spdlog::level::info,     __VA_ARGS__)
 #define LOG_WARN(...)  SPDLOG_LOGGER_CALL(SpdLogger::Get(), spdlog::level::warn,     __VA_ARGS__)
@@ -106,38 +106,39 @@ inline void SpdLogger::LogFormat(LogLevel level, fmt::format_string<Args...> fmt
 //	ScopedMsLog class
 //	スコープ滞在時間をmsで自動記録するRAIIタイマ。スコープ終了時にINFO出力する。
 //============================================================================
-class ScopedMsLog final {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class ScopedMsLog final {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	// ラベル名を付けて計測開始
-	explicit ScopedMsLog(std::string label) :
-		label_(std::move(label)), start_(std::chrono::steady_clock::now()) {}
+		// ラベル名を付けて計測開始
+		explicit ScopedMsLog(std::string label) :
+			label_(std::move(label)), start_(std::chrono::steady_clock::now()) {
+		}
 
-	// デストラクタで経過時間を計算しロギング
-	~ScopedMsLog() {
+		// デストラクタで経過時間を計算しロギング
+		~ScopedMsLog() {
 
-		using namespace std::chrono;
-		const auto us = duration_cast<microseconds>(steady_clock::now() - start_).count();
-		const double ms = static_cast<double>(us) / 1000.0;
-		SpdLogger::Get()->log(spdlog::level::info, "[TIMER] {} : {:.3f} ms", label_, ms);
-	}
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+			using namespace std::chrono;
+			const auto us = duration_cast<microseconds>(steady_clock::now() - start_).count();
+			const double ms = static_cast<double>(us) / 1000.0;
+			SpdLogger::Get()->log(spdlog::level::info, "[TIMER] {} : {:.3f} ms", label_, ms);
+		}
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	std::string label_;
-	std::chrono::steady_clock::time_point start_;
-};
+		std::string label_;
+		std::chrono::steady_clock::time_point start_;
+	};
 
-//============================================================================
-//	ScopedMsLog defines
-//============================================================================
+	//============================================================================
+	//	ScopedMsLog defines
+	//============================================================================
 #ifndef SPDLOG_FUNCTION
 #   define SPDLOG_FUNCTION __FUNCSIG__
 #endif

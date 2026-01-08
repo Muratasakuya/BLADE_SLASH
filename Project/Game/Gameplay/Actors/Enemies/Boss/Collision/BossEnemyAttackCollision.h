@@ -33,9 +33,6 @@ public:
 	void ApplyJson(const Json& data);
 	void SaveJson(Json& data);
 
-	// 衝突コールバック関数
-	void OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) override;
-
 	//--------- accessor -----------------------------------------------------
 
 	// 状態設定
