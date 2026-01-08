@@ -7,6 +7,7 @@
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+#include <Engine/Audio/Audio.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -19,7 +20,7 @@
 PlayerParryState::PlayerParryState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
 
 	inputMapper_ = inputMapper;
-	isEmitedBlur_ = false;
+	isEmittedBlur_ = false;
 
 	// エフェクト作成
 	// ヒットした瞬間
@@ -59,10 +60,10 @@ void PlayerParryState::Enter() {
 	tipScrackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 
 	canExit_ = false;
-	isEmitedBlur_ = false;
+	isEmittedBlur_ = false;
 	request_ = std::nullopt;
-	parryLerp_.isFinised = false;
-	attackLerp_.isFinised = false;
+	parryLerp_.isFinished = false;
+	attackLerp_.isFinished = false;
 	deltaWaitTimer_ = 0.0f;
 }
 
@@ -100,7 +101,7 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 	if (deltaWaitTime_ < deltaWaitTimer_) {
 
 		// まだブラーが発生していなければ発生させる
-		if (!isEmitedBlur_) {
+		if (!isEmittedBlur_) {
 
 			// 左手にエフェクトを発生させる
 			// 発生座標
@@ -124,14 +125,17 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 			blur->SetBlurCenter(screenPos);
 
 			// 発生済み
-			isEmitedBlur_ = true;
+			isEmittedBlur_ = true;
+
+			// パリィヒット音を再生
+			SakuEngine::Audio::GetInstance()->PlayOneShot(parryHitSE_, parryHitSEVolume_);
 		}
 	}
 }
 
 void PlayerParryState::UpdateLerpTranslation() {
 
-	if (parryLerp_.isFinised) {
+	if (parryLerp_.isFinished) {
 		return;
 	}
 
@@ -141,7 +145,7 @@ void PlayerParryState::UpdateLerpTranslation() {
 	// 座標を設定
 	player_->SetTranslation(translation);
 
-	if (parryLerp_.isFinised) {
+	if (parryLerp_.isFinished) {
 
 		// 補間終了後剣先エフェクトを停止させる
 		tipScrackEffect_->Stop();
@@ -151,7 +155,7 @@ void PlayerParryState::UpdateLerpTranslation() {
 void PlayerParryState::CheckInput() {
 
 	// 座標補間が終了したら入力を受け付けない
-	if (parryLerp_.isFinised) {
+	if (parryLerp_.isFinished) {
 		return;
 	}
 
@@ -167,7 +171,7 @@ void PlayerParryState::CheckInput() {
 void PlayerParryState::UpdateAnimation() {
 
 	// 座標補間が終了するまでなにもしない
-	if (!parryLerp_.isFinised) {
+	if (!parryLerp_.isFinished) {
 		return;
 	}
 
@@ -205,7 +209,7 @@ void PlayerParryState::UpdateAnimation() {
 		player_->SetTranslation(translation);
 
 		// 補間が終了したら状態を終了する
-		if (attackLerp_.isFinised) {
+		if (attackLerp_.isFinished) {
 
 			request_ = std::nullopt;
 
@@ -231,7 +235,7 @@ SakuEngine::Vector3 PlayerParryState::GetLerpTranslation(LerpParameter& lerp) {
 
 	if (lerp.time < lerp.timer) {
 
-		lerp.isFinised = true;
+		lerp.isFinished = true;
 	}
 	return translation;
 }
@@ -272,11 +276,11 @@ void PlayerParryState::Exit() {
 	deltaWaitTimer_ = 0.0f;
 	parryLerp_.timer = 0.0f;
 	attackLerp_.timer = 0.0f;
-	parryLerp_.isFinised = false;
-	attackLerp_.isFinised = false;
+	parryLerp_.isFinished = false;
+	attackLerp_.isFinished = false;
 	canExit_ = false;
 	allowAttack_ = false;
-	isEmitedBlur_ = false;
+	isEmittedBlur_ = false;
 }
 
 void PlayerParryState::ImGui() {
@@ -288,6 +292,7 @@ void PlayerParryState::ImGui() {
 	ImGui::DragFloat("cameraLookRate", &cameraLookRate_, 0.01f);
 	ImGui::DragFloat("parryHitEffectPosY", &parryHitEffectPosY_, 0.01f);
 	ImGui::DragFloat("hitEffectOffsetY", &hitEffectOffsetY_, 0.01f);
+	ImGui::DragFloat("parryHitSEVolume", &parryHitSEVolume_, 0.01f);
 
 	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("stratPos", startPos_);
 	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("targetPos", targetPos_);
@@ -349,6 +354,8 @@ void PlayerParryState::ApplyJson(const Json& data) {
 	attackLerp_.moveDistance = SakuEngine::JsonAdapter::GetValue<float>(data, "attackLerp_.moveDistance");
 	attackLerp_.easingType = static_cast<EasingType>(
 		SakuEngine::JsonAdapter::GetValue<int>(data, "attackLerp_.easingType"));
+
+	parryHitSEVolume_ = data.value("parryHitSEVolume_", 1.0f);
 }
 
 void PlayerParryState::SaveJson(Json& data) {
@@ -367,4 +374,6 @@ void PlayerParryState::SaveJson(Json& data) {
 	data["attackLerp_.time"] = attackLerp_.time;
 	data["attackLerp_.moveDistance"] = attackLerp_.moveDistance;
 	data["attackLerp_.easingType"] = static_cast<int>(attackLerp_.easingType);
+
+	data["parryHitSEVolume_"] = parryHitSEVolume_;
 }

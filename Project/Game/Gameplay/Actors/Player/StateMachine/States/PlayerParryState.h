@@ -58,7 +58,7 @@ private:
 		float time;  // 補間にかける時間
 		EasingType easingType;
 		float moveDistance; // 移動距離
-		bool isFinised;     // 座標補間が終了したか
+		bool isFinished;     // 座標補間が終了したか
 	};
 
 	//--------- variables ----------------------------------------------------
@@ -68,7 +68,7 @@ private:
 
 	// 攻撃制御
 	bool allowAttack_;
-	bool isEmitedBlur_;
+	bool isEmittedBlur_;
 
 	// parameters
 	LerpParameter parryLerp_;
@@ -94,6 +94,11 @@ private:
 	std::unique_ptr<SakuEngine::EffectGroup> hitEffect_;
 	float hitEffectOffsetY_;
 
+	// サウンド
+	// パリィヒット音
+	const std::string parryHitSE_ = "parryHitSE";
+	float parryHitSEVolume_ = 1.0f;
+
 	//--------- functions ----------------------------------------------------
 
 	void UpdateDeltaWaitTime();
@@ -103,6 +108,6 @@ private:
 
 	// helper
 	SakuEngine::Vector3 GetLerpTranslation(LerpParameter& lerp);
-	SakuEngine::Vector3 SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target
-		, float moveDistance, bool isPlayerBase);
+	SakuEngine::Vector3 SetLerpValue(SakuEngine::Vector3& start, SakuEngine::Vector3& target,
+		float moveDistance, bool isPlayerBase);
 };
