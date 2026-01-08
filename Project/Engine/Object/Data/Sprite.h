@@ -8,6 +8,7 @@
 #include <Engine/Core/Graphics/GPUObject/VertexBuffer.h>
 #include <Engine/Core/Graphics/GPUObject/IndexBuffer.h>
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
+#include <Engine/Input/InputStructures.h>
 
 // directX
 #include <Externals/DirectXTex/DirectXTex.h>
@@ -86,7 +87,7 @@ namespace SakuEngine {
 		void SetLayer(SpriteLayer layer) { layer_ = layer; }
 		void SetLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex) { layerIndex_ = static_cast<uint16_t>(layerIndex) + subLayerIndex; }
 		void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
-		void SetPostProcessEnable(bool enable) { postProccessEnable_ = enable; }
+		void SetPostProcessEnable(bool enable) { postProcessEnable_ = enable; }
 		void SetVertexColor(SpriteVertexPos pos, const Color& color) { vertexData_[static_cast<uint32_t>(pos)].color = color; }
 
 		static uint32_t GetIndexNum() { return kIndexNum_; }
@@ -94,7 +95,7 @@ namespace SakuEngine {
 		uint16_t GetLayerIndex() const { return static_cast<uint16_t>(layerIndex_); }
 		bool UseAlphaTexture() const { return alphaTextureName_.has_value(); }
 		BlendMode GetBlendMode() const { return blendMode_; }
-		bool IsPostProcessEnable() const { return postProccessEnable_; }
+		bool IsPostProcessEnable() const { return postProcessEnable_; }
 		const Color& GetVertexColor(SpriteVertexPos pos) const { return vertexData_[static_cast<uint32_t>(pos)].color; }
 
 		const VertexBuffer<SpriteVertexData>& GetVertexBuffer() const { return vertexBuffer_; }
@@ -114,16 +115,20 @@ namespace SakuEngine {
 
 		Asset* asset_;
 
+		// テクスチャ関連
 		std::string textureName_;
 		std::string preTextureName_;
 		std::optional<std::string> alphaTextureName_;
 		DirectX::TexMetadata metadata_;
+		// 現在の入力デバイスに応じてテクスチャを変更するか
+		bool isChangeDeviceTexture_ = false;
+		std::array<std::string, 2> deviceTextureNames_{};
 
 		// 描画順制御
 		SpriteLayer layer_;
 		uint16_t layerIndex_ = static_cast<uint16_t>(SpriteLayerIndex::None);
 		// ポストエフェクト適用有無(falseの場合renderTextureには描画しない)
-		bool postProccessEnable_ = false;
+		bool postProcessEnable_ = false;
 
 		// 頂点情報
 		std::vector<SpriteVertexData> vertexData_;
@@ -137,6 +142,8 @@ namespace SakuEngine {
 
 		// バッファ作成
 		void InitBuffer(ID3D12Device* device);
-	};
 
+		// 入力タイプをチェックしてテクスチャ名を更新
+		void UpdateDeviceTextureName();
+	};
 }; // SakuEngine
