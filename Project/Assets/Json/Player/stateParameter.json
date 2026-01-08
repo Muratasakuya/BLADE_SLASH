@@ -318,7 +318,15 @@
         "parryHitSEVolume_": 0.20000000298023224,
         "parryLerp_.easingType": 11,
         "parryLerp_.moveDistance": -50.0,
-        "parryLerp_.time": 0.47999998927116394
+        "parryLerp_.time": 0.47999998927116394,
+        "vibrationParams_": {
+            "attack": 0.05999999865889549,
+            "duration": 0.23999999463558197,
+            "left": 5.0,
+            "priority": 4,
+            "release": 0.20000000298023224,
+            "right": 5.0
+        }
     },
     "ParryWait": {
         "enemyDistance_": -12.0,

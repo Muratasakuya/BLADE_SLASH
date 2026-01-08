@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/MathLib/Vector2.h>
 
 // c++
 #include <cstdint>
@@ -105,4 +106,22 @@ enum class InputViewArea {
 
 	Game,
 	Scene
+};
+
+// 入力振動パラメータ
+struct InputVibrationParams {
+
+	float left;     // 0..1（低周波・重い）
+	float right;    // 0..1（高周波・軽い）
+	float duration; // 秒
+	float attack;   // フェードイン秒
+	float release;  // フェードアウト秒
+	int priority;   // 予約
+
+	// エディター
+	void ImGui(const char* label);
+
+	// json
+	void FromJson(const Json& data);
+	void ToJson(Json& data);
 };

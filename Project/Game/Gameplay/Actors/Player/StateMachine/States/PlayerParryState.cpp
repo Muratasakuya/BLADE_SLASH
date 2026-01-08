@@ -8,6 +8,7 @@
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 #include <Engine/Audio/Audio.h>
+#include <Engine/Input/Input.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -130,6 +131,9 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 			// パリィヒット音を再生
 			parryHitSEVolume_ += parryHitSEAddVolume_;
 			SakuEngine::Audio::GetInstance()->PlayOneShot(parryHitSE_, parryHitSEVolume_);
+
+			// コントローラー振動再生
+			SakuEngine::Input::GetInstance()->PlayVibration(vibrationParams_);
 		}
 	}
 }
@@ -310,6 +314,12 @@ void PlayerParryState::ImGui() {
 
 	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
+	vibrationParams_.ImGui("VibrationParams");
+	if (ImGui::Button("TestVibration")) {
+
+		SakuEngine::Input::GetInstance()->PlayVibration(vibrationParams_);
+	}
+
 	ImGui::SeparatorText("Parry: RED");
 
 	ImGui::DragFloat("time##Parry", &parryLerp_.time, 0.01f);
@@ -370,6 +380,8 @@ void PlayerParryState::ApplyJson(const Json& data) {
 	parryHitSEVolume_ = parryHitSEBaseVolume_;
 
 	parryHitSEAddVolume_ = data.value("parryHitSEAddVolume_", 0.1f);
+
+	vibrationParams_.FromJson(data.value("vibrationParams_", Json()));
 }
 
 void PlayerParryState::SaveJson(Json& data) {
@@ -391,4 +403,6 @@ void PlayerParryState::SaveJson(Json& data) {
 
 	data["parryHitSEVolume_"] = parryHitSEBaseVolume_;
 	data["parryHitSEAddVolume_"] = parryHitSEAddVolume_;
+
+	vibrationParams_.ToJson(data["vibrationParams_"]);
 }

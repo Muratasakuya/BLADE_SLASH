@@ -6,6 +6,7 @@
 #include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerIState.h>
 #include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Engine/Utility/Enum/Easing.h>
+#include <Engine/Input/InputStructures.h>
 
 //============================================================================
 //	PlayerParryState class
@@ -65,6 +66,7 @@ private:
 
 	// 入力
 	const SakuEngine::InputMapper<PlayerInputAction>* inputMapper_;
+	InputVibrationParams vibrationParams_;
 
 	// 攻撃制御
 	bool allowAttack_;

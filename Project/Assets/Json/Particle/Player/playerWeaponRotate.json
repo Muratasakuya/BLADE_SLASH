@@ -19,7 +19,7 @@
                                 "emitCount": {
                                     "constant": 2,
                                     "randomMax": 12,
-                                    "randomMin": 9,
+                                    "randomMin": 4,
                                     "valueType": 1
                                 },
                                 "lifeTime": {
