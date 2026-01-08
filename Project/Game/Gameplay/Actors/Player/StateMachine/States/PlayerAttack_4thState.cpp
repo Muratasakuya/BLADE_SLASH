@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Audio/Audio.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
@@ -92,6 +93,9 @@ void PlayerAttack_4thState::Update() {
 			groundCrackEffect_->Emit(emitPos);
 			// 発生済みにする
 			groundCrackEmitted_ = true;
+
+			// 衝撃波SE再生
+			SakuEngine::Audio::GetInstance()->PlayOneShot("playerShowWave");
 		}
 
 		// シェイク前にアニメーションを終了させる

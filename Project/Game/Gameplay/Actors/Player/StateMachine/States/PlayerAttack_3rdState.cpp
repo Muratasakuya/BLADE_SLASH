@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Audio/Audio.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -78,6 +79,9 @@ void PlayerAttack_3rdState::Enter() {
 
 		effect->Emit(SakuEngine::Vector3::AnyInit(0.0f));
 	}
+
+	// 剣振り音再生
+	SakuEngine::Audio::GetInstance()->PlayOneShot("swingSlash");
 }
 
 void PlayerAttack_3rdState::Update() {
@@ -207,6 +211,9 @@ void PlayerAttack_3rdState::LerpPlayer() {
 			player_->ResetWeaponTransform(PlayerWeaponType::Left);
 			player_->ResetWeaponTransform(PlayerWeaponType::Right);
 		}
+
+		// 剣を取りに行くときのSE再生
+		SakuEngine::Audio::GetInstance()->PlayOneShot("playerLightMove");
 		break;
 	}
 	}

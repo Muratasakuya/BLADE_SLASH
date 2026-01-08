@@ -28,9 +28,9 @@ PlayerParryState::PlayerParryState(const SakuEngine::InputMapper<PlayerInputActi
 	parryHitEffect_->Init("parryHitEffect", "PlayerEffect");
 	parryHitEffect_->LoadJson("GameEffectGroup/Player/playerParryHitEffect.json");
 	// 引きずる剣先
-	tipScrackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
-	tipScrackEffect_->Init("parryTipScrachEffect", "PlayerEffect");
-	tipScrackEffect_->LoadJson("GameEffectGroup/Player/playerParryTipScrachEffect.json");
+	tipScratchEffect_ = std::make_unique<SakuEngine::EffectGroup>();
+	tipScratchEffect_->Init("parryTipScrachEffect", "PlayerEffect");
+	tipScratchEffect_->LoadJson("GameEffectGroup/Player/playerParryTipScrachEffect.json");
 	// 攻撃ヒットエフェクト
 	hitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	hitEffect_->Init("parryAttackHit", "PlayerEffect");
@@ -57,7 +57,7 @@ void PlayerParryState::Enter() {
 	SakuEngine::GameTimer::StartHitStop(deltaWaitTime_, 0.0f);
 
 	// 剣先の引っかきエフェクトを発生させる
-	tipScrackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
+	tipScratchEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 
 	canExit_ = false;
 	isEmittedBlur_ = false;
@@ -89,8 +89,8 @@ void PlayerParryState::UpdateAlways() {
 	hitEffect_->Update();
 
 	// 剣先の座標を常に更新
-	tipScrackEffect_->SetWorldPos(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
-	tipScrackEffect_->Update();
+	tipScratchEffect_->SetWorldPos(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
+	tipScratchEffect_->Update();
 }
 
 void PlayerParryState::UpdateDeltaWaitTime() {
@@ -149,7 +149,7 @@ void PlayerParryState::UpdateLerpTranslation() {
 	if (parryLerp_.isFinished) {
 
 		// 補間終了後剣先エフェクトを停止させる
-		tipScrackEffect_->Stop();
+		tipScratchEffect_->Stop();
 	}
 }
 

@@ -89,14 +89,14 @@ private:
 	std::unique_ptr<SakuEngine::EffectGroup> parryHitEffect_;
 	float parryHitEffectPosY_;
 	// 引きずる剣先
-	std::unique_ptr<SakuEngine::EffectGroup> tipScrackEffect_;
+	std::unique_ptr<SakuEngine::EffectGroup> tipScratchEffect_;
 	// 攻撃ヒットエフェクト
 	std::unique_ptr<SakuEngine::EffectGroup> hitEffect_;
 	float hitEffectOffsetY_;
 
 	// サウンド
 	// パリィヒット音
-	const std::string parryHitSE_ = "parryHitSE_1";
+	const std::string parryHitSE_ = "parryHitSE";
 	// 実際にならす音量
 	float parryHitSEVolume_ = 1.0f;
 	// パリィヒット音の基本音量
