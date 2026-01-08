@@ -96,8 +96,13 @@ private:
 
 	// サウンド
 	// パリィヒット音
-	const std::string parryHitSE_ = "parryHitSE";
+	const std::string parryHitSE_ = "parryHitSE_1";
+	// 実際にならす音量
 	float parryHitSEVolume_ = 1.0f;
+	// パリィヒット音の基本音量
+	float parryHitSEBaseVolume_ = 1.0f;
+	// パリィ回数に応じた音量の加算値
+	float parryHitSEAddVolume_ = 0.1f;
 
 	//--------- functions ----------------------------------------------------
 

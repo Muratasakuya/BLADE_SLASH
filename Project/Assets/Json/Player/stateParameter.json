@@ -314,7 +314,8 @@
         "hitEffectOffsetY_": 3.0,
         "nextAnimDuration_": 0.08500000089406967,
         "parryEffectPosY_": 4.0,
-        "parryHitSEVolume_": 1.0,
+        "parryHitSEAddVolume_": 0.5,
+        "parryHitSEVolume_": 0.20000000298023224,
         "parryLerp_.easingType": 11,
         "parryLerp_.moveDistance": -50.0,
         "parryLerp_.time": 0.47999998927116394

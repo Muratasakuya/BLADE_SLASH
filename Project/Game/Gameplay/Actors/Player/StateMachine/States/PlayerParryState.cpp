@@ -128,6 +128,7 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 			isEmittedBlur_ = true;
 
 			// パリィヒット音を再生
+			parryHitSEVolume_ += parryHitSEAddVolume_;
 			SakuEngine::Audio::GetInstance()->PlayOneShot(parryHitSE_, parryHitSEVolume_);
 		}
 	}
@@ -269,6 +270,8 @@ void PlayerParryState::Exit() {
 
 		// カメラアニメーションを終了させる
 		followCamera_->EndCameraAnim();
+		// 音量リセット
+		parryHitSEVolume_ = parryHitSEBaseVolume_;
 	}
 
 	// リセット
@@ -292,7 +295,15 @@ void PlayerParryState::ImGui() {
 	ImGui::DragFloat("cameraLookRate", &cameraLookRate_, 0.01f);
 	ImGui::DragFloat("parryHitEffectPosY", &parryHitEffectPosY_, 0.01f);
 	ImGui::DragFloat("hitEffectOffsetY", &hitEffectOffsetY_, 0.01f);
-	ImGui::DragFloat("parryHitSEVolume", &parryHitSEVolume_, 0.01f);
+
+	ImGui::SeparatorText("Sound");
+
+	ImGui::Text("parryHitSEVolume: %.3f", parryHitSEVolume_);
+	if (ImGui::DragFloat("parryHitSEVolume", &parryHitSEBaseVolume_, 0.01f)) {
+
+		parryHitSEVolume_ = parryHitSEBaseVolume_;
+	}
+	ImGui::DragFloat("parryHitSEAddVolume", &parryHitSEAddVolume_, 0.01f);
 
 	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("stratPos", startPos_);
 	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("targetPos", targetPos_);
@@ -355,7 +366,10 @@ void PlayerParryState::ApplyJson(const Json& data) {
 	attackLerp_.easingType = static_cast<EasingType>(
 		SakuEngine::JsonAdapter::GetValue<int>(data, "attackLerp_.easingType"));
 
-	parryHitSEVolume_ = data.value("parryHitSEVolume_", 1.0f);
+	parryHitSEBaseVolume_ = data.value("parryHitSEVolume_", 1.0f);
+	parryHitSEVolume_ = parryHitSEBaseVolume_;
+
+	parryHitSEAddVolume_ = data.value("parryHitSEAddVolume_", 0.1f);
 }
 
 void PlayerParryState::SaveJson(Json& data) {
@@ -375,5 +389,6 @@ void PlayerParryState::SaveJson(Json& data) {
 	data["attackLerp_.moveDistance"] = attackLerp_.moveDistance;
 	data["attackLerp_.easingType"] = static_cast<int>(attackLerp_.easingType);
 
-	data["parryHitSEVolume_"] = parryHitSEVolume_;
+	data["parryHitSEVolume_"] = parryHitSEBaseVolume_;
+	data["parryHitSEAddVolume_"] = parryHitSEAddVolume_;
 }
