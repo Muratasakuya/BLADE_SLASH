@@ -7,14 +7,15 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Input/Input.h>
+#include <Engine/Audio/Audio.h>
 #include <Engine/Asset/AssetEditor.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Collision/CollisionManager.h>
 #include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
-#include <Engine/Config.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
+#include <Engine/Config.h>
 
 //============================================================================
 //	Framework classMethods
@@ -130,22 +131,27 @@ Framework::Framework() {
 	//------------------------------------------------------------------------
 	// module初期化
 
+	// 入力初期化
 	Input::GetInstance()->Init(winApp_.get());
+	// オーディオ初期化
+	Audio::GetInstance()->Init();
+
 	SakuEngine::LineRenderer::GetInstance()->Init(device, dxCommand->GetCommandList(),
 		srvDescriptor, shaderCompiler, sceneView_.get());
 	AssetEditor::GetInstance()->Init(asset_.get());
 	CameraEditor::GetInstance()->Init(sceneView_.get());
 
 	//------------------------------------------------------------------------
-	// imgui機能初期化
+	// エディター機能初期化
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
+
 	imguiEditor_ = std::make_unique<ImGuiEditor>();
 	imguiEditor_->Init(renderEngine_->GetRenderTextureGPUHandle(),
 		postProcessSystem->GetCopySRVGPUHandle());
 	imguiEditor_->LoadIconTextures(asset_.get());
 
-	// console表示用
+	// コンソール表示用
 	imguiEditor_->SetConsoleViewDescriptor(DescriptorHeapType::SRV, srvDescriptor);
 	imguiEditor_->SetConsoleViewDescriptor(DescriptorHeapType::RTV, renderEngine_->GetRTVDescriptor());
 	imguiEditor_->SetConsoleViewDescriptor(DescriptorHeapType::DSV, renderEngine_->GetDSVDescriptor());
@@ -309,6 +315,7 @@ void Framework::Finalize() {
 	graphicsPlatform_->Finalize(winApp_->GetHwnd());
 	renderEngine_->Finalize();
 	Input::GetInstance()->Finalize();
+	Audio::GetInstance()->Finalize();
 	SakuEngine::LineRenderer::GetInstance()->Finalize();
 
 	sceneManager_.reset();
