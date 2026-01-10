@@ -85,17 +85,15 @@ void GamecButtonFocusNavigator::Update() {
 
 	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
 
-	// マウス(キーボード操作も含む)かパッド操作か判定
-	for (const auto& button : items_) {
-		if (button) {
+	// --- キーボード入力（A/D） ---
+	const bool keyLeft = input->TriggerKey(static_cast<BYTE>(KeyDIKCode::A));
+	const bool keyRight = input->TriggerKey(static_cast<BYTE>(KeyDIKCode::D));
+	const bool keyDecide =
+		input->TriggerKey(static_cast<BYTE>(KeyDIKCode::RETURN)) ||
+		input->TriggerKey(static_cast<BYTE>(KeyDIKCode::SPACE));
 
-			// 判定が競合しないようにする
-			button->SetEnableCollision(false);
-		}
-	}
-
-	// 左右入力判定
-	bool decide = input->TriggerGamepadButton(GamePadButtons::A);
+	// --- ゲームパッド入力（従来） ---
+	const bool padDecide = input->TriggerGamepadButton(GamePadButtons::A);
 
 	float lx = input->GetLeftStickVal().x;
 	float dz = input->GetDeadZone();
@@ -103,32 +101,48 @@ void GamecButtonFocusNavigator::Update() {
 		axisLatched_ = false;
 	}
 
-	bool axisLeft = (lx <= -dz) && !axisLatched_;
-	bool axisRight = (lx >= dz) && !axisLatched_;
+	const bool axisLeft = (lx <= -dz) && !axisLatched_;
+	const bool axisRight = (lx >= dz) && !axisLatched_;
 
-	if (!hasFocus_ && (decide || axisLeft || axisRight)) {
+	// まとめ
+	const bool moveLeft = keyLeft || axisLeft;
+	const bool moveRight = keyRight || axisRight;
+	const bool decide = keyDecide || padDecide;
 
+	// ★ゲームパッド操作中は常にマウス当たり判定を殺す（従来挙動維持）
+	const bool forceNoMouse = (input->GetType() != InputType::Keyboard);
+
+	// 入力がある/フォーカス中/ゲームパッド中ならマウス判定を無効化
+	if (forceNoMouse || hasFocus_ || moveLeft || moveRight || decide) {
+		for (const auto& button : items_) {
+			if (button) button->SetEnableCollision(false);
+		}
+	}
+
+	// 初回入力でフォーカスを立てる（従来挙動）
+	if (!hasFocus_ && (decide || moveLeft || moveRight)) {
 		index_ = defaultIndex_;
 		hasFocus_ = true;
+
 		if (axisLeft || axisRight) {
 			axisLatched_ = true;
 		}
 		ApplyVisuals();
-		return;
+		return; // ※従来通り「初回はフォーカスだけ」
 	}
 
-	// 入力判定結果に応じてインデックスを設定
-	if (axisLeft) {
+	// 左右
+	if (moveLeft) {
 		MoveLeft();
-		axisLatched_ = true;
+		if (axisLeft) axisLatched_ = true;
 	}
-	if (axisRight) {
+	if (moveRight) {
 		MoveRight();
-		axisLatched_ = true;
+		if (axisRight) axisLatched_ = true;
 	}
 
+	// 決定
 	if (decide) {
-
 		Confirm();
 	}
 }

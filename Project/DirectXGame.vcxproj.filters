@@ -2922,6 +2922,8 @@
     <ClCompile Include="Engine\Collision\CollisionResolution.cpp" />
     <ClCompile Include="Engine\Collision\CollisionDebugDraw.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp" />
+    <ClCompile Include="Engine\Audio\Audio.cpp" />
+    <ClCompile Include="Engine\Input\InputStructures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2950,5 +2952,6 @@
     <ClInclude Include="Engine\Collision\CollisionResolution.h" />
     <ClInclude Include="Engine\Collision\CollisionDebugDraw.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h" />
+    <ClInclude Include="Engine\Audio\Audio.h" />
   </ItemGroup>
 </Project>

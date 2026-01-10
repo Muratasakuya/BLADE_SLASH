@@ -34,8 +34,8 @@ void FollowCameraLookInputSmoother::Execute([[maybe_unused]] FollowCameraContext
 	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
 	// 入力値を取得する
 	SakuEngine::Vector2 inputValue{};
-	inputValue.x = inputMapper_->GetVector(FollowCameraInputAction::RotateX, inputType);
-	inputValue.y = inputMapper_->GetVector(FollowCameraInputAction::RotateY, inputType);
+	inputValue.x = inputMapper_->GetVector(FollowCameraInputAction::RotateX, inputType, false);
+	inputValue.y = inputMapper_->GetVector(FollowCameraInputAction::RotateY, inputType, false);
 
 	// 入力をフレーム補間で少しずつ補間する
 	float t = std::clamp(inputLerpRate_ * deltaTime, 0.0f, 1.0f);
@@ -67,8 +67,8 @@ void FollowCameraLookInputSmoother::ImGui() {
 
 	// 入力値を取得する
 	SakuEngine::Vector2 inputValue{};
-	inputValue.x = inputMapper_->GetVector(FollowCameraInputAction::RotateX, inputType);
-	inputValue.y = inputMapper_->GetVector(FollowCameraInputAction::RotateY, inputType);
+	inputValue.x = inputMapper_->GetVector(FollowCameraInputAction::RotateX, inputType, false);
+	inputValue.y = inputMapper_->GetVector(FollowCameraInputAction::RotateY, inputType, false);
 	ImGui::Text("InputValue:         (%.2f / %.2f)", inputValue.x, inputValue.y);
 
 	ImGui::Text("SmoothedInput:      (%.2f / %.2f)", smoothedInput_.x, smoothedInput_.y);

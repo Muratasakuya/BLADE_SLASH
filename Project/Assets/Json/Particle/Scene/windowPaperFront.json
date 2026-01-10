@@ -1,0 +1,210 @@
+{
+    "CPUGroups": [
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 0,
+            "modelName": "",
+            "name": "papers_0",
+            "phases": [
+                {
+                    "duration": 0.11999999731779099,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 1,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.800000011920929,
+                                    "randomMax": 12.0,
+                                    "randomMin": 4.0,
+                                    "valueType": 1
+                                },
+                                "moveSpeed": {
+                                    "constant": 32.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "whiteAlphaGradation_0",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XY",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "white",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "emitterRotation": {
+                                "x": 0.0,
+                                "y": 3.140000104904175,
+                                "z": 0.0
+                            },
+                            "size": {
+                                "x": 600.0,
+                                "y": 32.0,
+                                "z": 2.0
+                            },
+                            "translation": {
+                                "x": 0.0,
+                                "y": 43.439998626708984,
+                                "z": 220.0
+                            }
+                        },
+                        "type": "Box"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "LookToVelocity"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "PingPong"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 2.0,
+                                        "y": 2.0,
+                                        "z": 2.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "target": {
+                                        "a": 0.0,
+                                        "b": 0.14816105365753174,
+                                        "g": 0.6967271566390991,
+                                        "r": 0.9122527241706848
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "PingPong"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "direction": {
+                                    "x": 0.9371777772903442,
+                                    "y": -0.34885215759277344,
+                                    "z": 0.0
+                                },
+                                "reflectGround": true,
+                                "reflectGroundY": 1.0,
+                                "restitution": 0.15000000596046448,
+                                "strength": 9.800000190734863
+                            },
+                            "type": "Gravity"
+                        },
+                        {
+                            "params": {
+                                "anchorToSpawn_": true,
+                                "damping_": 0.0,
+                                "frequency_": 0.5,
+                                "octaves_": 3,
+                                "offsetAmp_": {
+                                    "x": 0.20000000298023224,
+                                    "y": 0.20000000298023224,
+                                    "z": 0.20000000298023224
+                                },
+                                "seed_": 1337,
+                                "strength_": 1.0,
+                                "timeScale_": 0.30000001192092896
+                            },
+                            "type": "NoiseForce"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Plane",
+            "textureName": ""
+        }
+    ],
+    "name": "windowPaperFront",
+    "primitiveType": "Plane"
+}

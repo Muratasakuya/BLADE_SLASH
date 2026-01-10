@@ -56,9 +56,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -98,6 +98,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -485,9 +486,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -527,6 +528,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -902,9 +904,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -944,6 +946,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -1316,9 +1319,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -1358,6 +1361,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -1707,9 +1711,9 @@
                             },
                             "stepAngle_": 15.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             },
                             "velocityMode_": "Normal"
                         },
@@ -1750,6 +1754,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -1957,9 +1962,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -1999,6 +2004,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -2432,9 +2438,9 @@
                             },
                             "radius": 0.5,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -2474,6 +2480,7 @@
                                         "z": 0.00016697852697689086
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -2639,7 +2646,7 @@
                                 "easingType": "EaseOutExpo",
                                 "lightning": {
                                     "isLookAtEnd": false,
-                                    "isRefSpawnPos_": true,
+                                    "isRefSpawnPos_": false,
                                     "startAmplitude": 0.6399999856948853,
                                     "startAngle": 0.0,
                                     "startEnd": {
@@ -2852,9 +2859,9 @@
                             "height": 2.0,
                             "topRadius": 33.150001525878906,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Cone"
@@ -2894,6 +2901,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -3271,9 +3279,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -3313,6 +3321,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,
@@ -3834,9 +3843,9 @@
                             },
                             "radius": 20.0,
                             "translation": {
-                                "x": 0.0,
-                                "y": 0.800000011920929,
-                                "z": 0.0
+                                "x": 18.29267692565918,
+                                "y": 0.8999999761581421,
+                                "z": -384.39898681640625
                             }
                         },
                         "type": "Sphere"
@@ -3876,6 +3885,7 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
                                 "lockRotation": {
                                     "w": 1.0,

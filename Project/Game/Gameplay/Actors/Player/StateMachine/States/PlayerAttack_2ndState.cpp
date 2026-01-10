@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Audio/Audio.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
@@ -59,6 +60,9 @@ void PlayerAttack_2ndState::Enter() {
 
 	// 剣エフェクトの発生
 	slash1stEffect_->Emit(player_->GetRotation() * slash1stEffectOffset_);
+
+	// 剣振り音再生
+	SakuEngine::Audio::GetInstance()->PlayOneShot("swingSlash");
 }
 
 void PlayerAttack_2ndState::Update() {
@@ -200,6 +204,8 @@ bool PlayerAttack_2ndState::LerpAlongSegments() {
 		if (currentIndex_ == 0) {
 
 			slash2ndEffect_->Emit(player_->GetRotation() * slash2ndEffectOffset_);
+			// 剣振り音再生
+			SakuEngine::Audio::GetInstance()->PlayOneShot("swingSlash");
 		}
 
 		segmentTimer_ = 0.0f;

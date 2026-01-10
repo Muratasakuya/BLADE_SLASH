@@ -105,7 +105,7 @@ private:
 		UI() = default;
 		~UI() = default;
 
-		 // コピー禁止
+		// コピー禁止
 		UI(const UI&) = delete;
 		UI& operator=(const UI&) = delete;
 
@@ -130,7 +130,7 @@ private:
 
 	// フォーカス処理
 	int focusedUIIndex_ = -1;                    // 現在フォーカスしているUIのインデックス
-	SakuEngine::Vector2Int currentCoordinate_;               // 現在のマップ位置
+	SakuEngine::Vector2Int currentCoordinate_;   // 現在のマップ位置
 	std::vector<int32_t> inputAcceptMapNumbers_; // 入力を受け付けるマップ番号のリスト
 
 	// エディター

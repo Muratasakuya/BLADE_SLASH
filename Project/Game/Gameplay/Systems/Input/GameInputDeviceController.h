@@ -31,6 +31,9 @@ public:
 
 	// 更新
 	void Update();
+	// マウス制御を行わない更新、非表示のみ行う
+	void NonControlUpdate();
+	void ResultUpdateMouse(bool isDisplayFinished);
 
 	// エディター
 	void ImGui() override;
@@ -39,7 +42,6 @@ public:
 
 	// フラグの設定
 	void SetIsDisplayMouse(bool isDisplay) { isDisplayMouse_ = isDisplay; }
-	void SetIsControlMoveMouse(bool isControl) { isControlMoveMouse_ = isControl; }
 private:
 	//========================================================================
 	//	private Methods

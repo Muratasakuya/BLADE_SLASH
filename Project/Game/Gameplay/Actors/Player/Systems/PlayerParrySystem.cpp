@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Input/Input.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/StateMachine/PlayerStateController.h>
 
@@ -40,8 +41,11 @@ void PlayerParrySystem::TryReserveByInput(PlayerStateController& controller,
 		return;
 	}
 
+	// 現在の入力タイプ
+	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
+
 	// パリィ入力が無ければ何もしない
-	if (!inputMapper.IsTriggered(PlayerInputAction::Parry)) {
+	if (!inputMapper.IsTriggered(PlayerInputAction::Parry, inputType)) {
 		return;
 	}
 

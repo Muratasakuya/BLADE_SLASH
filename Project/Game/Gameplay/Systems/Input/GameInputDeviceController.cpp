@@ -24,12 +24,24 @@ void GameInputDeviceController::Init() {
 	validInputTypes_[static_cast<uint32_t>(InputType::GamePad)] = true;
 	validInputTypes_[static_cast<uint32_t>(InputType::Keyboard)] = true;
 
-	// マウスフラグ設定
-	isDisplayMouse_ = true;
-	isControlMoveMouse_ = false;
-
 	// json適用
 	ApplyJson();
+
+	// マウスフラグ設定
+	// リリース起動したとき、マウスを非表示、移動制御する
+#if defined(_RELEASE)
+
+	isDisplayMouse_ = false;
+	isControlMoveMouse_ = true;
+#else
+
+	isDisplayMouse_ = true;
+	isControlMoveMouse_ = false;
+#endif
+	// フラグの初期化
+	preIsDisplayMouse_ = !isDisplayMouse_;
+	preIsControlMoveMouse_ = !isControlMoveMouse_;
+	UpdateMouseControl();
 }
 
 void GameInputDeviceController::Update() {
@@ -38,6 +50,50 @@ void GameInputDeviceController::Update() {
 	UpdateMouseControl();
 	// 入力タイプの更新
 	UpdateInputType();
+}
+
+void GameInputDeviceController::NonControlUpdate() {
+
+	// クリップ解除
+	SakuEngine::WinApp::ReleaseCursorClip();
+	// マウス表示制御
+	if (preIsDisplayMouse_ != isDisplayMouse_) {
+
+		SakuEngine::WinApp::SetCursorVisible(isDisplayMouse_);
+		preIsDisplayMouse_ = isDisplayMouse_;
+	}
+}
+
+void GameInputDeviceController::ResultUpdateMouse(bool isDisplayFinished) {
+
+	// Resultは常に範囲制限しない
+	SakuEngine::WinApp::ReleaseCursorClip();
+
+	// 直近デバイスを更新
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+
+	// 同フレームで両方来たらキーボード優先
+	if (keyboard_->IsTriggered(GameInputAction::Use)) {
+
+		inputType_ = InputType::Keyboard;
+	} else if (gamepad_->IsTriggered(GameInputAction::Use)) {
+
+		inputType_ = InputType::GamePad;
+	}
+
+	input->SetInputType(inputType_);
+	// マウス表示制御
+	bool visible = isDisplayFinished && (inputType_ == InputType::Keyboard);
+	SakuEngine::WinApp::SetCursorVisible(visible);
+
+	// フラグの更新
+	isControlMoveMouse_ = false;
+	isDisplayMouse_ = visible;
+
+	// WinAppへ反映
+	SakuEngine::WinApp::SetCursorVisible(visible);
+	preIsDisplayMouse_ = isDisplayMouse_;
+	preIsControlMoveMouse_ = isControlMoveMouse_;
 }
 
 void GameInputDeviceController::UpdateMouseControl() {
@@ -68,15 +124,11 @@ void GameInputDeviceController::UpdateMouseControl() {
 	preIsDisplayMouse_ = isDisplayMouse_;
 	preIsControlMoveMouse_ = isControlMoveMouse_;
 
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
-
-	// ImGui上ではマウスを表示する
-	ImGui::GetIO().MouseDrawCursor = !isDisplayMouse_;
-	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+	if (SakuEngine::Input::GetInstance()->PushKey(DIK_RETURN) &&
+		SakuEngine::Input::GetInstance()->TriggerKey(DIK_F1)) {
 
 		isControlMoveMouse_ = false;
 	}
-#endif
 }
 
 void GameInputDeviceController::UpdateInputType() {

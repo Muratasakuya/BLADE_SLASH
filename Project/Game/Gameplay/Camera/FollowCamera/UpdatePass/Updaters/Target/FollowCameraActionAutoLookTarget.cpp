@@ -96,8 +96,22 @@ void FollowCameraActionAutoLookTarget::UpdateLookToTarget(FollowCameraContext& c
 
 Quaternion FollowCameraActionAutoLookTarget::GetTargetRotation(const Parameter& parameter) const {
 
-	// 向きを取得
-	SakuEngine::Vector3 direction = Math::GetDirection3D(*dependencies_.player, *dependencies_.bossEnemy);
+	// AreaCheckMethodに応じて向く先を決定
+	SakuEngine::Vector3 direction{};
+	{
+		switch (parameter.areaCheckMethod) {
+		case FollowCameraActionAutoLookTarget::AreaCheckMethod::InCamera:
+
+			// カメラ内なら注視点へ向く
+			direction = Math::GetDirection3D(*dependencies_.player, *dependencies_.bossEnemy);
+			break;
+		case FollowCameraActionAutoLookTarget::AreaCheckMethod::OutCamera:
+
+			// カメラ外ならプレイヤーの進行方向を向く
+			direction = dependencies_.player->GetTransform().GetForward();
+			break;
+		}
+	}
 
 	// Y軸の回転
 	Quaternion yawRotation = Quaternion::LookRotation(direction, Direction::Get(Direction3D::Up));
@@ -110,16 +124,29 @@ Quaternion FollowCameraActionAutoLookTarget::GetTargetRotation(const Parameter& 
 	return targetRotation;
 }
 
+bool FollowCameraActionAutoLookTarget::CheckArea(AreaCheckMethod method) const {
+
+	bool result = false;
+	switch (method) {
+	case FollowCameraActionAutoLookTarget::AreaCheckMethod::InCamera:
+
+		// エリア内にいるかチェック
+		result = areaChecker_->IsInRange(AreaReactionType::LerpCamera);
+		break;
+	case FollowCameraActionAutoLookTarget::AreaCheckMethod::OutCamera:
+
+		// エリア外にいるかチェック
+		result = !areaChecker_->IsInRange(AreaReactionType::LerpCamera);
+		break;
+	}
+	return result;
+}
+
 //=======================================================================================================================
 //	状態チェック処理
 //=======================================================================================================================
 
 void FollowCameraActionAutoLookTarget::UpdateStateCheck(const FollowCameraContext& context) {
-
-	// エリア内にいるかチェック、範囲外なら何もしない
-	if (!areaChecker_->IsInRange(AreaReactionType::LerpCamera)) {
-		return;
-	}
 
 	// プレイヤーの状態と敵の状態を取得
 	PlayerState playerState = dependencies_.player->GetCurrentState();
@@ -157,6 +184,14 @@ void FollowCameraActionAutoLookTarget::UpdateStateCheck(const FollowCameraContex
 	// 候補が無いなら何もしない
 	auto best = BuildBestCandidate();
 	if (!best.has_value()) {
+		return;
+	}
+
+	// 対象が処理エリア外なら終了
+	if (!CheckArea(best.value().parameter->areaCheckMethod)) {
+		currentParameter_ = std::nullopt;
+		targetRotation_ = std::nullopt;
+		currentPriority_ = 0;
 		return;
 	}
 
@@ -271,7 +306,11 @@ void FollowCameraActionAutoLookTarget::StartCandidate(
 
 	// 最短方向を取得
 	// yaw方向決定
-	const float yawDelta = SakuEngine::Math::YawSignedDelta(startRotation_, dependencies_.bossEnemy->GetRotation());
+	float yawDelta = 0.0f;
+	// AreaCheckMethodに応じて基準点から見た方向を決定
+	yawDelta = candidate.parameter->areaCheckMethod == AreaCheckMethod::InCamera ?
+		SakuEngine::Math::YawSignedDelta(startRotation_, dependencies_.bossEnemy->GetRotation()) :
+		SakuEngine::Math::YawSignedDelta(startRotation_, dependencies_.player->GetRotation());
 	if (std::abs(yawDelta) <= Config::kEpsilon) {
 
 		// どちらでも良いので右にする
@@ -305,6 +344,7 @@ void FollowCameraActionAutoLookTarget::Parameter::ImGui(const std::string& label
 	ImGui::Checkbox("isLockTarget", &isLockTarget);
 	ImGui::DragFloat("targetXRotation", &targetXRotation, 0.01f);
 	ImGui::DragFloat("lookYawOffset", &lookYawOffset, 0.001f);
+	EnumAdapter<AreaCheckMethod>::Combo("areaCheckMethod", &areaCheckMethod);
 
 	lookTimer.ImGui("LookTimer", true);
 
@@ -369,43 +409,45 @@ void FollowCameraActionAutoLookTarget::ImGui() {
 		for (int32_t i = 0; i < static_cast<int32_t>(playerRules_.size()); ++i) {
 
 			auto& rule = playerRules_[i];
-			ImGui::Separator();
 			ImGui::PushID(i);
+			if (ImGui::TreeNode(EnumAdapter<PlayerState>::ToString(rule.state))) {
 
-			ImGui::Checkbox("enabled", &rule.enabled);
-			ImGui::DragInt("priority", &rule.priority, 1, -999, 999);
+				ImGui::Checkbox("enabled", &rule.enabled);
+				ImGui::DragInt("priority", &rule.priority, 1, -999, 999);
 
-			// 状態コンボボックス
-			{
-				int32_t current = static_cast<int>(rule.state);
-				const int32_t count = static_cast<int32_t>(PlayerState::Count);
-				if (ImGui::BeginCombo("state", EnumAdapter<PlayerState>::ToString(rule.state))) {
-					for (int s = 0; s < count; ++s) {
+				// 状態コンボボックス
+				{
+					int32_t current = static_cast<int>(rule.state);
+					const int32_t count = static_cast<int32_t>(PlayerState::Count);
+					if (ImGui::BeginCombo("state", EnumAdapter<PlayerState>::ToString(rule.state))) {
+						for (int s = 0; s < count; ++s) {
 
-						PlayerState state = static_cast<PlayerState>(s);
-						bool selected = (s == current);
-						if (ImGui::Selectable(EnumAdapter<PlayerState>::ToString(state), selected)) {
+							PlayerState state = static_cast<PlayerState>(s);
+							bool selected = (s == current);
+							if (ImGui::Selectable(EnumAdapter<PlayerState>::ToString(state), selected)) {
 
-							rule.state = state;
+								rule.state = state;
+							}
+							if (selected) {
+								ImGui::SetItemDefaultFocus();
+							}
 						}
-						if (selected) {
-							ImGui::SetItemDefaultFocus();
-						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
 				}
-			}
 
-			// パラメータの値操作
-			rule.parameter.ImGui("Parameter");
+				// パラメータの値操作
+				rule.parameter.ImGui("Parameter");
 
-			// 削除
-			if (ImGui::Button("Remove")) {
+				// 削除
+				if (ImGui::Button("Remove")) {
 
-				playerRules_.erase(playerRules_.begin() + i);
-				ImGui::PopID();
-				--i;
-				continue;
+					playerRules_.erase(playerRules_.begin() + i);
+					ImGui::PopID();
+					--i;
+					continue;
+				}
+				ImGui::TreePop();
 			}
 			ImGui::PopID();
 		}
@@ -442,43 +484,46 @@ void FollowCameraActionAutoLookTarget::ImGui() {
 		for (int32_t i = 0; i < static_cast<int32_t>(bossRules_.size()); ++i) {
 
 			auto& rule = bossRules_[i];
-			ImGui::Separator();
+
 			ImGui::PushID(10000 + i);
+			if (ImGui::TreeNode(EnumAdapter<BossEnemyState>::ToString(rule.state))) {
 
-			ImGui::Checkbox("enabled", &rule.enabled);
-			ImGui::DragInt("priority", &rule.priority, 1, -999, 999);
+				ImGui::Checkbox("enabled", &rule.enabled);
+				ImGui::DragInt("priority", &rule.priority, 1, -999, 999);
 
-			// 状態コンボボックス
-			{
-				int32_t current = static_cast<int>(rule.state);
-				const int32_t count = static_cast<int32_t>(BossEnemyState::Count);
-				if (ImGui::BeginCombo("state", EnumAdapter<BossEnemyState>::ToString(rule.state))) {
-					for (int32_t s = 0; s < count; ++s) {
+				// 状態コンボボックス
+				{
+					int32_t current = static_cast<int>(rule.state);
+					const int32_t count = static_cast<int32_t>(BossEnemyState::Count);
+					if (ImGui::BeginCombo("state", EnumAdapter<BossEnemyState>::ToString(rule.state))) {
+						for (int32_t s = 0; s < count; ++s) {
 
-						BossEnemyState state = static_cast<BossEnemyState>(s);
-						bool selected = (s == current);
-						if (ImGui::Selectable(EnumAdapter<BossEnemyState>::ToString(state), selected)) {
+							BossEnemyState state = static_cast<BossEnemyState>(s);
+							bool selected = (s == current);
+							if (ImGui::Selectable(EnumAdapter<BossEnemyState>::ToString(state), selected)) {
 
-							rule.state = state;
+								rule.state = state;
+							}
+							if (selected) {
+								ImGui::SetItemDefaultFocus();
+							}
 						}
-						if (selected) {
-							ImGui::SetItemDefaultFocus();
-						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
 				}
-			}
 
-			// パラメータの値操作
-			rule.parameter.ImGui("Parameter");
+				// パラメータの値操作
+				rule.parameter.ImGui("Parameter");
 
-			// 削除
-			if (ImGui::Button("Remove")) {
+				// 削除
+				if (ImGui::Button("Remove")) {
 
-				bossRules_.erase(bossRules_.begin() + i);
-				ImGui::PopID();
-				--i;
-				continue;
+					bossRules_.erase(bossRules_.begin() + i);
+					ImGui::PopID();
+					--i;
+					continue;
+				}
+				ImGui::TreePop();
 			}
 			ImGui::PopID();
 		}
@@ -595,6 +640,7 @@ void FollowCameraActionAutoLookTarget::Parameter::FromJson(const Json& data) {
 	isLockTarget = data.value("isLockTarget", true);
 	targetXRotation = data.value("targetXRotation", 0.0f);
 	lookYawOffset = data.value("lookYawOffset", 0.0f);
+	areaCheckMethod = EnumAdapter<AreaCheckMethod>::FromString(data.value("areaCheckMethod", "InCamera")).value();
 	lookTimer.FromJson(data.value("lookTimer", Json()));
 }
 
@@ -603,6 +649,7 @@ void FollowCameraActionAutoLookTarget::Parameter::ToJson(Json& data) {
 	data["isLockTarget"] = isLockTarget;
 	data["targetXRotation"] = targetXRotation;
 	data["lookYawOffset"] = lookYawOffset;
+	data["areaCheckMethod"] = EnumAdapter<AreaCheckMethod>::ToString(areaCheckMethod);
 	lookTimer.ToJson(data["lookTimer"]);
 }
 

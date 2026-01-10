@@ -12,9 +12,9 @@ using namespace SakuEngine;
 // imgui表示
 #include <Engine/Asset/AssetEditor.h>
 #include <Engine/Asset/Asset.h>
+#include <Engine/Audio/Audio.h>
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 #include <Engine/Editor/Manager/GameEditorManager.h>
-#include <Engine/Editor/Curve/CurveValueEditor.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -123,7 +123,7 @@ void ImGuiEditor::Display(SceneView* sceneView) {
 
 	AssetEdit();
 
-	CurveEdit();
+	AudioEdit();
 
 	SelectObjectFocus(sceneView);
 }
@@ -347,11 +347,11 @@ void ImGuiEditor::AssetEdit() {
 	ImGui::End();
 }
 
-void ImGuiEditor::CurveEdit() {
+void ImGuiEditor::AudioEdit() {
 
-	ImGui::Begin("Curve", nullptr, windowFlag_);
+	ImGui::Begin("Audio", nullptr, windowFlag_);
 
-	CurveValueEditor::GetInstance()->Edit();
+	Audio::GetInstance()->ImGui();
 
 	ImGui::End();
 }

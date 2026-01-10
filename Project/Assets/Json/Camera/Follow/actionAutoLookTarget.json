@@ -5,6 +5,7 @@
         {
             "enabled": true,
             "parameter": {
+                "areaCheckMethod": "InCamera",
                 "isLockTarget": false,
                 "lookTimer": {
                     "easeingType_": "EaseOutSine",
@@ -21,6 +22,22 @@
         {
             "enabled": true,
             "parameter": {
+                "areaCheckMethod": "InCamera",
+                "isLockTarget": true,
+                "lookTimer": {
+                    "easeingType_": "EaseOutQuint",
+                    "target_": 0.5
+                },
+                "lookYawOffset": 0.3199999928474426,
+                "targetXRotation": 0.10000000149011612
+            },
+            "priority": 20,
+            "state": "Falter"
+        },
+        {
+            "enabled": true,
+            "parameter": {
+                "areaCheckMethod": "InCamera",
                 "isLockTarget": true,
                 "lookTimer": {
                     "easeingType_": "EaseOutQuint",
@@ -35,16 +52,17 @@
         {
             "enabled": true,
             "parameter": {
+                "areaCheckMethod": "OutCamera",
                 "isLockTarget": true,
                 "lookTimer": {
-                    "easeingType_": "EaseOutQuint",
-                    "target_": 0.5
+                    "easeingType_": "EaseInOutQuad",
+                    "target_": 0.7699999809265137
                 },
-                "lookYawOffset": 0.3199999928474426,
-                "targetXRotation": 0.10000000149011612
+                "lookYawOffset": 0.2199999988079071,
+                "targetXRotation": 0.1599999964237213
             },
-            "priority": 20,
-            "state": "Falter"
+            "priority": 10,
+            "state": "Attack_4th"
         }
     ],
     "tieBreak_": "PreferBoss",

@@ -7,6 +7,8 @@
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+#include <Engine/Audio/Audio.h>
+#include <Engine/Input/Input.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -19,7 +21,7 @@
 PlayerParryState::PlayerParryState(const SakuEngine::InputMapper<PlayerInputAction>* inputMapper) {
 
 	inputMapper_ = inputMapper;
-	isEmitedBlur_ = false;
+	isEmittedBlur_ = false;
 
 	// エフェクト作成
 	// ヒットした瞬間
@@ -27,9 +29,9 @@ PlayerParryState::PlayerParryState(const SakuEngine::InputMapper<PlayerInputActi
 	parryHitEffect_->Init("parryHitEffect", "PlayerEffect");
 	parryHitEffect_->LoadJson("GameEffectGroup/Player/playerParryHitEffect.json");
 	// 引きずる剣先
-	tipScrackEffect_ = std::make_unique<SakuEngine::EffectGroup>();
-	tipScrackEffect_->Init("parryTipScrachEffect", "PlayerEffect");
-	tipScrackEffect_->LoadJson("GameEffectGroup/Player/playerParryTipScrachEffect.json");
+	tipScratchEffect_ = std::make_unique<SakuEngine::EffectGroup>();
+	tipScratchEffect_->Init("parryTipScrachEffect", "PlayerEffect");
+	tipScratchEffect_->LoadJson("GameEffectGroup/Player/playerParryTipScrachEffect.json");
 	// 攻撃ヒットエフェクト
 	hitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
 	hitEffect_->Init("parryAttackHit", "PlayerEffect");
@@ -56,13 +58,13 @@ void PlayerParryState::Enter() {
 	SakuEngine::GameTimer::StartHitStop(deltaWaitTime_, 0.0f);
 
 	// 剣先の引っかきエフェクトを発生させる
-	tipScrackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
+	tipScratchEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
 
 	canExit_ = false;
-	isEmitedBlur_ = false;
+	isEmittedBlur_ = false;
 	request_ = std::nullopt;
-	parryLerp_.isFinised = false;
-	attackLerp_.isFinised = false;
+	parryLerp_.isFinished = false;
+	attackLerp_.isFinished = false;
 	deltaWaitTimer_ = 0.0f;
 }
 
@@ -88,8 +90,8 @@ void PlayerParryState::UpdateAlways() {
 	hitEffect_->Update();
 
 	// 剣先の座標を常に更新
-	tipScrackEffect_->SetWorldPos(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
-	tipScrackEffect_->Update();
+	tipScratchEffect_->SetWorldPos(player_->GetWeapon(PlayerWeaponType::Left)->GetTipTranslation());
+	tipScratchEffect_->Update();
 }
 
 void PlayerParryState::UpdateDeltaWaitTime() {
@@ -100,7 +102,7 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 	if (deltaWaitTime_ < deltaWaitTimer_) {
 
 		// まだブラーが発生していなければ発生させる
-		if (!isEmitedBlur_) {
+		if (!isEmittedBlur_) {
 
 			// 左手にエフェクトを発生させる
 			// 発生座標
@@ -124,14 +126,21 @@ void PlayerParryState::UpdateDeltaWaitTime() {
 			blur->SetBlurCenter(screenPos);
 
 			// 発生済み
-			isEmitedBlur_ = true;
+			isEmittedBlur_ = true;
+
+			// パリィヒット音を再生
+			parryHitSEVolume_ += parryHitSEAddVolume_;
+			SakuEngine::Audio::GetInstance()->PlayOneShot(parryHitSE_, parryHitSEVolume_);
+
+			// コントローラー振動再生
+			SakuEngine::Input::GetInstance()->PlayVibration(vibrationParams_);
 		}
 	}
 }
 
 void PlayerParryState::UpdateLerpTranslation() {
 
-	if (parryLerp_.isFinised) {
+	if (parryLerp_.isFinished) {
 		return;
 	}
 
@@ -141,17 +150,17 @@ void PlayerParryState::UpdateLerpTranslation() {
 	// 座標を設定
 	player_->SetTranslation(translation);
 
-	if (parryLerp_.isFinised) {
+	if (parryLerp_.isFinished) {
 
 		// 補間終了後剣先エフェクトを停止させる
-		tipScrackEffect_->Stop();
+		tipScratchEffect_->Stop();
 	}
 }
 
 void PlayerParryState::CheckInput() {
 
 	// 座標補間が終了したら入力を受け付けない
-	if (parryLerp_.isFinised) {
+	if (parryLerp_.isFinished) {
 		return;
 	}
 
@@ -167,7 +176,7 @@ void PlayerParryState::CheckInput() {
 void PlayerParryState::UpdateAnimation() {
 
 	// 座標補間が終了するまでなにもしない
-	if (!parryLerp_.isFinised) {
+	if (!parryLerp_.isFinished) {
 		return;
 	}
 
@@ -205,7 +214,7 @@ void PlayerParryState::UpdateAnimation() {
 		player_->SetTranslation(translation);
 
 		// 補間が終了したら状態を終了する
-		if (attackLerp_.isFinised) {
+		if (attackLerp_.isFinished) {
 
 			request_ = std::nullopt;
 
@@ -231,7 +240,7 @@ SakuEngine::Vector3 PlayerParryState::GetLerpTranslation(LerpParameter& lerp) {
 
 	if (lerp.time < lerp.timer) {
 
-		lerp.isFinised = true;
+		lerp.isFinished = true;
 	}
 	return translation;
 }
@@ -263,20 +272,22 @@ void PlayerParryState::Exit() {
 
 	if (allowAttack_) {
 
-		// カメラアニメーションを終了させる
-		followCamera_->EndCameraAnim();
+		// 音量リセット
+		parryHitSEVolume_ = parryHitSEBaseVolume_;
 	}
+	// カメラアニメーションを終了させる
+	followCamera_->EndCameraAnim();
 
 	// リセット
 	request_ = std::nullopt;
 	deltaWaitTimer_ = 0.0f;
 	parryLerp_.timer = 0.0f;
 	attackLerp_.timer = 0.0f;
-	parryLerp_.isFinised = false;
-	attackLerp_.isFinised = false;
+	parryLerp_.isFinished = false;
+	attackLerp_.isFinished = false;
 	canExit_ = false;
 	allowAttack_ = false;
-	isEmitedBlur_ = false;
+	isEmittedBlur_ = false;
 }
 
 void PlayerParryState::ImGui() {
@@ -289,10 +300,25 @@ void PlayerParryState::ImGui() {
 	ImGui::DragFloat("parryHitEffectPosY", &parryHitEffectPosY_, 0.01f);
 	ImGui::DragFloat("hitEffectOffsetY", &hitEffectOffsetY_, 0.01f);
 
+	ImGui::SeparatorText("Sound");
+
+	ImGui::Text("parryHitSEVolume: %.3f", parryHitSEVolume_);
+	if (ImGui::DragFloat("parryHitSEVolume", &parryHitSEBaseVolume_, 0.01f)) {
+
+		parryHitSEVolume_ = parryHitSEBaseVolume_;
+	}
+	ImGui::DragFloat("parryHitSEAddVolume", &parryHitSEAddVolume_, 0.01f);
+
 	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("stratPos", startPos_);
 	SakuEngine::ImGuiHelper::ValueText<SakuEngine::Vector3>("targetPos", targetPos_);
 
 	SakuEngine::LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
+
+	vibrationParams_.ImGui("VibrationParams");
+	if (ImGui::Button("TestVibration")) {
+
+		SakuEngine::Input::GetInstance()->PlayVibration(vibrationParams_);
+	}
 
 	ImGui::SeparatorText("Parry: RED");
 
@@ -349,6 +375,13 @@ void PlayerParryState::ApplyJson(const Json& data) {
 	attackLerp_.moveDistance = SakuEngine::JsonAdapter::GetValue<float>(data, "attackLerp_.moveDistance");
 	attackLerp_.easingType = static_cast<EasingType>(
 		SakuEngine::JsonAdapter::GetValue<int>(data, "attackLerp_.easingType"));
+
+	parryHitSEBaseVolume_ = data.value("parryHitSEVolume_", 1.0f);
+	parryHitSEVolume_ = parryHitSEBaseVolume_;
+
+	parryHitSEAddVolume_ = data.value("parryHitSEAddVolume_", 0.1f);
+
+	vibrationParams_.FromJson(data.value("vibrationParams_", Json()));
 }
 
 void PlayerParryState::SaveJson(Json& data) {
@@ -367,4 +400,9 @@ void PlayerParryState::SaveJson(Json& data) {
 	data["attackLerp_.time"] = attackLerp_.time;
 	data["attackLerp_.moveDistance"] = attackLerp_.moveDistance;
 	data["attackLerp_.easingType"] = static_cast<int>(attackLerp_.easingType);
+
+	data["parryHitSEVolume_"] = parryHitSEBaseVolume_;
+	data["parryHitSEAddVolume_"] = parryHitSEAddVolume_;
+
+	vibrationParams_.ToJson(data["vibrationParams_"]);
 }

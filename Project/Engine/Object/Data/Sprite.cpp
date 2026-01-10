@@ -6,6 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Asset/Asset.h>
+#include <Engine/Input/Input.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 
@@ -34,6 +35,9 @@ Sprite::Sprite(ID3D12Device* device, Asset* asset,
 	textureName_ = textureName;
 	preTextureName_ = textureName;
 	metadata_ = asset_->GetMetaData(textureName_);
+	for (auto& name : deviceTextureNames_) {
+		name = textureName;
+	}
 
 	layer_ = SpriteLayer::PostModel;
 
@@ -45,6 +49,9 @@ Sprite::Sprite(ID3D12Device* device, Asset* asset,
 }
 
 void Sprite::UpdateVertex(const Transform2D& transform) {
+
+	// デバイスに応じたテクスチャ名更新
+	UpdateDeviceTextureName();
 
 	float left = (0.0f - transform.anchorPoint.x) * transform.size.x;
 	float right = (1.0f - transform.anchorPoint.x) * transform.size.x;
@@ -105,6 +112,22 @@ void Sprite::InitBuffer(ID3D12Device* device) {
 
 	// GPUデータ転送
 	indexBuffer_.TransferData(indexData);
+}
+
+void Sprite::UpdateDeviceTextureName() {
+
+	// falseなら処理しない
+	if (!isChangeDeviceTexture_) {
+		return;
+	}
+
+	// 現在の入力デバイスを取得
+	InputType inputType = SakuEngine::Input::GetInstance()->GetType();
+	// テクスチャ名を更新
+	if (!deviceTextureNames_[static_cast<uint32_t>(inputType)].empty()) {
+
+		textureName_ = deviceTextureNames_[static_cast<uint32_t>(inputType)];
+	}
 }
 
 void Sprite::SetMetaDataTextureSize(Transform2D& transform) {
@@ -170,6 +193,7 @@ void Sprite::ImGui(float itemSize) {
 	// テクスチャ選択
 	// 表示サイズ
 	const float imageSize = 88.0f;
+	ImGui::PushID("MainTexture");
 	SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
 		(ImTextureID)asset_->GetGPUHandle(textureName_).ptr, { imageSize, imageSize });
 	std::string dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
@@ -178,8 +202,47 @@ void Sprite::ImGui(float itemSize) {
 		// textureを設定
 		textureName_ = dragTextureName;
 	}
+	ImGui::PopID();
 
-	ImGui::Checkbox("postProccessEnable", &postProccessEnable_);
+	if (ImGui::CollapsingHeader("Device Texture")) {
+
+		ImGui::Checkbox("isChangeDeviceTexture", &isChangeDeviceTexture_);
+		// 入力デバイスごとのテクスチャ設定
+		{
+			// キーボード
+			ImGui::SeparatorText("Keyboard/Mouse Texture");
+			ImGui::PushID("KeyboardTexture");
+
+			auto& textureName = deviceTextureNames_[static_cast<uint32_t>(InputType::Keyboard)];
+			SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName,
+				(ImTextureID)asset_->GetGPUHandle(textureName).ptr, { imageSize, imageSize });
+			dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+			if (!dragTextureName.empty()) {
+
+				// textureを設定
+				textureName = dragTextureName;
+			}
+			ImGui::PopID();
+		}
+		{
+			// ゲームパッド
+			ImGui::SeparatorText("Gamepad Texture");
+			ImGui::PushID("GamePadTexture");
+
+			auto& textureName = deviceTextureNames_[static_cast<uint32_t>(InputType::GamePad)];
+			SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName,
+				(ImTextureID)asset_->GetGPUHandle(textureName).ptr, { imageSize, imageSize });
+			dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+			if (!dragTextureName.empty()) {
+
+				// textureを設定
+				textureName = dragTextureName;
+			}
+			ImGui::PopID();
+		}
+	}
+
+	ImGui::Checkbox("postProcessEnable", &postProcessEnable_);
 	SakuEngine::EnumAdapter<SpriteLayer>::Combo("SpriteLayer", &layer_);
 	ImGui::Separator();
 
@@ -252,7 +315,7 @@ void Sprite::ImGui(float itemSize) {
 void Sprite::ToJson(Json& data) {
 
 	data["textureName"] = textureName_;
-	data["postProccessEnable_"] = postProccessEnable_;
+	data["postProccessEnable_"] = postProcessEnable_;
 	data["layer"] = SakuEngine::EnumAdapter<SpriteLayer>::ToString(layer_);
 	data["layerIndex"] = layerIndex_;
 	data["blendMode"] = SakuEngine::EnumAdapter<BlendMode>::ToString(blendMode_);
@@ -261,11 +324,20 @@ void Sprite::ToJson(Json& data) {
 	data["leftTopColor"] = vertexData_[LeftTop].color.ToJson();
 	data["rightBottomColor"] = vertexData_[RightBottom].color.ToJson();
 	data["rightTopColor"] = vertexData_[RightTop].color.ToJson();
+
+	for (uint32_t i = 0; i < deviceTextureNames_.size(); ++i) {
+
+		data["deviceTextureNames"][i] = deviceTextureNames_[i];
+	}
+	data["isChangeDeviceTexture"] = isChangeDeviceTexture_;
+
+	// 1度更新する
+	UpdateDeviceTextureName();
 }
 
 void Sprite::FromJson(const Json& data) {
 
-	postProccessEnable_ = data.value("postProccessEnable_", false);
+	postProcessEnable_ = data.value("postProccessEnable_", false);
 	textureName_ = data["textureName"].get<std::string>();
 	layer_ = SakuEngine::EnumAdapter<SpriteLayer>::FromString(data["layer"].get<std::string>()).value();
 	layerIndex_ = data["layerIndex"].get<uint16_t>();
@@ -278,6 +350,16 @@ void Sprite::FromJson(const Json& data) {
 		vertexData_[RightBottom].color = SakuEngine::Color::FromJson(data.value("rightBottomColor", Json()));
 		vertexData_[RightTop].color = SakuEngine::Color::FromJson(data.value("rightTopColor", Json()));
 	}
+
+	if (data.contains("deviceTextureNames")) {
+
+		auto deviceTextureNamesJson = data["deviceTextureNames"];
+		for (uint32_t i = 0; i < deviceTextureNamesJson.size() && i < deviceTextureNames_.size(); ++i) {
+
+			deviceTextureNames_[i] = deviceTextureNamesJson[i].get<std::string>();
+		}
+	}
+	isChangeDeviceTexture_ = data.value("isChangeDeviceTexture", false);
 }
 
 const D3D12_GPU_DESCRIPTOR_HANDLE& Sprite::GetTextureGPUHandle() const {

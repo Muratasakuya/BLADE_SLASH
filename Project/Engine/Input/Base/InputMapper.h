@@ -32,7 +32,7 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		float GetVector(Enum action) const;
-		float GetVector(Enum action, InputType inputType) const;
+		float GetVector(Enum action, InputType inputType, bool isClamp) const;
 
 		bool IsPressed(Enum button) const;
 		bool IsPressed(Enum button, InputType inputType) const;
@@ -73,17 +73,21 @@ namespace SakuEngine {
 	}
 
 	template<InputEnum Enum>
-	inline float InputMapper<Enum>::GetVector(Enum action, InputType inputType) const {
+	inline float InputMapper<Enum>::GetVector(Enum action, InputType inputType, bool isClamp) const {
 
 		// 指定された入力デバイスを探す
+		float vector = 0.0f;
 		for (const auto& device : devices_) {
 			if (device->GetInputType() == inputType) {
 
-				return device->GetVector(action);
+				vector = device->GetVector(action);
 			}
 		}
+		if (isClamp) {
+			vector = std::clamp(vector, -1.0f, 1.0f);
+		}
 		// 見つからなかった場合は0.0fを返す
-		return 0.0f;
+		return vector;
 	}
 
 	template<InputEnum Enum>

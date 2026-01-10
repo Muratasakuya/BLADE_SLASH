@@ -6,6 +6,7 @@
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Scene/Manager/SceneManager.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
+#include <Engine/Input/Input.h>
 
 // scene
 #include <Game/Scenes/Game/GameState/States/StartGameState.h>
@@ -41,6 +42,8 @@ void GameScene::InitStates() {
 	context_.hudSynchronizer = hudSynchronizer_.get();
 	// sprite
 	context_.fadeSprite = fadeSprite_.get();
+	// input
+	context_.inputController = inputController_.get();
 
 	// シーン状態クラスの初期化
 	states_[static_cast<uint32_t>(GameSceneState::Start)] = std::make_unique<StartGameState>(&context_);
@@ -115,8 +118,9 @@ void GameScene::Init() {
 
 void GameScene::Update() {
 
-	// 入力更新
-	inputController_->Update();
+	if (isFinishGame_) {
+		return;
+	}
 
 	// 状態に応じて更新
 	uint32_t stateIndex = static_cast<uint32_t>(currentState_);
@@ -153,6 +157,12 @@ void GameScene::Update() {
 
 	// フィールドエフェクト更新
 	fieldEffect_->Update();
+
+	// ESCキーで閉じる
+	if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_ESCAPE)) {
+
+		isFinishGame_ = true;
+	}
 }
 
 void GameScene::EndFrame() {

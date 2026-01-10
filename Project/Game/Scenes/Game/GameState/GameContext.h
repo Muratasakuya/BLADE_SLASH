@@ -19,6 +19,9 @@
 // sprite
 #include <Game/Effects/SpriteEffect/FadeSprite.h>
 
+// input
+#include <Game/Gameplay/Systems/Input/GameInputDeviceController.h>
+
 //============================================================================
 //	GameContext
 //============================================================================
@@ -41,4 +44,7 @@ struct GameContext {
 
 	// sprite
 	FadeSprite* fadeSprite = nullptr;
+
+	// input
+	GameInputDeviceController* inputController = nullptr;
 };

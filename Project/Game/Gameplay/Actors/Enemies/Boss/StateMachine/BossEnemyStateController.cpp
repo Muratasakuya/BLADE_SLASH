@@ -271,6 +271,7 @@ void BossEnemyStateController::UpdateStateTimer() {
 
 		// 即座に強制遷移させる
 		machine.Force(*forcedState_);
+		bossEnemy_->GetAttackCollision()->SetEnterState(*forcedState_);
 		// コンボリセット
 		ResetCombo();
 		return;

@@ -1,8 +1,11 @@
 #include "BossEnemyAttackCollision.h"
 
+using namespace SakuEngine;
+
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Object/Data/Transform.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
@@ -19,28 +22,25 @@
 void BossEnemyAttackCollision::Init() {
 
 	// 形状初期化
-	weaponBody_ = bodies_.emplace_back(Collider::AddCollider(SakuEngine::CollisionShape::OBB().Default()));
-	bodyOffsets_.emplace_back(SakuEngine::CollisionShape::OBB().Default());
+	weaponBody_ = bodies_.emplace_back(Collider::AddCollider(CollisionShape::OBB().Default()));
+	bodyOffsets_.emplace_back(CollisionShape::OBB().Default());
 
 	// タイプ設定
 	// 最初は無効状態
 	weaponBody_->SetType(ColliderType::Type_None);
 	weaponBody_->SetTargetType(ColliderType::Type_Player);
-
-	AttackParameter attackParameter{};
-	attackParameter.windows.emplace_back();
-	table_.emplace(BossEnemyState::LightAttack, attackParameter);
-	table_.emplace(BossEnemyState::StrongAttack, attackParameter);
-	table_.emplace(BossEnemyState::JumpAttack, attackParameter);
 }
 
-void BossEnemyAttackCollision::Update(const SakuEngine::Transform3D& transform) {
+void BossEnemyAttackCollision::Update(const Transform3D& transform) {
 
 	auto it = table_.find(currentState_);
 	if (it == table_.end()) {
 		return;
 	}
 	AttackParameter& parameter = it->second;
+
+	// 時間を進める
+	currentTimer_ += GameTimer::GetScaledDeltaTime();
 
 	// 攻撃中かどうか
 	bool isAttack = std::any_of(parameter.windows.begin(),
@@ -54,26 +54,31 @@ void BossEnemyAttackCollision::Update(const SakuEngine::Transform3D& transform) 
 		weaponBody_->SetType(ColliderType::Type_BossWeapon);
 
 		// 状態別で形状の値を設定
-		auto& offset = std::get<SakuEngine::CollisionShape::OBB>(bodyOffsets_.front());
-		const SakuEngine::Vector3 offsetWorld =
+		auto& offset = std::get<CollisionShape::OBB>(bodyOffsets_.front());
+		const Vector3 offsetWorld =
 			transform.GetRight() * parameter.centerOffset.x +
 			transform.GetUp() * parameter.centerOffset.y +
 			transform.GetForward() * parameter.centerOffset.z;
 		offset.center = offsetWorld;
 		offset.size = parameter.size;
+
+		// デバッグログ
+		// 状態と時間を表示
+		LOG_INFO("BossAttackCollision::Attack On State: {}, Time: {:.3f}",
+			EnumAdapter<BossEnemyState>::ToString(currentState_), currentTimer_);
+		// 当たり判定の中心とサイズを表示
+		LOG_INFO("  Center: ({:.3f}, {:.3f}, {:.3f}), Size: ({:.3f}, {:.3f}, {:.3f})",
+			offset.center.x, offset.center.y, offset.center.z, offset.size.x, offset.size.y, offset.size.z);
 	} else {
 
 		weaponBody_->SetType(ColliderType::Type_None);
 
 		// 当たらないようにする
-		auto& offset = std::get<SakuEngine::CollisionShape::OBB>(bodyOffsets_.front());
-		offset.center = SakuEngine::Vector3(0.0f, -128.0f, 0.0f);
-		offset.size = SakuEngine::Vector3::AnyInit(0.0f);
+		auto& offset = std::get<CollisionShape::OBB>(bodyOffsets_.front());
+		offset.center = Vector3(0.0f, -128.0f, 0.0f);
+		offset.size = Vector3::AnyInit(0.0f);
 	}
 
-
-	// 時間を進める
-	currentTimer_ += SakuEngine::GameTimer::GetScaledDeltaTime();
 
 	// 衝突情報更新
 	Collider::UpdateAllBodies(transform);
@@ -87,18 +92,12 @@ void BossEnemyAttackCollision::SetEnterState(BossEnemyState state) {
 	weaponBody_->SetType(ColliderType::Type_None);
 }
 
-void BossEnemyAttackCollision::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
-
-	if (collisionBody->GetType() == ColliderType::Type_Player) {
-	}
-}
-
 void BossEnemyAttackCollision::ImGui() {
 
-	ImGui::Text("currentType: %s", SakuEngine::EnumAdapter<ColliderType>::ToString(weaponBody_->GetType()));
+	ImGui::Text("currentType: %s", EnumAdapter<ColliderType>::ToString(weaponBody_->GetType()));
 	ImGui::Text("currentTimer: %.3f", currentTimer_);
 
-	SakuEngine::EnumAdapter<BossEnemyState>::Combo("State", &editingState_);
+	EnumAdapter<BossEnemyState>::Combo("State", &editingState_);
 	AttackParameter& parameter = table_[editingState_];
 
 	ImGui::Separator();
@@ -111,7 +110,7 @@ void BossEnemyAttackCollision::ImGui() {
 
 	if (edit) {
 
-		auto& offset = std::get<SakuEngine::CollisionShape::OBB>(bodyOffsets_.front());
+		auto& offset = std::get<CollisionShape::OBB>(bodyOffsets_.front());
 		offset.center = parameter.centerOffset;
 		offset.size = parameter.size;
 	}
@@ -124,8 +123,8 @@ void BossEnemyAttackCollision::ApplyJson(const Json& data) {
 		BossEnemyState state = GetBossEnemyStateFromName(key);
 		AttackParameter parameter;
 
-		parameter.centerOffset = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(value["centerOffset"]);
-		parameter.size = SakuEngine::JsonAdapter::ToObject<SakuEngine::Vector3>(value["size"]);
+		parameter.centerOffset = JsonAdapter::ToObject<Vector3>(value["centerOffset"]);
+		parameter.size = JsonAdapter::ToObject<Vector3>(value["size"]);
 		if (value.contains("hitWindows")) {
 			for (const auto& w : value["hitWindows"]) {
 
@@ -136,6 +135,16 @@ void BossEnemyAttackCollision::ApplyJson(const Json& data) {
 			}
 		}
 		table_[state] = parameter;
+
+		// デバッグログ
+		// 読み込んだ内容を表示
+		LOG_INFO("BossEnemyAttackCollision::Load State: {}", key);
+		LOG_INFO("  CenterOffset: ({:.3f}, {:.3f}, {:.3f}), Size: ({:.3f}, {:.3f}, {:.3f})",
+			parameter.centerOffset.x, parameter.centerOffset.y, parameter.centerOffset.z,
+			parameter.size.x, parameter.size.y, parameter.size.z);
+		for (const auto& w : parameter.windows) {
+			LOG_INFO("  HitWindow: onTime: {:.3f}, offTime: {:.3f}", w.on, w.off);
+		}
 	}
 }
 
@@ -143,9 +152,9 @@ void BossEnemyAttackCollision::SaveJson(Json& data) {
 
 	for (auto& [state, parameter] : table_) {
 
-		Json& value = data[SakuEngine::EnumAdapter<BossEnemyState>::ToString(state)];
-		value["centerOffset"] = SakuEngine::JsonAdapter::FromObject(parameter.centerOffset);
-		value["size"] = SakuEngine::JsonAdapter::FromObject(parameter.size);
+		Json& value = data[EnumAdapter<BossEnemyState>::ToString(state)];
+		value["centerOffset"] = JsonAdapter::FromObject(parameter.centerOffset);
+		value["size"] = JsonAdapter::FromObject(parameter.size);
 
 		{
 			Json windowData = Json::array();
@@ -163,7 +172,7 @@ void BossEnemyAttackCollision::SaveJson(Json& data) {
 
 BossEnemyState BossEnemyAttackCollision::GetBossEnemyStateFromName(const std::string& name) {
 
-	return SakuEngine::EnumAdapter<BossEnemyState>::FromString(name).value();
+	return EnumAdapter<BossEnemyState>::FromString(name).value();
 }
 
 void BossEnemyAttackCollision::EditWindowParameter(

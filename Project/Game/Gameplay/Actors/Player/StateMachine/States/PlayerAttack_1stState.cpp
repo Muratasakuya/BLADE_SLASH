@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Audio/Audio.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
@@ -50,6 +51,9 @@ void PlayerAttack_1stState::Enter() {
 
 	// 剣エフェクトの発生
 	slashEffect_->Emit(player_->GetRotation() * slashEffectOffset_);
+
+	// 剣振り音再生
+	SakuEngine::Audio::GetInstance()->PlayOneShot("swingSlash");
 }
 
 void PlayerAttack_1stState::Update() {

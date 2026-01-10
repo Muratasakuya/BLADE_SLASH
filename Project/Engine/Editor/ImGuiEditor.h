@@ -122,8 +122,8 @@ namespace SakuEngine {
 		// asset
 		void AssetEdit();
 
-		// curve
-		void CurveEdit();
+		// audio
+		void AudioEdit();
 
 		// helper
 		void SelectObjectFocus(SceneView* sceneView);

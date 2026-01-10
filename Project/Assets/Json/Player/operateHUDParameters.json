@@ -198,6 +198,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerIconBase",
+                        "playerIconBase"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -251,7 +256,7 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": -200.0,
+                        "x": 0.0,
                         "y": 0.0
                     },
                     "vertexOffset": [
@@ -310,6 +315,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerAttackIcon",
+                        "playerAttackIcon"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -363,7 +373,7 @@
                         "y": 128.0
                     },
                     "translation": {
-                        "x": -200.0,
+                        "x": 0.0,
                         "y": 0.0
                     },
                     "vertexOffset": [
@@ -422,8 +432,13 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "leftMouseClick",
+                        "XButton"
+                    ],
+                    "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -449,7 +464,7 @@
                         "g": 1.0,
                         "r": 1.0
                     },
-                    "textureName": "XButton"
+                    "textureName": "leftMouseClick"
                 },
                 "Transform": {
                     "anchorPoint": {
@@ -475,8 +490,8 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": -200.0,
-                        "y": 108.0
+                        "x": 0.0,
+                        "y": 176.0
                     },
                     "vertexOffset": [
                         {
@@ -534,6 +549,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerIconBase",
+                        "playerIconBase"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -587,8 +607,8 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": 0.0,
-                        "y": 200.0
+                        "x": 256.0,
+                        "y": 0.0
                     },
                     "vertexOffset": [
                         {
@@ -646,6 +666,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerDashIcon",
+                        "playerDashIcon"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -699,8 +724,8 @@
                         "y": 112.0
                     },
                     "translation": {
-                        "x": 0.0,
-                        "y": 210.0
+                        "x": 256.0,
+                        "y": 0.0
                     },
                     "vertexOffset": [
                         {
@@ -758,8 +783,13 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "rightMouseClick",
+                        "AButton"
+                    ],
+                    "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -785,7 +815,7 @@
                         "g": 1.0,
                         "r": 1.0
                     },
-                    "textureName": "AButton"
+                    "textureName": "rightMouseClick"
                 },
                 "Transform": {
                     "anchorPoint": {
@@ -811,8 +841,8 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": 0.0,
-                        "y": 320.0
+                        "x": 256.0,
+                        "y": 176.0
                     },
                     "vertexOffset": [
                         {
@@ -870,6 +900,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerIconBase",
+                        "playerIconBase"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -923,8 +958,8 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": 0.0,
-                        "y": -200.0
+                        "x": 512.0,
+                        "y": 0.0
                     },
                     "vertexOffset": [
                         {
@@ -982,26 +1017,31 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerSkillIcon",
+                        "playerSkillIcon"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
-                        "a": 1.0,
-                        "b": 0.16766873002052307,
-                        "g": 0.13725505769252777,
-                        "r": 0.9336987733840942
-                    },
-                    "leftTopColor": {
                         "a": 1.0,
                         "b": 0.002845817944034934,
                         "g": 0.38590875267982483,
                         "r": 0.9668874144554138
                     },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 0.17613880336284637,
+                        "g": 0.12447700649499893,
+                        "r": 0.931993305683136
+                    },
                     "postProccessEnable_": false,
                     "rightBottomColor": {
                         "a": 1.0,
-                        "b": 0.28211280703544617,
-                        "g": 0.0696088895201683,
-                        "r": 0.9337164759635925
+                        "b": 0.26822322607040405,
+                        "g": 0.08534032851457596,
+                        "r": 0.9353662729263306
                     },
                     "rightTopColor": {
                         "a": 1.0,
@@ -1035,8 +1075,8 @@
                         "y": 192.0
                     },
                     "translation": {
-                        "x": 0.0,
-                        "y": -200.0
+                        "x": 512.0,
+                        "y": 0.0
                     },
                     "vertexOffset": [
                         {
@@ -1094,8 +1134,13 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "EButton",
+                        "YButton"
+                    ],
+                    "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1121,7 +1166,7 @@
                         "g": 1.0,
                         "r": 1.0
                     },
-                    "textureName": "YButton"
+                    "textureName": "EButton"
                 },
                 "Transform": {
                     "anchorPoint": {
@@ -1147,8 +1192,8 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": 0.0,
-                        "y": -68.0
+                        "x": 512.0,
+                        "y": 176.0
                     },
                     "vertexOffset": [
                         {
@@ -1206,6 +1251,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerIconBase",
+                        "playerIconBase"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -1259,8 +1309,8 @@
                         "y": 256.0
                     },
                     "translation": {
-                        "x": 200.0,
-                        "y": -400.0
+                        "x": 768.0,
+                        "y": 0.0
                     },
                     "vertexOffset": [
                         {
@@ -1318,6 +1368,11 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "playerParryIcon",
+                        "playerParryIcon"
+                    ],
+                    "isChangeDeviceTexture": false,
                     "layer": "PostModel",
                     "layerIndex": 0,
                     "leftBottomColor": {
@@ -1371,8 +1426,8 @@
                         "y": 176.0
                     },
                     "translation": {
-                        "x": 200.0,
-                        "y": -398.0
+                        "x": 768.0,
+                        "y": 0.0
                     },
                     "vertexOffset": [
                         {
@@ -1430,8 +1485,13 @@
                 },
                 "Sprite": {
                     "blendMode": "kBlendModeNormal",
+                    "deviceTextureNames": [
+                        "spaceButton",
+                        "LBAndRBButton"
+                    ],
+                    "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1457,7 +1517,7 @@
                         "g": 1.0,
                         "r": 1.0
                     },
-                    "textureName": "RBButton"
+                    "textureName": "spaceButton"
                 },
                 "Transform": {
                     "anchorPoint": {
@@ -1467,24 +1527,24 @@
                     "rotateAroundSelfWhenParented": true,
                     "rotation": 0.0,
                     "size": {
-                        "x": 128.0,
-                        "y": 128.0
+                        "x": 512.0,
+                        "y": 256.0
                     },
                     "sizeScale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 0.5,
+                        "y": 0.5
                     },
                     "textureLeftTop": {
                         "x": 0.0,
                         "y": 0.0
                     },
                     "textureSize": {
-                        "x": 256.0,
+                        "x": 512.0,
                         "y": 256.0
                     },
                     "translation": {
-                        "x": 200.0,
-                        "y": -265.0
+                        "x": 768.0,
+                        "y": 176.0
                     },
                     "vertexOffset": [
                         {
@@ -1519,8 +1579,8 @@
                 "y": 0.0
             },
             "sizeScale": {
-                "x": 0.4000000059604645,
-                "y": 0.4000000059604645
+                "x": 0.5,
+                "y": 0.5
             },
             "textureLeftTop": {
                 "x": 0.0,
@@ -1531,8 +1591,8 @@
                 "y": 0.0
             },
             "translation": {
-                "x": 1751.0,
-                "y": 892.0
+                "x": 1440.0,
+                "y": 920.0
             },
             "vertexOffset": [
                 {

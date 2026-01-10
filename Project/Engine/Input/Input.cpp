@@ -107,7 +107,7 @@ namespace {
 
 Input* Input::instance_ = nullptr;
 
-void Input::SetViewRect(InputViewArea viewArea, const SakuEngine::Vector2& dstPos, Vector2 dstSize) {
+void Input::SetViewRect(InputViewArea viewArea, const Vector2& dstPos, Vector2 dstSize) {
 
 	viewRects_[viewArea].dstPos = dstPos;
 	viewRects_[viewArea].dstSize = dstSize;
@@ -133,6 +133,63 @@ std::optional<Vector2> Input::GetMousePosInView(InputViewArea viewArea) const {
 	return local * (rect.srcSize / rect.dstSize);
 }
 
+uint32_t SakuEngine::Input::PlayVibration(const InputVibrationParams& params) {
+
+	// duration must be positive
+	if (params.duration <= 0.0f) {
+		return 0;
+	}
+	float l = std::clamp(params.left, 0.0f, 1.0f);
+	float r = std::clamp(params.right, 0.0f, 1.0f);
+	if (l <= 0.0f && r <= 0.0f) {
+		return 0;
+	}
+
+	VibrationEffect e{};
+	e.handle = nextVibHandle_++;
+	if (nextVibHandle_ == 0) { nextVibHandle_ = 1; }
+
+	e.left = l;
+	e.right = r;
+	e.duration = params.duration;
+	e.attack = (std::max)(0.0f, params.attack);
+	e.release = (std::max)(0.0f, params.release);
+	e.priority = params.priority;
+	e.start = std::chrono::steady_clock::now();
+
+	vibEffects_.push_back(e);
+	return e.handle;
+}
+
+void SakuEngine::Input::StopVibration(uint32_t handle) {
+
+	if (handle == 0) {
+		return;
+	}
+
+	auto it = std::remove_if(vibEffects_.begin(), vibEffects_.end(),
+		[&](const VibrationEffect& e) { return e.handle == handle; });
+	vibEffects_.erase(it, vibEffects_.end());
+
+	if (vibEffects_.empty()) {
+		ApplyVibration(0, 0);
+	}
+}
+
+void SakuEngine::Input::StopAllVibration() {
+
+	vibEffects_.clear();
+	ApplyVibration(0, 0);
+}
+
+void SakuEngine::Input::SetVibrationEnabled(bool enabled) {
+
+	vibrationEnabled_ = enabled;
+	if (!vibrationEnabled_) {
+		StopAllVibration();
+	}
+}
+
 Input* Input::GetInstance() {
 
 	if (instance_ == nullptr) {
@@ -144,6 +201,8 @@ Input* Input::GetInstance() {
 void Input::Finalize() {
 
 	if (instance_ != nullptr) {
+		
+		instance_->StopAllVibration();
 
 		delete instance_;
 		instance_ = nullptr;
@@ -216,7 +275,7 @@ bool Input::PushGamepadButton(GamePadButtons button, const std::source_location&
 	LogEnterStayExit(now, prev, index,
 		gpStartTime_, gpStayLogged_,
 		[&] { return MakeCallerTag(location, "GamePadButtons:"); },
-		[&] { return SakuEngine::EnumAdapter<GamePadButtons>::ToString(button); });
+		[&] { return EnumAdapter<GamePadButtons>::ToString(button); });
 
 	return now;
 }
@@ -231,7 +290,7 @@ bool Input::TriggerGamepadButton(GamePadButtons button, const std::source_locati
 	if (trigger) {
 
 		LOG_INFO("{}", MakeCallerTag(location,
-			"TriggerGamepadButton:" + std::string(SakuEngine::EnumAdapter<GamePadButtons>::ToString(button))));
+			"TriggerGamepadButton:" + std::string(EnumAdapter<GamePadButtons>::ToString(button))));
 	}
 
 	return trigger;
@@ -441,11 +500,11 @@ void Input::Init(WinApp* winApp) {
 	hr = mouse_->Acquire();
 
 	// 初期化値
-	viewRects_[InputViewArea::Game].dstPos = SakuEngine::Vector2::AnyInit(0.0f);
-	viewRects_[InputViewArea::Game].dstSize = SakuEngine::Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Game].dstPos = Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Game].dstSize = Vector2::AnyInit(0.0f);
 	viewRects_[InputViewArea::Game].srcSize = Vector2(Config::kWindowWidthf, Config::kWindowHeightf);
-	viewRects_[InputViewArea::Scene].dstPos = SakuEngine::Vector2::AnyInit(0.0f);
-	viewRects_[InputViewArea::Scene].dstSize = SakuEngine::Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Scene].dstPos = Vector2::AnyInit(0.0f);
+	viewRects_[InputViewArea::Scene].dstSize = Vector2::AnyInit(0.0f);
 	viewRects_[InputViewArea::Scene].srcSize = Vector2(Config::kWindowWidthf, Config::kWindowHeightf);
 }
 
@@ -472,6 +531,7 @@ void Input::Update() {
 	// ゲームパッドの現在の状態を取得
 	ZeroMemory(&gamepadState_, sizeof(XINPUT_STATE));
 	DWORD dwResult = XInputGetState(0, &gamepadState_);
+	gamepadConnected_ = (dwResult == ERROR_SUCCESS);
 
 	if (dwResult == ERROR_SUCCESS) {
 
@@ -516,6 +576,9 @@ void Input::Update() {
 		rightTriggerValue_ = 0.0f;
 	}
 
+	// デバイス振動の更新
+	UpdateVibration();
+
 	// マウス情報の取得開始
 	hr = mouse_->Acquire();
 	if (FAILED(hr)) {
@@ -549,4 +612,84 @@ void Input::Update() {
 		// ホイール値
 		wheelValue_ = static_cast<float>(mouseState_.lZ) / WHEEL_DELTA;
 	}
+}
+
+void Input::UpdateVibration() {
+
+	// disabled -> always stop
+	if (!vibrationEnabled_) {
+		if (!vibEffects_.empty() || lastMotorLeft_ != 0 || lastMotorRight_ != 0) {
+			vibEffects_.clear();
+			ApplyVibration(0, 0);
+		}
+		return;
+	}
+
+	// disconnected -> clear & stop
+	if (!gamepadConnected_) {
+		if (!vibEffects_.empty() || lastMotorLeft_ != 0 || lastMotorRight_ != 0) {
+
+			vibEffects_.clear();
+			ApplyVibration(0, 0);
+		}
+		return;
+	}
+
+	if (vibEffects_.empty()) {
+		// ensure motor is off
+		ApplyVibration(0, 0);
+		return;
+	}
+
+	const auto now = std::chrono::steady_clock::now();
+
+	// remove expired
+	auto it = std::remove_if(vibEffects_.begin(), vibEffects_.end(), [&](const VibrationEffect& e) {
+		const float t = std::chrono::duration<float>(now - e.start).count();
+		return (t >= e.duration);
+		});
+	vibEffects_.erase(it, vibEffects_.end());
+
+	float outL = 0.0f;
+	float outR = 0.0f;
+
+	for (const auto& e : vibEffects_) {
+		const float t = std::chrono::duration<float>(now - e.start).count();
+		const float remain = (std::max)(0.0f, e.duration - t);
+
+		float gain = 1.0f;
+		if (e.attack > 0.0f && t < e.attack) {
+			gain = (std::min)(gain, t / e.attack);
+		}
+		if (e.release > 0.0f && remain < e.release) {
+			gain = (std::min)(gain, remain / e.release);
+		}
+
+		outL = (std::max)(outL, e.left * gain);
+		outR = ((std::max))(outR, e.right * gain);
+	}
+
+	// 振動を適用
+	ApplyVibration(ToMotorSpeed(outL), ToMotorSpeed(outR));
+}
+
+void Input::ApplyVibration(uint16_t left, uint16_t right) {
+
+	// avoid redundant calls
+	if (left == lastMotorLeft_ && right == lastMotorRight_) {
+		return;
+	}
+	lastMotorLeft_ = left;
+	lastMotorRight_ = right;
+
+	XINPUT_VIBRATION vib{};
+	vib.wLeftMotorSpeed = left;
+	vib.wRightMotorSpeed = right;
+	XInputSetState(0, &vib);
+}
+
+uint16_t Input::ToMotorSpeed(float v01) {
+
+	v01 = std::clamp(v01, 0.0f, 1.0f);
+	return static_cast<uint16_t>(v01 * 65535.0f + 0.5f);
 }

@@ -18,6 +18,7 @@
 #include <array>
 #include <cassert>
 #include <source_location>
+
 namespace SakuEngine {
 
 	// front
@@ -86,6 +87,17 @@ namespace SakuEngine {
 		bool IsMouseOnView(InputViewArea viewArea) const;
 		std::optional<Vector2> GetMousePosInView(InputViewArea viewArea) const;
 
+		// ゲームパッドの振動
+		uint32_t PlayVibration(const InputVibrationParams& params);
+		// 指定のID振動の停止
+		void StopVibration(uint32_t handle);
+		// 全ての振動を停止
+		void StopAllVibration();
+		// 振動の有効、無効の設定
+		void SetVibrationEnabled(bool enabled);
+		// ゲームパッドが繋がっているかどうか
+		bool IsGamepadConnected() const { return gamepadConnected_; }
+
 		// singleton
 		static Input* GetInstance();
 		static void Finalize();
@@ -123,6 +135,7 @@ namespace SakuEngine {
 		// gamePad
 		XINPUT_STATE gamepadState_{};
 		XINPUT_STATE gamepadStatePre_{};
+		bool gamepadConnected_ = false;
 
 		std::array<bool, static_cast<size_t>(GamePadButtons::Counts)> gamepadButtons_{};
 		std::array<bool, static_cast<size_t>(GamePadButtons::Counts)> gamepadButtonsPre_{};
@@ -165,11 +178,34 @@ namespace SakuEngine {
 		// 描画矩形範囲
 		std::unordered_map<InputViewArea, ViewRect> viewRects_;
 
+		// 振動エフェクト
+		struct VibrationEffect {
+
+			uint32_t handle = 0;
+			float left = 0.0f;     // 0..1
+			float right = 0.0f;    // 0..1
+			float duration = 0.0f; // seconds
+			float attack = 0.0f;   // seconds
+			float release = 0.0f;  // seconds
+			int priority = 0;
+			std::chrono::steady_clock::time_point start;
+		};
+		bool vibrationEnabled_ = true;
+		std::vector<VibrationEffect> vibEffects_{};
+		uint32_t nextVibHandle_ = 1;
+		uint16_t lastMotorLeft_ = 0;
+		uint16_t lastMotorRight_ = 0;
+
 		//--------- functions ----------------------------------------------------
 
 		// helper
 		bool PushMouseButton(size_t index, const std::source_location& location) const;
 		float ApplyDeadZone(float value);
+
+		// ゲームパッド
+		void UpdateVibration();
+		void ApplyVibration(uint16_t left, uint16_t right);
+		static uint16_t ToMotorSpeed(float v01);
 
 		Input() = default;
 		~Input() = default;

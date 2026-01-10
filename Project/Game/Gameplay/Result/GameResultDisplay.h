@@ -45,6 +45,9 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
+	// リザルトを表示しきったか
+	bool IsDisplayFinished() const { return currentState_ == State::Select; }
+
 	// 表示開始
 	void StartDisplay();
 

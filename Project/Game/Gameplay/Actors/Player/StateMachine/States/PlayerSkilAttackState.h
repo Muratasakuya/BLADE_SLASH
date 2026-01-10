@@ -108,6 +108,9 @@ private:
 	std::unique_ptr<SakuEngine::EffectGroup> groundCrackEffect_;
 	bool groundCrackEmitted_ = false;
 
+	// 移動攻撃SE音量
+	float moveAttackSEVolume_ = 1.0f;
+
 	//--------- functions ----------------------------------------------------
 
 	// 状態毎の更新

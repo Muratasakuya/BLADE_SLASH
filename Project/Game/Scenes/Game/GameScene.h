@@ -8,8 +8,6 @@
 // scene
 #include <Game/Scenes/Game/GameState/Interface/IGameSceneState.h>
 #include <Game/Scenes/Transition/FadeTransition.h>
-// input
-#include <Game/Gameplay/Systems/Input/GameInputDeviceController.h>
 
 //============================================================================
 //	GameScene class

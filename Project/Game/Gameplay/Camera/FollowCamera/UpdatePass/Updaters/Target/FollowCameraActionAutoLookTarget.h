@@ -60,6 +60,12 @@ private:
 		PreferPlayer,
 		PreferBoss,
 	};
+	// エリアチェック方法
+	enum class AreaCheckMethod {
+
+		InCamera,  // カメラ内なら補間
+		OutCamera, // カメラ外なら補間
+	};
 
 	// パラメータ
 	struct Parameter {
@@ -74,6 +80,9 @@ private:
 
 		// 注視点へ向くまでの時間
 		SakuEngine::StateTimer lookTimer;
+
+		// エリアチェック方法
+		AreaCheckMethod areaCheckMethod = AreaCheckMethod::InCamera;
 
 		// エディター
 		void ImGui(const std::string& label);
@@ -164,6 +173,9 @@ private:
 
 	// 目標回転を計算して取得する
 	SakuEngine::Quaternion GetTargetRotation(const Parameter& parameter) const;
+
+	// エリアチェック方法に応じた補間判定
+	bool CheckArea(AreaCheckMethod method) const;
 
 	// ルール検索
 	const PlayerRule* FindPlayerRule(PlayerState state) const;

@@ -314,9 +314,19 @@
         "hitEffectOffsetY_": 3.0,
         "nextAnimDuration_": 0.08500000089406967,
         "parryEffectPosY_": 4.0,
+        "parryHitSEAddVolume_": 0.5,
+        "parryHitSEVolume_": 0.20000000298023224,
         "parryLerp_.easingType": 11,
         "parryLerp_.moveDistance": -50.0,
-        "parryLerp_.time": 0.47999998927116394
+        "parryLerp_.time": 0.47999998927116394,
+        "vibrationParams_": {
+            "attack": 0.05999999865889549,
+            "duration": 0.23999999463558197,
+            "left": 5.0,
+            "priority": 4,
+            "release": 0.20000000298023224,
+            "right": 5.0
+        }
     },
     "ParryWait": {
         "enemyDistance_": -12.0,
@@ -495,7 +505,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Spline",
-            "parentName_": "fixedEnemyTransform",
+            "parentName_": "playerSkilMoveFrontTransform",
             "startDuration_": 0.05999999865889549,
             "startEaseType_": "Linear"
         },
@@ -793,7 +803,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Linear",
-            "parentName_": "fixedEnemyTransform",
+            "parentName_": "playerSkilMoveFrontTransform",
             "startDuration_": 0.0,
             "startEaseType_": "Linear"
         },
@@ -804,6 +814,7 @@
         "attackPosLerpTime_": 0.4399999976158142,
         "exitTime_": 0.4000000059604645,
         "jumpEffectEmitProgress_": 0.9100000262260437,
+        "moveAttackSEVolume_": 0.1599999964237213,
         "nextAnimDuration_": 0.029999999329447746,
         "nextJumpAnimDuration_": 0.6299999952316284,
         "rotationAxis_": {
