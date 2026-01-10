@@ -104,6 +104,12 @@ void SceneTransition::ImGui() {
 
 bool SceneTransition::ConsumeLoadEndFinished() {
 
+	// 遷移クラスが設定されていなければtrueを返す
+	if (!transition_ || state_ == TransitionState::Begin) {
+		isLoadEndFinished_ = false;
+		return true;
+	}
+
 	bool result = isLoadEndFinished_;
 	isLoadEndFinished_ = false;
 	return result;

@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/Editor/Base/IGameEditor.h>
 #include <Engine/Editor/Level/SceneBuilder.h>
+#include <Engine/Scene/Methods/IScene.h>
 
 // c++
 #include <string>
@@ -39,6 +40,11 @@ public:
 
 	// editorUIの呼び出し
 	void ImGui() override;
+
+	//--------- accessor -----------------------------------------------------
+
+	// 現在のシーンの設定
+	void SetCurrentScene(Scene scene) { currentScene_ = scene; }
 private:
 	//========================================================================
 	//	private Methods
@@ -56,6 +62,9 @@ private:
 
 	Level::ObjectType currentSelectType_;   // 選択中のタイプ
 	std::optional<int> currentSelectIndex_; // 選択インデックス
+
+	// 現在のシーン
+	Scene currentScene_;
 
 	// editor
 	ImVec2 rightChildSize_;        // 右側

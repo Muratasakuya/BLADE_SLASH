@@ -87,7 +87,7 @@ void BaseCamera::UpdateView(UpdateMode updateMode) {
 	// 自動フォーカス設定
 	UpdateAutoFocus();
 
-	// eulerを設定して更新する
+	// オイラーを設定して更新する
 	if (updateMode == UpdateMode::Euler) {
 
 		transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);

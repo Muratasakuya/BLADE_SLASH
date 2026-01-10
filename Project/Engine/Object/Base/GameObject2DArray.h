@@ -76,5 +76,4 @@ namespace SakuEngine {
 		// トランスフォーム(親)
 		Transform2D transform_;
 	};
-
 }; // SakuEngine

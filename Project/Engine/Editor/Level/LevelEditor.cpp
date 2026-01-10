@@ -70,6 +70,10 @@ void LevelEditor::UpdateObjects() {
 		for (const auto& entities : objectMap) {
 
 			entities->Update();
+
+			// 描画設定
+			bool disableScene = currentScene_ == Scene::Debug;
+			entities->SetIsRejection(disableScene);
 		}
 	}
 }
@@ -126,7 +130,7 @@ void LevelEditor::SelectObject() {
 	}
 
 	// 検索ボックス 
-	selectFilter_.Draw("##Searchobject", rightChildSize_.x - 16.0f);
+	selectFilter_.Draw("##SearchObject", rightChildSize_.x - 16.0f);
 	ImGui::Separator();
 
 	// 一覧

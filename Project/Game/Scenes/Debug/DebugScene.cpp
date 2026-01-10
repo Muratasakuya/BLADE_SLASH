@@ -1,24 +1,16 @@
-#include "EffectScene.h"
+#include "DebugScene.h"
 
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
-#include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Engine/Scene/SceneView.h>
+#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 
 //============================================================================
-//	EffectScene classMethods
+//	DebugScene classMethods
 //============================================================================
 
-void EffectScene::Init() {
-
-	//========================================================================
-	//	postProcess
-	//========================================================================
-
-	// 初期化時にのみ作成できる
-	SakuEngine::PostProcessSystem::GetInstance()->Create({ PostProcessType::RadialBlur,PostProcessType::Bloom });
+void DebugScene::Init() {
 
 	//========================================================================
 	//	scene
@@ -34,7 +26,7 @@ void EffectScene::Init() {
 	sceneView_->SetLight(light_.get());
 }
 
-void EffectScene::Update() {
+void DebugScene::Update() {
 
 	camera3D_->UpdateView();
 

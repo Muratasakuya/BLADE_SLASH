@@ -139,5 +139,4 @@ namespace SakuEngine {
 
 		std::string uniqueName_;
 	};
-
 }; // SakuEngine
