@@ -137,17 +137,15 @@ void BossEnemy::CalDistanceToTarget() {
 }
 
 void BossEnemy::DebugCommand() {
-
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
-
 	// キルコマンド
 	if (SakuEngine::Input::GetInstance()->PushKey(DIK_0)) {
-		if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_1)) {
+		if (SakuEngine::Input::GetInstance()->PushKey(DIK_1)) {
+			if (SakuEngine::Input::GetInstance()->TriggerKey(DIK_2)) {
 
-			stats_.currentHP = 0;
+				stats_.currentHP = 0;
+			}
 		}
 	}
-#endif
 }
 
 void BossEnemy::DerivedInit() {
@@ -414,7 +412,7 @@ void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody)
 				eventBus_->Publish(event);
 			}
 		}
-		
+
 		// ダメージイベント発行
 		GameHUDEvents::DamageTakenEvent event{};
 		event.victim = GameHUDEvents::MakeEntityId(this);      // ダメージを受けたエンティティ

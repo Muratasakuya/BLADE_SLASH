@@ -282,18 +282,35 @@ void GameResultDisplay::UpdateResult() {
 
 void GameResultDisplay::UpdateInputGamepad() {
 
-	const auto& type = SakuEngine::Input::GetInstance()->GetType();
+	auto* input = SakuEngine::Input::GetInstance();
+	const auto type = input->GetType();
+
 	const bool nowGamepad = (type != InputType::Keyboard);
 
-	if (!nowGamepad) {
+	// キーボードでナビしたい入力が入ったら Navigator を動かす
+	const bool keyNavPressed =
+		input->TriggerKey(static_cast<BYTE>(KeyDIKCode::A)) ||
+		input->TriggerKey(static_cast<BYTE>(KeyDIKCode::D)) ||
+		input->TriggerKey(static_cast<BYTE>(KeyDIKCode::RETURN)) ||
+		input->TriggerKey(static_cast<BYTE>(KeyDIKCode::SPACE));
 
-		// マウスに切り替わった瞬間だけ全フォーカス解除
+	// マウス操作したらマウス優先に戻す（任意だけどおすすめ）
+	const auto mm = input->GetMouseMoveValue();
+	const bool mouseUsed =
+		(mm.x != 0.0f || mm.y != 0.0f) ||
+		input->PushMouseLeft() || input->PushMouseRight() || input->PushMouseCenter();
+
+	const bool nowNavigator =
+		nowGamepad || (!mouseUsed && (keyNavPressed || buttonFocusNavigator_->HasFocus()));
+
+	if (!nowNavigator) {
+
+		// マウスモード：切り替わった瞬間だけフォーカス解除
 		if (wasGamepad_) {
 			buttonFocusNavigator_->SetGroup(ButtonFocusGroup::Top,
 				{ leftButton_.get(), rightButton_.get() }, 0);
 		}
 
-		// マウス判定を有効化
 		leftButton_->SetEnableCollision(true);
 		rightButton_->SetEnableCollision(true);
 
@@ -301,7 +318,10 @@ void GameResultDisplay::UpdateInputGamepad() {
 		return;
 	}
 
-	// パッド操作入力更新
+	// Navigatorモード
+	leftButton_->SetEnableCollision(false);
+	rightButton_->SetEnableCollision(false);
+
 	buttonFocusNavigator_->Update();
 	wasGamepad_ = true;
 }

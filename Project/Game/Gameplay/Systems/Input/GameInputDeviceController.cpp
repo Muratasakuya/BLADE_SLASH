@@ -38,6 +38,10 @@ void GameInputDeviceController::Init() {
 	isDisplayMouse_ = true;
 	isControlMoveMouse_ = false;
 #endif
+	// フラグの初期化
+	preIsDisplayMouse_ = !isDisplayMouse_;
+	preIsControlMoveMouse_ = !isControlMoveMouse_;
+	UpdateMouseControl();
 }
 
 void GameInputDeviceController::Update() {
@@ -46,6 +50,50 @@ void GameInputDeviceController::Update() {
 	UpdateMouseControl();
 	// 入力タイプの更新
 	UpdateInputType();
+}
+
+void GameInputDeviceController::NonControlUpdate() {
+
+	// クリップ解除
+	SakuEngine::WinApp::ReleaseCursorClip();
+	// マウス表示制御
+	if (preIsDisplayMouse_ != isDisplayMouse_) {
+
+		SakuEngine::WinApp::SetCursorVisible(isDisplayMouse_);
+		preIsDisplayMouse_ = isDisplayMouse_;
+	}
+}
+
+void GameInputDeviceController::ResultUpdateMouse(bool isDisplayFinished) {
+
+	// Resultは常に範囲制限しない
+	SakuEngine::WinApp::ReleaseCursorClip();
+
+	// 直近デバイスを更新
+	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
+
+	// 同フレームで両方来たらキーボード優先
+	if (keyboard_->IsTriggered(GameInputAction::Use)) {
+
+		inputType_ = InputType::Keyboard;
+	} else if (gamepad_->IsTriggered(GameInputAction::Use)) {
+
+		inputType_ = InputType::GamePad;
+	}
+
+	input->SetInputType(inputType_);
+	// マウス表示制御
+	bool visible = isDisplayFinished && (inputType_ == InputType::Keyboard);
+	SakuEngine::WinApp::SetCursorVisible(visible);
+
+	// フラグの更新
+	isControlMoveMouse_ = false;
+	isDisplayMouse_ = visible;
+
+	// WinAppへ反映
+	SakuEngine::WinApp::SetCursorVisible(visible);
+	preIsDisplayMouse_ = isDisplayMouse_;
+	preIsControlMoveMouse_ = isControlMoveMouse_;
 }
 
 void GameInputDeviceController::UpdateMouseControl() {

@@ -126,6 +126,9 @@ void PlayerAttack_4thState::Exit() {
 	exitTimer_ = 0.0f;
 	moveTimer_.Reset();
 	groundCrackEmitted_ = false;
+
+	// カメラアニメーション終了
+	followCamera_->EndCameraAnim();
 }
 
 void PlayerAttack_4thState::ImGui() {

@@ -272,11 +272,11 @@ void PlayerParryState::Exit() {
 
 	if (allowAttack_) {
 
-		// カメラアニメーションを終了させる
-		followCamera_->EndCameraAnim();
 		// 音量リセット
 		parryHitSEVolume_ = parryHitSEBaseVolume_;
 	}
+	// カメラアニメーションを終了させる
+	followCamera_->EndCameraAnim();
 
 	// リセット
 	request_ = std::nullopt;

@@ -98,6 +98,9 @@ void StartGameState::Init(SakuEngine::SceneView* sceneView) {
 
 void StartGameState::Update() {
 
+	// 入力デバイスコントローラー更新
+	context_->inputController->Update();
+
 	const GameSceneState currentState = GameSceneState::Start;
 
 	//========================================================================

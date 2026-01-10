@@ -48,6 +48,8 @@ public:
 	void SetOnConfirm(std::function<void(ButtonFocusGroup, int)> onConfirm) { onConfirm_ = std::move(onConfirm); }
 	// フォーカスインデックスの設定
 	void SetFocusIndex(size_t index);
+
+	bool HasFocus() const { return hasFocus_; }
 private:
 	//========================================================================
 	//	private Methods

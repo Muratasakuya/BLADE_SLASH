@@ -438,7 +438,7 @@
                     ],
                     "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -789,7 +789,7 @@
                     ],
                     "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1026,22 +1026,22 @@
                     "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
-                        "b": 0.24731911718845367,
-                        "g": 0.017093580216169357,
-                        "r": 0.9176604747772217
-                    },
-                    "leftTopColor": {
-                        "a": 1.0,
                         "b": 0.002845817944034934,
                         "g": 0.38590875267982483,
                         "r": 0.9668874144554138
                     },
+                    "leftTopColor": {
+                        "a": 1.0,
+                        "b": 0.17613880336284637,
+                        "g": 0.12447700649499893,
+                        "r": 0.931993305683136
+                    },
                     "postProccessEnable_": false,
                     "rightBottomColor": {
                         "a": 1.0,
-                        "b": 0.025881623849272728,
-                        "g": 0.3598182201385498,
-                        "r": 0.9641512632369995
+                        "b": 0.26822322607040405,
+                        "g": 0.08534032851457596,
+                        "r": 0.9353662729263306
                     },
                     "rightTopColor": {
                         "a": 1.0,
@@ -1140,7 +1140,7 @@
                     ],
                     "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1491,7 +1491,7 @@
                     ],
                     "isChangeDeviceTexture": true,
                     "layer": "PostModel",
-                    "layerIndex": 10,
+                    "layerIndex": 0,
                     "leftBottomColor": {
                         "a": 1.0,
                         "b": 1.0,
@@ -1591,8 +1591,8 @@
                 "y": 0.0
             },
             "translation": {
-                "x": 1450.0,
-                "y": 940.0
+                "x": 1440.0,
+                "y": 920.0
             },
             "vertexOffset": [
                 {

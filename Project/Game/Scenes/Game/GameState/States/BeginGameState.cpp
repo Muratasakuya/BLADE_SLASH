@@ -24,6 +24,9 @@ void BeginGameState::Init([[maybe_unused]] SakuEngine::SceneView* sceneView) {
 
 void BeginGameState::Update() {
 
+	// 入力デバイスコントローラー更新
+	context_->inputController->Update();
+
 	const GameSceneState currentState = GameSceneState::BeginGame;
 
 	//========================================================================
