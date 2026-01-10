@@ -9,6 +9,8 @@
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Engine/Scene/Light/PunctualLight.h>
 
+// デバッグに使用するクラス
+
 //============================================================================
 //	DebugScene class
 //	機能のデバッグ確認を行う用のシーン

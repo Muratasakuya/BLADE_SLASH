@@ -14,75 +14,76 @@
 #include <unordered_map>
 namespace SakuEngine {
 
-// front
+	// front
 
-class Asset;
+	class Asset;
 
-//============================================================================
-//	LevelEditor class
-//	シーンのレベルエディター
-//============================================================================
-class LevelEditor :
-	IGameEditor {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	//============================================================================
+	//	LevelEditor class
+	//	シーンのレベルエディター
+	//============================================================================
+	class LevelEditor :
+		IGameEditor {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	LevelEditor() :IGameEditor("LevelEditor") {};
-	~LevelEditor() = default;
+		LevelEditor() :IGameEditor("LevelEditor") {};
+		~LevelEditor() = default;
 
-	// .jsonファイルから初期化
-	void Init(const std::string& initSceneFile);
+		// .jsonファイルから初期化
+		void Init();
+		// オブジェクトの構築
+		void BuildObjects(const std::string& sceneFile);
 
-	// データ更新
-	void Update();
+		// データ更新
+		void Update();
 
-	// editorUIの呼び出し
-	void ImGui() override;
+		// editorUIの呼び出し
+		void ImGui() override;
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	// 現在のシーンの設定
-	void SetCurrentScene(Scene scene) { currentScene_ = scene; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// 現在のシーンの設定
+		void SetCurrentScene(Scene scene) { currentScene_ = scene; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	const std::string jsonPath_ = "Level/ObjectData/";
+		const std::string jsonPath_ = "Level/ObjectData/";
 
-	// 全てのobjectを管理
-	std::unordered_map<Level::ObjectType, std::vector<std::unique_ptr<GameObject3D>>> objectsMap_;
+		// 全てのobjectを管理
+		std::unordered_map<Level::ObjectType, std::vector<std::unique_ptr<GameObject3D>>> objectsMap_;
 
-	// builder
-	std::unique_ptr<SceneBuilder> sceneBuilder_;
+		// builder
+		std::unique_ptr<SceneBuilder> sceneBuilder_;
 
-	Level::ObjectType currentSelectType_;   // 選択中のタイプ
-	std::optional<int> currentSelectIndex_; // 選択インデックス
+		Level::ObjectType currentSelectType_;   // 選択中のタイプ
+		std::optional<int> currentSelectIndex_; // 選択インデックス
 
-	// 現在のシーン
-	Scene currentScene_;
+		// 現在のシーン
+		Scene currentScene_;
 
-	// editor
-	ImVec2 rightChildSize_;        // 右側
-	ImVec2 buttonSize_;            // ボタンサイズ
-	ImGuiTextFilter selectFilter_; // 検索フィルター
+		// editor
+		ImVec2 rightChildSize_;        // 右側
+		ImVec2 buttonSize_;            // ボタンサイズ
+		ImGuiTextFilter selectFilter_; // 検索フィルター
 
-	//--------- functions ----------------------------------------------------
+		//--------- functions ----------------------------------------------------
 
-	// json
-	void SaveObject(GameObject3D* object);
+		// json
+		void SaveObject(GameObject3D* object);
 
-	// update
-	void BuildObjects();
-	void UpdateObjects();
+		// update
+		void BuildObjects();
+		void UpdateObjects();
 
-	// editor
-	void SelectObject();
-	void EditObject();
-};
-
+		// editor
+		void SelectObject();
+		void EditObject();
+	};
 }; // SakuEngine

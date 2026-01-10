@@ -1,7 +1,6 @@
 #include "PostProcessSystem.h"
 
 using namespace SakuEngine;
-#include "PostProcessSystem.h"
 
 //============================================================================
 //	include
@@ -146,6 +145,16 @@ void PostProcessSystem::Init(ID3D12Device8* device, DxShaderCompiler* shaderComp
 	// copy用プロセス
 	copyTextureProcess_ = std::make_unique<ComputePostProcessor>();
 	copyTextureProcess_->Init(device_, srvDescriptor_, width_, height_);
+
+	// 全てのポストエフェクトを作成する
+	std::vector<PostProcessType> allProcesses;
+	for (uint32_t i = 0; i < static_cast<uint32_t>(PostProcessType::Count); ++i) {
+		if (i == static_cast<uint32_t>(PostProcessType::CopyTexture)) {
+			continue;
+		}
+		allProcesses.push_back(static_cast<PostProcessType>(i));
+	}
+	Create(allProcesses);
 }
 
 void PostProcessSystem::Create(const std::vector<PostProcessType>& processes) {
@@ -172,10 +181,10 @@ void PostProcessSystem::Create(const std::vector<PostProcessType>& processes) {
 
 		// pipeline作成
 		pipeline_->Create(process);
-
+		
 		if (process == PostProcessType::DepthBasedOutline) {
 
-			processors_[process]->SetProcessTexureGPUHandle(depthFrameBurferGPUHandle_);
+			processors_[process]->SetProcessTexureGPUHandle(depthFrameBufferGPUHandle_);
 		}
 	}
 }
@@ -325,7 +334,7 @@ void PostProcessSystem::ImGui() {
 
 	ImGui::SameLine();
 
-	if (ImGui::BeginChild("##activelist", ImVec2(192.0f, 0.0f), true)) {
+	if (ImGui::BeginChild("##activeList", ImVec2(192.0f, 0.0f), true)) {
 
 		ImGui::TextDisabled("ActiveProcessList");
 		for (int i = 0; i < activeProcesses_.size(); ++i) {

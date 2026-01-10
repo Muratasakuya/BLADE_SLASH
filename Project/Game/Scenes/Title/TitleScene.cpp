@@ -29,17 +29,6 @@ void TitleScene::Init() {
 	//========================================================================
 
 	SakuEngine::PostProcessSystem* postProcess = SakuEngine::PostProcessSystem::GetInstance();
-
-	// 初期化時にのみ作成できる
-	postProcess->Create({
-		PostProcessType::RadialBlur,
-		PostProcessType::Bloom,
-		PostProcessType::CRTDisplay,
-		PostProcessType::Glitch,
-		PostProcessType::DepthBasedOutline,
-		PostProcessType::Grayscale,
-		PostProcessType::PlayerAfterImage,
-		PostProcessType::DefaultDistortion });
 	// グリッチに使用するテクスチャを設定
 	postProcess->InputProcessTexture("noise", PostProcessType::Glitch);
 
