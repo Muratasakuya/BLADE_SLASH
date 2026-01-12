@@ -15,7 +15,7 @@ using namespace SakuEngine;
 //	CBufferStructures
 //============================================================================
 
-void TransformationMatrix::Update(const BaseTransform* parent, const Vector3& scale,
+void TransformationMatrix::Update(const BaseTransform3D* parent, const Vector3& scale,
 	const Quaternion& rotation, const Vector3& translation, bool isIgnoreParentScale,
 	const std::optional<Matrix4x4>& billboardMatrix) {
 

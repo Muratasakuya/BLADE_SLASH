@@ -62,6 +62,7 @@ void ObjectManager::Init(ID3D12Device* device, Asset* asset, DxCommand* dxComman
 	// system登録
 	systemManager_->AddSystem<Transform3DSystem>();
 	systemManager_->AddSystem<Transform2DSystem>();
+	systemManager_->AddSystem<TextTransform2DSystem>();
 	systemManager_->AddSystem<AnimationSystem>();
 	systemManager_->AddSystem<MaterialSystem>();
 	systemManager_->AddSystem<SpriteMaterialSystem>();
@@ -192,7 +193,7 @@ uint32_t ObjectManager::CreateTextObject(const std::string& atlasTextureName,
 	// object作成
 	uint32_t object = BuildEmptyObject(name, groupName);
 	// 必要なdataを作成
-	auto* transform = objectPoolManager_->AddData<Transform2D>(object);
+	auto* transform = objectPoolManager_->AddData<TextTransform2D>(object);
 	auto* material = objectPoolManager_->AddData<MSDFTextMaterial>(object);
 	constexpr const uint32_t maxGlyphCount = 128;
 	auto* font = GetSystem<MSDFTextBufferSystem>()->GetMSDFFont(asset_, atlasTextureName, fontJsonPath);
@@ -201,6 +202,7 @@ uint32_t ObjectManager::CreateTextObject(const std::string& atlasTextureName,
 	// 各dataを初期化
 	// transform
 	transform->Init(device_);
+	transform->Secure(device_, maxGlyphCount);
 	// material
 	material->Init(device_);
 

@@ -2,7 +2,8 @@
   "Textures": [
     "white",
     "noise",
-    "FiraMono_msdf"
+    "FiraMono_msdf",
+    "Corporate-Logo-Rounded-Bold_msdf"
   ],
   "Models": [
     "demoCamera",

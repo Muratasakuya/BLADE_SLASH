@@ -75,16 +75,16 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 
 	// vertexデータの更新
 	// 左下
-	vertexData_[LeftBottom].pos = Vector2(left, bottom) + transform.vertexOffset_[LeftBottom];
+	vertexData_[LeftBottom].pos = Vector2(left, bottom) + transform.vertexOffset[LeftBottom];
 	vertexData_[LeftBottom].texcoord = { texLeft,texBottom };
 	// 左上
-	vertexData_[LeftTop].pos = Vector2(left, top) + transform.vertexOffset_[1];
+	vertexData_[LeftTop].pos = Vector2(left, top) + transform.vertexOffset[1];
 	vertexData_[LeftTop].texcoord = { texLeft,texTop };
 	// 右下
-	vertexData_[RightBottom].pos = Vector2(right, bottom) + transform.vertexOffset_[2];
+	vertexData_[RightBottom].pos = Vector2(right, bottom) + transform.vertexOffset[2];
 	vertexData_[RightBottom].texcoord = { texRight,texBottom };
 	// 右上
-	vertexData_[RightTop].pos = Vector2(right, top) + transform.vertexOffset_[3];
+	vertexData_[RightTop].pos = Vector2(right, top) + transform.vertexOffset[3];
 	vertexData_[RightTop].texcoord = { texRight,texTop };
 
 	// GPUデータ転送

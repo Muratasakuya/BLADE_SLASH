@@ -86,7 +86,8 @@ bool ImGuiObjectEditor::Is3D(uint32_t object) const {
 
 bool ImGuiObjectEditor::Is2D(uint32_t object) const {
 
-	return objectManager_->GetData<Transform2D>(object) != nullptr;
+	return objectManager_->GetData<Transform2D>(object) != nullptr ||
+		objectManager_->GetData<TextTransform2D>(object) != nullptr;
 }
 
 void ImGuiObjectEditor::DrawSelectable(uint32_t object, const std::string& name) {
@@ -531,8 +532,13 @@ void ImGuiObjectEditor::Object2DSprite() {
 
 void ImGuiObjectEditor::Object2DTransform() {
 
-	auto* transform = objectManager_->GetData<Transform2D>(*selected2D_);
-	transform->ImGui(itemWidth_);
+	if (auto* transform = objectManager_->GetData<Transform2D>(*selected2D_)) {
+
+		transform->ImGui(itemWidth_);
+	} else if (auto* textTransform = objectManager_->GetData<TextTransform2D>(*selected2D_)) {
+
+		textTransform->ImGui(itemWidth_);
+	}
 }
 
 void ImGuiObjectEditor::Object2DMaterial() {

@@ -8,6 +8,7 @@ using namespace SakuEngine;
 #include <Engine/Config.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 
 // imgui
@@ -21,17 +22,17 @@ using namespace SakuEngine;
 // 3D
 //============================================================================
 
-void BaseTransform::Init() {
+void BaseTransform3D::Init() {
 
-	scale = SakuEngine::Vector3::AnyInit(1.0f);
+	scale = Vector3::AnyInit(1.0f);
 	rotation.Init();
 	translation.Init();
 
 	eulerRotate.Init();
-	prevScale = SakuEngine::Vector3::AnyInit(1.0f);
+	prevScale = Vector3::AnyInit(1.0f);
 }
 
-void BaseTransform::UpdateMatrix() {
+void BaseTransform3D::UpdateMatrix() {
 
 	// 値に変更がなければ更新しない
 	bool selfUnchanged =
@@ -72,7 +73,7 @@ void BaseTransform::UpdateMatrix() {
 	prevOffsetTranslation = offsetTranslation;
 }
 
-bool BaseTransform::ImGui(float itemSize) {
+bool BaseTransform3D::ImGui(float itemSize) {
 
 	bool edited = false;
 
@@ -81,7 +82,7 @@ bool BaseTransform::ImGui(float itemSize) {
 	edited = ImGui::Button("Reset");
 	if (edited) {
 
-		scale = SakuEngine::Vector3::AnyInit(1.0f);
+		scale = Vector3::AnyInit(1.0f);
 		rotation.Init();
 		translation.Init();
 
@@ -104,7 +105,7 @@ bool BaseTransform::ImGui(float itemSize) {
 
 	ImGui::SeparatorText("Offset");
 
-	SakuEngine::ImGuiHelper::ValueText<Vector3>("translation", offsetTranslation);
+	ImGuiHelper::ValueText<Vector3>("translation", offsetTranslation);
 
 	ImGui::SeparatorText("World Matrix");
 	if (ImGui::BeginTable("WorldMatrix", 4,
@@ -152,19 +153,19 @@ bool BaseTransform::ImGui(float itemSize) {
 	return edited;
 }
 
-void BaseTransform::ToJson(Json& data) {
+void BaseTransform3D::ToJson(Json& data) {
 
 	data["isCompulsion_"] = isCompulsion_;
 	data["isIgnoreParentScale"] = isIgnoreParentScale;
 	data["scale"] = scale.ToJson();
 
 	// 正規化してから保存
-	rotation = SakuEngine::Quaternion::Normalize(rotation);
+	rotation = Quaternion::Normalize(rotation);
 	data["rotation"] = rotation.ToJson();
 	data["translation"] = translation.ToJson();
 }
 
-void BaseTransform::FromJson(const Json& data) {
+void BaseTransform3D::FromJson(const Json& data) {
 
 	if (data.empty()) {
 		return;
@@ -172,12 +173,12 @@ void BaseTransform::FromJson(const Json& data) {
 
 	isCompulsion_ = data.value("isCompulsion_", false);
 	isIgnoreParentScale = data.value("isIgnoreParentScale", false);
-	scale = SakuEngine::JsonAdapter::ToObject<Vector3>(data["scale"]);
-	rotation = SakuEngine::JsonAdapter::ToObject<Quaternion>(data["rotation"]);
-	translation = SakuEngine::JsonAdapter::ToObject<Vector3>(data["translation"]);
+	scale = JsonAdapter::ToObject<Vector3>(data["scale"]);
+	rotation = JsonAdapter::ToObject<Quaternion>(data["rotation"]);
+	translation = JsonAdapter::ToObject<Vector3>(data["translation"]);
 }
 
-Vector3 BaseTransform::GetWorldScale() const {
+Vector3 BaseTransform3D::GetWorldScale() const {
 
 	Vector3 right(matrix.world.m[0][0], matrix.world.m[0][1], matrix.world.m[0][2]);
 	Vector3 up(matrix.world.m[1][0], matrix.world.m[1][1], matrix.world.m[1][2]);
@@ -190,18 +191,18 @@ Vector3 BaseTransform::GetWorldScale() const {
 	return worldScale;
 }
 
-Quaternion BaseTransform::GetWorldRotation() const {
+Quaternion BaseTransform3D::GetWorldRotation() const {
 
 	// 親も含めたForward、Upベクトルを取得
 	Vector3 forward = GetForward();
 	Vector3 up = GetUp();
 
 	// 回転を作成
-	Quaternion worldRotation = SakuEngine::Quaternion::LookRotation(forward, up);
-	return SakuEngine::Quaternion::Normalize(worldRotation);
+	Quaternion worldRotation = Quaternion::LookRotation(forward, up);
+	return Quaternion::Normalize(worldRotation);
 }
 
-Vector3 BaseTransform::GetWorldPos() const {
+Vector3 BaseTransform3D::GetWorldPos() const {
 
 	Vector3 worldPos{};
 	worldPos.x = matrix.world.m[3][0];
@@ -211,31 +212,31 @@ Vector3 BaseTransform::GetWorldPos() const {
 	return worldPos;
 }
 
-Vector3 BaseTransform::GetForward() const {
+Vector3 BaseTransform3D::GetForward() const {
 	return Vector3(matrix.world.m[2][0], matrix.world.m[2][1], matrix.world.m[2][2]).Normalize();
 }
 
-Vector3 BaseTransform::GetBack() const {
+Vector3 BaseTransform3D::GetBack() const {
 	return Vector3(-GetForward().x, -GetForward().y, -GetForward().z);
 }
 
-Vector3 BaseTransform::GetRight() const {
+Vector3 BaseTransform3D::GetRight() const {
 	return Vector3(matrix.world.m[0][0], matrix.world.m[0][1], matrix.world.m[0][2]).Normalize();
 }
 
-Vector3 BaseTransform::GetLeft() const {
+Vector3 BaseTransform3D::GetLeft() const {
 	return Vector3(-GetRight().x, -GetRight().y, -GetRight().z);
 }
 
-Vector3 BaseTransform::GetUp() const {
+Vector3 BaseTransform3D::GetUp() const {
 	return Vector3(matrix.world.m[1][0], matrix.world.m[1][1], matrix.world.m[1][2]).Normalize();
 }
 
-Vector3 BaseTransform::GetDown() const {
+Vector3 BaseTransform3D::GetDown() const {
 	return Vector3(-GetUp().x, -GetUp().y, -GetUp().z);
 }
 
-void BaseTransform::SetIsDirty(bool isDirty) {
+void BaseTransform3D::SetIsDirty(bool isDirty) {
 
 	isDirty_ = isDirty;
 	if (isDirty_) {
@@ -273,7 +274,7 @@ void EffectTransform::ImGui(float itemSize) {
 	ImGui::DragFloat3("translation", &translation.x, 0.01f);
 	if (ImGui::DragFloat3("rotation", &eulerRotate.x, 0.01f)) {
 
-		rotation = SakuEngine::Quaternion::Normalize(Quaternion::EulerToQuaternion(eulerRotate));
+		rotation = Quaternion::Normalize(Quaternion::EulerToQuaternion(eulerRotate));
 	}
 	ImGui::Text("quaternion(%4.3f, %4.3f, %4.3f, %4.3f)",
 		rotation.x, rotation.y, rotation.z, rotation.w);
@@ -285,19 +286,27 @@ void EffectTransform::ImGui(float itemSize) {
 // 2D
 //============================================================================
 
-void Transform2D::Init(ID3D12Device* device) {
+Vector2 BaseTransform2D::GetWorldPos() const {
 
-	translation = SakuEngine::Vector2::AnyInit(0.0f);
+	Vector2 worldPos{};
+	worldPos.x = matrix.m[3][0];
+	worldPos.y = matrix.m[3][1];
+	return worldPos;
+}
+
+void BaseTransform2D::SetCenterPos() {
+
+	translation.x = Config::kWindowWidthf / 2.0f;
+	translation.y = Config::kWindowHeightf / 2.0f;
+}
+
+void BaseTransform2D::Init(ID3D12Device* device) {
+
+	translation = Vector2::AnyInit(0.0f);
 	rotation = 0.0f;
-
-	size = SakuEngine::Vector2::AnyInit(0.0f);
-	sizeScale = SakuEngine::Vector2::AnyInit(1.0f);
-	// 中心で設定
-	anchorPoint = SakuEngine::Vector2::AnyInit(0.5f);
-
-	// 左上設定
-	textureLeftTop = SakuEngine::Vector2::AnyInit(0.0f);
-	textureSize = SakuEngine::Vector2::AnyInit(0.0f);
+	sizeScale = Vector2::AnyInit(1.0f);
+	// 中心設定
+	anchorPoint = Vector2::AnyInit(0.5f);
 
 	// deviceがnullptrの場合はバッファを作成しない
 	if (!device) {
@@ -308,7 +317,7 @@ void Transform2D::Init(ID3D12Device* device) {
 	buffer_.CreateBuffer(device);
 }
 
-void Transform2D::UpdateMatrix() {
+void BaseTransform2D::UpdateMatrix() {
 
 	// ローカル行列の計算
 	Matrix4x4 local = Matrix4x4::MakeAffineMatrix(Vector3(sizeScale.x, sizeScale.y, 1.0f),
@@ -339,82 +348,94 @@ void Transform2D::UpdateMatrix() {
 	}
 }
 
-void Transform2D::ImGui(float itemSize, float buttonSize) {
+void BaseTransform2D::ImGuiCommon(float itemSize) {
 
-	ImGui::SeparatorText("Config");
+	ImGui::SeparatorText("Common");
 
-	if (ImGui::Button("Set CenterPos", ImVec2(itemSize, buttonSize))) {
+	if (ImGui::Button("Set CenterPos", ImVec2(itemSize, 28.0f))) {
 
 		SetCenterPos();
 	}
-
-	if (ImGui::Button("Set CenterAnchor", ImVec2(itemSize, buttonSize))) {
-
-		anchorPoint = SakuEngine::Vector2::AnyInit(0.5f);
-	}
-
-	if (ImGui::Button("Set LeftAnchor", ImVec2(itemSize, buttonSize))) {
-
-		anchorPoint = SakuEngine::Vector2::AnyInit(0.0f);
-	}
-
-	if (ImGui::Button("Set RightAnchor", ImVec2(itemSize, buttonSize))) {
-
-		anchorPoint = SakuEngine::Vector2::AnyInit(1.0f);
-	}
-
-	if (ImGui::Button("Set WindowSize", ImVec2(itemSize, buttonSize))) {
-
-		// ウィンドウサイズに設定
-		size = Vector2(Config::kWindowWidthf, Config::kWindowHeightf);
-	}
-	if (ImGui::Button("Set WindowHalfSize", ImVec2(itemSize, buttonSize))) {
-
-		// ウィンドウサイズの半分設定
-		size = Vector2(Config::kWindowWidthf / 2.0f, Config::kWindowHeightf / 2.0f);
-	}
-
-	ImGui::SeparatorText("Parameter");
+	ImGui::Separator();
+	ImGui::Spacing();
 
 	ImGui::PushItemWidth(itemSize);
+
 	ImGui::DragFloat2("translation", &translation.x, 1.0f);
 	ImGui::SliderAngle("rotation", &rotation);
+	ImGui::DragFloat2("sizeScale", &sizeScale.x, 0.01f);
+	ImGui::DragFloat2("anchorPoint", &anchorPoint.x, 0.01f, -1.0f, 1.0f);
+	ImGui::Checkbox("rotateAroundSelfWhenParented", &rotateAroundSelfWhenParented);
+
+	ImGui::PopItemWidth();
+}
+
+void BaseTransform2D::FromJsonCommon(const Json& data) {
+
+	if (data.empty()) {
+		return;
+	}
+	translation = Vector2::FromJson(data["translation"]);
+	rotation = data["rotation"].get<float>();
+	sizeScale = Vector2::FromJson(data["sizeScale"]);
+	anchorPoint = Vector2::FromJson(data["anchorPoint"]);
+	rotateAroundSelfWhenParented = data.value("rotateAroundSelfWhenParented", true);
+}
+
+void BaseTransform2D::ToJsonCommon(Json& data) {
+
+	data["translation"] = translation.ToJson();
+	data["rotation"] = rotation;
+	data["sizeScale"] = sizeScale.ToJson();
+	data["anchorPoint"] = anchorPoint.ToJson();
+	data["rotateAroundSelfWhenParented"] = rotateAroundSelfWhenParented;
+}
+
+void Transform2D::Init(ID3D12Device* device) {
+
+	// 親クラス初期化
+	BaseTransform2D::Init(device);
+
+	size = Vector2::AnyInit(0.0f);
+	// 左上設定
+	textureLeftTop = Vector2::AnyInit(0.0f);
+	textureSize = Vector2::AnyInit(0.0f);
+}
+
+void Transform2D::ImGui(float itemSize) {
+
+	BaseTransform2D::ImGuiCommon(itemSize);
+
+	ImGui::PushItemWidth(itemSize);
 
 	ImGui::DragFloat2("size", &size.x, 1.0f);
-	ImGui::DragFloat2("sizeScale", &sizeScale.x, 0.01f);
-
-	ImGui::DragFloat2("anchorPoint", &anchorPoint.x, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x, 1.0f);
 	ImGui::DragFloat2("textureSize", &textureSize.x, 1.0f);
-	ImGui::Checkbox("rotateAroundSelfWhenParented", &rotateAroundSelfWhenParented);
 
 	ImGui::SeparatorText("VertexOffset");
 
 	// 左下
-	ImGui::DragFloat2("leftBottom", &vertexOffset_[0].x, 0.1f);
+	ImGui::DragFloat2("leftBottom", &vertexOffset[0].x, 0.1f);
 	// 左上
-	ImGui::DragFloat2("leftTop", &vertexOffset_[1].x, 0.1f);
+	ImGui::DragFloat2("leftTop", &vertexOffset[1].x, 0.1f);
 	// 右下
-	ImGui::DragFloat2("rightBottom", &vertexOffset_[2].x, 0.1f);
+	ImGui::DragFloat2("rightBottom", &vertexOffset[2].x, 0.1f);
 	// 右上
-	ImGui::DragFloat2("rightTop", &vertexOffset_[3].x, 0.1f);
+	ImGui::DragFloat2("rightTop", &vertexOffset[3].x, 0.1f);
 
 	ImGui::PopItemWidth();
 }
 
 void Transform2D::ToJson(Json& data) {
 
-	data["translation"] = translation.ToJson();
-	data["rotation"] = rotation;
+	BaseTransform2D::ToJsonCommon(data);
+
 	data["size"] = size.ToJson();
-	data["sizeScale"] = sizeScale.ToJson();
-	data["anchorPoint"] = anchorPoint.ToJson();
 	data["textureLeftTop"] = textureLeftTop.ToJson();
 	data["textureSize"] = textureSize.ToJson();
-	data["rotateAroundSelfWhenParented"] = rotateAroundSelfWhenParented;
 
 	data["vertexOffset"] = Json::array();
-	for (const auto& offset : vertexOffset_) {
+	for (const auto& offset : vertexOffset) {
 
 		data["vertexOffset"].push_back(offset.ToJson());
 	}
@@ -422,40 +443,117 @@ void Transform2D::ToJson(Json& data) {
 
 void Transform2D::FromJson(const Json& data) {
 
-	translation = SakuEngine::JsonAdapter::ToObject<Vector2>(data["translation"]);
-	rotation = data["rotation"].get<float>();
-	size = SakuEngine::JsonAdapter::ToObject<Vector2>(data["size"]);
-	anchorPoint = SakuEngine::JsonAdapter::ToObject<Vector2>(data["anchorPoint"]);
-	textureLeftTop = SakuEngine::JsonAdapter::ToObject<Vector2>(data["textureLeftTop"]);
-	textureSize = SakuEngine::JsonAdapter::ToObject<Vector2>(data["textureSize"]);
-	rotateAroundSelfWhenParented = data.value("rotateAroundSelfWhenParented", true);
+	BaseTransform2D::FromJsonCommon(data);
 
-	if (data.contains("sizeScale")) {
-
-		sizeScale = SakuEngine::Vector2::FromJson(data["sizeScale"]);
-	} else {
-
-		sizeScale = SakuEngine::Vector2::AnyInit(1.0f);
-	}
+	size = Vector2::FromJson(data["size"]);
+	textureLeftTop = Vector2::FromJson(data["textureLeftTop"]);
+	textureSize = Vector2::FromJson(data["textureSize"]);
 
 	if (data.contains("vertexOffset")) {
-		for (uint32_t i = 0; i < vertexOffset_.size(); ++i) {
+		for (uint32_t i = 0; i < vertexOffset.size(); ++i) {
 
-			vertexOffset_[i] = SakuEngine::Vector2::FromJson(data["vertexOffset"][i]);
+			vertexOffset[i] = Vector2::FromJson(data["vertexOffset"][i]);
 		}
 	}
 }
 
-Vector2 SakuEngine::Transform2D::GetWorldPos() const {
+void TextTransform2D::Secure(ID3D12Device* device, uint32_t maxGlyphs) {
 
-	Vector2 worldPos{};
-	worldPos.x = matrix.m[3][0];
-	worldPos.y = matrix.m[3][1];
-	return worldPos;
+	// すでに確保されている場合は何もしない
+	if (!charTransforms.empty()) {
+		return;
+	}
+
+	maxGlyphs_ = maxGlyphs;
+
+	charTransforms.clear();
+	matrices.clear();
+	for (uint32_t i = 0; i < maxGlyphs; ++i) {
+
+		charTransforms.emplace_back();
+		matrices.emplace_back();
+		charTransforms[i].Init(nullptr);
+		matrices[i] = Matrix4x4::MakeIdentity4x4();
+	}
+
+	// 文字ごとの行列バッファ作成
+	charMatrixBuffer_.CreateSRVBuffer(device, maxGlyphs_);
 }
 
-void Transform2D::SetCenterPos() {
+void TextTransform2D::UpdateAllMatrix(const MSDFText& text) {
 
-	translation.x = Config::kWindowWidthf / 2.0f;
-	translation.y = Config::kWindowHeightf / 2.0f;
+	// 現在の文字を取得
+	currentText_ = &text.GetText();
+	currentCodepoints_ = text.GetCodepoints();
+
+	if (charTransforms.empty()) {
+		return;
+	}
+
+	// 全てのトランスフォームを更新
+	BaseTransform2D::UpdateMatrix();
+
+	// 描画される文字数分
+	uint32_t renderCount = (std::min)(maxGlyphs_, text.GetRenderedGlyphCount());
+
+	// 文字分更新
+	for (uint32_t i = 0; i < maxGlyphs_; ++i) {
+
+		// 描画されない文字は単位行列を設定
+		if (renderCount <= i) {
+			matrices[i] = Matrix4x4::MakeIdentity4x4();
+			continue;
+		}
+
+		const Vector2 pivot = text.GetGlyphPivot(i);
+		const auto& transform = charTransforms[i];
+
+		// ピボット位置まで移動させた行列
+		Matrix4x4 toOrigin = Matrix4x4::MakeAffineMatrix(Vector3(1.0f, 1.0f, 1.0f),
+			Vector3(0.0f, 0.0f, 0.0f), Vector3(-pivot.x, -pivot.y, 0.0f));
+
+		// ピボット+オフセット位置でのSRT行列
+		Matrix4x4 worldMatrix = Matrix4x4::MakeAffineMatrix(Vector3(transform.sizeScale.x, transform.sizeScale.y, 1.0f),
+			Vector3(0.0f, 0.0f, transform.rotation),
+			Vector3(pivot.x + transform.translation.x, pivot.y + transform.translation.y, 0.0f));
+		// 最終行列を計算
+		matrices[i] = Matrix4x4::Multiply(toOrigin, worldMatrix);
+	}
+	// バッファ転送
+	charMatrixBuffer_.TransferData(matrices);
+}
+
+void TextTransform2D::ImGui(float itemSize) {
+
+	BaseTransform2D::ImGuiCommon(itemSize);
+
+	ImGui::PushItemWidth(itemSize);
+
+	ImGui::Text("CurrentText: %s", currentText_ ? currentText_->c_str() : "null");
+	ImGui::Text("MaxGlyphs:   %d", maxGlyphs_);
+
+	// 文字ごとのトランスフォーム表示
+	for (uint32_t i = 0; i < maxGlyphs_; ++i) {
+
+		bool enable = i < currentCodepoints_.size();
+		if (!enable) {
+			continue;
+		}
+
+		// 表示する文字がある場合はその文字を表示
+		std::string label = "CharTransform: " + Algorithm::CodepointToUtf8(currentCodepoints_[i]);
+
+		ImGui::PushID(i);
+		if (ImGui::TreeNode(label.c_str())) {
+
+			auto& charTransform = charTransforms[i];
+
+			ImGui::DragFloat2("translation", &charTransform.translation.x, 0.1f);
+			ImGui::SliderAngle("rotation", &charTransform.rotation);
+			ImGui::DragFloat2("sizeScale", &charTransform.sizeScale.x, 0.01f);
+			ImGui::TreePop();
+		}
+		ImGui::PopID();
+	}
+	ImGui::PopItemWidth();
 }

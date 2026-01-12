@@ -9,7 +9,7 @@
 namespace SakuEngine {
 
 	// front
-	class Transform2D;
+	class TextTransform2D;
 	class MSDFTextMaterial;
 
 	//============================================================================
@@ -18,7 +18,7 @@ namespace SakuEngine {
 
 	struct MSDFTextData {
 
-		Transform2D* transform;
+		TextTransform2D* transform;
 		MSDFTextMaterial* material;
 		MSDFText* text;
 	};

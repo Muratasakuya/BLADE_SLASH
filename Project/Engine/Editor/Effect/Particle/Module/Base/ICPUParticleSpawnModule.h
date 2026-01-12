@@ -47,7 +47,7 @@ public:
 	void SetAsset(Asset* asset) { asset_ = asset; }
 	void SetPrimitiveType(ParticlePrimitiveType type);
 	// 親の設定
-	void SetParent(bool isSet, const BaseTransform& parent);
+	void SetParent(bool isSet, const BaseTransform3D& parent);
 
 	// データ共有
 	void ShareCommonParam(ICPUParticleSpawnModule* other);
@@ -89,7 +89,7 @@ protected:
 	std::string trailNoiseTextureName_;
 
 	// 親設定
-	const BaseTransform* parentTransform_ = nullptr;
+	const BaseTransform3D* parentTransform_ = nullptr;
 
 	//--------- functions ----------------------------------------------------
 

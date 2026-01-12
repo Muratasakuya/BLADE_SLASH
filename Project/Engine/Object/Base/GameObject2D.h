@@ -74,7 +74,7 @@ namespace SakuEngine {
 		// 親
 		void SetParent(const Transform2D& parent) { transform_->parent = &parent; }
 		// 頂点オフセット
-		void SetVertexOffset(uint32_t index, const Vector2& offset) { transform_->vertexOffset_[index] = offset; };
+		void SetVertexOffset(uint32_t index, const Vector2& offset) { transform_->vertexOffset[index] = offset; };
 
 		// material
 		// 色

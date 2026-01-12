@@ -48,7 +48,7 @@ namespace SakuEngine {
 		void ImGui(float itemSize);
 
 		// 更新
-		void UpdateVertex(const Transform2D& transform);
+		void UpdateVertex(const TextTransform2D& transform);
 
 		//--------- accessor -----------------------------------------------------
 
@@ -63,9 +63,17 @@ namespace SakuEngine {
 		void SetFontSizePx(float pixel);
 
 		// フォントサイズ取得
-		float GetFontSizePx() const { return fontSizePx_; }
+		float GetFontSize() const { return fontSize_; }
 		// 文字列取得
 		const std::string& GetText() const { return textUtf8_; }
+		const std::vector<char32_t>& GetCodepoints() const { return codepoints_; }
+		// 文字数取得
+		uint32_t GetGlyphCount() const { return static_cast<uint32_t>(codepoints_.size()); }
+
+		// 描画されたグリフ数
+		uint32_t GetRenderedGlyphCount() const { return renderedGlyphCount_; }
+		// 指定文字のピボット取得
+		Vector2 GetGlyphPivot(uint32_t i) const { return glyphPivots_[i]; }
 
 		// 描画情報取得
 		uint32_t GetDrawIndexCount() const { return drawIndexCount_; }
@@ -96,9 +104,14 @@ namespace SakuEngine {
 		// 最大文字数
 		uint32_t maxGlyphs_ = 0;
 		// フォントサイズ
-		float fontSizePx_ = 32.0f;
+		float fontSize_ = 32.0f;
+		// 文字間隔
+		float charSpacing_ = 0.0f;
 
 		MSDFTextBounds bounds_{};
+		// 描画される文字数
+		uint32_t renderedGlyphCount_ = 0;
+		std::vector<Vector2> glyphPivots_;
 
 		// buffer
 		uint32_t drawIndexCount_ = 0;
@@ -107,6 +120,8 @@ namespace SakuEngine {
 
 		// 変更があったか
 		bool dirtyMesh_ = true;
+		// アンカー位置を監視する
+		Vector2 prevAnchorPoint_{};
 
 		// エディター
 		InputImGui inputText_;
@@ -116,6 +131,6 @@ namespace SakuEngine {
 		// 必要に応じて頂点バッファの容量を拡張
 		void EnsureCapacity(uint32_t glyphCount);
 		void BuildIndexBuffer();
-		void RebuildMeshCPU(const Transform2D& transform);
+		void RebuildMeshCPU(const TextTransform2D& transform);
 	};
 } // namespace SakuEngine

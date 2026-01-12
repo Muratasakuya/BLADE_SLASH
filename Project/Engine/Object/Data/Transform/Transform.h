@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Core/Graphics/GPUObject/CBufferStructures.h>
 #include <Engine/Core/Graphics/GPUObject/DxConstBuffer.h>
+#include <Engine/Core/Graphics/GPUObject/DxStructuredBuffer.h>
 #include <Engine/MathLib/Vector2.h>
 #include <Engine/MathLib/Vector3.h>
 #include <Engine/MathLib/Quaternion.h>
@@ -12,20 +13,20 @@
 // c++
 #include <format>
 
-//============================================================================
-//	BaseTransform class
-//	3DTransformの基底クラス
-//============================================================================
 namespace SakuEngine {
 
-	class BaseTransform {
+	//============================================================================
+	//	BaseTransform3D class
+	//	3DTransformの基底クラス
+	//============================================================================
+	class BaseTransform3D {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		BaseTransform() = default;
-		virtual ~BaseTransform() = default;
+		BaseTransform3D() = default;
+		virtual ~BaseTransform3D() = default;
 
 		// 初期化
 		void Init();
@@ -77,7 +78,7 @@ namespace SakuEngine {
 		Vector3 offsetTranslation;
 
 		TransformationMatrix matrix;
-		const BaseTransform* parent = nullptr;
+		const BaseTransform3D* parent = nullptr;
 
 		// 行列強制更新フラグ
 		bool isCompulsion_ = false;
@@ -104,7 +105,7 @@ namespace SakuEngine {
 	//	3DTransformクラス
 	//============================================================================
 	class Transform3D :
-		public BaseTransform {
+		public BaseTransform3D {
 	public:
 		//========================================================================
 		//	public Methods
@@ -153,27 +154,29 @@ namespace SakuEngine {
 	};
 
 	//============================================================================
-	//	Transform2D class
-	//	2DTransformクラス
+	//	BaseTransform2D class
+	//	2DTransformの基底クラス
 	//============================================================================
-	class Transform2D {
+	class BaseTransform2D {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		Transform2D() = default;
-		~Transform2D() = default;
+		BaseTransform2D() = default;
+		virtual ~BaseTransform2D() = default;
 
+		// 初期化
 		void Init(ID3D12Device* device);
-
+		// 行列更新
 		void UpdateMatrix();
 
-		void ImGui(float itemSize, float buttonSize = 32.0f);
+		// エディター
+		void ImGuiCommon(float itemSize);
 
 		// json
-		void ToJson(Json& data);
-		void FromJson(const Json& data);
+		void FromJsonCommon(const Json& data);
+		void ToJsonCommon(Json& data);
 
 		//--------- accessor -----------------------------------------------------
 
@@ -183,34 +186,23 @@ namespace SakuEngine {
 		// 画面の中心に設定
 		void SetCenterPos();
 
+		// 定数バッファ取得
+		const DxConstBuffer<Matrix4x4>& GetBuffer() const { return buffer_; }
+
 		//--------- variables ----------------------------------------------------
 
-		Vector2 translation;
-		float rotation;
+		Vector2 translation; // 座標
+		float rotation;      // 回転
+		Vector2 sizeScale;   // スケール
+		Vector2 anchorPoint; // アンカーポイント
 
-		Vector2 size;           // 表示サイズ
-		Vector2 sizeScale;      // スケール
-		Vector2 anchorPoint;    // アンカーポイント
-
-		Vector2 textureLeftTop; // テクスチャ左上座標
-		Vector2 textureSize;    // テクスチャ切り出しサイズ
-
-		// 0: 左下
-		// 1: 左上
-		// 2: 右下
-		// 3: 右上
-		std::array<Vector2, 4> vertexOffset_; // 頂点オフセット
-
+		// 行列
 		Matrix4x4 matrix;
 
-		const Transform2D* parent = nullptr;
-
+		// 親
+		const BaseTransform2D* parent = nullptr;
 		// 親がいてもその場で回転するかどうか
 		bool rotateAroundSelfWhenParented = true;
-
-		//--------- accessor -----------------------------------------------------
-
-		const DxConstBuffer<Matrix4x4>& GetBuffer() const { return buffer_; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -222,4 +214,88 @@ namespace SakuEngine {
 		DxConstBuffer<Matrix4x4> buffer_;
 	};
 
+	//============================================================================
+	//	Transform2D class
+	//	2DTransformクラス
+	//============================================================================
+	class Transform2D :
+		public BaseTransform2D {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		Transform2D() = default;
+		~Transform2D() = default;
+
+		void Init(ID3D12Device* device);
+
+		void ImGui(float itemSize);
+
+		// json
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
+
+		//--------- variables ----------------------------------------------------
+
+		Vector2 size;           // 表示サイズ
+		Vector2 textureLeftTop; // テクスチャ左上座標
+		Vector2 textureSize;    // テクスチャ切り出しサイズ
+
+		// 0: 左下
+		// 1: 左上
+		// 2: 右下
+		// 3: 右上
+		std::array<Vector2, 4> vertexOffset; // 頂点オフセット
+	};
+
+	//============================================================================
+	//	TextTransform2D class
+	//	2DTransformクラス
+	//============================================================================
+	class TextTransform2D :
+		public BaseTransform2D {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		TextTransform2D() = default;
+		~TextTransform2D() = default;
+
+		// 初期化、最大数分確保する
+		void Secure(ID3D12Device* device, uint32_t maxGlyphs);
+		// 行列更新
+		void UpdateAllMatrix(const class MSDFText& text);
+
+		// エディター
+		void ImGui(float itemSize);
+
+		//--------- variables ----------------------------------------------------
+
+		// 文字数分のトランスフォーム
+		std::vector<BaseTransform2D> charTransforms;
+		// 行列
+		std::vector<Matrix4x4> matrices;
+
+		//--------- accessor -----------------------------------------------------
+
+		// 文字ごとの行列バッファ取得
+		const DxStructuredBuffer<Matrix4x4>& GetCharMatrixBuffer() const { return charMatrixBuffer_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// 最大文字数
+		uint32_t maxGlyphs_;
+		// 現在の文字列
+		const std::string* currentText_ = nullptr;
+		std::vector<char32_t> currentCodepoints_;
+
+		// 文字ごとの行列バッファ
+		DxStructuredBuffer<Matrix4x4> charMatrixBuffer_;
+	};
 }; // SakuEngine

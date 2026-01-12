@@ -37,7 +37,7 @@ void ParticleSystem::Init(ID3D12Device* device,
 	allEmitTime_ = 1.0f;
 }
 
-void ParticleSystem::SetParent(const BaseTransform& parent) {
+void ParticleSystem::SetParent(const BaseTransform3D& parent) {
 
 	for (auto& group : gpuGroups_) {
 

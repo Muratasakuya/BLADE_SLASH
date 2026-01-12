@@ -9,8 +9,9 @@
     "RootParameter": [
         { "RootIndex": 0, "Type": "CBV", "Visibility": "VERTEX", "ShaderRegister": 0 },
         { "RootIndex": 1, "Type": "CBV", "Visibility": "VERTEX", "ShaderRegister": 1 },
-        { "RootIndex": 2, "Type": "TABLE", "Visibility": "PIXEL", "DescriptorRange": { "Type": "SRV", "BaseShaderRegister": 0 } },
-        { "RootIndex": 3, "Type": "CBV", "Visibility": "PIXEL", "ShaderRegister": 0 }
+        { "RootIndex": 2, "Type": "SRV", "Visibility": "VERTEX", "ShaderRegister": 0 },
+        { "RootIndex": 3, "Type": "TABLE", "Visibility": "PIXEL", "DescriptorRange": { "Type": "SRV", "BaseShaderRegister": 0 } },
+        { "RootIndex": 4, "Type": "CBV", "Visibility": "PIXEL", "ShaderRegister": 0 }
     ],
     "StaticSampler": [
         { "SamplerIndex": 0, "Filter": "LINEAR", "AddressMode": "WRAP","ComparisonFunc": "NEVER","Visibility": "PIXEL", "ShaderRegister": 0 }

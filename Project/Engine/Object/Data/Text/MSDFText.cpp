@@ -32,8 +32,12 @@ MSDFText::MSDFText(ID3D12Device* device, Asset* asset, const MSDFFont* font, uin
 void MSDFText::SetText(const std::string& utf8) {
 
 	textUtf8_ = utf8;
-	codepoints_ = SakuEngine::Algorithm::Utf8ToCodepoints(textUtf8_);
+	codepoints_ = Algorithm::Utf8ToCodepoints(textUtf8_);
 	dirtyMesh_ = true;
+
+	// エディター用入力欄も更新
+	inputText_.inputText = textUtf8_;
+	inputText_.CopyToBuffer();
 }
 
 void MSDFText::SetText(int32_t value) {
@@ -52,7 +56,7 @@ void MSDFText::SetText(float value, int32_t precision) {
 
 void MSDFText::SetFontSizePx(float pixel) {
 
-	fontSizePx_ = pixel;
+	fontSize_ = pixel;
 	dirtyMesh_ = true;
 }
 
@@ -75,6 +79,7 @@ void MSDFText::EnsureCapacity(uint32_t glyphCount) {
 	indexBuffer_.CreateBuffer(device_, maxGlyphs_ * 6);
 	BuildIndexBuffer();
 	dirtyMesh_ = true;
+	glyphPivots_.resize(maxGlyphs_);
 }
 
 void MSDFText::BuildIndexBuffer() {
@@ -99,27 +104,14 @@ void MSDFText::BuildIndexBuffer() {
 	indexBuffer_.TransferData(indices);
 }
 
-void MSDFText::ImGui(float itemSize) {
+void MSDFText::UpdateVertex(const TextTransform2D& transform) {
 
-	ImGui::PushItemWidth(itemSize);
-
-	inputText_.inputText = textUtf8_;
-	if (ImGuiHelper::InputText("Text", inputText_)) {
-		SetText(inputText_.inputText);
-	}
-	ImGui::Text("Glyphs: %zu", codepoints_.size());
-
-	ImGui::SeparatorText("Parameters");
-
-	ImGui::DragFloat("fontSizePx", &fontSizePx_, 0.01f);
-
-	ImGui::PopItemWidth();
-}
-
-void MSDFText::UpdateVertex(const Transform2D& transform) {
+	// アンカー位置変更をチェック
+	bool anchorChanged = (prevAnchorPoint_ != transform.anchorPoint);
+	prevAnchorPoint_ = transform.anchorPoint;
 
 	// 変更がなければ何もしない
-	if (!dirtyMesh_) {
+	if (!dirtyMesh_ && !anchorChanged) {
 		return;
 	}
 
@@ -130,7 +122,7 @@ void MSDFText::UpdateVertex(const Transform2D& transform) {
 	dirtyMesh_ = false;
 }
 
-void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
+void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 
 	drawIndexCount_ = 0;
 
@@ -162,7 +154,7 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 	}
 
 	// スケール計算
-	const float scale = fontSizePx_ / emSize;
+	const float scale = fontSize_ / emSize;
 
 	float penX = 0.0f;
 	float penY = 0.0f;
@@ -170,6 +162,7 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 	Vector2 maxValue(-1.0e9f, -1.0e9f);
 	uint32_t glyphCount = 0;
 	char32_t prevCodepoint = 0;
+	glyphPivots_.assign(maxGlyphs_, Vector2(0.0f, 0.0f));
 	for (size_t i = 0; i < codepoints_.size(); ++i) {
 
 		const char32_t codepoint = codepoints_[i];
@@ -198,9 +191,10 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 			penX += font_->GetKerning(prevCodepoint, codepoint) * scale;
 		}
 		prevCodepoint = codepoint;
+
 		if (!glyph->planeBounds.has_value() || !glyph->atlasBounds.has_value()) {
 
-			penX += glyph->advance * scale;
+			penX += glyph->advance * scale + charSpacing_;
 			continue;
 		}
 
@@ -213,6 +207,8 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 		const float x1 = penX + planeBounds.right * scale;
 		const float y0 = penY + (-planeBounds.top) * scale;    // 上
 		const float y1 = penY + (-planeBounds.bottom) * scale; // 下
+		// ピボット計算
+		glyphPivots_[glyphCount] = Vector2((x0 + x1) * 0.5f, (y0 + y1) * 0.5f);
 
 		// UV計算
 		const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
@@ -252,8 +248,8 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 		if (glyphCount >= maxGlyphs_) {
 			break;
 		}
-		// ペン位置進める
-		penX += glyph->advance * scale;
+		// advance + 追加の文字間隔
+		penX += glyph->advance * scale + charSpacing_;
 	}
 
 	// 文字が無ければ何もしない
@@ -284,7 +280,13 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 			vertices[baseVertexIndex + k].pos.x -= pivotX;
 			vertices[baseVertexIndex + k].pos.y -= pivotY;
 		}
+		// ピボットも移動
+		glyphPivots_[gi].x -= pivotX;
+		glyphPivots_[gi].y -= pivotY;
 	}
+
+	// 描画されるグリフ数確定
+	renderedGlyphCount_ = glyphCount;
 	// boundsも移動
 	bounds_.min.x -= pivotX;
 	bounds_.min.y -= pivotY;
@@ -294,4 +296,26 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 	// 頂点バッファ転送
 	vertexBuffer_.TransferData(vertices);
 	drawIndexCount_ = glyphCount * 6;
+}
+
+void MSDFText::ImGui(float itemSize) {
+
+	ImGui::PushItemWidth(itemSize);
+
+	inputText_.inputText = textUtf8_;
+	if (ImGuiHelper::InputText("Text", inputText_)) {
+		SetText(inputText_.inputText);
+	}
+	ImGui::Text("Glyphs: %zu", codepoints_.size());
+
+	ImGui::SeparatorText("Parameters");
+
+	if (ImGui::DragFloat("fontSizePx", &fontSize_, 0.1f)) {
+		dirtyMesh_ = true;
+	}
+	if (ImGui::DragFloat("charSpacing", &charSpacing_, 0.01f)) {
+		dirtyMesh_ = true;
+	}
+
+	ImGui::PopItemWidth();
 }

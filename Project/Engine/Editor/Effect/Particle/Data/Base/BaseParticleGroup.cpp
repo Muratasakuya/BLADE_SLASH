@@ -18,7 +18,7 @@ using namespace SakuEngine;
 //	BaseParticleGroup classMethods
 //============================================================================
 
-void BaseParticleGroup::SetParent(bool isSet, const BaseTransform& parent) {
+void BaseParticleGroup::SetParent(bool isSet, const BaseTransform3D& parent) {
 
 	if (isSet) {
 

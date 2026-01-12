@@ -13,7 +13,8 @@
 void DebugScene::Init() {
 
 	debugText_ = std::make_unique<SakuEngine::GameTextObject>();
-	debugText_->Init("FiraMono_msdf", "Assets/Json/Atlas/FiraMono_msdf.json", "debugText", "Text");
+	debugText_->Init("Corporate-Logo-Rounded-Bold_msdf",
+		"Assets/Json/Atlas/Corporate-Logo-Rounded-Bold_madf.json", "debugText", "Text");
 
 	//========================================================================
 	//	scene

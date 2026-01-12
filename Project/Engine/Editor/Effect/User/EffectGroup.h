@@ -50,7 +50,7 @@ namespace SakuEngine {
 
 		// 親の設定
 		void SetParent(uint32_t anchorId) { parentAnchorId_ = anchorId; }
-		void SetParent(const std::string& nodeKey, const BaseTransform& transform);
+		void SetParent(const std::string& nodeKey, const BaseTransform3D& transform);
 		// 親への追従を解除
 		void ClearParent();
 

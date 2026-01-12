@@ -49,7 +49,7 @@ void GameObject2D::ImGui() {
 				sprite_->SetMetaDataTextureSize(*transform_);
 			}
 
-			transform_->ImGui(itemWidth_, 24.0f);
+			transform_->ImGui(itemWidth_);
 			ImGui::EndTabItem();
 		}
 

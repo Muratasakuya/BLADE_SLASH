@@ -19,7 +19,7 @@ void GameTextObject::Init(const std::string& atlasTextureName, const std::string
 	objectId_ = objectManager_->CreateTextObject(atlasTextureName, fontJsonPath, name, groupName);
 
 	// データ取得
-	transform_ = objectManager_->GetData<Transform2D>(objectId_);
+	transform_ = objectManager_->GetData<TextTransform2D>(objectId_);
 	material_ = objectManager_->GetData<MSDFTextMaterial>(objectId_);
 	text_ = objectManager_->GetData<MSDFText>(objectId_);
 	tag_ = objectManager_->GetData<ObjectTag>(objectId_);
@@ -38,7 +38,7 @@ void GameTextObject::ImGui() {
 		if (ImGui::BeginTabItem("Text")) {
 
 			ImGui::Text("utf8: %s", text_->GetText().c_str());
-			float fontSize = text_->GetFontSizePx();
+			float fontSize = text_->GetFontSize();
 			if (ImGui::DragFloat("fontSizePx", &fontSize, 0.1f, 1.0f, 512.0f)) {
 
 				text_->SetFontSizePx(fontSize);
@@ -48,7 +48,7 @@ void GameTextObject::ImGui() {
 
 		if (ImGui::BeginTabItem("Transform")) {
 
-			transform_->ImGui(itemWidth_, 24.0f);
+			transform_->ImGui(itemWidth_);
 			ImGui::EndTabItem();
 		}
 

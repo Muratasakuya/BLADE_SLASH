@@ -57,7 +57,7 @@ namespace SakuEngine {
 		void SetEnableOutline(bool enable) { material_->material.enableOutline = static_cast<uint32_t>(enable); }
 		void SetPostProcessMask(uint32_t mask) { material_->material.postProcessMask = mask; }
 
-		const Transform2D& GetTransform() const { return *transform_; }
+		const TextTransform2D& GetTransform() const { return *transform_; }
 		const MSDFText& GetText() const { return *text_; }
 		const MSDFTextMaterial& GetMaterial() const { return *material_; }
 	protected:
@@ -67,7 +67,7 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		Transform2D* transform_ = nullptr;
+		TextTransform2D* transform_ = nullptr;
 		MSDFTextMaterial* material_ = nullptr;
 		MSDFText* text_ = nullptr;
 	private:

@@ -84,7 +84,7 @@ private:
 	IndexBuffer indexBuffer_;
 	uint32_t indexCount_;
 
-	BaseTransform transform_;
+	BaseTransform3D transform_;
 	SkyboxMaterial material_;
 
 	// 初期色の保存

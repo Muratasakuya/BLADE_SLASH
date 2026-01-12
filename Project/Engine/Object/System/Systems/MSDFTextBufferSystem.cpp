@@ -35,7 +35,7 @@ const MSDFFont* MSDFTextBufferSystem::GetMSDFFont(Asset* asset,
 Archetype MSDFTextBufferSystem::Signature() const {
 
 	Archetype arch{};
-	arch.set(ObjectPoolManager::GetTypeID<Transform2D>());
+	arch.set(ObjectPoolManager::GetTypeID<TextTransform2D>());
 	arch.set(ObjectPoolManager::GetTypeID<MSDFTextMaterial>());
 	arch.set(ObjectPoolManager::GetTypeID<MSDFText>());
 	return arch;
@@ -48,7 +48,7 @@ void MSDFTextBufferSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 	const auto& view = ObjectPoolManager.View(Signature());
 	for (const auto& object : view) {
 
-		auto* transform = ObjectPoolManager.GetData<Transform2D>(object);
+		auto* transform = ObjectPoolManager.GetData<TextTransform2D>(object);
 		auto* material = ObjectPoolManager.GetData<MSDFTextMaterial>(object);
 		auto* text = ObjectPoolManager.GetData<MSDFText>(object);
 		// テキストの更新処理

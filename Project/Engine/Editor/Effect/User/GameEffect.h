@@ -42,7 +42,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetParent(const BaseTransform& parent);
+	void SetParent(const BaseTransform3D& parent);
 private:
 	//========================================================================
 	//	private Methods

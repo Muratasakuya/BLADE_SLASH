@@ -1120,7 +1120,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 	const bool hasParent = (parent_ != nullptr);
 
 	// 親のワールド回転を求める
-	auto GetWorldRotationQuatOnly = [](const BaseTransform* transform) -> Quaternion
+	auto GetWorldRotationQuatOnly = [](const BaseTransform3D* transform) -> Quaternion
 		{
 			if (!transform) {
 				return Quaternion::Identity();
@@ -1128,7 +1128,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 
 			Quaternion world = Quaternion::Normalize(transform->rotation);
 
-			const BaseTransform* parent = transform->parent;
+			const BaseTransform3D* parent = transform->parent;
 			// 親がいるだけ回転を掛け合わせる
 			while (parent) {
 
@@ -1142,7 +1142,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 	// 親のワールド位置
 	Vector3 parentWorldPos = hasParent ? parent_->translation : Vector3::AnyInit(0.0f);
 	// 親のワールド回転
-	Quaternion parentWorldRotation = hasParent ? GetWorldRotationQuatOnly(static_cast<const BaseTransform*>(parent_)) : Quaternion::Identity();
+	Quaternion parentWorldRotation = hasParent ? GetWorldRotationQuatOnly(static_cast<const BaseTransform3D*>(parent_)) : Quaternion::Identity();
 	// 親のワールド回転の逆元
 	Quaternion invParentWorldRotation = Quaternion::Inverse(parentWorldRotation);
 	// 親スケール

@@ -45,6 +45,11 @@ void TextRenderer::Rendering(SceneConstBuffer* sceneBuffer, DxCommand* dxCommand
 
 	for (const auto& [transform, material, text] : textData) {
 
+		// 文字が何もない場合はスキップ
+		if (text->GetGlyphCount() == 0) {
+			continue;
+		}
+
 		// 頂点バッファ設定
 		commandList->IASetVertexBuffers(0, 1, &text->GetVertexBuffer().GetVertexBufferView());
 		// インデックスバッファ設定
@@ -52,11 +57,12 @@ void TextRenderer::Rendering(SceneConstBuffer* sceneBuffer, DxCommand* dxCommand
 
 		// トランスフォーム設定
 		commandList->SetGraphicsRootConstantBufferView(0, transform->GetBuffer().GetResource()->GetGPUVirtualAddress());
+		commandList->SetGraphicsRootShaderResourceView(2, transform->GetCharMatrixBuffer().GetResource()->GetGPUVirtualAddress());
 		// マテリアル設定
 		// テクスチャ
-		commandList->SetGraphicsRootDescriptorTable(2, text->GetAtlasGPUHandle());
+		commandList->SetGraphicsRootDescriptorTable(3, text->GetAtlasGPUHandle());
 		// マテリアルデータ
-		commandList->SetGraphicsRootConstantBufferView(3, material->GetBuffer().GetResource()->GetGPUVirtualAddress());
+		commandList->SetGraphicsRootConstantBufferView(4, material->GetBuffer().GetResource()->GetGPUVirtualAddress());
 
 		// 描画処理
 		commandList->DrawIndexedInstanced(text->GetDrawIndexCount(), 1, 0, 0, 0);

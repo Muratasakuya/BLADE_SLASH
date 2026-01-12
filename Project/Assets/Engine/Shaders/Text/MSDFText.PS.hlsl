@@ -54,7 +54,10 @@ float median(float a, float b, float c) {
 PSOutput main(VSOutput input) {
 
 	// アトラステクスチャからMSDFをサンプリング
-	float3 smple = gTexture.Sample(gSampler, input.texcoord).rgb;
+	float2 texel = 0.5f / atlasSize;
+	float2 uv = clamp(input.texcoord, texel, 1.0f - texel);
+	float3 smple = gTexture.Sample(gSampler, uv).rgb;
+
 
 	// 0.5が輪郭、上下が内外
 	float signedDistance = median(smple.r, smple.g, smple.b) - 0.5f;

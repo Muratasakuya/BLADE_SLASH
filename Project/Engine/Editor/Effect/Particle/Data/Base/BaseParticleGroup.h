@@ -31,7 +31,7 @@ public:
 	// シーンビューの設定
 	void SetSceneView(SceneView* sceneView) { sceneView_ = sceneView; }
 	// 親の設定
-	void SetParent(bool isSet, const BaseTransform& parent);
+	void SetParent(bool isSet, const BaseTransform3D& parent);
 	// モデルの設定
 	void SetModelName(const std::string& modelName) { modelName_ = modelName; }
 
@@ -77,7 +77,7 @@ protected:
 	std::string modelName_;
 
 	// 親設定
-	const BaseTransform* parentTransform_ = nullptr;
+	const BaseTransform3D* parentTransform_ = nullptr;
 
 	//--------- functions ----------------------------------------------------
 

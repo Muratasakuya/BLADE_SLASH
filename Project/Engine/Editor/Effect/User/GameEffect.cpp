@@ -51,7 +51,7 @@ void GameEffect::Emit(bool emitOnce) {
 	emitOnce_ = emitOnce;
 }
 
-void GameEffect::SetParent(const BaseTransform& parent) {
+void GameEffect::SetParent(const BaseTransform3D& parent) {
 
 	if (hasParent_) {
 		return;
