@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Audio/Audio.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -386,7 +386,7 @@ void PlayerSkilAttackState::ImGui() {
 
 	moveFrontTransform_->ImGui(200.0f);
 
-	SakuEngine::LineRenderer::GetInstance()->DrawOBB(moveFrontTransform_->GetWorldPos(),
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawOBB(moveFrontTransform_->GetWorldPos(),
 		moveFrontTransform_->scale, moveFrontTransform_->rotation, SakuEngine::Color::Cyan());
 
 	ImGui::SeparatorText("KeyframeObject3D");

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/BossEnemyGreatAttackState.h>
@@ -367,7 +367,7 @@ void BossEnemyGreatAttackInOutArea::ImGui() {
 	rangeAttackInactiveTimer_.ImGui("RangeAttackInactiveTimer");
 
 	// 円の描画
-	lineRenderer->DrawCircle(lightningCount, outAreaRadius_, SakuEngine::Vector3(0.0f, 2.0f, 0.0f), SakuEngine::Color::Cyan());
+	lineRenderer->Get3D()->DrawCircle(lightningCount, outAreaRadius_, SakuEngine::Vector3(0.0f, 2.0f, 0.0f), SakuEngine::Color::Cyan());
 
 	ImGui::SeparatorText("In");
 

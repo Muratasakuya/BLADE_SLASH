@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 // include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Config.h>
 #include <Engine/MathLib/MathUtils.h>
 
@@ -35,7 +35,7 @@ namespace {
 		for (int i = 1; i <= segments; ++i) {
 			float a = step * static_cast<float>(i);
 			Vector3 p = center + (axisX * std::cos(a) + axisY * std::sin(a)) * radius;
-			lr->DrawLine3D(prev, p, color);
+			lr->Get3D()->DrawLine(prev, p, color);
 			prev = p;
 		}
 	}
@@ -58,20 +58,20 @@ void CollisionDebugDraw::DrawAABB(const CollisionShape::AABB& aabb, const Color&
 	Vector3 c110(mx.x, mx.y, mn.z);
 	Vector3 c111(mx.x, mx.y, mx.z);
 
-	lr->DrawLine3D(c000, c100, color);
-	lr->DrawLine3D(c100, c101, color);
-	lr->DrawLine3D(c101, c001, color);
-	lr->DrawLine3D(c001, c000, color);
+	lr->Get3D()->DrawLine(c000, c100, color);
+	lr->Get3D()->DrawLine(c100, c101, color);
+	lr->Get3D()->DrawLine(c101, c001, color);
+	lr->Get3D()->DrawLine(c001, c000, color);
 
-	lr->DrawLine3D(c010, c110, color);
-	lr->DrawLine3D(c110, c111, color);
-	lr->DrawLine3D(c111, c011, color);
-	lr->DrawLine3D(c011, c010, color);
+	lr->Get3D()->DrawLine(c010, c110, color);
+	lr->Get3D()->DrawLine(c110, c111, color);
+	lr->Get3D()->DrawLine(c111, c011, color);
+	lr->Get3D()->DrawLine(c011, c010, color);
 
-	lr->DrawLine3D(c000, c010, color);
-	lr->DrawLine3D(c100, c110, color);
-	lr->DrawLine3D(c101, c111, color);
-	lr->DrawLine3D(c001, c011, color);
+	lr->Get3D()->DrawLine(c000, c010, color);
+	lr->Get3D()->DrawLine(c100, c110, color);
+	lr->Get3D()->DrawLine(c101, c111, color);
+	lr->Get3D()->DrawLine(c001, c011, color);
 }
 
 void CollisionDebugDraw::DrawCapsule(const CollisionExt::Capsule& capsule, const Color& color, int segments) {
@@ -104,16 +104,16 @@ void CollisionDebugDraw::DrawCapsule(const CollisionExt::Capsule& capsule, const
 
 		float ang = step * static_cast<float>(i);
 		Vector3 offset = (right * std::cos(ang) + forward * std::sin(ang)) * r;
-		lr->DrawLine3D(a + offset, b + offset, color);
+		lr->Get3D()->DrawLine(a + offset, b + offset, color);
 	}
 
-	lr->DrawLine3D(a, b, color);
+	lr->Get3D()->DrawLine(a, b, color);
 }
 
 void CollisionDebugDraw::DrawArrow(const Vector3& from, const Vector3& to, const Color& color, float headLength) {
 
 	LineRenderer* lr = LineRenderer::GetInstance();
-	lr->DrawLine3D(from, to, color);
+	lr->Get3D()->DrawLine(from, to, color);
 
 	Vector3 dir = to - from;
 	float len = dir.Length();
@@ -131,8 +131,8 @@ void CollisionDebugDraw::DrawArrow(const Vector3& from, const Vector3& to, const
 	Vector3 p2 = base + up * (headLength * 0.5f);
 	Vector3 p3 = base - up * (headLength * 0.5f);
 
-	lr->DrawLine3D(tip, p0, color);
-	lr->DrawLine3D(tip, p1, color);
-	lr->DrawLine3D(tip, p2, color);
-	lr->DrawLine3D(tip, p3, color);
+	lr->Get3D()->DrawLine(tip, p0, color);
+	lr->Get3D()->DrawLine(tip, p1, color);
+	lr->Get3D()->DrawLine(tip, p2, color);
+	lr->Get3D()->DrawLine(tip, p3, color);
 }

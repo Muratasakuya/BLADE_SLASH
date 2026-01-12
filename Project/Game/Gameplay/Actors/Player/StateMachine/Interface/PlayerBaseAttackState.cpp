@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Config.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 #include <Engine/Utility/Timer/GameTimer.h>
@@ -81,8 +81,8 @@ void PlayerBaseAttackState::DrawAttackOffset() {
 	SakuEngine::Vector3 direction = (enemyPos - playerPos).Normalize();
 	SakuEngine::Vector3 target = enemyPos - direction * attackOffsetTranslation_;
 
-	lineRenderer->DrawLine3D(playerPos, target, SakuEngine::Color::Red());
-	lineRenderer->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
+	lineRenderer->Get3D()->DrawLine(playerPos, target, SakuEngine::Color::Red());
+	lineRenderer->Get3D()->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
 }
 
 void PlayerBaseAttackState::ImGui() {
@@ -99,8 +99,8 @@ void PlayerBaseAttackState::ImGui() {
 
 	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 2.0f;
-	lineRenderer->DrawCircle(8, attackPosLerpCircleRange_, center, SakuEngine::Color::Red());
-	lineRenderer->DrawCircle(8, attackLookAtCircleRange_, center, SakuEngine::Color::Blue());
+	lineRenderer->Get3D()->DrawCircle(8, attackPosLerpCircleRange_, center, SakuEngine::Color::Red());
+	lineRenderer->Get3D()->DrawCircle(8, attackLookAtCircleRange_, center, SakuEngine::Color::Blue());
 }
 
 void PlayerBaseAttackState::ApplyJson(const Json& data) {

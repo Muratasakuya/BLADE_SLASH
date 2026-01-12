@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 
@@ -246,7 +246,7 @@ void ParticleUpdateKeyframePathModule::ImGui() {
 
 			float t = static_cast<float>(i) / static_cast<float>(division);
 			Vector3 currentTranslation = LerpKeyframe::GetValue<Vector3>(keys_, t, type_);
-			SakuEngine::LineRenderer::GetInstance()->DrawLine3D(
+			SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(
 				prevTranslation, currentTranslation, SakuEngine::Color::Cyan());
 			prevTranslation = currentTranslation;
 		}
@@ -254,7 +254,7 @@ void ParticleUpdateKeyframePathModule::ImGui() {
 		for (const auto& key : keys_) {
 
 			// キー位置に球を描画
-			SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, key,
+			SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 0.8f, key,
 				SakuEngine::Color::Cyan());
 		}
 	}

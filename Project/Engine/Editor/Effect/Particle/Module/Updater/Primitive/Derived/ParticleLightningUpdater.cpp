@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Config.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 
@@ -159,11 +159,11 @@ void ParticleLightningUpdater::ImGui() {
 
 	if (isDrawDebugPoint_) {
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, start_.start, SakuEngine::Color::Cyan());
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, target_.start, SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 0.8f, start_.start, SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 0.8f, target_.start, SakuEngine::Color::Cyan());
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, start_.end, Color::Red());
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, target_.end, Color::Red());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 0.8f, start_.end, Color::Red());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 0.8f, target_.end, Color::Red());
 	}
 }
 

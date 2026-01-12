@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Config.h>
 #include <Engine/Input/Input.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>

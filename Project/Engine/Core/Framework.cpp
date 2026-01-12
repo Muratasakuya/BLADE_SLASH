@@ -12,7 +12,7 @@ using namespace SakuEngine;
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Collision/CollisionManager.h>
 #include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Config.h>

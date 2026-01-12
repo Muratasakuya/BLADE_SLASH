@@ -7,7 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 
 // imgui
 #include <imgui.h>
@@ -164,14 +164,14 @@ void ConicalPendulum::DrawDebugLine() {
 	LineRenderer* lineRenderer = SakuEngine::LineRenderer::GetInstance();
 
 	// 支点から現在位置への線を描画
-	lineRenderer->DrawLine3D(anchor, currentPos, SakuEngine::Color::Cyan());
+	lineRenderer->Get3D()->DrawLine(anchor, currentPos, SakuEngine::Color::Cyan());
 
 	// アンカー位置、現在位置を球で描画
-	lineRenderer->DrawSphere(6, 0.4f, anchor, SakuEngine::Color::Cyan());
-	lineRenderer->DrawSphere(6, 0.4f, currentPos, SakuEngine::Color::Cyan());
+	lineRenderer->Get3D()->DrawSphere(6, 0.4f, anchor, SakuEngine::Color::Cyan());
+	lineRenderer->Get3D()->DrawSphere(6, 0.4f, currentPos, SakuEngine::Color::Cyan());
 	// 最小角度位置と最大角度位置を球で描画
-	lineRenderer->DrawSphere(6, 0.4f, GetMinPos(), SakuEngine::Color::Cyan());
-	lineRenderer->DrawSphere(6, 0.4f, GetMaxPos(), SakuEngine::Color::Cyan());
+	lineRenderer->Get3D()->DrawSphere(6, 0.4f, GetMinPos(), SakuEngine::Color::Cyan());
+	lineRenderer->Get3D()->DrawSphere(6, 0.4f, GetMaxPos(), SakuEngine::Color::Cyan());
 
 	// 円錐振り子の円の半径と高さ
 	float radius = std::sin(halfApexAngle) * length;
@@ -202,7 +202,7 @@ void ConicalPendulum::DrawDebugLine() {
 		Vector3 localPi(radius * std::cos(currentAngle), -height, radius * std::sin(currentAngle));
 		Vector3 worldPi = anchor + rotation * localPi;
 
-		lineRenderer->DrawLine3D(prev, worldPi, Color::Yellow());
+		lineRenderer->Get3D()->DrawLine(prev, worldPi, Color::Yellow());
 		prev = worldPi;
 	}
 }

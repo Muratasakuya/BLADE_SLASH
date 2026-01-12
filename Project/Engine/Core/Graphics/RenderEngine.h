@@ -16,9 +16,9 @@
 #include <Engine/Core/Graphics/GPUObject/GPUPixelPicker.h>
 
 // renderer
-#include <Engine/Core/Graphics/Renderer/MeshRenderer.h>
-#include <Engine/Core/Graphics/Renderer/SpriteRenderer.h>
-#include <Engine/Core/Graphics/Renderer/TextRenderer.h>
+#include <Engine/Core/Graphics/Renderer/3D/MeshRenderer.h>
+#include <Engine/Core/Graphics/Renderer/2D/SpriteRenderer.h>
+#include <Engine/Core/Graphics/Renderer/2D/TextRenderer.h>
 
 namespace SakuEngine {
 

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -127,9 +127,9 @@ void BossEnemyTeleportationState::ImGui() {
 
 	SakuEngine::Vector3 center = player_->GetTranslation();
 	center.y = 4.0f;
-	SakuEngine::LineRenderer::GetInstance()->DrawArc(8, farRadius_, halfAngle_,
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawArc(8, farRadius_, halfAngle_,
 		center, followCamera_->GetTransform().GetForward(), SakuEngine::Color::Red());
-	SakuEngine::LineRenderer::GetInstance()->DrawArc(8, nearRadius_, halfAngle_,
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawArc(8, nearRadius_, halfAngle_,
 		center, followCamera_->GetTransform().GetForward(), SakuEngine::Color::Blue());
 }
 

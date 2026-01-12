@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Scene/SceneView.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 
 //============================================================================
 //	DebugScene classMethods
@@ -33,5 +33,5 @@ void DebugScene::Update() {
 
 	camera3D_->UpdateView();
 
-	SakuEngine::LineRenderer::GetInstance()->DrawGrid(32, 32.0f, SakuEngine::Color::White());
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawGrid(32, 32.0f, SakuEngine::Color::White());
 }

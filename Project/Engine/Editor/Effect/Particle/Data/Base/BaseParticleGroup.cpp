@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Core/Debug/Assert.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/TagSystem.h>
@@ -169,25 +169,25 @@ void BaseParticleGroup::DrawEmitter() {
 	switch (emitter_.shape) {
 	case ParticleEmitterShape::Sphere: {
 
-		lineRenderer->DrawSphere(division, emitter_.sphere.radius,
+		lineRenderer->Get3D()->DrawSphere(division, emitter_.sphere.radius,
 			parentTranslation + emitter_.sphere.translation, color);
 		break;
 	}
 	case ParticleEmitterShape::Hemisphere: {
 
-		lineRenderer->DrawHemisphere(division, emitter_.hemisphere.radius,
+		lineRenderer->Get3D()->DrawHemisphere(division, emitter_.hemisphere.radius,
 			parentTranslation + emitter_.hemisphere.translation, emitter_.hemisphere.rotationMatrix, color);
 		break;
 	}
 	case ParticleEmitterShape::Box: {
 
-		lineRenderer->DrawOBB(parentTranslation + emitter_.box.translation,
+		lineRenderer->Get3D()->DrawOBB(parentTranslation + emitter_.box.translation,
 			emitter_.box.size, emitter_.box.rotationMatrix, color);
 		break;
 	}
 	case ParticleEmitterShape::Cone: {
 
-		lineRenderer->DrawCone(division, emitter_.cone.baseRadius, emitter_.cone.topRadius,
+		lineRenderer->Get3D()->DrawCone(division, emitter_.cone.baseRadius, emitter_.cone.topRadius,
 			emitter_.cone.height, parentTranslation + emitter_.cone.translation, emitter_.cone.rotationMatrix, color);
 		break;
 	}

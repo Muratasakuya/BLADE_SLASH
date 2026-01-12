@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 
 //============================================================================
@@ -83,7 +83,7 @@ void ParticleSpawnSphereModule::DrawEmitter() {
 
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
-	SakuEngine::LineRenderer::GetInstance()->DrawSphere(4, emitter_.radius,
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(4, emitter_.radius,
 		parentTranslation + emitter_.translation, emitterLineColor_);
 }
 

@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Core/Debug/Assert.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 
 //============================================================================
 //	CollisionManager classMethods
@@ -214,13 +214,13 @@ void CollisionManager::DrawCollider() {
 
 			if constexpr (std::is_same_v<ShapeType, CollisionShape::Sphere>) {
 
-				lineRenderer->DrawSphere(8, shapeData.radius, center, color);
+				lineRenderer->Get3D()->DrawSphere(8, shapeData.radius, center, color);
 			} else if constexpr (std::is_same_v<ShapeType, CollisionShape::AABB>) {
 
-				lineRenderer->DrawAABB(shapeData.GetMin(), shapeData.GetMax(), color);
+				lineRenderer->Get3D()->DrawAABB(shapeData.GetMin(), shapeData.GetMax(), color);
 			} else if constexpr (std::is_same_v<ShapeType, CollisionShape::OBB>) {
 
-				lineRenderer->DrawOBB(shapeData.center, shapeData.size, shapeData.rotate, color);
+				lineRenderer->Get3D()->DrawOBB(shapeData.center, shapeData.size, shapeData.rotate, color);
 			}
 			}, shape);
 	}

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Animation/LerpKeyframe.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
@@ -179,7 +179,7 @@ void BossEnemyJumpAttackState::ImGui() {
 
 		ImGui::DragFloat3(key.c_str(), &keyframe.x, 0.01f);
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 1.0f, keyframe, SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 1.0f, keyframe, SakuEngine::Color::Cyan());
 
 		ImGui::PopID();
 	}

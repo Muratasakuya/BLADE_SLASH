@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
@@ -109,7 +109,7 @@ void PlayerThrustAttack::ImGui() {
 
 	moveTransform_->ImGui(200.0f);
 
-	LineRenderer::GetInstance()->DrawOBB(moveTransform_->GetWorldPos(),
+	LineRenderer::GetInstance()->Get3D()->DrawOBB(moveTransform_->GetWorldPos(),
 		moveTransform_->scale, moveTransform_->rotation, Color::Cyan());
 
 	ImGui::SeparatorText("KeyframeObject3D");

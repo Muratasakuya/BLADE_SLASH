@@ -1308,13 +1308,13 @@
     <ClCompile Include="Engine\main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\MeshRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.cpp">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\LineRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.cpp">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\SpriteRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.cpp">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Collision\Collider.cpp">
@@ -2430,13 +2430,13 @@
     <ClInclude Include="Engine\Input\Input.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\MeshRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.h">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\LineRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.h">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\SpriteRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.h">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Collision\Collider.h">
@@ -2921,9 +2921,12 @@
     <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer\TextRenderer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.cpp" />
     <ClCompile Include="Engine\Object\Base\GameTextObject.cpp" />
     <ClCompile Include="Engine\Object\System\Systems\MSDFTextBufferSystem.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2956,9 +2959,12 @@
     <ClInclude Include="Game\Scenes\Debug\DebugScene.h" />
     <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h" />
     <ClInclude Include="Engine\Object\Data\Text\MSDFText.h" />
-    <ClInclude Include="Engine\Core\Graphics\Renderer\TextRenderer.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.h" />
     <ClInclude Include="Engine\Object\Base\GameTextObject.h" />
     <ClInclude Include="Engine\Object\System\Systems\MSDFTextBufferSystem.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl" />

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -369,7 +369,7 @@ void BossEnemyProjectileAttackState::ImGui() {
 	// 現在発生させる位置のデバッグ表示
 	for (const auto& pos : launchPositions_) {
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 1.0f, pos, SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 1.0f, pos, SakuEngine::Color::Cyan());
 	}
 }
 

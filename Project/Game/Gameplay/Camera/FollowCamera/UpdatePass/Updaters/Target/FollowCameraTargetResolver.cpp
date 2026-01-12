@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
@@ -49,10 +49,10 @@ void FollowCameraTargetResolver::ImGui() {
 		LineRenderer* lineRenderer = LineRenderer::GetInstance();
 
 		// 基準点と目標点を結ぶ線を描画
-		lineRenderer->DrawLine3D(dependencies_.player->GetTranslation(),
+		lineRenderer->Get3D()->DrawLine(dependencies_.player->GetTranslation(),
 			dependencies_.bossEnemy->GetTranslation(), Color::Green());
 		// 目標追従位置を描画
-		lineRenderer->DrawSphere(6, 4.0f, targetPos_, Color::Green());
+		lineRenderer->Get3D()->DrawSphere(6, 4.0f, targetPos_, Color::Green());
 	}
 }
 

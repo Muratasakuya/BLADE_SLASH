@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 
 //============================================================================
@@ -35,7 +35,7 @@ void PlayerWeapon::DerivedImGui() {
 	ImGui::DragFloat3("tipOffset", &tipOffset_.x, 0.01f);
 	SetInitTransform();
 
-	SakuEngine::LineRenderer::GetInstance()->DrawSphere(6, 0.8f, tipTranslation_, SakuEngine::Color::Cyan());
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 0.8f, tipTranslation_, SakuEngine::Color::Cyan());
 
 	Collider::ImGui(itemWidth_);
 }

@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Asset/Asset.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -446,7 +446,7 @@ void SkinnedAnimation::DebugDrawBone(const Matrix4x4& worldMatrix) {
 
 		worldPos[i] = SakuEngine::Vector3::Transform(SakuEngine::Vector3::AnyInit(0.0f),
 			skeleton_.joints[i].skeletonSpaceMatrix * worldMatrix);
-		lineRenderer->DrawSphere(kDivision, 0.32f, worldPos[i], Color::Green(), LineType::DepthIgnore);
+		lineRenderer->Get3D()->DrawSphere(kDivision, 0.32f, worldPos[i], Color::Green(), LineType::DepthIgnore);
 	}
 
 	// 親から子に向けて描画
@@ -470,7 +470,7 @@ void SkinnedAnimation::DebugDrawBone(const Matrix4x4& worldMatrix) {
 			float top = length * kRatioTop;
 			float bottom = length * kRatioBase;
 
-			lineRenderer->DrawCone(kDivision, bottom, top,
+			lineRenderer->Get3D()->DrawCone(kDivision, bottom, top,
 				length, base, rotation, Color::Convert(0xffff00ff), LineType::DepthIgnore);
 		}
 	}

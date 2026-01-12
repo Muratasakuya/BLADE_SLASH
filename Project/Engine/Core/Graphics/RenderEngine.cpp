@@ -8,7 +8,7 @@ using namespace SakuEngine;
 #include <Engine/Core/Window/WinApp.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Core/Graphics/DxObject/DxCommand.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/InstancedMeshSystem.h>
 #include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>

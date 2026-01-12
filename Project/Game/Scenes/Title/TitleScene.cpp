@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Scene/SceneView.h>

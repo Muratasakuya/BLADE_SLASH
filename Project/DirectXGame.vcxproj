@@ -215,7 +215,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Core\Graphics\GPUObject\IndexBuffer.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\TextRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -827,11 +839,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\main.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer\MeshRenderer.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer\LineRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\SpriteRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Collision\Collider.cpp" />
@@ -1140,7 +1152,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Core\Graphics\GPUObject\VertexBuffer.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\TextRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1930,11 +1954,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Input\Input.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\MeshRenderer.h" />
-    <ClInclude Include="Engine\Core\Graphics\Renderer\LineRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\SpriteRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Collision\Collider.h" />

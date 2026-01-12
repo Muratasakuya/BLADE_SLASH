@@ -3,73 +3,39 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Pipeline/PipelineState.h>
-#include <Engine/Core/Graphics/GPUObject/DxConstBuffer.h>
-#include <Engine/Core/Graphics/GPUObject/VertexBuffer.h>
-#include <Engine/Collision/CollisionGeometry.h>
-#include <Engine/MathLib/MathUtils.h>
-
-// c++
-#include <memory>
+#include <Engine/Core/Graphics/Renderer/Line/Base/BaseLineRenderer.h>
 
 namespace SakuEngine {
 
-	// front
-	class SceneView;
-	class SRVDescriptor;
-	class DxShaderCompiler;
-
 	//============================================================================
-	//	enum class
+	//	LineRenderer3D class
+	//	3Dライン描画を担当するクラス
 	//============================================================================
-
-	// 線の種類
-	enum class LineType {
-
-		None,        // 通常描画
-		DepthIgnore, // 深度値無視
-	};
-
-	//============================================================================
-	//	LineRenderer class
-	//	デバッグ可視化用のライン描画を担当。各種プリミティブ線の生成と描画実行を行う。
-	//============================================================================
-	class LineRenderer {
+	class LineRenderer3D :
+		public BaseLineRenderer {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		// 必要なパイプライン/バッファを初期化し、参照オブジェクトを記録
-		void Init(ID3D12Device8* device, ID3D12GraphicsCommandList* commandList,
-			SRVDescriptor* srvDescriptor, DxShaderCompiler* shaderCompiler,
-			SceneView* sceneView);
+		LineRenderer3D() = default;
+		~LineRenderer3D() = default;
 
-		// 2点間の3Dラインを追加登録する
-		void DrawLine3D(const Vector3& pointA, const Vector3& pointB, const Color& color,
-			LineType type = LineType::None);
-
-		// 蓄積されたラインをGPU転送して描画する
-		void ExecuteLine(bool debugEnable, LineType type);
-		// 追加済みの全ラインをクリアする
-		void ResetLine();
-
-		//--------- shapes ------------------------------------------------------
+		//========================================================================
+		//	描画関数群
+		//========================================================================
 
 		// グリッド線を描画する
 		void DrawGrid(int division, float gridSize, const Color& color, LineType type = LineType::None);
+		// 軸を描画
+		template <typename T>
+		void DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type = LineType::None);
 		// 端点に球マーカーを付けた線分を描画する
 		void DrawSegment(int division, float radius, const Vector3& pointA,
 			const Vector3& pointB, const Color& color, LineType type = LineType::None);
 
-		// 軸を描画
-		template <typename T>
-		void DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type = LineType::None);
+		//--------- プリミティブ形状 ------------------------------------------------
 
-		// N角形の枠線を描く(3〜12)
-		template <typename T>
-		void DrawPolygon(int polygonCount, const Vector3& centerPos, float scale,
-			const T& rotation, const Color& color, LineType type = LineType::None);
 		// 緯度経度分割のワイヤ球を描画
 		void DrawSphere(int division, float radius, const Vector3& centerPos,
 			const Color& color, LineType type = LineType::None);
@@ -88,6 +54,11 @@ namespace SakuEngine {
 		// 矩形を描画
 		void DrawRect(const Vector2& size, const Vector3& center,
 			const Color& color, LineType type = LineType::None);
+
+		// N角形の枠線を描く(3〜12)
+		template <typename T>
+		void DrawPolygon(int polygonCount, const Vector3& centerPos, float scale,
+			const T& rotation, const Color& color, LineType type = LineType::None);
 		// 上半球のワイヤ描画
 		template <typename T>
 		void DrawHemisphere(int division, float radius, const Vector3& centerPos,
@@ -103,68 +74,15 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
-		// singleton取得/破棄
-		static LineRenderer* GetInstance();
-		static void Finalize();
-	private:
-		//========================================================================
-		//	private Methods
-		//========================================================================
-
-		//--------- structure ----------------------------------------------------
-
-		// 1頂点の線描画データ(位置/色)
-		struct LineVertex {
-
-			Vector4 pos;
-			Color color;
-		};
-
-		// ライン描画に必要なパイプラインと頂点バッファ/頂点配列
-		struct RenderStructure {
-
-			std::unique_ptr<PipelineState> pipeline;
-
-			std::vector<LineVertex> lineVertices;
-			VertexBuffer<LineVertex> vertexBuffer;
-
-			void Init(const std::string& pipelineFile, ID3D12Device8* device,
-				SRVDescriptor* srvDescriptor, DxShaderCompiler* shaderCompiler);
-		};
-
-		//--------- variables ----------------------------------------------------
-
-		static LineRenderer* instance_;
-
-		// 線分の最大数
-		static constexpr const uint32_t kMaxLineCount_ = 8196;
-		// 線分の頂点数
-		static constexpr const uint32_t kVertexCountLine_ = 2;
-
-		ID3D12GraphicsCommandList* commandList_;
-		SceneView* sceneView_;
-
-		// カメラ視点
-		DxConstBuffer<Matrix4x4> viewProjectionBuffer_;
-		DxConstBuffer<Matrix4x4> debugSceneViewProjectionBuffer_;
-
-		// 描画情報(buffer)
-		std::unordered_map<LineType, RenderStructure> renderData_;
-
-		//--------- functions ----------------------------------------------------
-
-		LineRenderer() = default;
-		~LineRenderer() = default;
-		LineRenderer(const LineRenderer&) = delete;
-		LineRenderer& operator=(const LineRenderer&) = delete;
+		LineDimension GetLineDimension() const { return LineDimension::Line3D; }
 	};
 
 	//============================================================================
-	//	LineRenderer templateMethods
+	//	LineRenderer3D templateMethods
 	//============================================================================
 
 	template<typename T>
-	inline void LineRenderer::DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type) {
+	inline void LineRenderer3D::DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type) {
 
 		// X軸(赤)Y軸(青)Z軸(緑)
 		// 回転
@@ -185,13 +103,13 @@ namespace SakuEngine {
 		Vector3 yDirection = Vector3::TransferNormal(Direction::Get(Direction3D::Up), rotationMatrix).Normalize();
 		Vector3 zDirection = Vector3::TransferNormal(Direction::Get(Direction3D::Forward), rotationMatrix).Normalize();
 
-		DrawLine3D(centerPos, centerPos + xDirection * length, Color::Red(), type);
-		DrawLine3D(centerPos, centerPos + yDirection * length, Color::Blue(), type);
-		DrawLine3D(centerPos, centerPos + zDirection * length, Color::Green(), type);
+		BaseLineRenderer::DrawLine(centerPos, centerPos + xDirection * length, Color::Red(), type);
+		BaseLineRenderer::DrawLine(centerPos, centerPos + yDirection * length, Color::Blue(), type);
+		BaseLineRenderer::DrawLine(centerPos, centerPos + zDirection * length, Color::Green(), type);
 	}
 
 	template<typename T>
-	inline void LineRenderer::DrawPolygon(int polygonCount, const Vector3& centerPos,
+	inline void LineRenderer3D::DrawPolygon(int polygonCount, const Vector3& centerPos,
 		float scale, const T& rotation, const Color& color, LineType type) {
 
 		if (polygonCount < 3 || polygonCount > 12) {
@@ -227,12 +145,12 @@ namespace SakuEngine {
 
 			const Vector3& start = vertices[i];
 			const Vector3& end = vertices[(i + 1) % polygonCount];
-			DrawLine3D(start, end, color, type);
+			BaseLineRenderer::DrawLine(start, end, color, type);
 		}
 	}
 
 	template<typename T>
-	inline void LineRenderer::DrawHemisphere(int division, float radius, const Vector3& centerPos,
+	inline void LineRenderer3D::DrawHemisphere(int division, float radius, const Vector3& centerPos,
 		const T& rotation, const Color& color, LineType type) {
 
 		const float kLatEvery = (pi / 2.0f) / division; // 緯度
@@ -271,14 +189,14 @@ namespace SakuEngine {
 				pointB = rotationMatrix.TransformPoint(pointB) + centerPos;
 				pointC = rotationMatrix.TransformPoint(pointC) + centerPos;
 
-				DrawLine3D(pointA, pointB, color, type);
-				DrawLine3D(pointA, pointC, color, type);
+				BaseLineRenderer::DrawLine(pointA, pointB, color, type);
+				BaseLineRenderer::DrawLine(pointA, pointC, color, type);
 			}
 		}
 	}
 
 	template<typename T>
-	inline void LineRenderer::DrawOBB(const Vector3& centerPos, const Vector3& size,
+	inline void LineRenderer3D::DrawOBB(const Vector3& centerPos, const Vector3& size,
 		const T& rotation, const Color& color, LineType type) {
 
 		const uint32_t vertexNum = 8;
@@ -324,13 +242,13 @@ namespace SakuEngine {
 			int start = edges[i][0];
 			int end = edges[i][1];
 
-			DrawLine3D(vertices[start], vertices[end], color, type);
+			BaseLineRenderer::DrawLine(vertices[start], vertices[end], color, type);
 		}
 	}
 
 	template<typename T>
-	inline void LineRenderer::DrawCone(int division, float baseRadius, float topRadius,
-		float height, const Vector3& centerPos, const T& rotation, const Color& color, LineType type) {
+	inline void LineRenderer3D::DrawCone(int division, float baseRadius, float topRadius, float height,
+		const Vector3& centerPos, const T& rotation, const Color& color, LineType type) {
 
 		const float kAngleStep = 2.0f * pi / division;
 
@@ -366,12 +284,11 @@ namespace SakuEngine {
 			Vector3 topB = rotationMatrix.TransformPoint(topCircle[i + 1]) + centerPos;
 
 			// 円の描画
-			DrawLine3D(baseA, baseB, color, type);
-			DrawLine3D(topA, topB, color, type);
+			BaseLineRenderer::DrawLine(baseA, baseB, color, type);
+			BaseLineRenderer::DrawLine(topA, topB, color, type);
 
 			// 側面の描画
-			DrawLine3D(baseA, topA, color, type);
+			BaseLineRenderer::DrawLine(baseA, topA, color, type);
 		}
 	}
-
-}; // SakuEngine
+} // SakuEngine

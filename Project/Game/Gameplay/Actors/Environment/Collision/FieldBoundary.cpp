@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Collision/CollisionDebugDraw.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -98,7 +98,7 @@ void FieldBoundary::ControlQuadPlayArea() {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	// 枠線
-	LineRenderer::GetInstance()->DrawSquare(moveClampLength_,
+	LineRenderer::GetInstance()->Get3D()->DrawSquare(moveClampLength_,
 		Vector3(0.0f, 2.0f, 0.0f), Color::Yellow());
 #endif
 }
@@ -284,8 +284,8 @@ void FieldBoundary::SolveTargetsBySpherePair() {
 		// デバッグ球
 		CollisionShape::Sphere drawP = MakeWorldSphere(newP, playerSphere_);
 		CollisionShape::Sphere drawB = MakeWorldSphere(newB, bossSphere_);
-		LineRenderer::GetInstance()->DrawSphere(6, drawP.radius, drawP.center, Color::Yellow());
-		LineRenderer::GetInstance()->DrawSphere(6, drawB.radius, drawB.center, Color::Yellow());
+		LineRenderer::GetInstance()->Get3D()->DrawSphere(6, drawP.radius, drawP.center, Color::Yellow());
+		LineRenderer::GetInstance()->Get3D()->DrawSphere(6, drawB.radius, drawB.center, Color::Yellow());
 	}
 #endif
 }

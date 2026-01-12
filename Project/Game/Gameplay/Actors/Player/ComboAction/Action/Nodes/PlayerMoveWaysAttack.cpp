@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
@@ -228,9 +228,9 @@ void PlayerMoveWaysAttack::ImGui() {
 		SakuEngine::Vector3 prev = player_->GetTranslation();
 		for (auto& p : debugWayPoints_) {
 			p.y = 2.0f;
-			renderer->DrawSphere(8, 2.0f, p, SakuEngine::Color::Red());
-			renderer->DrawLine3D(p, p + SakuEngine::Vector3(0, 2, 0), SakuEngine::Color::White());
-			renderer->DrawLine3D(prev, p, SakuEngine::Color::White());
+			renderer->Get3D()->DrawSphere(8, 2.0f, p, SakuEngine::Color::Red());
+			renderer->Get3D()->DrawLine(p, p + SakuEngine::Vector3(0, 2, 0), SakuEngine::Color::White());
+			renderer->Get3D()->DrawLine(prev, p, SakuEngine::Color::White());
 			prev = p;
 		}
 	}
@@ -249,9 +249,9 @@ void PlayerMoveWaysAttack::ImGui() {
 		for (auto& p : debugApproachWayPoints_) {
 
 			p.y = 2.0f;
-			renderer->DrawSphere(8, 2.0f, p, SakuEngine::Color::Green());
-			renderer->DrawLine3D(p, p + SakuEngine::Vector3(0.0f, 2.0f, 0.0f), SakuEngine::Color::White());
-			renderer->DrawLine3D(prev, p, SakuEngine::Color::White());
+			renderer->Get3D()->DrawSphere(8, 2.0f, p, SakuEngine::Color::Green());
+			renderer->Get3D()->DrawLine(p, p + SakuEngine::Vector3(0.0f, 2.0f, 0.0f), SakuEngine::Color::White());
+			renderer->Get3D()->DrawLine(prev, p, SakuEngine::Color::White());
 			prev = p;
 		}
 	}

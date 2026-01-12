@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Audio/Audio.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
@@ -394,7 +394,7 @@ void PlayerAttack_3rdState::ImGui() {
 		SakuEngine::Vector3 target = bossEnemy_->GetTranslation() + rotated * bossEnemyDistance_;
 		target.y = weaponPosY_;
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6,
 			8.0f, target, SakuEngine::Color::Cyan());
 	}
 
@@ -402,7 +402,7 @@ void PlayerAttack_3rdState::ImGui() {
 		SakuEngine::Vector3 pos = SakuEngine::Vector3::Lerp(backStartPos_, backTargetPos_,
 			backMoveTimer_.easedT_);
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(6,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(6,
 			8.0f, pos, SakuEngine::Color::Yellow());
 	}
 }

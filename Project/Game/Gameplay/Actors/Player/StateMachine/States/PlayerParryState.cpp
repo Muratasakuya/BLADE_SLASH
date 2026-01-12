@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessSystem.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
@@ -334,7 +334,7 @@ void PlayerParryState::ImGui() {
 		start.y = 2.0f;
 		target.y = 2.0f;
 
-		lineRenderer->DrawLine3D(
+		lineRenderer->Get3D()->DrawLine(
 			start, target, SakuEngine::Color::Red());
 	}
 
@@ -352,7 +352,7 @@ void PlayerParryState::ImGui() {
 		start.y = 2.0f;
 		target.y = 2.0f;
 
-		lineRenderer->DrawLine3D(
+		lineRenderer->Get3D()->DrawLine(
 			start, target, SakuEngine::Color(0.0f, 1.0f, 1.0f, 1.0f));
 	}
 }
