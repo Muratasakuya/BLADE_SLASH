@@ -47,7 +47,7 @@ namespace SakuEngine {
 	//----------------------------------------------------------------------------
 	struct MSDFTextVertexData {
 
-		Vector3 pos;
+		Vector2 pos;
 		Vector2 texcoord;
 	};
 

@@ -114,5 +114,4 @@ namespace SakuEngine {
 
 		return systemManager_->GetSystem<T>();
 	}
-
 }; // SakuEngine

@@ -37,6 +37,10 @@ namespace SakuEngine {
 		MSDFTextBufferSystem() = default;
 		~MSDFTextBufferSystem() = default;
 
+		// MSDFフォントを作成、キャッシュがあればそれを返す
+		const MSDFFont* GetMSDFFont(class Asset* asset,
+			const std::string& atlasTextureName, const std::string& fontJsonPath);
+
 		Archetype Signature() const override;
 
 		void Update(ObjectPoolManager& ObjectPoolManager) override;
@@ -52,5 +56,8 @@ namespace SakuEngine {
 		//--------- variables ----------------------------------------------------
 
 		std::vector<MSDFTextData> textData_;
+
+		// フォントキャッシュ
+		std::unordered_map<std::string, std::unique_ptr<MSDFFont>> fontCache_;
 	};
 }; // SakuEngine

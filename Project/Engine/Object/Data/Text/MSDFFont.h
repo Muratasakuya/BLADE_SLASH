@@ -22,10 +22,10 @@ namespace SakuEngine {
 	// アトラス内の矩形
 	struct MSDFAtlasBounds {
 
-		int left = 0;
-		int bottom = 0;
-		int right = 0;
-		int top = 0;
+		int32_t left = 0;
+		int32_t bottom = 0;
+		int32_t right = 0;
+		int32_t top = 0;
 	};
 
 	// グリフ情報
@@ -94,12 +94,12 @@ namespace SakuEngine {
 		// アトラステクスチャ名
 		std::string atlasTextureName_;
 
+		// MSDFの距離レンジ
+		float pxRange_ = 0.0f;
 		// アトラスサイズ
 		uint32_t atlasWidth_ = 0;
 		uint32_t atlasHeight_ = 0;
-
-		// MSDFの距離レンジ
-		float pxRange_ = 0.0f;
+		float fontPixelsPerEm_ = 0.0f;
 
 		// フォント全体のメトリクス
 		MSDFMetrics metrics_{};

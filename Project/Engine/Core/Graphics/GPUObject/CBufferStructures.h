@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/MathLib/Vector2.h>
 #include <Engine/MathLib/Vector3.h>
 #include <Engine/MathLib/Vector4.h>
 #include <Engine/MathLib/Quaternion.h>
@@ -11,10 +12,10 @@
 // c++
 #include <cstdint>
 #include <string>
+
 namespace SakuEngine {
 
 	// front
-
 	class BaseTransform;
 
 	//============================================================================

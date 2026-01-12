@@ -1,7 +1,8 @@
 {
   "Textures": [
     "white",
-    "noise"
+    "noise",
+    "FiraMono_msdf"
   ],
   "Models": [
     "demoCamera",

@@ -10,6 +10,7 @@
 #include <Engine/Object/Data/Text/MSDFFont.h>
 #include <Engine/Object/Data/Material/Material.h>
 #include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Utility/Helper/ImGuiHelper.h>
 
 // directX
 #include <DirectXMath.h>
@@ -42,6 +43,9 @@ namespace SakuEngine {
 		// 初期化
 		MSDFText(ID3D12Device* device, Asset* asset, const MSDFFont* font, uint32_t maxGlyphs = 256);
 		~MSDFText() = default;
+
+		// エディター
+		void ImGui(float itemSize);
 
 		// 更新
 		void UpdateVertex(const Transform2D& transform);
@@ -103,6 +107,9 @@ namespace SakuEngine {
 
 		// 変更があったか
 		bool dirtyMesh_ = true;
+
+		// エディター
+		InputImGui inputText_;
 
 		//--------- functions ----------------------------------------------------
 

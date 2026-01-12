@@ -20,7 +20,7 @@ void TextRenderer::Init(ID3D12Device8* device, SRVDescriptor* srvDescriptor,
 
 	// パイプライン作成
 	pipeline_ = std::make_unique<PipelineState>();
-	pipeline_->Create("msdfText.json", device, srvDescriptor, shaderCompiler);
+	pipeline_->Create("msdfText2D.json", device, srvDescriptor, shaderCompiler);
 }
 
 void TextRenderer::Rendering(SceneConstBuffer* sceneBuffer, DxCommand* dxCommand) {
@@ -54,9 +54,9 @@ void TextRenderer::Rendering(SceneConstBuffer* sceneBuffer, DxCommand* dxCommand
 		commandList->SetGraphicsRootConstantBufferView(0, transform->GetBuffer().GetResource()->GetGPUVirtualAddress());
 		// マテリアル設定
 		// テクスチャ
-		commandList->SetGraphicsRootDescriptorTable(0, text->GetAtlasGPUHandle());
+		commandList->SetGraphicsRootDescriptorTable(2, text->GetAtlasGPUHandle());
 		// マテリアルデータ
-		commandList->SetGraphicsRootConstantBufferView(2, material->GetBuffer().GetResource()->GetGPUVirtualAddress());
+		commandList->SetGraphicsRootConstantBufferView(3, material->GetBuffer().GetResource()->GetGPUVirtualAddress());
 
 		// 描画処理
 		commandList->DrawIndexedInstanced(text->GetDrawIndexCount(), 1, 0, 0, 0);

@@ -32,98 +32,75 @@ void MSDFFont::Init(Asset* asset, const std::string& atlasTextureName, const std
 	// アトラスの解析
 	//============================================================================
 
-	if (jsonData.contains("atlas")) {
+	const auto& atlas = jsonData["atlas"];
 
-		const auto& atlas = jsonData["atlas"];
-		if (atlas.contains("distanceRange")) {
+	pxRange_ = atlas.value("distanceRange", atlas.value("pxRange", 8.0f));
+	if (atlas.contains("width") && atlas.contains("height")) {
 
-			pxRange_ = atlas["distanceRange"].get<float>();
-		} else if (atlas.contains("pxRange")) {
-
-			pxRange_ = atlas["pxRange"].get<float>();
-		}
-		if (atlas.contains("size")) {
-
-			atlasWidth_ = atlas["size"][0].get<uint32_t>();
-			atlasHeight_ = atlas["size"][1].get<uint32_t>();
-		} else {
-
-			// sizeが無い場合はAssetのmetadataを使う
-			const auto& md = asset_->GetMetaData(atlasTextureName_);
-			atlasWidth_ = uint32_t(md.width);
-			atlasHeight_ = uint32_t(md.height);
-		}
+		atlasWidth_ = atlas["width"].get<uint32_t>();
+		atlasHeight_ = atlas["height"].get<uint32_t>();
 	} else {
 
-		// atlas情報が無い場合もAssetのmetadataに逃がす
-		const auto& metaData = asset_->GetMetaData(atlasTextureName_);
-		atlasWidth_ = uint32_t(metaData.width);
-		atlasHeight_ = uint32_t(metaData.height);
-
-		// デフォルト値
-		pxRange_ = 8.0f;
+		const auto& md = asset_->GetMetaData(atlasTextureName_);
+		atlasWidth_ = uint32_t(md.width);
+		atlasHeight_ = uint32_t(md.height);
 	}
 
 	//============================================================================
 	// メトリクスの解析
 	//============================================================================
 
-	if (jsonData.contains("metrics")) {
+	const auto& metrics = jsonData["metrics"];
 
-		const auto& metrics = jsonData["metrics"];
-
-		metrics_.emSize = metrics.value("emSize", 0.0f);
-		metrics_.lineHeight = metrics.value("lineHeight", 0.0f);
-		metrics_.ascender = metrics.value("ascender", 0.0f);
-		metrics_.descender = metrics.value("descender", 0.0f);
-	}
+	metrics_.emSize = metrics.value("emSize", 0.0f);
+	metrics_.lineHeight = metrics.value("lineHeight", 0.0f);
+	metrics_.ascender = metrics.value("ascender", 0.0f);
+	metrics_.descender = metrics.value("descender", 0.0f);
 
 	//============================================================================
 	// グリフの解析
 	//============================================================================
 
 	glyphMap_.clear();
-	if (jsonData.contains("glyphs")) {
-		for (const auto& glyphJson : jsonData["glyphs"]) {
+	for (const auto& glyphJson : jsonData["glyphs"]) {
 
-			MSDFGlyph glyph;
+		MSDFGlyph glyph;
 
-			if (glyphJson.contains("unicode")) {
+		if (glyphJson.contains("unicode")) {
 
-				glyph.codepoint = char32_t(glyphJson["unicode"].get<uint32_t>());
-			} else if (glyphJson.contains("codepoint")) {
+			glyph.codepoint = char32_t(glyphJson["unicode"].get<uint32_t>());
+		} else if (glyphJson.contains("codepoint")) {
 
-				glyph.codepoint = char32_t(glyphJson["codepoint"].get<uint32_t>());
-			} else {
-				continue;
-			}
-
-			glyph.advance = glyphJson.value("advance", 0.0f);
-
-			if (glyphJson.contains("planeBounds") && !glyphJson["planeBounds"].is_null()) {
-
-				MSDFPlaneBounds planeBounds;
-
-				const auto& planeBoundsJson = glyphJson["planeBounds"];
-				planeBounds.left = planeBoundsJson["left"].get<float>();
-				planeBounds.bottom = planeBoundsJson["bottom"].get<float>();
-				planeBounds.right = planeBoundsJson["right"].get<float>();
-				planeBounds.top = planeBoundsJson["top"].get<float>();
-				glyph.planeBounds = planeBounds;
-			}
-			if (glyphJson.contains("atlasBounds") && !glyphJson["atlasBounds"].is_null()) {
-
-				MSDFAtlasBounds atlasBounds;
-
-				const auto& atlasBoundsJson = glyphJson["atlasBounds"];
-				atlasBounds.left = atlasBoundsJson["left"].get<int>();
-				atlasBounds.bottom = atlasBoundsJson["bottom"].get<int>();
-				atlasBounds.right = atlasBoundsJson["right"].get<int>();
-				atlasBounds.top = atlasBoundsJson["top"].get<int>();
-				glyph.atlasBounds = atlasBounds;
-			}
-			glyphMap_[glyph.codepoint] = glyph;
+			glyph.codepoint = char32_t(glyphJson["codepoint"].get<uint32_t>());
+		} else {
+			continue;
 		}
+
+		glyph.advance = glyphJson.value("advance", 0.0f);
+
+		if (glyphJson.contains("planeBounds") && !glyphJson["planeBounds"].is_null()) {
+
+			MSDFPlaneBounds planeBounds;
+
+			const auto& planeBoundsJson = glyphJson["planeBounds"];
+			planeBounds.left = planeBoundsJson["left"].get<float>();
+			planeBounds.bottom = planeBoundsJson["bottom"].get<float>();
+			planeBounds.right = planeBoundsJson["right"].get<float>();
+			planeBounds.top = planeBoundsJson["top"].get<float>();
+			glyph.planeBounds = planeBounds;
+		}
+		if (glyphJson.contains("atlasBounds") && !glyphJson["atlasBounds"].is_null()) {
+
+			MSDFAtlasBounds atlasBounds;
+
+			const auto& atlasBoundsJson = glyphJson["atlasBounds"];
+			atlasBounds.left = static_cast<int32_t>(std::lround(atlasBoundsJson["left"].get<float>()));
+			atlasBounds.bottom = static_cast<int32_t>(std::lround(atlasBoundsJson["bottom"].get<float>()));
+			atlasBounds.right = static_cast<int32_t>(std::lround(atlasBoundsJson["right"].get<float>()));
+			atlasBounds.top = static_cast<int32_t>(std::lround(atlasBoundsJson["top"].get<float>()));
+			glyph.atlasBounds = atlasBounds;
+		}
+		glyphMap_[glyph.codepoint] = glyph;
 	}
 
 	//============================================================================
@@ -131,14 +108,12 @@ void MSDFFont::Init(Asset* asset, const std::string& atlasTextureName, const std
 	//============================================================================
 
 	kerningMap_.clear();
-	if (jsonData.contains("kerning")) {
-		for (const auto& kerningJson : jsonData["kerning"]) {
+	for (const auto& kerningJson : jsonData["kerning"]) {
 
-			char32_t u1 = char32_t(kerningJson["unicode1"].get<uint32_t>());
-			char32_t u2 = char32_t(kerningJson["unicode2"].get<uint32_t>());
-			float adv = kerningJson["advance"].get<float>();
-			kerningMap_[MakeKerningKey(u1, u2)] = adv;
-		}
+		char32_t u1 = char32_t(kerningJson["unicode1"].get<uint32_t>());
+		char32_t u2 = char32_t(kerningJson["unicode2"].get<uint32_t>());
+		float adv = kerningJson["advance"].get<float>();
+		kerningMap_[MakeKerningKey(u1, u2)] = adv;
 	}
 
 	// 最低限の値チェック

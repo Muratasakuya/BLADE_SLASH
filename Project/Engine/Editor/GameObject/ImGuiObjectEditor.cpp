@@ -19,6 +19,7 @@ using namespace SakuEngine;
 #include <Engine/Object/Data/Tag/ObjectTag.h>
 #include <Engine/Object/Data/Sprite/Sprite.h>
 #include <Engine/Object/Data/Skybox/Skybox.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
 
 //============================================================================
 //	ImGuiObjectEditor classMethods
@@ -460,7 +461,9 @@ void ImGuiObjectEditor::EditSkybox() {
 
 void ImGuiObjectEditor::EditObject2D() {
 
-	if (!selected2D_) return;
+	if (!selected2D_) {
+		return;
+	}
 	uint32_t id = selected2D_.value();
 
 	if (ImGui::BeginTabBar("Obj2DTab")) {
@@ -517,8 +520,13 @@ void ImGuiObjectEditor::Object2DInformation() {
 
 void ImGuiObjectEditor::Object2DSprite() {
 
-	auto* sprite = objectManager_->GetData<Sprite>(*selected2D_);
-	sprite->ImGui(itemWidth_);
+	if (auto* sprite = objectManager_->GetData<Sprite>(*selected2D_)) {
+
+		sprite->ImGui(itemWidth_);
+	} else if (auto* text = objectManager_->GetData<MSDFText>(*selected2D_)) {
+
+		text->ImGui(itemWidth_);
+	}
 }
 
 void ImGuiObjectEditor::Object2DTransform() {
@@ -529,6 +537,11 @@ void ImGuiObjectEditor::Object2DTransform() {
 
 void ImGuiObjectEditor::Object2DMaterial() {
 
-	auto* material = objectManager_->GetData<SpriteMaterial>(*selected2D_);
-	material->ImGui(itemWidth_);
+	if (auto* material = objectManager_->GetData<SpriteMaterial>(*selected2D_)) {
+
+		material->ImGui(itemWidth_);
+	} else if (auto* text = objectManager_->GetData<MSDFTextMaterial>(*selected2D_)) {
+
+		text->ImGui(itemWidth_);
+	}
 }

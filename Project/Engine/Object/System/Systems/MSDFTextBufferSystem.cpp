@@ -12,6 +12,26 @@ using namespace SakuEngine;
 //	MSDFTextBufferSystem classMethods
 //============================================================================
 
+const MSDFFont* MSDFTextBufferSystem::GetMSDFFont(Asset* asset,
+	const std::string& atlasTextureName, const std::string& fontJsonPath) {
+
+	const std::string cacheKey = atlasTextureName + "|" + fontJsonPath;
+
+	auto found = fontCache_.find(cacheKey);
+	if (found != fontCache_.end()) {
+		return found->second.get();
+	}
+
+	// キャッシュに無ければ新規作成して登録
+	std::unique_ptr<MSDFFont> font = std::make_unique<MSDFFont>();
+	font->Init(asset, atlasTextureName, fontJsonPath);
+
+	// 登録
+	const MSDFFont* fontPointer = font.get();
+	fontCache_.emplace(cacheKey, std::move(font));
+	return fontPointer;
+}
+
 Archetype MSDFTextBufferSystem::Signature() const {
 
 	Archetype arch{};

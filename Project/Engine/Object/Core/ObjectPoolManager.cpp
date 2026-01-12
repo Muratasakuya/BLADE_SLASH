@@ -15,6 +15,7 @@ using namespace SakuEngine;
 #include <Engine/Object/Data/Sprite/Sprite.h>
 #include <Engine/Object/Data/Render/MeshRender.h>
 #include <Engine/Object/Data/Skybox/Skybox.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
 
 //============================================================================
 //	ObjectPoolManager classMethods
@@ -109,6 +110,7 @@ template void ObjectPoolManager::SetBit<struct ObjectTag>(uint32_t, bool);
 // トランスフォーム
 template void ObjectPoolManager::SetBit<class Transform3D>(uint32_t, bool);
 template void ObjectPoolManager::SetBit<class Transform2D>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<struct EffectTransform>(uint32_t, bool);
 // マテリアル
 template void ObjectPoolManager::SetBit<class Material>(uint32_t, bool);
 template void ObjectPoolManager::SetBit<class SpriteMaterial>(uint32_t, bool);

@@ -25,8 +25,8 @@ MSDFText::MSDFText(ID3D12Device* device, Asset* asset, const MSDFFont* font, uin
 
 	// インデックスバッファ構築
 	BuildIndexBuffer();
-	// 空文字列設定
-	SetText("");
+	// デフォルト文字列設定
+	SetText("abcABC");
 }
 
 void MSDFText::SetText(const std::string& utf8) {
@@ -40,7 +40,6 @@ void MSDFText::SetText(int32_t value) {
 
 	SetText(std::to_string(value));
 }
-
 
 void MSDFText::SetText(float value, int32_t precision) {
 
@@ -98,6 +97,23 @@ void MSDFText::BuildIndexBuffer() {
 		indices[baseIndexIndex + 5] = baseVertexIndex + 3;
 	}
 	indexBuffer_.TransferData(indices);
+}
+
+void MSDFText::ImGui(float itemSize) {
+
+	ImGui::PushItemWidth(itemSize);
+
+	inputText_.inputText = textUtf8_;
+	if (ImGuiHelper::InputText("Text", inputText_)) {
+		SetText(inputText_.inputText);
+	}
+	ImGui::Text("Glyphs: %zu", codepoints_.size());
+
+	ImGui::SeparatorText("Parameters");
+
+	ImGui::DragFloat("fontSizePx", &fontSizePx_, 0.01f);
+
+	ImGui::PopItemWidth();
 }
 
 void MSDFText::UpdateVertex(const Transform2D& transform) {
@@ -195,8 +211,8 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 		// 左上、右下座標計算
 		const float x0 = penX + planeBounds.left * scale;
 		const float x1 = penX + planeBounds.right * scale;
-		const float y0 = penY + (-planeBounds.top) * scale;     // 上
-		const float y1 = penY + (-planeBounds.bottom) * scale;  // 下
+		const float y0 = penY + (-planeBounds.top) * scale;    // 上
+		const float y1 = penY + (-planeBounds.bottom) * scale; // 下
 
 		// UV計算
 		const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
@@ -214,17 +230,17 @@ void MSDFText::RebuildMeshCPU(const Transform2D& transform) {
 		// 頂点データ設定
 		const uint32_t baseVertexIndex = glyphCount * 4;
 		// 左下
-		vertices[baseVertexIndex].pos = Vector3(x0, y0, 0.0f);
-		vertices[baseVertexIndex].texcoord = Vector2(u0, v0);
+		vertices[baseVertexIndex].pos = Vector2(x0, y0);
+		vertices[baseVertexIndex].texcoord = Vector2(u0, v1);
 		// 左上
-		vertices[baseVertexIndex + 1].pos = Vector3(x0, y1, 0.0f);
-		vertices[baseVertexIndex + 1].texcoord = Vector2(u0, v1);
+		vertices[baseVertexIndex + 1].pos = Vector2(x0, y1);
+		vertices[baseVertexIndex + 1].texcoord = Vector2(u0, v0);
 		// 右下
-		vertices[baseVertexIndex + 2].pos = Vector3(x1, y0, 0.0f);
-		vertices[baseVertexIndex + 2].texcoord = Vector2(u1, v0);
+		vertices[baseVertexIndex + 2].pos = Vector2(x1, y0);
+		vertices[baseVertexIndex + 2].texcoord = Vector2(u1, v1);
 		// 右上
-		vertices[baseVertexIndex + 3].pos = Vector3(x1, y1, 0.0f);
-		vertices[baseVertexIndex + 3].texcoord = Vector2(u1, v1);
+		vertices[baseVertexIndex + 3].pos = Vector2(x1, y1);
+		vertices[baseVertexIndex + 3].texcoord = Vector2(u1, v0);
 
 		// bounds更新
 		minValue.x = (std::min)(minValue.x, x0);
