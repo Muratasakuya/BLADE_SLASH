@@ -20,7 +20,7 @@ using namespace SakuEngine;
 
 void Material::InitParameter() {
 
-	color = SakuEngine::Color::White();
+	color = Color::White();
 	enableNormalMap = false;
 	enableDithering = false;
 	enableLighting = true;
@@ -43,8 +43,8 @@ void Material::InitParameter() {
 void Material::Init(Asset* asset) {
 
 	InitParameter();
-	uvTransform.scale = SakuEngine::Vector3::AnyInit(1.0f);
-	prevUVTransform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
+	uvTransform.scale = Vector3::AnyInit(1.0f);
+	prevUVTransform_.scale = Vector3::AnyInit(1.0f);
 
 	asset_ = nullptr;
 	asset_ = asset;
@@ -72,9 +72,9 @@ void Material::ImGui(float itemSize) {
 	// テクスチャ選択
 	// 表示サイズ
 	const float imageSize = 88.0f;
-	SakuEngine::ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
+	ImGuiHelper::ImageButtonWithLabel("texture", textureName_,
 		(ImTextureID)asset_->GetGPUHandle(textureName_).ptr, { imageSize, imageSize });
-	std::string dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+	std::string dragTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 	if (!dragTextureName.empty()) {
 
 		// textureを設定
@@ -94,9 +94,9 @@ void Material::ImGui(float itemSize) {
 	}
 	// テクスチャ選択
 	if (enableNormalMapBool) {
-		SakuEngine::ImGuiHelper::ImageButtonWithLabel("normalMap", normalMapTextureName_,
+		ImGuiHelper::ImageButtonWithLabel("normalMap", normalMapTextureName_,
 			(ImTextureID)asset_->GetGPUHandle(normalMapTextureName_).ptr, { imageSize, imageSize });
-		dragTextureName = SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+		dragTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
 		if (!dragTextureName.empty()) {
 
 			// textureを設定
@@ -159,7 +159,7 @@ void Material::ImGui(float itemSize) {
 
 	ImGui::SeparatorText("PostProcess");
 
-	SakuEngine::ImGuiHelper::EditPostProcessMask(postProcessMask);
+	ImGuiHelper::EditPostProcessMask(postProcessMask);
 
 	ImGui::PopItemWidth();
 }
@@ -193,25 +193,25 @@ void Material::FromJson(const Json& data) {
 
 	// Material
 	// color
-	color = SakuEngine::JsonAdapter::ToObject<Color>(data["color"]);
-	emissionColor = SakuEngine::JsonAdapter::ToObject<Vector3>(data["emissionColor"]);
-	emissiveIntensity = SakuEngine::JsonAdapter::GetValue<float>(data, "emissiveIntensity");
-	enableDithering = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableDithering");
+	color = JsonAdapter::ToObject<Color>(data["color"]);
+	emissionColor = JsonAdapter::ToObject<Vector3>(data["emissionColor"]);
+	emissiveIntensity = JsonAdapter::GetValue<float>(data, "emissiveIntensity");
+	enableDithering = JsonAdapter::GetValue<int32_t>(data, "enableDithering");
 	// lighting
-	enableLighting = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableLighting");
-	enableHalfLambert = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableHalfLambert");
-	enableBlinnPhongReflection = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableBlinnPhongReflection");
-	enableImageBasedLighting = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "enableImageBasedLighting");
-	castShadow = SakuEngine::JsonAdapter::GetValue<int32_t>(data, "castShadow");
-	phongRefShininess = SakuEngine::JsonAdapter::GetValue<float>(data, "phongRefShininess");
-	specularColor = SakuEngine::JsonAdapter::ToObject<Vector3>(data["specularColor"]);
-	shadowRate = SakuEngine::JsonAdapter::GetValue<float>(data, "shadowRate");
-	environmentCoefficient = SakuEngine::JsonAdapter::GetValue<float>(data, "environmentCoefficient");
+	enableLighting = JsonAdapter::GetValue<int32_t>(data, "enableLighting");
+	enableHalfLambert = JsonAdapter::GetValue<int32_t>(data, "enableHalfLambert");
+	enableBlinnPhongReflection = JsonAdapter::GetValue<int32_t>(data, "enableBlinnPhongReflection");
+	enableImageBasedLighting = JsonAdapter::GetValue<int32_t>(data, "enableImageBasedLighting");
+	castShadow = JsonAdapter::GetValue<int32_t>(data, "castShadow");
+	phongRefShininess = JsonAdapter::GetValue<float>(data, "phongRefShininess");
+	specularColor = JsonAdapter::ToObject<Vector3>(data["specularColor"]);
+	shadowRate = JsonAdapter::GetValue<float>(data, "shadowRate");
+	environmentCoefficient = JsonAdapter::GetValue<float>(data, "environmentCoefficient");
 
 	// UV
-	uvTransform.scale = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvScale"]);
-	uvTransform.rotate = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
-	uvTransform.translation = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
+	uvTransform.scale = JsonAdapter::ToObject<Vector3>(data["uvScale"]);
+	uvTransform.rotate = JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
+	uvTransform.translation = JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
 }
 
 void Material::SetTextureName(const std::string& textureName) {
@@ -233,8 +233,8 @@ void Material::SetNormalMapTextureName(const std::string& textureName) {
 void SpriteMaterial::Init(ID3D12Device* device) {
 
 	material.Init();
-	uvTransform.scale = SakuEngine::Vector3::AnyInit(1.0f);
-	prevUVTransform_.scale = SakuEngine::Vector3::AnyInit(1.0f);
+	uvTransform.scale = Vector3::AnyInit(1.0f);
+	prevUVTransform_.scale = Vector3::AnyInit(1.0f);
 
 	// buffer初期化
 	buffer_.CreateBuffer(device);
@@ -256,6 +256,9 @@ void SpriteMaterial::UpdateUVTransform() {
 
 	// 値を保存
 	prevUVTransform_ = uvTransform;
+
+	// buffer転送
+	buffer_.TransferData(material);
 }
 
 void SpriteMaterial::ImGui(float itemSize) {
@@ -292,7 +295,7 @@ void SpriteMaterial::ImGui(float itemSize) {
 
 	ImGui::SeparatorText("PostProcess");
 
-	SakuEngine::ImGuiHelper::EditPostProcessMask(material.postProcessMask);
+	ImGuiHelper::EditPostProcessMask(material.postProcessMask);
 
 	ImGui::PopItemWidth();
 }
@@ -318,7 +321,7 @@ void SpriteMaterial::FromJson(const Json& data) {
 
 	// Material
 	material.color = Color::FromJson(data["color"]);
-	material.emissionColor = SakuEngine::Vector3::FromJson(data["emissionColor"]);
+	material.emissionColor = Vector3::FromJson(data["emissionColor"]);
 	material.useVertexColor = data["useVertexColor"];
 	material.useAlphaColor = data["useAlphaColor"];
 	material.emissiveIntensity = data["emissiveIntensity"];
@@ -326,7 +329,84 @@ void SpriteMaterial::FromJson(const Json& data) {
 	material.postProcessMask = data["postProcessMask"];
 
 	// UV
-	uvTransform.scale = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvScale"]);
-	uvTransform.rotate = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
-	uvTransform.translation = SakuEngine::JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
+	uvTransform.scale = JsonAdapter::ToObject<Vector3>(data["uvScale"]);
+	uvTransform.rotate = JsonAdapter::ToObject<Vector3>(data["uvRotate"]);
+	uvTransform.translation = JsonAdapter::ToObject<Vector3>(data["uvTranslate"]);
+}
+
+//============================================================================
+//	MSDFTextMaterial classMethods
+//============================================================================
+
+void MSDFTextMaterial::Init(ID3D12Device* device) {
+
+	material.Init();
+
+	// buffer初期化
+	buffer_.CreateBuffer(device);
+}
+
+void MSDFTextMaterial::UpdateBuffer() {
+
+	buffer_.TransferData(material);
+}
+
+void MSDFTextMaterial::ImGui(float itemSize) {
+
+	ImGui::PushItemWidth(itemSize);
+
+	// 色
+	ImGui::SeparatorText("Color");
+
+	// メインの色
+	{
+		ImGui::ColorEdit4("color", &material.color.r);
+		ImGui::Text("R:%4.3f G:%4.3f B:%4.3f A:%4.3f", material.color.r, material.color.g,
+			material.color.b, material.color.a);
+	}
+	// アウトラインの色
+	{
+		ImGui::ColorEdit4("outlineColor", &material.outlineColor.r);
+		ImGui::Text("R:%4.3f G:%4.3f B:%4.3f A:%4.3f", material.outlineColor.r, material.outlineColor.g,
+			material.outlineColor.b, material.outlineColor.a);
+	}
+
+	// MSDFパラメータ
+	ImGui::SeparatorText("MSDF Parameters");
+	{
+		ImGui::DragFloat2("atlasSize", &material.atlasSize.x, 0.01f);
+		ImGui::DragFloat("pixelRange", &material.pixelRange, 0.1f);
+		ImGui::DragFloat("outlineWidth", &material.outlineWidth, 0.01f);
+		ImGui::DragFloat("softness", &material.softness, 0.001f);
+		ImGui::DragFloat("boldness", &material.boldness, 0.01f);
+		ImGui::Checkbox("enableOutline", (bool*)(&material.enableOutline));
+	}
+}
+
+void MSDFTextMaterial::ToJson(Json& data) {
+
+	data["color"] = material.color.ToJson();
+	data["outlineColor"] = material.outlineColor.ToJson();
+	data["atlasSize"] = material.atlasSize.ToJson();
+	data["pixelRange"] = material.pixelRange;
+	data["outlineWidth"] = material.outlineWidth;
+	data["softness"] = material.softness;
+	data["boldness"] = material.boldness;
+	data["enableOutline"] = material.enableOutline;
+}
+
+void MSDFTextMaterial::FromJson(const Json& data) {
+
+	if (data.empty()) {
+		return;
+	}
+
+	material.color = Color::FromJson(data["color"]);
+	material.outlineColor = Color::FromJson(data["outlineColor"]);
+	material.atlasSize = Vector2::FromJson(data["atlasSize"]);
+	material.pixelRange = data["pixelRange"];
+	material.outlineWidth = data["outlineWidth"];
+	material.softness = data["softness"];
+	material.boldness = data["boldness"];
+	material.enableOutline = data["enableOutline"];
 }

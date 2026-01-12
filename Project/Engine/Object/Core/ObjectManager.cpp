@@ -10,17 +10,18 @@ using namespace SakuEngine;
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 
 // data
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/SkinnedAnimation.h>
-#include <Engine/Object/Data/ObjectTag.h>
-#include <Engine/Object/Data/MeshRender.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
+#include <Engine/Object/Data/Tag/ObjectTag.h>
+#include <Engine/Object/Data/Render/MeshRender.h>
 // systems
 #include <Engine/Object/System/Systems/TransformSystem.h>
 #include <Engine/Object/System/Systems/MaterialSystem.h>
 #include <Engine/Object/System/Systems/AnimationSystem.h>
 #include <Engine/Object/System/Systems/InstancedMeshSystem.h>
 #include <Engine/Object/System/Systems/SpriteBufferSystem.h>
+#include <Engine/Object/System/Systems/MSDFTextBufferSystem.h>
 #include <Engine/Object/System/Systems/SkyboxRenderSystem.h>
 #include <Engine/Object/System/Systems/TagSystem.h>
 
@@ -59,13 +60,14 @@ void ObjectManager::Init(ID3D12Device* device, Asset* asset, DxCommand* dxComman
 	systemManager_ = std::make_unique<SystemManager>();
 
 	// system登録
-	systemManager_->AddSystem<SakuEngine::Transform3DSystem>();
+	systemManager_->AddSystem<Transform3DSystem>();
 	systemManager_->AddSystem<Transform2DSystem>();
 	systemManager_->AddSystem<AnimationSystem>();
 	systemManager_->AddSystem<MaterialSystem>();
 	systemManager_->AddSystem<SpriteMaterialSystem>();
 	systemManager_->AddSystem<TagSystem>();
 	systemManager_->AddSystem<SpriteBufferSystem>();
+	systemManager_->AddSystem<MSDFTextBufferSystem>();
 	systemManager_->AddSystem<SkyboxRenderSystem>();
 	systemManager_->AddSystem<InstancedMeshSystem>(device, asset, dxCommand);
 	systemManager_->GetSystem<InstancedMeshSystem>()->StartBuildWorker();
@@ -90,7 +92,7 @@ uint32_t ObjectManager::CreateObjects(const std::string& modelName,
 	LOG_SCOPE_MS_LABEL(modelName);
 
 	// object作成
-	uint32_t object = BuildEmptyobject(name, groupName);
+	uint32_t object = BuildEmptyObject(name, groupName);
 	// 必要なdataを作成
 	auto* transform = objectPoolManager_->AddData<SakuEngine::Transform3D>(object);
 	auto* materialsPtr = objectPoolManager_->AddData<Material, true>(object);
@@ -131,7 +133,7 @@ uint32_t ObjectManager::CreateSkybox(const std::string& textureName) {
 	LOG_SCOPE_MS_LABEL("skybox");
 
 	// object作成
-	uint32_t object = BuildEmptyobject("skybox", "Environment");
+	uint32_t object = BuildEmptyObject("skybox", "Environment");
 	// 必要なdataを作成
 	auto* skybox = objectPoolManager_->AddData<Skybox>(object);
 
@@ -147,7 +149,7 @@ uint32_t ObjectManager::CreateEffect(const std::string& name, const std::string&
 	LOG_SCOPE_MS_LABEL("effect");
 
 	// object作成
-	uint32_t object = BuildEmptyobject(name, groupName);
+	uint32_t object = BuildEmptyObject(name, groupName);
 	// 必要なdataを作成
 	auto* transform = objectPoolManager_->AddData<EffectTransform>(object);
 
@@ -164,7 +166,7 @@ uint32_t ObjectManager::CreateObject2D(const std::string& textureName,
 	LOG_SCOPE_MS_LABEL(textureName);
 
 	// object作成
-	uint32_t object = BuildEmptyobject(name, groupName);
+	uint32_t object = BuildEmptyObject(name, groupName);
 	// 必要なdataを作成
 	auto* transform = objectPoolManager_->AddData<Transform2D>(object);
 	auto* material = objectPoolManager_->AddData<SpriteMaterial>(object);
@@ -182,7 +184,20 @@ uint32_t ObjectManager::CreateObject2D(const std::string& textureName,
 	return object;
 }
 
-uint32_t ObjectManager::BuildEmptyobject(const std::string& name, const std::string& groupName) {
+uint32_t ObjectManager::CreateTextObject(const std::string& atlasTextureName,
+	const std::string& fontJsonPath, const std::string& name, const std::string& groupName) {
+
+	LOG_SCOPE_MS_LABEL(atlasTextureName);
+
+	// object作成
+	uint32_t object = BuildEmptyObject(name, groupName);
+
+	LOG_INFO("created textObject: name: [{}] textureName: [{}]", name, atlasTextureName);
+
+	return object;
+}
+
+uint32_t ObjectManager::BuildEmptyObject(const std::string& name, const std::string& groupName) {
 
 	// object作成
 	uint32_t object = objectPoolManager_->Create();

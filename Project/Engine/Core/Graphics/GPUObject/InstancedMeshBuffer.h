@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -6,9 +6,9 @@
 #include <Engine/Asset/AssetStructure.h>
 #include <Engine/Core/Graphics/GPUObject/DxConstBuffer.h>
 #include <Engine/Core/Graphics/GPUObject/DxStructuredBuffer.h>
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/SkinnedAnimation.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
 #include <Engine/Core/Graphics/Mesh/Mesh.h>
 
 namespace SakuEngine {

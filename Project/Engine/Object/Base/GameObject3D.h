@@ -7,8 +7,8 @@
 #include <Engine/Collision/Collider.h>
 
 // data
-#include <Engine/Object/Data/SkinnedAnimation.h>
-#include <Engine/Object/Data/MeshRender.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
+#include <Engine/Object/Data/Render/MeshRender.h>
 
 namespace SakuEngine {
 

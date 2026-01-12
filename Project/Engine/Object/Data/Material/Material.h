@@ -168,4 +168,44 @@ namespace SakuEngine {
 		DxConstBuffer<SpriteMaterialForGPU> buffer_;
 	};
 
+	//============================================================================
+	//	MSDFTextMaterial class
+	//	MSDFテキストのマテリアルデータ
+	//============================================================================
+	class MSDFTextMaterial {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		MSDFTextMaterial() = default;
+		~MSDFTextMaterial() = default;
+
+		void Init(ID3D12Device* device);
+
+		// バッファ更新
+		void UpdateBuffer();
+
+		void ImGui(float itemSize);
+
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
+
+		//--------- variables ----------------------------------------------------
+
+		MSDFTextMaterialForGPU material;
+
+		//--------- accessor -----------------------------------------------------
+
+		const DxConstBuffer<MSDFTextMaterialForGPU>& GetBuffer() const { return buffer_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// buffer
+		DxConstBuffer<MSDFTextMaterialForGPU> buffer_;
+	};
 }; // SakuEngine

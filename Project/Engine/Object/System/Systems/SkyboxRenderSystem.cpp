@@ -1,4 +1,4 @@
-﻿#include "SkyboxRenderSystem.h"
+#include "SkyboxRenderSystem.h"
 
 using namespace SakuEngine;
 
@@ -21,7 +21,6 @@ Archetype SkyboxRenderSystem::Signature() const {
 void SkyboxRenderSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 
 	const auto& view = ObjectPoolManager.View(Signature());
-
 	for (const auto& object : view) {
 
 		auto* skybox = ObjectPoolManager.GetData<Skybox>(object);

@@ -1,58 +1,57 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/Object/System/Base/ISystem.h>
-#include <Engine/Object/Data/Sprite.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
 
 namespace SakuEngine {
 
-// front
+	// front
+	class Transform2D;
+	class SpriteMaterial;
 
-class Transform2D;
-class SpriteMaterial;
+	//============================================================================
+	//	structure
+	//============================================================================
 
-//============================================================================
-//	structure
-//============================================================================
+	struct SpriteData {
 
-struct SpriteData {
+		Transform2D* transform;
+		SpriteMaterial* material;
+		Sprite* sprite;
+	};
 
-	Transform2D* transform;
-	SpriteMaterial* material;
-	Sprite* sprite;
-};
+	//============================================================================
+	//	SpriteBufferSystem class
+	//	2Dスプライトのバッファを管理するシステム
+	//============================================================================
+	class SpriteBufferSystem :
+		public ISystem {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	SpriteBufferSystem class
-//	2Dスプライトのバッファを管理するシステム
-//============================================================================
-class SpriteBufferSystem :
-	public ISystem {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		SpriteBufferSystem() = default;
+		~SpriteBufferSystem() = default;
 
-	SpriteBufferSystem() = default;
-	~SpriteBufferSystem() = default;
+		Archetype Signature() const override;
 
-	Archetype Signature() const override;
+		void Update(ObjectPoolManager& ObjectPoolManager) override;
 
-	void Update(ObjectPoolManager& ObjectPoolManager) override;
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		const std::vector<SpriteData>& GetSpriteData(SpriteLayer layer) { return spriteDataMap_[layer]; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	const std::vector<SpriteData>& GetSpriteData(SpriteLayer layer) { return spriteDataMap_[layer]; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
-
-	std::unordered_map<SpriteLayer, std::vector<SpriteData>> spriteDataMap_;
-};
+		std::unordered_map<SpriteLayer, std::vector<SpriteData>> spriteDataMap_;
+	};
 
 }; // SakuEngine

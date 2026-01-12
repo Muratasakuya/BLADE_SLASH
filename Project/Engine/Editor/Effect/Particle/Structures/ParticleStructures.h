@@ -7,7 +7,7 @@
 #include <Engine/Editor/Effect/Particle/Structures/ParticleValue.h>
 #include <Engine/Core/Graphics/GPUObject/DxStructuredBuffer.h>
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/Data/Transform/Transform.h>
 #include <Engine/Utility/Enum/Easing.h>
 #include <Engine/MathLib/MathUtils.h>
 

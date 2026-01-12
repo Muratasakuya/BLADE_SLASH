@@ -31,7 +31,7 @@ void BasePlayerMoveKeyAttack::CreateTransform(const std::string& label, const st
 
 	// タグの作成
 	std::string objectName = label + name;
-	uint32_t id = objectManager->BuildEmptyobject(objectName, "Player");
+	uint32_t id = objectManager->BuildEmptyObject(objectName, "Player");
 	tag = objectManager->GetData<SakuEngine::ObjectTag>(id);
 	// トランスフォームを追加
 	transform = objectManager->GetObjectPoolManager()->AddData<SakuEngine::Transform3D>(id);
