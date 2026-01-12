@@ -1,15 +1,14 @@
-﻿#include "SpriteRenderer.h"
+#include "SpriteRenderer.h"
 
 using namespace SakuEngine;
 
 //============================================================================
 //	include
 //============================================================================
-// Graphics
 #include <Engine/Core/Graphics/DxObject/DxCommand.h>
 #include <Engine/Core/Graphics/GPUObject/SceneConstBuffer.h>
 #include <Engine/Object/Core/ObjectManager.h>
-#include <Engine/Object/Data/Material.h>
+#include <Engine/Object/Data/Material/Material.h>
 #include <Engine/Object/System/Systems/SpriteBufferSystem.h>
 
 //============================================================================
@@ -34,7 +33,6 @@ void SpriteRenderer::ApplyPostProcessRendering(SpriteLayer layer, SceneConstBuff
 	// 描画情報取得
 	const auto& system = ObjectManager::GetInstance()->GetSystem<SpriteBufferSystem>();
 	const auto& spriteData = system->GetSpriteData(layer);
-
 	if (spriteData.empty()) {
 		return;
 	}
@@ -49,7 +47,7 @@ void SpriteRenderer::ApplyPostProcessRendering(SpriteLayer layer, SceneConstBuff
 
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// lightViewProjection
+	// カメラの正射影行列設定
 	sceneBuffer->SetOrthoProCommand(commandList, 3);
 	// index
 	commandList->IASetIndexBuffer(&spriteData.front().sprite->GetIndexBuffer().GetIndexBufferView());

@@ -9,9 +9,9 @@
 #include <Engine/MathLib/MathUtils.h>
 
 // data
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/ObjectTag.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Tag/ObjectTag.h>
 
 //============================================================================
 //	Skybox class

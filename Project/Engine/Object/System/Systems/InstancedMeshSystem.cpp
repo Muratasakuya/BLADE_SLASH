@@ -8,7 +8,7 @@ using namespace SakuEngine;
 #include <Engine/Asset/Asset.h>
 #include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Object/Core/ObjectPoolManager.h>
-#include <Engine/Object/Data/MeshRender.h>
+#include <Engine/Object/Data/Render/MeshRender.h>
 #include <Engine/Core/Graphics/Raytracing/RaytracingScene.h>
 #include <Engine/Core/Graphics/Renderer/LineRenderer.h>
 #include <Engine/Config.h>
@@ -198,7 +198,6 @@ void InstancedMeshSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 	renderData_.clear();
 
 	const auto& view = ObjectPoolManager.View(Signature());
-
 	for (const auto& object : view) {
 
 		auto* transform = ObjectPoolManager.GetData<SakuEngine::Transform3D>(object);

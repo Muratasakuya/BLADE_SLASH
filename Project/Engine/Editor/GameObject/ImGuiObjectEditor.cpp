@@ -13,12 +13,12 @@ using namespace SakuEngine;
 #include <Engine/MathLib/MathUtils.h>
 
 // data
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/SkinnedAnimation.h>
-#include <Engine/Object/Data/ObjectTag.h>
-#include <Engine/Object/Data/Sprite.h>
-#include <Engine/Object/Data/Skybox.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
+#include <Engine/Object/Data/Tag/ObjectTag.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
+#include <Engine/Object/Data/Skybox/Skybox.h>
 
 //============================================================================
 //	ImGuiObjectEditor classMethods

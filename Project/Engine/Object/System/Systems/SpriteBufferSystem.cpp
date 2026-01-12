@@ -1,4 +1,4 @@
-﻿#include "SpriteBufferSystem.h"
+#include "SpriteBufferSystem.h"
 
 using namespace SakuEngine;
 
@@ -6,8 +6,8 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectPoolManager.h>
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
 
 //============================================================================
 //	SpriteBufferSystem classMethods
@@ -28,7 +28,6 @@ void SpriteBufferSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 	spriteDataMap_.clear();
 
 	const auto& view = ObjectPoolManager.View(Signature());
-
 	for (const auto& object : view) {
 
 		auto* transform = ObjectPoolManager.GetData<Transform2D>(object);

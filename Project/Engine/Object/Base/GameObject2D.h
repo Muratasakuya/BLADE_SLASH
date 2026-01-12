@@ -6,7 +6,7 @@
 #include <Engine/Object/Base/Interface/IGameObject.h>
 
 // data
-#include <Engine/Object/Data/Sprite.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
 
 namespace SakuEngine {
 

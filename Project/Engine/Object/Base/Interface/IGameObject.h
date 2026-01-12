@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -7,9 +7,9 @@
 #include <Engine/Utility/Enum/ObjectUpdateMode.h>
 
 // data
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/ObjectTag.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Tag/ObjectTag.h>
 
 // c++
 #include <string>

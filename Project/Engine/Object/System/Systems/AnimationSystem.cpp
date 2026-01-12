@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectPoolManager.h>
-#include <Engine/Object/Data/SkinnedAnimation.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
 
 //============================================================================
 //	AnimationSystem classMethods
@@ -21,10 +21,11 @@ Archetype AnimationSystem::Signature() const {
 
 void AnimationSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 
-	for (uint32_t object : ObjectPoolManager.View(Signature())) {
+	const auto& view = ObjectPoolManager.View(Signature());
+	for (const auto& object : view) {
 
 		auto* animation = ObjectPoolManager.GetData<SkinnedAnimation>(object);
-		auto* transform = ObjectPoolManager.GetData<SakuEngine::Transform3D>(object);
+		auto* transform = ObjectPoolManager.GetData<Transform3D>(object);
 		animation->Update(transform->matrix.world);
 	}
 }

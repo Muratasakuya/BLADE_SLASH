@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/Data/Transform/Transform.h>
 #include <Engine/Utility/Enum/Direction.h>
 
 // imgui
@@ -15,8 +15,8 @@ using namespace SakuEngine;
 //	CBufferStructures
 //============================================================================
 
-void TransformationMatrix::Update(const BaseTransform* parent, const SakuEngine::Vector3& scale,
-	const Quaternion& rotation, const SakuEngine::Vector3& translation, bool isIgnoreParentScale,
+void TransformationMatrix::Update(const BaseTransform* parent, const Vector3& scale,
+	const Quaternion& rotation, const Vector3& translation, bool isIgnoreParentScale,
 	const std::optional<Matrix4x4>& billboardMatrix) {
 
 	// billboardMatrixに値が入っていればbillboardMatrixでrotateを計算する
@@ -27,7 +27,7 @@ void TransformationMatrix::Update(const BaseTransform* parent, const SakuEngine:
 		Quaternion billboardRot = Quaternion::FromRotationMatrix(billboardMatrix.value());
 
 		// 回転行列取得
-		Quaternion normalizedRotation = SakuEngine::Quaternion::Normalize(rotation);
+		Quaternion normalizedRotation = Quaternion::Normalize(rotation);
 		Matrix4x4 fullRotMat = Quaternion::MakeRotateMatrix(normalizedRotation);
 
 		Vector3 xAxis = Vector3::TransferNormal(Direction::Get(Direction3D::Right), fullRotMat);
@@ -49,7 +49,7 @@ void TransformationMatrix::Update(const BaseTransform* parent, const SakuEngine:
 
 		// Y軸はbillboard、XZはrotation
 		Quaternion finalRotation = Quaternion::Multiply(Quaternion::Conjugate(billboardRot), xzRotation);
-		finalRotation = SakuEngine::Quaternion::Normalize(finalRotation);
+		finalRotation = Quaternion::Normalize(finalRotation);
 
 		Matrix4x4 rotateMatrix = Quaternion::MakeRotateMatrix(finalRotation);
 		world = scaleMatrix * rotateMatrix * translateMatrix;
@@ -82,12 +82,12 @@ void TransformationMatrix::Update(const BaseTransform* parent, const SakuEngine:
 
 void SpriteMaterialForGPU::Init() {
 
-	color = SakuEngine::Color::White();
+	color = Color::White();
 	useVertexColor = false;
 	useAlphaColor = false;
 	emissiveIntensity = 0.0f;
 	alphaReference = 0.0f;
-	emissionColor = SakuEngine::Vector3::AnyInit(1.0f);
+	emissionColor = Vector3::AnyInit(1.0f);
 	uvTransform = Matrix4x4::MakeIdentity4x4();
 	postProcessMask = 0;
 }
@@ -98,4 +98,20 @@ void SpriteMaterialForGPU::ImGui() {
 	ImGui::Text("R:%4.3f G:%4.3f B:%4.3f A:%4.3f",
 		color.r, color.g,
 		color.b, color.a);
+}
+
+void MSDFTextMaterialForGPU::Init() {
+
+	color = Color::White();
+	outlineColor = Color::Black();
+	atlasSize = Vector2::AnyInit(512.0f);
+	pixelRange = 4.0f;
+	outlineWidth = 0.0f;
+	softness = 0.1f;
+	boldness = 0.0f;
+	enableOutline = 0;
+	postProcessMask = 0;
+}
+
+void MSDFTextMaterialForGPU::ImGui() {
 }

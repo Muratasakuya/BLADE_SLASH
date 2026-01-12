@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Collision/Collider.h>
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/Data/Transform/Transform.h>
 
 //============================================================================
 //	BossEnemyBladeCollision class

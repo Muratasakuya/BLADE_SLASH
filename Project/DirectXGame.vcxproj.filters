@@ -1083,19 +1083,19 @@
     <ClCompile Include="Engine\Collision\CollisionManager.cpp">
       <Filter>Engine\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Material.cpp">
+    <ClCompile Include="Engine\Object\Data\Material\Material.cpp">
       <Filter>Engine\Object\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\MeshRender.cpp">
+    <ClCompile Include="Engine\Object\Data\Render\MeshRender.cpp">
       <Filter>Engine\Object\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\SkinnedAnimation.cpp">
+    <ClCompile Include="Engine\Object\Data\Skinned\SkinnedAnimation.cpp">
       <Filter>Engine\Object\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Skybox.cpp">
+    <ClCompile Include="Engine\Object\Data\Skybox\Skybox.cpp">
       <Filter>Engine\Object\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Sprite.cpp">
+    <ClCompile Include="Engine\Object\Data\Sprite\Sprite.cpp">
       <Filter>Engine\Object\Data</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Core\ObjectManager.cpp">
@@ -1227,7 +1227,7 @@
     <ClCompile Include="Engine\Utility\Animation\SimpleAnimation.cpp">
       <Filter>Engine\Utility\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Transform.cpp">
+    <ClCompile Include="Engine\Object\Data\Transform\Transform.cpp">
       <Filter>Engine\Object\Data</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Debug\Assert.cpp">
@@ -2163,25 +2163,25 @@
     <ClInclude Include="Engine\Object\Base\AnimationObject3D.h">
       <Filter>Engine\Object\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Material.h">
+    <ClInclude Include="Engine\Object\Data\Material\Material.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\MeshRender.h">
+    <ClInclude Include="Engine\Object\Data\Render\MeshRender.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\MeshRenderStructure.h">
+    <ClInclude Include="Engine\Object\Data\Render\MeshRenderStructure.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\SkinnedAnimation.h">
+    <ClInclude Include="Engine\Object\Data\Skinned\SkinnedAnimation.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Skybox.h">
+    <ClInclude Include="Engine\Object\Data\Skybox\Skybox.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Sprite.h">
+    <ClInclude Include="Engine\Object\Data\Sprite\Sprite.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\ObjectTag.h">
+    <ClInclude Include="Engine\Object\Data\Tag\ObjectTag.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Core\ObjectPool.h">
@@ -2346,7 +2346,7 @@
     <ClInclude Include="Engine\Utility\Animation\SimpleAnimation.h">
       <Filter>Engine\Utility\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Transform.h">
+    <ClInclude Include="Engine\Object\Data\Transform\Transform.h">
       <Filter>Engine\Object\Data</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\GPUObject\DxConstBuffer.h">
@@ -2924,6 +2924,11 @@
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Input\InputStructures.cpp" />
+    <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp" />
+    <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\TextRenderer.cpp" />
+    <ClCompile Include="Engine\Object\Base\GameTextObject.cpp" />
+    <ClCompile Include="Engine\Object\System\Systems\MSDFTextBufferSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2953,5 +2958,17 @@
     <ClInclude Include="Engine\Collision\CollisionDebugDraw.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h" />
+    <ClInclude Include="Engine\Object\Data\Text\MSDFText.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\TextRenderer.h" />
+    <ClInclude Include="Engine\Object\Base\GameTextObject.h" />
+    <ClInclude Include="Engine\Object\System\Systems\MSDFTextBufferSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl" />
+    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.PS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli" />
   </ItemGroup>
 </Project>

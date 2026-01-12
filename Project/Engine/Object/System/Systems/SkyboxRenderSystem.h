@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/Object/System/Base/ISystem.h>
-#include <Engine/Object/Data/Skybox.h>
+#include <Engine/Object/Data/Skybox/Skybox.h>
 
 // directX
 #include <d3d12.h>

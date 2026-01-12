@@ -173,41 +173,52 @@ DirectX::ScratchImage TextureManager::GenerateMipMaps(const std::filesystem::pat
 		(stemLower.find(L"normal") != std::wstring::npos) ||
 		Algorithm::EndsWithW(stemLower, L"_n") ||
 		(stemLower.find(L"_nrm") != std::wstring::npos);
-	// 法線テクスチャかどうかでLinearかSRGBか変える
-	DirectX::WIC_FLAGS wicFlags = isNormal ? static_cast<DirectX::WIC_FLAGS>(
-		DirectX::WIC_FLAGS_IGNORE_SRGB | DirectX::WIC_FLAGS_DEFAULT_SRGB) :
-		static_cast<DirectX::WIC_FLAGS>(DirectX::WIC_FLAGS_FORCE_SRGB | DirectX::WIC_FLAGS_DEFAULT_SRGB);
+	// MSDF/距離場/フォントアトラス判定
+	bool isMSDFLike =
+		(stemLower.find(L"msdf") != std::wstring::npos) ||
+		(stemLower.find(L"sdf") != std::wstring::npos) ||
+		(stemLower.find(L"font") != std::wstring::npos);
 
-	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), wicFlags, nullptr, image);
-	// dds拡張子かどうかで分岐させる
+	// DDSかどうかで分岐
+	HRESULT hr = S_FALSE;
 	if (filePathW.ends_with(L".dds")) {
 
 		hr = DirectX::LoadFromDDSFile(filePathW.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
 	} else {
 
-		hr = DirectX::LoadFromWICFile(filePathW.c_str(),
-			DirectX::WIC_FLAGS_FORCE_SRGB | DirectX::WIC_FLAGS_DEFAULT_SRGB, nullptr, image);
+		// MSDF/NormalはRGBを無効にする
+		DirectX::WIC_FLAGS wicFlags = DirectX::WIC_FLAGS_NONE;
+		if (isNormal || isMSDFLike) {
+
+			wicFlags = DirectX::WIC_FLAGS_IGNORE_SRGB;
+		} else {
+
+			wicFlags = DirectX::WIC_FLAGS_FORCE_SRGB;
+		}
+		hr = DirectX::LoadFromWICFile(filePathW.c_str(), wicFlags, nullptr, image);
 	}
 	assert(SUCCEEDED(hr));
 
+	// MSDFはミップ無し
+	if (isMSDFLike) {
+
+		outMeta = image.GetMetadata();
+		return image;
+	}
+
 	DirectX::ScratchImage mipImages{};
-	// 圧縮フォーマットかどうかチェックして分岐させる
 	if (DirectX::IsCompressed(image.GetMetadata().format)) {
 
-		// 圧縮フォーマットだったらそのまま使用する
 		mipImages = std::move(image);
 	} else {
 
-		// ミップマップの作成 → 元画像よりも小さなテクスチャ群
 		auto mipFilter = isNormal ? DirectX::TEX_FILTER_DEFAULT : DirectX::TEX_FILTER_SRGB;
+
 		hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(),
 			mipFilter, 4, mipImages);
 		assert(SUCCEEDED(hr));
 	}
-	// メタデータ取得
 	outMeta = mipImages.GetMetadata();
-
-	// ミップマップ付きのデータを返す
 	return mipImages;
 }
 

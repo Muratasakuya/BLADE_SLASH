@@ -122,6 +122,9 @@ void RenderEngine::InitRenderer(ID3D12Device8* device, DxShaderCompiler* shaderC
 
 	spriteRenderer_ = std::make_unique<SpriteRenderer>();
 	spriteRenderer_->Init(device, srvDescriptor_.get(), shaderCompiler);
+
+	textRenderer_ = std::make_unique<TextRenderer>();
+	textRenderer_->Init(device, srvDescriptor_.get(), shaderCompiler);
 }
 
 void RenderEngine::Init(WinApp* winApp, ID3D12Device8* device, DxShaderCompiler* shaderCompiler,
@@ -252,6 +255,9 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	// sprite描画
 	// model描画前、ポストエフェクト適応
 	spriteRenderer_->ApplyPostProcessRendering(SpriteLayer::PreModel, sceneBuffer_.get(), dxCommand_);
+
+	// text描画
+	textRenderer_->Rendering(sceneBuffer_.get(), dxCommand_);
 
 	if (isDebugEnable) {
 
