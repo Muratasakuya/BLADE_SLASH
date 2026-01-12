@@ -1563,9 +1563,6 @@
     <ClCompile Include="Game\Effects\PostProcess\RadialBlurUpdater.cpp">
       <Filter>Game\Effects\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scenes\Effect\EffectScene.cpp">
-      <Filter>Game\Scenes\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Scenes\Game\GameScene.cpp">
       <Filter>Game\Scenes\Game</Filter>
     </ClCompile>
@@ -2721,9 +2718,6 @@
     <ClInclude Include="Game\Effects\PostProcess\RadialBlurUpdater.h">
       <Filter>Game\Effects\PostProcess</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scenes\Effect\EffectScene.h">
-      <Filter>Game\Scenes\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Scenes\Game\GameScene.h">
       <Filter>Game\Scenes\Game</Filter>
     </ClInclude>
@@ -2924,6 +2918,7 @@
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Input\InputStructures.cpp" />
+    <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer\TextRenderer.cpp" />
@@ -2958,6 +2953,7 @@
     <ClInclude Include="Engine\Collision\CollisionDebugDraw.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Game\Scenes\Debug\DebugScene.h" />
     <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h" />
     <ClInclude Include="Engine\Object\Data\Text\MSDFText.h" />
     <ClInclude Include="Engine\Core\Graphics\Renderer\TextRenderer.h" />

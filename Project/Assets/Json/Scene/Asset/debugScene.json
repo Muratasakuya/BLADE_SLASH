@@ -1,0 +1,11 @@
+{
+  "Textures": [
+    "white",
+    "noise"
+  ],
+  "Models": [
+    "demoCamera",
+    "defaultCube",
+    "debugSphere"
+  ]
+}

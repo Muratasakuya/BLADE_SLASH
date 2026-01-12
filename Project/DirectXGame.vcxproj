@@ -417,6 +417,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.cpp">
       <SubType />
     </ClCompile>
@@ -1024,9 +1028,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Effects\PostProcess\RadialBlurUpdater.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Scenes\Effect\EffectScene.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Scenes\Game\GameScene.cpp">
       <SubType />
     </ClCompile>
@@ -1415,6 +1416,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Systems\Input\GameInputDeviceController.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\Debug\DebugScene.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h">
       <SubType />
@@ -2147,9 +2152,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Effects\PostProcess\RadialBlurUpdater.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Scenes\Effect\EffectScene.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Scenes\Game\GameScene.h">

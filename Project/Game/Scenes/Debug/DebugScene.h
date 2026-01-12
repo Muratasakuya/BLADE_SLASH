@@ -9,19 +9,21 @@
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Engine/Scene/Light/PunctualLight.h>
 
+// デバッグに使用するクラス
+
 //============================================================================
-//	EffectScene class
-//	エフェクト確認用シーン
+//	DebugScene class
+//	機能のデバッグ確認を行う用のシーン
 //============================================================================
-class EffectScene :
+class DebugScene :
 	public SakuEngine::IScene {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	EffectScene() = default;
-	~EffectScene() = default;
+	DebugScene() = default;
+	~DebugScene() = default;
 
 	void Init() override;
 
@@ -35,4 +37,7 @@ private:
 
 	std::unique_ptr<SakuEngine::BaseCamera> camera3D_;
 	std::unique_ptr<SakuEngine::BasePunctualLight> light_;
+
+	//--------- functions ----------------------------------------------------
+
 };

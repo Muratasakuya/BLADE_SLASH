@@ -24,10 +24,15 @@ SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGa
 	asset_ = nullptr;
 	asset_ = asset;
 
+	// ファクトリー初期化
 	factory_ = std::make_unique<SceneFactory>();
 
+	// シーン遷移クラス初期化
 	sceneTransition_ = std::make_unique<SceneTransition>();
 	sceneTransition_->Init();
+	// レベルエディター初期化
+	levelEditor_ = std::make_unique<LevelEditor>();
+	levelEditor_->Init();
 
 	// 最初のシーンファイルを読みこみ
 	asset->LoadSceneAsync(scene, AssetLoadType::Synch);
@@ -35,21 +40,18 @@ SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGa
 	const auto& system = ObjectManager::GetInstance()->GetSystem<InstancedMeshSystem>();
 	system->BuildForSceneSynch(scene);
 	// 最初のシーン以外を非同期で読み込む
-	for (uint32_t index = 0; index < SakuEngine::EnumAdapter<Scene>::GetEnumCount(); ++index) {
+	for (uint32_t index = 0; index < EnumAdapter<Scene>::GetEnumCount(); ++index) {
 
 		// 同じシーンは処理しない
 		if (index == static_cast<uint32_t>(scene)) {
 			continue;
 		}
-		asset->LoadSceneAsync(SakuEngine::EnumAdapter<Scene>::GetValue(index), AssetLoadType::Async);
+		asset->LoadSceneAsync(EnumAdapter<Scene>::GetValue(index), AssetLoadType::Async);
 	}
 
 	// 最初のシーンを読み込んで初期化
 	LoadScene(scene);
 
-	// scene初期化
-	levelEditor_ = std::make_unique<LevelEditor>();
-	levelEditor_->Init("levelEditor");
 	currentScene_->Init();
 }
 
@@ -125,12 +127,18 @@ void SceneManager::SetNextScene(Scene scene, std::unique_ptr<ITransition> transi
 
 void SceneManager::ImGui() {
 
-	ImGui::Text("CurrentScene : %s", SakuEngine::EnumAdapter<Scene>::ToString(currentSceneType_));
+	ImGui::SeparatorText("Runtime");
+
+	ImGui::Text("CurrentScene : %s", EnumAdapter<Scene>::ToString(currentSceneType_));
+
+	ImGui::Text(std::format("isSceneSwitching: {}", isSceneSwitching_).c_str());
+	ImGui::Text("NextSceneType : %s", EnumAdapter<Scene>::ToString(nextSceneType_));
+
+	ImGui::Spacing();
 
 	// 選択
 	static Scene selected = currentSceneType_;
-	if (SakuEngine::EnumAdapter<Scene>::Combo("Select Scene", &selected)) {
-	}
+	EnumAdapter<Scene>::Combo("Select Scene", &selected);
 
 	if (ImGui::Button("Apply") && selected != currentSceneType_ && !isSceneSwitching_) {
 
@@ -157,6 +165,12 @@ void SceneManager::LoadScene(Scene scene) {
 	currentSceneType_ = scene;
 	currentScene_ = factory_->Create(scene);
 	currentScene_->SetPtr(sceneView_, this);
+
+	// シーンの構築
+	if (scene == Scene::Title) {
+		levelEditor_->BuildObjects("levelEditor");
+	}
+	levelEditor_->SetCurrentScene(scene);
 
 	// imgui選択をリセット
 	ImGuiObjectEditor::GetInstance()->Reset();

@@ -95,7 +95,7 @@ void InstancedMeshSystem::BuildForSceneSynch(Scene scene) {
 	// 読み込み済みのモデルを取得
 	const auto& modelNames = asset_->GetPreloadModels(scene);
 	for (const auto& modelName : modelNames) {
-		
+
 		// 作成済みなら処理しない
 		if (IsReady(modelName)) {
 			continue;
@@ -251,8 +251,15 @@ std::vector<RayTracingInstance> InstancedMeshSystem::CollectRTInstances(const Ra
 				RayTracingInstance instance{};
 				const LightingForGPU& lighting = lightingData[sub][j];
 				instance.matrix = world;
+
+				// GPUインスタンスIDを設定、描画しないならIDを対象外にする
 				instance.instanceID = objectIDsPerModel_.at(modelName)[j];
+				if (instData.materialUploadData[sub][j].isRejection == 1) {
+					instance.instanceID = -1;
+				}
+
 				instance.mask = lighting.castShadow ? 0xFF : 0x01;
+				// 現在は使用しない、デフォルト値を設定
 				instance.hitGroupIdx = 0;
 				instance.flags = 0;
 

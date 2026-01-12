@@ -11,18 +11,22 @@ using namespace SakuEngine;
 //	LevelEditor classMethods
 //============================================================================
 
-void LevelEditor::Init(const std::string& initSceneFile) {
+void LevelEditor::Init() {
 
 	sceneBuilder_ = std::make_unique<SceneBuilder>();
 	sceneBuilder_->Init(jsonPath_);
 
-	sceneBuilder_->SetFile(initSceneFile);
-
-	// objectの作成
-	BuildObjects();
-
 	rightChildSize_ = ImVec2(384.0f, 320.0f);
 	buttonSize_ = ImVec2(256.0f, 32.0f);
+}
+
+void LevelEditor::BuildObjects(const std::string& sceneFile) {
+
+	// 作成するシーンのファイルの設定
+	sceneBuilder_->SetFile(sceneFile);
+
+	// シーンオブジェクトの作成
+	BuildObjects();
 }
 
 void LevelEditor::SaveObject(GameObject3D* object) {
@@ -34,7 +38,7 @@ void LevelEditor::SaveObject(GameObject3D* object) {
 		// materialを保存
 		object->SaveMaterial(data);
 
-		SakuEngine::JsonAdapter::Save(jsonPath_ + identifier + ".json", data);
+		JsonAdapter::Save(jsonPath_ + identifier + ".json", data);
 	}
 }
 
@@ -70,6 +74,10 @@ void LevelEditor::UpdateObjects() {
 		for (const auto& entities : objectMap) {
 
 			entities->Update();
+
+			// 描画設定
+			bool disableScene = currentScene_ == Scene::Debug;
+			entities->SetIsRejection(disableScene);
 		}
 	}
 }
@@ -98,7 +106,7 @@ void LevelEditor::ImGui() {
 void LevelEditor::SelectObject() {
 
 	// objectType選択
-	const char* typeOptions[] = { 
+	const char* typeOptions[] = {
 		"None","CrossMarkWall"
 	};
 
@@ -126,7 +134,7 @@ void LevelEditor::SelectObject() {
 	}
 
 	// 検索ボックス 
-	selectFilter_.Draw("##Searchobject", rightChildSize_.x - 16.0f);
+	selectFilter_.Draw("##SearchObject", rightChildSize_.x - 16.0f);
 	ImGui::Separator();
 
 	// 一覧
@@ -135,7 +143,7 @@ void LevelEditor::SelectObject() {
 	for (int i = 0; i < static_cast<int>(objectVec.size()); ++i) {
 
 		const std::string name = objectVec[i]->GetTag().name + "_" + objectVec[i]->GetIdentifier();
-		if (!selectFilter_.PassFilter(name.c_str())) { 
+		if (!selectFilter_.PassFilter(name.c_str())) {
 			continue;
 		}
 
