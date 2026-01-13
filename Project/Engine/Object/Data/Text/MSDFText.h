@@ -11,6 +11,7 @@
 #include <Engine/Object/Data/Material/Material.h>
 #include <Engine/Object/Data/Transform/Transform.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+#include <Engine/Object/Data/Canvas/CanvasCommon.h>
 
 // directX
 #include <DirectXMath.h>
@@ -33,7 +34,8 @@ namespace SakuEngine {
 	//	MSDFText class
 	//	MSDFテキスト描画データ
 	//============================================================================
-	class MSDFText {
+	class MSDFText :
+		public BaseCanvas {
 	public:
 		//========================================================================
 		//	public Methods
@@ -49,6 +51,9 @@ namespace SakuEngine {
 
 		// 更新
 		void UpdateVertex(const TextTransform2D& transform);
+
+		// 描画コマンド
+		void DrawCommand(ID3D12GraphicsCommandList6* commandList) override;
 
 		//--------- accessor -----------------------------------------------------
 
@@ -86,6 +91,9 @@ namespace SakuEngine {
 
 		// フォント取得
 		const MSDFFont& GetFont() const { return *font_; }
+
+		// 描画タイプ取得
+		CanvasType GetType() const override { return CanvasType::Text; }
 	private:
 		//========================================================================
 		//	private Methods

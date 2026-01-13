@@ -39,13 +39,34 @@ Sprite::Sprite(ID3D12Device* device, Asset* asset,
 		name = textureName;
 	}
 
-	layer_ = SpriteLayer::PostModel;
-
 	// buffer作成
 	InitBuffer(device);
 
 	// textureSizeにtransformを合わせる
 	SetMetaDataTextureSize(transform);
+}
+
+void Sprite::InitBuffer(ID3D12Device* device) {
+
+	// buffer作成
+	vertexBuffer_.CreateBuffer(device, kVertexNum_);
+	indexBuffer_.CreateBuffer(device, kIndexNum_);
+
+	// vertexデータの初期化
+	vertexData_.resize(kVertexNum_);
+
+	// indexデータの初期化
+	std::vector<uint32_t> indexData(kIndexNum_);
+
+	indexData[0] = 0;
+	indexData[1] = 1;
+	indexData[2] = 2;
+	indexData[3] = 1;
+	indexData[4] = 3;
+	indexData[5] = 2;
+
+	// GPUデータ転送
+	indexBuffer_.TransferData(indexData);
 }
 
 void Sprite::UpdateVertex(const Transform2D& transform) {
@@ -91,27 +112,24 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 	vertexBuffer_.TransferData(vertexData_);
 }
 
-void Sprite::InitBuffer(ID3D12Device* device) {
+void Sprite::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
 
-	// buffer作成
-	vertexBuffer_.CreateBuffer(device, kVertexNum_);
-	indexBuffer_.CreateBuffer(device, kIndexNum_);
+	// 頂点バッファ設定
+	commandList->IASetVertexBuffers(0, 1, &vertexBuffer_.GetVertexBufferView());
+	// インデックスバッファ設定
+	commandList->IASetIndexBuffer(&indexBuffer_.GetIndexBufferView());
 
-	// vertexデータの初期化
-	vertexData_.resize(kVertexNum_);
+	// テクスチャ
+	commandList->SetGraphicsRootDescriptorTable(0, GetTextureGPUHandle());
+	// アルファテクスチャ
+	if (UseAlphaTexture()) {
 
-	// indexデータの初期化
-	std::vector<uint32_t> indexData(kIndexNum_);
-
-	indexData[0] = 0;
-	indexData[1] = 1;
-	indexData[2] = 2;
-	indexData[3] = 1;
-	indexData[4] = 3;
-	indexData[5] = 2;
-
-	// GPUデータ転送
-	indexBuffer_.TransferData(indexData);
+		commandList->SetGraphicsRootDescriptorTable(1, GetAlphaTextureGPUHandle());
+	}
+	// 描画リソース
+	BaseCanvas::SetRenderResources(commandList);
+	// 描画コマンド
+	commandList->DrawIndexedInstanced(kIndexNum_, 1, 0, 0, 0);
 }
 
 void Sprite::UpdateDeviceTextureName() {
@@ -190,6 +208,8 @@ void Sprite::ImGui(float itemSize) {
 
 	ImGui::Separator();
 
+	ImGui::PopItemWidth();
+
 	// テクスチャ選択
 	// 表示サイズ
 	const float imageSize = 88.0f;
@@ -242,81 +262,15 @@ void Sprite::ImGui(float itemSize) {
 		}
 	}
 
-	ImGui::Checkbox("postProcessEnable", &postProcessEnable_);
-	EnumAdapter<SpriteLayer>::Combo("SpriteLayer", &layer_);
-	ImGui::Separator();
-
-	// 現在のlayerIndex_から「基準カテゴリ(base)」を復元
-	SpriteLayerIndex base = SpriteLayerIndex::None;
-	uint16_t baseVal = 0;
-	for (uint32_t i = 0; i < EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
-
-		SpriteLayerIndex v = EnumAdapter<SpriteLayerIndex>::GetValue(i);
-		uint16_t vv = static_cast<uint16_t>(v);
-		if (vv <= layerIndex_) {
-			base = v;
-			baseVal = vv;
-		}
-	}
-
-	// 次のカテゴリ境界(>baseVal で最小の値)を探索
-	uint16_t nextBoundary = (std::numeric_limits<uint16_t>::max)();
-	for (uint32_t i = 0; i < EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
-		uint16_t vv = static_cast<uint16_t>(EnumAdapter<SpriteLayerIndex>::GetValue(i));
-		if (vv > baseVal && vv < nextBoundary) {
-			nextBoundary = vv;
-		}
-	}
-	uint16_t maxSub = (nextBoundary == (std::numeric_limits<uint16_t>::max)()) ?
-		(std::numeric_limits<uint16_t>::max)() - baseVal :
-		static_cast<uint16_t>(nextBoundary - baseVal - 1);
-
-	// カテゴリ選択 + カテゴリ内順序
-	bool changed = false;
-	changed |= EnumAdapter<SpriteLayerIndex>::Combo("Layer Index", &base);
-
-	// カテゴリ変更されたら基準値を更新して上限も再計算
-	baseVal = static_cast<uint16_t>(base);
-	nextBoundary = (std::numeric_limits<uint16_t>::max)();
-	for (uint32_t i = 0; i < EnumAdapter<SpriteLayerIndex>::GetEnumCount(); ++i) {
-
-		uint16_t vv = static_cast<uint16_t>(EnumAdapter<SpriteLayerIndex>::GetValue(i));
-		if (vv > baseVal && vv < nextBoundary) {
-			nextBoundary = vv;
-		}
-	}
-	maxSub = (nextBoundary == (std::numeric_limits<uint16_t>::max)()) ?
-		(std::numeric_limits<uint16_t>::max)() - baseVal :
-		static_cast<uint16_t>(nextBoundary - baseVal - 1);
-
-	int subInt = static_cast<int>(layerIndex_ - baseVal);
-	changed |= ImGui::DragInt("Order Category", &subInt, 1.0f, 0, static_cast<int>(maxSub));
-	if (changed) {
-		if (subInt < 0) {
-
-			subInt = 0;
-		}
-		if (subInt > static_cast<int>(maxSub)) {
-
-			subInt = static_cast<int>(maxSub);
-		}
-		layerIndex_ = static_cast<uint16_t>(baseVal + static_cast<uint16_t>(subInt));
-	}
-	ImGui::SameLine();
-	ImGui::TextDisabled("(abs: %u)", static_cast<unsigned>(layerIndex_));
-
-	ImGui::Separator();
-
-	EnumAdapter<BlendMode>::Combo("BlendMode", &blendMode_);
-
-	ImGui::PopItemWidth();
+	// 共通エディター
+	BaseCanvas::ImGuiCommon(itemSize);
 }
 
 void Sprite::ToJson(Json& data) {
 
 	data["textureName"] = textureName_;
 	data["postProccessEnable_"] = postProcessEnable_;
-	data["layer"] = EnumAdapter<SpriteLayer>::ToString(layer_);
+	data["layer"] = EnumAdapter<CanvasLayer>::ToString(layer_);
 	data["layerIndex"] = layerIndex_;
 	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
 
@@ -339,7 +293,7 @@ void Sprite::FromJson(const Json& data) {
 
 	postProcessEnable_ = data.value("postProccessEnable_", false);
 	textureName_ = data["textureName"].get<std::string>();
-	layer_ = EnumAdapter<SpriteLayer>::FromString(data["layer"].get<std::string>()).value();
+	layer_ = EnumAdapter<CanvasLayer>::FromString(data["layer"].get<std::string>()).value();
 	layerIndex_ = data["layerIndex"].get<uint16_t>();
 	blendMode_ = EnumAdapter<BlendMode>::FromString(data["blendMode"].get<std::string>()).value();
 

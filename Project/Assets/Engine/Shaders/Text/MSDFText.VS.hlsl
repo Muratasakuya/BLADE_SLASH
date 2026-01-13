@@ -18,14 +18,14 @@ struct VSInput {
 //	CBuffer
 //============================================================================
 
-cbuffer TransformationMatrix : register(b0) {
-	
-	float4x4 world;
-};
-
-cbuffer CameraData : register(b1) {
+cbuffer CameraData : register(b0) {
 	
 	float4x4 viewProjection;
+};
+
+cbuffer TransformationMatrix : register(b1) {
+	
+	float4x4 world;
 };
 
 //============================================================================

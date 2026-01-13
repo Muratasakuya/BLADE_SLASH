@@ -215,6 +215,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Core\Graphics\GPUObject\IndexBuffer.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.cpp">
       <SubType>
       </SubType>
@@ -257,11 +261,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Canvas\CanvasCommon.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\System\Systems\CanvasBufferSystem.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1152,6 +1164,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Core\Graphics\GPUObject\VertexBuffer.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.h">
       <SubType>
       </SubType>
@@ -1199,11 +1215,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Canvas\CanvasCommon.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\MSDFText.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\System\Systems\CanvasBufferSystem.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -2490,7 +2514,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.PS.hlsl">
+    <FxCompile Include="Assets\Engine\Shaders\Text\ApplyPostProcessMSDFText.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Engine\Shaders\Text\IrrelevantPostProcessMSDFText.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>

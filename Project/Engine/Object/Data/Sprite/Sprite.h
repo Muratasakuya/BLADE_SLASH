@@ -9,6 +9,7 @@
 #include <Engine/Core/Graphics/GPUObject/IndexBuffer.h>
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
 #include <Engine/Input/InputStructures.h>
+#include <Engine/Object/Data/Canvas/CanvasCommon.h>
 
 // directX
 #include <Externals/DirectXTex/DirectXTex.h>
@@ -23,21 +24,6 @@ namespace SakuEngine {
 	//============================================================================
 	//	enum class
 	//============================================================================
-
-	// 描画を行う場所
-	enum class SpriteLayer {
-
-		PreModel, // modelの前に描画する
-		PostModel // modelの後に描画する
-	};
-
-	// スプライトの描画順インデックス
-	enum class SpriteLayerIndex :
-		uint16_t {
-
-		None = 0,              // 一番手前の表示(初期化順で決まる)
-		SceneTransition = 128, // シーン遷移処理
-	};
 
 	// スプライト頂点位置
 	enum class SpriteVertexPos {
@@ -54,7 +40,8 @@ namespace SakuEngine {
 	//	Sprite class
 	//	2Dスプライトデータ
 	//============================================================================
-	class Sprite {
+	class Sprite :
+		public BaseCanvas {
 	public:
 		//========================================================================
 		//	public Methods
@@ -69,6 +56,9 @@ namespace SakuEngine {
 		// 頂点情報更新
 		void UpdateVertex(const Transform2D& transform);
 
+		// 描画コマンド
+		void DrawCommand(ID3D12GraphicsCommandList6* commandList) override;
+
 		// エディター
 		void ImGui(float itemSize);
 
@@ -81,28 +71,27 @@ namespace SakuEngine {
 		// メタデータからテクスチャサイズ設定
 		void SetMetaDataTextureSize(Transform2D& transform);
 
+		// テクスチャ名の設定
 		void SetTextureName(const std::string& textureName) { textureName_ = textureName; }
 		void SetAlphaTextureName(const std::string& textureName) { alphaTextureName_ = textureName; }
 
-		void SetLayer(SpriteLayer layer) { layer_ = layer; }
-		void SetLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex) { layerIndex_ = static_cast<uint16_t>(layerIndex) + subLayerIndex; }
-		void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
-		void SetPostProcessEnable(bool enable) { postProcessEnable_ = enable; }
+		// 頂点カラーの設定
 		void SetVertexColor(SpriteVertexPos pos, const Color& color) { vertexData_[static_cast<uint32_t>(pos)].color = color; }
 
 		static uint32_t GetIndexNum() { return kIndexNum_; }
-		SpriteLayer GetLayer() const { return layer_; }
 		uint16_t GetLayerIndex() const { return static_cast<uint16_t>(layerIndex_); }
 		bool UseAlphaTexture() const { return alphaTextureName_.has_value(); }
-		BlendMode GetBlendMode() const { return blendMode_; }
-		bool IsPostProcessEnable() const { return postProcessEnable_; }
 		const Color& GetVertexColor(SpriteVertexPos pos) const { return vertexData_[static_cast<uint32_t>(pos)].color; }
 
+		// バッファ取得
 		const VertexBuffer<SpriteVertexData>& GetVertexBuffer() const { return vertexBuffer_; }
 		const IndexBuffer& GetIndexBuffer() const { return indexBuffer_; }
-
+		// テクスチャGPUハンドル取得
 		const D3D12_GPU_DESCRIPTOR_HANDLE& GetTextureGPUHandle() const;
 		const D3D12_GPU_DESCRIPTOR_HANDLE& GetAlphaTextureGPUHandle() const;
+
+		// 描画タイプ取得
+		CanvasType GetType() const override { return CanvasType::Sprite; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -124,15 +113,8 @@ namespace SakuEngine {
 		bool isChangeDeviceTexture_ = false;
 		std::array<std::string, 2> deviceTextureNames_{};
 
-		// 描画順制御
-		SpriteLayer layer_;
-		uint16_t layerIndex_ = static_cast<uint16_t>(SpriteLayerIndex::None);
-		// ポストエフェクト適用有無(falseの場合renderTextureには描画しない)
-		bool postProcessEnable_ = false;
-
 		// 頂点情報
 		std::vector<SpriteVertexData> vertexData_;
-		BlendMode blendMode_ = BlendMode::kBlendModeNormal;
 
 		// buffer
 		VertexBuffer<SpriteVertexData> vertexBuffer_;

@@ -2927,6 +2927,9 @@
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.cpp" />
+    <ClCompile Include="Engine\Object\Data\Canvas\CanvasCommon.cpp" />
+    <ClCompile Include="Engine\Object\System\Systems\CanvasBufferSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2965,10 +2968,14 @@
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.h" />
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.h" />
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h" />
+    <ClInclude Include="Engine\Object\Data\Canvas\CanvasCommon.h" />
+    <ClInclude Include="Engine\Object\System\Systems\CanvasBufferSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl" />
-    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.PS.hlsl" />
+    <FxCompile Include="Assets\Engine\Shaders\Text\IrrelevantPostProcessMSDFText.PS.hlsl" />
+    <FxCompile Include="Assets\Engine\Shaders\Text\ApplyPostProcessMSDFText.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli" />

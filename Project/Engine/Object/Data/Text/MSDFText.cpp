@@ -118,6 +118,23 @@ void MSDFText::UpdateVertex(const TextTransform2D& transform) {
 	dirtyMesh_ = false;
 }
 
+void MSDFText::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
+
+	// 文字が無ければ描画しない
+	if (GetGlyphCount() == 0) {
+		return;
+	}
+
+	// 頂点バッファ設定
+	commandList->IASetVertexBuffers(0, 1, &vertexBuffer_.GetVertexBufferView());
+	// インデックスバッファ設定
+	commandList->IASetIndexBuffer(&indexBuffer_.GetIndexBufferView());
+	// 描画リソース
+	BaseCanvas::SetRenderResources(commandList);
+	// 描画コマンド
+	commandList->DrawIndexedInstanced(drawIndexCount_, 1, 0, 0, 0);
+}
+
 void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 
 	drawIndexCount_ = 0;
