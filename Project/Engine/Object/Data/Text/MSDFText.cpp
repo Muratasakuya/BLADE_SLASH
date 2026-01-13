@@ -170,11 +170,16 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			float maxX;
 		};
 
-		// 箱情報
-		const float boxW = transform.textBoxSize.x;
-		const float boxH = transform.textBoxSize.y;
-		const float padX = transform.textBoxPadding.x;
-		const float padY = transform.textBoxPadding.y;
+		const float sx = (std::max)(1.0e-6f, std::abs(transform.sizeScale.x));
+		const float sy = (std::max)(1.0e-6f, std::abs(transform.sizeScale.y));
+		const float invSx = 1.0f / sx;
+		const float invSy = 1.0f / sy;
+		// テキストボックスサイズとパディングもスケール補正
+		const float boxW = transform.textBoxSize.x * invSx;
+		const float boxH = transform.textBoxSize.y * invSy;
+		const float padX = transform.textBoxPadding.x * invSx;
+		const float padY = transform.textBoxPadding.y * invSy;
+		const float lineSpacingLocal = transform.lineSpacing * invSy;
 
 		// 利用可能領域
 		const float availW = (std::max)(0.0f, boxW - padX * 2.0f);
@@ -232,7 +237,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 				flushLine();
 
 				penX = padX;
-				penY += (lineHeight * scale + transform.lineSpacing);
+				penY += (lineHeight * scale + lineSpacingLocal);
 				prev = 0;
 
 				// 高さオーバーなら打ち切り
@@ -282,7 +287,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 					flushLine();
 
 					penX = padX;
-					penY += (lineHeight * scale + transform.lineSpacing);
+					penY += (lineHeight * scale + lineSpacingLocal);
 					prev = 0;
 
 					if ((padY + availH) < (penY - metrics.ascender * scale)) {
