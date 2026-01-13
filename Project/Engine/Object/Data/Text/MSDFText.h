@@ -120,8 +120,8 @@ namespace SakuEngine {
 
 		// 変更があったか
 		bool dirtyMesh_ = true;
-		// アンカー位置を監視する
-		Vector2 prevAnchorPoint_{};
+		// トランスフォームを前回から保持
+		TextTransform2D prevTransform_{};
 
 		// エディター
 		InputImGui inputText_;
@@ -132,5 +132,6 @@ namespace SakuEngine {
 		void EnsureCapacity(uint32_t glyphCount);
 		void BuildIndexBuffer();
 		void RebuildMeshCPU(const TextTransform2D& transform);
+		bool IsDirtyTransform(const TextTransform2D& transform) const;
 	};
 } // namespace SakuEngine

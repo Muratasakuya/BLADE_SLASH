@@ -43,18 +43,34 @@ void LineRenderer::Init(ID3D12Device8* device, ID3D12GraphicsCommandList* comman
 	renderer3D_->Init("PrimitiveLine.json", device, commandList, srvDescriptor, shaderCompiler, sceneView);
 }
 
-void LineRenderer::ExecuteLine(bool debugEnable, LineType type) {
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+void LineRenderer::DrawDebug() {
 
-	// 2Dライン描画
-	renderer2D_->Execute(debugEnable, type);
-	// 3Dライン描画
-	renderer3D_->Execute(debugEnable, type);
-#endif
+	renderer2D_->DrawDebug();
+	renderer3D_->DrawDebug();
 }
 
 void LineRenderer::ResetLine() {
 
 	renderer2D_->ResetLine();
 	renderer3D_->ResetLine();
+}
+
+void LineRenderer::ImGui() {
+
+	ImGui::SeparatorText("Renderer 2D");
+	{
+		ImGui::PushID("LineRenderer2D");
+
+		renderer2D_->ImGui();
+
+		ImGui::PopID();
+	}
+	ImGui::SeparatorText("Renderer 3D");
+	{
+		ImGui::PushID("LineRenderer3D");
+
+		renderer3D_->ImGui();
+
+		ImGui::PopID();
+	}
 }

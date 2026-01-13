@@ -21,12 +21,17 @@ namespace SakuEngine {
 		LineRenderer3D() = default;
 		~LineRenderer3D() = default;
 
+		// エディター
+		void ImGui() override;
+		// エディターデバッグ描画
+		void DrawDebug() override;
+
 		//========================================================================
 		//	描画関数群
 		//========================================================================
 
 		// グリッド線を描画する
-		void DrawGrid(int division, float gridSize, const Color& color, LineType type = LineType::None);
+		void DrawGrid(int32_t division, float gridSize, const Color& color, LineType type = LineType::None);
 		// 軸を描画
 		template <typename T>
 		void DrawAxis(float length, const Vector3& centerPos, const T& rotation, LineType type = LineType::None);
@@ -75,6 +80,19 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		LineDimension GetLineDimension() const { return LineDimension::Line3D; }
+
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// デバッグ表示設定
+		bool isDrawGrid_ = false;
+		int32_t gridDivision_ = 32;
+		float gridSize_ = 32.0f;
+		Color gridColor_ = Color::White();
 	};
 
 	//============================================================================

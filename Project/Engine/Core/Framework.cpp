@@ -182,7 +182,7 @@ void Framework::Update() {
 	// シーン開始
 	sceneManager_->BeginFrame();
 
-	// imgui表示更新
+	// エディター表示更新
 	bool playGame = true;
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	imguiEditor_->Display(sceneView_.get());
@@ -197,6 +197,7 @@ void Framework::Update() {
 	}
 	// シーン終了
 	sceneManager_->EndFrame();
+	LineRenderer::GetInstance()->DrawDebug();
 	GameTimer::EndUpdateCount();
 }
 void Framework::UpdateScene() {

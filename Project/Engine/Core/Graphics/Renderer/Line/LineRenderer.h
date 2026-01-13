@@ -35,10 +35,13 @@ namespace SakuEngine {
 		template <typename T>
 		void DrawLine(const T& pointA, const T& pointB, const Color& color, LineType type = LineType::None);
 
-		// 蓄積されたラインをGPU転送して描画する
-		void ExecuteLine(bool debugEnable, LineType type);
 		// 追加済みの全ラインをクリアする
 		void ResetLine();
+
+		// エディター
+		void ImGui();
+		// エディターデバッグ描画
+		void DrawDebug();
 
 		//--------- accessor -----------------------------------------------------
 

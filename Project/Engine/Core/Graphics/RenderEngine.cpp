@@ -259,10 +259,11 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	// text描画
 	textRenderer_->Rendering(sceneBuffer_.get(), dxCommand_);
 
+	// line描画実行
+	SakuEngine::LineRenderer::GetInstance()->Get2D()->Execute(isDebugEnable, LineType::None);
 	if (isDebugEnable) {
 
-		// line描画実行
-		SakuEngine::LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::None);
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->Execute(isDebugEnable, LineType::None);
 	}
 
 	// 通常描画処理(シーン遷移中は処理できないようにする)
@@ -274,10 +275,11 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	// particle描画
 	ParticleManager::GetInstance()->Rendering(isDebugEnable, sceneBuffer_.get(), dxCommand_);
 
+	// line描画実行、depth無効
+	SakuEngine::LineRenderer::GetInstance()->Get2D()->Execute(isDebugEnable, LineType::DepthIgnore);
 	if (isDebugEnable) {
 
-		// line描画実行、depth無効
-		SakuEngine::LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::DepthIgnore);
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->Execute(isDebugEnable, LineType::DepthIgnore);
 	}
 
 	// sprite描画

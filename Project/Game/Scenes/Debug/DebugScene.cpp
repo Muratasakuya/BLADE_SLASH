@@ -33,6 +33,4 @@ void DebugScene::Init() {
 void DebugScene::Update() {
 
 	camera3D_->UpdateView();
-
-	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawGrid(32, 32.0f, SakuEngine::Color::White());
 }

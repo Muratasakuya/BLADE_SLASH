@@ -3,10 +3,33 @@
 using namespace SakuEngine;
 
 //============================================================================
+//	include
+//============================================================================
+
+// imgui
+#include <imgui.h>
+
+//============================================================================
 //	LineRenderer3D classMethods
 //============================================================================
 
-void LineRenderer3D::DrawGrid(int division, float gridSize, const Color& color, LineType type) {
+void LineRenderer3D::ImGui() {
+
+	ImGui::Checkbox("isDrawGrid", &isDrawGrid_);
+	ImGui::DragInt("gridDivision", &gridDivision_, 1.0f, 1, 128);
+	ImGui::DragFloat("gridSize", &gridSize_, 0.1f);
+	ImGui::ColorEdit4("gridColor", &gridColor_.r);
+}
+
+void LineRenderer3D::DrawDebug() {
+
+	if (isDrawGrid_) {
+
+		DrawGrid(gridDivision_, gridSize_, gridColor_);
+	}
+}
+
+void LineRenderer3D::DrawGrid(int32_t division, float gridSize, const Color& color, LineType type) {
 
 	const float kGridEvery = (gridSize * 2.0f) / float(division);
 

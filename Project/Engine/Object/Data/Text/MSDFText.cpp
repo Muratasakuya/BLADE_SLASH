@@ -106,12 +106,8 @@ void MSDFText::BuildIndexBuffer() {
 
 void MSDFText::UpdateVertex(const TextTransform2D& transform) {
 
-	// アンカー位置変更をチェック
-	bool anchorChanged = (prevAnchorPoint_ != transform.anchorPoint);
-	prevAnchorPoint_ = transform.anchorPoint;
-
 	// 変更がなければ何もしない
-	if (!dirtyMesh_ && !anchorChanged) {
+	if (!dirtyMesh_ && !IsDirtyTransform(transform)) {
 		return;
 	}
 
@@ -126,20 +122,22 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 
 	drawIndexCount_ = 0;
 
-	// 初期bounds
-	bounds_.min = Vector2(0.0f, 0.0f);
-	bounds_.max = Vector2(0.0f, 0.0f);
-
+	// 最大数分の頂点領域
 	std::vector<MSDFTextVertexData> vertices(maxGlyphs_ * 4);
+
 	// 文字が無ければ何もしない
 	if (codepoints_.empty()) {
-
 		vertexBuffer_.TransferData(vertices);
 		drawIndexCount_ = 0;
+		renderedGlyphCount_ = 0;
+		bounds_.min = Vector2::AnyInit(0.0f);
+		bounds_.max = Vector2::AnyInit(0.0f);
 		return;
 	}
 
+	// メトリクス取得
 	const MSDFMetrics& metrics = font_->GetMetrics();
+
 	float emSize = metrics.emSize;
 	if (emSize <= 0.0f) {
 		emSize = 1.0f;
@@ -156,13 +154,318 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 	// スケール計算
 	const float scale = fontSize_ / emSize;
 
+	// ピボット初期化、描画する分だけ確保
+	glyphPivots_.assign(maxGlyphs_, Vector2(0.0f, 0.0f));
+
+	//===============================================================================================
+	// テキストボックス処理
+	//===============================================================================================
+	if (transform.enableTextBox) {
+
+		struct LineInfo {
+
+			uint32_t beginGlyph;
+			uint32_t endGlyph;
+			float minX;
+			float maxX;
+		};
+
+		// 箱情報
+		const float boxW = transform.textBoxSize.x;
+		const float boxH = transform.textBoxSize.y;
+		const float padX = transform.textBoxPadding.x;
+		const float padY = transform.textBoxPadding.y;
+
+		// 利用可能領域
+		const float availW = (std::max)(0.0f, boxW - padX * 2.0f);
+		const float availH = (std::max)(0.0f, boxH - padY * 2.0f);
+		float penX = padX;
+		float penY = padY + metrics.ascender * scale;
+
+		// 実際にクアッドを作った数
+		uint32_t glyphCount = 0;
+		char32_t prev = 0;
+
+		std::vector<LineInfo> lines;
+		LineInfo currentLine{};
+		currentLine.beginGlyph = 0;
+		currentLine.endGlyph = 0;
+		currentLine.minX = 1.0e9f;
+		currentLine.maxX = -1.0e9f;
+
+		auto flushLine = [&]() {
+			currentLine.endGlyph = glyphCount;
+			if (currentLine.beginGlyph < currentLine.endGlyph) {
+				lines.push_back(currentLine);
+			}
+			currentLine.beginGlyph = glyphCount;
+			currentLine.minX = 1.0e9f;
+			currentLine.maxX = -1.0e9f;
+			};
+		auto willWrap = [&](float nextMinX, float nextMaxX) -> bool {
+			if (transform.wrapMode != TextWrapMode::CharWrap) {
+				return false;
+			}
+			if (availW <= 0.0f) {
+				return false;
+			}
+			// 行頭では基本折り返さない
+			if (penX <= padX) {
+				return false;
+			}
+			return (nextMaxX - nextMinX) > availW;
+			};
+		auto safeMin = [&](float a, float b) { return (std::min)(a, b); };
+		auto safeMax = [&](float a, float b) { return (std::max)(a, b); };
+		for (size_t i = 0; i < codepoints_.size(); ++i) {
+
+			const char32_t codepoint = codepoints_[i];
+
+			// CRは無視
+			if (codepoint == U'\r') {
+				continue;
+			}
+
+			// 明示改行
+			if (codepoint == U'\n') {
+
+				flushLine();
+
+				penX = padX;
+				penY += (lineHeight * scale + transform.lineSpacing);
+				prev = 0;
+
+				// 高さオーバーなら打ち切り
+				if ((padY + availH) < (penY - metrics.ascender * scale)) {
+					break;
+				}
+				continue;
+			}
+
+			const MSDFGlyph* glyph = font_->FindGlyph(codepoint);
+			if (!glyph) {
+				continue;
+			}
+
+			// カーニング
+			if (prev != 0) {
+				penX += font_->GetKerning(prev, codepoint) * scale;
+			}
+			prev = codepoint;
+
+			const MSDFPlaneBounds planeBounds = glyph->planeBounds.value();
+			const MSDFAtlasBounds atlasBounds = glyph->atlasBounds.value();
+
+			float x0 = penX + planeBounds.left * scale;
+			float x1 = penX + planeBounds.right * scale;
+			float y0 = penY + (-planeBounds.top) * scale;
+			float y1 = penY + (-planeBounds.bottom) * scale;
+
+			// 行の現在min/max
+			float curMinX = currentLine.minX;
+			float curMaxX = currentLine.maxX;
+			if (curMinX > 9.0e8f) {
+				curMinX = x0;
+			}
+			if (curMaxX < -9.0e8f) {
+				curMaxX = x1;
+			}
+
+			// この文字を置いたときの行幅を予測
+			float nextMinX = safeMin(curMinX, x0);
+			float nextMaxX = safeMax(curMaxX, x1);
+
+			// 折り返し
+			if (willWrap(nextMinX, nextMaxX)) {
+				if ((padX + availW) < x1 && padX < penX) {
+
+					flushLine();
+
+					penX = padX;
+					penY += (lineHeight * scale + transform.lineSpacing);
+					prev = 0;
+
+					if ((padY + availH) < (penY - metrics.ascender * scale)) {
+						break;
+					}
+
+					// 改行後に再計算
+					x0 = penX + planeBounds.left * scale;
+					x1 = penX + planeBounds.right * scale;
+					y0 = penY + (-planeBounds.top) * scale;
+					y1 = penY + (-planeBounds.bottom) * scale;
+					// 改行後の予測値を作り直し
+					nextMinX = x0;
+					nextMaxX = x1;
+				}
+			}
+
+			// 高さオーバーなら打ち切り
+			if ((padY + availH) < y1) {
+				break;
+			}
+
+			// UV
+			const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
+			const float invAtlasHeight = 1.0f / static_cast<float>(font_->GetAtlasHeight());
+
+			float u0 = static_cast<float>(atlasBounds.left) * invAtlasWidth;
+			float u1 = static_cast<float>(atlasBounds.right) * invAtlasWidth;
+			float v0 = static_cast<float>(atlasBounds.top) * invAtlasHeight;
+			float v1 = static_cast<float>(atlasBounds.bottom) * invAtlasHeight;
+
+			if (v1 < v0) {
+				(std::swap)(v0, v1);
+			}
+
+			const uint32_t base = glyphCount * 4;
+			vertices[base].pos = Vector2(x0, y0);
+			vertices[base].texcoord = Vector2(u0, v1);
+
+			vertices[base + 1].pos = Vector2(x0, y1);
+			vertices[base + 1].texcoord = Vector2(u0, v0);
+
+			vertices[base + 2].pos = Vector2(x1, y0);
+			vertices[base + 2].texcoord = Vector2(u1, v1);
+
+			vertices[base + 3].pos = Vector2(x1, y1);
+			vertices[base + 3].texcoord = Vector2(u1, v0);
+
+			glyphPivots_[glyphCount] = Vector2((x0 + x1) * 0.5f, (y0 + y1) * 0.5f);
+
+			// 行のmin/max更新
+			currentLine.minX = (std::min)(currentLine.minX, x0);
+			currentLine.maxX = (std::max)(currentLine.maxX, x1);
+
+			++glyphCount;
+			if (maxGlyphs_ <= glyphCount) {
+				break;
+			}
+
+			// 次の文字へ
+			penX += glyph->advance * scale + charSpacing_;
+		}
+
+		// 最終行
+		flushLine();
+
+		// 文字が一つも無い
+		if (glyphCount == 0) {
+			vertexBuffer_.TransferData(vertices);
+			drawIndexCount_ = 0;
+			renderedGlyphCount_ = 0;
+			bounds_.min = Vector2::AnyInit(0.0f);
+			bounds_.max = Vector2::AnyInit(0.0f);
+			return;
+		}
+
+		// 行揃え
+		for (const auto& line : lines) {
+
+			const float lineW = (line.maxX - line.minX);
+
+			float targetMin = padX + (availW - lineW) * 0.5f;
+			const float dx = targetMin - line.minX;
+			for (uint32_t gi = line.beginGlyph; gi < line.endGlyph; ++gi) {
+
+				const uint32_t base = gi * 4;
+
+				vertices[base].pos.x += dx;
+				vertices[base + 1].pos.x += dx;
+				vertices[base + 2].pos.x += dx;
+				vertices[base + 3].pos.x += dx;
+
+				glyphPivots_[gi].x += dx;
+			}
+		}
+
+		// 縦揃え
+		float contentMinY = 1.0e9f;
+		float contentMaxY = -1.0e9f;
+		for (uint32_t gi = 0; gi < glyphCount; ++gi) {
+			const uint32_t base = gi * 4;
+
+			contentMinY = (std::min)(contentMinY, vertices[base + 0].pos.y);
+			contentMinY = (std::min)(contentMinY, vertices[base + 1].pos.y);
+			contentMinY = (std::min)(contentMinY, vertices[base + 2].pos.y);
+			contentMinY = (std::min)(contentMinY, vertices[base + 3].pos.y);
+
+			contentMaxY = (std::max)(contentMaxY, vertices[base + 0].pos.y);
+			contentMaxY = (std::max)(contentMaxY, vertices[base + 1].pos.y);
+			contentMaxY = (std::max)(contentMaxY, vertices[base + 2].pos.y);
+			contentMaxY = (std::max)(contentMaxY, vertices[base + 3].pos.y);
+		}
+
+		float contentH = contentMaxY - contentMinY;
+		float targetMinY = padY;
+		if (transform.verticalAlign == TextVerticalAlign::Middle) {
+			targetMinY = padY + (availH - contentH) * 0.5f;
+		} else if (transform.verticalAlign == TextVerticalAlign::Bottom) {
+			targetMinY = padY + (availH - contentH);
+		}
+
+		float dy = targetMinY - contentMinY;
+		for (uint32_t gi = 0; gi < glyphCount; ++gi) {
+
+			const uint32_t base = gi * 4;
+
+			vertices[base].pos.y += dy;
+			vertices[base + 1].pos.y += dy;
+			vertices[base + 2].pos.y += dy;
+			vertices[base + 3].pos.y += dy;
+			glyphPivots_[gi].y += dy;
+		}
+
+		// 箱のアンカー位置を原点にする
+		const float boxPivotX = transform.anchorPoint.x * boxW;
+		const float boxPivotY = transform.anchorPoint.y * boxH;
+
+		Vector2 minV(1.0e9f, 1.0e9f);
+		Vector2 maxV(-1.0e9f, -1.0e9f);
+
+		for (uint32_t gi = 0; gi < glyphCount; ++gi) {
+
+			const uint32_t base = gi * 4;
+
+			for (uint32_t k = 0; k < 4; ++k) {
+				vertices[base + k].pos.x -= boxPivotX;
+				vertices[base + k].pos.y -= boxPivotY;
+
+				minV.x = (std::min)(minV.x, vertices[base + k].pos.x);
+				minV.y = (std::min)(minV.y, vertices[base + k].pos.y);
+				maxV.x = (std::max)(maxV.x, vertices[base + k].pos.x);
+				maxV.y = (std::max)(maxV.y, vertices[base + k].pos.y);
+			}
+			glyphPivots_[gi].x -= boxPivotX;
+			glyphPivots_[gi].y -= boxPivotY;
+		}
+
+		// bounds
+		bounds_.min = minV;
+		bounds_.max = maxV;
+
+		// 描画グリフ数
+		renderedGlyphCount_ = glyphCount;
+
+		// 転送
+		vertexBuffer_.TransferData(vertices);
+		drawIndexCount_ = glyphCount * 6;
+		return;
+	}
+
+	//===============================================================================================
+	// テキストボックス無し処理
+	//===============================================================================================
+
 	float penX = 0.0f;
 	float penY = 0.0f;
+
 	Vector2 minValue(1.0e9f, 1.0e9f);
 	Vector2 maxValue(-1.0e9f, -1.0e9f);
+
 	uint32_t glyphCount = 0;
 	char32_t prevCodepoint = 0;
-	glyphPivots_.assign(maxGlyphs_, Vector2(0.0f, 0.0f));
+
 	for (size_t i = 0; i < codepoints_.size(); ++i) {
 
 		const char32_t codepoint = codepoints_[i];
@@ -174,7 +477,6 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 
 		// 改行
 		if (codepoint == U'\n') {
-
 			penX = 0.0f;
 			penY += lineHeight * scale;
 			prevCodepoint = 0;
@@ -186,57 +488,54 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			continue;
 		}
 
-		// カーニング適用
+		// カーニング
 		if (prevCodepoint != 0) {
 			penX += font_->GetKerning(prevCodepoint, codepoint) * scale;
 		}
 		prevCodepoint = codepoint;
 
 		if (!glyph->planeBounds.has_value() || !glyph->atlasBounds.has_value()) {
-
 			penX += glyph->advance * scale + charSpacing_;
 			continue;
 		}
 
-		// 頂点計算
 		const MSDFPlaneBounds planeBounds = glyph->planeBounds.value();
 		const MSDFAtlasBounds atlasBounds = glyph->atlasBounds.value();
 
-		// 左上、右下座標計算
 		const float x0 = penX + planeBounds.left * scale;
 		const float x1 = penX + planeBounds.right * scale;
-		const float y0 = penY + (-planeBounds.top) * scale;    // 上
-		const float y1 = penY + (-planeBounds.bottom) * scale; // 下
-		// ピボット計算
+		const float y0 = penY + (-planeBounds.top) * scale;
+		const float y1 = penY + (-planeBounds.bottom) * scale;
+
+		// pivot
 		glyphPivots_[glyphCount] = Vector2((x0 + x1) * 0.5f, (y0 + y1) * 0.5f);
 
-		// UV計算
+		// UV
 		const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
 		const float invAtlasHeight = 1.0f / static_cast<float>(font_->GetAtlasHeight());
+
 		float u0 = static_cast<float>(atlasBounds.left) * invAtlasWidth;
 		float u1 = static_cast<float>(atlasBounds.right) * invAtlasWidth;
 		float v0 = static_cast<float>(atlasBounds.top) * invAtlasHeight;
 		float v1 = static_cast<float>(atlasBounds.bottom) * invAtlasHeight;
 
-		// 上下が逆のケース保険
 		if (v1 < v0) {
-			std::swap(v0, v1);
+			(std::swap)(v0, v1);
 		}
 
-		// 頂点データ設定
-		const uint32_t baseVertexIndex = glyphCount * 4;
-		// 左下
-		vertices[baseVertexIndex].pos = Vector2(x0, y0);
-		vertices[baseVertexIndex].texcoord = Vector2(u0, v1);
-		// 左上
-		vertices[baseVertexIndex + 1].pos = Vector2(x0, y1);
-		vertices[baseVertexIndex + 1].texcoord = Vector2(u0, v0);
-		// 右下
-		vertices[baseVertexIndex + 2].pos = Vector2(x1, y0);
-		vertices[baseVertexIndex + 2].texcoord = Vector2(u1, v1);
-		// 右上
-		vertices[baseVertexIndex + 3].pos = Vector2(x1, y1);
-		vertices[baseVertexIndex + 3].texcoord = Vector2(u1, v0);
+		const uint32_t base = glyphCount * 4;
+
+		vertices[base].pos = Vector2(x0, y0);
+		vertices[base].texcoord = Vector2(u0, v1);
+
+		vertices[base + 1].pos = Vector2(x0, y1);
+		vertices[base + 1].texcoord = Vector2(u0, v0);
+
+		vertices[base + 2].pos = Vector2(x1, y0);
+		vertices[base + 2].texcoord = Vector2(u1, v1);
+
+		vertices[base + 3].pos = Vector2(x1, y1);
+		vertices[base + 3].texcoord = Vector2(u1, v0);
 
 		// bounds更新
 		minValue.x = (std::min)(minValue.x, x0);
@@ -248,17 +547,17 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		if (glyphCount >= maxGlyphs_) {
 			break;
 		}
-		// advance + 追加の文字間隔
+
 		penX += glyph->advance * scale + charSpacing_;
 	}
 
-	// 文字が無ければ何もしない
+	// 文字が無い
 	if (glyphCount == 0) {
-
 		vertexBuffer_.TransferData(vertices);
 		drawIndexCount_ = 0;
-		bounds_.min = Vector2(0.0f, 0.0f);
-		bounds_.max = Vector2(0.0f, 0.0f);
+		renderedGlyphCount_ = 0;
+		bounds_.min = Vector2::AnyInit(0.0f);
+		bounds_.max = Vector2::AnyInit(0.0f);
 		return;
 	}
 
@@ -267,35 +566,46 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 	bounds_.max = maxValue;
 
 	// アンカーポイント基準に頂点移動
-	const float width = bounds_.Width();
-	const float height = bounds_.Height();
-	const float pivotX = bounds_.min.x + transform.anchorPoint.x * width;
-	const float pivotY = bounds_.min.y + transform.anchorPoint.y * height;
-
+	float width = bounds_.Width();
+	float height = bounds_.Height();
+	float pivotX = bounds_.min.x + transform.anchorPoint.x * width;
+	float pivotY = bounds_.min.y + transform.anchorPoint.y * height;
 	for (uint32_t gi = 0; gi < glyphCount; ++gi) {
 
-		const uint32_t baseVertexIndex = gi * 4;
+		const uint32_t base = gi * 4;
 		for (uint32_t k = 0; k < 4; ++k) {
 
-			vertices[baseVertexIndex + k].pos.x -= pivotX;
-			vertices[baseVertexIndex + k].pos.y -= pivotY;
+			vertices[base + k].pos.x -= pivotX;
+			vertices[base + k].pos.y -= pivotY;
 		}
-		// ピボットも移動
 		glyphPivots_[gi].x -= pivotX;
 		glyphPivots_[gi].y -= pivotY;
 	}
 
-	// 描画されるグリフ数確定
+	// 描画グリフ数
 	renderedGlyphCount_ = glyphCount;
+
 	// boundsも移動
 	bounds_.min.x -= pivotX;
 	bounds_.min.y -= pivotY;
 	bounds_.max.x -= pivotX;
 	bounds_.max.y -= pivotY;
 
-	// 頂点バッファ転送
+	// 転送
 	vertexBuffer_.TransferData(vertices);
 	drawIndexCount_ = glyphCount * 6;
+}
+
+bool MSDFText::IsDirtyTransform(const TextTransform2D& transform) const {
+
+	bool dirty = false;
+	dirty |= (prevTransform_.translation != transform.translation);
+	dirty |= (prevTransform_.enableTextBox != transform.enableTextBox);
+	dirty |= (prevTransform_.textBoxSize != transform.textBoxSize);
+	dirty |= (prevTransform_.textBoxPadding != transform.textBoxPadding);
+	dirty |= (prevTransform_.lineSpacing != transform.lineSpacing);
+	dirty |= (prevTransform_.wrapMode != transform.wrapMode);
+	return dirty;
 }
 
 void MSDFText::ImGui(float itemSize) {

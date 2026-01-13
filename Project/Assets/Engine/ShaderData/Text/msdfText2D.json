@@ -14,7 +14,7 @@
         { "RootIndex": 4, "Type": "CBV", "Visibility": "PIXEL", "ShaderRegister": 0 }
     ],
     "StaticSampler": [
-        { "SamplerIndex": 0, "Filter": "LINEAR", "AddressMode": "WRAP","ComparisonFunc": "NEVER","Visibility": "PIXEL", "ShaderRegister": 0 }
+        { "SamplerIndex": 0, "Filter": "LINEAR", "AddressMode": "CLAMP","ComparisonFunc": "NEVER","Visibility": "PIXEL", "ShaderRegister": 0 }
     ],
     "InputLayout":[
         {"Desc":0, "SemanticName": "POSITION", "Format": "R32G32_FLOAT"},

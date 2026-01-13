@@ -6,8 +6,10 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Config.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+#include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Object/Data/Text/MSDFText.h>
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 
@@ -460,20 +462,20 @@ void Transform2D::FromJson(const Json& data) {
 void TextTransform2D::Secure(ID3D12Device* device, uint32_t maxGlyphs) {
 
 	// すでに確保されている場合は何もしない
-	if (!charTransforms.empty()) {
+	if (!charTransforms_.empty()) {
 		return;
 	}
 
 	maxGlyphs_ = maxGlyphs;
 
-	charTransforms.clear();
-	matrices.clear();
+	charTransforms_.clear();
+	matrices_.clear();
 	for (uint32_t i = 0; i < maxGlyphs; ++i) {
 
-		charTransforms.emplace_back();
-		matrices.emplace_back();
-		charTransforms[i].Init(nullptr);
-		matrices[i] = Matrix4x4::MakeIdentity4x4();
+		charTransforms_.emplace_back();
+		matrices_.emplace_back();
+		charTransforms_[i].Init(nullptr);
+		matrices_[i] = Matrix4x4::MakeIdentity4x4();
 	}
 
 	// 文字ごとの行列バッファ作成
@@ -486,7 +488,7 @@ void TextTransform2D::UpdateAllMatrix(const MSDFText& text) {
 	currentText_ = &text.GetText();
 	currentCodepoints_ = text.GetCodepoints();
 
-	if (charTransforms.empty()) {
+	if (charTransforms_.empty()) {
 		return;
 	}
 
@@ -501,12 +503,12 @@ void TextTransform2D::UpdateAllMatrix(const MSDFText& text) {
 
 		// 描画されない文字は単位行列を設定
 		if (renderCount <= i) {
-			matrices[i] = Matrix4x4::MakeIdentity4x4();
+			matrices_[i] = Matrix4x4::MakeIdentity4x4();
 			continue;
 		}
 
 		const Vector2 pivot = text.GetGlyphPivot(i);
-		const auto& transform = charTransforms[i];
+		const auto& transform = charTransforms_[i];
 
 		// ピボット位置まで移動させた行列
 		Matrix4x4 toOrigin = Matrix4x4::MakeAffineMatrix(Vector3(1.0f, 1.0f, 1.0f),
@@ -517,10 +519,10 @@ void TextTransform2D::UpdateAllMatrix(const MSDFText& text) {
 			Vector3(0.0f, 0.0f, transform.rotation),
 			Vector3(pivot.x + transform.translation.x, pivot.y + transform.translation.y, 0.0f));
 		// 最終行列を計算
-		matrices[i] = Matrix4x4::Multiply(toOrigin, worldMatrix);
+		matrices_[i] = Matrix4x4::Multiply(toOrigin, worldMatrix);
 	}
 	// バッファ転送
-	charMatrixBuffer_.TransferData(matrices);
+	charMatrixBuffer_.TransferData(matrices_);
 }
 
 void TextTransform2D::ImGui(float itemSize) {
@@ -531,6 +533,19 @@ void TextTransform2D::ImGui(float itemSize) {
 
 	ImGui::Text("CurrentText: %s", currentText_ ? currentText_->c_str() : "null");
 	ImGui::Text("MaxGlyphs:   %d", maxGlyphs_);
+	ImGui::Checkbox("drawTextBox_", &drawTextBox_);
+
+	ImGui::SeparatorText("TextBox");
+
+	ImGui::Checkbox("enableTextBox", &enableTextBox);
+	ImGui::DragFloat2("textBoxSize", &textBoxSize.x, 1.0f);
+	ImGui::DragFloat2("textBoxPadding", &textBoxPadding.x, 1.0f);
+	ImGui::DragFloat("lineSpacing", &lineSpacing, 0.1f);
+
+	EnumAdapter<TextWrapMode>::Combo("wrapMode", &wrapMode);
+	EnumAdapter<TextVerticalAlign>::Combo("verticalAlign", &verticalAlign);
+
+	ImGui::SeparatorText("CharTransforms");
 
 	// 文字ごとのトランスフォーム表示
 	for (uint32_t i = 0; i < maxGlyphs_; ++i) {
@@ -546,7 +561,7 @@ void TextTransform2D::ImGui(float itemSize) {
 		ImGui::PushID(i);
 		if (ImGui::TreeNode(label.c_str())) {
 
-			auto& charTransform = charTransforms[i];
+			auto& charTransform = charTransforms_[i];
 
 			ImGui::DragFloat2("translation", &charTransform.translation.x, 0.1f);
 			ImGui::SliderAngle("rotation", &charTransform.rotation);
@@ -556,4 +571,14 @@ void TextTransform2D::ImGui(float itemSize) {
 		ImGui::PopID();
 	}
 	ImGui::PopItemWidth();
+
+	LineRenderer* lineRenderer = LineRenderer::GetInstance();
+
+	// テキストボックス描画
+	if (drawTextBox_) {
+
+		Vector2 baseAnchor = Vector2::AnyInit(0.5f);
+		Vector2 boxCenter = translation + (baseAnchor - anchorPoint) * textBoxSize;
+		lineRenderer->Get2D()->DrawRect(boxCenter, textBoxSize, baseAnchor, Color::Magenta());
+	}
 }

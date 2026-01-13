@@ -250,6 +250,24 @@ namespace SakuEngine {
 	};
 
 	//============================================================================
+	//	Text設定 列挙型
+	//============================================================================
+
+	// 改行モード
+	enum class TextWrapMode {
+
+		None,     // 自動改行しない(\nのみ)
+		CharWrap, // 文字単位で折り返し
+	};
+	// 縦方向行揃え
+	enum class TextVerticalAlign {
+
+		Top,
+		Middle,
+		Bottom,
+	};
+
+	//============================================================================
 	//	TextTransform2D class
 	//	2DTransformクラス
 	//============================================================================
@@ -273,10 +291,17 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		// 文字数分のトランスフォーム
-		std::vector<BaseTransform2D> charTransforms;
-		// 行列
-		std::vector<Matrix4x4> matrices;
+		// テキストボックス有効化フラグ
+		bool enableTextBox = false;
+		// テキストボックスサイズ
+		Vector2 textBoxSize = Vector2(1280.0f, 256.0f);
+		Vector2 textBoxPadding = Vector2::AnyInit(6.0f);
+		// 行間隔
+		float lineSpacing = 0.0f;
+
+		// モード
+		TextWrapMode wrapMode = TextWrapMode::CharWrap;
+		TextVerticalAlign verticalAlign = TextVerticalAlign::Middle;
 
 		//--------- accessor -----------------------------------------------------
 
@@ -295,7 +320,15 @@ namespace SakuEngine {
 		const std::string* currentText_ = nullptr;
 		std::vector<char32_t> currentCodepoints_;
 
+		// 文字数分のトランスフォーム
+		std::vector<BaseTransform2D> charTransforms_;
+		// 行列
+		std::vector<Matrix4x4> matrices_;
+
 		// 文字ごとの行列バッファ
 		DxStructuredBuffer<Matrix4x4> charMatrixBuffer_;
+
+		// エディター
+		bool drawTextBox_ = false;
 	};
 }; // SakuEngine

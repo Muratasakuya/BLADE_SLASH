@@ -61,6 +61,10 @@ namespace SakuEngine {
 		// ライン情報リセット
 		void ResetLine();
 
+		// エディター
+		virtual void ImGui() {}
+		virtual void DrawDebug() {}
+
 		//--------- accessor -----------------------------------------------------
 
 		// 描画次元を取得

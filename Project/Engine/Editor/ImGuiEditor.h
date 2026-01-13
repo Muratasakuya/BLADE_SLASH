@@ -125,6 +125,9 @@ namespace SakuEngine {
 		// audio
 		void AudioEdit();
 
+		// debug
+		void DebugEdit();
+
 		// helper
 		void SelectObjectFocus(SceneView* sceneView);
 		void SetInputArea(InputViewArea viewArea, const ImVec2& imMin, const ImVec2& imSize);
