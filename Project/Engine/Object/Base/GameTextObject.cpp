@@ -37,12 +37,7 @@ void GameTextObject::ImGui() {
 	if (ImGui::BeginTabBar("TextTab")) {
 		if (ImGui::BeginTabItem("Text")) {
 
-			ImGui::Text("utf8: %s", text_->GetText().c_str());
-			float fontSize = text_->GetFontSize();
-			if (ImGui::DragFloat("fontSizePx", &fontSize, 0.1f, 1.0f, 512.0f)) {
-
-				text_->SetFontSizePx(fontSize);
-			}
+			text_->ImGui(itemWidth_);
 			ImGui::EndTabItem();
 		}
 

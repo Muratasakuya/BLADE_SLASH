@@ -261,6 +261,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp">
       <SubType>
       </SubType>
@@ -1205,6 +1213,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Canvas\CanvasCommon.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextTypes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Generator\Interface\ITextGenerator.h">
       <SubType>
       </SubType>
     </ClInclude>

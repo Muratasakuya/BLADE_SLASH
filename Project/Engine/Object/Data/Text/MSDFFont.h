@@ -10,7 +10,7 @@
 
 namespace SakuEngine {
 
-	// 
+	// 矩形
 	struct MSDFPlaneBounds {
 
 		float left = 0.0f;
@@ -18,8 +18,6 @@ namespace SakuEngine {
 		float right = 0.0f;
 		float top = 0.0f;
 	};
-
-	// アトラス内の矩形
 	struct MSDFAtlasBounds {
 
 		int32_t left = 0;
@@ -31,11 +29,11 @@ namespace SakuEngine {
 	// グリフ情報
 	struct MSDFGlyph {
 
-		char32_t codepoint = U'?'; // 
-		float advance = 0.0f;      // 
+		char32_t codepoint = U'?'; // 文字
+		float advance = 0.0f;
 
-		std::optional<MSDFPlaneBounds> planeBounds; // 
-		std::optional<MSDFAtlasBounds> atlasBounds; // 
+		std::optional<MSDFPlaneBounds> planeBounds;
+		std::optional<MSDFAtlasBounds> atlasBounds;
 	};
 
 	// フォント全体のメトリクス

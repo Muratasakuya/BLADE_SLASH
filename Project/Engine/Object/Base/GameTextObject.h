@@ -40,7 +40,6 @@ namespace SakuEngine {
 		void SetText(const std::string& utf8) { text_->SetText(utf8); }
 		void SetText(int32_t value) { text_->SetText(value); }
 		void SetText(float value, int32_t precision) { text_->SetText(value, precision); }
-		void SetFontSizePx(float pixel) { text_->SetFontSizePx(pixel); }
 
 		// トランスフォーム設定
 		void SetTranslation(const Vector2& translation) { transform_->translation = translation; }
