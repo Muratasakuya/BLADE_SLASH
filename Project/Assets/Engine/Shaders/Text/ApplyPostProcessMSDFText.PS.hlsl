@@ -53,38 +53,28 @@ float median(float a, float b, float c) {
 //============================================================================
 PSOutput main(VSOutput input) {
 
-	// アトラステクスチャからMSDFをサンプリング
+	// アトラステクスチャを参照する際のUV補正
 	float2 texel = 0.5f / atlasSize;
 	float2 uv = clamp(input.texcoord, texel, 1.0f - texel);
-	float3 smple = gTexture.Sample(gSampler, uv).rgb;
+	float3 smple = gTexture.SampleLevel(gSampler, uv, 0).rgb;
 
-
-	// 0.5が輪郭、上下が内外
+	// MSDFの符号付き距離を取得
 	float signedDistance = median(smple.r, smple.g, smple.b) - 0.5f;
-
-	// screenPxRange:
-	// unitRange = pxRange / atlasSize (UV単位での距離レンジ)
-	// screenTexSize = 1 / fwidth(uv)  (1pxあたりのUV分解能)
 	float2 unitRange = (pxRange / atlasSize);
-	float2 screenTexSize = 1.0f / fwidth(input.texcoord);
+
+	// uvと同じ座標でfwidth
+	float2 screenTexSize = 1.0f / fwidth(uv);
+	// ピクセル単位の距離に変換
 	float screenPxRange = max(0.5f * dot(unitRange, screenTexSize), 1.0f);
-
-	// signedDistanceをピクセル単位に変換に
 	float distancePixel = signedDistance * screenPxRange;
-
-	// アウトライン描画の太さ調整
 	distancePixel += boldnessPx;
 
-	// smoothstepの幅
 	float softness = max(softnessPx, 0.0001);
-
-	// アルファを計算
 	float fillA = smoothstep(-softness, softness, distancePixel);
-
-	// アウトラインのアルファ、内側は0、外側に向かってgOutlineWidthPx分だけ広がる
 	float outlineA = 0.0f;
+	// アウトライン処理
 	if (enableOutline != 0 && outlineWidthPx > 0.0f) {
-		
+
 		float outer = smoothstep(-softness, softness, distancePixel + outlineWidthPx);
 		outlineA = saturate(outer - fillA);
 	}
@@ -94,21 +84,17 @@ PSOutput main(VSOutput input) {
 
 	float3 rgb = 0.0f;
 	rgb += outlineColor.rgb * outlineA;
-	// fillが優先で上に乗る
 	rgb = lerp(rgb, color.rgb, fillA);
 
-	// 色側のalpha乗算
 	float finalAlpha = a * color.a;
 	rgb *= color.a;
 
-	// アウトラインのalphaも反映
 	rgb += outlineColor.rgb * outlineA * (outlineColor.a - color.a);
 	finalAlpha = saturate(finalAlpha + outlineA * outlineColor.a);
-	
-	// 出力設定
+
+	// 出力
 	PSOutput output;
 	output.color = float4(rgb, finalAlpha);
 	output.mask = postProcessMask;
-	
 	return output;
 }

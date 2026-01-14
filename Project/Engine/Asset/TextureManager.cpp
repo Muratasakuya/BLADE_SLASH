@@ -203,6 +203,7 @@ DirectX::ScratchImage TextureManager::GenerateMipMaps(const std::filesystem::pat
 	if (isMSDFLike) {
 
 		outMeta = image.GetMetadata();
+		outMeta.mipLevels = 1;
 		return image;
 	}
 
