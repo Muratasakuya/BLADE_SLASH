@@ -94,13 +94,13 @@ void MSDFText::BuildIndexBuffer() {
 		const uint32_t baseIndexIndex = glyphIndex * 6;
 
 		// 頂点並び
-		indices[baseIndexIndex] = baseVertexIndex;
-		indices[baseIndexIndex + 1] = baseVertexIndex + 1;
-		indices[baseIndexIndex + 2] = baseVertexIndex + 2;
+		indices[baseIndexIndex + 0] = baseVertexIndex + 0;
+		indices[baseIndexIndex + 1] = baseVertexIndex + 2;
+		indices[baseIndexIndex + 2] = baseVertexIndex + 1;
 
 		indices[baseIndexIndex + 3] = baseVertexIndex + 2;
-		indices[baseIndexIndex + 4] = baseVertexIndex + 1;
-		indices[baseIndexIndex + 5] = baseVertexIndex + 3;
+		indices[baseIndexIndex + 4] = baseVertexIndex + 3;
+		indices[baseIndexIndex + 5] = baseVertexIndex + 1;
 	}
 	indexBuffer_.TransferData(indices);
 }
@@ -215,7 +215,6 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 	if (transform.enableTextBox) {
 
 		struct LineInfo {
-
 			uint32_t beginGlyph;
 			uint32_t endGlyph;
 			float minX;
@@ -226,6 +225,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		const float sy = (std::max)(1.0e-6f, std::abs(transform.sizeScale.y));
 		const float invSx = 1.0f / sx;
 		const float invSy = 1.0f / sy;
+
 		// テキストボックスサイズとパディングもスケール補正
 		const float boxW = transform.textBoxSize.x * invSx;
 		const float boxH = transform.textBoxSize.y * invSy;
@@ -236,8 +236,11 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		// 利用可能領域
 		const float availW = (std::max)(0.0f, boxW - padX * 2.0f);
 		const float availH = (std::max)(0.0f, boxH - padY * 2.0f);
+
+		// baseline を「ascenderラインが padY に来る」ようにする
+		// (ascender が負でも正でも破綻しない)
 		float penX = padX;
-		float penY = padY + metrics.ascender * scale;
+		float penY = padY - metrics.ascender * scale; // penY = baseline
 
 		// 実際にクアッドを作った数
 		uint32_t glyphCount = 0;
@@ -259,21 +262,30 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			currentLine.minX = 1.0e9f;
 			currentLine.maxX = -1.0e9f;
 			};
-		auto willWrap = [&](float nextMinX, float nextMaxX) -> bool {
+
+		auto willWrap = [&](float nextMaxX) -> bool {
 			if (transform.wrapMode != TextWrapMode::CharWrap) {
 				return false;
 			}
 			if (availW <= 0.0f) {
 				return false;
 			}
-			// 行頭では基本折り返さない
+			// 行頭では折り返さない
 			if (penX <= padX) {
 				return false;
 			}
-			return (nextMaxX - nextMinX) > availW;
+			// padX 起点の行幅で判定
+			const float w = nextMaxX - padX;
+			return (w > availW);
 			};
+
 		auto safeMin = [&](float a, float b) { return (std::min)(a, b); };
 		auto safeMax = [&](float a, float b) { return (std::max)(a, b); };
+
+		// atlas逆数
+		const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
+		const float invAtlasHeight = 1.0f / static_cast<float>(font_->GetAtlasHeight());
+
 		for (size_t i = 0; i < codepoints_.size(); ++i) {
 
 			const char32_t codepoint = codepoints_[i];
@@ -292,8 +304,13 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 				penY += (lineHeight * scale + lineSpacingLocal);
 				prev = 0;
 
-				// 高さオーバーなら打ち切り
-				if ((padY + availH) < (penY - metrics.ascender * scale)) {
+				// 次行の「行ボックス下端」がはみ出すなら終了（metricsから行の上下を推定）
+				float lineTop = penY + metrics.ascender * scale;
+				float lineBottom = penY + metrics.descender * scale;
+				if (lineBottom < lineTop) {
+					(std::swap)(lineTop, lineBottom);
+				}
+				if ((padY + availH) < lineBottom) {
 					break;
 				}
 				continue;
@@ -301,6 +318,16 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 
 			const MSDFGlyph* glyph = font_->FindGlyph(codepoint);
 			if (!glyph) {
+				continue;
+			}
+
+			if (!glyph->planeBounds.has_value() || !glyph->atlasBounds.has_value()) {
+				// advanceだけ進める
+				if (prev != 0) {
+					penX += font_->GetKerning(prev, codepoint) * scale;
+				}
+				prev = codepoint;
+				penX += glyph->advance * scale + charSpacing_;
 				continue;
 			}
 
@@ -313,10 +340,15 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			const MSDFPlaneBounds planeBounds = glyph->planeBounds.value();
 			const MSDFAtlasBounds atlasBounds = glyph->atlasBounds.value();
 
+			// glyph quad in local space (Y下向き前提でそのまま足す)
 			float x0 = penX + planeBounds.left * scale;
 			float x1 = penX + planeBounds.right * scale;
-			float y0 = penY + (-planeBounds.top) * scale;
-			float y1 = penY + (-planeBounds.bottom) * scale;
+
+			float y0 = penY + planeBounds.top * scale;    // 上
+			float y1 = penY + planeBounds.bottom * scale;    // 下
+
+			if (x1 < x0) (std::swap)(x0, x1);
+			if (y1 < y0) (std::swap)(y0, y1);
 
 			// 行の現在min/max
 			float curMinX = currentLine.minX;
@@ -333,8 +365,10 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			float nextMaxX = safeMax(curMaxX, x1);
 
 			// 折り返し
-			if (willWrap(nextMinX, nextMaxX)) {
-				if ((padX + availW) < x1 && padX < penX) {
+			if (willWrap(nextMaxX)) {
+
+				// 既にある程度進んでいる時だけ改行（行頭で無限折返し防止）
+				if (padX < penX) {
 
 					flushLine();
 
@@ -342,52 +376,61 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 					penY += (lineHeight * scale + lineSpacingLocal);
 					prev = 0;
 
-					if ((padY + availH) < (penY - metrics.ascender * scale)) {
+					// 次行が高さオーバーなら終了
+					float lineTop = penY + metrics.ascender * scale;
+					float lineBottom = penY + metrics.descender * scale;
+					if (lineBottom < lineTop) {
+						(std::swap)(lineTop, lineBottom);
+					}
+					if ((padY + availH) < lineBottom) {
 						break;
 					}
 
-					// 改行後に再計算
+					// 改行後に再計算（★ここが重要）
 					x0 = penX + planeBounds.left * scale;
 					x1 = penX + planeBounds.right * scale;
-					y0 = penY + (-planeBounds.top) * scale;
-					y1 = penY + (-planeBounds.bottom) * scale;
+					y0 = penY + planeBounds.top * scale;
+					y1 = penY + planeBounds.bottom * scale;
+
+					if (x1 < x0) (std::swap)(x0, x1);
+					if (y1 < y0) (std::swap)(y0, y1);
+
 					// 改行後の予測値を作り直し
 					nextMinX = x0;
 					nextMaxX = x1;
 				}
 			}
 
-			// 高さオーバーなら打ち切り
+			// 高さオーバーなら打ち切り（下端で判定）
 			if ((padY + availH) < y1) {
 				break;
 			}
 
-			// UV
-			const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
-			const float invAtlasHeight = 1.0f / static_cast<float>(font_->GetAtlasHeight());
+			// UV（そのまま）
+			float u0 = atlasBounds.left * invAtlasWidth;
+			float u1 = atlasBounds.right * invAtlasWidth;
+			float v0 = atlasBounds.top * invAtlasHeight;
+			float v1 = atlasBounds.bottom * invAtlasHeight;
 
-			float u0 = static_cast<float>(atlasBounds.left) * invAtlasWidth;
-			float u1 = static_cast<float>(atlasBounds.right) * invAtlasWidth;
-			float v0 = static_cast<float>(atlasBounds.top) * invAtlasHeight;
-			float v1 = static_cast<float>(atlasBounds.bottom) * invAtlasHeight;
-
-			if (v1 < v0) {
-				(std::swap)(v0, v1);
-			}
+			if (u1 < u0) (std::swap)(u0, u1);
+			if (v1 < v0) (std::swap)(v0, v1);
 
 			const uint32_t base = glyphCount * 4;
-			vertices[base].pos = Vector2(x0, y0);
-			vertices[base].texcoord = Vector2(u0, v1);
+
+			// 頂点は [0:左上, 1:左下, 2:右上, 3:右下]
+			vertices[base + 0].pos = Vector2(x0, y0);
+			vertices[base + 0].texcoord = Vector2(u0, v0);
 
 			vertices[base + 1].pos = Vector2(x0, y1);
-			vertices[base + 1].texcoord = Vector2(u0, v0);
+			vertices[base + 1].texcoord = Vector2(u0, v1);
 
 			vertices[base + 2].pos = Vector2(x1, y0);
-			vertices[base + 2].texcoord = Vector2(u1, v1);
+			vertices[base + 2].texcoord = Vector2(u1, v0);
 
 			vertices[base + 3].pos = Vector2(x1, y1);
-			vertices[base + 3].texcoord = Vector2(u1, v0);
+			vertices[base + 3].texcoord = Vector2(u1, v1);
 
+			// pivot（glyph quad中心）
 			glyphPivots_[glyphCount] = Vector2((x0 + x1) * 0.5f, (y0 + y1) * 0.5f);
 
 			// 行のmin/max更新
@@ -416,18 +459,18 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			return;
 		}
 
-		// 行揃え
+		// 行揃え（現状：中央寄せ固定。必要ならここをLeft/Right対応に拡張）
 		for (const auto& line : lines) {
 
 			const float lineW = (line.maxX - line.minX);
-
 			float targetMin = padX + (availW - lineW) * 0.5f;
 			const float dx = targetMin - line.minX;
+
 			for (uint32_t gi = line.beginGlyph; gi < line.endGlyph; ++gi) {
 
 				const uint32_t base = gi * 4;
 
-				vertices[base].pos.x += dx;
+				vertices[base + 0].pos.x += dx;
 				vertices[base + 1].pos.x += dx;
 				vertices[base + 2].pos.x += dx;
 				vertices[base + 3].pos.x += dx;
@@ -436,9 +479,10 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			}
 		}
 
-		// 縦揃え
+		// 縦揃え（内容のminYを基準にTOP/MIDDLE/BOTTOM）
 		float contentMinY = 1.0e9f;
 		float contentMaxY = -1.0e9f;
+
 		for (uint32_t gi = 0; gi < glyphCount; ++gi) {
 			const uint32_t base = gi * 4;
 
@@ -454,7 +498,8 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		}
 
 		float contentH = contentMaxY - contentMinY;
-		float targetMinY = padY;
+
+		float targetMinY = padY; // Top
 		if (transform.verticalAlign == TextVerticalAlign::Middle) {
 			targetMinY = padY + (availH - contentH) * 0.5f;
 		} else if (transform.verticalAlign == TextVerticalAlign::Bottom) {
@@ -466,10 +511,11 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 
 			const uint32_t base = gi * 4;
 
-			vertices[base].pos.y += dy;
+			vertices[base + 0].pos.y += dy;
 			vertices[base + 1].pos.y += dy;
 			vertices[base + 2].pos.y += dy;
 			vertices[base + 3].pos.y += dy;
+
 			glyphPivots_[gi].y += dy;
 		}
 
@@ -493,6 +539,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 				maxV.x = (std::max)(maxV.x, vertices[base + k].pos.x);
 				maxV.y = (std::max)(maxV.y, vertices[base + k].pos.y);
 			}
+
 			glyphPivots_[gi].x -= boxPivotX;
 			glyphPivots_[gi].y -= boxPivotY;
 		}
@@ -515,13 +562,16 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 	//===============================================================================================
 
 	float penX = 0.0f;
-	float penY = 0.0f;
+	float penY = 0.0f; // baseline
 
 	Vector2 minValue(1.0e9f, 1.0e9f);
 	Vector2 maxValue(-1.0e9f, -1.0e9f);
 
 	uint32_t glyphCount = 0;
 	char32_t prevCodepoint = 0;
+
+	const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
+	const float invAtlasHeight = 1.0f / static_cast<float>(font_->GetAtlasHeight());
 
 	for (size_t i = 0; i < codepoints_.size(); ++i) {
 
@@ -535,7 +585,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		// 改行
 		if (codepoint == U'\n') {
 			penX = 0.0f;
-			penY += lineHeight * scale;
+			penY += lineHeight * scale; // 行送り
 			prevCodepoint = 0;
 			continue;
 		}
@@ -551,6 +601,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		}
 		prevCodepoint = codepoint;
 
+		// boundsが無い字はadvanceだけ進める
 		if (!glyph->planeBounds.has_value() || !glyph->atlasBounds.has_value()) {
 			penX += glyph->advance * scale + charSpacing_;
 			continue;
@@ -559,42 +610,42 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 		const MSDFPlaneBounds planeBounds = glyph->planeBounds.value();
 		const MSDFAtlasBounds atlasBounds = glyph->atlasBounds.value();
 
-		const float x0 = penX + planeBounds.left * scale;
-		const float x1 = penX + planeBounds.right * scale;
-		const float y0 = penY + (-planeBounds.top) * scale;
-		const float y1 = penY + (-planeBounds.bottom) * scale;
+		float x0 = penX + planeBounds.left * scale;
+		float x1 = penX + planeBounds.right * scale;
+
+		float y0 = penY + planeBounds.top * scale; // 上
+		float y1 = penY + planeBounds.bottom * scale; // 下
+
+		if (x1 < x0) (std::swap)(x0, x1);
+		if (y1 < y0) (std::swap)(y0, y1);
+
+		// UV
+		float u0 = atlasBounds.left * invAtlasWidth;
+		float u1 = atlasBounds.right * invAtlasWidth;
+		float v0 = atlasBounds.top * invAtlasHeight;
+		float v1 = atlasBounds.bottom * invAtlasHeight;
+
+		if (u1 < u0) (std::swap)(u0, u1);
+		if (v1 < v0) (std::swap)(v0, v1);
+
+		const uint32_t base = glyphCount * 4;
+
+		vertices[base + 0].pos = Vector2(x0, y0);
+		vertices[base + 0].texcoord = Vector2(u0, v0);
+
+		vertices[base + 1].pos = Vector2(x0, y1);
+		vertices[base + 1].texcoord = Vector2(u0, v1);
+
+		vertices[base + 2].pos = Vector2(x1, y0);
+		vertices[base + 2].texcoord = Vector2(u1, v0);
+
+		vertices[base + 3].pos = Vector2(x1, y1);
+		vertices[base + 3].texcoord = Vector2(u1, v1);
 
 		// pivot
 		glyphPivots_[glyphCount] = Vector2((x0 + x1) * 0.5f, (y0 + y1) * 0.5f);
 
-		// UV
-		const float invAtlasWidth = 1.0f / static_cast<float>(font_->GetAtlasWidth());
-		const float invAtlasHeight = 1.0f / static_cast<float>(font_->GetAtlasHeight());
-
-		float u0 = static_cast<float>(atlasBounds.left) * invAtlasWidth;
-		float u1 = static_cast<float>(atlasBounds.right) * invAtlasWidth;
-		float v0 = static_cast<float>(atlasBounds.top) * invAtlasHeight;
-		float v1 = static_cast<float>(atlasBounds.bottom) * invAtlasHeight;
-
-		if (v1 < v0) {
-			(std::swap)(v0, v1);
-		}
-
-		const uint32_t base = glyphCount * 4;
-
-		vertices[base].pos = Vector2(x0, y0);
-		vertices[base].texcoord = Vector2(u0, v1);
-
-		vertices[base + 1].pos = Vector2(x0, y1);
-		vertices[base + 1].texcoord = Vector2(u0, v0);
-
-		vertices[base + 2].pos = Vector2(x1, y0);
-		vertices[base + 2].texcoord = Vector2(u1, v1);
-
-		vertices[base + 3].pos = Vector2(x1, y1);
-		vertices[base + 3].texcoord = Vector2(u1, v0);
-
-		// bounds更新
+		// bounds更新（頂点に使ってる y0/y1 と同じ定義で更新）
 		minValue.x = (std::min)(minValue.x, x0);
 		minValue.y = (std::min)(minValue.y, y0);
 		maxValue.x = (std::max)(maxValue.x, x1);
@@ -605,6 +656,7 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 			break;
 		}
 
+		// 次の文字へ
 		penX += glyph->advance * scale + charSpacing_;
 	}
 
@@ -625,16 +677,19 @@ void MSDFText::RebuildMeshCPU(const TextTransform2D& transform) {
 	// アンカーポイント基準に頂点移動
 	float width = bounds_.Width();
 	float height = bounds_.Height();
+
 	float pivotX = bounds_.min.x + transform.anchorPoint.x * width;
 	float pivotY = bounds_.min.y + transform.anchorPoint.y * height;
+
 	for (uint32_t gi = 0; gi < glyphCount; ++gi) {
 
 		const uint32_t base = gi * 4;
-		for (uint32_t k = 0; k < 4; ++k) {
 
+		for (uint32_t k = 0; k < 4; ++k) {
 			vertices[base + k].pos.x -= pivotX;
 			vertices[base + k].pos.y -= pivotY;
 		}
+
 		glyphPivots_[gi].x -= pivotX;
 		glyphPivots_[gi].y -= pivotY;
 	}
