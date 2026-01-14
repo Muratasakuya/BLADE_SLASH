@@ -52,6 +52,8 @@ namespace SakuEngine {
 		// 更新
 		void UpdateVertex(const TextTransform2D& transform);
 
+		// 描画リソースの設定
+		void SetRenderResources(uint32_t objectId);
 		// 描画コマンド
 		void DrawCommand(ID3D12GraphicsCommandList6* commandList) override;
 

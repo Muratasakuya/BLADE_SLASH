@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Utility/Helper/Algorithm.h>
 
 //============================================================================
@@ -118,6 +119,40 @@ void MSDFText::UpdateVertex(const TextTransform2D& transform) {
 	dirtyMesh_ = false;
 }
 
+void MSDFText::SetRenderResources(uint32_t objectId) {
+
+	// 必要なデータを取得
+	ObjectManager* objectManager = ObjectManager::GetInstance();
+	auto* transform = objectManager->GetData<TextTransform2D>(objectId);
+	auto* material = objectManager->GetData<MSDFTextMaterial>(objectId);
+
+	// リソース追加
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::Constant,
+		.rootParamIndex = 1,
+		.bufferAddress = transform->GetBuffer().GetResource()->GetGPUVirtualAddress(),
+		.bufferHandle = D3D12_GPU_DESCRIPTOR_HANDLE{},
+		});
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::Structured,
+		.rootParamIndex = 2,
+		.bufferAddress = transform->GetCharMatrixBuffer().GetResource()->GetGPUVirtualAddress(),
+		.bufferHandle = D3D12_GPU_DESCRIPTOR_HANDLE{},
+		});
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::TextureGPU,
+		.rootParamIndex = 3,
+		.bufferAddress = 0,
+		.bufferHandle = font_->GetAtlasGPUHandle(),
+		});
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::Constant,
+		.rootParamIndex = 4,
+		.bufferAddress = material->GetBuffer().GetResource()->GetGPUVirtualAddress(),
+		.bufferHandle = D3D12_GPU_DESCRIPTOR_HANDLE{},
+		});
+}
+
 void MSDFText::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
 
 	// 文字が無ければ描画しない
@@ -130,7 +165,7 @@ void MSDFText::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
 	// インデックスバッファ設定
 	commandList->IASetIndexBuffer(&indexBuffer_.GetIndexBufferView());
 	// 描画リソース
-	BaseCanvas::SetRenderResources(commandList);
+	BaseCanvas::SetRenderResourceCommand(commandList);
 	// 描画コマンド
 	commandList->DrawIndexedInstanced(drawIndexCount_, 1, 0, 0, 0);
 }

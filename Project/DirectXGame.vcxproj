@@ -219,10 +219,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp">
       <SubType>
       </SubType>
@@ -855,9 +851,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Engine\Collision\Collider.cpp" />
     <ClCompile Include="Engine\Scene\Camera\BaseCamera.cpp" />
     <ClCompile Include="Engine\Scene\Camera\Camera2D.cpp">
@@ -1165,10 +1158,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1980,9 +1969,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.h" />
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Collision\Collider.h" />

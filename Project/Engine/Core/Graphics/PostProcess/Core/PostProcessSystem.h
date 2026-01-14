@@ -37,6 +37,7 @@ namespace SakuEngine {
 		// デバイスやディスクリプタ等の依存を受け取り、パイプライン/コピー用プロセスを準備する
 		void Init(ID3D12Device8* device, class DxShaderCompiler* shaderComplier,
 			SRVDescriptor* srvDescriptor, Asset* asset, SceneView* sceneView);
+		void CreateAllProcesses();
 
 		// 登録済みUpdaterを用いて各ポストプロセスの定数バッファを更新する
 		void Update();

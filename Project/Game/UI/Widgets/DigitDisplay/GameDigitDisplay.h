@@ -27,7 +27,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetSpriteLayer(SakuEngine::SpriteLayer layer);
+	void SetCanvasLayer(SakuEngine::CanvasLayer layer);
 
 	void SetTranslation(const SakuEngine::Vector2& translation, const SakuEngine::Vector2& offset);
 	SakuEngine::Vector2 ProjectToScreen(const SakuEngine::Vector3& translation, const SakuEngine::BaseCamera& camera);

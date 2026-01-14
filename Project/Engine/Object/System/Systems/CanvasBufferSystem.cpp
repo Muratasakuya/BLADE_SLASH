@@ -41,16 +41,16 @@ void CanvasBufferSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 	// 描画順インデックスでソートを行う
 	for (auto& [phase, vector] : canvasDataMap_) {
 		std::stable_sort(vector.begin(), vector.end(),
-			[](const BaseCanvas& dataA, const BaseCanvas& dataB) {
+			[](const BaseCanvas* dataA, const BaseCanvas* dataB) {
 
-				const auto& canvasA = dataA.GetLayerIndex();
-				const auto& canvasB = dataB.GetLayerIndex();
+				const auto& canvasA = dataA->GetLayerIndex();
+				const auto& canvasB = dataB->GetLayerIndex();
 				// レイヤーでソート
 				if (canvasA != canvasB) {
 					return canvasA < canvasB;
 				}
 				// ブレンドモードでソート
-				return static_cast<int32_t>(dataA.GetBlendMode()) < static_cast<int32_t>(dataB.GetBlendMode());
+				return static_cast<int32_t>(dataA->GetBlendMode()) < static_cast<int32_t>(dataB->GetBlendMode());
 			});
 	}
 }

@@ -14,36 +14,55 @@ using namespace SakuEngine;
 //	CanvasCommon classMethods
 //============================================================================
 
-void BaseCanvas::AddRenderResource(BufferType type, uint32_t rootParamIndex, D3D12_GPU_VIRTUAL_ADDRESS bufferAddress) {
+void BaseCanvas::AddRenderResource(const RenderResource& renderResource) {
 
 	// 同じルートパラメータは上書き不可
 	for (const auto& resource : renderResources_) {
-		if (resource.rootParamIndex_ == rootParamIndex) {
+		if (resource.rootParamIndex == renderResource.rootParamIndex) {
 			return;
 		}
 	}
 
 	// 描画用リソース追加
-	RenderResource resource;
-	resource.type_ = type;
-	resource.rootParamIndex_ = rootParamIndex;
-	resource.bufferAddress_ = bufferAddress;
-	renderResources_.emplace_back(resource);
+	renderResources_.emplace_back(renderResource);
 }
 
-void BaseCanvas::SetRenderResources(ID3D12GraphicsCommandList6* commandList) {
+void BaseCanvas::OverWriteRenderResource(const RenderResource& renderResource) {
+
+	// 一致するルートパラメータがあれば上書き
+	for (auto& resource : renderResources_) {
+		if (resource.rootParamIndex == renderResource.rootParamIndex) {
+			
+			resource.type = renderResource.type;
+			resource.bufferAddress = renderResource.bufferAddress;
+			resource.bufferHandle = renderResource.bufferHandle;
+			break;
+		}
+	}
+}
+
+void BaseCanvas::SetRenderResourceCommand(ID3D12GraphicsCommandList6* commandList) {
 
 	// 描画用リソース設定
 	for (const auto& resource : renderResources_) {
 		// タイプ別にコマンドを分ける
-		switch (resource.type_) {
+		switch (resource.type) {
 		case BufferType::Constant:
 
-			commandList->SetGraphicsRootConstantBufferView(resource.rootParamIndex_, resource.bufferAddress_);
+			commandList->SetGraphicsRootConstantBufferView(resource.rootParamIndex, resource.bufferAddress);
 			break;
 		case BufferType::Structured:
 
-			commandList->SetGraphicsRootShaderResourceView(resource.rootParamIndex_, resource.bufferAddress_);
+			commandList->SetGraphicsRootShaderResourceView(resource.rootParamIndex, resource.bufferAddress);
+			break;
+		case BufferType::TextureGPU:
+
+			// ハンドルが無効ならスキップ
+			if (resource.bufferHandle.ptr == 0) {
+				continue;
+			}
+
+			commandList->SetGraphicsRootDescriptorTable(resource.rootParamIndex, resource.bufferHandle);
 			break;
 		}
 	}

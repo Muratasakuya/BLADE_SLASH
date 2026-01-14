@@ -193,7 +193,7 @@ DirectX::ScratchImage TextureManager::GenerateMipMaps(const std::filesystem::pat
 			wicFlags = DirectX::WIC_FLAGS_IGNORE_SRGB;
 		} else {
 
-			wicFlags = DirectX::WIC_FLAGS_FORCE_SRGB;
+			wicFlags = DirectX::WIC_FLAGS_FORCE_SRGB | DirectX::WIC_FLAGS_DEFAULT_SRGB;
 		}
 		hr = DirectX::LoadFromWICFile(filePathW.c_str(), wicFlags, nullptr, image);
 	}

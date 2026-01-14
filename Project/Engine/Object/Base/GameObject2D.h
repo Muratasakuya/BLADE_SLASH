@@ -93,8 +93,8 @@ namespace SakuEngine {
 		// sprite
 		void SetTextureName(const std::string& textureName) { sprite_->SetTextureName(textureName); }
 		void SetAlphaTextureName(const std::string& textureName) { sprite_->SetAlphaTextureName(textureName); }
-		void SetSpriteLayer(SpriteLayer layer) { sprite_->SetLayer(layer); }
-		void SetSpriteLayerIndex(SpriteLayerIndex layerIndex, uint16_t subLayerIndex = 0) { sprite_->SetLayerIndex(layerIndex, subLayerIndex); }
+		void SetCanvasLayer(CanvasLayer layer) { sprite_->SetLayer(layer); }
+		void SetCanvasLayerIndex(CanvasLayerIndex layerIndex, uint16_t subLayerIndex = 0) { sprite_->SetLayerIndex(layerIndex, subLayerIndex); }
 		void SetBlendMode(BlendMode blendMode) { sprite_->SetBlendMode(blendMode); }
 		void SetPostProcessEnable(bool enable) { sprite_->SetPostProcessEnable(enable); }
 		void SetVertexColor(SpriteVertexPos pos, const Color& color) { sprite_->SetVertexColor(pos, color); }

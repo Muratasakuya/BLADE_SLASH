@@ -23,6 +23,7 @@ using namespace SakuEngine;
 #include <Engine/Object/System/Systems/SpriteBufferSystem.h>
 #include <Engine/Object/System/Systems/MSDFTextBufferSystem.h>
 #include <Engine/Object/System/Systems/SkyboxRenderSystem.h>
+#include <Engine/Object/System/Systems/CanvasBufferSystem.h>
 #include <Engine/Object/System/Systems/TagSystem.h>
 
 //============================================================================
@@ -71,6 +72,7 @@ void ObjectManager::Init(ID3D12Device* device, Asset* asset, DxCommand* dxComman
 	systemManager_->AddSystem<SpriteBufferSystem>();
 	systemManager_->AddSystem<MSDFTextBufferSystem>();
 	systemManager_->AddSystem<SkyboxRenderSystem>();
+	systemManager_->AddSystem<CanvasBufferSystem>();
 	systemManager_->AddSystem<InstancedMeshSystem>(device, asset, dxCommand);
 	systemManager_->GetSystem<InstancedMeshSystem>()->StartBuildWorker();
 
@@ -179,7 +181,9 @@ uint32_t ObjectManager::CreateObject2D(const std::string& textureName,
 	// material
 	material->Init(device_);
 	// sprite
-	objectPoolManager_->AddData<Sprite>(object, device_, asset_, textureName, *transform);
+	Sprite* sprite = objectPoolManager_->AddData<Sprite>(object, device_, asset_, textureName, *transform);
+	sprite->SetRenderResources(object);
+
 	LOG_INFO("created object2D: name: [{}] textureName: [{}]", name, textureName);
 
 	return object;
@@ -197,7 +201,7 @@ uint32_t ObjectManager::CreateTextObject(const std::string& atlasTextureName,
 	auto* material = objectPoolManager_->AddData<MSDFTextMaterial>(object);
 	constexpr const uint32_t maxGlyphCount = 128;
 	auto* font = GetSystem<MSDFTextBufferSystem>()->GetMSDFFont(asset_, atlasTextureName, fontJsonPath);
-	objectPoolManager_->AddData<MSDFText>(object, device_, asset_, font, maxGlyphCount);
+	MSDFText* text = objectPoolManager_->AddData<MSDFText>(object, device_, asset_, font, maxGlyphCount);
 
 	// 各dataを初期化
 	// transform
@@ -205,6 +209,8 @@ uint32_t ObjectManager::CreateTextObject(const std::string& atlasTextureName,
 	transform->Secure(device_, maxGlyphCount);
 	// material
 	material->Init(device_);
+	// text
+	text->SetRenderResources(object);
 
 	LOG_INFO("created textObject: name: [{}] textureName: [{}]", name, atlasTextureName);
 

@@ -8,21 +8,6 @@
 
 namespace SakuEngine {
 
-	// front
-	class TextTransform2D;
-	class MSDFTextMaterial;
-
-	//============================================================================
-	//	structure
-	//============================================================================
-
-	struct MSDFTextData {
-
-		TextTransform2D* transform;
-		MSDFTextMaterial* material;
-		MSDFText* text;
-	};
-
 	//============================================================================
 	//	MSDFTextBufferSystem class
 	//	MSDFテキストのバッファを管理するシステム
@@ -44,18 +29,12 @@ namespace SakuEngine {
 		Archetype Signature() const override;
 
 		void Update(ObjectPoolManager& ObjectPoolManager) override;
-
-		//--------- accessor -----------------------------------------------------
-
-		const std::vector<MSDFTextData>& GetTextData() const { return textData_; }
 	private:
 		//========================================================================
 		//	private Methods
 		//========================================================================
 
 		//--------- variables ----------------------------------------------------
-
-		std::vector<MSDFTextData> textData_;
 
 		// フォントキャッシュ
 		std::unordered_map<std::string, std::unique_ptr<MSDFFont>> fontCache_;

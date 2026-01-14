@@ -1314,9 +1314,6 @@
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.cpp">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.cpp">
-      <Filter>Engine\Core\Graphics\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Collision\Collider.cpp">
       <Filter>Engine\Collision</Filter>
     </ClCompile>
@@ -2436,9 +2433,6 @@
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.h">
       <Filter>Engine\Core\Graphics\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\SpriteRenderer.h">
-      <Filter>Engine\Core\Graphics\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collision\Collider.h">
       <Filter>Engine\Collision</Filter>
     </ClInclude>
@@ -2921,7 +2915,6 @@
     <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.cpp" />
     <ClCompile Include="Engine\Object\Base\GameTextObject.cpp" />
     <ClCompile Include="Engine\Object\System\Systems\MSDFTextBufferSystem.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp" />
@@ -2962,7 +2955,6 @@
     <ClInclude Include="Game\Scenes\Debug\DebugScene.h" />
     <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h" />
     <ClInclude Include="Engine\Object\Data\Text\MSDFText.h" />
-    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\TextRenderer.h" />
     <ClInclude Include="Engine\Object\Base\GameTextObject.h" />
     <ClInclude Include="Engine\Object\System\Systems\MSDFTextBufferSystem.h" />
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.h" />

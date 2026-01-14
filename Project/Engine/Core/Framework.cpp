@@ -102,6 +102,8 @@ Framework::Framework() {
 	postProcessSystem->Init(device, shaderCompiler,
 		srvDescriptor, asset_.get(), sceneView_.get());
 	postProcessSystem->SetDepthFrameBufferGPUHandle(renderEngine_->GetDepthGPUHandle());
+	// 全てのprocess生成
+	postProcessSystem->CreateAllProcesses();
 
 	// fullScreen設定
 	if (fullscreenEnable_) {

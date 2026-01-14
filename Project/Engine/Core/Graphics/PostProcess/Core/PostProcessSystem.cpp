@@ -145,6 +145,9 @@ void PostProcessSystem::Init(ID3D12Device8* device, DxShaderCompiler* shaderComp
 	// copy用プロセス
 	copyTextureProcess_ = std::make_unique<ComputePostProcessor>();
 	copyTextureProcess_->Init(device_, srvDescriptor_, width_, height_);
+}
+
+void PostProcessSystem::CreateAllProcesses() {
 
 	// 全てのポストエフェクトを作成する
 	std::vector<PostProcessType> allProcesses;
@@ -181,7 +184,7 @@ void PostProcessSystem::Create(const std::vector<PostProcessType>& processes) {
 
 		// pipeline作成
 		pipeline_->Create(process);
-		
+
 		if (process == PostProcessType::DepthBasedOutline) {
 
 			processors_[process]->SetProcessTexureGPUHandle(depthFrameBufferGPUHandle_);

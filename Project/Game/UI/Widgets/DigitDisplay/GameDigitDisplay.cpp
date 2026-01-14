@@ -35,11 +35,11 @@ void GameDigitDisplay::Init(uint32_t maxDigit, const std::string& textureName,
 	}
 }
 
-void GameDigitDisplay::SetSpriteLayer(SakuEngine::SpriteLayer layer) {
+void GameDigitDisplay::SetCanvasLayer(SakuEngine::CanvasLayer layer) {
 
 	for (uint32_t index = 0; index < digitSprites_.size(); ++index) {
 
-		digitSprites_[index]->SetSpriteLayer(layer);
+		digitSprites_[index]->SetCanvasLayer(layer);
 	}
 }
 

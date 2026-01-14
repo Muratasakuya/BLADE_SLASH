@@ -17,8 +17,7 @@
 
 // renderer
 #include <Engine/Core/Graphics/Renderer/3D/MeshRenderer.h>
-#include <Engine/Core/Graphics/Renderer/2D/SpriteRenderer.h>
-#include <Engine/Core/Graphics/Renderer/2D/TextRenderer.h>
+#include <Engine/Core/Graphics/Renderer/2D/CanvasRenderer.h>
 
 namespace SakuEngine {
 
@@ -129,10 +128,9 @@ namespace SakuEngine {
 
 		// renderer
 		std::unique_ptr<MeshRenderer> meshRenderer_;
-		std::unique_ptr<SpriteRenderer> spriteRenderer_;
-		std::unique_ptr<TextRenderer> textRenderer_;
+		std::unique_ptr<CanvasRenderer> canvasRenderer_;
 
-		// imgui
+		// エディター機能
 		std::unique_ptr<ImGuiManager> imguiManager_;
 		std::unique_ptr<GPUPixelPicker> pixelPicker_;
 
@@ -141,7 +139,7 @@ namespace SakuEngine {
 		// Descriptorヒープ(RTV/DSV/SRV)と深度リソースを初期化する
 		void InitDescriptor(ID3D12Device8* device);
 		// 各ビュー(Main/Debug)のMRTや深度SRV等を生成する
-		void InitRenderTextrue(ID3D12Device8* device);
+		void InitRenderTexture(ID3D12Device8* device);
 		// メッシュ/スプライト/スキニング等のレンダラを初期化する
 		void InitRenderer(ID3D12Device8* device, DxShaderCompiler* shaderCompiler);
 

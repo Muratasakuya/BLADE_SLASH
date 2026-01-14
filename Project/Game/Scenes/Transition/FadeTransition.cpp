@@ -18,7 +18,7 @@ void FadeTransition::Init() {
 	fadeSprite_->SetPostProcessMask(Bit_CRTDisplay);
 	// シーンが切り替わっても破棄しない
 	fadeSprite_->SetDestroyOnLoad(false);
-	fadeSprite_->SetSpriteLayerIndex(SakuEngine::SpriteLayerIndex::SceneTransition, 0);
+	fadeSprite_->SetCanvasLayerIndex(SakuEngine::CanvasLayerIndex::SceneTransition, 0);
 
 	// fade初期設定
 	fadeSprite_->SetCenterTranslation();
@@ -29,7 +29,7 @@ void FadeTransition::Init() {
 	loadSprite_->Init("nowLoading", "nowLoading", "Scene");
 	// シーンが切り替わっても破棄しない
 	loadSprite_->SetDestroyOnLoad(false);
-	loadSprite_->SetSpriteLayerIndex(SakuEngine::SpriteLayerIndex::SceneTransition, 1);
+	loadSprite_->SetCanvasLayerIndex(SakuEngine::CanvasLayerIndex::SceneTransition, 1);
 	// 初期設定
 	loadSprite_->SetCenterTranslation();
 	loadSprite_->SetAlpha(0.0f);

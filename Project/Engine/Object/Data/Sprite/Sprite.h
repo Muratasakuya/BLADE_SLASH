@@ -56,6 +56,8 @@ namespace SakuEngine {
 		// 頂点情報更新
 		void UpdateVertex(const Transform2D& transform);
 
+		// 描画リソースの設定
+		void SetRenderResources(uint32_t objectId);
 		// 描画コマンド
 		void DrawCommand(ID3D12GraphicsCommandList6* commandList) override;
 
@@ -88,7 +90,7 @@ namespace SakuEngine {
 		const IndexBuffer& GetIndexBuffer() const { return indexBuffer_; }
 		// テクスチャGPUハンドル取得
 		const D3D12_GPU_DESCRIPTOR_HANDLE& GetTextureGPUHandle() const;
-		const D3D12_GPU_DESCRIPTOR_HANDLE& GetAlphaTextureGPUHandle() const;
+		D3D12_GPU_DESCRIPTOR_HANDLE GetAlphaTextureGPUHandle() const;
 
 		// 描画タイプ取得
 		CanvasType GetType() const override { return CanvasType::Sprite; }
@@ -108,6 +110,8 @@ namespace SakuEngine {
 		std::string textureName_;
 		std::string preTextureName_;
 		std::optional<std::string> alphaTextureName_;
+		std::optional<std::string> preAlphaTextureName_;
+
 		DirectX::TexMetadata metadata_;
 		// 現在の入力デバイスに応じてテクスチャを変更するか
 		bool isChangeDeviceTexture_ = false;

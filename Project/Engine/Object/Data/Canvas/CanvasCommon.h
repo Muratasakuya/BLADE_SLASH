@@ -52,17 +52,19 @@ namespace SakuEngine {
 
 			Constant,   // 定数バッファ
 			Structured, // 構造化バッファ
+			TextureGPU,
 		};
 
 		// 頂点以外の描画データ
 		struct RenderResource {
 
 			// バッファ種別
-			BufferType type_;
+			BufferType type;
 
 			// 描画コマンド情報
-			uint32_t rootParamIndex_;
-			D3D12_GPU_VIRTUAL_ADDRESS bufferAddress_;
+			uint32_t rootParamIndex;
+			D3D12_GPU_VIRTUAL_ADDRESS bufferAddress;
+			D3D12_GPU_DESCRIPTOR_HANDLE bufferHandle;
 		};
 	public:
 		//========================================================================
@@ -75,8 +77,6 @@ namespace SakuEngine {
 		// 共通エディター
 		void ImGuiCommon(float itemSize);
 
-		// 描画用リソース追加
-		void AddRenderResource(BufferType type, uint32_t rootParamIndex, D3D12_GPU_VIRTUAL_ADDRESS bufferAddress);
 		// 描画コマンド
 		virtual void DrawCommand(ID3D12GraphicsCommandList6* commandList) = 0;
 
@@ -118,8 +118,13 @@ namespace SakuEngine {
 
 		//--------- functions ----------------------------------------------------
 
-		// 描画用リソース設定
-		void SetRenderResources(ID3D12GraphicsCommandList6* commandList);
+		// 描画用リソース追加
+		void AddRenderResource(const RenderResource& renderResource);
+		// 描画用リソースの再設定
+		void OverWriteRenderResource(const RenderResource& renderResource);
+
+		// 描画用リソースコマンド設定
+		void SetRenderResourceCommand(ID3D12GraphicsCommandList6* commandList);
 	private:
 		//========================================================================
 		//	private Methods

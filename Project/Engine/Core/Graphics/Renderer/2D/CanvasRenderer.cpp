@@ -6,6 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Core/Graphics/DxObject/DxCommand.h>
+#include <Engine/Core/Graphics/GPUObject/SceneConstBuffer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/CanvasBufferSystem.h>
 
@@ -13,8 +14,7 @@ using namespace SakuEngine;
 //	CanvasRenderer classMethods
 //============================================================================
 
-void CanvasRenderer::Init(ID3D12Device8* device,
-	SRVDescriptor* srvDescriptor, DxShaderCompiler* shaderCompiler) {
+void CanvasRenderer::Init(ID3D12Device8* device, DxShaderCompiler* shaderCompiler, SRVDescriptor* srvDescriptor) {
 
 	// パイプライン作成
 	// ポストエフェクト無効
@@ -53,15 +53,20 @@ void CanvasRenderer::ApplyPostProcessRendering(CanvasLayer layer, SceneConstBuff
 	ID3D12GraphicsCommandList6* commandList = dxCommand->GetCommandList();
 
 	// ブレンドモード
-	BlendMode currentBlendMode = kBlendModeCount;
-	CanvasType currentCanvasType = CanvasType::Count;
-	for (const auto& buffer : canvasData) {
+	currentBlendMode_ = kBlendModeCount;
+	currentCanvasType_ = CanvasType::Count;
+	for (const auto& canvas : canvasData) {
 
 		// ポストエフェクト無効スプライトはスキップ
-		if (!buffer->IsPostProcessEnable()) {
+		if (!canvas->IsPostProcessEnable()) {
 			continue;
 		}
-		// 別のブレンドが設定されている、もしくはタイプが変わった場合はパイプラインを変更
+		SetPipeline(commandList, *canvas, RenderMode::ApplyPostProcess);
+		// カメラの正射影行列設定
+		sceneBuffer->SetOrthoProCommand(commandList, 0);
+
+		// 描画
+		canvas->DrawCommand(commandList);
 	}
 }
 
@@ -74,5 +79,69 @@ void CanvasRenderer::IrrelevantPostProcessRendering(SceneConstBuffer* sceneBuffe
 	const auto& postCanvasData = system->GetCanvasData(CanvasLayer::PostModel);
 	if (preCanvasData.empty() && postCanvasData.empty()) {
 		return;
+	}
+
+	// commandList取得
+	ID3D12GraphicsCommandList6* commandList = dxCommand->GetCommandList();
+
+	//============================================================================================================================================
+	//	レイヤー：PreModel
+	//============================================================================================================================================
+
+	currentBlendMode_ = kBlendModeCount;
+	currentCanvasType_ = CanvasType::Count;
+	for (auto& canvas : preCanvasData) {
+
+		// ポストエフェクト有効スプライトはスキップ
+		if (canvas->IsPostProcessEnable()) {
+			continue;
+		}
+		SetPipeline(commandList, *canvas, RenderMode::IrrelevantPostProcess);
+		// カメラの正射影行列設定
+		sceneBuffer->SetOrthoProCommand(commandList, 0);
+
+		// 描画
+		canvas->DrawCommand(commandList);
+	}
+
+	//============================================================================================================================================
+	//	レイヤー：PostModel
+	//============================================================================================================================================
+
+	currentBlendMode_ = kBlendModeCount;
+	currentCanvasType_ = CanvasType::Count;
+	for (auto& canvas : postCanvasData) {
+
+		// ポストエフェクト有効スプライトはスキップ
+		if (canvas->IsPostProcessEnable()) {
+			continue;
+		}
+		SetPipeline(commandList, *canvas, RenderMode::IrrelevantPostProcess);
+		// カメラの正射影行列設定
+		sceneBuffer->SetOrthoProCommand(commandList, 0);
+
+		// 描画
+		canvas->DrawCommand(commandList);
+	}
+}
+
+void CanvasRenderer::SetPipeline(ID3D12GraphicsCommandList6* commandList, const BaseCanvas& canvas, RenderMode renderMode) {
+
+	// 別のブレンドが設定されている、もしくはタイプが変わった場合はパイプラインを変更
+	BlendMode blendMode = canvas.GetBlendMode();
+	CanvasType canvasType = canvas.GetType();
+	if (currentBlendMode_ != blendMode ||
+		currentCanvasType_ != canvasType) {
+
+		// パイプライン設定
+		uint32_t renderModeIndex = static_cast<uint32_t>(renderMode);
+		uint32_t canvasTypeIndex = static_cast<uint32_t>(canvasType);
+		commandList->SetGraphicsRootSignature(pipelines_[renderModeIndex][canvasTypeIndex]->GetRootSignature());
+		commandList->SetPipelineState(pipelines_[renderModeIndex][canvasTypeIndex]->GetGraphicsPipeline(blendMode));
+		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// 現在の設定を更新
+		currentBlendMode_ = blendMode;
+		currentCanvasType_ = canvasType;
 	}
 }

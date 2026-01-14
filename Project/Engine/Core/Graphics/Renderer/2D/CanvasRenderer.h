@@ -31,7 +31,7 @@ namespace SakuEngine {
 		~CanvasRenderer() = default;
 
 		// 描画用パイプラインを作成し初期化
-		void Init(ID3D12Device8* device, SRVDescriptor* srvDescriptor, DxShaderCompiler* shaderCompiler);
+		void Init(ID3D12Device8* device, DxShaderCompiler* shaderCompiler, SRVDescriptor* srvDescriptor);
 
 		// 指定レイヤ別に描画
 		// ポストエフェクト有効
@@ -64,7 +64,13 @@ namespace SakuEngine {
 		// 描画用パイプライン
 		std::array<std::array<std::unique_ptr<PipelineState>, kCanvasCount_>, kRenderModeCount_> pipelines_;
 
+		// 比較用列挙
+		BlendMode currentBlendMode_ = kBlendModeCount;
+		CanvasType currentCanvasType_ = CanvasType::Count;
+
 		//--------- functions ----------------------------------------------------
 
+		// パイプラインのセット
+		void SetPipeline(ID3D12GraphicsCommandList6* commandList, const BaseCanvas& canvas, RenderMode renderMode);
 	};
 } // SakuEngine

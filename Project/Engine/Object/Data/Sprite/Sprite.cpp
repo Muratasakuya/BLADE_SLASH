@@ -7,6 +7,8 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Asset/Asset.h>
 #include <Engine/Input/Input.h>
+#include <Engine/Object/Core/ObjectManager.h>
+#include <Engine/Object/Data/Material/Material.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 
@@ -84,7 +86,6 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 
 		// metaData更新
 		metadata_ = asset_->GetMetaData(textureName_);
-		preTextureName_ = textureName_;
 	}
 
 	// 横
@@ -112,22 +113,72 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 	vertexBuffer_.TransferData(vertexData_);
 }
 
+void Sprite::SetRenderResources(uint32_t objectId) {
+
+	// 必要なデータを取得
+	ObjectManager* objectManager = ObjectManager::GetInstance();
+	auto* transform = objectManager->GetData<Transform2D>(objectId);
+	auto* material = objectManager->GetData<SpriteMaterial>(objectId);
+
+	// リソース追加
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::Constant,
+		.rootParamIndex = 1,
+		.bufferAddress = transform->GetBuffer().GetResource()->GetGPUVirtualAddress(),
+		.bufferHandle = D3D12_GPU_DESCRIPTOR_HANDLE{},
+		});
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::TextureGPU,
+		.rootParamIndex = 2,
+		.bufferAddress = 0,
+		.bufferHandle = GetTextureGPUHandle(),
+		});
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::TextureGPU,
+		.rootParamIndex = 3,
+		.bufferAddress = 0,
+		.bufferHandle = GetAlphaTextureGPUHandle(),
+		});
+	AddRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::Constant,
+		.rootParamIndex = 4,
+		.bufferAddress = material->GetBuffer().GetResource()->GetGPUVirtualAddress(),
+		.bufferHandle = D3D12_GPU_DESCRIPTOR_HANDLE{},
+		});
+}
+
 void Sprite::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
+
+	// テクスチャの名前に変更があった場合、再度リソース設定を行う
+	if (preTextureName_ != textureName_) {
+
+		// 描画リソース再設定
+		OverWriteRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::TextureGPU,
+		.rootParamIndex = 2,
+		.bufferAddress = 0,
+		.bufferHandle = GetTextureGPUHandle(),
+			});
+		preTextureName_ = textureName_;
+	}
+	if (preAlphaTextureName_ != alphaTextureName_) {
+
+		// 描画リソース再設定
+		OverWriteRenderResource(RenderResource{
+		.type = BaseCanvas::BufferType::TextureGPU,
+		.rootParamIndex = 3,
+		.bufferAddress = 0,
+		.bufferHandle = GetAlphaTextureGPUHandle(),
+			});
+		preAlphaTextureName_ = alphaTextureName_;
+	}
 
 	// 頂点バッファ設定
 	commandList->IASetVertexBuffers(0, 1, &vertexBuffer_.GetVertexBufferView());
 	// インデックスバッファ設定
 	commandList->IASetIndexBuffer(&indexBuffer_.GetIndexBufferView());
-
-	// テクスチャ
-	commandList->SetGraphicsRootDescriptorTable(0, GetTextureGPUHandle());
-	// アルファテクスチャ
-	if (UseAlphaTexture()) {
-
-		commandList->SetGraphicsRootDescriptorTable(1, GetAlphaTextureGPUHandle());
-	}
 	// 描画リソース
-	BaseCanvas::SetRenderResources(commandList);
+	BaseCanvas::SetRenderResourceCommand(commandList);
 	// 描画コマンド
 	commandList->DrawIndexedInstanced(kIndexNum_, 1, 0, 0, 0);
 }
@@ -321,10 +372,11 @@ const D3D12_GPU_DESCRIPTOR_HANDLE& Sprite::GetTextureGPUHandle() const {
 	return asset_->GetGPUHandle(textureName_);
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE& Sprite::GetAlphaTextureGPUHandle() const {
+D3D12_GPU_DESCRIPTOR_HANDLE Sprite::GetAlphaTextureGPUHandle() const {
 
 	if (!alphaTextureName_.has_value()) {
-		assert(false && "alpha texture name is not set");
+		// アルファテクスチャ未使用、空のハンドルを返す
+		return D3D12_GPU_DESCRIPTOR_HANDLE{};
 	}
 
 	return asset_->GetGPUHandle(alphaTextureName_.value());

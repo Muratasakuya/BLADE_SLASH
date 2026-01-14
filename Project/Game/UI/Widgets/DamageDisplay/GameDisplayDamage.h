@@ -37,7 +37,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetSpriteLayer(SakuEngine::SpriteLayer layer);
+	void SetCanvasLayer(SakuEngine::CanvasLayer layer);
 
 	void SetDamage(int damage);
 	void SetAlpha(float alpha);

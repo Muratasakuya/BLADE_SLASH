@@ -102,11 +102,11 @@ void GameTimerDisplay::Update(float second) {
 	}
 }
 
-void GameTimerDisplay::SetSpriteLayer(SakuEngine::SpriteLayer layer) {
+void GameTimerDisplay::SetCanvasLayer(SakuEngine::CanvasLayer layer) {
 
 	for (size_t i = 0; i < elements_.size(); ++i) {
 
-		elements_[i].sprite->SetSpriteLayer(layer);
+		elements_[i].sprite->SetCanvasLayer(layer);
 	}
 }
 
