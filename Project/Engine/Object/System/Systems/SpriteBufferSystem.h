@@ -1,58 +1,30 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
 //============================================================================
 #include <Engine/Object/System/Base/ISystem.h>
-#include <Engine/Object/Data/Sprite.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
 
 namespace SakuEngine {
 
-// front
+	//============================================================================
+	//	SpriteBufferSystem class
+	//	2Dスプライトのバッファを管理するシステム
+	//============================================================================
+	class SpriteBufferSystem :
+		public ISystem {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-class Transform2D;
-class SpriteMaterial;
+		SpriteBufferSystem() = default;
+		~SpriteBufferSystem() = default;
 
-//============================================================================
-//	structure
-//============================================================================
+		Archetype Signature() const override;
 
-struct SpriteData {
-
-	Transform2D* transform;
-	SpriteMaterial* material;
-	Sprite* sprite;
-};
-
-//============================================================================
-//	SpriteBufferSystem class
-//	2Dスプライトのバッファを管理するシステム
-//============================================================================
-class SpriteBufferSystem :
-	public ISystem {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
-
-	SpriteBufferSystem() = default;
-	~SpriteBufferSystem() = default;
-
-	Archetype Signature() const override;
-
-	void Update(ObjectPoolManager& ObjectPoolManager) override;
-
-	//--------- accessor -----------------------------------------------------
-
-	const std::vector<SpriteData>& GetSpriteData(SpriteLayer layer) { return spriteDataMap_[layer]; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
-
-	//--------- variables ----------------------------------------------------
-
-	std::unordered_map<SpriteLayer, std::vector<SpriteData>> spriteDataMap_;
-};
+		void Update(ObjectPoolManager& ObjectPoolManager) override;
+	};
 
 }; // SakuEngine

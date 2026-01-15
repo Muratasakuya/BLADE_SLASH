@@ -70,7 +70,7 @@ public:
 	void SetGroupName(uint32_t i, const std::string& name) { gpuGroups_[i].name = name; }
 	void SelectGroup(int index) { selected_.index = index; }
 	void SetSceneView(SceneView* sceneView) { sceneView_ = sceneView; }
-	void SetParent(const BaseTransform& parent);
+	void SetParent(const BaseTransform3D& parent);
 
 	const std::string& GetName() const { return name_; }
 	const std::string& GetLoadFileName() const { return loadFileName_; }

@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 
 //============================================================================
@@ -110,7 +110,7 @@ void ParticleSpawnConeModule::DrawEmitter() {
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
 
-	SakuEngine::LineRenderer::GetInstance()->DrawCone(
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawCone(
 		8, emitter_.baseRadius, emitter_.topRadius, emitter_.height,
 		parentTranslation + emitter_.translation, emitter_.rotationMatrix, emitterLineColor_);
 }

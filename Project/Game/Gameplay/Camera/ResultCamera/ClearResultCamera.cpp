@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Timer/GameTimer.h>
@@ -111,9 +111,9 @@ void ClearResultCamera::ImGui() {
 	}
 	case ClearResultCamera::State::Rotate: {
 
-		SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 4.0f,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(8, 4.0f,
 			viewPoint_, SakuEngine::Color::Cyan());
-		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(viewPoint_,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(viewPoint_,
 			transform_.translation, SakuEngine::Color::Cyan());
 		break;
 	}

@@ -13,12 +13,13 @@ using namespace SakuEngine;
 #include <Engine/MathLib/MathUtils.h>
 
 // data
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/SkinnedAnimation.h>
-#include <Engine/Object/Data/ObjectTag.h>
-#include <Engine/Object/Data/Sprite.h>
-#include <Engine/Object/Data/Skybox.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
+#include <Engine/Object/Data/Tag/ObjectTag.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
+#include <Engine/Object/Data/Skybox/Skybox.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
 
 //============================================================================
 //	ImGuiObjectEditor classMethods
@@ -85,7 +86,8 @@ bool ImGuiObjectEditor::Is3D(uint32_t object) const {
 
 bool ImGuiObjectEditor::Is2D(uint32_t object) const {
 
-	return objectManager_->GetData<Transform2D>(object) != nullptr;
+	return objectManager_->GetData<Transform2D>(object) != nullptr ||
+		objectManager_->GetData<TextTransform2D>(object) != nullptr;
 }
 
 void ImGuiObjectEditor::DrawSelectable(uint32_t object, const std::string& name) {
@@ -460,7 +462,9 @@ void ImGuiObjectEditor::EditSkybox() {
 
 void ImGuiObjectEditor::EditObject2D() {
 
-	if (!selected2D_) return;
+	if (!selected2D_) {
+		return;
+	}
 	uint32_t id = selected2D_.value();
 
 	if (ImGui::BeginTabBar("Obj2DTab")) {
@@ -517,18 +521,33 @@ void ImGuiObjectEditor::Object2DInformation() {
 
 void ImGuiObjectEditor::Object2DSprite() {
 
-	auto* sprite = objectManager_->GetData<Sprite>(*selected2D_);
-	sprite->ImGui(itemWidth_);
+	if (auto* sprite = objectManager_->GetData<Sprite>(*selected2D_)) {
+
+		sprite->ImGui(itemWidth_);
+	} else if (auto* text = objectManager_->GetData<MSDFText>(*selected2D_)) {
+
+		text->ImGui(itemWidth_);
+	}
 }
 
 void ImGuiObjectEditor::Object2DTransform() {
 
-	auto* transform = objectManager_->GetData<Transform2D>(*selected2D_);
-	transform->ImGui(itemWidth_);
+	if (auto* transform = objectManager_->GetData<Transform2D>(*selected2D_)) {
+
+		transform->ImGui(itemWidth_);
+	} else if (auto* textTransform = objectManager_->GetData<TextTransform2D>(*selected2D_)) {
+
+		textTransform->ImGui(itemWidth_);
+	}
 }
 
 void ImGuiObjectEditor::Object2DMaterial() {
 
-	auto* material = objectManager_->GetData<SpriteMaterial>(*selected2D_);
-	material->ImGui(itemWidth_);
+	if (auto* material = objectManager_->GetData<SpriteMaterial>(*selected2D_)) {
+
+		material->ImGui(itemWidth_);
+	} else if (auto* text = objectManager_->GetData<MSDFTextMaterial>(*selected2D_)) {
+
+		text->ImGui(itemWidth_);
+	}
 }

@@ -1,4 +1,4 @@
-﻿#include "IndexBuffer.h"
+#include "IndexBuffer.h"
 
 using namespace SakuEngine;
 
@@ -25,6 +25,9 @@ void IndexBuffer::CreateBuffer(ID3D12Device* device, UINT indexCount) {
 		// マッピング
 		hr = resource_->Map(0, nullptr, reinterpret_cast<void**>(&mappedData_));
 		assert(SUCCEEDED(hr));
+
+		// 作成済みにする
+		isCreated_ = true;
 	}
 }
 

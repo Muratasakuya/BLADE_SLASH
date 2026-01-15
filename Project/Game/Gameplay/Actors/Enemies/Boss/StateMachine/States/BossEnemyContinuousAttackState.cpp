@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -251,7 +251,7 @@ void BossEnemyContinuousAttackState::ImGui() {
 	SakuEngine::Vector3 direction = (start - playerPos).Normalize();
 	SakuEngine::Vector3 target = playerPos - direction * attackOffsetTranslation_;
 	target.y = 2.0f;
-	SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(8, 2.0f, target, SakuEngine::Color::Red());
 
 	ImGui::Text(std::format("(playerPos - start).Length(): {}", (playerPos - start).Length()).c_str());
 }

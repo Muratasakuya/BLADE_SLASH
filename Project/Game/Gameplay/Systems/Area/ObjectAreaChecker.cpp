@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -62,7 +62,7 @@ void ObjectAreaChecker::ImGui() {
 		ImGui::Text(std::format("IsInRange: {}", param.isInRange).c_str());
 		ImGui::DragFloat("Range", &param.range, 0.1f);
 
-		SakuEngine::LineRenderer::GetInstance()->DrawCircle(
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawCircle(
 			12, param.range, anchor_->GetTranslation(), param.debugColor);
 
 		ImGui::PopID();

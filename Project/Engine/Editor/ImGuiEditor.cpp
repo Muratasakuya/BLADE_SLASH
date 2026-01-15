@@ -16,6 +16,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 #include <Engine/Editor/Manager/GameEditorManager.h>
 #include <Engine/Object/Core/ObjectManager.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
@@ -124,6 +125,8 @@ void ImGuiEditor::Display(SceneView* sceneView) {
 	AssetEdit();
 
 	AudioEdit();
+
+	DebugEdit();
 
 	SelectObjectFocus(sceneView);
 }
@@ -352,6 +355,15 @@ void ImGuiEditor::AudioEdit() {
 	ImGui::Begin("Audio", nullptr, windowFlag_);
 
 	Audio::GetInstance()->ImGui();
+
+	ImGui::End();
+}
+
+void ImGuiEditor::DebugEdit() {
+
+	ImGui::Begin("Debug", nullptr, windowFlag_);
+
+	LineRenderer::GetInstance()->ImGui();
 
 	ImGui::End();
 }

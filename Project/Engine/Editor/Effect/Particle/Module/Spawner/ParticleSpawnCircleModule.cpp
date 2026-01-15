@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Config.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/MathLib/MathUtils.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -367,7 +367,7 @@ void ParticleSpawnCircleModule::DrawEmitter() {
 		float a1 = step * static_cast<float>((i + 1) % circleDivision_);
 		Vector3 p0 = rotation_ * Vector3(std::cos(a0) * radius_, 0.0f, std::sin(a0) * radius_);
 		Vector3 p1 = rotation_ * Vector3(std::cos(a1) * radius_, 0.0f, std::sin(a1) * radius_);
-		renderer->DrawLine3D(center + p0, center + p1, emitterLineColor_);
+		renderer->Get3D()->DrawLine(center + p0, center + p1, emitterLineColor_);
 	}
 
 	// 角度レンジの線を描画
@@ -375,7 +375,7 @@ void ParticleSpawnCircleModule::DrawEmitter() {
 
 		float rad = degree * radian;
 		Vector3 direction = rotation_ * Vector3(std::cos(rad), 0.0f, std::sin(rad));
-		renderer->DrawLine3D(center, center + direction * length, color); };
+		renderer->Get3D()->DrawLine(center, center + direction * length, color); };
 	// 最小角度
 	DrawRayAtDegree(angleMin_, radius_ * 1.1f, SakuEngine::Color::Cyan());
 	// 最大角度

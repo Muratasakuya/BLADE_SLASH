@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 
 //============================================================================
@@ -96,7 +96,7 @@ void ParticleSpawnBoxModule::DrawEmitter() {
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
 
-	SakuEngine::LineRenderer::GetInstance()->DrawOBB(parentTranslation + emitter_.translation,
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawOBB(parentTranslation + emitter_.translation,
 		emitter_.size, emitter_.rotationMatrix, emitterLineColor_);
 }
 

@@ -731,7 +731,7 @@ void GameUIFocusNavigator::EditSprite() {
 	{
 		ImGui::SeparatorText("Parent Transform");
 
-		ui.parentTransform->ImGui(192.0f, 24.0f);
+		ui.parentTransform->ImGui(192.0f);
 	}
 	ImGui::EndChild();
 

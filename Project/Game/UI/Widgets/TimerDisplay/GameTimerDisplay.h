@@ -32,7 +32,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void SetSpriteLayer(SakuEngine::SpriteLayer layer);
+	void SetCanvasLayer(SakuEngine::CanvasLayer layer);
 
 	void SetTranslation(const SakuEngine::Vector2& translation);
 

@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
 
 //============================================================================
@@ -95,7 +95,7 @@ void BeginGameState::ImGui() {
 	}
 
 	ImGui::DragFloat3("startPlayerPos", &startPlayerPos_.x, 0.1f);
-	SakuEngine::LineRenderer::GetInstance()->DrawSphere(8, 8.0f, startPlayerPos_,
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawSphere(8, 8.0f, startPlayerPos_,
 		SakuEngine::Color::Red());
 }
 

@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Config.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/TagSystem.h>
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
@@ -1120,7 +1120,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 	const bool hasParent = (parent_ != nullptr);
 
 	// 親のワールド回転を求める
-	auto GetWorldRotationQuatOnly = [](const BaseTransform* transform) -> Quaternion
+	auto GetWorldRotationQuatOnly = [](const BaseTransform3D* transform) -> Quaternion
 		{
 			if (!transform) {
 				return Quaternion::Identity();
@@ -1128,7 +1128,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 
 			Quaternion world = Quaternion::Normalize(transform->rotation);
 
-			const BaseTransform* parent = transform->parent;
+			const BaseTransform3D* parent = transform->parent;
 			// 親がいるだけ回転を掛け合わせる
 			while (parent) {
 
@@ -1142,7 +1142,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 	// 親のワールド位置
 	Vector3 parentWorldPos = hasParent ? parent_->translation : Vector3::AnyInit(0.0f);
 	// 親のワールド回転
-	Quaternion parentWorldRotation = hasParent ? GetWorldRotationQuatOnly(static_cast<const BaseTransform*>(parent_)) : Quaternion::Identity();
+	Quaternion parentWorldRotation = hasParent ? GetWorldRotationQuatOnly(static_cast<const BaseTransform3D*>(parent_)) : Quaternion::Identity();
 	// 親のワールド回転の逆元
 	Quaternion invParentWorldRotation = Quaternion::Inverse(parentWorldRotation);
 	// 親スケール
@@ -1428,7 +1428,7 @@ void KeyframeObject3D::DrawKeyLine() {
 	LineRenderer* lineRenderer = LineRenderer::GetInstance();
 
 	// 現在の時間の点の位置
-	lineRenderer->DrawOBB(currentTransform_.translation,
+	lineRenderer->Get3D()->DrawOBB(currentTransform_.translation,
 		currentTransform_.scale, currentTransform_.rotation, obbColor, LineType::DepthIgnore);
 
 	if (isInverseHeaderOpen_) {
@@ -1439,20 +1439,20 @@ void KeyframeObject3D::DrawKeyLine() {
 			// 反転したTransformを作成
 			Transform3D inverse = MakeInversedTransform(key.transform, editInverseSetting_);
 			// OBB
-			lineRenderer->DrawOBB(inverse.translation,
+			lineRenderer->Get3D()->DrawOBB(inverse.translation,
 				inverse.scale, inverse.rotation, Color::Cyan(), LineType::DepthIgnore);
 			// 軸
-			lineRenderer->DrawAxis(inverse.scale.Length(),
+			lineRenderer->Get3D()->DrawAxis(inverse.scale.Length(),
 				inverse.translation, inverse.rotation, LineType::DepthIgnore);
 		}
 
 		// 現在のTransformも反転した位置、回転を表示
 		Transform3D inverseCurrent = MakeInversedTransform(currentTransform_, editInverseSetting_);
 		// OBB
-		lineRenderer->DrawOBB(inverseCurrent.translation,
+		lineRenderer->Get3D()->DrawOBB(inverseCurrent.translation,
 			inverseCurrent.scale, inverseCurrent.rotation, Color::Cyan(), LineType::DepthIgnore);
 		// 軸
-		lineRenderer->DrawAxis(inverseCurrent.scale.Length(),
+		lineRenderer->Get3D()->DrawAxis(inverseCurrent.scale.Length(),
 			inverseCurrent.translation, inverseCurrent.rotation, LineType::DepthIgnore);
 	}
 #endif

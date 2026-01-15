@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/Data/Transform/Transform.h>
 #include <Engine/Core/Graphics/Mesh/MeshletStructures.h>
 #include <Engine/Core/Graphics/DxLib/ComPtr.h>
 
@@ -30,11 +30,25 @@
 
 namespace SakuEngine {
 
+	//----------------------------------------------------------------------------
+	//	SpriteVertexData
+	//	スプライト描画用頂点データ構造体。
+	//----------------------------------------------------------------------------
 	struct SpriteVertexData {
 
 		Vector2 pos;
 		Vector2 texcoord;
 		Color color;
+	};
+
+	//----------------------------------------------------------------------------
+	//	MSDFTextVertexData
+	//	MSDFテキスト描画用頂点データ構造体。
+	//----------------------------------------------------------------------------
+	struct MSDFTextVertexData {
+
+		Vector2 pos;
+		Vector2 texcoord;
 	};
 
 	//============================================================================
@@ -61,7 +75,7 @@ namespace SakuEngine {
 	//----------------------------------------------------------------------------
 	struct Node {
 
-		SakuEngine::Transform3D transform;
+		Transform3D transform;
 		Matrix4x4 localMatrix;
 		std::string name;
 		std::vector<Node> children;
@@ -180,7 +194,7 @@ namespace SakuEngine {
 	//----------------------------------------------------------------------------
 	struct Joint {
 
-		SakuEngine::Transform3D transform;
+		Transform3D transform;
 		bool isParentTransform;
 
 		Matrix4x4 localMatrix;

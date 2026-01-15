@@ -8,7 +8,7 @@ using namespace SakuEngine;
 #include <Engine/Core/Window/WinApp.h>
 #include <Engine/Input/Input.h>
 #include <Engine/Core/Graphics/DxObject/DxCommand.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/InstancedMeshSystem.h>
 #include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
@@ -84,7 +84,7 @@ void RenderEngine::InitDescriptor(ID3D12Device8* device) {
 	dsvDescriptor_->InitFrameBufferDSV();
 }
 
-void RenderEngine::InitRenderTextrue(ID3D12Device8* device) {
+void RenderEngine::InitRenderTexture(ID3D12Device8* device) {
 
 	// マルチRTVを作成
 	// Main
@@ -120,8 +120,8 @@ void RenderEngine::InitRenderer(ID3D12Device8* device, DxShaderCompiler* shaderC
 	meshRenderer_ = std::make_unique<MeshRenderer>();
 	meshRenderer_->Init(device, shaderCompiler, srvDescriptor_.get());
 
-	spriteRenderer_ = std::make_unique<SpriteRenderer>();
-	spriteRenderer_->Init(device, srvDescriptor_.get(), shaderCompiler);
+	canvasRenderer_ = std::make_unique<CanvasRenderer>();
+	canvasRenderer_->Init(device, shaderCompiler, srvDescriptor_.get());
 }
 
 void RenderEngine::Init(WinApp* winApp, ID3D12Device8* device, DxShaderCompiler* shaderCompiler,
@@ -153,7 +153,7 @@ void RenderEngine::Init(WinApp* winApp, ID3D12Device8* device, DxShaderCompiler*
 #endif
 
 	// renderTexture初期化
-	InitRenderTextrue(device);
+	InitRenderTexture(device);
 
 	// renderer初期化
 	InitRenderer(device, shaderCompiler);
@@ -249,14 +249,15 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	// srvDescriptorHeap設定
 	dxCommand_->SetDescriptorHeaps({ srvDescriptor_->GetDescriptorHeap() });
 
-	// sprite描画
+	// canvas描画
 	// model描画前、ポストエフェクト適応
-	spriteRenderer_->ApplyPostProcessRendering(SpriteLayer::PreModel, sceneBuffer_.get(), dxCommand_);
+	canvasRenderer_->ApplyPostProcessRendering(CanvasLayer::PreModel, sceneBuffer_.get(), dxCommand_);
 
+	// line描画実行
+	SakuEngine::LineRenderer::GetInstance()->Get2D()->Execute(isDebugEnable, LineType::None);
 	if (isDebugEnable) {
 
-		// line描画実行
-		SakuEngine::LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::None);
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->Execute(isDebugEnable, LineType::None);
 	}
 
 	// 通常描画処理(シーン遷移中は処理できないようにする)
@@ -268,15 +269,16 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 	// particle描画
 	ParticleManager::GetInstance()->Rendering(isDebugEnable, sceneBuffer_.get(), dxCommand_);
 
+	// line描画実行、depth無効
+	SakuEngine::LineRenderer::GetInstance()->Get2D()->Execute(isDebugEnable, LineType::DepthIgnore);
 	if (isDebugEnable) {
 
-		// line描画実行、depth無効
-		SakuEngine::LineRenderer::GetInstance()->ExecuteLine(isDebugEnable, LineType::DepthIgnore);
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->Execute(isDebugEnable, LineType::DepthIgnore);
 	}
 
-	// sprite描画
+	// canvas描画
 	// model描画後、ポストエフェクト適応
-	spriteRenderer_->ApplyPostProcessRendering(SpriteLayer::PostModel, sceneBuffer_.get(), dxCommand_);
+	canvasRenderer_->ApplyPostProcessRendering(CanvasLayer::PostModel, sceneBuffer_.get(), dxCommand_);
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
@@ -304,17 +306,17 @@ void RenderEngine::BeginRenderFrameBuffer() {
 
 void RenderEngine::EndRenderFrameBuffer() {
 
-	// sprite描画、ポストエフェクト適応を適用しない
-	spriteRenderer_->IrrelevantPostProcessRendering(sceneBuffer_.get(), dxCommand_);
+	// canvas描画、ポストエフェクト適応を適用しない
+	canvasRenderer_->IrrelevantPostProcessRendering(sceneBuffer_.get(), dxCommand_);
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
-	// gui描画用のtextureをframeBufferからコピー
+	// エディター描画用のテクスチャをフレームからコピー
 	dxCommand_->CopyTexture(
 		guiRenderTexture_->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		dxSwapChain_->GetCurrentResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	// imgui描画
+	// エディター描画
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommand_->GetCommandList());
 

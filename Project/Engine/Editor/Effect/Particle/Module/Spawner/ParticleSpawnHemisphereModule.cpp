@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Random/RandomGenerator.h>
 
 //============================================================================
@@ -105,7 +105,7 @@ void ParticleSpawnHemisphereModule::DrawEmitter() {
 		parentTranslation = parentTransform_->matrix.world.GetTranslationValue();
 	}
 
-	SakuEngine::LineRenderer::GetInstance()->DrawHemisphere(8, emitter_.radius,
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawHemisphere(8, emitter_.radius,
 		parentTranslation + emitter_.translation, emitter_.rotationMatrix, emitterLineColor_);
 }
 

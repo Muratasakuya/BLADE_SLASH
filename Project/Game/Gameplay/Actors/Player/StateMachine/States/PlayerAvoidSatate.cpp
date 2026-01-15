@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -87,7 +87,7 @@ void PlayerAvoidSatate::ImGui() {
 	startPos.y = 4.0f;
 	targetPos.y = 4.0f;
 
-	SakuEngine::LineRenderer::GetInstance()->DrawLine3D(
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(
 		startPos, targetPos, SakuEngine::Color::Red());
 }
 

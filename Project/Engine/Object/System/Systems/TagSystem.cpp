@@ -1,4 +1,4 @@
-﻿#include "TagSystem.h"
+#include "TagSystem.h"
 
 using namespace SakuEngine;
 
@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectPoolManager.h>
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/Data/Transform/Transform.h>
 
 //============================================================================
 //	TagSystem classMethods

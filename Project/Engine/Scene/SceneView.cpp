@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Helper/Algorithm.h>
 
 //============================================================================
@@ -230,7 +230,7 @@ void SceneView::DisplayPointLight() {
 		0.8f); // 薄く表示する
 
 	// 球で描画
-	lineRenderer->DrawSphere(
+	lineRenderer->Get3D()->DrawSphere(
 		sphereDivision,
 		sphereRadius,
 		pointLight.pos,
@@ -266,7 +266,7 @@ void SceneView::DisplaySpotLight() {
 		Vector3 p2 = baseCenter + Vector3(std::cosf(theta2), 0.0f, std::sinf(theta2)) * radius;
 
 		// coneの形状で描画
-		lineRenderer->DrawLine3D(p1, p2, coneColor, LineType::DepthIgnore);
-		lineRenderer->DrawLine3D(pos, p1, coneColor, LineType::DepthIgnore);
+		lineRenderer->Get3D()->DrawLine(p1, p2, coneColor, LineType::DepthIgnore);
+		lineRenderer->Get3D()->DrawLine(pos, p1, coneColor, LineType::DepthIgnore);
 	}
 }

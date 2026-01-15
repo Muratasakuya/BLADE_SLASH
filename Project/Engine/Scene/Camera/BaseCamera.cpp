@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Config.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Utility/Enum/Direction.h>
 #include <Engine/MathLib/MathUtils.h>
@@ -87,7 +87,7 @@ void BaseCamera::UpdateView(UpdateMode updateMode) {
 	// 自動フォーカス設定
 	UpdateAutoFocus();
 
-	// eulerを設定して更新する
+	// オイラーを設定して更新する
 	if (updateMode == UpdateMode::Euler) {
 
 		transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);
@@ -199,20 +199,20 @@ void BaseCamera::RenderFrustum() {
 	LineRenderer* lineRenderer = LineRenderer::GetInstance();
 
 	// 近クリップ
-	lineRenderer->DrawLine3D(wncTL, wncTR, color);
-	lineRenderer->DrawLine3D(wncTR, wncBR, color);
-	lineRenderer->DrawLine3D(wncBR, wncBL, color);
-	lineRenderer->DrawLine3D(wncBL, wncTL, color);
+	lineRenderer->Get3D()->DrawLine(wncTL, wncTR, color);
+	lineRenderer->Get3D()->DrawLine(wncTR, wncBR, color);
+	lineRenderer->Get3D()->DrawLine(wncBR, wncBL, color);
+	lineRenderer->Get3D()->DrawLine(wncBL, wncTL, color);
 	// 遠クリップ
-	lineRenderer->DrawLine3D(wfcTL, wfcTR, color);
-	lineRenderer->DrawLine3D(wfcTR, wfcBR, color);
-	lineRenderer->DrawLine3D(wfcBR, wfcBL, color);
-	lineRenderer->DrawLine3D(wfcBL, wfcTL, color);
+	lineRenderer->Get3D()->DrawLine(wfcTL, wfcTR, color);
+	lineRenderer->Get3D()->DrawLine(wfcTR, wfcBR, color);
+	lineRenderer->Get3D()->DrawLine(wfcBR, wfcBL, color);
+	lineRenderer->Get3D()->DrawLine(wfcBL, wfcTL, color);
 	// 近 → 遠
-	lineRenderer->DrawLine3D(wncTL, wfcTL, color);
-	lineRenderer->DrawLine3D(wncTR, wfcTR, color);
-	lineRenderer->DrawLine3D(wncBR, wfcBR, color);
-	lineRenderer->DrawLine3D(wncBL, wfcBL, color);
+	lineRenderer->Get3D()->DrawLine(wncTL, wfcTL, color);
+	lineRenderer->Get3D()->DrawLine(wncTR, wfcTR, color);
+	lineRenderer->Get3D()->DrawLine(wncBR, wfcBR, color);
+	lineRenderer->Get3D()->DrawLine(wncBL, wfcBL, color);
 }
 
 void BaseCamera::CalBillboardMatrix() {

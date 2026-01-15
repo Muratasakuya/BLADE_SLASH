@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Config.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 
 //============================================================================
 //	ParticleSpawnPolygonVertexModule classMethods
@@ -539,20 +539,20 @@ void ParticleSpawnPolygonVertexModule::DrawEmitter() {
 	if (3 <= vertexCount_) {
 
 		// 多角形の場合
-		lineRenderer->DrawPolygon(vertexCount_,
+		lineRenderer->Get3D()->DrawPolygon(vertexCount_,
 			parentTranslation + translation_, scale_, emitterRotation_, emitterLineColor_);
 	} else if (vertexCount_ == 2) {
 
 		// 2頂点の場合
 		const auto vertices = CalcVertices();
-		lineRenderer->DrawLine3D(
+		lineRenderer->Get3D()->DrawLine(
 			parentTranslation + vertices[0],
 			parentTranslation + vertices[1], emitterLineColor_);
 	} else {
 
 		// 1頂点の場合
 		const auto vertices = CalcVertices();
-		lineRenderer->DrawSphere(4, 0.08f * scale_,
+		lineRenderer->Get3D()->DrawSphere(4, 0.08f * scale_,
 			parentTranslation + vertices[0], emitterLineColor_);
 	}
 }

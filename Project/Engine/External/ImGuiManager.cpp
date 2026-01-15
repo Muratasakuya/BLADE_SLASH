@@ -42,8 +42,10 @@ void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDe
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	const std::string fontFilePath = "Assets/Engine/ImGuiFont/FiraMono-Bold.ttf";
-	io.Fonts->AddFontFromFileTTF(fontFilePath.c_str(), 24.0f);
+	ImFontConfig cfg{};
+	cfg.FontNo = 0;
+	const char* fontPath = "C:\\Windows\\Fonts\\meiryob.ttc";
+	io.FontDefault = io.Fonts->AddFontFromFileTTF(fontPath, 24.0f, &cfg, io.Fonts->GetGlyphRangesJapanese());
 
 	// 背景色設定
 	ImGuiStyle& style = ImGui::GetStyle();

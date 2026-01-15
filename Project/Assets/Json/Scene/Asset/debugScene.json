@@ -1,0 +1,14 @@
+{
+  "Textures": [
+    "white",
+    "noise",
+    "FiraMono_msdf",
+    "Corporate-Logo-Rounded-Bold_msdf",
+    "DS-DIGIB_msdf"
+  ],
+  "Models": [
+    "demoCamera",
+    "defaultCube",
+    "debugSphere"
+  ]
+}

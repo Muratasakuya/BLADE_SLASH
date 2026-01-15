@@ -12,7 +12,7 @@ using namespace SakuEngine;
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Collision/CollisionManager.h>
 #include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Config.h>
@@ -102,6 +102,8 @@ Framework::Framework() {
 	postProcessSystem->Init(device, shaderCompiler,
 		srvDescriptor, asset_.get(), sceneView_.get());
 	postProcessSystem->SetDepthFrameBufferGPUHandle(renderEngine_->GetDepthGPUHandle());
+	// 全てのprocess生成
+	postProcessSystem->CreateAllProcesses();
 
 	// fullScreen設定
 	if (fullscreenEnable_) {
@@ -126,7 +128,7 @@ Framework::Framework() {
 	//------------------------------------------------------------------------
 	// scene管理クラス初期化
 
-	sceneManager_ = std::make_unique<SceneManager>(Scene::Title, asset_.get(), sceneView_.get());
+	sceneManager_ = std::make_unique<SceneManager>(Scene::Debug, asset_.get(), sceneView_.get());
 
 	//------------------------------------------------------------------------
 	// module初期化
@@ -182,7 +184,7 @@ void Framework::Update() {
 	// シーン開始
 	sceneManager_->BeginFrame();
 
-	// imgui表示更新
+	// エディター表示更新
 	bool playGame = true;
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	imguiEditor_->Display(sceneView_.get());
@@ -197,6 +199,7 @@ void Framework::Update() {
 	}
 	// シーン終了
 	sceneManager_->EndFrame();
+	LineRenderer::GetInstance()->DrawDebug();
 	GameTimer::EndUpdateCount();
 }
 void Framework::UpdateScene() {

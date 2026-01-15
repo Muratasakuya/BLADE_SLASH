@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -14,16 +14,15 @@
 //============================================================================
 namespace SakuEngine {
 
-class SceneFactory {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class SceneFactory {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	SceneFactory() = default;
-	~SceneFactory() = default;
+		SceneFactory() = default;
+		~SceneFactory() = default;
 
-	std::unique_ptr<IScene> Create(Scene scene);
-};
-
+		std::unique_ptr<IScene> Create(Scene scene);
+	};
 }; // SakuEngine

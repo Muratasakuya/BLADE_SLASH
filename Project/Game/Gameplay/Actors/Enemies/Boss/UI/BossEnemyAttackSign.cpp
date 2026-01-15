@@ -20,7 +20,7 @@ void BossEnemyAttackSign::Init() {
 		sign->Init("redCircle", "bossEnemyAttackSign", "BossEnemyHUD");
 
 		// スプライト設定
-		sign->SetSpriteLayer(SakuEngine::SpriteLayer::PostModel);
+		sign->SetCanvasLayer(SakuEngine::CanvasLayer::PostModel);
 		sign->SetBlendMode(SakuEngine::BlendMode::kBlendModeAdd);
 		sign->SetSize(SakuEngine::Vector2::AnyInit(0.0f));
 		// 色

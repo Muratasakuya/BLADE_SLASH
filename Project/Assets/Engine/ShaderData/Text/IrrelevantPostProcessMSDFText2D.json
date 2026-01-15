@@ -1,0 +1,46 @@
+{
+    "ShaderPass":[
+        {
+            "Type": "Graphics",
+            "VertexShader": "MSDFText.VS.hlsl",
+            "PixelShader": "IrrelevantPostProcessMSDFText.PS.hlsl"
+        }
+    ],
+    "RootParameter": [
+        { "RootIndex": 0, "Type": "CBV", "Visibility": "VERTEX", "ShaderRegister": 0 },
+        { "RootIndex": 1, "Type": "CBV", "Visibility": "VERTEX", "ShaderRegister": 1 },
+        { "RootIndex": 2, "Type": "SRV", "Visibility": "VERTEX", "ShaderRegister": 0 },
+        { "RootIndex": 3, "Type": "TABLE", "Visibility": "PIXEL", "DescriptorRange": { "Type": "SRV", "BaseShaderRegister": 0 } },
+        { "RootIndex": 4, "Type": "CBV", "Visibility": "PIXEL", "ShaderRegister": 0 }
+    ],
+    "StaticSampler": [
+        { "SamplerIndex": 0, "Filter": "LINEAR", "AddressMode": "CLAMP","ComparisonFunc": "NEVER","Visibility": "PIXEL", "ShaderRegister": 0 }
+    ],
+    "InputLayout":[
+        {"Desc":0, "SemanticName": "POSITION", "Format": "R32G32_FLOAT"},
+        {"Desc":1, "SemanticName": "TEXCOORD", "Format": "R32G32_FLOAT"}
+    ],
+    "Rasterizer":[
+        {
+            "CullMode": "BACK",
+            "FillMode": "SOLID",
+            "DepthClipEnable": "FALSE",
+            "AntialiasedLineEnable": "FALSE"
+        }
+    ],
+    "DepthStencil":[
+        {
+            "DepthEnable": "FALSE",
+            "DepthWriteMask": "ALL",
+            "DepthFunc": "LESS_EQUAL"
+        }
+    ],
+    "PipelineState":[
+        {
+            "BlendMode": "ALL",
+            "TopologyType": "TRIANGLE",
+            "DSVFormat": "D24_UNORM_S8_UINT",
+            "RTVFormats": ["R8G8B8A8_UNORM_SRGB"]
+        }
+    ]
+}

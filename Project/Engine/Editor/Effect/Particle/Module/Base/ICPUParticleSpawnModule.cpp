@@ -108,7 +108,7 @@ void ICPUParticleSpawnModule::SetPrimitiveType(ParticlePrimitiveType type) {
 	}
 }
 
-void ICPUParticleSpawnModule::SetParent(bool isSet, const BaseTransform& parent) {
+void ICPUParticleSpawnModule::SetParent(bool isSet, const BaseTransform3D& parent) {
 
 	if (isSet) {
 

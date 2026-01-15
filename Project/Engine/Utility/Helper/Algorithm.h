@@ -89,6 +89,12 @@ namespace SakuEngine {
 		std::string ToStringQuaternion(const Quaternion& q);
 		std::string ToStringVector3(const Vector3& v);
 
+		// UTF-8をUnicodeコードポイント列(char32_t)へ変換
+		// 不正なシーケンスはU+FFFDに置換
+		std::vector<char32_t> Utf8ToCodepoints(const std::string& s);
+		// Unicodeコードポイント列(char32_t)をUTF-8へ変換
+		std::string CodepointToUtf8(char32_t cp);
+
 		//========================================================================
 		//	Find
 		//========================================================================

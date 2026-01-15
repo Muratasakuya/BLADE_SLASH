@@ -8,13 +8,14 @@ using namespace SakuEngine;
 #include <Engine/Utility/Helper/Algorithm.h>
 
 // data
-#include <Engine/Object/Data/Transform.h>
-#include <Engine/Object/Data/Material.h>
-#include <Engine/Object/Data/SkinnedAnimation.h>
-#include <Engine/Object/Data/ObjectTag.h>
-#include <Engine/Object/Data/Sprite.h>
-#include <Engine/Object/Data/MeshRender.h>
-#include <Engine/Object/Data/Skybox.h>
+#include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Object/Data/Skinned/SkinnedAnimation.h>
+#include <Engine/Object/Data/Tag/ObjectTag.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
+#include <Engine/Object/Data/Render/MeshRender.h>
+#include <Engine/Object/Data/Skybox/Skybox.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
 
 //============================================================================
 //	ObjectPoolManager classMethods
@@ -98,19 +99,27 @@ void ObjectPoolManager::SetBit(uint32_t object, bool enable) {
 	archToEntities_[arch].push_back(object);
 }
 
-// 各dataを明示的にインスタンス化
-template void ObjectPoolManager::SetBit<class SakuEngine::Transform3D>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<struct EffectTransform>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class Transform2D>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class Material>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class SpriteMaterial>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class SkinnedAnimation>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class Sprite>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class Skybox>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<class MeshRender>(uint32_t, bool);
-template void ObjectPoolManager::SetBit<struct ObjectTag>(uint32_t, bool);
-
 uint32_t ObjectPoolManager::PopAlive() {
 
 	uint32_t object = alive_.back(); alive_.pop_back(); return object;
 }
+
+// 各dataを明示的にインスタンス化
+// オブジェクトタグ
+template void ObjectPoolManager::SetBit<struct ObjectTag>(uint32_t, bool);
+// トランスフォーム
+template void ObjectPoolManager::SetBit<class Transform3D>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class Transform2D>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class TextTransform2D>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<struct EffectTransform>(uint32_t, bool);
+// マテリアル
+template void ObjectPoolManager::SetBit<class Material>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class SpriteMaterial>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class MSDFTextMaterial>(uint32_t, bool);
+//骨アニメーション
+template void ObjectPoolManager::SetBit<class SkinnedAnimation>(uint32_t, bool);
+// 描画機能
+template void ObjectPoolManager::SetBit<class Sprite>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class Skybox>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class MeshRender>(uint32_t, bool);
+template void ObjectPoolManager::SetBit<class MSDFText>(uint32_t, bool);

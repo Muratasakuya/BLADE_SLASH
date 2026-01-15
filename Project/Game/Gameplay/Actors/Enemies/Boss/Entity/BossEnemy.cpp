@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Input/Input.h>
@@ -518,17 +518,17 @@ void BossEnemy::DerivedImGui() {
 
 		// 距離レベルの描画
 		// Near
-		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
 			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Near], SakuEngine::Color::Red());
 		// Middle
-		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
 			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Middle], SakuEngine::Color::Green());
 		// Far
-		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
 			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Far], SakuEngine::Color::Cyan());
 
 		// 今
-		SakuEngine::LineRenderer::GetInstance()->DrawLine3D(enemyPos,
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
 			enemyPos + direction * stats_.currentDistanceToTarget, SakuEngine::Color::Yellow());
 	}
 

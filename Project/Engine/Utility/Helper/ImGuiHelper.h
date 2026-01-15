@@ -60,6 +60,12 @@ struct InputImGui {
 	static constexpr int kBuffer = 128;
 	char input[kBuffer] = {};
 	std::string inputText;
+
+	// バッファへコピー
+	void CopyToBuffer() {
+
+		std::memcpy(input, inputText.c_str(), (std::min)(sizeof(input) - 1, inputText.size()));
+	}
 };
 
 // json保存状態

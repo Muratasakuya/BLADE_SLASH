@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Audio/Audio.h>
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -26,7 +26,7 @@ void PlayerSkilAttackState::CreateEffect() {
 
 	// 空の親トランスフォームの生成
 	SakuEngine::ObjectManager* objectManager = SakuEngine::ObjectManager::GetInstance();
-	uint32_t moveFrontID = objectManager->BuildEmptyobject("playerSkilMoveFrontTransform", "Player");
+	uint32_t moveFrontID = objectManager->BuildEmptyObject("playerSkilMoveFrontTransform", "Player");
 	moveFrontTag_ = objectManager->GetData<SakuEngine::ObjectTag>(moveFrontID);
 	// トランスフォームを追加
 	moveFrontTransform_ = objectManager->GetObjectPoolManager()->AddData<SakuEngine::Transform3D>(moveFrontID);
@@ -36,7 +36,7 @@ void PlayerSkilAttackState::CreateEffect() {
 	moveFrontTransform_->parent = &player_->GetTransform();
 
 	// 敵のトランスフォーム補正用の生成
-	uint32_t fixedEnemyID = objectManager->BuildEmptyobject("fixedEnemyTransform", "BossEnemy");
+	uint32_t fixedEnemyID = objectManager->BuildEmptyObject("fixedEnemyTransform", "BossEnemy");
 	fixedEnemyTag_ = objectManager->GetData<SakuEngine::ObjectTag>(fixedEnemyID);
 	// トランスフォームを追加
 	fixedEnemyTransform_ = objectManager->GetObjectPoolManager()->AddData<SakuEngine::Transform3D>(fixedEnemyID);
@@ -386,7 +386,7 @@ void PlayerSkilAttackState::ImGui() {
 
 	moveFrontTransform_->ImGui(200.0f);
 
-	SakuEngine::LineRenderer::GetInstance()->DrawOBB(moveFrontTransform_->GetWorldPos(),
+	SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawOBB(moveFrontTransform_->GetWorldPos(),
 		moveFrontTransform_->scale, moveFrontTransform_->rotation, SakuEngine::Color::Cyan());
 
 	ImGui::SeparatorText("KeyframeObject3D");

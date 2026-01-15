@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -19,25 +19,25 @@
 //----------------------------------------------------------------------------
 namespace SakuEngine {
 
-struct RayTracingInstance {
+	struct RayTracingInstance {
 
-	Matrix4x4 matrix;
-	UINT instanceID : 24;  // SV_InstanceID
-	UINT mask : 8;         // レイマスク
-	UINT hitGroupIdx : 24; // ShaderTableのHitGroupインデックス
-	UINT flags : 8;        // D3D12_RAYTRACING_INSTANCE_FLAG_*
-	ID3D12Resource* blas;  // 対応するBLAS
-};
+		Matrix4x4 matrix;
+		INT instanceID : 24;   // SV_InstanceID
+		UINT mask : 8;         // レイマスク
+		UINT hitGroupIdx : 24; // ShaderTableのHitGroupインデックス
+		UINT flags : 8;        // D3D12_RAYTRACING_INSTANCE_FLAG_*
+		ID3D12Resource* blas;  // 対応するBLAS
+	};
 
-//----------------------------------------------------------------------------
-//	RaySceneForGPU
-//	レイの射出範囲など、DXRで共通利用するパラメータをまとめた定数バッファ相当。
-//----------------------------------------------------------------------------
-struct RaySceneForGPU {
+	//----------------------------------------------------------------------------
+	//	RaySceneForGPU
+	//	レイの射出範囲など、DXRで共通利用するパラメータをまとめた定数バッファ相当。
+	//----------------------------------------------------------------------------
+	struct RaySceneForGPU {
 
-	// ray
-	float rayMin; // 飛ばす最小位置
-	float rayMax; // 飛ばす距離
-};
+		// ray
+		float rayMin; // 飛ばす最小位置
+		float rayMax; // 飛ばす距離
+	};
 
 }; // SakuEngine

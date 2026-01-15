@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Collision/Collider.h>
-#include <Engine/Object/Data/Transform.h>
+#include <Engine/Object/Data/Transform/Transform.h>
 
 //============================================================================
 //	BossEnemyBladeCollision class
@@ -34,7 +34,7 @@ public:
 	// 発生させて動かす
 	void EmitEffect(const SakuEngine::Vector3& emitPos, const SakuEngine::Vector3& velocity);
 
-	const SakuEngine::BaseTransform& GetTransform() const { return transform_; }
+	const SakuEngine::BaseTransform3D& GetTransform() const { return transform_; }
 private:
 	//========================================================================
 	//	private Methods

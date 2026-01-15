@@ -50,7 +50,8 @@ Archetype MaterialSystem::Signature() const {
 
 void MaterialSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 
-	for (uint32_t object : ObjectPoolManager.View(Signature())) {
+	const auto& view = ObjectPoolManager.View(Signature());
+	for (const auto& object : view) {
 
 		auto* materials = ObjectPoolManager.GetData<Material, true>(object);
 		for (auto& material : *materials) {
@@ -77,5 +78,26 @@ void SpriteMaterialSystem::Update(ObjectPoolManager& ObjectPoolManager) {
 
 		auto* material = ObjectPoolManager.GetData<SpriteMaterial>(object);
 		material->UpdateUVTransform();
+	}
+}
+
+//============================================================================
+//	TextMaterialSystem classMethods
+//============================================================================
+
+Archetype TextMaterialSystem::Signature() const {
+
+	Archetype arch{};
+	arch.set(ObjectPoolManager::GetTypeID<MSDFTextMaterial>());
+	return arch;
+}
+
+void TextMaterialSystem::Update(ObjectPoolManager& ObjectPoolManager) {
+
+	const auto& view = ObjectPoolManager.View(Signature());
+	for (const auto& object : view) {
+
+		auto* material = ObjectPoolManager.GetData<MSDFTextMaterial>(object);
+		material->UpdateBuffer();
 	}
 }

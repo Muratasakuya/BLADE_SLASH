@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 
 //============================================================================
 //	LerpKeyframe classMethods
@@ -43,7 +43,7 @@ void LerpKeyframe::DrawKeyframeLine(const std::vector<Vector3>& points,
 				(t + static_cast<float>(i)) / (points.size() - 1), type);
 
 			// 線を描画
-			SakuEngine::LineRenderer::GetInstance()->DrawLine3D(
+			SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(
 				previousPoint, currentPoint, SakuEngine::Color::Cyan());
 
 			// 現在の点を前の点に更新

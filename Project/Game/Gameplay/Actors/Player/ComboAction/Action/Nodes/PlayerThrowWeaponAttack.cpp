@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Core/Graphics/Renderer/LineRenderer.h>
+#include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 
 //============================================================================
@@ -268,12 +268,12 @@ void PlayerThrowWeaponAttack::ImGui() {
 		Vector3 target = attackTarget_->GetTranslation() + rotated * bossEnemyDistance_;
 		target.y = weaponPosY_;
 
-		LineRenderer::GetInstance()->DrawSphere(6, 8.0f, target, Color::Cyan());
+		LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 8.0f, target, Color::Cyan());
 		++index;
 	}
 	{
 		Vector3 pos = Vector3::Lerp(lerpPos_.start, lerpPos_.target, lerpPos_.timer.easedT_);
-		LineRenderer::GetInstance()->DrawSphere(6, 8.0f, pos, Color::Yellow());
+		LineRenderer::GetInstance()->Get3D()->DrawSphere(6, 8.0f, pos, Color::Yellow());
 	}
 }
 

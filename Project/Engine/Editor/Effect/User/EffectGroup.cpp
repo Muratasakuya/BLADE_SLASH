@@ -88,7 +88,7 @@ void EffectGroup::StopNode(const std::string& nodeKey) {
 	}
 }
 
-void EffectGroup::SetParent(const std::string& nodeKey, const BaseTransform& transform) {
+void EffectGroup::SetParent(const std::string& nodeKey, const BaseTransform3D& transform) {
 
 	for (auto& node : nodes_) {
 		// 指定ノードと一致するノードがあるか

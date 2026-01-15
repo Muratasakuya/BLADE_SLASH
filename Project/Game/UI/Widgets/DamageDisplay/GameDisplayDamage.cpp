@@ -32,11 +32,11 @@ void GameDisplayDamage::Init(const std::string& textureName, const std::string& 
 	}
 }
 
-void GameDisplayDamage::SetSpriteLayer(SakuEngine::SpriteLayer layer) {
+void GameDisplayDamage::SetCanvasLayer(SakuEngine::CanvasLayer layer) {
 
 	for (uint32_t index = 0; index < damageDisplayMaxNum_; ++index) {
 
-		damagePopups_[index].digits->SetSpriteLayer(layer);
+		damagePopups_[index].digits->SetCanvasLayer(layer);
 	}
 }
 

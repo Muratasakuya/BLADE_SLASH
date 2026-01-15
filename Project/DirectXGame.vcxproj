@@ -215,6 +215,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Core\Graphics\GPUObject\IndexBuffer.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\Camera\CameraEditor.cpp">
       <SubType />
     </ClCompile>
@@ -234,6 +250,38 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Input\InputStructures.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Base\GameTextObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Canvas\CanvasCommon.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\System\Systems\CanvasBufferSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\System\Systems\MSDFTextBufferSystem.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -396,6 +444,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp">
       <SubType />
+    </ClCompile>
+    <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.cpp">
       <SubType />
@@ -626,17 +678,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Collision\CollisionManager.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Material.cpp">
+    <ClCompile Include="Engine\Object\Data\Material\Material.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\MeshRender.cpp">
+    <ClCompile Include="Engine\Object\Data\Render\MeshRender.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\SkinnedAnimation.cpp" />
-    <ClCompile Include="Engine\Object\Data\Skybox.cpp">
+    <ClCompile Include="Engine\Object\Data\Skinned\SkinnedAnimation.cpp" />
+    <ClCompile Include="Engine\Object\Data\Skybox\Skybox.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Sprite.cpp">
+    <ClCompile Include="Engine\Object\Data\Sprite\Sprite.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Core\ObjectManager.cpp">
@@ -766,7 +818,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\Animation\SimpleAnimation.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Object\Data\Transform.cpp" />
+    <ClCompile Include="Engine\Object\Data\Transform\Transform.cpp" />
     <ClCompile Include="Engine\Core\Debug\Assert.cpp" />
     <ClCompile Include="Engine\Core\Framework.cpp" />
     <ClCompile Include="Engine\Core\Graphics\DxObject\DxCommand.cpp" />
@@ -803,11 +855,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\main.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer\MeshRenderer.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer\LineRenderer.cpp">
-      <SubType />
-    </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\SpriteRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Collision\Collider.cpp" />
@@ -1004,9 +1053,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Effects\PostProcess\RadialBlurUpdater.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Game\Scenes\Effect\EffectScene.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Game\Scenes\Game\GameScene.cpp">
       <SubType />
     </ClCompile>
@@ -1119,6 +1165,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Core\Graphics\GPUObject\VertexBuffer.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\Base\EditorModuleRegistry.h">
       <SubType />
     </ClInclude>
@@ -1145,6 +1207,46 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Base\GameTextObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Canvas\CanvasCommon.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextTypes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\Generator\Interface\ITextGenerator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Data\Text\MSDFText.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\System\Systems\CanvasBufferSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\System\Systems\MSDFTextBufferSystem.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Utility\Animation\LerpValue.h">
       <SubType />
@@ -1375,6 +1477,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Systems\Input\GameInputDeviceController.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\Debug\DebugScene.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h">
       <SubType />
@@ -1671,23 +1777,23 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Object\Base\AnimationObject3D.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Material.h">
+    <ClInclude Include="Engine\Object\Data\Material\Material.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\MeshRender.h">
+    <ClInclude Include="Engine\Object\Data\Render\MeshRender.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\MeshRenderStructure.h">
+    <ClInclude Include="Engine\Object\Data\Render\MeshRenderStructure.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\SkinnedAnimation.h" />
-    <ClInclude Include="Engine\Object\Data\Skybox.h">
+    <ClInclude Include="Engine\Object\Data\Skinned\SkinnedAnimation.h" />
+    <ClInclude Include="Engine\Object\Data\Skybox\Skybox.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Sprite.h">
+    <ClInclude Include="Engine\Object\Data\Sprite\Sprite.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\ObjectTag.h">
+    <ClInclude Include="Engine\Object\Data\Tag\ObjectTag.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Core\ObjectPool.h" />
@@ -1846,7 +1952,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Animation\SimpleAnimation.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Data\Transform.h" />
+    <ClInclude Include="Engine\Object\Data\Transform\Transform.h" />
     <ClInclude Include="Engine\Core\Graphics\GPUObject\DxConstBuffer.h" />
     <ClInclude Include="Engine\Core\Debug\Assert.h" />
     <ClInclude Include="Engine\Core\Framework.h" />
@@ -1885,11 +1991,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Input\Input.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\MeshRenderer.h" />
-    <ClInclude Include="Engine\Core\Graphics\Renderer\LineRenderer.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\SpriteRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\Renderer\3D\MeshRenderer.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer\Line\LineRenderer.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Collision\Collider.h" />
@@ -2107,9 +2210,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Effects\PostProcess\RadialBlurUpdater.h">
-      <SubType />
-    </ClInclude>
-    <ClInclude Include="Game\Scenes\Effect\EffectScene.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Scenes\Game\GameScene.h">
@@ -2424,6 +2524,30 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Assets\Engine\Shaders\Text\ApplyPostProcessMSDFText.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Engine\Shaders\Text\IrrelevantPostProcessMSDFText.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Engine\Shaders\Math\Math.hlsli">
@@ -2450,6 +2574,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

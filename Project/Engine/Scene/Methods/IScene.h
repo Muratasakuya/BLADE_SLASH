@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -6,58 +6,56 @@
 
 namespace SakuEngine {
 
-// front
+	// front
+	class SceneView;
+	class SceneManager;
 
-class SceneView;
-class SceneManager;
+	//============================================================================
+	//	Scene
+	//============================================================================
 
-//============================================================================
-//	Scene
-//============================================================================
+	enum class Scene {
 
-enum class Scene {
+		Debug,
+		Title,
+		Game,
+	};
 
-	Effect,
-	Title,
-	Game,
-};
+	//============================================================================
+	//	IScene class
+	//	シーンの基底クラス
+	//============================================================================
+	class IScene {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	IScene class
-//	シーンの基底クラス
-//============================================================================
-class IScene {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		IScene() = default;
+		virtual ~IScene() = default;
 
-	IScene() = default;
-	virtual ~IScene() = default;
+		virtual void Init() = 0;
 
-	virtual void Init() = 0;
+		virtual void Update() = 0;
 
-	virtual void Update() = 0;
+		virtual void BeginFrame() {}
+		virtual void EndFrame() {}
 
-	virtual void BeginFrame() {}
-	virtual void EndFrame() {}
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		void SetPtr(SceneView* sceneView, SceneManager* sceneManager);
 
-	void SetPtr(SceneView* sceneView, SceneManager* sceneManager);
+		bool IsFinishGame() const { return isFinishGame_; }
+	protected:
+		//========================================================================
+		//	protected Methods
+		//========================================================================
 
-	bool IsFinishGame() const { return isFinishGame_; }
-protected:
-	//========================================================================
-	//	protected Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		SceneView* sceneView_;
+		SceneManager* sceneManager_;
 
-	SceneView* sceneView_;
-	SceneManager* sceneManager_;
-
-	bool isFinishGame_ = false;;
-};
-
+		bool isFinishGame_ = false;;
+	};
 }; // SakuEngine

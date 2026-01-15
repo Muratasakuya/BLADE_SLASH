@@ -5,9 +5,9 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Game/Scenes/Debug/DebugScene.h>
 #include <Game/Scenes/Title/TitleScene.h>
 #include <Game/Scenes/Game/GameScene.h>
-#include <Game/Scenes/Effect/EffectScene.h>
 
 //============================================================================
 //	SceneFactory classMethods
@@ -16,9 +16,9 @@ using namespace SakuEngine;
 std::unique_ptr<IScene> SceneFactory::Create(Scene scene) {
 
 	switch (scene) {
-	case Scene::Effect:
+	case Scene::Debug:
 
-		return std::make_unique<EffectScene>();
+		return std::make_unique<DebugScene>();
 	case Scene::Title:
 
 		return std::make_unique<TitleScene>();
