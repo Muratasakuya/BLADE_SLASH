@@ -6,6 +6,9 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 
+// imgui
+#include <imgui.h>
+
 //============================================================================
 //	ClockTextGenerator classMethods
 //============================================================================
@@ -60,19 +63,6 @@ void ClockTextGenerator::SetSecondsGetter(std::function<float()> getter) {
 
 	secondsGetter_ = std::move(getter);
 	useDirectSeconds_ = false;
-}
-
-void ClockTextGenerator::SetParams(const Params& params) {
-
-	params_ = params;
-	ParsePattern(params_.pattern);
-	// デフォルトパターン
-	if (parsed_.groupWidths.empty()) {
-
-		parsed_.groupWidths = { 2, 2, 2 };
-		parsed_.seps = { ":", "." };
-		parsed_.hasFraction = true;
-	}
 }
 
 bool ClockTextGenerator::Generate(std::string& outString) {
@@ -300,4 +290,60 @@ void ClockTextGenerator::ParsePattern(const std::string& pattern) {
 
 	// 小数部を持つか
 	parsed_.hasFraction = (!parsed_.seps.empty() && parsed_.seps.back() == ".");
+
+	// デフォルトパターン
+	if (parsed_.groupWidths.empty()) {
+
+		parsed_.groupWidths = { 2, 2, 2 };
+		parsed_.seps = { ":", "." };
+		parsed_.hasFraction = true;
+	}
+}
+
+void ClockTextGenerator::ImGui() {
+
+	// パターン入力
+	if (ImGuiHelper::InputText("Pattern", inputText_)) {
+
+		params_.pattern = inputText_.input;
+	}
+	if (ImGui::Button("Parse Pattern")) {
+
+		ParsePattern(params_.pattern);
+	}
+	ImGui::Separator();
+	ImGui::Spacing();
+	// その他オプション
+	ImGui::Checkbox("clampNegativeToZero", &params_.clampNegativeToZero);
+	ImGui::Checkbox("showMinusSign", &params_.showMinusSign);
+	ImGui::Checkbox("roundFraction", &params_.roundFraction);
+
+	if (ImGui::CollapsingHeader("Debug Param")) {
+
+		// パース結果表示
+		// "dd"の個数リスト
+		for (size_t i = 0; i < parsed_.groupWidths.size(); ++i) {
+			ImGui::Text("Group %zu width: %d", i, parsed_.groupWidths[i]);
+		}
+		// 区切り文字
+		for (size_t i = 0; i < parsed_.seps.size(); ++i) {
+			ImGui::Text("Sep %zu: '%s'", i, parsed_.seps[i].c_str());
+		}
+		ImGui::Text(std::format("hasFraction: {}", parsed_.hasFraction).c_str());
+	}
+
+	ImGui::SeparatorText("Display");
+
+	// 秒数指定
+	ImGui::DragFloat("seconds", &secondsValue_, 0.01f);
+	ImGui::Checkbox("useDirectSeconds", &useDirectSeconds_);
+
+	// 外部秒数取得関数の有無
+	if (secondsGetter_) {
+
+		ImGui::Text("Using external seconds: %.3f", secondsGetter_());
+	} else {
+
+		ImGui::Text("No external seconds getter set");
+	}
 }

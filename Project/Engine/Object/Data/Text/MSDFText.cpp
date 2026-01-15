@@ -6,10 +6,9 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectManager.h>
+#include <Engine/Object/System/Systems/MSDFTextBufferSystem.h>
 #include <Engine/Utility/Helper/Algorithm.h>
-
-// テキスト構築
-#include <Engine/Object/Data/Text/Generator/ClockTextGenerator.h>
+#include <Engine/Utility/Enum/EnumAdapter.h>
 
 // c++
 #include <algorithm>
@@ -36,9 +35,6 @@ MSDFText::MSDFText(ID3D12Device* device, Asset* asset, const MSDFFont* font, uin
 	BuildIndexBuffer();
 	// デフォルト文字列設定
 	SetText("abcABC");
-
-	// 試運転
-	textGenerator_ = std::make_unique<ClockTextGenerator>();
 }
 
 void MSDFText::SetText(const std::string& utf8) {
@@ -192,58 +188,9 @@ bool MSDFText::IsDirtyTransform(const TextTransform2D& transform) const {
 	return dirty;
 }
 
-void MSDFText::ImGui(float itemSize) {
-
-	ImGui::PushItemWidth(itemSize);
-
-	ImGui::SeparatorText("Text");
-
-	if (ImGuiHelper::InputText("##", inputText_)) {
-		// generator 使用時は editor 書き換えを禁止したい場合もあるので
-		// 必要ならここで if (!textGenerator_) を入れてください
-		SetText(inputText_.inputText);
-	}
-
-	if (ImGui::DragFloat("previewFloat", &previewFloat_, 0.01f)) {
-		SetText(previewFloat_, previewPrecision_);
-	}
-	if (ImGui::DragInt("previewPrecision", &previewPrecision_, 1, 0, 128)) {
-		SetText(previewFloat_, previewPrecision_);
-	}
-
-	ImGui::Text("GlyphCount: %zu / %zu", codepoints_.size(), maxGlyphs_);
-	ImGui::Text("RenderedGlyphCount: %u", renderedGlyphCount_);
-
-	ImGui::SeparatorText("Style");
-
-	if (ImGui::DragFloat("fontSizePx", &fontSize_, 0.1f)) {
-		dirtyMesh_ = true;
-	}
-	if (ImGui::DragFloat("charSpacingPx", &charSpacing_, 0.01f)) {
-		dirtyMesh_ = true;
-	}
-
-	ImGui::SeparatorText("SpacingParams");
-
-	{
-		int mode = static_cast<int>(spacing_.mode);
-		if (ImGui::Combo("mode", &mode, "Tight\0FixedAdvance\0")) {
-			spacing_.mode = static_cast<TextSpacingMode>(mode);
-			dirtyMesh_ = true;
-		}
-		if (ImGui::Checkbox("applyOnlyToNumericSet", &spacing_.applyOnlyToNumericSet)) {
-			dirtyMesh_ = true;
-		}
-		if (ImGui::DragFloat("fixedAdvancePx(0=auto)", &spacing_.fixedAdvance, 0.1f, 0.0f, 10000.0f)) {
-			dirtyMesh_ = true;
-		}
-		if (ImGui::SliderFloat("cellAlign", &spacing_.cellAlign, 0.0f, 1.0f)) {
-			dirtyMesh_ = true;
-		}
-	}
-
-	ImGui::PopItemWidth();
-}
+//====================================================================================================================
+//	描画リソース、描画コマンド
+//====================================================================================================================
 
 void MSDFText::SetRenderResources(uint32_t objectId) {
 
@@ -294,4 +241,100 @@ void MSDFText::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
 	BaseCanvas::SetRenderResourceCommand(commandList);
 	// 描画コマンド
 	commandList->DrawIndexedInstanced(drawIndexCount_, 1, 0, 0, 0);
+}
+
+//====================================================================================================================
+//	エディター設定
+//====================================================================================================================
+
+void MSDFText::ImGui(float itemSize) {
+
+	MSDFTextBufferSystem* textSystem = ObjectManager::GetInstance()->GetSystem<MSDFTextBufferSystem>();
+
+	ImGui::PushItemWidth(itemSize);
+
+	if (ImGui::BeginTabBar("MSDFTextEdit")) {
+
+		//============================================================================================================
+		//	テキスト設定
+		//============================================================================================================
+		if (ImGui::BeginTabItem("Text")) {
+
+			// 文字列入力欄
+			{
+				if (ImGuiHelper::InputText("##InputText", inputText_)) {
+
+					SetText(inputText_.inputText);
+				}
+			}
+			bool changed = false;
+			// float入力に応じた文字列
+			{
+				changed |= ImGui::DragFloat("floatValue", &previewFloat_, 0.01f);
+				changed |= ImGui::InputInt("precision", &previewPrecision_, 1, 0);
+				if (changed) {
+					// 文字列更新
+					SetText(previewFloat_, previewPrecision_);
+				}
+			}
+			// 文字情報パラメータ
+			{
+				changed |= ImGui::DragFloat("fontSize", &fontSize_, 0.1f);
+				changed |= ImGui::DragFloat("charSpacing", &charSpacing_, 0.01f);
+				changed |= EnumAdapter<TextSpacingMode>::Combo("SpacingMode", &spacing_.mode);
+				changed |= ImGui::Checkbox("applyOnlyToNumericSet", &spacing_.applyOnlyToNumericSet);
+				changed |= ImGui::DragFloat("fixedAdvance", &spacing_.fixedAdvance, 0.1f);
+				changed |= ImGui::SliderFloat("cellAlign", &spacing_.cellAlign, 0.0f, 1.0f);
+				if (changed) {
+
+					dirtyMesh_ = true;
+				}
+			}
+			// フォント選択
+			{
+				// 未実装
+				if (ImGui::CollapsingHeader("Select Font")) {
+
+
+				}
+			}
+			ImGui::EndTabItem();
+		}
+		//============================================================================================================
+		//	テキストジェネレーター設定
+		//============================================================================================================
+		if (ImGui::BeginTabItem("Generator")) {
+
+			// 現在のジェネレーター表示
+			{
+				if (textGenerator_) {
+
+					ImGui::Text("Current: %s", EnumAdapter<TextGeneratorType>::ToString(textGenerator_->GetType()));
+				} else {
+
+					ImGui::Text("Current: Nothing");
+				}
+			}
+			// ジェネレータ選択、生成
+			{
+				EnumAdapter<TextGeneratorType>::Combo("Type##TextGenerator", &selectGeneratorType_);
+				if (ImGui::Button("Create##TextGenerator")) {
+
+					// ジェネレーター作成
+					textGenerator_ = textSystem->CreateTextGenerator(selectGeneratorType_);
+				}
+				ImGui::Separator();
+			}
+			// ジェネレーター固有設定
+			{
+				if (textGenerator_) {
+
+					textGenerator_->ImGui();
+				}
+			}
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
+	ImGui::PopItemWidth();
 }

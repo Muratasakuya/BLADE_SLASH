@@ -56,17 +56,18 @@ namespace SakuEngine {
 
 		bool Generate(std::string& outString) override;
 
+		// エディター
+		void ImGui() override;
+
 		//--------- accessor -----------------------------------------------------
 
 		// 秒数の設定
 		void SetSeconds(float seconds);
 		void SetSecondsGetter(std::function<float()> getter);
 
-		// パラメータ設定
-		void SetParams(const Params& params);
-
-		// パラメータ取得
-		const Params& GetParams() const { return params_; }
+		// ジェネレータータイプ取得
+		static constexpr TextGeneratorType ID = TextGeneratorType::Clock;
+		TextGeneratorType GetType() const override { return ID; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -89,6 +90,9 @@ namespace SakuEngine {
 		std::string cachedText_;
 		// 最初のフレーム
 		bool first_ = true;
+
+		// エディター
+		InputImGui inputText_{};
 
 		//--------- functions ----------------------------------------------------
 

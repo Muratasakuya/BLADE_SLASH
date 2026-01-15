@@ -8,9 +8,26 @@ using namespace SakuEngine;
 #include <Engine/Object/Core/ObjectPoolManager.h>
 #include <Engine/Object/Data/Transform/Transform.h>
 
+// テキスト構築
+#include <Engine/Object/Data/Text/Generator/ClockTextGenerator.h>
+
 //============================================================================
 //	MSDFTextBufferSystem classMethods
 //============================================================================
+
+MSDFTextBufferSystem::MSDFTextBufferSystem() {
+
+	auto& registry = TextGeneratorRegistry::GetInstance();
+
+	// テキストジェネレーター登録
+	registry.Register<ClockTextGenerator>();
+}
+
+std::unique_ptr<ITextGenerator> MSDFTextBufferSystem::CreateTextGenerator(TextGeneratorType type) {
+
+	auto& registry = TextGeneratorRegistry::GetInstance();
+	return registry.Create(type);
+}
 
 const MSDFFont* MSDFTextBufferSystem::GetMSDFFont(Asset* asset,
 	const std::string& atlasTextureName, const std::string& fontJsonPath) {

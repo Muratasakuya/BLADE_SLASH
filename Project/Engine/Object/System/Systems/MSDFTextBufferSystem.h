@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Object/System/Base/ISystem.h>
 #include <Engine/Object/Data/Text/MSDFText.h>
+#include <Engine/Editor/Base/EditorModuleRegistry.h>
 
 namespace SakuEngine {
 
@@ -19,7 +20,7 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		MSDFTextBufferSystem() = default;
+		MSDFTextBufferSystem();
 		~MSDFTextBufferSystem() = default;
 
 		// MSDFフォントを作成、キャッシュがあればそれを返す
@@ -29,12 +30,20 @@ namespace SakuEngine {
 		Archetype Signature() const override;
 
 		void Update(ObjectPoolManager& ObjectPoolManager) override;
+
+		//--------- accessor -----------------------------------------------------
+
+		// テキスト構築クラスの作成
+		std::unique_ptr<ITextGenerator> CreateTextGenerator(TextGeneratorType type);
 	private:
 		//========================================================================
 		//	private Methods
 		//========================================================================
 
 		//--------- variables ----------------------------------------------------
+
+		// 登録されているクラスを管理するレジストリ
+		using TextGeneratorRegistry = EditorModuleRegistry<ITextGenerator, TextGeneratorType>;
 
 		// フォントキャッシュ
 		std::unordered_map<std::string, std::unique_ptr<MSDFFont>> fontCache_;

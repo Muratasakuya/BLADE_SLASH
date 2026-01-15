@@ -30,7 +30,7 @@ namespace SakuEngine {
 		bool applyOnlyToNumericSet = false; // trueなら数字/記号だけ固定幅
 
 		float fixedAdvance = 0.0f; // 0なら自動算出
-		float cellAlign = 0.0f;      // 0:左, 0.5:中央, 1:右
+		float cellAlign = 0.0f;    // 0:左, 0.5:中央, 1:右
 	};
 
 } // SakuEngine

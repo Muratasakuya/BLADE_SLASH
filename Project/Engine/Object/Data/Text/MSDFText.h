@@ -10,13 +10,9 @@
 #include <Engine/Object/Data/Text/MSDFFont.h>
 #include <Engine/Object/Data/Material/Material.h>
 #include <Engine/Object/Data/Transform/Transform.h>
-#include <Engine/Utility/Helper/ImGuiHelper.h>
 #include <Engine/Object/Data/Canvas/CanvasCommon.h>
 #include <Engine/Object/Data/Text/Builder/MSDFTextMeshBuilder.h>
 #include <Engine/Object/Data/Text/Generator/Interface/ITextGenerator.h>
-
-// directX
-#include <DirectXMath.h>
 
 namespace SakuEngine {
 
@@ -119,8 +115,11 @@ namespace SakuEngine {
 
 		// エディター
 		InputImGui inputText_{};
+		// floatのプレビュー用
 		float previewFloat_ = 0.0f;
 		int32_t previewPrecision_ = 2;
+		// テキストジェネレータの選択
+		TextGeneratorType selectGeneratorType_ = TextGeneratorType::Clock;
 
 		//--------- functions ----------------------------------------------------
 
