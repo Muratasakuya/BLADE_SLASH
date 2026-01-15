@@ -85,7 +85,7 @@ namespace SakuEngine {
 		const MSDFFont* font_ = nullptr;
 
 		// 表示文字列
-		std::string textUtf8_ = nullptr;
+		std::string textUtf8_ = "";
 		std::vector<char32_t> codepoints_;
 		// 最大文字数
 		uint32_t maxGlyphs_ = 0;
