@@ -2925,6 +2925,9 @@
     <ClCompile Include="Engine\Object\System\Systems\CanvasBufferSystem.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.cpp" />
     <ClCompile Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Base\UISlateWidget.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2969,6 +2972,9 @@
     <ClInclude Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.h" />
     <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.h" />
     <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextTypes.h" />
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.h" />
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Base\UISlateWidget.h" />
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl" />
