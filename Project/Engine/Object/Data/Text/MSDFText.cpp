@@ -49,7 +49,9 @@ void MSDFText::Create() {
 	// インデックスバッファ構築
 	BuildIndexBuffer();
 	// デフォルト文字列設定
-	SetText("abcABC");
+	if (textUtf8_.empty()) {
+		SetText("abcABC");
+	}
 }
 
 void MSDFText::SetText(const std::string& utf8) {
