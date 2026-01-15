@@ -107,6 +107,9 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
+		// オブジェクトID
+		uint32_t objectId_ = 0;
+
 		// 描画順制御
 		CanvasLayer layer_ = CanvasLayer::PostModel;
 		uint16_t layerIndex_ = static_cast<uint16_t>(CanvasLayerIndex::None);

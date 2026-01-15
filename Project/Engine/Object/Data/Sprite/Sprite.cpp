@@ -115,6 +115,8 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 
 void Sprite::SetRenderResources(uint32_t objectId) {
 
+	objectId_ = objectId;
+
 	// 必要なデータを取得
 	ObjectManager* objectManager = ObjectManager::GetInstance();
 	auto* transform = objectManager->GetData<Transform2D>(objectId);

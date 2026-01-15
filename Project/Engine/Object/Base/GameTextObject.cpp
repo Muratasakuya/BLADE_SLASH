@@ -24,10 +24,6 @@ void GameTextObject::Init(const std::string& atlasTextureName, const std::string
 	text_ = objectManager_->GetData<MSDFText>(objectId_);
 	tag_ = objectManager_->GetData<ObjectTag>(objectId_);
 
-	// マテリアル初期設定
-	material_->material.atlasSize = text_->GetFont().GetAtlasSize();
-	material_->material.pixelRange = text_->GetFont().GetPxRange();
-
 	// ImGui登録
 	ImGuiObjectEditor::GetInstance()->Registerobject(objectId_, this);
 }

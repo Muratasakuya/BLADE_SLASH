@@ -9,6 +9,7 @@ using namespace SakuEngine;
 #include <Engine/Object/System/Systems/MSDFTextBufferSystem.h>
 #include <Engine/Utility/Helper/Algorithm.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Engine/Utility/Json/JsonAdapter.h>
 
 // c++
 #include <algorithm>
@@ -21,15 +22,29 @@ using namespace SakuEngine;
 
 MSDFText::MSDFText(ID3D12Device* device, Asset* asset, const MSDFFont* font, uint32_t maxGlyphs) {
 
+	// メンバー初期化
 	device_ = device;
 	asset_ = asset;
 	font_ = font;
-
 	maxGlyphs_ = maxGlyphs;
 
+	// バッファ作成
+	Create();
+}
+
+void MSDFText::Create() {
+
+	// アトラステクスチャ名取得
+	atlasTextureName_ = font_->GetAtlasTextureName();
+
 	// バッファ作成、頂点数は最大文字数×4、インデックス数は最大文字数×6
-	vertexBuffer_.CreateBuffer(device_, maxGlyphs_ * 4);
-	indexBuffer_.CreateBuffer(device_, maxGlyphs_ * 6);
+	// 作成済みの場合は作成しない
+	if (!vertexBuffer_.IsCreatedResource()) {
+		vertexBuffer_.CreateBuffer(device_, maxGlyphs_ * 4);
+	}
+	if (!indexBuffer_.IsCreatedResource()) {
+		indexBuffer_.CreateBuffer(device_, maxGlyphs_ * 6);
+	}
 
 	// インデックスバッファ構築
 	BuildIndexBuffer();
@@ -194,6 +209,8 @@ bool MSDFText::IsDirtyTransform(const TextTransform2D& transform) const {
 
 void MSDFText::SetRenderResources(uint32_t objectId) {
 
+	objectId_ = objectId;
+
 	// 必要なデータを取得
 	ObjectManager* objectManager = ObjectManager::GetInstance();
 	auto* transform = objectManager->GetData<TextTransform2D>(objectId);
@@ -295,7 +312,52 @@ void MSDFText::ImGui(float itemSize) {
 				// 未実装
 				if (ImGui::CollapsingHeader("Select Font")) {
 
+					// テクスチャ選択
+					ImGui::PushID("AtlasTexture");
+					ImGuiHelper::ImageButtonWithLabel("##atlasTexture", atlasTextureName_,
+						(ImTextureID)asset_->GetGPUHandle(atlasTextureName_).ptr, ImVec2(88.0f, 88.0f));
+					std::string dragTextureName = ImGuiHelper::DragDropPayloadString(PendingType::Texture);
+					if (!dragTextureName.empty()) {
 
+						// textureを設定
+						atlasTextureName_ = dragTextureName;
+					}
+
+					// 変更ボタン
+					if (ImGui::Button("SetFont")) {
+
+						// 違うフォントの時のみ変更できるようにする
+						if (atlasTextureName_ != font_->GetAtlasTextureName()) {
+
+							// .jsonのパスを生成
+							std::string jsonPath = "Assets/Json/Atlas/" + atlasTextureName_ + ".json";
+							// jsonで読み込みが行えるか事前にチェックする
+							if (font_->CanParseJson(jsonPath)) {
+
+								// フォント取得
+								font_ = nullptr;
+								font_ = textSystem->GetMSDFFont(asset_, atlasTextureName_, jsonPath);
+
+								// テキスト再構築
+								Create();
+
+								// オブジェクトのマテリアルも更新
+								ObjectManager* objectManager = ObjectManager::GetInstance();
+								auto* material = objectManager->GetData<MSDFTextMaterial>(objectId_);
+								material->material.atlasSize = font_->GetAtlasSize();
+								material->material.pixelRange = font_->GetPxRange();
+
+								// コマンドに送るリソースも更新
+								OverWriteRenderResource(RenderResource{
+									.type = BaseCanvas::BufferType::TextureGPU,
+									.rootParamIndex = 3,
+									.bufferAddress = 0,
+									.bufferHandle = font_->GetAtlasGPUHandle(),
+									});
+							}
+						}
+					}
+					ImGui::PopID();
 				}
 			}
 			ImGui::EndTabItem();

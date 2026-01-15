@@ -121,6 +121,16 @@ void MSDFFont::Init(Asset* asset, const std::string& atlasTextureName, const std
 	assert(pxRange_ > 0.0f);
 }
 
+bool MSDFFont::CanParseJson(const std::string& jsonPath) const {
+
+	std::ifstream ifs(jsonPath, std::ios::binary);
+	// ファイルを開けなかった場合false
+	if (!ifs) {
+		return false;
+	}
+	return true;
+}
+
 std::string MSDFFont::ReadAllText(const std::string& path) {
 
 	std::ifstream ifs(path, std::ios::binary);

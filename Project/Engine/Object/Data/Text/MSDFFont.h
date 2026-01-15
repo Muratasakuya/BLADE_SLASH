@@ -61,6 +61,9 @@ namespace SakuEngine {
 		// 読み込みして初期化
 		void Init(Asset* asset, const std::string& atlasTextureName, const std::string& jsonPath);
 
+		// .jsonファイルを解析できるかどうか
+		bool CanParseJson(const std::string& jsonPath) const;
+
 		//--------- accessor -----------------------------------------------------
 
 		// グリフ検索して返す
@@ -78,6 +81,8 @@ namespace SakuEngine {
 		uint32_t GetAtlasHeight() const { return atlasHeight_; }
 		Vector2 GetAtlasSize() const { return Vector2(static_cast<float>(atlasWidth_), static_cast<float>(atlasHeight_)); }
 
+		// テクスチャ名の取得
+		const std::string& GetAtlasTextureName() const { return atlasTextureName_; }
 		// アトラステクスチャのGPUハンドル
 		const D3D12_GPU_DESCRIPTOR_HANDLE& GetAtlasGPUHandle() const { return asset_->GetGPUHandle(atlasTextureName_); }
 	private:

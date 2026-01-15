@@ -209,6 +209,9 @@ uint32_t ObjectManager::CreateTextObject(const std::string& atlasTextureName,
 	transform->Secure(device_, maxGlyphCount);
 	// material
 	material->Init(device_);
+	// 初期設定
+	material->material.atlasSize = font->GetAtlasSize();
+	material->material.pixelRange = font->GetPxRange();
 	// text
 	text->SetRenderResources(object);
 

@@ -89,6 +89,8 @@ namespace SakuEngine {
 		std::vector<char32_t> codepoints_;
 		// 最大文字数
 		uint32_t maxGlyphs_ = 0;
+		// 現在使用しているアトラステクスチャ
+		std::string atlasTextureName_;
 
 		// 表示設定
 		float fontSize_ = 32.0f;
@@ -122,6 +124,9 @@ namespace SakuEngine {
 		TextGeneratorType selectGeneratorType_ = TextGeneratorType::Clock;
 
 		//--------- functions ----------------------------------------------------
+
+		// 初期化、作成
+		void Create();
 
 		// バッファ確保
 		void EnsureCapacity(uint32_t glyphCount);

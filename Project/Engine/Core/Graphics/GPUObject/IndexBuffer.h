@@ -35,6 +35,9 @@ namespace SakuEngine {
 		// IBVと内部リソースを取得する
 		const D3D12_INDEX_BUFFER_VIEW& GetIndexBufferView() const { return indexBufferView_; }
 		ID3D12Resource* GetResource() const { return resource_.Get(); }
+
+		// リソースの作成状態を取得する
+		bool IsCreatedResource() const { return isCreated_; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -46,5 +49,7 @@ namespace SakuEngine {
 		uint32_t* mappedData_ = nullptr;
 
 		D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+
+		bool isCreated_ = false;
 	};
 }; // SakuEngine
