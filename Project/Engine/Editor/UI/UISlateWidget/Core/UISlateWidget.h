@@ -92,8 +92,8 @@ namespace SakuEngine {
 		float wheelDelta = 0.0f;
 
 		// ボタン情報
-		UIPointerButton Button = UIPointerButton::Left;
-		InputType InputDevice = InputType::Keyboard;
+		UIPointerButton button = UIPointerButton::Left;
+		InputType inputDevice = InputType::Keyboard;
 	};
 
 	// UIイベント返信
@@ -152,7 +152,7 @@ namespace SakuEngine {
 		virtual void OnAddedToTree([[maybe_unused]] UIUserWidget& owner) {}
 		// プロパティ同期
 		virtual void SynchProperties([[maybe_unused]] UIUserWidget& owner) {}
-		// レイアウト計算
+		// 子の配置
 		virtual void ArrangeChildren([[maybe_unused]] const UIRect& allotted, [[maybe_unused]] std::vector<UIArrangedWidget>& outArranged) {}
 
 		// 入力対応しているか
@@ -178,6 +178,10 @@ namespace SakuEngine {
 		void SetVisibility(UIVisibility visibility) { visibility_ = visibility; }
 		// 有効無効設定
 		void SetEnabled(bool enabled) { enabled_ = enabled; }
+		// レイアウト情報設定
+		void SetLayout(const UIAnchorData& layout) { layout_ = layout; }
+		// 矩形キャッシュ設定
+		void SetCachedRect(const UIRect& rect) { cachedRect_ = rect; }
 
 		// 固有情報の取得
 		uint64_t GetId() const { return id_; }
@@ -188,6 +192,10 @@ namespace SakuEngine {
 		UIVisibility GetVisibility() const { return visibility_; }
 		// 有効無効取得
 		bool IsEnabled() const { return enabled_; }
+		// レイアウト情報取得
+		UIAnchorData& GetLayout() { return layout_; }
+		// 矩形キャッシュ取得
+		const UIRect& GetCachedRect() const { return cachedRect_; }
 	protected:
 		//========================================================================
 		//	protected Methods
@@ -197,8 +205,6 @@ namespace SakuEngine {
 
 		// アンカーから矩形計算
 		static UIRect ComputeRectFromAnchorData(const UIRect& parent, const UIAnchorData& data);
-		// 矩形キャッシュ設定
-		void SetCachedRect(const UIRect& rect) { cachedRect_ = rect; }
 	private:
 		//========================================================================
 		//	private Methods

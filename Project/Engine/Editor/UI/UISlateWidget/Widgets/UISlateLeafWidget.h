@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/UISlateWidget/Base/UISlateWidget.h>
+#include <Engine/Editor/UI/UISlateWidget/Core/UISlateWidget.h>
 
 namespace SakuEngine {
 

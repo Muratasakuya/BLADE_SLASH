@@ -249,7 +249,43 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Base\UISlateWidget.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIApplication.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIDataContext.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIUserWidget.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateImage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateSlider.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateTextBlock.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Core\UISlateWidget.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Mehtods\UIWidgetFactory.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateCanvasPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.cpp" />
     <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.cpp" />
     <ClCompile Include="Engine\Input\InputStructures.cpp">
@@ -1211,7 +1247,43 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Base\UISlateWidget.h" />
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIApplication.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIDataContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIUserWidget.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateImage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateSlider.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateTextBlock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Core\UISlateWidget.h" />
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Mehtods\UIWidgetFactory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateCanvasPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.h" />
     <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.h" />
     <ClInclude Include="Engine\Object\Base\GameTextObject.h">
