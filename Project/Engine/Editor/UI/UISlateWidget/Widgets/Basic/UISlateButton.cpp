@@ -3,6 +3,10 @@
 using namespace SakuEngine;
 
 //============================================================================
+//	include
+//============================================================================
+
+//============================================================================
 //	UISlateButton classMethods
 //============================================================================
 
@@ -88,6 +92,36 @@ UIReply UISlateButton::OnPointerEvent(UIUserWidget& owner, const UIPointerEvent&
 	}
 	}
 	return UIReply::Unhandled();
+}
+
+void UISlateButton::PaintDrawData(UIUserWidget& owner) {
+
+	// 背景テクスチャ切替
+	if (background_) {
+
+		// 状態別
+		switch (state_) {
+		case SakuEngine::UIEventButtonState::Normal:
+
+			background_->SetTextureName(style_.normalTexture);
+			break;
+		case SakuEngine::UIEventButtonState::Hovered:
+
+			background_->SetTextureName(style_.hoveredTexture.empty() ? style_.normalTexture : style_.hoveredTexture);
+			break;
+		case SakuEngine::UIEventButtonState::Pressed:
+
+			background_->SetTextureName(style_.pressedTexture.empty() ? style_.normalTexture : style_.pressedTexture);
+			break;
+		case SakuEngine::UIEventButtonState::Disabled:
+
+			background_->SetTextureName(style_.disabledTexture.empty() ? style_.normalTexture : style_.disabledTexture);
+			break;
+		}
+	}
+
+	// 子を描画更新
+	UISlatePanelWidget::PaintDrawData(owner);
 }
 
 void UISlateButton::FromJson(const Json& data) {

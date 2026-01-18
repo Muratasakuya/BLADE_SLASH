@@ -64,8 +64,6 @@ void UISlateSlider::SynchProperties(UIUserWidget& owner) {
 	}
 }
 
-// Paint関数を実装すること
-
 UIReply UISlateSlider::OnPointerEvent(UIUserWidget& owner, const UIPointerEvent& event) {
 
 	// ポインタ位置が内部か
@@ -109,6 +107,32 @@ UIReply UISlateSlider::OnPointerEvent(UIUserWidget& owner, const UIPointerEvent&
 	}
 	}
 	return UIReply::Unhandled();
+}
+
+void UISlateSlider::PaintDrawData(UIUserWidget& owner) {
+
+	// レイアウトをvalueに合わせる
+	UIRect rect = GetCachedRect();
+
+	// fill幅
+	const float fillW = (std::max)(0.0f, rect.size.x * value_);
+	if (fill_) {
+
+		// 右端をvalueに合わせる
+		fill_->GetLayout().offsets.right = fillW;
+		fill_->GetLayout().offsets.bottom = rect.size.y;
+	}
+
+	// 手持ち位置
+	if (knob_) {
+
+		// x位置をvalueに合わせる
+		float knobX = rect.size.x * value_;
+		knob_->GetLayout().offsets.left = knobX;
+	}
+
+	// 描画データ更新
+	UISlatePanelWidget::PaintDrawData(owner);
 }
 
 void UISlateSlider::UpdateFromPointer(const Vector2& screenPos) {

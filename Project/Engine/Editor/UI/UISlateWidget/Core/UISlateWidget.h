@@ -160,6 +160,9 @@ namespace SakuEngine {
 		// ポインターイベント処理の呼び出し
 		virtual UIReply OnPointerEvent([[maybe_unused]] UIUserWidget& owner, [[maybe_unused]] const UIPointerEvent& event) { return UIReply::Unhandled(); }
 
+		// 描画パラメータを更新する
+		virtual void PaintDrawData([[maybe_unused]] UIUserWidget& owner) {}
+
 		// タイプ名の取得
 		virtual std::string GetTypeName() const = 0;
 

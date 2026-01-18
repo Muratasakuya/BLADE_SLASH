@@ -151,6 +151,14 @@ void UIUserWidget::SynchronizeProperties() {
 	}
 }
 
+void UIUserWidget::PaintDrawData() {
+
+	if (root_) {
+
+		root_->PaintDrawData(*this);
+	}
+}
+
 UISlateWidget* UIUserWidget::FindWidgetByName(const std::string& name) const {
 
 	// 名前からウィジェット参照を取得

@@ -26,6 +26,9 @@ namespace SakuEngine {
 		// ツリーに入った後に呼ばれる
 		void OnAddedToTree(UIUserWidget& owner) override;
 
+		// 描画パラメータを更新する
+		void PaintDrawData(UIUserWidget& owner) override;
+
 		// json
 		void FromJson(const Json& data) override;
 		void ToJson(Json& data) override;

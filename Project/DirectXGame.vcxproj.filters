@@ -2937,6 +2937,7 @@
     <ClCompile Include="Engine\Editor\UI\Runtime\UIDataContext.cpp" />
     <ClCompile Include="Engine\Editor\UI\Runtime\UIUserWidget.cpp" />
     <ClCompile Include="Engine\Editor\UI\Runtime\UIApplication.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
@@ -2993,6 +2994,7 @@
     <ClInclude Include="Engine\Editor\UI\Runtime\UIDataContext.h" />
     <ClInclude Include="Engine\Editor\UI\Runtime\UIUserWidget.h" />
     <ClInclude Include="Engine\Editor\UI\Runtime\UIApplication.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl" />

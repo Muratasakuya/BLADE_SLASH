@@ -39,10 +39,12 @@ namespace SakuEngine {
 
 		// フレーム更新
 		void Tick(float deltaTime);
-		//
+		// ツリーに入った後に呼ばれる
 		void OnAddedToTree();
-		// 
+		// プロパティ設定同期
 		void SynchronizeProperties();
+		// 描画パラメータを更新する
+		void PaintDrawData();
 
 		// json
 		bool LoadFromJson(const Json& data);

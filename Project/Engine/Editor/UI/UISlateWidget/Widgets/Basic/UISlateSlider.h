@@ -30,6 +30,9 @@ namespace SakuEngine {
 		// ポインターイベント処理の呼び出し
 		UIReply OnPointerEvent(UIUserWidget& owner, const UIPointerEvent& event) override;
 
+		// 描画パラメータを更新する
+		void PaintDrawData(UIUserWidget& owner) override;
+
 		// json
 		void FromJson(const Json& data) override;
 		void ToJson(Json& data) override;

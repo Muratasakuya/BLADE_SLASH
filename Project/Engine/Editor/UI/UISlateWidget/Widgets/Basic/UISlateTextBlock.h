@@ -28,6 +28,9 @@ namespace SakuEngine {
 		// プロパティ同期
 		void SynchProperties(UIUserWidget& owner) override;
 
+		// 描画パラメータを更新する
+		void PaintDrawData(UIUserWidget& owner) override;
+
 		// json
 		void FromJson(const Json& data) override;
 		void ToJson(Json& data) override;

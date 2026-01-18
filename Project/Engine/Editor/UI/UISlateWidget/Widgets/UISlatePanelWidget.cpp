@@ -36,6 +36,14 @@ void UISlatePanelWidget::SynchProperties(UIUserWidget& owner) {
 	}
 }
 
+void UISlatePanelWidget::PaintDrawData(UIUserWidget& owner) {
+
+	for (auto& children : children_) {
+
+		children->PaintDrawData(owner);
+	}
+}
+
 void UISlatePanelWidget::GetChildren(std::vector<UISlateWidget*>& outChildren) {
 
 	// クリアしてから再取得

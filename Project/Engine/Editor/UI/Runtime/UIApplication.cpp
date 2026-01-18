@@ -81,6 +81,9 @@ void UIApplication::Update(float deltaTime) {
 	userWidget_->Tick(deltaTime);
 	// レイアウト
 	Arrange();
+
+	// 描画データ更新
+	userWidget_->PaintDrawData();
 }
 
 void UIApplication::SetUserWidget(std::unique_ptr<UIUserWidget> userWidget) {
@@ -147,7 +150,7 @@ UISlateWidget* UIApplication::HitTest(UISlateWidget* widget, const Vector2& pos)
 		// 子を逆順にチェックする
 		std::vector<UISlateWidget*> children;
 		widget->GetChildren(children);
-		for (int32_t i = static_cast<int32_t>(children.size()) - 1; i >= 0; --i) {
+		for (int32_t i = static_cast<int32_t>(children.size()) - 1; 0 <= i; --i) {
 			if (auto* hit = HitTest(children[i], pos)) {
 				return hit;
 			}
