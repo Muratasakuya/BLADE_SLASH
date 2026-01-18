@@ -62,9 +62,6 @@ namespace SakuEngine {
 		// ウィジェットのアニメーションを作成、編集する
 		std::unique_ptr<UIWidgetAnimation> animation_;
 
-		// エディター
-		bool isOpenEditor_ = false; // エディタ画面を開くかどうか
-
 		//--------- functions ----------------------------------------------------
 
 		UIWidgetEditor() :IGameEditor("UIWidgetEditor") {}

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -16,42 +16,45 @@
 //============================================================================
 namespace SakuEngine {
 
-class IGameEditor {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+	class IGameEditor {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	IGameEditor(const std::string& name);
-	virtual ~IGameEditor();
+		IGameEditor(const std::string& name);
+		virtual ~IGameEditor();
 
-	virtual void ImGui() = 0;
+		virtual void ImGui() = 0;
 
-	//--------- accessor -----------------------------------------------------
+		//--------- accessor -----------------------------------------------------
 
-	void SetSelectObjectID(uint32_t id) { selectObjectID_ = id; }
+		void SetSelectObjectID(uint32_t id) { selectObjectID_ = id; }
 
-	const std::string& GetName() const { return name_; }
-protected:
-	//========================================================================
-	//	protected Methods
-	//========================================================================
+		const std::string& GetName() const { return name_; }
+		bool IsAlwaysOpenEditor() const { return isAlwaysOpenEditor_; }
+	protected:
+		//========================================================================
+		//	protected Methods
+		//========================================================================
 
-	//--------- variables ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-	// 選択されているオブジェクトのID
-	uint32_t selectObjectID_;
+		// 選択されているオブジェクトのID
+		uint32_t selectObjectID_;
 
-	// imgui
-	static constexpr const float itemWidth_ = 224.0f;
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		// 常に表示を行うか
+		bool isAlwaysOpenEditor_ = false;
 
-	//--------- variables ----------------------------------------------------
+		// imgui
+		static constexpr const float itemWidth_ = 224.0f;
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	std::string name_;
-};
+		//--------- variables ----------------------------------------------------
 
+		std::string name_;
+	};
 }; // SakuEngine

@@ -36,9 +36,9 @@ namespace  Config {
 	const constexpr uint32_t kShadowMapSize = 128;
 
 	// swapChainFormat
-	const constexpr DXGI_FORMAT kSwapChainRTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	const constexpr DXGI_FORMAT kSwapChainRTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 	// renderTargetFormat
-	const constexpr DXGI_FORMAT kRenderTextureRTVFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	const constexpr DXGI_FORMAT kRenderTextureRTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	// instanceMax
 	const constexpr uint32_t kMaxInstanceNum = 1024;

@@ -113,7 +113,7 @@ void ImGuiEditor::Display(SceneView* sceneView) {
 	// layout操作
 	EditLayout();
 
-	// imguiの表示
+	// エディタ画面の表示
 	MainWindow(sceneView);
 
 	Console();
@@ -122,11 +122,11 @@ void ImGuiEditor::Display(SceneView* sceneView) {
 
 	Inspector();
 
-	AssetEdit();
-
 	AudioEdit();
 
 	DebugEdit();
+
+	AssetEdit();
 
 	SelectObjectFocus(sceneView);
 }
@@ -150,7 +150,7 @@ void ImGuiEditor::EditLayout() {
 void ImGuiEditor::MenuBar() {
 
 	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("Menu")) {
+		if (ImGui::BeginMenu("MainMenu")) {
 
 			ImGui::Checkbox("Play", &isPlayGame_);
 			ImGui::Checkbox("EditLayout", &editMode_);
@@ -167,6 +167,7 @@ void ImGuiEditor::MainWindow(SceneView* sceneView) {
 		ImGuiWindowFlags_NoTitleBar |
 		ImGuiWindowFlags_MenuBar |
 		ImGuiWindowFlags_NoInputs |
+		ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoFocusOnAppearing);
 
 	GameMenuBar();
@@ -179,6 +180,7 @@ void ImGuiEditor::MainWindow(SceneView* sceneView) {
 	ImGui::Begin("Scene", nullptr,
 		ImGuiWindowFlags_NoTitleBar |
 		ImGuiWindowFlags_MenuBar |
+		ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoMove);
 
 	// メニューバー

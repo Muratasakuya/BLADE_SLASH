@@ -25,7 +25,7 @@ namespace SakuEngine {
 
 		// 各状態のテクスチャ名
 		std::string normalTexture{};
-		std::string hoveredTexture{}; 
+		std::string hoveredTexture{};
 		std::string pressedTexture{};
 		std::string disabledTexture{};
 	};

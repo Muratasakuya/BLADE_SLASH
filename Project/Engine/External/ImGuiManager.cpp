@@ -6,6 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Core/Graphics/Descriptors/SRVDescriptor.h>
+#include <Engine/Config.h>
 
 // imgui
 #include <imgui.h>
@@ -17,38 +18,46 @@ using namespace SakuEngine;
 //	ImGuiManager classMethods
 //============================================================================
 
-void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDescriptor* srvDescriptor) {
+void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, ID3D12CommandQueue* commandQueue, SRVDescriptor* srvDescriptor) {
+
+	// マルチビューポート設定
+	enableMultiViewport_ = true;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
-	ImGui_ImplWin32_Init(hwnd);
 
-	ImGui_ImplDX12_Init(
-		device,
-		bufferCount,
-		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		srvDescriptor->GetDescriptorHeap(),
-		srvDescriptor->GetDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		srvDescriptor->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	// コンフィグ設定
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; 
+	if (enableMultiViewport_) {
+
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	}
+
+	ImGui::StyleColorsDark(); 
+	//Win32初期化
+	ImGui_ImplWin32_Init(hwnd);
+	
+	// DX12初期化 
+	ImGui_ImplDX12_InitInfo dxInitInfo = {};
+	dxInitInfo.Device = device;
+	dxInitInfo.CommandQueue = commandQueue;
+	dxInitInfo.NumFramesInFlight = bufferCount;
+	dxInitInfo.RTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	dxInitInfo.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	dxInitInfo.SrvDescriptorHeap = srvDescriptor->GetDescriptorHeap();
+	dxInitInfo.LegacySingleSrvCpuDescriptor = srvDescriptor->GetDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+	dxInitInfo.LegacySingleSrvGpuDescriptor = srvDescriptor->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
+	ImGui_ImplDX12_Init(&dxInitInfo);
 
 	// SRVを進める
 	srvDescriptor->IncrementIndex();
-
-	enableMultiViewport_ = false;
 
 	//========================================================================
 	//	imguiConfig
 	//========================================================================
 
 	// ImGuiのフォント設定
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	if (enableMultiViewport_) {
-
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-	}
-
 	ImFontConfig cfg{};
 	cfg.FontNo = 0;
 	const char* fontPath = "C:\\Windows\\Fonts\\meiryob.ttc";

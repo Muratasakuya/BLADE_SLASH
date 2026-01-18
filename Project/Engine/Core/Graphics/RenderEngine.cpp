@@ -146,7 +146,7 @@ void RenderEngine::Init(WinApp* winApp, ID3D12Device8* device, DxShaderCompiler*
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	imguiManager_ = std::make_unique<ImGuiManager>();
-	imguiManager_->Init(winApp->GetHwnd(), dxSwapChain_->GetDesc().BufferCount, device, srvDescriptor_.get());
+	imguiManager_->Init(winApp->GetHwnd(), dxSwapChain_->GetDesc().BufferCount, device, dxCommand_->GetQueue(), srvDescriptor_.get());
 
 	pixelPicker_ = std::make_unique<GPUPixelPicker>();
 	pixelPicker_->Init(device, shaderCompiler, srvDescriptor_.get());
