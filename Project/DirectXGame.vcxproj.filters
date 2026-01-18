@@ -3325,8 +3325,16 @@
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </None>
     <ClCompile Include="Engine\Editor\UI\Editor\VisualDesigner\UIWidgetVisualDesigner.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\UI\Editor\VisualDesigner\UIWidgetVisualDesigner.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.h" />
   </ItemGroup>
 </Project>

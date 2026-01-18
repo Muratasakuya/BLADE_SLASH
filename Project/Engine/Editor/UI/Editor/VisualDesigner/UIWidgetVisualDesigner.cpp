@@ -20,8 +20,6 @@ void UIWidgetVisualDesigner::ImGui() {
 
 	ImGui::Begin("Visual Designer", nullptr, ImGuiConfigFlags_ViewportsEnable);
 
-	ImGui::DragFloat2("gameViewSize", &gameViewSize_.x, 1.0f);
-
 	ImGui::Image(ImTextureID(renderTextureGPUHandle_.ptr), gameViewSize_);
 
 	ImGui::End();

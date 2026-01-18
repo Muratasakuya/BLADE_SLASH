@@ -241,6 +241,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditor.cpp">
       <SubType />
     </ClCompile>
@@ -1204,6 +1220,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditor.h">
       <SubType />

@@ -7,6 +7,10 @@
 
 // 機能クラス
 #include <Engine/Editor/UI/Editor/VisualDesigner/UIWidgetVisualDesigner.h>
+#include <Engine/Editor/UI/Editor/Detail/UIWidgetDetail.h>
+#include <Engine/Editor/UI/Editor/Hierarchy/UIWidgetHierarchy.h>
+#include <Engine/Editor/UI/Editor/Animation/UIWidgetAnimation.h>
+#include <Engine/Editor/UI/Editor/Palette/UIWidgetPalette.h>
 
 // c++
 #include <memory>
@@ -47,8 +51,16 @@ namespace SakuEngine {
 		static UIWidgetEditor* instance_;
 
 		// エディタ機能
+		// ウィジェットのパレットを表示、提供する
+		std::unique_ptr<UIWidgetPalette> palette_;
+		// ウィジェットの詳細を確認、編集する
+		std::unique_ptr<UIWidgetDetail> detail_;
 		// 作成したウィジェットの見た目を確認、編集する
 		std::unique_ptr<UIWidgetVisualDesigner> visualDesigner_;
+		// ウィジェットのヒエラルキーを確認、編集する
+		std::unique_ptr<UIWidgetHierarchy> hierarchy_;
+		// ウィジェットのアニメーションを作成、編集する
+		std::unique_ptr<UIWidgetAnimation> animation_;
 
 		// エディター
 		bool isOpenEditor_ = false; // エディタ画面を開くかどうか

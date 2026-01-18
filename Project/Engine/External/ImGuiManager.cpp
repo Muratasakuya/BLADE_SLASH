@@ -35,6 +35,8 @@ void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDe
 	// SRVを進める
 	srvDescriptor->IncrementIndex();
 
+	enableMultiViewport_ = false;
+
 	//========================================================================
 	//	imguiConfig
 	//========================================================================
@@ -42,7 +44,10 @@ void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDe
 	// ImGuiのフォント設定
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	if (enableMultiViewport_) {
+
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	}
 
 	ImFontConfig cfg{};
 	cfg.FontNo = 0;
@@ -132,11 +137,15 @@ void ImGuiManager::Draw(ID3D12GraphicsCommandList* commandList) {
 
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
 
-	ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+	// マルチビューポート有効の時のみ
+	if (enableMultiViewport_) {
 
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+		}
 	}
 }
 

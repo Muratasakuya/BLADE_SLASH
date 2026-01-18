@@ -4,44 +4,26 @@
 //	include
 //============================================================================
 
-// windows
-#include <Windows.h>
-// directX
-#include <d3d12.h>
-// c++
-#include <cstdint>
-#include <string>
-
 namespace SakuEngine {
 
-	// front
-	class SRVDescriptor;
-
 	//============================================================================
-	//	ImGuiManager class
-	//	ImGuiの管理クラス、Debug、Developのみで機能する
+	//	UIWidgetDetail class
+	//	UIウィジェットの詳細の表示、編集を行うクラス
 	//============================================================================
-	class ImGuiManager {
+	class UIWidgetDetail {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		ImGuiManager() = default;
-		~ImGuiManager() = default;
+		UIWidgetDetail() = default;
+		~UIWidgetDetail() = default;
 
-		// ImGui機能の初期化
-		void Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDescriptor* srvDescriptor);
+		// エディター
+		void ImGui();
 
-		// フレーム開始、終了
-		void Begin();
-		void End();
+		//--------- accessor -----------------------------------------------------
 
-		// 描画
-		void Draw(ID3D12GraphicsCommandList* commandList);
-
-		// 終了処理
-		void Finalize();
 	private:
 		//========================================================================
 		//	private Methods
@@ -49,8 +31,9 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		// マルチビューポートを有効にするか
-		bool enableMultiViewport_;
-	};
 
-}; // SakuEngine
+
+		//--------- functions ----------------------------------------------------
+
+	};
+} // SakuEngine
