@@ -75,9 +75,9 @@ void UIUserWidget::RebuildIndex() {
 			// 子をスタックに追加
 			std::vector<UISlateWidget*> children;
 			widget->GetChildren(children);
-			for (auto* children : children) {
+			for (auto* child : children) {
 
-				stack.push_back(children);
+				stack.push_back(child);
 			}
 		}
 	}

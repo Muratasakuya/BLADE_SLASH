@@ -53,6 +53,9 @@ namespace SakuEngine {
 
 		// 現在のウィンドウハンドル(HWND)を返す
 		static HWND GetHwnd() { return hwnd_; }
+
+		// アスペクト比リストの取得
+		static const std::vector<std::pair<uint32_t, uint32_t>>& GetAspectRatioList() { return aspectRatioList_; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -70,6 +73,9 @@ namespace SakuEngine {
 
 		UINT windowStyle_;
 		static RECT windowRect_;
+
+		// 16:9アスペクト比リスト
+		static std::vector<std::pair<uint32_t, uint32_t>> aspectRatioList_;
 
 		//--------- functions ----------------------------------------------------
 
@@ -89,5 +95,8 @@ namespace SakuEngine {
 
 		// ウィンドウクラスを登録する
 		void RegisterWindowClass();
+
+		// アスペクト比の初期化
+		void InitAspectRatioList();
 	};
 }; // SakuEngine

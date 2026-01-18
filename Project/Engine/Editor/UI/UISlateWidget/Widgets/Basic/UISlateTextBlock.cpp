@@ -14,7 +14,7 @@ using namespace SakuEngine;
 //	UISlateTextBlock classMethods
 //============================================================================
 
-void UISlateTextBlock::OnAddedToTree(UIUserWidget& owner) {
+void UISlateTextBlock::OnAddedToTree([[maybe_unused]] UIUserWidget& owner) {
 
 
 }

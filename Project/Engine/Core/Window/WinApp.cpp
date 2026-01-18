@@ -28,6 +28,7 @@ bool WinApp::useCustomClipRect_ = false;
 bool WinApp::cursorVisible_ = true;
 RECT WinApp::customClientClipRect_{};
 RECT WinApp::windowRect_{};
+std::vector<std::pair<uint32_t, uint32_t>> WinApp::aspectRatioList_{};
 
 void WinApp::ForceShowCursor(bool show) {
 
@@ -157,6 +158,8 @@ void WinApp::Create() {
 
 	ApplyCursorVisibilityIfNeeded();
 	ApplyCursorClipIfNeeded();
+
+	InitAspectRatioList();
 }
 
 bool WinApp::ProcessMessage() {
@@ -346,4 +349,33 @@ void WinApp::RegisterWindowClass() {
 
 	// ウィンドウクラスを登録する
 	RegisterClass(&wc);
+}
+
+void WinApp::InitAspectRatioList() {
+
+	// 16:9アスペクト比リスト、最大スクリーンサイズまで計算
+	uint32_t index = 0;
+	while (true) {
+
+		// 奇数は処理しない
+		if (index % 2 != 0) {
+			++index;
+			continue;
+		}
+
+		// アスペクト比計算
+		uint32_t width = 16 * index;
+		uint32_t height = 9 * index;
+
+		// サイズが最大を超えたら終了
+		if (width > Config::kWindowWidth || height > Config::kWindowHeight) {
+			break;
+		}
+
+		// リストに追加
+		aspectRatioList_.emplace_back(std::make_pair(width, height));
+
+		// 次のサイズ
+		++index;
+	}
 }

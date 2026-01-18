@@ -11,11 +11,14 @@ using namespace SakuEngine;
 #include <Engine/Asset/AssetEditor.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Collision/CollisionManager.h>
-#include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
 #include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
-#include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Config.h>
+
+// エディター機能
+#include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
+#include <Engine/Editor/Camera/CameraEditor.h>
+#include <Engine/Editor/UI/Editor/UIWidgetEditor.h>
 
 //============================================================================
 //	Framework classMethods
@@ -140,6 +143,7 @@ Framework::Framework() {
 
 	SakuEngine::LineRenderer::GetInstance()->Init(device, dxCommand->GetCommandList(),
 		srvDescriptor, shaderCompiler, sceneView_.get());
+	UIWidgetEditor::GetInstance()->Init(renderEngine_->GetRenderTextureGPUHandle());
 	AssetEditor::GetInstance()->Init(asset_.get());
 	CameraEditor::GetInstance()->Init(sceneView_.get());
 

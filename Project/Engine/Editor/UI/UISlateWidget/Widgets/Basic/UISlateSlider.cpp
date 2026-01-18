@@ -64,7 +64,7 @@ void UISlateSlider::SynchProperties(UIUserWidget& owner) {
 	}
 }
 
-UIReply UISlateSlider::OnPointerEvent(UIUserWidget& owner, const UIPointerEvent& event) {
+UIReply UISlateSlider::OnPointerEvent([[maybe_unused]] UIUserWidget& owner, const UIPointerEvent& event) {
 
 	// ポインタ位置が内部か
 	bool isInsideRect = GetCachedRect().Contains(event.screenPos);

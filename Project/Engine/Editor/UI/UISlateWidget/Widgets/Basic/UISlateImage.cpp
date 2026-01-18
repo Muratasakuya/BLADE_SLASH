@@ -14,7 +14,7 @@ using namespace SakuEngine;
 //	UISlateImage classMethods
 //============================================================================
 
-void UISlateImage::OnAddedToTree(UIUserWidget& owner) {
+void UISlateImage::OnAddedToTree([[maybe_unused]] UIUserWidget& owner) {
 
 
 }

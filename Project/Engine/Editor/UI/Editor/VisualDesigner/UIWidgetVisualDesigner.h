@@ -3,40 +3,35 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/Base/IGameEditor.h>
 
-// 機能クラス
-#include <Engine/Editor/UI/Editor/VisualDesigner/UIWidgetVisualDesigner.h>
-
-// c++
-#include <memory>
 // directX
 #include <d3d12.h>
+// imgui
+#include <imgui.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UIWidgetEditor class
-	//	ゲーム内UIウィジェットを作成するエディター
+	//	UIWidgetVisualDesigner class
+	//	UIウィジェットの現在の見た目を確認、編集するためのクラス
 	//============================================================================
-	class UIWidgetEditor :
-		public IGameEditor {
+	class UIWidgetVisualDesigner {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
+		UIWidgetVisualDesigner() = default;
+		~UIWidgetVisualDesigner() = default;
+
 		// 初期化
 		void Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle);
 
 		// エディター
-		void ImGui() override;
+		void ImGui();
 
 		//--------- accessor -----------------------------------------------------
 
-		// singleton
-		static UIWidgetEditor* GetInstance();
-		static void Finalize();
 	private:
 		//========================================================================
 		//	private Methods
@@ -44,20 +39,13 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		static UIWidgetEditor* instance_;
+		// 描画用テクスチャのGPUハンドル
+		D3D12_GPU_DESCRIPTOR_HANDLE renderTextureGPUHandle_{};
 
-		// エディタ機能
-		// 作成したウィジェットの見た目を確認、編集する
-		std::unique_ptr<UIWidgetVisualDesigner> visualDesigner_;
-
-		// エディター
-		bool isOpenEditor_ = false; // エディタ画面を開くかどうか
+		// エディタデバッグ
+		ImVec2 gameViewSize_ = ImVec2(896.0f, 504.0f);
 
 		//--------- functions ----------------------------------------------------
 
-		UIWidgetEditor() :IGameEditor("UIWidgetEditor") {}
-		~UIWidgetEditor() = default;
-		UIWidgetEditor(const UIWidgetEditor&) = delete;
-		UIWidgetEditor& operator=(const UIWidgetEditor&) = delete;
 	};
 } // SakuEngine

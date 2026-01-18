@@ -36,7 +36,7 @@ void UISlateButton::OnAddedToTree(UIUserWidget& owner) {
 	UISlatePanelWidget::OnAddedToTree(owner);
 }
 
-UIReply UISlateButton::OnPointerEvent(UIUserWidget& owner, const UIPointerEvent& event) {
+UIReply UISlateButton::OnPointerEvent([[maybe_unused]] UIUserWidget& owner, const UIPointerEvent& event) {
 
 	// 無効ならDisableで無視
 	if (!IsEnabled()) {
