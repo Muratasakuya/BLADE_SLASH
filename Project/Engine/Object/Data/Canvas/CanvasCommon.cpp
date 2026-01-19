@@ -72,7 +72,6 @@ void BaseCanvas::ImGuiCommon(float itemSize) {
 
 	ImGui::PushItemWidth(itemSize);
 
-	ImGui::Checkbox("postProcessEnable", &postProcessEnable_);
 	EnumAdapter<CanvasLayer>::Combo("CanvasLayer", &layer_);
 
 	ImGui::Separator();

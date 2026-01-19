@@ -86,15 +86,11 @@ namespace SakuEngine {
 		void SetLayer(CanvasLayer layer) { layer_ = layer; }
 		void SetLayerIndex(CanvasLayerIndex layerIndex, uint16_t subLayerIndex) { layerIndex_ = static_cast<uint16_t>(layerIndex) + subLayerIndex; }
 		void SetBlendMode(BlendMode blendMode) { blendMode_ = blendMode; }
-		void SetPostProcessEnable(bool enable) { postProcessEnable_ = enable; }
 
 		// レイヤー取得
 		CanvasLayer GetLayer() const { return layer_; }
 		// レイヤーインデックス取得
 		uint16_t GetLayerIndex() const { return static_cast<uint16_t>(layerIndex_); }
-		// ポストエフェクト適用有無取得
-		bool IsPostProcessEnable() const { return postProcessEnable_; }
-
 		// 描画モード取得
 		BlendMode GetBlendMode() const { return blendMode_; }
 
@@ -113,8 +109,6 @@ namespace SakuEngine {
 		// 描画順制御
 		CanvasLayer layer_ = CanvasLayer::PostModel;
 		uint16_t layerIndex_ = static_cast<uint16_t>(CanvasLayerIndex::None);
-		// ポストエフェクト適用有無(falseの場合renderTextureには描画しない)
-		bool postProcessEnable_ = false;
 
 		// 描画モード
 		BlendMode blendMode_ = BlendMode::kBlendModeNormal;

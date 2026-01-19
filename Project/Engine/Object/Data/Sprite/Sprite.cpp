@@ -322,7 +322,6 @@ void Sprite::ImGui(float itemSize) {
 void Sprite::ToJson(Json& data) {
 
 	data["textureName"] = textureName_;
-	data["postProccessEnable_"] = postProcessEnable_;
 	data["layer"] = EnumAdapter<CanvasLayer>::ToString(layer_);
 	data["layerIndex"] = layerIndex_;
 	data["blendMode"] = EnumAdapter<BlendMode>::ToString(blendMode_);
@@ -344,7 +343,6 @@ void Sprite::ToJson(Json& data) {
 
 void Sprite::FromJson(const Json& data) {
 
-	postProcessEnable_ = data.value("postProccessEnable_", false);
 	textureName_ = data["textureName"].get<std::string>();
 	layer_ = EnumAdapter<CanvasLayer>::FromString(data["layer"].get<std::string>()).value();
 	layerIndex_ = data["layerIndex"].get<uint16_t>();

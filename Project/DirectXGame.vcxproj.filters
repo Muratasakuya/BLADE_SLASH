@@ -3297,10 +3297,7 @@
     <FxCompile Include="Assets\Engine\Shaders\Skybox\Skybox.VS.hlsl">
       <Filter>Assets\Engine\Shaders\Skybox</Filter>
     </FxCompile>
-    <FxCompile Include="Assets\Engine\Shaders\Text\ApplyPostProcessMSDFText.PS.hlsl">
-      <Filter>Assets\Engine\Shaders\Text</Filter>
-    </FxCompile>
-    <FxCompile Include="Assets\Engine\Shaders\Text\IrrelevantPostProcessMSDFText.PS.hlsl">
+    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.PS.hlsl">
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </FxCompile>
     <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.VS.hlsl">
