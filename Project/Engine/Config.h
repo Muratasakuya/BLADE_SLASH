@@ -38,7 +38,7 @@ namespace  Config {
 	// swapChainFormat
 	const constexpr DXGI_FORMAT kSwapChainRTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 	// renderTargetFormat
-	const constexpr DXGI_FORMAT kRenderTextureRTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	const constexpr DXGI_FORMAT kRenderTextureRTVFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	// instanceMax
 	const constexpr uint32_t kMaxInstanceNum = 1024;

@@ -35,6 +35,7 @@ namespace SakuEngine {
 
 		// エディター
 		void ImGui() override;
+		void EditUIWidget();
 
 		//--------- accessor -----------------------------------------------------
 
@@ -61,6 +62,9 @@ namespace SakuEngine {
 		std::unique_ptr<UIWidgetHierarchy> hierarchy_;
 		// ウィジェットのアニメーションを作成、編集する
 		std::unique_ptr<UIWidgetAnimation> animation_;
+
+		// エディターを開くかどうか
+		bool isOpenEditor_ = false;
 
 		//--------- functions ----------------------------------------------------
 

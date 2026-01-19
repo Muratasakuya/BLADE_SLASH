@@ -32,7 +32,6 @@ namespace SakuEngine {
 		void SetSelectObjectID(uint32_t id) { selectObjectID_ = id; }
 
 		const std::string& GetName() const { return name_; }
-		bool IsAlwaysOpenEditor() const { return isAlwaysOpenEditor_; }
 	protected:
 		//========================================================================
 		//	protected Methods
@@ -42,9 +41,6 @@ namespace SakuEngine {
 
 		// 選択されているオブジェクトのID
 		uint32_t selectObjectID_;
-
-		// 常に表示を行うか
-		bool isAlwaysOpenEditor_ = false;
 
 		// imgui
 		static constexpr const float itemWidth_ = 224.0f;

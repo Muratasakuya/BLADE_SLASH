@@ -48,9 +48,13 @@ void UIWidgetEditor::Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHan
 void UIWidgetEditor::ImGui() {
 
 	// エディターを開くかどうか
-	ImGui::Checkbox("Open Editor", &isAlwaysOpenEditor_);
+	ImGui::Checkbox("Open Editor", &isOpenEditor_);
+}
 
-	if (!isAlwaysOpenEditor_) {
+void UIWidgetEditor::EditUIWidget() {
+
+	// エディターを開くかどうか
+	if (!isOpenEditor_) {
 		return;
 	}
 

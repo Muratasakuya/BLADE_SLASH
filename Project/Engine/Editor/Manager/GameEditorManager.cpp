@@ -79,21 +79,8 @@ void GameEditorManager::SelectEditor() {
 
 void GameEditorManager::EditEditor() {
 
-	// 常に表示するエディターフラグがtrueなら表示
-	for (size_t index = 0; index < editors_.size(); ++index) {
-		if (editors_[index]->IsAlwaysOpenEditor()) {
-
-			editors_[index]->ImGui();
-		}
-	}
-
 	// 選択されていなければ早期リターン
 	if (!selectedIndex_.has_value()) {
-		return;
-	}
-
-	// 既に表示されていれば早期リターン
-	if (editors_[*selectedIndex_]->IsAlwaysOpenEditor()) {
 		return;
 	}
 

@@ -8,6 +8,7 @@
 #include <Engine/Core/Graphics/PostProcess/Buffer/Updater/Interface/PostProcessUpdaterBase.h>
 #include <Engine/Core/Graphics/PostProcess/Core/ComputePostProcessor.h>
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessPipeline.h>
+#include <Engine/Core/Graphics/PostProcess/Core/SceneColorGradingPass.h>
 #include <Engine/Editor/Base/IGameEditor.h>
 #include <Engine/Utility/Helper/Algorithm.h>
 
@@ -46,13 +47,11 @@ namespace SakuEngine {
 		void Create(const std::vector<PostProcessType>& processes);
 
 		// ColorとMaskの入力SRVを元に、アクティブなプロセスを順番にディスパッチする
-		void Execute(DxCommand* dxCommand,
-			const D3D12_GPU_DESCRIPTOR_HANDLE& inputSRVGPUHandle,      // 色
-			const D3D12_GPU_DESCRIPTOR_HANDLE& inputMaskSRVGPUHandle); // ポストエフェクトマスク
+		void Execute(DxCommand* dxCommand, const D3D12_GPU_DESCRIPTOR_HANDLE& inputSRVGPUHandle,
+			const D3D12_GPU_DESCRIPTOR_HANDLE& inputMaskSRVGPUHandle);
 		// デバッグビュー用にコピー処理のみ実行する
-		void ExecuteDebugScene(DxCommand* dxCommand,
-			const D3D12_GPU_DESCRIPTOR_HANDLE& inputSRVGPUHandle,      // 色
-			const D3D12_GPU_DESCRIPTOR_HANDLE& inputMaskSRVGPUHandle); // ポストエフェクトマスク
+		void ExecuteDebugScene(DxCommand* dxCommand, const D3D12_GPU_DESCRIPTOR_HANDLE& inputSRVGPUHandle,
+			const D3D12_GPU_DESCRIPTOR_HANDLE& inputMaskSRVGPUHandle);
 
 		// 最終結果のSRVを全画面三角形でスワップチェインRTへ描画する
 		void RenderFrameBuffer(DxCommand* dxCommand);
@@ -87,10 +86,7 @@ namespace SakuEngine {
 		void SetParameter(const T& parameter, PostProcessType process);
 		// 深度ベースのエフェクトで利用する深度SRVハンドルを設定する
 		void SetDepthFrameBufferGPUHandle(const D3D12_GPU_DESCRIPTOR_HANDLE& handle) { depthFrameBufferGPUHandle_ = handle; }
-
-		// パイプライン/コピー結果のSRVを取得する
-		PostProcessPipeline* GetPipeline() const { return pipeline_.get(); }
-		const D3D12_GPU_DESCRIPTOR_HANDLE& GetCopySRVGPUHandle() const { return copyTextureProcess_->GetSRVGPUHandle(); }
+		const D3D12_GPU_DESCRIPTOR_HANDLE& GetCopySRVGPUHandle() const { return colorGradingPass_->GetOutputSRVGPUHandle(true); }
 
 		// 型に一致するUpdaterのポインタを返す(未登録ならnullptr)
 		template <typename T>
@@ -135,8 +131,10 @@ namespace SakuEngine {
 		// debugSceneのα値を調整するためのプロセス
 		std::unique_ptr<ComputePostProcessor> copyTextureProcess_;
 
-		// frameBufferに描画するGPUHandle、最終的な結果
-		D3D12_GPU_DESCRIPTOR_HANDLE frameBufferGPUHandle_;
+		// 色調整パス
+		std::unique_ptr<SceneColorGradingPass> colorGradingPass_;
+
+		// 最終的な描画用SRVハンドル
 		D3D12_GPU_DESCRIPTOR_HANDLE depthFrameBufferGPUHandle_;
 
 		// editor
