@@ -3,37 +3,38 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Editor/Panels/Interface/UIWidgetEditorPanel.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UIWidgetAnimation class
-	//	UIウィジェットのアニメーションを作成、編集して提供するクラス
+	//	UIWidgetHierarchy class
+	//	UIウィジェットのヒエラルキーを表示、編集するクラス
 	//============================================================================
-	class UIWidgetAnimation {
+	class UIWidgetHierarchy :
+		public IUIWidgetEditorPanel {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UIWidgetAnimation() = default;
-		~UIWidgetAnimation() = default;
+		UIWidgetHierarchy() = default;
+		~UIWidgetHierarchy() = default;
 
 		// エディター
-		void ImGui();
+		void Draw(UIWidgetEditorContext& context) override;
 
 		//--------- accessor -----------------------------------------------------
 
+		// パネルの名前
+		const char* GetPanelName() const override { return "UIHierarchy"; }
 	private:
 		//========================================================================
 		//	private Methods
 		//========================================================================
 
-		//--------- variables ----------------------------------------------------
-
-
-
 		//--------- functions ----------------------------------------------------
 
+		void DrawNode(UIWidgetEditorContext& ctx, uint32_t nodeId);
 	};
 } // SakuEngine

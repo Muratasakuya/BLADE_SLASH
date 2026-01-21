@@ -14,15 +14,15 @@ using namespace SakuEngine;
 
 namespace {
 
-	// 文字列の64bitハッシュ値を計算
-	uint64_t Hash64(std::string_view s) {
+	// 文字列の32bitハッシュ値を計算
+	uint32_t Hash64(std::string_view s) {
 
-		// FNV-1a 64
-		uint64_t hash = 1469598103934665603ull;
+		// FNV-1a 32
+		uint32_t hash = 1469598103ull;
 		for (char c : s) {
 
 			hash ^= static_cast<uint8_t>(c);
-			hash *= 1099511628211ull;
+			hash *= 10995ull;
 		}
 		return hash;
 	}
@@ -116,11 +116,11 @@ std::unique_ptr<UISlateWidget> UIUserWidget::CreateWidgetFromJson(const Json& no
 	return widget;
 }
 
-uint64_t UIUserWidget::AllocateWidgetId(const std::string& nameHint) {
+uint32_t UIUserWidget::AllocateWidgetId(const std::string& nameHint) {
 
 	// 既存に衝突しないように線形探索で回避
-	uint64_t base = Hash64(nameHint);
-	uint64_t id = base ? base : 1;
+	uint32_t base = Hash64(nameHint);
+	uint32_t id = base ? base : 1;
 	while (idToWidget_.find(id) != idToWidget_.end()) {
 		++id;
 	}

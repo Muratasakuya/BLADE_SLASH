@@ -6,11 +6,12 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Asset/Asset.h>
-#include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
-#include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/InstancedMeshSystem.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
+#include <Engine/Editor/Camera/CameraEditor.h>
+#include <Engine/Editor/UI/Editor/UIWidgetEditor.h>
 
 //============================================================================
 //	SceneManager classMethods
@@ -64,6 +65,7 @@ void SceneManager::Update() {
 	sceneTransition_->Update();
 
 	CameraEditor::GetInstance()->Update();
+	UIWidgetEditor::GetInstance()->Update();
 }
 
 void SceneManager::BeginFrame() {

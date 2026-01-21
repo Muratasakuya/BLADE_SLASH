@@ -3,6 +3,10 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Editor/Panels/Interface/UIWidgetEditorPanel.h>
+
+// c++
+#include <string>
 
 namespace SakuEngine {
 
@@ -10,7 +14,8 @@ namespace SakuEngine {
 	//	UIWidgetPalette class
 	//	UIウィジェットのパレットを表示、提供するクラス
 	//============================================================================
-	class UIWidgetPalette {
+	class UIWidgetPalette :
+		public IUIWidgetEditorPanel {
 	public:
 		//========================================================================
 		//	public Methods
@@ -20,10 +25,12 @@ namespace SakuEngine {
 		~UIWidgetPalette() = default;
 
 		// エディター
-		void ImGui();
+		void Draw(UIWidgetEditorContext& context) override;
 
 		//--------- accessor -----------------------------------------------------
 
+		// パネルの名前
+		const char* GetPanelName() const override { return "Palette"; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -31,9 +38,6 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-
-
-		//--------- functions ----------------------------------------------------
-
+		char searchBuf_[256]{};
 	};
 } // SakuEngine

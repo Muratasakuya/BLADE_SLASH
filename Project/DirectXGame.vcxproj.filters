@@ -3321,20 +3321,31 @@
     <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli">
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </None>
-    <ClCompile Include="Engine\Editor\UI\Editor\VisualDesigner\UIWidgetVisualDesigner.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.cpp" />
     <ClCompile Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Editor\UI\Editor\VisualDesigner\UIWidgetVisualDesigner.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.h" />
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\Interface\UIWidgetEditorPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

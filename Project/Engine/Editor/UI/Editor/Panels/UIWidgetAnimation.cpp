@@ -13,9 +13,7 @@ using namespace SakuEngine;
 //	UIWidgetAnimation classMethods
 //============================================================================
 
-void UIWidgetAnimation::ImGui() {
+void UIWidgetAnimation::Draw([[maybe_unused]] UIWidgetEditorContext& context) {
 
-	ImGui::Begin("Animation##UIWidgetAnimation");
-
-	ImGui::End();
+	ImGui::TextDisabled("Coming soon...");
 }

@@ -245,26 +245,46 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.cpp">
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.cpp">
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.cpp">
+    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.cpp">
+    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditor.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Editor\VisualDesigner\UIWidgetVisualDesigner.cpp">
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1229,26 +1249,50 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Editor\Animation\UIWidgetAnimation.h">
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Editor\Detail\UIWidgetDetail.h">
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Editor\Hierarchy\UIWidgetHierarchy.h">
+    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Editor\Palette\UIWidgetPalette.h">
+    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditor.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Editor\VisualDesigner\UIWidgetVisualDesigner.h">
+    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\Interface\UIWidgetEditorPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -3,6 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Editor/Panels/Interface/UIWidgetEditorPanel.h>
+#include <Engine/MathLib/Vector2.h>
 
 // directX
 #include <d3d12.h>
@@ -15,7 +17,8 @@ namespace SakuEngine {
 	//	UIWidgetVisualDesigner class
 	//	UIウィジェットの現在の見た目を確認、編集するためのクラス
 	//============================================================================
-	class UIWidgetVisualDesigner {
+	class UIWidgetVisualDesigner :
+		public IUIWidgetEditorPanel {
 	public:
 		//========================================================================
 		//	public Methods
@@ -28,10 +31,11 @@ namespace SakuEngine {
 		void Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle);
 
 		// エディター
-		void ImGui();
+		void Draw(UIWidgetEditorContext& context) override;
 
 		//--------- accessor -----------------------------------------------------
 
+		const char* GetPanelName() const override { return "Visual Designer"; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -45,7 +49,9 @@ namespace SakuEngine {
 		// エディタデバッグ
 		ImVec2 gameViewSize_ = ImVec2(1024.0f, 576.0f);
 
-		//--------- functions ----------------------------------------------------
-
+		// 操作用
+		bool isDragging_ = false;
+		Vector2 dragStartMouse_{};
+		Vector2 dragStartOffsetsLT_{};
 	};
 } // SakuEngine

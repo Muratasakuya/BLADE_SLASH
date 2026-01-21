@@ -4,13 +4,12 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Base/IGameEditor.h>
-
-// 機能クラス
-#include <Engine/Editor/UI/Editor/VisualDesigner/UIWidgetVisualDesigner.h>
-#include <Engine/Editor/UI/Editor/Detail/UIWidgetDetail.h>
-#include <Engine/Editor/UI/Editor/Hierarchy/UIWidgetHierarchy.h>
-#include <Engine/Editor/UI/Editor/Animation/UIWidgetAnimation.h>
-#include <Engine/Editor/UI/Editor/Palette/UIWidgetPalette.h>
+#include <Engine/Editor/UI/Runtime/UIDataContext.h>
+#include <Engine/Editor/UI/Editor/UIWidgetEditorContext.h>
+#include <Engine/Editor/UI/Editor/Document/UIWidgetDocument.h>
+#include <Engine/Editor/UI/Editor/Document/UIWidgetTypeRegistry.h>
+#include <Engine/Editor/UI/Editor/Preview/UIWidgetPreviewRuntime.h>
+#include <Engine/Editor/UI/Editor/Panels/Interface/UIWidgetEditorPanel.h>
 
 // c++
 #include <memory>
@@ -33,11 +32,24 @@ namespace SakuEngine {
 		// 初期化
 		void Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle);
 
+		// 更新
+		void Update();
+
 		// エディター
 		void ImGui() override;
 		void EditUIWidget();
 
+		// ドキュメント操作
+		// 新規作成
+		void Create();
+		// json
+		bool LoadFromJson(const Json& data);
+		void SaveToJson(Json& data) const;
+
 		//--------- accessor -----------------------------------------------------
+
+		// ゲームへ渡すハンドルを取得
+		UIWidgetRefHandle GetCurrentHandle(const std::string& assetPath) const;
 
 		// singleton
 		static UIWidgetEditor* GetInstance();
@@ -51,22 +63,26 @@ namespace SakuEngine {
 
 		static UIWidgetEditor* instance_;
 
+		// エディターコンテキスト
+		UIWidgetEditorContext context_{};
+
+		// ドキュメント
+		std::unique_ptr<UIWidgetDocument> document_;
+		// ウィジェット型登録
+		std::unique_ptr<UIWidgetTypeRegistry> registry_;
+		// プレビューランタイム
+		std::unique_ptr<UIWidgetPreviewRuntime> preview_;
+
 		// エディタ機能
-		// ウィジェットのパレットを表示、提供する
-		std::unique_ptr<UIWidgetPalette> palette_;
-		// ウィジェットの詳細を確認、編集する
-		std::unique_ptr<UIWidgetDetail> detail_;
-		// 作成したウィジェットの見た目を確認、編集する
-		std::unique_ptr<UIWidgetVisualDesigner> visualDesigner_;
-		// ウィジェットのヒエラルキーを確認、編集する
-		std::unique_ptr<UIWidgetHierarchy> hierarchy_;
-		// ウィジェットのアニメーションを作成、編集する
-		std::unique_ptr<UIWidgetAnimation> animation_;
+		std::vector<std::unique_ptr<IUIWidgetEditorPanel>> panels_;
 
 		// エディターを開くかどうか
 		bool isOpenEditor_ = false;
 
 		//--------- functions ----------------------------------------------------
+
+		// ドキュメントの変更をプレビューに適用
+		void ApplyDocumentToPreviewIfNeeded();
 
 		UIWidgetEditor() :IGameEditor("UIWidgetEditor") {}
 		~UIWidgetEditor() = default;

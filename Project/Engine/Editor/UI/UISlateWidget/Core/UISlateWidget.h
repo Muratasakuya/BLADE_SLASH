@@ -65,7 +65,7 @@ namespace SakuEngine {
 	};
 
 	// ポインタボタン
-	enum class UIPointerButton :
+	enum class UIPointerButton : 
 		uint8_t {
 
 		Left,
@@ -173,7 +173,7 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		//固有設定
-		void SetId(uint64_t id) { id_ = id; }
+		void SetId(uint32_t id) { id_ = id; }
 		void SetGeneration(uint32_t generation) { generation_ = generation; }
 		void SetName(std::string name) { name_ = name; }
 
@@ -187,7 +187,7 @@ namespace SakuEngine {
 		void SetCachedRect(const UIRect& rect) { cachedRect_ = rect; }
 
 		// 固有情報の取得
-		uint64_t GetId() const { return id_; }
+		uint32_t GetId() const { return id_; }
 		uint32_t GetGeneration() const { return generation_; }
 		const std::string& GetName() const { return name_; }
 
@@ -216,7 +216,7 @@ namespace SakuEngine {
 		//--------- variables ----------------------------------------------------
 
 		// 固有ID
-		uint64_t id_ = 0;
+		uint32_t id_ = 0;
 		// 世代番号
 		uint32_t generation_ = 1;
 		// ウィジェット名

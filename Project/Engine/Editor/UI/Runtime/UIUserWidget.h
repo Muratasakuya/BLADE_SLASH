@@ -35,7 +35,7 @@ namespace SakuEngine {
 		// ウィジェット生成
 		std::unique_ptr<UISlateWidget> CreateWidgetFromJson(const Json& node);
 		// ウィジェットID割り当て
-		uint64_t AllocateWidgetId(const std::string& nameHint);
+		uint32_t AllocateWidgetId(const std::string& nameHint);
 
 		// フレーム更新
 		void Tick(float deltaTime);

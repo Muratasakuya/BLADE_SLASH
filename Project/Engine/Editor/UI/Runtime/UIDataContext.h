@@ -19,7 +19,7 @@ namespace SakuEngine {
 	//============================================================================
 	struct UIWidgetHandle {
 
-		uint64_t id = 0;
+		uint32_t id = 0;
 		uint32_t generation = 0;
 
 		// UI有効判定
