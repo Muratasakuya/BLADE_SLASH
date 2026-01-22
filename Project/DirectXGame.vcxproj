@@ -261,6 +261,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.cpp">
       <SubType>
       </SubType>
@@ -1262,6 +1266,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.h">
       <SubType>
       </SubType>
     </ClInclude>

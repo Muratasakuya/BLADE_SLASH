@@ -10,6 +10,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Editor/Panels/UIWidgetHierarchy.h>
 #include <Engine/Editor/UI/Editor/Panels/UIWidgetPalette.h>
 #include <Engine/Editor/UI/Editor/Panels/UIWidgetVisualDesigner.h>
+#include <Engine/Editor/UI/Editor/Panels/UIWidgetDocumentsPanel.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 
 //============================================================================
@@ -37,55 +38,138 @@ void UIWidgetEditor::Finalize() {
 
 void UIWidgetEditor::Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle) {
 
-	// ドキュメント初期化
-	document_ = std::make_unique<UIWidgetDocument>();
-	document_->CreateDocument();
-	context_.document = document_.get();
-	// ウィジェット型登録初期化
+	// レジストリ初期化
 	registry_ = std::make_unique<UIWidgetTypeRegistry>();
 	registry_->RegisterDefaults();
-	context_.registry = registry_.get();
-	// プレビューランタイム初期化
+	// プレビュー表示初期化
 	preview_ = std::make_unique<UIWidgetPreviewRuntime>();
-	preview_->Init();
-	context_.preview = preview_.get();
 
-	// エディタ機能初期化
+	// ドキュメントを1つ確保
+	EnsureAtLeastOneDocument();
+
+	// コンテキストを初期バインド
+	context_.registry = registry_.get();
+	context_.preview = preview_.get();
+	context_.editor = this;
+	BindActiveDocumentToContext();
+
+	// プレビュー表示初期化
+	preview_->Init();
+	context_.RequestPreviewRebuild();
+
+	// パネル群初期化
+	panels_.emplace_back(std::make_unique<UIWidgetHierarchy>());
 	panels_.emplace_back(std::make_unique<UIWidgetPalette>());
 	panels_.emplace_back(std::make_unique<UIWidgetDetail>());
-	panels_.emplace_back(std::make_unique<UIWidgetHierarchy>());
 	panels_.emplace_back(std::make_unique<UIWidgetAnimation>());
+	panels_.emplace_back(std::make_unique<UIWidgetDocumentsPanel>());
 	panels_.emplace_back(std::make_unique<UIWidgetVisualDesigner>());
 
 	// ビジュアルデザイナに描画用テクスチャを渡す
-	if (auto visualDesigner = static_cast<UIWidgetVisualDesigner*>(panels_.back().get())) {
+	if (auto visualDesigner = dynamic_cast<UIWidgetVisualDesigner*>(panels_.back().get())) {
 
 		visualDesigner->Init(renderTextureGPUHandle);
 	}
-
-	// 初回ビルド
-	context_.RequestPreviewRebuild();
-	ApplyDocumentToPreviewIfNeeded();
 }
 
-UIWidgetRefHandle UIWidgetEditor::GetCurrentHandle(const std::string& assetPath) const {
+bool UIWidgetEditor::CreateDocument(const std::string& key) {
 
-	return document_->ExportHandle(assetPath);
-}
+	// キーが空、もしくは存在しない場合は失敗
+	if (key.empty()) {
+		return false;
+	}
+	if (documents_.find(key) != documents_.end()) {
+		return false;
+	}
 
-void UIWidgetEditor::Create() {
+	// 新規作成してアクティブにする
+	std::unique_ptr<UIWidgetDocument> document = std::make_unique<UIWidgetDocument>();
+	document->CreateDocument();
 
-	// ドキュメント新規作成
-	document_->CreateDocument();
+	// 登録とアクティブ化
+	documents_[key] = std::move(document);
+	activeKey_ = key;
+	BindActiveDocumentToContext();
+
+	// 選択状態クリア
 	context_.selection.Clear();
 	context_.RequestPreviewRebuild();
-	context_.documentDirty = false;
+	return true;
+}
+
+bool UIWidgetEditor::DeleteDocument(const std::string& key) {
+
+	// キーが存在しない場合はfalseを返す
+	auto it = documents_.find(key);
+	if (it == documents_.end()) {
+		return false;
+	}
+
+	// 削除処理
+	bool deletingActive = (key == activeKey_);
+	documents_.erase(it);
+
+	// ドキュメントが1つもなくなった場合は新規作成
+	if (documents_.empty()) {
+
+		EnsureAtLeastOneDocument();
+	}
+	// アクティブドキュメントが削除された場合は先頭のドキュメントをアクティブにする
+	else if (deletingActive) {
+
+		activeKey_ = documents_.begin()->first;
+	}
+
+	// コンテキスト再バインド
+	BindActiveDocumentToContext();
+	context_.selection.Clear();
+	context_.RequestPreviewRebuild();
+	return true;
+}
+
+bool UIWidgetEditor::SetActiveDocument(const std::string& key) {
+
+	// キーが存在しない場合はfalseを返す
+	if (activeKey_ == key) {
+		return true;
+	}
+	auto it = documents_.find(key);
+	if (it == documents_.end()) {
+		return false;
+	}
+
+	// アクティブ切替
+	activeKey_ = key;
+	// コンテキスト再バインド
+	BindActiveDocumentToContext();
+	context_.selection.Clear();
+	context_.RequestPreviewRebuild();
+	return true;
+}
+
+void UIWidgetEditor::BindActiveDocumentToContext() {
+
+	// コンテキストにアクティブドキュメントをバインド
+	context_.document = GetActiveDocument();
+}
+
+void UIWidgetEditor::EnsureAtLeastOneDocument() {
+
+	// ドキュメントが1つもない場合はデフォルトドキュメントを作成
+	if (!documents_.empty()) {
+		return;
+	}
+	CreateDocument("Default");
+}
+
+UIWidgetDocument* UIWidgetEditor::GetActiveDocument() const {
+
+	// アクティブドキュメント取得、存在しなければnullptrを返す
+	auto it = documents_.find(activeKey_);
+	return (it != documents_.end()) ? it->second.get() : nullptr;
 }
 
 void UIWidgetEditor::Update() {
-
-	// ドキュメントの変更をプレビューに適用
-	ApplyDocumentToPreviewIfNeeded();
 
 	// プレビュー表示更新
 	preview_->Tick(GameTimer::GetDeltaTime());
@@ -104,17 +188,6 @@ void UIWidgetEditor::EditUIWidget() {
 		return;
 	}
 
-	ImGui::Begin("UI WidgetEditor");
-
-	// ドキュメントの作成
-	if (ImGui::Button("Create")) {
-
-		Create();
-	}
-	ImGui::Checkbox("documentDirty", &context_.documentDirty);
-
-	ImGui::End();
-
 	// 各パネル描画
 	for (const auto& panel : panels_) {
 		if (ImGui::Begin(panel->GetPanelName())) {
@@ -123,42 +196,4 @@ void UIWidgetEditor::EditUIWidget() {
 		}
 		ImGui::End();
 	}
-}
-
-void UIWidgetEditor::ApplyDocumentToPreviewIfNeeded() {
-
-	// プレビュー再構築要求があれば再構築
-	if (context_.rebuildPreviewRequested) {
-
-		context_.preview->RebuildFromDocument(*context_.document);
-		context_.rebuildPreviewRequested = false;
-		context_.syncPreviewRequested = false;
-		return;
-	}
-
-	// プロパティ同期要求があれば同期
-	if (context_.syncPreviewRequested) {
-
-		// プロパティ同期して終了
-		context_.preview->SyncPropertiesFromDocument(*context_.document);
-		context_.syncPreviewRequested = false;
-	}
-}
-
-bool UIWidgetEditor::LoadFromJson(const Json& data) {
-
-	bool result = document_->FromJson(data);
-	// 読み込み成功したら選択状態クリア
-	if (result) {
-
-		context_.selection.Clear();
-		context_.RequestPreviewRebuild();
-		context_.documentDirty = false;
-	}
-	return result;
-}
-
-void UIWidgetEditor::SaveToJson(Json& data) const {
-
-	document_->ToJson(data);
 }

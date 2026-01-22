@@ -16,6 +16,7 @@ namespace SakuEngine {
 	class UIWidgetDocument;
 	class UIWidgetTypeRegistry;
 	class UIWidgetPreviewRuntime;
+	class UIWidgetEditor;
 
 	// エディタ上の選択状態
 	struct UIWidgetEditorSelection {
@@ -50,6 +51,8 @@ namespace SakuEngine {
 		UIWidgetTypeRegistry* registry = nullptr;
 		// プレビューランタイム
 		UIWidgetPreviewRuntime* preview = nullptr;
+		// 編集中のエディター
+		UIWidgetEditor* editor = nullptr;
 
 		// エディタ上の選択状態
 		UIWidgetEditorSelection selection{};

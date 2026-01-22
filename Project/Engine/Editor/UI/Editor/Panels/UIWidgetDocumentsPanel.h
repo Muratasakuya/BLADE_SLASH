@@ -8,18 +8,18 @@
 namespace SakuEngine {
 
 	//============================================================================
-	//	UIWidgetHierarchy class
-	//	UIウィジェットのヒエラルキーを表示、編集するクラス
+	//	UIWidgetDocumentsPanel class
+	//	
 	//============================================================================
-	class UIWidgetHierarchy :
+	class UIWidgetDocumentsPanel :
 		public IUIWidgetEditorPanel {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UIWidgetHierarchy() = default;
-		~UIWidgetHierarchy() = default;
+		UIWidgetDocumentsPanel() = default;
+		~UIWidgetDocumentsPanel() = default;
 
 		// エディター
 		void Draw(UIWidgetEditorContext& context) override;
@@ -27,14 +27,15 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		// パネルの名前
-		const char* GetPanelName() const override { return "UIHierarchy"; }
+		const char* GetPanelName() const override { return "UIWidgetEditor"; }
 	private:
 		//========================================================================
 		//	private Methods
 		//========================================================================
 
-		//--------- functions ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-		void DrawNode(UIWidgetEditorContext& context, uint32_t nodeId);
+		// 新規ドキュメントキー入力用バッファ
+		char newKey_[128] = "NewWidget";
 	};
 } // SakuEngine

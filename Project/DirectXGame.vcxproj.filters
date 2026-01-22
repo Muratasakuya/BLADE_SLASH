@@ -3332,6 +3332,7 @@
     <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.cpp" />
     <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.cpp" />
     <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.h" />
@@ -3346,6 +3347,7 @@
     <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.h" />
     <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.h" />
     <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.h" />
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

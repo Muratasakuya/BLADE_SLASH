@@ -40,16 +40,16 @@ namespace SakuEngine {
 		void EditUIWidget();
 
 		// ドキュメント操作
-		// 新規作成
-		void Create();
-		// json
-		bool LoadFromJson(const Json& data);
-		void SaveToJson(Json& data) const;
+		bool CreateDocument(const std::string& key);    // 新規追加してアクティブにする
+		bool DeleteDocument(const std::string& key);    // 削除
+		bool SetActiveDocument(const std::string& key); // アクティブ切替
 
 		//--------- accessor -----------------------------------------------------
 
-		// ゲームへ渡すハンドルを取得
-		UIWidgetRefHandle GetCurrentHandle(const std::string& assetPath) const;
+		// アクティブドキュメント取得
+		UIWidgetDocument* GetActiveDocument() const;
+		const std::string& GetActiveKey() const { return activeKey_; }
+		const std::unordered_map<std::string, std::unique_ptr<UIWidgetDocument>>& GetDocuments() const { return documents_; }
 
 		// singleton
 		static UIWidgetEditor* GetInstance();
@@ -67,7 +67,10 @@ namespace SakuEngine {
 		UIWidgetEditorContext context_{};
 
 		// ドキュメント
-		std::unique_ptr<UIWidgetDocument> document_;
+		std::unordered_map<std::string, std::unique_ptr<UIWidgetDocument>> documents_;
+		// 現在操作中のドキュメントのキー
+		std::string activeKey_;
+
 		// ウィジェット型登録
 		std::unique_ptr<UIWidgetTypeRegistry> registry_;
 		// プレビューランタイム
@@ -81,8 +84,8 @@ namespace SakuEngine {
 
 		//--------- functions ----------------------------------------------------
 
-		// ドキュメントの変更をプレビューに適用
-		void ApplyDocumentToPreviewIfNeeded();
+		void BindActiveDocumentToContext();
+		void EnsureAtLeastOneDocument();
 
 		UIWidgetEditor() :IGameEditor("UIWidgetEditor") {}
 		~UIWidgetEditor() = default;
