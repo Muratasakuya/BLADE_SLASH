@@ -18,7 +18,6 @@ using namespace SakuEngine;
 // エディター機能
 #include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
-#include <Engine/Editor/UI/Editor/UIWidgetEditor.h>
 
 //============================================================================
 //	Framework classMethods
@@ -143,7 +142,6 @@ Framework::Framework() {
 
 	SakuEngine::LineRenderer::GetInstance()->Init(device, dxCommand->GetCommandList(),
 		srvDescriptor, shaderCompiler, sceneView_.get());
-	UIWidgetEditor::GetInstance()->Init(renderEngine_->GetRenderTextureGPUHandle());
 	AssetEditor::GetInstance()->Init(asset_.get());
 	CameraEditor::GetInstance()->Init(sceneView_.get());
 

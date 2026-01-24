@@ -97,9 +97,6 @@
     <Filter Include="Engine\Editor\Manager">
       <UniqueIdentifier>{0BED7D59-28B3-44BE-B5C1-5E0D8D7E87D1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Editor\UI">
-      <UniqueIdentifier>{E390E817-87FD-4C5C-965B-3001EA616370}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Input\Base">
       <UniqueIdentifier>{A935AE2C-8DBB-4219-9C24-746040767721}</UniqueIdentifier>
     </Filter>
@@ -273,15 +270,6 @@
     </Filter>
     <Filter Include="Engine\Editor\Effect\User">
       <UniqueIdentifier>{8A3B1BF3-FE08-4CEF-9699-D93AFFE043A3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Editor\UI\Editor">
-      <UniqueIdentifier>{D9352321-E1D2-40B4-A27D-4EF2419339B8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Editor\UI\Runtime">
-      <UniqueIdentifier>{84BDF8B5-7534-4B8F-8ABC-4C7F46F28857}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Editor\UI\UISlateWidget">
-      <UniqueIdentifier>{6A11AEFF-2782-4EB1-8963-0335AE3D8DE0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Base\Interface">
       <UniqueIdentifier>{78F9B4DF-E0E0-4B06-B1AE-ACBC4A940185}</UniqueIdentifier>
@@ -487,15 +475,6 @@
     <Filter Include="Engine\Editor\Effect\User\Methods">
       <UniqueIdentifier>{BA30A10D-C933-412C-8F77-CDD38E4A0C04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Editor\UI\UISlateWidget\Core">
-      <UniqueIdentifier>{3CC99973-E7BA-4FC1-9F1A-411EED11CD00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Editor\UI\UISlateWidget\Mehtods">
-      <UniqueIdentifier>{296084FA-A5AA-40C6-8FDA-98359DA4A2E3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Editor\UI\UISlateWidget\Widgets">
-      <UniqueIdentifier>{2B91EB0C-1DA1-4B01-90C5-515B953B83F2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Object\Data\Text\Builder">
       <UniqueIdentifier>{B78C8255-46C9-4F1B-9C0E-25DC7DAFA897}</UniqueIdentifier>
     </Filter>
@@ -621,9 +600,6 @@
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater">
       <UniqueIdentifier>{FA5C5FED-B346-43A4-85DE-035187C1C537}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic">
-      <UniqueIdentifier>{12FCB0A5-3E06-48DF-8EA7-188C5DCA7A89}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Text\Generator\Interface">
       <UniqueIdentifier>{82B4FAF4-37A5-4F0B-AD5D-741DB6FFD604}</UniqueIdentifier>
@@ -884,45 +860,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <Filter>Engine\Editor\Effect\User\Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditor.cpp">
-      <Filter>Engine\Editor\UI\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Runtime\UIApplication.cpp">
-      <Filter>Engine\Editor\UI\Runtime</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Runtime\UIDataContext.cpp">
-      <Filter>Engine\Editor\UI\Runtime</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Runtime\UIUserWidget.cpp">
-      <Filter>Engine\Editor\UI\Runtime</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateButton.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateImage.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateSlider.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateTextBlock.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Core\UISlateWidget.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Mehtods\UIWidgetFactory.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Mehtods</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateCanvasPanel.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.cpp">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\InputStructures.cpp">
       <Filter>Engine\Input</Filter>
@@ -1994,45 +1931,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <Filter>Engine\Editor\Effect\User\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditor.h">
-      <Filter>Engine\Editor\UI\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Runtime\UIApplication.h">
-      <Filter>Engine\Editor\UI\Runtime</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Runtime\UIDataContext.h">
-      <Filter>Engine\Editor\UI\Runtime</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Runtime\UIUserWidget.h">
-      <Filter>Engine\Editor\UI\Runtime</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateButton.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateImage.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateSlider.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateTextBlock.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Core\UISlateWidget.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Mehtods\UIWidgetFactory.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Mehtods</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateCanvasPanel.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.h">
-      <Filter>Engine\Editor\UI\UISlateWidget\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Base\GameTextObject.h">
       <Filter>Engine\Object\Base</Filter>
@@ -3321,33 +3219,10 @@
     <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli">
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </None>
-    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.cpp" />
     <ClCompile Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.h" />
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\Interface\UIWidgetEditorPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.h" />
-    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />
