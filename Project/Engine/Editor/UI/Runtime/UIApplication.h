@@ -27,15 +27,12 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		// ユーザーウィジェット設定
-		void SetUserWidget(std::unique_ptr<UIUserWidget> userWidget);
+		void SetUserWidget(UIUserWidget* userWidget) { userWidget_ = userWidget; }
 
 		// 入力ビューエリア設定
 		void SetViewArea(InputViewArea area) { viewArea_ = area; }
 		// 矩形設定
 		void SetViewportRect(const UIRect& rect);
-
-		// ユーザーウィジェット取得
-		const UIUserWidget& GetUserWidget() const { return *userWidget_.get(); }
 	private:
 		//========================================================================
 		//	private Methods
@@ -47,7 +44,7 @@ namespace SakuEngine {
 		InputViewArea viewArea_ = InputViewArea::Game;
 
 		// ユーザーウィジェット
-		std::unique_ptr<UIUserWidget> userWidget_{};
+		UIUserWidget* userWidget_{};
 
 		// 矩形サイズ
 		UIRect viewportRect_{ Vector2::AnyInit(0.0f), Vector2(Config::kWindowWidthf, Config::kWindowHeightf) };

@@ -32,6 +32,9 @@ void UISlateButton::OnAddedToTree(UIUserWidget& owner) {
 		children_.insert(children_.begin(), std::move(background));
 	}
 
+	// エディタノードID設定
+	background_->SetEditorNodeId(this->GetEditorNodeId());
+
 	// 子のツリー登録
 	UISlatePanelWidget::OnAddedToTree(owner);
 }

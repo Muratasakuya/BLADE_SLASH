@@ -176,6 +176,7 @@ namespace SakuEngine {
 		void SetId(uint32_t id) { id_ = id; }
 		void SetGeneration(uint32_t generation) { generation_ = generation; }
 		void SetName(std::string name) { name_ = name; }
+		void SetEditorNodeId(uint32_t id) { editorNodeId_ = id; }
 
 		// ウィジェットの可視設定
 		void SetVisibility(UIVisibility visibility) { visibility_ = visibility; }
@@ -190,6 +191,7 @@ namespace SakuEngine {
 		uint32_t GetId() const { return id_; }
 		uint32_t GetGeneration() const { return generation_; }
 		const std::string& GetName() const { return name_; }
+		uint32_t GetEditorNodeId() const { return editorNodeId_; }
 
 		// ウィジェットの可視設定取得
 		UIVisibility GetVisibility() const { return visibility_; }
@@ -229,5 +231,8 @@ namespace SakuEngine {
 		// レイアウト情報
 		UIAnchorData layout_{};
 		UIRect cachedRect_{};
+
+		// エディター
+		uint32_t editorNodeId_ = 0;
 	};
 } // SakuEngine

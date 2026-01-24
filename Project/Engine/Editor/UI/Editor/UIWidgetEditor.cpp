@@ -11,6 +11,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Editor/Panels/UIWidgetPalette.h>
 #include <Engine/Editor/UI/Editor/Panels/UIWidgetVisualDesigner.h>
 #include <Engine/Editor/UI/Editor/Panels/UIWidgetDocumentsPanel.h>
+#include <Engine/Editor/UI/UISlateWidget/Mehtods/UIWidgetFactory.h>
 #include <Engine/Utility/Timer/GameTimer.h>
 
 //============================================================================
@@ -41,6 +42,7 @@ void UIWidgetEditor::Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHan
 	// レジストリ初期化
 	registry_ = std::make_unique<UIWidgetTypeRegistry>();
 	registry_->RegisterDefaults();
+	UIWidgetFactory::GetInstance().RegisterDefaults();
 	// プレビュー表示初期化
 	preview_ = std::make_unique<UIWidgetPreviewRuntime>();
 

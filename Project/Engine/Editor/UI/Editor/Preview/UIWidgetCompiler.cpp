@@ -48,6 +48,7 @@ std::unique_ptr<UISlateWidget> UIWidgetCompiler::BuildNodeRecursive(
 	widget->SetName(node->name);
 	widget->SetId(node->id);
 	widget->SetGeneration(1);
+	widget->SetEditorNodeId(node->id);
 
 	// 共通設定
 	ApplyCommonProperty(document, nodeId, *widget);

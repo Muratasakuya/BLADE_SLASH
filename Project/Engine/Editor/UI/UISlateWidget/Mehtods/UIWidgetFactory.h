@@ -35,6 +35,9 @@ namespace SakuEngine {
 		// ウィジェットの登録
 		void Register(std::string typeName, CreateFn fn);
 
+		// デフォルト型登録
+		void RegisterDefaults();
+
 		//--------- accessor -----------------------------------------------------
 
 		static UIWidgetFactory& GetInstance();

@@ -13,16 +13,11 @@ using namespace SakuEngine;
 //	UIWidgetPreviewRuntime classMethods
 //============================================================================
 
-UIWidgetPreviewRuntime::UIWidgetPreviewRuntime() {
+void UIWidgetPreviewRuntime::Init() {
 
-	// 各機能の生成
-	compiler_ = std::make_unique<UIWidgetCompiler>();
 	app_ = std::make_unique<UIApplication>();
 	userWidget_ = std::make_unique<UIUserWidget>();
 	userWidget_->Init("UI_Preview");
-}
-
-void UIWidgetPreviewRuntime::Init() {
 
 	// viewport 設定
 	SetViewportSize(viewportSize_);
@@ -54,15 +49,12 @@ void UIWidgetPreviewRuntime::Tick(float deltaTime) {
 void UIWidgetPreviewRuntime::RebuildFromDocument(const UIWidgetDocument& document) {
 
 	// ウィジェットを作成
-	runtimeRoot_ = compiler_->BuildRuntimeTree(document);
-	if (!runtimeRoot_) {
-		return;
-	}
+	UIWidgetCompiler compiler{};
+	auto root = compiler.BuildRuntimeTree(document);
 
 	// ユーザウィジェットに設定
-	userWidget_->SetRoot(std::move(runtimeRoot_));
-	userWidget_->OnAddedToTree();
-	userWidget_->SynchronizeProperties();
+	userWidget_->SetRoot(std::move(root));
+	app_->SetUserWidget(userWidget_.get());
 }
 
 void UIWidgetPreviewRuntime::SyncPropertiesFromDocument(const UIWidgetDocument& document) {

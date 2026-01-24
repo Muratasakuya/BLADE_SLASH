@@ -42,7 +42,7 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		UIWidgetPreviewRuntime();
+		UIWidgetPreviewRuntime() = default;
 		~UIWidgetPreviewRuntime() = default;
 
 		// 初期化
@@ -70,7 +70,7 @@ namespace SakuEngine {
 		const Vector2& GetViewportSize() const { return viewportSize_; }
 
 		// 外部からプレビューのDataContextに値を入れる用
-		UIUserWidget* GetPreviewUserWidget() const { return userWidget_.get(); }
+		UIUserWidget* GetPreviewUserWidget() const { return userWidget_; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -81,15 +81,10 @@ namespace SakuEngine {
 		// 描画ビューポートサイズ
 		Vector2 viewportSize_;
 
-		// ランタイムで動かすウィジェットのルート
-		std::unique_ptr<UISlateWidget> runtimeRoot_;
 		// ウィジェットを動かす
 		std::unique_ptr<UIApplication> app_;
-
 		// ユーザウィジェット
-		std::unique_ptr<UIUserWidget> userWidget_;
-		// ウィジェットを構築するコンパイラ
-		std::unique_ptr<UIWidgetCompiler> compiler_;
+		UIUserWidget* userWidget_ = nullptr;
 
 		//--------- functions ----------------------------------------------------
 

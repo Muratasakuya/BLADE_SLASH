@@ -51,6 +51,11 @@ void UISlateSlider::OnAddedToTree(UIUserWidget& owner) {
 	knob_->GetLayout().offsets = UIMargin{ 0.0f,0.0f,20.0f,20.0f };
 	knob_->GetLayout().alignment = Vector2(0.5f, 0.5f);
 
+	// エディタノードID設定
+	background_->SetEditorNodeId(this->GetEditorNodeId());
+	fill_->SetEditorNodeId(this->GetEditorNodeId());
+	knob_->SetEditorNodeId(this->GetEditorNodeId());
+
 	// 子のツリー登録
 	UISlatePanelWidget::OnAddedToTree(owner);
 }

@@ -86,19 +86,6 @@ void UIApplication::Update(float deltaTime) {
 	userWidget_->PaintDrawData();
 }
 
-void UIApplication::SetUserWidget(std::unique_ptr<UIUserWidget> userWidget) {
-
-	// ウィジェットを設定
-	userWidget_ = std::move(userWidget);
-	// ツリーに追加
-	if (userWidget_) {
-
-		// ツリーに追加通知、同期
-		userWidget_->OnAddedToTree();
-		userWidget_->SynchronizeProperties();
-	}
-}
-
 void UIApplication::SetViewportRect(const UIRect& rect) {
 
 	viewportRect_ = rect;
