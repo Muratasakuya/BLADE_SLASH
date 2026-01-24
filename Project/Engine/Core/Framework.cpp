@@ -11,11 +11,14 @@ using namespace SakuEngine;
 #include <Engine/Asset/AssetEditor.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Collision/CollisionManager.h>
-#include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
 #include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
-#include <Engine/Editor/Camera/CameraEditor.h>
 #include <Engine/Config.h>
+
+// エディター機能
+#include <Engine/Editor/Effect/Particle/Core/ParticleManager.h>
+#include <Engine/Editor/Camera/CameraEditor.h>
+#include <Engine/Editor/UI/Editor/UIWidgetEditor.h>
 
 //============================================================================
 //	Framework classMethods
@@ -140,6 +143,7 @@ Framework::Framework() {
 
 	SakuEngine::LineRenderer::GetInstance()->Init(device, dxCommand->GetCommandList(),
 		srvDescriptor, shaderCompiler, sceneView_.get());
+	UIWidgetEditor::GetInstance()->Init(renderEngine_->GetRenderTextureGPUHandle());
 	AssetEditor::GetInstance()->Init(asset_.get());
 	CameraEditor::GetInstance()->Init(sceneView_.get());
 
@@ -149,8 +153,7 @@ Framework::Framework() {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	imguiEditor_ = std::make_unique<ImGuiEditor>();
-	imguiEditor_->Init(renderEngine_->GetRenderTextureGPUHandle(),
-		postProcessSystem->GetCopySRVGPUHandle());
+	imguiEditor_->Init(renderEngine_->GetRenderTextureGPUHandle(), postProcessSystem->GetCopySRVGPUHandle());
 	imguiEditor_->LoadIconTextures(asset_.get());
 
 	// コンソール表示用
@@ -271,11 +274,9 @@ void Framework::RenderPath(DxCommand* dxCommand) {
 	renderEngine_->BeginPostProcess();
 
 	// postProcess処理実行
-	postProcessSystem->Execute(dxCommand,
-		renderEngine_->GetRenderTexture(RenderEngine::ViewType::Main,
-			RenderEngine::SVTarget::Color)->GetSRVGPUHandle(),            // 0.色
-		renderEngine_->GetRenderTexture(RenderEngine::ViewType::Main,
-			RenderEngine::SVTarget::PostProcessMask)->GetSRVGPUHandle()); // 1.マスク
+	postProcessSystem->Execute(dxCommand, renderEngine_->GetRenderTexture(RenderEngine::ViewType::Main,
+		RenderEngine::SVTarget::Color)->GetSRVGPUHandle(), renderEngine_->GetRenderTexture(RenderEngine::ViewType::Main,
+			RenderEngine::SVTarget::PostProcessMask)->GetSRVGPUHandle());
 
 	renderEngine_->EndPostProcess();
 
@@ -286,11 +287,9 @@ void Framework::RenderPath(DxCommand* dxCommand) {
 
 	renderEngine_->Rendering(RenderEngine::ViewType::Debug, meshEnable);
 
-	postProcessSystem->ExecuteDebugScene(dxCommand,
-		renderEngine_->GetRenderTexture(RenderEngine::ViewType::Debug,
-			RenderEngine::SVTarget::Color)->GetSRVGPUHandle(),            // 0.色
-		renderEngine_->GetRenderTexture(RenderEngine::ViewType::Debug,
-			RenderEngine::SVTarget::PostProcessMask)->GetSRVGPUHandle()); // 1.マスク
+	postProcessSystem->ExecuteDebugScene(dxCommand, renderEngine_->GetRenderTexture(RenderEngine::ViewType::Debug,
+		RenderEngine::SVTarget::Color)->GetSRVGPUHandle(), renderEngine_->GetRenderTexture(RenderEngine::ViewType::Debug,
+			RenderEngine::SVTarget::PostProcessMask)->GetSRVGPUHandle());
 #endif
 	//========================================================================
 	//	draw: frameBuffer

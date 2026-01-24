@@ -145,6 +145,10 @@ void PostProcessSystem::Init(ID3D12Device8* device, DxShaderCompiler* shaderComp
 	// copy用プロセス
 	copyTextureProcess_ = std::make_unique<ComputePostProcessor>();
 	copyTextureProcess_->Init(device_, srvDescriptor_, width_, height_);
+
+	// 色調整
+	colorGradingPass_ = std::make_unique<SceneColorGradingPass>();
+	colorGradingPass_->Init(device, srvDescriptor_, shaderComplier);
 }
 
 void PostProcessSystem::CreateAllProcesses() {
@@ -252,26 +256,15 @@ void PostProcessSystem::Execute(DxCommand* dxCommand, const D3D12_GPU_DESCRIPTOR
 		}
 	}
 
-	// 最終的なframeBufferに設定するGPUHandleの設定
-	frameBufferGPUHandle_ = inputGPUHandle;
+	// 最後に色調整を実行
+	colorGradingPass_->Execute(false, dxCommand, inputGPUHandle);
 }
 
 void PostProcessSystem::BeginTransition(PostProcessType process, DxCommand* dxCommand) {
 
-	if (process == activeProcesses_.back()) {
-
-		// 最後の処理はframeBufferに描画するためにPixelShaderに遷移させる
-		// UnorderedAccess -> PixelShader
-		dxCommand->TransitionBarriers({ processors_[process]->GetOutputTextureResource() },
-			D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	} else {
-
-		// UnorderedAccess -> ComputeShader
-		dxCommand->TransitionBarriers({ processors_[process]->GetOutputTextureResource() },
-			D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-			D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-	}
+	// UnorderedAccess -> ComputeShader
+	dxCommand->TransitionBarriers({ processors_[process]->GetOutputTextureResource() },
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 }
 
 void PostProcessSystem::ExecuteDebugScene(DxCommand* dxCommand, const D3D12_GPU_DESCRIPTOR_HANDLE& inputSRVGPUHandle,
@@ -286,21 +279,46 @@ void PostProcessSystem::ExecuteDebugScene(DxCommand* dxCommand, const D3D12_GPU_
 	commandContext.Execute(PostProcessType::CopyTexture, commandList,
 		copyTextureProcess_.get(), inputSRVGPUHandle, inputMaskSRVGPUHandle);
 
-	// UnorderedAccess -> PixelShader
+	// UnorderedAccess -> ComputeShader
 	dxCommand->TransitionBarriers({ copyTextureProcess_->GetOutputTextureResource() },
-		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+
+	// 最後に色調整を実行
+	colorGradingPass_->Execute(true, dxCommand, copyTextureProcess_->GetSRVGPUHandle());
+}
+
+void PostProcessSystem::ToWrite(DxCommand* dxCommand) {
+
+	if (activeProcesses_.empty()) {
+		return;
+	}
+
+	for (const auto& process : activeProcesses_) {
+
+		// ComputeShader -> UnorderedAccess
+		dxCommand->TransitionBarriers({ processors_[process]->GetOutputTextureResource() },
+			D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	}
+
+	colorGradingPass_->ToWrite(dxCommand);
+
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+
+	// ComputeShader -> UnorderedAccess
+	dxCommand->TransitionBarriers({ copyTextureProcess_->GetOutputTextureResource() },
+		D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+#endif
 }
 
 void PostProcessSystem::RenderFrameBuffer(DxCommand* dxCommand) {
 
 	auto commandList = dxCommand->GetCommandList();
 
-	// frameBufferへの描画
+	// フレームへの描画
 	commandList->SetGraphicsRootSignature(offscreenPipeline_->GetRootSignature());
 	commandList->SetPipelineState(offscreenPipeline_->GetGraphicsPipeline());
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	commandList->SetGraphicsRootDescriptorTable(0, frameBufferGPUHandle_);
+	commandList->SetGraphicsRootDescriptorTable(0, colorGradingPass_->GetOutputSRVGPUHandle(false));
 
 	const UINT vertexCount = 3;
 	commandList->DrawInstanced(vertexCount, 1, 0, 0);
@@ -413,40 +431,6 @@ void PostProcessSystem::ImGui() {
 	ImGui::EndChild();
 
 	ImGui::SetWindowFontScale(1.0f);
-}
-
-void PostProcessSystem::ToWrite(DxCommand* dxCommand) {
-
-	if (activeProcesses_.empty()) {
-		return;
-	}
-
-	for (const auto& process : activeProcesses_) {
-		if (process == activeProcesses_.back()) {
-
-			// PixelShader -> UnorderedAccess
-			dxCommand->TransitionBarriers(
-				{ processors_[process]->GetOutputTextureResource() },
-				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-				D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-		} else {
-
-			// ComputeShader -> UnorderedAccess
-			dxCommand->TransitionBarriers(
-				{ processors_[process]->GetOutputTextureResource() },
-				D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
-				D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-		}
-	}
-
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
-
-	// PixelShader -> UnorderedAccess
-	dxCommand->TransitionBarriers(
-		{ copyTextureProcess_->GetOutputTextureResource() },
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-#endif
 }
 
 void PostProcessSystem::CreateCBuffer(PostProcessType type) {

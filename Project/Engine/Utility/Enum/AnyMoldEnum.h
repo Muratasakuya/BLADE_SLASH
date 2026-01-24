@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -15,4 +15,12 @@ enum class AnyMold {
 	Vector2,
 	Vector3,
 	Color,
+};
+// 全型
+enum class AnyMoldAll {
+
+	Bool,
+	Int,
+	Float,
+	String
 };

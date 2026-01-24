@@ -44,7 +44,8 @@ void GraphicsPlatform::InitDXDevice() {
 		D3D12_MESSAGE_ID denyIds[] = {
 
 			// https://stackoverflow.com/questions/69805245/directx-12-application-is-crashing-in-windows-11
-			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE,
+			D3D12_MESSAGE_ID_FENCE_ZERO_WAIT
 		};
 
 		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };

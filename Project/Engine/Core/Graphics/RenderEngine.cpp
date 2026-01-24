@@ -146,7 +146,7 @@ void RenderEngine::Init(WinApp* winApp, ID3D12Device8* device, DxShaderCompiler*
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 	imguiManager_ = std::make_unique<ImGuiManager>();
-	imguiManager_->Init(winApp->GetHwnd(), dxSwapChain_->GetDesc().BufferCount, device, srvDescriptor_.get());
+	imguiManager_->Init(winApp->GetHwnd(), dxSwapChain_->GetDesc().BufferCount, device, dxCommand_->GetQueue(), srvDescriptor_.get());
 
 	pixelPicker_ = std::make_unique<GPUPixelPicker>();
 	pixelPicker_->Init(device, shaderCompiler, srvDescriptor_.get());
@@ -251,7 +251,7 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 
 	// canvas描画
 	// model描画前、ポストエフェクト適応
-	canvasRenderer_->ApplyPostProcessRendering(CanvasLayer::PreModel, sceneBuffer_.get(), dxCommand_);
+	canvasRenderer_->Rendering(CanvasLayer::PreModel, sceneBuffer_.get(), dxCommand_);
 
 	// line描画実行
 	SakuEngine::LineRenderer::GetInstance()->Get2D()->Execute(isDebugEnable, LineType::None);
@@ -278,7 +278,7 @@ void RenderEngine::Renderers(ViewType type, bool enableMesh) {
 
 	// canvas描画
 	// model描画後、ポストエフェクト適応
-	canvasRenderer_->ApplyPostProcessRendering(CanvasLayer::PostModel, sceneBuffer_.get(), dxCommand_);
+	canvasRenderer_->Rendering(CanvasLayer::PostModel, sceneBuffer_.get(), dxCommand_);
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
@@ -305,9 +305,6 @@ void RenderEngine::BeginRenderFrameBuffer() {
 }
 
 void RenderEngine::EndRenderFrameBuffer() {
-
-	// canvas描画、ポストエフェクト適応を適用しない
-	canvasRenderer_->IrrelevantPostProcessRendering(sceneBuffer_.get(), dxCommand_);
 
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 

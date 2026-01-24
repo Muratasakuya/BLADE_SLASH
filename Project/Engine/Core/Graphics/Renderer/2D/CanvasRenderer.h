@@ -34,35 +34,18 @@ namespace SakuEngine {
 		void Init(ID3D12Device8* device, DxShaderCompiler* shaderCompiler, SRVDescriptor* srvDescriptor);
 
 		// 指定レイヤ別に描画
-		// ポストエフェクト有効
-		void ApplyPostProcessRendering(CanvasLayer layer, SceneConstBuffer* sceneBuffer, DxCommand* dxCommand);
-		// ポストエフェクト無効
-		void IrrelevantPostProcessRendering(SceneConstBuffer* sceneBuffer, DxCommand* dxCommand);
-
-		//--------- accessor -----------------------------------------------------
-
+		void Rendering(CanvasLayer layer, SceneConstBuffer* sceneBuffer, DxCommand* dxCommand);
 	private:
 		//========================================================================
 		//	private Methods
 		//========================================================================
 
-		//--------- structure ----------------------------------------------------
-
-		// 描画モード
-		enum class RenderMode {
-
-			IrrelevantPostProcess, // ポストエフェクト無効
-			ApplyPostProcess,      // ポストエフェクト有効
-			Count
-		};
-
 		//--------- variables ----------------------------------------------------
 
-		static constexpr uint32_t kRenderModeCount_ = static_cast<uint32_t>(RenderMode::Count);
 		static constexpr uint32_t kCanvasCount_ = static_cast<uint32_t>(CanvasType::Count);
 
 		// 描画用パイプライン
-		std::array<std::array<std::unique_ptr<PipelineState>, kCanvasCount_>, kRenderModeCount_> pipelines_;
+		std::array<std::unique_ptr<PipelineState>, kCanvasCount_> pipelines_;
 
 		// 比較用列挙
 		BlendMode currentBlendMode_ = kBlendModeCount;
@@ -71,6 +54,6 @@ namespace SakuEngine {
 		//--------- functions ----------------------------------------------------
 
 		// パイプラインのセット
-		void SetPipeline(ID3D12GraphicsCommandList6* commandList, const BaseCanvas& canvas, RenderMode renderMode);
+		void SetPipeline(ID3D12GraphicsCommandList6* commandList, const BaseCanvas& canvas);
 	};
 } // SakuEngine

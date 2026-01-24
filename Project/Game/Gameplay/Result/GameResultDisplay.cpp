@@ -27,7 +27,6 @@ void GameResultDisplay::Init() {
 	background_->SetUVScaleY(80.0f);
 	// グレースケールを適応
 	background_->SetPostProcessMask(Bit_Grayscale);
-	background_->SetPostProcessEnable(true);
 	// 最初は表示しない
 	background_->SetAlpha(0.0f);
 
@@ -39,7 +38,6 @@ void GameResultDisplay::Init() {
 	glitchArea_->SetAlpha(0.0f);
 	// グリッチを適応
 	glitchArea_->SetPostProcessMask(Bit_Glitch);
-	glitchArea_->SetPostProcessEnable(true);
 
 	// 時間表示
 	resultTime_ = std::make_unique<GameTimerDisplay>();
@@ -48,7 +46,6 @@ void GameResultDisplay::Init() {
 	resultTime_->SetAlpha(0.0f);
 	// グリッチを適応
 	resultTime_->SetPostProcessMask(Bit_Glitch);
-	resultTime_->SetPostProcessEnable(true);
 
 	// クリア文字表示
 	clearText_ = std::make_unique<SakuEngine::GameObject2D>();
@@ -57,7 +54,6 @@ void GameResultDisplay::Init() {
 	// 最初は表示しない
 	clearText_->SetAlpha(0.0f);
 	clearText_->SetSize(SakuEngine::Vector2::AnyInit(0.0f));
-	clearText_->SetPostProcessEnable(true);
 
 	// ボタン
 	// 左
@@ -66,14 +62,12 @@ void GameResultDisplay::Init() {
 	leftButton_->SetAlpha(0.0f);
 	leftButton_->RegisterUpdater(GameButtonResponseType::AnyMouseClick, std::make_unique<GameButtonBlinkingUpdater>());
 	leftButton_->RegisterUpdater(GameButtonResponseType::Focus, std::make_unique<GameButtonBlinkingUpdater>());
-	leftButton_->SetPostProcessEnable(true);
 	// 右
 	rightButton_ = std::make_unique<GameButton>();
 	rightButton_->Init("retryButton", "GameResultDisplay");
 	rightButton_->SetAlpha(0.0f);
 	rightButton_->RegisterUpdater(GameButtonResponseType::AnyMouseClick, std::make_unique<GameButtonBlinkingUpdater>());
 	rightButton_->RegisterUpdater(GameButtonResponseType::Focus, std::make_unique<GameButtonBlinkingUpdater>());
-	rightButton_->SetPostProcessEnable(true);
 
 	// アニメーション初期化
 	InitAnimations();

@@ -188,20 +188,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Asset\ModelLoader.cpp" />
     <ClCompile Include="Engine\Asset\TextureManager.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Collision\CollisionCapsule.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Collision\CollisionDebugDraw.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Collision\CollisionResolution.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Core\Debug\SpdLogger.cpp">
       <SubType />
@@ -215,21 +211,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Core\Graphics\GPUObject\IndexBuffer.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.cpp">
+    <ClCompile Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.cpp">
       <SubType>
       </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.cpp">
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\Camera\CameraEditor.cpp">
       <SubType />
@@ -249,61 +245,125 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Input\InputStructures.cpp">
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.cpp">
       <SubType>
       </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditor.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIApplication.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIDataContext.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIUserWidget.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateButton.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateImage.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateSlider.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateTextBlock.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Core\UISlateWidget.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Mehtods\UIWidgetFactory.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateCanvasPanel.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.cpp" />
+    <ClCompile Include="Engine\Input\InputStructures.cpp">
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Base\GameTextObject.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Data\Canvas\CanvasCommon.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\MSDFFont.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\Data\Text\MSDFText.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\System\Systems\CanvasBufferSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Object\System\Systems\MSDFTextBufferSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.cpp" />
@@ -341,8 +401,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.cpp">
       <SubType />
@@ -354,24 +413,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboInputExecuteMode.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboTimelineExecuteMode.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecutor.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.cpp">
       <SubType />
@@ -386,23 +440,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.cpp">
       <SubType />
@@ -446,8 +496,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.cpp">
       <SubType />
@@ -1126,20 +1175,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Asset\ModelLoader.h" />
     <ClInclude Include="Engine\Asset\TextureManager.h" />
     <ClInclude Include="Engine\Audio\Audio.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionCapsule.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionDebugDraw.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Collision\CollisionResolution.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Config.h">
       <SubType />
@@ -1165,21 +1210,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Core\Graphics\GPUObject\VertexBuffer.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h">
+    <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h">
       <SubType>
       </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h">
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Base\BaseLineRenderer.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer2D.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\Line\Dimensions\LineRenderer3D.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\Base\EditorModuleRegistry.h">
       <SubType />
@@ -1208,75 +1253,141 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Object\Base\GameTextObject.h">
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetAnimation.h">
       <SubType>
       </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDetail.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetDocument.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Document\UIWidgetTypeRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetDocumentsPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetHierarchy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetPalette.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetCompiler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Preview\UIWidgetPreviewRuntime.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditor.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\UIWidgetEditorContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\Interface\UIWidgetEditorPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Editor\Panels\UIWidgetVisualDesigner.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIApplication.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIDataContext.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIUserWidget.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateButton.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateImage.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateSlider.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateTextBlock.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Core\UISlateWidget.h" />
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Mehtods\UIWidgetFactory.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\Basic\UISlateCanvasPanel.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlateLeafWidget.h" />
+    <ClInclude Include="Engine\Editor\UI\UISlateWidget\Widgets\UISlatePanelWidget.h" />
+    <ClInclude Include="Engine\Object\Base\GameTextObject.h">
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Canvas\CanvasCommon.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextMeshBuilder.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\Builder\MSDFTextTypes.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\Generator\ClockTextGenerator.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\Generator\Interface\ITextGenerator.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\MSDFFont.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Data\Text\MSDFText.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\System\Systems\CanvasBufferSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\System\Systems\MSDFTextBufferSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Utility\Animation\LerpValue.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Interface\PlayerIActionNode.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.h" />
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\PlayerActionNode.h">
@@ -1340,8 +1451,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.h">
       <SubType />
@@ -1353,32 +1463,25 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Interface\IPlayerComboExecuteMode.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboInputExecuteMode.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboTimelineExecuteMode.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecuteMode.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecutor.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.h">
       <SubType />
@@ -1393,35 +1496,28 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Interface\IPlayerGuardCondition.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\PlayerGuardConditionType.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraRuntimeDebug.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.h">
       <SubType />
@@ -1479,8 +1575,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Game\Scenes\Debug\DebugScene.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h">
       <SubType />
@@ -2372,6 +2467,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\CRTDisplay\CRTDisplay.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
@@ -2524,17 +2630,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Assets\Engine\Shaders\Text\ApplyPostProcessMSDFText.PS.hlsl">
+    <FxCompile Include="Assets\Engine\Shaders\Text\MSDFText.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Assets\Engine\Shaders\Text\IrrelevantPostProcessMSDFText.PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>

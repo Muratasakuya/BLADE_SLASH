@@ -31,7 +31,7 @@ namespace SakuEngine {
 		~ImGuiManager() = default;
 
 		// ImGui機能の初期化
-		void Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, SRVDescriptor* srvDescriptor);
+		void Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, ID3D12CommandQueue* commandQueue, SRVDescriptor* srvDescriptor);
 
 		// フレーム開始、終了
 		void Begin();
@@ -42,6 +42,15 @@ namespace SakuEngine {
 
 		// 終了処理
 		void Finalize();
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// マルチビューポートを有効にするか
+		bool enableMultiViewport_;
 	};
 
 }; // SakuEngine
