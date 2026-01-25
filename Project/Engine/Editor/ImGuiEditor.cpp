@@ -15,6 +15,7 @@ using namespace SakuEngine;
 #include <Engine/Audio/Audio.h>
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 #include <Engine/Editor/Manager/GameEditorManager.h>
+#include <Engine/Editor/UI/UIEditor.h>
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
@@ -127,6 +128,9 @@ void ImGuiEditor::Display(SceneView* sceneView) {
 	DebugEdit();
 
 	AssetEdit();
+
+	// UIエディター
+	UIEditor::GetInstance()->EditPanels();
 
 	SelectObjectFocus(sceneView);
 }

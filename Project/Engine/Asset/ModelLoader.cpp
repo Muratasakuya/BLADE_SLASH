@@ -1,4 +1,4 @@
-﻿#include "ModelLoader.h"
+#include "ModelLoader.h"
 
 using namespace SakuEngine;
 
@@ -9,7 +9,7 @@ using namespace SakuEngine;
 #include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Asset/TextureManager.h>
 #include <Engine/Asset/Filesystem.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 //============================================================================
 //	ModelLoader classMethods

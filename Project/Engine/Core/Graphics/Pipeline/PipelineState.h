@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -7,7 +7,7 @@
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
 #include <Engine/Core/Debug/Assert.h>
 #include <Engine/Core/Graphics/Pipeline/DxShaderCompiler.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 // directX
 #include <d3d12.h>

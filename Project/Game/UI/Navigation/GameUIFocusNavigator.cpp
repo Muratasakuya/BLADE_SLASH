@@ -6,7 +6,7 @@
 #include <Engine/Input/Input.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 #include <Game/UI/Input/Devices/SelectUIKeyInput.h>
 #include <Game/UI/Input/Devices/SelectUIGamePadInput.h>
 

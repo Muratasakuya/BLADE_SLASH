@@ -7,7 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Asset/Asset.h>
 #include <Engine/Core/Graphics/Mesh/MeshletBuilder.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 //============================================================================
 //	MeshRegistry classMethods

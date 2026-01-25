@@ -9,7 +9,7 @@ using namespace SakuEngine;
 #include <Engine/Collision/CollisionManager.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 // imgui
 #include <imgui.h>

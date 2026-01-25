@@ -11,6 +11,7 @@ using namespace SakuEngine;
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Editor/GameObject/ImGuiObjectEditor.h>
 #include <Engine/Editor/Camera/CameraEditor.h>
+#include <Engine/Editor/UI/UIEditor.h>
 
 //============================================================================
 //	SceneManager classMethods

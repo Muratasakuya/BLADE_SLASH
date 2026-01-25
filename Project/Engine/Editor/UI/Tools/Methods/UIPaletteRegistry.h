@@ -1,0 +1,86 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/UI/AssetData/UIAsset.h>
+
+// c++
+#include <string>
+#include <functional>
+
+namespace SakuEngine {
+
+	//============================================================================
+	//	UIPaletteRegistry structures
+	//============================================================================
+
+	// アイテムタイプ
+	enum class UIPaletteItemType {
+
+		// 子を持つパネル系
+		Button,     // ボタン(Spriteを一つ生成する)
+		TextButton, // テキストボタン(Textを一つ生成する)
+
+		// 子を持たないリーフ系
+		Text,        // テキスト(Textを一つ生成する)
+		Image,       // 画像(Spriteを一つ生成する)
+		CheckBox,    // チェックボックス(背景用、✓用に二つSpriteを生成する)
+		ProgressBar, // プログレスバー(背景用、全体用に二つSpriteを生成する)
+		Slider,      // スライダー(背景用、全体、持ち手用に三つSpriteを生成する)
+	};
+
+	// アイテムカテゴリ
+	enum class UIPaletteItemCategory {
+
+		Panel, // パネル、子を持つ
+		Leaf,  // 要素単体、子を持たない
+	};
+
+	// UIパレットのアイテム情報
+	struct UIPaletteItem {
+
+		UIPaletteItemType type;         // タイプ
+		UIPaletteItemCategory category; // カテゴリ
+
+		// 作成時のコールバック関数
+		std::function<UIElement::Handle(UIAsset& asset, UIElement::Handle parent)> onCreate;
+	};
+
+	//============================================================================
+	//	UIPaletteRegistry class
+	//	UIパレットの登録を行うクラス
+	//============================================================================
+	class UIPaletteRegistry {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		UIPaletteRegistry() = default;
+		~UIPaletteRegistry() = default;
+
+		// アイテムの登録
+		void RegisterDefaultItems();
+
+		//--------- accessor -----------------------------------------------------
+
+		// 登録されているアイテムリストを返す
+		const std::vector<UIPaletteItem>& GetItems() const { return items_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// アイテムリスト
+		std::vector<UIPaletteItem> items_;
+
+		//--------- functions ----------------------------------------------------
+
+		// アイテムの追加
+		void AddItem(const UIPaletteItem& item) { items_.emplace_back(item); }
+		void AddSimpleItem(UIPaletteItemType type, UIPaletteItemCategory category);
+	};
+} // SakuEngine

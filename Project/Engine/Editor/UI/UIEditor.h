@@ -1,0 +1,70 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/Base/IGameEditor.h>
+#include <Engine/Editor/UI/AssetData/UIAssetLibrary.h>
+#include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
+#include <Engine/Editor/UI/Tools/Methods/UIPaletteRegistry.h>
+
+// directX
+#include <d3d12.h>
+// c++
+#include <memory>
+
+namespace SakuEngine {
+
+	//============================================================================
+	//	UIEditor class
+	//	UIを作成して編集するエディター
+	//============================================================================
+	class UIEditor :
+		public IGameEditor {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		// 初期化
+		void Init(const D3D12_GPU_DESCRIPTOR_HANDLE& handle);
+
+		// エディター
+		void ImGui() override;
+		void EditPanels();
+
+		//--------- accessor -----------------------------------------------------
+
+		// singleton
+		static UIEditor* GetInstance();
+		static void Finalize();
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		static UIEditor* instance_;
+
+		// UI要素のIDを管理するライブラリ
+		UIAssetLibrary assetLibrary_;
+		// UIパレットの登録を行うレジストリ
+		UIPaletteRegistry paletteRegistry_;
+
+		// ツールコンテキスト
+		std::unique_ptr<UIToolContext> toolContext_;
+		// パネル群
+		std::vector<std::unique_ptr<IUIToolPanel>> panels_;
+
+		// エディター
+		bool isOpen_ = false; // エディターが開いているか
+
+		//--------- functions ----------------------------------------------------
+
+		UIEditor() :IGameEditor("UIEditor") {}
+		~UIEditor() = default;
+		UIEditor(const UIEditor&) = delete;
+		UIEditor& operator=(const UIEditor&) = delete;
+	};
+} // SakuEngine

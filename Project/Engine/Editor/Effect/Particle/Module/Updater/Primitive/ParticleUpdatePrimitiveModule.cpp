@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 // updaters
 #include <Engine/Editor/Effect/Particle/Module/Updater/Primitive/Derived/ParticlePlaneUpdater.h>

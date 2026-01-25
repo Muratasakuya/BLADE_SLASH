@@ -10,7 +10,7 @@
 #include <Engine/Core/Graphics/PostProcess/Core/PostProcessPipeline.h>
 #include <Engine/Core/Graphics/PostProcess/Core/SceneColorGradingPass.h>
 #include <Engine/Editor/Base/IGameEditor.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 // c++
 #include <vector>

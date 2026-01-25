@@ -1,11 +1,11 @@
-﻿#include "PostProcessPipeline.h"
+#include "PostProcessPipeline.h"
 
 using namespace SakuEngine;
 
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 //============================================================================
 //	PostProcessPipeline classMethods

@@ -7,7 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/MSDFTextBufferSystem.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 

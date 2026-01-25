@@ -9,7 +9,7 @@ using namespace SakuEngine;
 #include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Object/System/Systems/TagSystem.h>
 #include <Engine/Object/Base/Interface/IGameObject.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 #include <Engine/MathLib/MathUtils.h>
 
 // data

@@ -1,4 +1,4 @@
-﻿#include "ParticleRingUpdater.h"
+#include "ParticleRingUpdater.h"
 
 using namespace SakuEngine;
 
@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 //============================================================================
 //	ParticleRingUpdater classMethods

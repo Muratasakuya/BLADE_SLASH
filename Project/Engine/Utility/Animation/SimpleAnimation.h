@@ -6,7 +6,7 @@
 #include <Engine/Utility/Timer/GameTimer.h>
 #include <Engine/Utility/Timer/StateTimer.h>
 #include <Engine/Utility/Animation/AnimationLoop.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 #include <Engine/MathLib/MathUtils.h>
 
 // c++
