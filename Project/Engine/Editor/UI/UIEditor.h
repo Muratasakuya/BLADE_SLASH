@@ -27,7 +27,7 @@ namespace SakuEngine {
 		//========================================================================
 
 		// 初期化
-		void Init(const D3D12_GPU_DESCRIPTOR_HANDLE& handle);
+		void Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle);
 
 		// エディター
 		void ImGui() override;
@@ -48,9 +48,9 @@ namespace SakuEngine {
 		static UIEditor* instance_;
 
 		// UI要素のIDを管理するライブラリ
-		UIAssetLibrary assetLibrary_;
+		std::unique_ptr<UIAssetLibrary> assetLibrary_;
 		// UIパレットの登録を行うレジストリ
-		UIPaletteRegistry paletteRegistry_;
+		std::unique_ptr<UIPaletteRegistry> paletteRegistry_;
 
 		// ツールコンテキスト
 		std::unique_ptr<UIToolContext> toolContext_;

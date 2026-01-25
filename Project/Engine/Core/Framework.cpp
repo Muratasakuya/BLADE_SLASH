@@ -145,7 +145,7 @@ Framework::Framework() {
 		srvDescriptor, shaderCompiler, sceneView_.get());
 	AssetEditor::GetInstance()->Init(asset_.get());
 	CameraEditor::GetInstance()->Init(sceneView_.get());
-	UIEditor::GetInstance()->Init(renderEngine_->GetRenderTextureGPUHandle());
+	UIEditor::GetInstance()->Init(asset_.get(), renderEngine_->GetRenderTextureGPUHandle());
 
 	//------------------------------------------------------------------------
 	// エディター機能初期化

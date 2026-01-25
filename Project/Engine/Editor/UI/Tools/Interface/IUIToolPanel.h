@@ -27,5 +27,16 @@ namespace SakuEngine {
 
 		// エディタの名前、パネルに表示する
 		virtual const char* GetName() const = 0;
+
+	protected:
+		//========================================================================
+		//	protected Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// ペイロードID(UIパレットアイテムタイプ)
+		static constexpr const char* kPalettePayloadId = "UI_PALETTE_ITEM_TYPE";
+		static constexpr const char* kHierarchyPayloadId = "UI_HIERARCHY_ELEMENT_HANDLE";
 	};
 } // SakuEngine

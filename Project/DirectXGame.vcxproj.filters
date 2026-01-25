@@ -3223,6 +3223,8 @@
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\UIToolContext.cpp" />
+    <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />

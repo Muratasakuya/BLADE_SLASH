@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
+#include <Engine/Utility/Helper/ImGuiHelper.h>
 
 namespace SakuEngine {
 
@@ -35,7 +36,8 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-
+		// UIアセット名入力用
+		InputImGui inputText_;
 
 		//--------- functions ----------------------------------------------------
 

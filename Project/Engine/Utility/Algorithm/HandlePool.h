@@ -38,6 +38,8 @@ namespace SakuEngine {
 
 			// 有効なハンドルかどうかを返す
 			bool IsValid() const { return index != kInvalidIndex; }
+			// ハンドル同士が等しいかどうかを返す
+			static bool Equal(const Handle& a, const Handle& b);
 		};
 	public:
 		//========================================================================
@@ -59,6 +61,10 @@ namespace SakuEngine {
 		// 破棄
 		void Destroy(Handle handle);
 		void Clear();
+
+		// 生存している要素に対して関数を実行
+		template <typename Func>
+		void ForEachAlive(Func&& func);
 
 		//--------- accessor -----------------------------------------------------
 
@@ -95,6 +101,12 @@ namespace SakuEngine {
 	//============================================================================
 
 	template<typename T>
+	inline bool HandlePool<T>::Handle::Equal(const Handle& a, const Handle& b) {
+
+		return a.index == b.index && a.generation == b.generation;
+	}
+
+	template<typename T>
 	inline HandlePool<T>::Handle HandlePool<T>::Create() {
 
 		return this->Emplace();
@@ -129,6 +141,23 @@ namespace SakuEngine {
 		slots_.emplace_back(std::move(slot));
 
 		return Handle{ index, slots_[index].generation };
+	}
+
+	template<typename T>
+	template<typename Func>
+	inline void HandlePool<T>::ForEachAlive(Func&& func) {
+
+		for (uint32_t i = 0; i < static_cast<uint32_t>(slots_.size()); ++i) {
+
+			auto& slot = slots_[i];
+			if (!slot.value.has_value()) {
+				continue;
+			}
+
+			// 生存している要素に対して関数を実行
+			Handle handle{ i, slot.generation };
+			func(handle, *slot.value);
+		}
 	}
 
 	template<typename T>

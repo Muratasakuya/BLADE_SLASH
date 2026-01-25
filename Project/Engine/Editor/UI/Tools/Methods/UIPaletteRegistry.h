@@ -43,6 +43,9 @@ namespace SakuEngine {
 		UIPaletteItemType type;         // タイプ
 		UIPaletteItemCategory category; // カテゴリ
 
+		// アイコン画像の名前
+		std::string iconName;
+
 		// 作成時のコールバック関数
 		std::function<UIElement::Handle(UIAsset& asset, UIElement::Handle parent)> onCreate;
 	};
@@ -65,6 +68,8 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
+		// タイプからアイテムを検索して返す、見つからなければnullptr
+		const UIPaletteItem* FindItem(UIPaletteItemType type) const;
 		// 登録されているアイテムリストを返す
 		const std::vector<UIPaletteItem>& GetItems() const { return items_; }
 	private:
@@ -81,6 +86,6 @@ namespace SakuEngine {
 
 		// アイテムの追加
 		void AddItem(const UIPaletteItem& item) { items_.emplace_back(item); }
-		void AddSimpleItem(UIPaletteItemType type, UIPaletteItemCategory category);
+		void AddSimpleItem(UIPaletteItemType type, UIPaletteItemCategory category, const std::string& iconName);
 	};
 } // SakuEngine

@@ -45,25 +45,20 @@ namespace SakuEngine {
 		UIElement::Handle rootHandle;
 
 		// 初期化
-		void Init() {
+		void Init();
 
-			// クリアしてルートのみ作成
-			elements.Clear();
-			rootHandle = elements.Emplace(UIElement{ .name = "Root" });
-		}
+		// 親に子を追加、子がすでに他の親を持っている場合は削除して付け替える
+		bool AddChild(UIElement::Handle parent, UIElement::Handle child);
+		// 親から子を削除
+		bool RemoveChild(UIElement::Handle parent, UIElement::Handle child);
+		void DestroyRecursive(UIElement::Handle target);
 
-		// 要素を子要素として追加
-		void AddChild(UIElement::Handle parent, UIElement::Handle child) {
+		// 子の親を付け替え
+		bool Reparent(UIElement::Handle child, UIElement::Handle newParent);
 
-			UIElement* parentElement = elements.Get(parent);
-			UIElement* childElement = elements.Get(child);
-			if (parentElement && childElement) {
-
-				// 親子関係を設定
-				childElement->parentHandle = parent;
-				parentElement->children.emplace_back(child);
-			}
-		}
+		// 要素の取得
+		UIElement* Get(UIElement::Handle handle) { return elements.Get(handle); }
+		const UIElement* Get(UIElement::Handle handle) const { return elements.Get(handle); }
 	};
 
 	// UIアセットの登録情報

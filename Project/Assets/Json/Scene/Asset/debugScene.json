@@ -2,6 +2,13 @@
   "Textures": [
     "white",
     "noise",
+    "UITextIcon",
+    "UITextButtonIcon",
+    "UIImageIcon",
+    "UICheckBoxIcon",
+    "UISliderIcon",
+    "UIProgressBarIcon",
+    "UIButtonIcon",
     "FiraMono_msdf",
     "Corporate-Logo-Rounded-Bold_msdf",
     "DS-DIGIB_msdf"

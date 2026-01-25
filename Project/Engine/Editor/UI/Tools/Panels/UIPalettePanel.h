@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
+#include <Engine/Editor/UI/Tools/Methods/UIPaletteRegistry.h>
 
 namespace SakuEngine {
 
@@ -33,11 +34,9 @@ namespace SakuEngine {
 		//	private Methods
 		//========================================================================
 
-		//--------- variables ----------------------------------------------------
-
-
-
 		//--------- functions ----------------------------------------------------
 
+		// カテゴリを描画
+		void DrawCategory(UIToolContext& context, UIPaletteItemCategory category);
 	};
 } // SakuEngine

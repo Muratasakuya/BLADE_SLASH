@@ -35,13 +35,19 @@ void UIEditor::Finalize() {
 	}
 }
 
-void UIEditor::Init(const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
+void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 
+	// アセットライブラリの初期化
+	assetLibrary_ = std::make_unique<UIAssetLibrary>();
 	// パレットの初期化
-	paletteRegistry_.RegisterDefaultItems();
+	paletteRegistry_ = std::make_unique<UIPaletteRegistry>();
+	paletteRegistry_->RegisterDefaultItems();
 
 	// ツールコンテキストの作成
 	toolContext_ = std::make_unique<UIToolContext>();
+	toolContext_->asset = asset;
+	toolContext_->assetLibrary = assetLibrary_.get();
+	toolContext_->paletteRegistry = paletteRegistry_.get();
 
 	// パネル群の作成
 	panels_.emplace_back(std::make_unique<UIAssetPanel>());

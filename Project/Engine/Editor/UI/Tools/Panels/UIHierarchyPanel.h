@@ -33,11 +33,15 @@ namespace SakuEngine {
 		//	private Methods
 		//========================================================================
 
-		//--------- variables ----------------------------------------------------
-
-
-
 		//--------- functions ----------------------------------------------------
 
+		// ノードを再帰的に描画
+		void DrawNodeRecursive(UIAsset& asset, const UIElement::Handle& node, UIToolContext& context);
+
+		// 親子付け替えが可能かどうか
+		bool CanReparent(UIAsset& asset, const UIElement::Handle& child, const UIElement::Handle& newParent);
+
+		// 祖の子孫にノードが含まれているか
+		bool IsDescendant(UIAsset& asset, const UIElement::Handle& ancestor, const UIElement::Handle& node);
 	};
 } // SakuEngine

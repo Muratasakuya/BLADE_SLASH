@@ -245,6 +245,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAssetLibrary.cpp">
       <SubType>
       </SubType>
@@ -271,6 +275,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\UIToolContext.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\UIEditor.cpp">
       <SubType>
       </SubType>
