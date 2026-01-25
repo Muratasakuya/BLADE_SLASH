@@ -3216,7 +3216,7 @@
     <ClCompile Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.cpp" />
     <ClCompile Include="Engine\Editor\UI\UIEditor.cpp" />
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAssetLibrary.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Methods\UIPaletteRegistry.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.cpp" />
@@ -3225,6 +3225,13 @@
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\UIToolContext.cpp" />
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Text\UITextComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
@@ -3233,7 +3240,7 @@
     <ClInclude Include="Engine\Editor\UI\AssetData\UIAssetLibrary.h" />
     <ClInclude Include="Engine\Editor\UI\AssetData\UIAsset.h" />
     <ClInclude Include="Engine\Utility\Algorithm\HandlePool.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Methods\UIPaletteRegistry.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.h" />
     <ClInclude Include="Engine\Editor\UI\Component\Interface\IUIComponent.h" />
     <ClInclude Include="Engine\Editor\UI\Tools\UIToolContext.h" />
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.h" />
@@ -3242,6 +3249,14 @@
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.h" />
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Text\UITextComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\System\Interface\IUISystem.h" />
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

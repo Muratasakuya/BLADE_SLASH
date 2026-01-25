@@ -8,6 +8,7 @@
 
 // c++
 #include <string>
+#include <memory>
 
 namespace SakuEngine {
 
@@ -15,6 +16,16 @@ namespace SakuEngine {
 	//	UIAsset structure
 	//	UIが持つ基底情報
 	//============================================================================
+
+	// UIコンポーネントのスロット
+	struct UIComponentSlot {
+
+		// コンポーネントの実体
+		std::unique_ptr<IUIComponent> component;
+	};
+
+	// UIコンポーネント専用ハンドル
+	using UIComponentHandle = HandlePool<UIComponentSlot>::Handle;
 
 	// UI要素情報
 	struct UIElement {
@@ -40,12 +51,16 @@ namespace SakuEngine {
 		// UI要素プール
 		HandlePool<UIElement> elements;
 		// UIコンポーネントプール
-		HandlePool<IUIComponent> components;
+		HandlePool<UIComponentSlot> components;
 		// ルート要素ハンドル
 		UIElement::Handle rootHandle;
 
 		// 初期化
 		void Init();
+
+		//========================================================================
+		//	UIElement Methods
+		//========================================================================
 
 		// 親に子を追加、子がすでに他の親を持っている場合は削除して付け替える
 		bool AddChild(UIElement::Handle parent, UIElement::Handle child);
@@ -59,6 +74,32 @@ namespace SakuEngine {
 		// 要素の取得
 		UIElement* Get(UIElement::Handle handle) { return elements.Get(handle); }
 		const UIElement* Get(UIElement::Handle handle) const { return elements.Get(handle); }
+
+		//========================================================================
+		//	UIComponent Methods
+		//========================================================================
+
+		// コンポーネントの追加
+		template <typename T, typename ...Args>
+		UIComponentHandle AddComponent(UIElement::Handle owner, Args&& ...args) {
+
+			UIElement* element = Get(owner);
+			if (!element) {
+				return {};
+			}
+
+			// コンポーネントスロットを作成してプールに追加
+			UIComponentSlot slot;
+			slot.component = std::make_unique<T>(std::forward<Args>(args)...);
+			UIComponentHandle handle = components.Emplace(std::move(slot));
+			element->components.emplace_back(handle);
+
+			// ハンドルを返す
+			return handle;
+		}
+
+		// 指定タイプのコンポーネントを取得
+		IUIComponent* FindComponent(UIElement::Handle owner, UIComponentType type);
 	};
 
 	// UIアセットの登録情報

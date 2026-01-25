@@ -3,40 +3,39 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
-#include <Engine/Editor/UI/Tools/Registry/UIPaletteRegistry.h>
+#include <Engine/Editor/UI/System/Interface/IUISystem.h>
+
+// c++
+#include <vector>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UIPalettePanel class
-	//	UI要素のパレットを表示、選択するパネル
+	//	UIRuntime class
+	//	UIアセットをランタイム更新するクラス
 	//============================================================================
-	class UIPalettePanel :
-		public IUIToolPanel {
+	class UIRuntime {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UIPalettePanel() = default;
-		~UIPalettePanel() = default;
+		UIRuntime() = default;
+		~UIRuntime() = default;
 
-		// エディター
-		void ImGui(UIToolContext& context) override;
+		// 初期化
+		void Init();
 
-		//--------- accessor -----------------------------------------------------
-
-		// エディタの名前、パネルに表示する
-		const char* GetName() const override { return "Palette"; }
+		// UIアセットを更新
+		void Update(UIAsset& asset);
 	private:
 		//========================================================================
 		//	private Methods
 		//========================================================================
 
-		//--------- functions ----------------------------------------------------
+		//--------- variables ----------------------------------------------------
 
-		// カテゴリを描画
-		void DrawCategory(UIToolContext& context, UIPaletteItemCategory category);
+		// アセット更新を行うシステム群
+		std::vector<std::unique_ptr<IUISystem>> systems_;
 	};
 } // SakuEngine

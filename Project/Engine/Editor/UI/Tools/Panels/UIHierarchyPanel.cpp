@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Tools/Methods/UIPaletteRegistry.h>
+#include <Engine/Editor/UI/Tools/Registry/UIPaletteRegistry.h>
 
 // imgui
 #include <imgui.h>

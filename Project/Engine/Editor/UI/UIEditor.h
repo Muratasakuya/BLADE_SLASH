@@ -6,7 +6,8 @@
 #include <Engine/Editor/Base/IGameEditor.h>
 #include <Engine/Editor/UI/AssetData/UIAssetLibrary.h>
 #include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
-#include <Engine/Editor/UI/Tools/Methods/UIPaletteRegistry.h>
+#include <Engine/Editor/UI/Tools/Registry/UIPaletteRegistry.h>
+#include <Engine/Editor/UI/Runtime/UIRuntime.h>
 
 // directX
 #include <d3d12.h>
@@ -28,6 +29,9 @@ namespace SakuEngine {
 
 		// 初期化
 		void Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle);
+
+		// 更新処理
+		void Update();
 
 		// エディター
 		void ImGui() override;
@@ -51,6 +55,8 @@ namespace SakuEngine {
 		std::unique_ptr<UIAssetLibrary> assetLibrary_;
 		// UIパレットの登録を行うレジストリ
 		std::unique_ptr<UIPaletteRegistry> paletteRegistry_;
+		// UIアセットの更新を行うランタイム
+		std::unique_ptr<UIRuntime> runtime_;
 
 		// ツールコンテキスト
 		std::unique_ptr<UIToolContext> toolContext_;

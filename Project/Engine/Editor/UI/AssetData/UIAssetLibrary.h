@@ -59,7 +59,7 @@ namespace SakuEngine {
 	template<typename Func>
 	inline void UIAssetLibrary::ForEachAsset(Func&& func) {
 
-		assets_.ForEachAlive([&](UIAssetHandle handle, UIAssetEntry entry) {
+		assets_.ForEachAlive([&](UIAssetHandle handle, UIAssetEntry& entry) {
 			func(handle, entry);
 			});
 	}

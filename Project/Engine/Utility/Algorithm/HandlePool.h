@@ -49,6 +49,13 @@ namespace SakuEngine {
 		HandlePool() = default;
 		~HandlePool() = default;
 
+		// コピー禁止
+		HandlePool(const HandlePool&) = delete;
+		HandlePool& operator=(const HandlePool&) = delete;
+		// ムーブ可能
+		HandlePool(HandlePool&&) noexcept = default;
+		HandlePool& operator=(HandlePool&&) noexcept = default;
+
 		// 作成
 		Handle Create();
 

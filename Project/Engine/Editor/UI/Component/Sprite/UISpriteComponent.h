@@ -3,42 +3,37 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
 
 // c++
-#include <cstdint>
+#include <string>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	IUIComponent structures
+	//	UISpriteComponent class
+	//	UIのスプライトコンポーネント
 	//============================================================================
-
-	// UIコンポーネントの種類
-	enum class UIComponentType :
-		uint32_t {
-
-		SpriteTransform,
-		TextTransform,
-		Sprite,
-		Text,
-	};
-
-	//============================================================================
-	//	IUIComponent class
-	//	UIコンポーネントのインターフェース
-	//============================================================================
-	class IUIComponent {
+	class UISpriteComponent :
+		public IUIComponent {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		IUIComponent() = default;
-		virtual ~IUIComponent() = default;
+		UISpriteComponent() = default;
+		~UISpriteComponent() = default;
+
+		//--------- variables ----------------------------------------------------
+
+		// オブジェクトID
+		uint32_t objectId = 0;
+
+		// テクスチャ名
+		std::string textureName;
 
 		//--------- accessor -----------------------------------------------------
 
-		// コンポーネントの種類を取得
-		virtual UIComponentType GetType() const = 0;
+		UIComponentType GetType() const override { return UIComponentType::Sprite; }
 	};
 } // SakuEngine

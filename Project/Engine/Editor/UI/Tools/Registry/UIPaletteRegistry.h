@@ -19,8 +19,8 @@ namespace SakuEngine {
 	enum class UIPaletteItemType {
 
 		// 子を持つパネル系
-		Button,     // ボタン(Spriteを一つ生成する)
-		TextButton, // テキストボタン(Textを一つ生成する)
+		ImageButton, // 画像ボタン(Spriteを一つ生成する)
+		TextButton,  // テキストボタン(Textを一つ生成する)
 
 		// 子を持たないリーフ系
 		Text,        // テキスト(Textを一つ生成する)

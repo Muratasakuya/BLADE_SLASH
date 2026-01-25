@@ -80,3 +80,26 @@ bool UIAsset::Reparent(UIElement::Handle child, UIElement::Handle newParent) {
 	// 新しい親に子を追加
 	return AddChild(newParent, child);
 }
+
+IUIComponent* UIAsset::FindComponent(UIElement::Handle owner, UIComponentType type) {
+
+	UIElement* element = Get(owner);
+	if (!element) {
+		return nullptr;
+	}
+
+	// 所持しているコンポーネントを走査
+	for (const auto& handle : element->components) {
+
+		UIComponentSlot* slot = components.Get(handle);
+		if (!slot || !slot->component) {
+			continue;
+		}
+
+		// タイプが一致したら返す
+		if (slot->component->GetType() == type) {
+			return slot->component.get();
+		}
+	}
+	return nullptr;
+}

@@ -64,6 +64,7 @@ void SceneManager::Update() {
 	currentScene_->Update();
 	sceneTransition_->Update();
 
+	UIEditor::GetInstance()->Update();
 	CameraEditor::GetInstance()->Update();
 }
 

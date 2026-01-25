@@ -253,7 +253,35 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Methods\UIPaletteRegistry.cpp">
+    <ClCompile Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Text\UITextComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1223,11 +1251,43 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Text\UITextComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\Interface\IUISystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Interface\IUIToolPanel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Methods\UIPaletteRegistry.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.h">
       <SubType>
       </SubType>
     </ClInclude>

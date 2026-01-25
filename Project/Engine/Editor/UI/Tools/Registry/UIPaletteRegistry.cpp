@@ -26,7 +26,7 @@ void UIPaletteRegistry::RegisterDefaultItems() {
 
 	// アイテムを追加
 	// パネル系
-	AddSimpleItem(UIPaletteItemType::Button, UIPaletteItemCategory::Panel, "UIButtonIcon");
+	AddSimpleItem(UIPaletteItemType::ImageButton, UIPaletteItemCategory::Panel, "UIImageButtonIcon");
 	AddSimpleItem(UIPaletteItemType::TextButton, UIPaletteItemCategory::Panel, "UITextButtonIcon");
 	// リーフ系
 	AddSimpleItem(UIPaletteItemType::Text, UIPaletteItemCategory::Leaf, "UITextIcon");
