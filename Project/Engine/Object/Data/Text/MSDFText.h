@@ -55,6 +55,8 @@ namespace SakuEngine {
 		void SetText(const std::string& utf8);
 		void SetText(int32_t value);
 		void SetText(float value, int32_t precision = 2);
+		// フォントの設定
+		void SetFont(const std::string& atlasTextureName);
 
 		// 文字列取得
 		const std::string& GetText() const { return textUtf8_; }

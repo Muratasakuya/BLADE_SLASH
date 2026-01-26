@@ -30,11 +30,11 @@ namespace SakuEngine {
 		uint32_t objectId = 0;
 
 		// アトラステクスチャ名
-		std::string atlasTextureName;
+		std::string atlasTextureName = "DS-DIGIB_msdf";
 		// フォントパス
-		std::string fontPath;
+		std::string fontPath = "Assets/Json/Atlas/DS-DIGIB_msdf.json";
 		// テキスト内容
-		std::string text;
+		std::string text = "これがTextです";
 
 		//--------- accessor -----------------------------------------------------
 

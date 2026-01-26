@@ -7,6 +7,7 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Editor/UI/System/ObjectSync/UISpriteSyncSystem.h>
 #include <Engine/Editor/UI/System/ObjectSync/UITextSyncSystem.h>
+#include <Engine/Editor/UI/System/ParentRect/UIUpdateParentRectTransformSystem.h>
 
 //============================================================================
 //	UIRuntime classMethods
@@ -15,6 +16,7 @@ using namespace SakuEngine;
 void UIRuntime::Init() {
 
 	// 各システムを生成して登録
+	systems_.emplace_back(std::make_unique<UIUpdateParentRectTransformSystem>());
 	systems_.emplace_back(std::make_unique<UISpriteSyncSystem>());
 	systems_.emplace_back(std::make_unique<UITextSyncSystem>());
 }

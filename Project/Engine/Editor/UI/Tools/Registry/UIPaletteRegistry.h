@@ -18,16 +18,13 @@ namespace SakuEngine {
 	// アイテムタイプ
 	enum class UIPaletteItemType {
 
-		// 子を持つパネル系
-		ImageButton, // 画像ボタン(Spriteを一つ生成する)
-		TextButton,  // テキストボタン(Textを一つ生成する)
-
-		// 子を持たないリーフ系
-		Text,        // テキスト(Textを一つ生成する)
-		Image,       // 画像(Spriteを一つ生成する)
-		CheckBox,    // チェックボックス(背景用、✓用に二つSpriteを生成する)
-		ProgressBar, // プログレスバー(背景用、全体用に二つSpriteを生成する)
-		Slider,      // スライダー(背景用、全体、持ち手用に三つSpriteを生成する)
+		SpriteButton, // 画像ボタン(Spriteを一つ生成する)
+		TextButton,   // テキストボタン(Textを一つ生成する)
+		Text,         // テキスト(Textを一つ生成する)
+		Sprite,       // 画像(Spriteを一つ生成する)
+		CheckBox,     // チェックボックス(背景用、✓用に二つSpriteを生成する)
+		ProgressBar,  // プログレスバー(背景用、全体用に二つSpriteを生成する)
+		Slider,       // スライダー(背景用、全体、持ち手用に三つSpriteを生成する)
 	};
 
 	// アイテムカテゴリ
@@ -87,5 +84,12 @@ namespace SakuEngine {
 		// アイテムの追加
 		void AddItem(const UIPaletteItem& item) { items_.emplace_back(item); }
 		void AddSimpleItem(UIPaletteItemType type, UIPaletteItemCategory category, const std::string& iconName);
+
+		// コンポーネントの追加
+		void AddComponents(UIPaletteItemType type, const UIElement::Handle& ownerRootHandle, UIAsset& asset);
+		// スプライト
+		void AddSpriteComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset);
+		// テキスト
+		void AddTextComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset);
 	};
 } // SakuEngine

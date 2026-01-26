@@ -17,6 +17,7 @@ namespace SakuEngine {
 	enum class UIComponentType :
 		uint32_t {
 
+		ParentRectTransform,
 		SpriteTransform,
 		TextTransform,
 		Sprite,

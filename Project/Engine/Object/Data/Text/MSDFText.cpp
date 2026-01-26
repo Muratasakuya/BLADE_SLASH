@@ -79,6 +79,45 @@ void MSDFText::SetText(float value, int32_t precision) {
 	SetText(oss.str());
 }
 
+void MSDFText::SetFont(const std::string& atlasTextureName) {
+
+	// 同じアトラステクスチャなら何もしない
+	// 違うフォントの時のみ変更できるようにする
+	if (atlasTextureName != font_->GetAtlasTextureName()) {
+
+		// テクスチャ更新
+		atlasTextureName_ = atlasTextureName;
+		MSDFTextBufferSystem* textSystem = ObjectManager::GetInstance()->GetSystem<MSDFTextBufferSystem>();
+
+		// .jsonのパスを生成
+		std::string jsonPath = "Assets/Json/Atlas/" + atlasTextureName_ + ".json";
+		// jsonで読み込みが行えるか事前にチェックする
+		if (font_->CanParseJson(jsonPath)) {
+
+			// フォント取得
+			font_ = nullptr;
+			font_ = textSystem->GetMSDFFont(asset_, atlasTextureName_, jsonPath);
+
+			// テキスト再構築
+			Create();
+
+			// オブジェクトのマテリアルも更新
+			ObjectManager* objectManager = ObjectManager::GetInstance();
+			auto* material = objectManager->GetData<MSDFTextMaterial>(objectId_);
+			material->material.atlasSize = font_->GetAtlasSize();
+			material->material.pixelRange = font_->GetPxRange();
+
+			// コマンドに送るリソースも更新
+			OverWriteRenderResource(RenderResource{
+				.type = BaseCanvas::BufferType::TextureGPU,
+				.rootParamIndex = 3,
+				.bufferAddress = 0,
+				.bufferHandle = font_->GetAtlasGPUHandle(),
+				});
+		}
+	}
+}
+
 void MSDFText::EnsureCapacity(uint32_t glyphCount) {
 
 	// 十分な容量があれば何もしない
@@ -328,36 +367,8 @@ void MSDFText::ImGui(float itemSize) {
 					// 変更ボタン
 					if (ImGui::Button("SetFont")) {
 
-						// 違うフォントの時のみ変更できるようにする
-						if (atlasTextureName_ != font_->GetAtlasTextureName()) {
-
-							// .jsonのパスを生成
-							std::string jsonPath = "Assets/Json/Atlas/" + atlasTextureName_ + ".json";
-							// jsonで読み込みが行えるか事前にチェックする
-							if (font_->CanParseJson(jsonPath)) {
-
-								// フォント取得
-								font_ = nullptr;
-								font_ = textSystem->GetMSDFFont(asset_, atlasTextureName_, jsonPath);
-
-								// テキスト再構築
-								Create();
-
-								// オブジェクトのマテリアルも更新
-								ObjectManager* objectManager = ObjectManager::GetInstance();
-								auto* material = objectManager->GetData<MSDFTextMaterial>(objectId_);
-								material->material.atlasSize = font_->GetAtlasSize();
-								material->material.pixelRange = font_->GetPxRange();
-
-								// コマンドに送るリソースも更新
-								OverWriteRenderResource(RenderResource{
-									.type = BaseCanvas::BufferType::TextureGPU,
-									.rootParamIndex = 3,
-									.bufferAddress = 0,
-									.bufferHandle = font_->GetAtlasGPUHandle(),
-									});
-							}
-						}
+						// 違うフォントの時のみ変更できる
+						SetFont(atlasTextureName_);
 					}
 					ImGui::PopID();
 				}

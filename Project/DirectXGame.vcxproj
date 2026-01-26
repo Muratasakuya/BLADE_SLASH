@@ -261,6 +261,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.cpp">
       <SubType>
       </SubType>
@@ -278,6 +282,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1259,6 +1267,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.h">
       <SubType>
       </SubType>
@@ -1280,6 +1292,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.h">
       <SubType>
       </SubType>
     </ClInclude>

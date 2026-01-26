@@ -6,6 +6,7 @@
 #include <Engine/Editor/UI/System/Interface/IUISystem.h>
 #include <Engine/Editor/UI/Component/Text/UITextComponent.h>
 #include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
+#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
 
 namespace SakuEngine {
 
@@ -36,7 +37,9 @@ namespace SakuEngine {
 		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node);
 		// トランスフォームデータの更新
 		void ApplyTransform(uint32_t objectId, const UITextTransformComponent& component);
+		// テキストデータの更新
+		void ApplyText(uint32_t objectId, const UITextComponent& component);
 		// テキストコンポーネント用のオブジェクトを作成する
-		void EnsureTextObject(const UIElement& element, UITextComponent& component);
+		void EnsureTextObject(UIAsset& asset, const UIElement& element, UITextComponent& component);
 	};
 } // SakuEngine

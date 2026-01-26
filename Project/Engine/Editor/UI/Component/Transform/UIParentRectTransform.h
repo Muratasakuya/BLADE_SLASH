@@ -4,36 +4,30 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
-
-// c++
-#include <string>
+#include <Engine/Object/Data/Transform/Transform.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UISpriteComponent class
-	//	UIのスプライトコンポーネント
+	//	UIParentRectTransform class
+	//	UI親要素のトランスフォームデータ
 	//============================================================================
-	class UISpriteComponent :
+	class UIParentRectTransform :
 		public IUIComponent {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UISpriteComponent() = default;
-		~UISpriteComponent() = default;
+		UIParentRectTransform() = default;
+		~UIParentRectTransform() = default;
 
 		//--------- variables ----------------------------------------------------
 
-		// オブジェクトID
-		uint32_t objectId = 0;
-
-		// テクスチャ名
-		std::string textureName = "white";
+		BaseTransform2D transform;
 
 		//--------- accessor -----------------------------------------------------
 
-		UIComponentType GetType() const override { return UIComponentType::Sprite; }
+		UIComponentType GetType() const override { return UIComponentType::ParentRectTransform; }
 	};
 } // SakuEngine

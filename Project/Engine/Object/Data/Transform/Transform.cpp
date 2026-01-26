@@ -426,6 +426,28 @@ void Transform2D::ImGui(float itemSize) {
 	ImGui::DragFloat2("rightTop", &vertexOffset[3].x, 0.1f);
 
 	ImGui::PopItemWidth();
+
+	// 親がいる場合
+	if (parent) {
+
+		ImGui::SeparatorText("Parent World Matrix");
+
+		if (ImGui::BeginTable("Parent WorldMatrix", 4,
+			ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
+
+			const Matrix4x4& world = parent->matrix;
+			for (int row = 0; row < 4; ++row) {
+
+				ImGui::TableNextRow();
+				for (int col = 0; col < 4; ++col) {
+
+					ImGui::TableSetColumnIndex(col);
+					ImGui::Text("%.3f", world.m[row][col]);
+				}
+			}
+			ImGui::EndTable();
+		}
+	}
 }
 
 void Transform2D::ToJson(Json& data) {
@@ -544,6 +566,28 @@ void TextTransform2D::ImGui(float itemSize) {
 
 	EnumAdapter<TextWrapMode>::Combo("wrapMode", &wrapMode);
 	EnumAdapter<TextVerticalAlign>::Combo("verticalAlign", &verticalAlign);
+
+	// 親がいる場合
+	if (parent) {
+
+		ImGui::SeparatorText("Parent World Matrix");
+
+		if (ImGui::BeginTable("Parent WorldMatrix", 4,
+			ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
+
+			const Matrix4x4& world = parent->matrix;
+			for (int row = 0; row < 4; ++row) {
+
+				ImGui::TableNextRow();
+				for (int col = 0; col < 4; ++col) {
+
+					ImGui::TableSetColumnIndex(col);
+					ImGui::Text("%.3f", world.m[row][col]);
+				}
+			}
+			ImGui::EndTable();
+		}
+	}
 
 	ImGui::SeparatorText("CharTransforms");
 

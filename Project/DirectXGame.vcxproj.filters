@@ -3232,6 +3232,8 @@
     <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.cpp" />
     <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.cpp" />
     <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
@@ -3257,6 +3259,8 @@
     <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.h" />
     <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.h" />
     <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.h" />
+    <ClInclude Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />
