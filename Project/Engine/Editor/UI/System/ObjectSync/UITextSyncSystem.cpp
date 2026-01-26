@@ -31,7 +31,10 @@ void UITextSyncSystem::UpdateRecursive(UIAsset& asset, const UIElement::Handle& 
 	if (text && transform) {
 
 		// 作成
-		EnsureTextObject(asset, *element, *text);
+		EnsureTextObject(asset, *element, *text, *transform);
+
+		// 行列更新
+		transform->transform.UpdateMatrix();
 
 		// オブジェクト適用
 		if (text->objectId != 0) {
@@ -87,17 +90,19 @@ void UITextSyncSystem::ApplyText(uint32_t objectId, const UITextComponent& compo
 	text->SetFont(component.atlasTextureName);
 }
 
-void UITextSyncSystem::EnsureTextObject(UIAsset& asset, const UIElement& element, UITextComponent& component) {
+void UITextSyncSystem::EnsureTextObject(UIAsset& asset, const UIElement& element,
+	UITextComponent& textComponent, UITextTransformComponent& transformComponent) {
 
 	// オブジェクトIDが0なら新規作成
-	if (component.objectId != 0) {
+	if (textComponent.objectId != 0) {
 		return;
 	}
 
 	// テキストオブジェクトを作成
-	component.objectId = ObjectManager::GetInstance()->CreateTextObject(component.atlasTextureName, component.fontPath, element.name, "UIElement");
+	textComponent.objectId = ObjectManager::GetInstance()->CreateTextObject(textComponent.atlasTextureName, textComponent.fontPath, element.name, "UIElement");
 	// トランスフォームに親子関係を設定
 	auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(element.parentHandle, UIComponentType::ParentRectTransform));
-	TextTransform2D* transform = ObjectManager::GetInstance()->GetData<TextTransform2D>(component.objectId);
+	TextTransform2D* transform = ObjectManager::GetInstance()->GetData<TextTransform2D>(textComponent.objectId);
 	transform->parent = &parentComponent->transform;
+	transformComponent.transform.parent = &parentComponent->transform;
 }

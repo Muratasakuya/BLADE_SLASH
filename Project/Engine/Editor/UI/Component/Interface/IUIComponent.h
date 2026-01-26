@@ -6,6 +6,8 @@
 
 // c++
 #include <cstdint>
+// imgui
+#include <imgui.h>
 
 namespace SakuEngine {
 
@@ -36,6 +38,9 @@ namespace SakuEngine {
 
 		IUIComponent() = default;
 		virtual ~IUIComponent() = default;
+
+		// エディター
+		virtual void ImGui([[maybe_unused]] const ImVec2& itemSize) {}
 
 		//--------- accessor -----------------------------------------------------
 

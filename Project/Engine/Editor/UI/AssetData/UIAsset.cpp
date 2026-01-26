@@ -81,6 +81,15 @@ bool UIAsset::Reparent(UIElement::Handle child, UIElement::Handle newParent) {
 	return AddChild(newParent, child);
 }
 
+IUIComponent* UIAsset::GetComponent(const UIComponentHandle& handle) {
+
+	UIComponentSlot* slot = components.Get(handle);
+	if (!slot || !slot->component) {
+		return nullptr;
+	}
+	return slot->component.get();
+}
+
 IUIComponent* UIAsset::FindComponent(UIElement::Handle owner, UIComponentType type) {
 
 	UIElement* element = Get(owner);

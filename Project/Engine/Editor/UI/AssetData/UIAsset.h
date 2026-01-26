@@ -99,6 +99,7 @@ namespace SakuEngine {
 		}
 
 		// 指定タイプのコンポーネントを取得
+		IUIComponent* GetComponent(const UIComponentHandle& handle);
 		IUIComponent* FindComponent(UIElement::Handle owner, UIComponentType type);
 	};
 

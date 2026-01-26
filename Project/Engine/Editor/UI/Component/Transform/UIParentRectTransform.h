@@ -22,6 +22,9 @@ namespace SakuEngine {
 		UIParentRectTransform() = default;
 		~UIParentRectTransform() = default;
 
+		// エディター
+		void ImGui(const ImVec2& itemSize) override;
+
 		//--------- variables ----------------------------------------------------
 
 		BaseTransform2D transform;

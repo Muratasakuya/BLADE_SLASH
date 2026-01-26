@@ -40,6 +40,7 @@ namespace SakuEngine {
 		// テキストデータの更新
 		void ApplyText(uint32_t objectId, const UITextComponent& component);
 		// テキストコンポーネント用のオブジェクトを作成する
-		void EnsureTextObject(UIAsset& asset, const UIElement& element, UITextComponent& component);
+		void EnsureTextObject(UIAsset& asset, const UIElement& element,
+			UITextComponent& textComponent, UITextTransformComponent& transformComponent);
 	};
 } // SakuEngine

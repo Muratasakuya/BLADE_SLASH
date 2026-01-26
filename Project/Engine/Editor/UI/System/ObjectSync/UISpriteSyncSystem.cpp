@@ -33,6 +33,9 @@ void UISpriteSyncSystem::UpdateRecursive(UIAsset& asset, const UIElement::Handle
 		// 作成
 		EnsureSpriteObject(asset, *element, *sprite, *transform);
 
+		// 行列更新
+		transform->transform.UpdateMatrix();
+
 		// トランスフォーム適用
 		if (sprite->objectId != 0) {
 
@@ -87,4 +90,5 @@ void UISpriteSyncSystem::EnsureSpriteObject(UIAsset& asset, const UIElement& ele
 	// トランスフォームに親子関係を設定
 	auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(element.parentHandle, UIComponentType::ParentRectTransform));
 	transform->parent = &parentComponent->transform;
+	transformComponent.transform.parent = &parentComponent->transform;
 }

@@ -296,6 +296,18 @@ Vector2 BaseTransform2D::GetWorldPos() const {
 	return worldPos;
 }
 
+Vector2 BaseTransform2D::GetWorldScale() const {
+
+	Vector3 right(matrix.m[0][0], matrix.m[0][1], matrix.m[0][2]);
+	Vector3 up(matrix.m[1][0], matrix.m[1][1], matrix.m[1][2]);
+	Vector3 forward(matrix.m[2][0], matrix.m[2][1], matrix.m[2][2]);
+
+	Vector2 worldScale{};
+	worldScale.x = right.Length();
+	worldScale.y = up.Length();
+	return worldScale;
+}
+
 void BaseTransform2D::SetCenterPos() {
 
 	translation.x = Config::kWindowWidthf / 2.0f;
@@ -367,7 +379,7 @@ void BaseTransform2D::ImGuiCommon(float itemSize) {
 	ImGui::SliderAngle("rotation", &rotation);
 	ImGui::DragFloat2("sizeScale", &sizeScale.x, 0.01f);
 	ImGui::DragFloat2("anchorPoint", &anchorPoint.x, 0.01f, -1.0f, 1.0f);
-	ImGui::Checkbox("rotateAroundSelfWhenParented", &rotateAroundSelfWhenParented);
+	ImGui::Checkbox("rotateAroundSelf", &rotateAroundSelfWhenParented);
 
 	ImGui::PopItemWidth();
 }
@@ -622,7 +634,7 @@ void TextTransform2D::ImGui(float itemSize) {
 	if (drawTextBox_) {
 
 		Vector2 baseAnchor = Vector2::AnyInit(0.5f);
-		Vector2 boxCenter = translation + (baseAnchor - anchorPoint) * textBoxSize;
+		Vector2 boxCenter = BaseTransform2D::GetWorldPos() + (baseAnchor - anchorPoint) * textBoxSize;
 		lineRenderer->Get2D()->DrawRect(boxCenter, textBoxSize, baseAnchor, Color::Magenta());
 	}
 }

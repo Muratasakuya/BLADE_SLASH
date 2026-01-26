@@ -22,6 +22,9 @@ namespace SakuEngine {
 		UISpriteTransformComponent() = default;
 		~UISpriteTransformComponent() = default;
 
+		// エディター
+		void ImGui(const ImVec2& itemSize) override;
+
 		//--------- variables ----------------------------------------------------
 
 		Transform2D transform;

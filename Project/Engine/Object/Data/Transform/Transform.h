@@ -182,6 +182,8 @@ namespace SakuEngine {
 
 		// ワールド座標
 		Vector2 GetWorldPos() const;
+		// ワールドスケール
+		Vector2 GetWorldScale() const;
 
 		// 画面の中心に設定
 		void SetCenterPos();

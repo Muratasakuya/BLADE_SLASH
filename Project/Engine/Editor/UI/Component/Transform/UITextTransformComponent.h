@@ -22,6 +22,9 @@ namespace SakuEngine {
 		UITextTransformComponent() = default;
 		~UITextTransformComponent() = default;
 
+		// エディター
+		void ImGui(const ImVec2& itemSize) override;
+
 		//--------- variables ----------------------------------------------------
 
 		TextTransform2D transform;
