@@ -8,5 +8,8 @@ using namespace SakuEngine;
 
 void UITextTransformComponent::ImGui(const ImVec2& itemSize) {
 
-	transform.ImGui(itemSize.x);
+	if (!transform) {
+		return;
+	}
+	transform->ImGui(itemSize.x);
 }

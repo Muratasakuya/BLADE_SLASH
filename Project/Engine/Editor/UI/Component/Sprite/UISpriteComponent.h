@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
+#include <Engine/Object/Data/Sprite/Sprite.h>
 
 // c++
 #include <string>
@@ -24,13 +25,19 @@ namespace SakuEngine {
 		UISpriteComponent() = default;
 		~UISpriteComponent() = default;
 
+		// エディター
+		void ImGui(const ImVec2& itemSize) override;
+
 		//--------- variables ----------------------------------------------------
 
 		// オブジェクトID
 		uint32_t objectId = 0;
 
+		Sprite* sprite = nullptr;
+
+		// デフォルト
 		// テクスチャ名
-		std::string textureName = "white";
+		std::string defaultTextureName = "white";
 
 		//--------- accessor -----------------------------------------------------
 

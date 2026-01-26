@@ -35,10 +35,6 @@ namespace SakuEngine {
 
 		// UIオブジェクトの同期処理を親から子まで再帰的に行う
 		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node);
-		// トランスフォームデータの更新
-		void ApplyTransform(uint32_t objectId, const UITextTransformComponent& component);
-		// テキストデータの更新
-		void ApplyText(uint32_t objectId, const UITextComponent& component);
 		// テキストコンポーネント用のオブジェクトを作成する
 		void EnsureTextObject(UIAsset& asset, const UIElement& element,
 			UITextComponent& textComponent, UITextTransformComponent& transformComponent);

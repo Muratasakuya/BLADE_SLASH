@@ -146,10 +146,6 @@ void UIPaletteRegistry::AddSpriteComponent(const std::string& name, const UIElem
 	// コンポーネント追加
 	asset.AddComponent<UISpriteTransformComponent>(handle);
 	asset.AddComponent<UISpriteComponent>(handle);
-
-	// トランスフォームを初期化
-	auto* transform = static_cast<UISpriteTransformComponent*>(asset.FindComponent(handle, UIComponentType::SpriteTransform));
-	transform->transform.Init(nullptr);
 }
 
 void UIPaletteRegistry::AddTextComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset) {
@@ -163,8 +159,4 @@ void UIPaletteRegistry::AddTextComponent(const std::string& name, const UIElemen
 	// コンポーネント追加
 	asset.AddComponent<UITextTransformComponent>(handle);
 	asset.AddComponent<UITextComponent>(handle);
-
-	// トランスフォームを初期化
-	auto* transform = static_cast<UITextTransformComponent*>(asset.FindComponent(handle, UIComponentType::TextTransform));
-	transform->transform.Init(nullptr);
 }

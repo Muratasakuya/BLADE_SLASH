@@ -6,7 +6,6 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectManager.h>
-#include <Engine/Object/Data/Text/MSDFText.h>
 
 //============================================================================
 //	UITextSyncSystem classMethods
@@ -32,16 +31,6 @@ void UITextSyncSystem::UpdateRecursive(UIAsset& asset, const UIElement::Handle& 
 
 		// 作成
 		EnsureTextObject(asset, *element, *text, *transform);
-
-		// 行列更新
-		transform->transform.UpdateMatrix();
-
-		// オブジェクト適用
-		if (text->objectId != 0) {
-
-			ApplyText(text->objectId, *text);
-			ApplyTransform(text->objectId, *transform);
-		}
 	}
 
 	// 子要素に対して再帰的に処理
@@ -49,45 +38,6 @@ void UITextSyncSystem::UpdateRecursive(UIAsset& asset, const UIElement::Handle& 
 
 		UpdateRecursive(asset, childHandle);
 	}
-}
-
-void UITextSyncSystem::ApplyTransform(uint32_t objectId, const UITextTransformComponent& component) {
-
-	// トランスフォームデータを取得
-	TextTransform2D* transform = ObjectManager::GetInstance()->GetData<TextTransform2D>(objectId);
-	if (!transform) {
-		return;
-	}
-
-	// パラメータを更新
-	// SRT
-	transform->translation = component.transform.translation;
-	transform->rotation = component.transform.rotation;
-	transform->sizeScale = component.transform.sizeScale;
-	// アンカーポイント
-	transform->anchorPoint = component.transform.anchorPoint;
-	// テキストボックス関連
-	transform->enableTextBox = component.transform.enableTextBox;
-	transform->textBoxSize = component.transform.textBoxSize;
-	transform->textBoxPadding = component.transform.textBoxPadding;
-	transform->lineSpacing = component.transform.lineSpacing;
-	// モード
-	transform->wrapMode = component.transform.wrapMode;
-	transform->verticalAlign = component.transform.verticalAlign;
-}
-
-void UITextSyncSystem::ApplyText(uint32_t objectId, const UITextComponent& component) {
-
-	// テキストデータを取得
-	MSDFText* text = ObjectManager::GetInstance()->GetData<MSDFText>(objectId);
-	if (!text) {
-		return;
-	}
-
-	// 文字列を設定
-	text->SetText(component.text);
-	// フォントを設定
-	text->SetFont(component.atlasTextureName);
 }
 
 void UITextSyncSystem::EnsureTextObject(UIAsset& asset, const UIElement& element,
@@ -98,11 +48,16 @@ void UITextSyncSystem::EnsureTextObject(UIAsset& asset, const UIElement& element
 		return;
 	}
 
+	ObjectManager* objManager = ObjectManager::GetInstance();
+
 	// テキストオブジェクトを作成
-	textComponent.objectId = ObjectManager::GetInstance()->CreateTextObject(textComponent.atlasTextureName, textComponent.fontPath, element.name, "UIElement");
+	textComponent.objectId = objManager->CreateTextObject(textComponent.defaultAtlasTextureName,
+		textComponent.defaultFontPath, element.name, "UIElement");
+	// データ取得
+	transformComponent.transform = objManager->GetData<TextTransform2D>(textComponent.objectId);
+	textComponent.text = objManager->GetData<MSDFText>(textComponent.objectId);
+
 	// トランスフォームに親子関係を設定
 	auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(element.parentHandle, UIComponentType::ParentRectTransform));
-	TextTransform2D* transform = ObjectManager::GetInstance()->GetData<TextTransform2D>(textComponent.objectId);
-	transform->parent = &parentComponent->transform;
-	transformComponent.transform.parent = &parentComponent->transform;
+	transformComponent.transform->parent = &parentComponent->transform;
 }

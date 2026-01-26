@@ -27,7 +27,7 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		TextTransform2D transform;
+		TextTransform2D* transform = nullptr;
 
 		//--------- accessor -----------------------------------------------------
 

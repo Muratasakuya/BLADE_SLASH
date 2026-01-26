@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
 
 // c++
 #include <string>
@@ -24,17 +25,23 @@ namespace SakuEngine {
 		UITextComponent() = default;
 		~UITextComponent() = default;
 
+		// エディター
+		void ImGui(const ImVec2& itemSize) override;
+
 		//--------- variables ----------------------------------------------------
 
 		// オブジェクトID
 		uint32_t objectId = 0;
 
+		MSDFText* text = nullptr;
+
+		// デフォルト
 		// アトラステクスチャ名
-		std::string atlasTextureName = "DS-DIGIB_msdf";
+		std::string defaultAtlasTextureName = "DS-DIGIB_msdf";
 		// フォントパス
-		std::string fontPath = "Assets/Json/Atlas/DS-DIGIB_msdf.json";
+		std::string defaultFontPath = "Assets/Json/Atlas/DS-DIGIB_msdf.json";
 		// テキスト内容
-		std::string text = "これがTextです";
+		std::string defaultText = "Text_ABC";
 
 		//--------- accessor -----------------------------------------------------
 
