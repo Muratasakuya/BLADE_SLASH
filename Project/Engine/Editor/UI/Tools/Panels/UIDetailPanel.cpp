@@ -85,11 +85,11 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 		// 保存
 		if (ImGui::Button("Save##UIElement", ImVec2(itemWidth, 28.0f))) {
 
-			jsonSaveState_.showPopup = true;
+			jsonSaveElementState_.showPopup = true;
 		}
 		// 実際の保存処理
 		if (ImGuiHelper::SaveJsonModal("Save UIElement", UIElement::kBaseJsonPath.c_str(),
-			UIElement::kBaseJsonPath.c_str(), jsonSaveState_, outRelPath)) {
+			UIElement::kBaseJsonPath.c_str(), jsonSaveElementState_, outRelPath)) {
 
 			Json data{};
 			asset->ExportJsonElementPrefab(data, context.selectedElement);
@@ -153,11 +153,11 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 				// 保存
 				if (ImGui::Button("Save##UIComponent", ImVec2(itemWidth, 28.0f))) {
 
-					jsonSaveState_.showPopup = true;
+					jsonSaveComponentState_.showPopup = true;
 				}
 				// 実際の保存処理
 				if (ImGuiHelper::SaveJsonModal("Save UIComponent", UIComponentSlot::kBaseJsonPath.c_str(),
-					UIComponentSlot::kBaseJsonPath.c_str(), jsonSaveState_, outRelPath)) {
+					UIComponentSlot::kBaseJsonPath.c_str(), jsonSaveComponentState_, outRelPath)) {
 
 					Json data{};
 					component->ToJson(data);

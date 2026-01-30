@@ -370,6 +370,10 @@ void BaseTransform2D::ImGuiCommon(float itemSize) {
 
 		SetCenterPos();
 	}
+	if (ImGui::Button("Reset Pos", ImVec2(itemSize, 28.0f))) {
+
+		translation = Vector2::AnyInit(0.0f);
+	}
 	ImGui::Separator();
 	ImGui::Spacing();
 

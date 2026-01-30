@@ -39,6 +39,7 @@ namespace SakuEngine {
 		// コンポーネント名入力用
 		InputImGui inputText_;
 		// jsonの保存状態
-		JsonSaveState jsonSaveState_;
+		JsonSaveState jsonSaveElementState_;
+		JsonSaveState jsonSaveComponentState_;
 	};
 } // SakuEngine

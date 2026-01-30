@@ -150,6 +150,7 @@ namespace {
 
 			return asset.AddComponent<UITextComponent>(owner);
 		}
+		return {};
 	}
 }
 
@@ -429,12 +430,12 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 		return {};
 	}
 
-	UIElement::Handle parentHandle = parent;
+	UIElement::Handle parentRootHandle = parent;
 
 	// 親が無効ならrootを親にする
 	if (!elements.IsAlive(parent)) {
 
-		parentHandle = rootHandle;
+		parentRootHandle = rootHandle;
 	}
 
 	const auto& elementArray = data["elements"];
@@ -483,7 +484,7 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 	//	Prefabルートを指定parentの子にする
 	//============================================================================
 
-	AddChild(parentHandle, prefabRoot);
+	AddChild(parentRootHandle, prefabRoot);
 
 	//============================================================================
 	//	コンポーネント復元
@@ -508,12 +509,12 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 	return prefabRoot;
 }
 
-void UIAsset::ExportJsonElementPrefab(Json& data, const UIElement::Handle rootHandle) {
+void UIAsset::ExportJsonElementPrefab(Json& data, const UIElement::Handle inputRootHandle) {
 
 	data["version"] = 1;
 
 	// 要素が存在しなければ空を返す
-	if (!elements.IsAlive(rootHandle)) {
+	if (!elements.IsAlive(inputRootHandle)) {
 		// 空を返す
 		data["rootId"] = 0;
 		data["elements"] = Json::array();
@@ -525,15 +526,15 @@ void UIAsset::ExportJsonElementPrefab(Json& data, const UIElement::Handle rootHa
 
 	std::unordered_map<uint64_t, uint32_t> handleToId;
 	uint32_t nextId = 0;
-	BuildSubTreeIdMap(*this, rootHandle, handleToId, nextId);
+	BuildSubTreeIdMap(*this, inputRootHandle, handleToId, nextId);
 
-	data["rootId"] = handleToId.at(MakeHandleKey(rootHandle));
+	data["rootId"] = handleToId.at(MakeHandleKey(inputRootHandle));
 
 	//============================================================================
 	//	elements、サブツリーのみ書き出し
 	//============================================================================
 
 	Json elementsJson = Json::array();
-	ExportElementRecursive(*this, rootHandle, handleToId, elementsJson);
+	ExportElementRecursive(*this, inputRootHandle, handleToId, elementsJson);
 	data["elements"] = elementsJson;
 }
