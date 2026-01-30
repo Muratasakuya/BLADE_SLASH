@@ -20,6 +20,9 @@ namespace SakuEngine {
 	// UIコンポーネントのスロット
 	struct UIComponentSlot {
 
+		// ファイルを保存する基底パス
+		static inline const std::string kBaseJsonPath = "UIEditor/UIComponent/";
+
 		// コンポーネントの実体
 		std::unique_ptr<IUIComponent> component;
 	};
@@ -29,6 +32,9 @@ namespace SakuEngine {
 
 	// UI要素情報
 	struct UIElement {
+
+		// ファイルを保存する基底パス
+		static inline const std::string kBaseJsonPath = "UIEditor/UIElement/";
 
 		// UI要素専用ハンドル
 		using Handle = HandlePool<UIElement>::Handle;
@@ -48,6 +54,9 @@ namespace SakuEngine {
 	// UIアセット
 	struct UIAsset {
 
+		// ファイルを保存する基底パス
+		static inline const std::string kBaseJsonPath = "UIEditor/UIAsset/";
+
 		// UI要素プール
 		HandlePool<UIElement> elements;
 		// UIコンポーネントプール
@@ -57,6 +66,13 @@ namespace SakuEngine {
 
 		// 初期化
 		void Init();
+
+		// UIAssetのjson復元、保存
+		void FromJson(const Json& data);
+		void ToJson(Json& data);
+		// UIElementのjson復元、保存
+		UIElement::Handle ImportJsonElementPrefab(const Json& data, const UIElement::Handle parent);
+		void ExportJsonElementPrefab(Json& data, const UIElement::Handle rootHandle);
 
 		//========================================================================
 		//	UIElement Methods

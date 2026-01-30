@@ -638,3 +638,43 @@ void TextTransform2D::ImGui(float itemSize) {
 		lineRenderer->Get2D()->DrawRect(boxCenter, textBoxSize, baseAnchor, Color::Magenta());
 	}
 }
+
+void TextTransform2D::ToJson(Json& data) {
+
+	BaseTransform2D::ToJsonCommon(data);
+
+	data["enableTextBox"] = enableTextBox;
+	data["lineSpacing"] = lineSpacing;
+	data["textBoxSize"] = textBoxSize.ToJson();
+	data["textBoxPadding"] = textBoxPadding.ToJson();
+	data["wrapMode"] = EnumAdapter<TextWrapMode>::ToString(wrapMode);
+	data["verticalAlign"] = EnumAdapter<TextVerticalAlign>::ToString(verticalAlign);
+
+	// 文字ごとのトランスフォーム
+	for (auto& charTransform : charTransforms_) {
+
+		Json charData{};
+		charTransform.ToJsonCommon(charData);
+		data["charTransforms"].push_back(charData);
+	}
+}
+
+void TextTransform2D::FromJson(const Json& data) {
+
+	enableTextBox = data.value("enableTextBox", false);
+	lineSpacing = data.value("lineSpacing", 0.0f);
+	textBoxSize = Vector2::FromJson(data["textBoxSize"]);
+	textBoxPadding = Vector2::FromJson(data["textBoxPadding"]);
+	wrapMode = EnumAdapter<TextWrapMode>::FromString(data.value("wrapMode", "CharWrap")).value();
+	verticalAlign = EnumAdapter<TextVerticalAlign>::FromString(data.value("verticalAlign", "Middle")).value();
+
+	// 文字ごとのトランスフォーム
+	if (data.contains("charTransforms")) {
+
+		const auto& charData = data["charTransforms"];
+		for (uint32_t i = 0; i < charData.size(); ++i) {
+
+			charTransforms_[i].FromJsonCommon(charData[i]);
+		}
+	}
+}

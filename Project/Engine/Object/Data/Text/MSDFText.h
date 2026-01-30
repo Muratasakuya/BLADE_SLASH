@@ -49,6 +49,10 @@ namespace SakuEngine {
 		// エディター
 		void ImGui(float itemSize);
 
+		// json
+		void FromJson(const Json& data);
+		void ToJson(Json& data);
+
 		//--------- accessor -----------------------------------------------------
 
 		// 文字列設定

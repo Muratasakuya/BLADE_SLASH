@@ -56,7 +56,14 @@ void UISpriteSyncSystem::EnsureSpriteObject(UIAsset& asset, const UIElement& ele
 	transformComponent.transform = objManager->GetData<Transform2D>(spriteComponent.objectId);
 	spriteComponent.sprite = objManager->GetData<Sprite>(spriteComponent.objectId);
 
+	// 生成直後にjson復元を適用
+	UISystemMethod::RestoreFromJsonCache(transformComponent);
+	UISystemMethod::RestoreFromJsonCache(spriteComponent);
+
 	// トランスフォームに親子関係を設定
-	auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(element.parentHandle, UIComponentType::ParentRectTransform));
-	transformComponent.transform->parent = &parentComponent->transform;
+	if (auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(
+		element.parentHandle, UIComponentType::ParentRectTransform))) {
+
+		transformComponent.transform->parent = &parentComponent->transform;
+	}
 }

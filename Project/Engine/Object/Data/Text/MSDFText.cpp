@@ -413,3 +413,52 @@ void MSDFText::ImGui(float itemSize) {
 	}
 	ImGui::PopItemWidth();
 }
+
+void MSDFText::FromJson(const Json& data) {
+
+	textUtf8_ = data.value("textUtf8", textUtf8_);
+	maxGlyphs_ = data.value("maxGlyphs", maxGlyphs_);
+	atlasTextureName_ = data.value("atlasTextureName", atlasTextureName_);
+	fontSize_ = data.value("fontSize", fontSize_);
+	charSpacing_ = data.value("charSpacing", charSpacing_);
+
+	spacing_.mode = EnumAdapter<TextSpacingMode>::FromString(data.value("spacing_mode", "Tight")).value();
+	spacing_.applyOnlyToNumericSet = data.value("spacing_applyOnlyToNumericSet", spacing_.applyOnlyToNumericSet);
+	spacing_.fixedAdvance = data.value("spacing_fixedAdvance", spacing_.fixedAdvance);
+	spacing_.cellAlign = data.value("spacing_cellAlign", spacing_.cellAlign);
+
+	if (data.contains("TextGenerator")) {
+
+		const auto& generatorData = data["TextGenerator"];
+
+		MSDFTextBufferSystem* textSystem = ObjectManager::GetInstance()->GetSystem<MSDFTextBufferSystem>();
+		// ジェネレーター作成
+		textGenerator_ = textSystem->CreateTextGenerator(generatorData["Type"]);
+		textGenerator_->FromJson(generatorData["Generator"]);
+	}
+
+	// メッシュ再構築フラグ
+	// 違うフォントの時のみ変更できる
+	SetFont(atlasTextureName_);
+}
+
+void MSDFText::ToJson(Json& data) {
+
+	data["textUtf8"] = textUtf8_;
+	data["maxGlyphs"] = maxGlyphs_;
+	data["atlasTextureName"] = atlasTextureName_;
+	data["fontSize"] = fontSize_;
+	data["charSpacing"] = charSpacing_;
+	data["spacing_mode"] = EnumAdapter<TextSpacingMode>::ToString(spacing_.mode);
+	data["spacing_applyOnlyToNumericSet"] = spacing_.applyOnlyToNumericSet;
+	data["spacing_fixedAdvance"] = spacing_.fixedAdvance;
+	data["spacing_cellAlign"] = spacing_.cellAlign;
+
+	if (textGenerator_) {
+
+		Json generatorData;
+		generatorData["Type"] = EnumAdapter<TextGeneratorType>::ToString(textGenerator_->GetType());
+		textGenerator_->ToJson(generatorData["Generator"]);
+		data["TextGenerator"] = generatorData;
+	}
+}

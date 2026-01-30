@@ -28,6 +28,10 @@ namespace SakuEngine {
 		// エディター
 		void ImGui(const ImVec2& itemSize) override;
 
+		// json
+		void FromJson(const Json& data) override;
+		void ToJson(Json& data) override;
+
 		//--------- variables ----------------------------------------------------
 
 		// オブジェクトID

@@ -3234,6 +3234,7 @@
     <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp" />
     <ClCompile Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.cpp" />
     <ClCompile Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\Interface\IUISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />

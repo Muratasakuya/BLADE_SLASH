@@ -23,4 +23,11 @@ namespace SakuEngine {
 		// UIアセットを更新
 		virtual void Update(UIAsset& asset) = 0;
 	};
+
+	// UIシステム用メソッド群
+	namespace UISystemMethod {
+
+		// コンポーネントのjsonキャッシュを基に復元
+		void RestoreFromJsonCache(IUIComponent& component);
+	}
 } // SakuEngine

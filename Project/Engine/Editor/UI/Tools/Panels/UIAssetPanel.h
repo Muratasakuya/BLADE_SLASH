@@ -38,8 +38,7 @@ namespace SakuEngine {
 
 		// UIアセット名入力用
 		InputImGui inputText_;
-
-		//--------- functions ----------------------------------------------------
-
+		// jsonの保存状態
+		JsonSaveState jsonSaveState_;
 	};
 } // SakuEngine

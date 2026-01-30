@@ -475,11 +475,7 @@ void ImGuiObjectEditor::EditObject2D() {
 			ImGui::EndTabItem();
 		}
 
-		if (ImGui::BeginTabItem("Sprite")) {
-
-			Object2DSprite();
-			ImGui::EndTabItem();
-		}
+		Object2DCanvas();
 
 		if (ImGui::BeginTabItem("Transform")) {
 
@@ -519,14 +515,20 @@ void ImGuiObjectEditor::Object2DInformation() {
 	}
 }
 
-void ImGuiObjectEditor::Object2DSprite() {
+void ImGuiObjectEditor::Object2DCanvas() {
 
 	if (auto* sprite = objectManager_->GetData<Sprite>(*selected2D_)) {
+		if (ImGui::BeginTabItem("Sprite")) {
 
-		sprite->ImGui(itemWidth_);
+			sprite->ImGui(itemWidth_);
+			ImGui::EndTabItem();
+		}
 	} else if (auto* text = objectManager_->GetData<MSDFText>(*selected2D_)) {
+		if (ImGui::BeginTabItem("Text")) {
 
-		text->ImGui(itemWidth_);
+			text->ImGui(itemWidth_);
+			ImGui::EndTabItem();
+		}
 	}
 }
 

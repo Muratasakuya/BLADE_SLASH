@@ -29,6 +29,10 @@ namespace SakuEngine {
 		// UIの削除
 		void Remove(UIAssetHandle handle) { assets_.Destroy(handle); }
 
+		// json
+		void LoadAsset(const std::string& filePath);
+		void SaveAsset(const UIAssetHandle handle, const std::string& filePath);
+
 		// 全てのUIアセットに対して関数を実行
 		template<typename Func>
 		void ForEachAsset(Func&& func);

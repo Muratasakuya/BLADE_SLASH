@@ -6,6 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Engine/Utility/Json/JsonAdapter.h>
 
 // imgui
 #include <imgui.h>
@@ -38,7 +39,7 @@ namespace {
 
 void UIDetailPanel::ImGui(UIToolContext& context) {
 
-	ImGui::SetWindowFontScale(0.8f);
+	ImGui::SetWindowFontScale(0.72f);
 
 	// 選択中のUIアセットを取得
 	UIAsset* asset = context.GetSelectedAsset();
@@ -59,6 +60,42 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 		return;
 	}
 
+	const float itemWidth = 100.0f;
+
+	//============================================================================
+	//	エレメントの保存、読み込み
+	//============================================================================
+	{
+		std::string outRelPath{};
+
+		// 読み込み
+		if (ImGui::Button("Load##UIElement", ImVec2(itemWidth, 28.0f))) {
+
+			if (ImGuiHelper::OpenJsonDialog(outRelPath)) {
+
+				Json data{};
+				if (JsonAdapter::LoadCheck(outRelPath, data)) {
+
+					// 読み込み処理
+					asset->ImportJsonElementPrefab(data, context.selectedElement);
+				}
+			}
+		}
+		ImGui::SameLine();
+		// 保存
+		if (ImGui::Button("Save##UIElement", ImVec2(itemWidth, 28.0f))) {
+
+			jsonSaveState_.showPopup = true;
+		}
+		// 実際の保存処理
+		if (ImGuiHelper::SaveJsonModal("Save UIElement", UIElement::kBaseJsonPath.c_str(),
+			UIElement::kBaseJsonPath.c_str(), jsonSaveState_, outRelPath)) {
+
+			Json data{};
+			asset->ExportJsonElementPrefab(data, context.selectedElement);
+			JsonAdapter::Save(outRelPath, data);
+		}
+	}
 	//============================================================================
 	//	要素情報の表示、編集
 	//============================================================================
@@ -92,6 +129,42 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 		if (ImGui::CollapsingHeader(componentName, ImGuiTreeNodeFlags_DefaultOpen)) {
 
 			ImGui::PushID(componentName);
+
+			//============================================================================
+			//	コンポーネントの保存、読み込み
+			//============================================================================
+			{
+				std::string outRelPath{};
+
+				// 読み込み
+				if (ImGui::Button("Load##UIComponent", ImVec2(itemWidth, 28.0f))) {
+
+					if (ImGuiHelper::OpenJsonDialog(outRelPath)) {
+
+						Json data{};
+						if (JsonAdapter::LoadCheck(outRelPath, data)) {
+
+							// 読み込み処理
+							component->FromJson(data);
+						}
+					}
+				}
+				ImGui::SameLine();
+				// 保存
+				if (ImGui::Button("Save##UIComponent", ImVec2(itemWidth, 28.0f))) {
+
+					jsonSaveState_.showPopup = true;
+				}
+				// 実際の保存処理
+				if (ImGuiHelper::SaveJsonModal("Save UIComponent", UIComponentSlot::kBaseJsonPath.c_str(),
+					UIComponentSlot::kBaseJsonPath.c_str(), jsonSaveState_, outRelPath)) {
+
+					Json data{};
+					component->ToJson(data);
+					JsonAdapter::Save(outRelPath, data);
+				}
+			}
+			ImGui::Separator();
 
 			// 各コンポーネントのImGuiを呼ぶ
 			component->ImGui(ImVec2(192.0f, 28.0f));

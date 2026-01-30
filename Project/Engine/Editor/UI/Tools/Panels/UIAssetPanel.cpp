@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Utility/Json/JsonAdapter.h>
 
 //============================================================================
 //	UIAssetPanel classMethods
@@ -12,11 +13,12 @@ using namespace SakuEngine;
 
 void UIAssetPanel::ImGui(UIToolContext& context) {
 
+	const float itemWidth = 200.0f;
+
 	//============================================================================
 	//	UI名を入力して追加
 	//============================================================================
 	{
-		const float itemWidth = 200.0f;
 		// サイズ設定
 		ImGui::PushItemWidth(itemWidth);
 
@@ -40,6 +42,41 @@ void UIAssetPanel::ImGui(UIToolContext& context) {
 
 					context.selectedElement = asset->rootHandle;
 				}
+			}
+		}
+	}
+	ImGui::Spacing();
+	ImGui::Separator();
+	//============================================================================
+	//	UIの保存(選択しているUI)、読み込み
+	//============================================================================
+	{
+		std::string outRelPath{};
+
+		// 読み込み
+		if (ImGui::Button("Load##UIAsset", ImVec2(itemWidth / 2.0f, 28.0f))) {
+
+			if (ImGuiHelper::OpenJsonDialog(outRelPath)) {
+
+				// 読み込み処理
+			}
+		}
+		ImGui::SameLine();
+		// 保存
+		if (ImGui::Button("Save##UIAsset", ImVec2(itemWidth / 2.0f, 28.0f))) {
+
+			jsonSaveState_.showPopup = true;
+		}
+		// 実際の保存処理
+		if (ImGuiHelper::SaveJsonModal("Save UIAsset", UIAsset::kBaseJsonPath.c_str(),
+			UIAsset::kBaseJsonPath.c_str(), jsonSaveState_, outRelPath)) {
+
+			UIAsset* asset = context.GetSelectedAsset();
+			if (asset) {
+
+				Json data{};
+				asset->ToJson(data);
+				JsonAdapter::Save(outRelPath, data);
 			}
 		}
 	}

@@ -11,7 +11,7 @@
 namespace SakuEngine {
 
 	// テキスト生成タイプ
-	enum class TextGeneratorType 
+	enum class TextGeneratorType
 		: uint32_t {
 
 		Clock, // 時間表示
@@ -35,6 +35,10 @@ namespace SakuEngine {
 
 		// エディター
 		virtual void ImGui() {}
+
+		// json
+		virtual void FromJson([[maybe_unused]] const Json& data) {}
+		virtual void ToJson([[maybe_unused]] Json& data) const {}
 
 		//--------- accessor -----------------------------------------------------
 

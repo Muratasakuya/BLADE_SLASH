@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
+#include <Engine/Utility/Helper/ImGuiHelper.h>
 
 namespace SakuEngine {
 
@@ -35,9 +36,9 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-
-
-		//--------- functions ----------------------------------------------------
-
+		// コンポーネント名入力用
+		InputImGui inputText_;
+		// jsonの保存状態
+		JsonSaveState jsonSaveState_;
 	};
 } // SakuEngine

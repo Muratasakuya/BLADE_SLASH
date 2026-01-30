@@ -162,7 +162,7 @@ namespace SakuEngine {
 		// Object2D詳細、操作
 		void EditObject2D();
 		void Object2DInformation();
-		void Object2DSprite();
+		void Object2DCanvas();
 		void Object2DTransform();
 		void Object2DMaterial();
 	};

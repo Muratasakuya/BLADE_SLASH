@@ -291,6 +291,10 @@ namespace SakuEngine {
 		// エディター
 		void ImGui(float itemSize);
 
+		// json
+		void ToJson(Json& data);
+		void FromJson(const Json& data);
+
 		//--------- variables ----------------------------------------------------
 
 		// テキストボックス有効化フラグ

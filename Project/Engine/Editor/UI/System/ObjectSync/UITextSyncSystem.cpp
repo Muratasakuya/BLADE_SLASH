@@ -57,7 +57,14 @@ void UITextSyncSystem::EnsureTextObject(UIAsset& asset, const UIElement& element
 	transformComponent.transform = objManager->GetData<TextTransform2D>(textComponent.objectId);
 	textComponent.text = objManager->GetData<MSDFText>(textComponent.objectId);
 
+	// 生成直後にjson復元を適用
+	UISystemMethod::RestoreFromJsonCache(transformComponent);
+	UISystemMethod::RestoreFromJsonCache(textComponent);
+
 	// トランスフォームに親子関係を設定
-	auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(element.parentHandle, UIComponentType::ParentRectTransform));
-	transformComponent.transform->parent = &parentComponent->transform;
+	if (auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(
+		element.parentHandle, UIComponentType::ParentRectTransform))) {
+
+		transformComponent.transform->parent = &parentComponent->transform;
+	}
 }
