@@ -131,35 +131,6 @@ namespace {
 			ExportElementRecursive(asset, child, handleToId, elementsJson);
 		}
 	}
-
-	// コンポーネントの追加
-	UIComponentHandle AddComponentByType(UIAsset& asset, UIElement::Handle owner, UIComponentType type) {
-
-		switch (type) {
-		case UIComponentType::ParentRectTransform:
-
-			return asset.AddComponent<UIParentRectTransform>(owner);
-		case UIComponentType::SpriteTransform:
-
-			return asset.AddComponent<UISpriteTransformComponent>(owner);
-		case UIComponentType::TextTransform:
-
-			return asset.AddComponent<UITextTransformComponent>(owner);
-		case UIComponentType::Sprite:
-
-			return asset.AddComponent<UISpriteComponent>(owner);
-		case UIComponentType::Text:
-
-			return asset.AddComponent<UITextComponent>(owner);
-		case UIComponentType::Selectable:
-
-			return asset.AddComponent<UISelectableComponent>(owner);
-		case UIComponentType::InputNavigation:
-
-			return asset.AddComponent<UIInputNavigationComponent>(owner);
-		}
-		return {};
-	}
 }
 
 void UIAsset::Init() {
@@ -241,6 +212,34 @@ bool UIAsset::Reparent(UIElement::Handle child, UIElement::Handle newParent) {
 	}
 	// 新しい親に子を追加
 	return AddChild(newParent, child);
+}
+
+UIComponentHandle UIAsset::AddComponentByType(UIElement::Handle owner, UIComponentType type) {
+
+	switch (type) {
+	case UIComponentType::ParentRectTransform:
+
+		return AddComponent<UIParentRectTransform>(owner);
+	case UIComponentType::SpriteTransform:
+
+		return AddComponent<UISpriteTransformComponent>(owner);
+	case UIComponentType::TextTransform:
+
+		return AddComponent<UITextTransformComponent>(owner);
+	case UIComponentType::Sprite:
+
+		return AddComponent<UISpriteComponent>(owner);
+	case UIComponentType::Text:
+
+		return AddComponent<UITextComponent>(owner);
+	case UIComponentType::Selectable:
+
+		return AddComponent<UISelectableComponent>(owner);
+	case UIComponentType::InputNavigation:
+
+		return AddComponent<UIInputNavigationComponent>(owner);
+	}
+	return {};
 }
 
 IUIComponent* UIAsset::GetComponent(const UIComponentHandle& handle) {
@@ -385,7 +384,7 @@ void UIAsset::FromJson(const Json& data) {
 		for (const auto& componentData : element["components"]) {
 
 			UIComponentType type = EnumAdapter<UIComponentType>::FromString(componentData["type"]).value();
-			if (IUIComponent* component = GetComponent(AddComponentByType(*this, owner, type))) {
+			if (IUIComponent* component = GetComponent(AddComponentByType(owner, type))) {
 
 				component->FromJson(componentData["data"]);
 			}
@@ -547,7 +546,7 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 		for (const auto& componentData : elementData["components"]) {
 
 			UIComponentType type = EnumAdapter<UIComponentType>::FromString(componentData["type"]).value();
-			if (IUIComponent* component = GetComponent(AddComponentByType(*this, owner, type))) {
+			if (IUIComponent* component = GetComponent(AddComponentByType(owner, type))) {
 
 				component->FromJson(componentData["data"]);
 			}

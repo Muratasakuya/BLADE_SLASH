@@ -10,6 +10,7 @@ using namespace SakuEngine;
 
 // imgui
 #include <imgui.h>
+#include <imgui_internal.h>
 
 //============================================================================
 //	UIDetailPanel classMethods
@@ -60,7 +61,7 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 		return;
 	}
 
-	const float itemWidth = 100.0f;
+	float itemWidth = 100.0f;
 
 	//============================================================================
 	//	エレメントの保存、読み込み
@@ -174,6 +175,144 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 			ImGui::Separator();
 			ImGui::Spacing();
 		}
+	}
+
+	//============================================================================
+	//	コンポーネントの追加
+	//============================================================================
+
+	ImGui::Separator();
+	ImGui::Spacing();
+
+	itemWidth = ImGui::GetContentRegionAvail().x;
+
+	// 追加候補
+	struct AddEntry {
+
+		const char* category;
+		UIComponentType type;
+		bool uniquePerElement; // 同一Elementに複数不可
+		bool uniquePerAsset;   // Asset内で1つだけ
+		bool rootOnly;         // Root限定
+	};
+	// 追加候補リスト
+	static const AddEntry kAddEntries[] = {
+
+		{ "Interaction", UIComponentType::Selectable,          true,  false, false },
+		{ "Input",       UIComponentType::InputNavigation,     true,  true,  true  },
+	};
+	// 選択中エレメントにすでにあるか
+	auto HasOnElement = [&](UIComponentType t) -> bool {
+		return asset->FindComponent(context.selectedElement, t) != nullptr;
+		};
+	// アセット内にすでにあるか
+	auto HasInAsset = [&](UIComponentType t) -> bool {
+		bool found = false;
+		asset->elements.ForEachAlive([&](UIElement::Handle handle, [[maybe_unused]] const UIElement& e) {
+			if (found) {
+				return;
+			}
+			if (asset->FindComponent(handle, t)) {
+				found = true;
+			}
+			});
+		return found;
+		};
+
+	// ボタンで表示、非表示切り替え
+	{
+		// ボタンラベル
+		if (ImGui::Button("Add Component", ImVec2(itemWidth, 28.0f))) {
+
+			showAddComponent_ = !showAddComponent_;
+			if (showAddComponent_) {
+				addComponentFilter_.Clear();
+			}
+		}
+	}
+
+	// 展開ブラウザ
+	if (showAddComponent_) {
+
+		// 見やすいように枠付き、背景色を少し変える
+		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 8.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 1.0f);
+
+		// “ブラウザ”領域
+		const float height = 320.0f;
+		if (ImGui::BeginChild("##AddComponentBrowser", ImVec2(0.0f, height), true)) {
+
+			// ヘッダ行：タイトル + 閉じる
+			ImGui::AlignTextToFramePadding();
+			ImGui::TextUnformatted("Add Component");
+			ImGui::SameLine();
+
+			// 右寄せでCloseボタン
+			float closeW = ImGui::CalcTextSize("Close").x + ImGui::GetStyle().FramePadding.x * 2.0f;
+			ImGui::SetCursorPosX(ImGui::GetContentRegionMax().x - closeW);
+			if (ImGui::SmallButton("Close")) {
+
+				showAddComponent_ = false;
+			}
+
+			// 検索
+			addComponentFilter_.Draw("Search", -1.0f);
+			ImGui::Separator();
+
+			// リスト
+			if (ImGui::BeginChild("##AddComponentList", ImVec2(0, 0), false)) {
+
+				const char* currentCategory = nullptr;
+				for (const auto& entry : kAddEntries) {
+
+					const char* typeName = EnumAdapter<UIComponentType>::ToString(entry.type);
+
+					// フィルタ
+					if (!addComponentFilter_.PassFilter(typeName) && !addComponentFilter_.PassFilter(entry.category)) {
+						continue;
+					}
+
+					// カテゴリ見出し
+					if (!currentCategory || std::strcmp(currentCategory, entry.category) != 0) {
+
+						currentCategory = entry.category;
+						ImGui::SeparatorText(currentCategory);
+					}
+
+					// 追加可能か
+					bool canAdd = true;
+					if (entry.uniquePerElement && HasOnElement(entry.type)) {
+						canAdd = false;
+					}
+					if (entry.uniquePerAsset && HasInAsset(entry.type)) {
+						canAdd = false;
+					}
+					if (entry.rootOnly && !UIElement::Handle::Equal(context.selectedElement, asset->rootHandle)) {
+						canAdd = false;
+					}
+
+					ImGui::BeginDisabled(!canAdd);
+					ImGui::PushID((int)entry.type);
+
+					// 左揃えのリスト
+					if (ImGui::Selectable(typeName, false, ImGuiSelectableFlags_SpanAvailWidth)) {
+
+						// 追加処理
+						asset->AddComponentByType(context.selectedElement, entry.type);
+						showAddComponent_ = false;
+					}
+
+					ImGui::PopID();
+					ImGui::EndDisabled();
+				}
+
+				// list
+				ImGui::EndChild();
+			}
+		}
+		// browser
+		ImGui::EndChild();
+		ImGui::PopStyleVar(2);
 	}
 
 	ImGui::SetWindowFontScale(1.0f);

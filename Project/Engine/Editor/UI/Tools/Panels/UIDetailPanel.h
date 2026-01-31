@@ -41,5 +41,9 @@ namespace SakuEngine {
 		// jsonの保存状態
 		JsonSaveState jsonSaveElementState_;
 		JsonSaveState jsonSaveComponentState_;
+
+		// コンポーネント追加フィルター
+		bool showAddComponent_ = false;
+		ImGuiTextFilter addComponentFilter_;
 	};
 } // SakuEngine

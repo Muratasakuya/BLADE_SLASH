@@ -103,6 +103,7 @@ namespace SakuEngine {
 		//========================================================================
 
 		// コンポーネントの追加
+		UIComponentHandle AddComponentByType(UIElement::Handle owner, UIComponentType type);
 		template <typename T, typename ...Args>
 		UIComponentHandle AddComponent(UIElement::Handle owner, Args&& ...args) {
 
