@@ -8,6 +8,8 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
 #include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
 #include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
+#include <Engine/Editor/UI/Component/Material/UISpriteMaterialComponent.h>
+#include <Engine/Editor/UI/Component/Material/UITextMaterialComponent.h>
 #include <Engine/Editor/UI/Component/Sprite/UISpriteComponent.h>
 #include <Engine/Editor/UI/Component/Text/UITextComponent.h>
 #include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
@@ -146,6 +148,7 @@ void UIPaletteRegistry::AddSpriteComponent(const std::string& name, const UIElem
 
 	// コンポーネント追加
 	asset.AddComponent<UISpriteTransformComponent>(handle);
+	asset.AddComponent<UISpriteMaterialComponent>(handle);
 	asset.AddComponent<UISpriteComponent>(handle);
 }
 
@@ -159,5 +162,6 @@ void UIPaletteRegistry::AddTextComponent(const std::string& name, const UIElemen
 
 	// コンポーネント追加
 	asset.AddComponent<UITextTransformComponent>(handle);
+	asset.AddComponent<UITextMaterialComponent>(handle);
 	asset.AddComponent<UITextComponent>(handle);
 }

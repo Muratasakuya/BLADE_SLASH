@@ -265,6 +265,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Component\Selectable\UISelectableComponent.cpp">
       <SubType>
       </SubType>
@@ -1296,6 +1304,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Component\Interface\IUIComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.h">
       <SubType>
       </SubType>
     </ClInclude>

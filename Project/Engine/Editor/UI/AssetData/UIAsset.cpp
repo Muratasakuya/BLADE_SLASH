@@ -10,6 +10,8 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
 #include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
 #include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
+#include <Engine/Editor/UI/Component/Material/UISpriteMaterialComponent.h>
+#include <Engine/Editor/UI/Component/Material/UITextMaterialComponent.h>
 #include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
 #include <Engine/Editor/UI/Component/InputNavigation/UIInputNavigationComponent.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
@@ -226,6 +228,12 @@ UIComponentHandle UIAsset::AddComponentByType(UIElement::Handle owner, UICompone
 	case UIComponentType::TextTransform:
 
 		return AddComponent<UITextTransformComponent>(owner);
+	case UIComponentType::SpriteMaterial:
+
+		return AddComponent<UISpriteMaterialComponent>(owner);
+	case UIComponentType::TextMaterial:
+
+		return AddComponent<UITextMaterialComponent>(owner);
 	case UIComponentType::Sprite:
 
 		return AddComponent<UISpriteComponent>(owner);

@@ -24,6 +24,8 @@ namespace SakuEngine {
 		ParentRectTransform,
 		SpriteTransform,
 		TextTransform,
+		SpriteMaterial,
+		TextMaterial,
 		Sprite,
 		Text,
 		Selectable,

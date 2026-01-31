@@ -3240,6 +3240,8 @@
     <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIKeyboardNavigationDevice.cpp" />
     <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIGamepadNavigationDevice.cpp" />
     <ClCompile Include="Engine\Editor\UI\System\InputNavigation\UIInputNavigationSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
@@ -3273,6 +3275,8 @@
     <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIGamepadNavigationDevice.h" />
     <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UINavigationAction.h" />
     <ClInclude Include="Engine\Editor\UI\System\InputNavigation\UIInputNavigationSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

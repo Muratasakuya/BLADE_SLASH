@@ -4,9 +4,6 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/System/Interface/IUISystem.h>
-#include <Engine/Editor/UI/Component/Text/UITextComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
 
 namespace SakuEngine {
 
@@ -36,7 +33,6 @@ namespace SakuEngine {
 		// UIオブジェクトの同期処理を親から子まで再帰的に行う
 		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node);
 		// テキストコンポーネント用のオブジェクトを作成する
-		void EnsureTextObject(UIAsset& asset, const UIElement& element,
-			UITextComponent& textComponent, UITextTransformComponent& transformComponent);
+		void EnsureTextObject(UIAsset& asset, const UIElement& element, const UIElement::Handle& node);
 	};
 } // SakuEngine

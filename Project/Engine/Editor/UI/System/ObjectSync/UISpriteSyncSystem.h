@@ -4,9 +4,6 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/System/Interface/IUISystem.h>
-#include <Engine/Editor/UI/Component/Sprite/UISpriteComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
 
 namespace SakuEngine {
 
@@ -36,7 +33,6 @@ namespace SakuEngine {
 		// UIオブジェクトの同期処理を親から子まで再帰的に行う
 		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node);
 		// スプライトコンポーネント用のオブジェクトを作成する
-		void EnsureSpriteObject(UIAsset& asset, const UIElement& element,
-			UISpriteComponent& spriteComponent, UISpriteTransformComponent& transformComponent);
+		void EnsureSpriteObject(UIAsset& asset, const UIElement& element, const UIElement::Handle& node);
 	};
 } // SakuEngine
