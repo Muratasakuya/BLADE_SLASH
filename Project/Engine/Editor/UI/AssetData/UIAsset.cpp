@@ -10,6 +10,8 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
 #include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
 #include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
+#include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
+#include <Engine/Editor/UI/Component/InputNavigation/UIInputNavigationComponent.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================
@@ -149,6 +151,12 @@ namespace {
 		case UIComponentType::Text:
 
 			return asset.AddComponent<UITextComponent>(owner);
+		case UIComponentType::Selectable:
+
+			return asset.AddComponent<UISelectableComponent>(owner);
+		case UIComponentType::InputNavigation:
+
+			return asset.AddComponent<UIInputNavigationComponent>(owner);
 		}
 		return {};
 	}
@@ -156,9 +164,15 @@ namespace {
 
 void UIAsset::Init() {
 
-	// クリアしてルートのみ作成
+	// クリア
 	elements.Clear();
-	rootHandle = elements.Emplace(UIElement{ .name = "Root" });
+	components.Clear();
+	nextUid = 1;
+	// ルートのみ作成
+	UIElement root{};
+	root.name = "Root";
+	root.uid = AllocateUid();
+	rootHandle = elements.Emplace(root);
 }
 
 bool UIAsset::AddChild(UIElement::Handle parent, UIElement::Handle child) {
@@ -279,10 +293,8 @@ void UIAsset::FromJson(const Json& data) {
 	//	version
 	//============================================================================
 
-	uint32_t version = 0;
-	if (data.contains("version")) {
-		version = data["version"].get<uint32_t>();
-	}
+	uint32_t version = data.value("version", 1u);
+	nextUid = data.value("nextUid", 1u);
 
 	//============================================================================
 	//	UIElementを作る (d -> handleを構築)
@@ -291,20 +303,53 @@ void UIAsset::FromJson(const Json& data) {
 	std::unordered_map<uint32_t, UIElement::Handle> idToHandle;
 
 	const auto& elementArray = data["elements"];
-	for (const auto& e : elementArray) {
+	uint32_t maxUid = 0;
+	std::vector<UIElement::Handle> needAssign{};
+	for (const auto& elementData : elementArray) {
 
-		uint32_t id = e["id"].get<uint32_t>();
+		uint32_t id = elementData["id"].get<uint32_t>();
 
 		UIElement element{};
-		element.name = e["name"].get<std::string>();
+		element.name = elementData["name"].get<std::string>();
+
+		if (elementData.contains("uid")) {
+
+			element.uid = elementData["uid"].get<uint32_t>();
+			maxUid = (std::max)(maxUid, element.uid);
+		} else {
+
+			element.uid = 0;
+		}
 
 		UIElement::Handle handle = elements.Emplace(element);
 		idToHandle[id] = handle;
+
+		if (element.uid == 0) {
+			needAssign.push_back(handle);
+		}
 	}
 
 	// rootHandle
 	uint32_t rootId = data["rootId"].get<uint32_t>();
 	rootHandle = idToHandle[rootId];
+
+	// nextUid補正
+	if (version < 2 || !data.contains("nextUid")) {
+
+		nextUid = (std::max)(nextUid, maxUid + 1);
+	} else {
+
+		// 安全のためmax+1より小さければ補正
+		nextUid = (std::max)(nextUid, maxUid + 1);
+	}
+
+	// uid無しの要素に採番
+	for (auto h : needAssign) {
+		if (auto* element = elements.Get(h)) {
+
+			element->uid = AllocateUid();
+		}
+	}
 
 	//============================================================================
 	//	親子関係復元 (parent -> child)
@@ -350,7 +395,8 @@ void UIAsset::FromJson(const Json& data) {
 
 void UIAsset::ToJson(Json& data) {
 
-	data["version"] = 1;
+	data["version"] = 2;
+	data["nextUid"] = nextUid;
 
 	//============================================================================
 	//	Handle -> ElementIdの採番
@@ -377,6 +423,7 @@ void UIAsset::ToJson(Json& data) {
 		uint32_t id = handleToId.at(MakeHandleKey(handle));
 
 		elementData["id"] = id;
+		elementData["uid"] = element.uid;
 		elementData["name"] = element.name;
 
 		// 親ハンドル

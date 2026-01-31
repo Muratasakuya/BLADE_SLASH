@@ -26,6 +26,8 @@ namespace SakuEngine {
 		TextTransform,
 		Sprite,
 		Text,
+		Selectable,
+		InputNavigation,
 	};
 
 	//============================================================================

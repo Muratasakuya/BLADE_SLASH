@@ -103,6 +103,7 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 	ImGui::SeparatorText("Element");
 
 	InputTextStdString("name", element->name);
+	ImGui::Text("uid:        %d", element->uid);
 	ImGui::Text("children: %zu", element->children.size());
 
 	ImGui::Separator();

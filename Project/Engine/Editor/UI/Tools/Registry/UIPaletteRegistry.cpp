@@ -10,6 +10,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
 #include <Engine/Editor/UI/Component/Sprite/UISpriteComponent.h>
 #include <Engine/Editor/UI/Component/Text/UITextComponent.h>
+#include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================

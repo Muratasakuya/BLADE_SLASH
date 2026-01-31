@@ -40,6 +40,7 @@ namespace SakuEngine {
 		using Handle = HandlePool<UIElement>::Handle;
 
 		// 要素の名前
+		uint32_t uid = 0;
 		std::string name;
 
 		// 親要素
@@ -57,6 +58,9 @@ namespace SakuEngine {
 		// ファイルを保存する基底パス
 		static inline const std::string kBaseJsonPath = "UIEditor/UIAsset/";
 
+		// 次のUID
+		uint32_t nextUid = 1;
+
 		// UI要素プール
 		HandlePool<UIElement> elements;
 		// UIコンポーネントプール
@@ -66,6 +70,9 @@ namespace SakuEngine {
 
 		// 初期化
 		void Init();
+
+		// UIDの割り当て
+		uint32_t AllocateUid() { return nextUid++; }
 
 		// UIAssetのjson復元、保存
 		void FromJson(const Json& data);
