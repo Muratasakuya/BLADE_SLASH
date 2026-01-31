@@ -6,7 +6,7 @@
 #include <Engine/Core/Graphics/PostProcess/Buffer/Updater/Interface/PostProcessUpdaterBase.h>
 #include <Engine/Core/Graphics/PostProcess/Buffer/PostProcessBufferSize.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 // imgui
 #include <imgui.h>

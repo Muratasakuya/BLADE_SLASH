@@ -15,42 +15,42 @@ using namespace SakuEngine;
 
 void CollisionShape::Sphere::ToJson(Json& data) {
 
-	data["Sphere"]["center"] = SakuEngine::JsonAdapter::FromObject<Vector3>(center);
+	data["Sphere"]["center"] = JsonAdapter::FromObject<Vector3>(center);
 	data["Sphere"]["radius"] = radius;
 }
 
 void CollisionShape::Sphere::FromJson(const Json& data) {
 
-	center = SakuEngine::JsonAdapter::ToObject<Vector3>(data["Sphere"]["center"]);
+	center = JsonAdapter::ToObject<Vector3>(data["Sphere"]["center"]);
 	radius = data["Sphere"]["radius"];
 }
 
 void CollisionShape::AABB::ToJson(Json& data) {
 
-	data["AABB"]["center"] = SakuEngine::JsonAdapter::FromObject<Vector3>(center);
-	data["AABB"]["extent"] = SakuEngine::JsonAdapter::FromObject<Vector3>(extent);
+	data["AABB"]["center"] = JsonAdapter::FromObject<Vector3>(center);
+	data["AABB"]["extent"] = JsonAdapter::FromObject<Vector3>(extent);
 }
 
 void CollisionShape::AABB::FromJson(const Json& data) {
 
-	center = SakuEngine::JsonAdapter::ToObject<Vector3>(data["AABB"]["center"]);
-	extent = SakuEngine::JsonAdapter::ToObject<Vector3>(data["AABB"]["extent"]);
+	center = JsonAdapter::ToObject<Vector3>(data["AABB"]["center"]);
+	extent = JsonAdapter::ToObject<Vector3>(data["AABB"]["extent"]);
 }
 
 void CollisionShape::OBB::ToJson(Json& data) {
 
-	data["OBB"]["center"] = SakuEngine::JsonAdapter::FromObject<Vector3>(center);
-	data["OBB"]["size"] = SakuEngine::JsonAdapter::FromObject<Vector3>(size);
-	data["OBB"]["eulerRotate"] = SakuEngine::JsonAdapter::FromObject<Vector3>(eulerRotate);
-	data["OBB"]["rotate"] = SakuEngine::JsonAdapter::FromObject<Quaternion>(rotate);
+	data["OBB"]["center"] = JsonAdapter::FromObject<Vector3>(center);
+	data["OBB"]["size"] = JsonAdapter::FromObject<Vector3>(size);
+	data["OBB"]["eulerRotate"] = JsonAdapter::FromObject<Vector3>(eulerRotate);
+	data["OBB"]["rotate"] = JsonAdapter::FromObject<Quaternion>(rotate);
 }
 
 void CollisionShape::OBB::FromJson(const Json& data) {
 
-	center = SakuEngine::JsonAdapter::ToObject<Vector3>(data["OBB"]["center"]);
-	size = SakuEngine::JsonAdapter::ToObject<Vector3>(data["OBB"]["size"]);
-	eulerRotate = SakuEngine::JsonAdapter::ToObject<Vector3>(data["OBB"]["eulerRotate"]);
-	rotate = SakuEngine::JsonAdapter::ToObject<Quaternion>(data["OBB"]["rotate"]);
+	center = JsonAdapter::ToObject<Vector3>(data["OBB"]["center"]);
+	size = JsonAdapter::ToObject<Vector3>(data["OBB"]["size"]);
+	eulerRotate = JsonAdapter::ToObject<Vector3>(data["OBB"]["eulerRotate"]);
+	rotate = JsonAdapter::ToObject<Quaternion>(data["OBB"]["rotate"]);
 }
 
 //============================================================================
@@ -92,9 +92,9 @@ bool Collision::SphereToOBB(const CollisionShape::Sphere& sphere,
 	Matrix4x4 rotateMatrix = Quaternion::MakeRotateMatrix(obb.rotate);
 
 	Vector3 orientations[3];
-	orientations[0] = SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Right), rotateMatrix);
-	orientations[1] = SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Up), rotateMatrix);
-	orientations[2] = SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Forward), rotateMatrix);
+	orientations[0] = Vector3::Transform(Direction::Get(Direction3D::Right), rotateMatrix);
+	orientations[1] = Vector3::Transform(Direction::Get(Direction3D::Up), rotateMatrix);
+	orientations[2] = Vector3::Transform(Direction::Get(Direction3D::Forward), rotateMatrix);
 
 	Vector3 localSphereCenter = sphere.center - obb.center;
 	Vector3 closestPoint = obb.center;
@@ -147,7 +147,7 @@ bool Collision::AABBToAABB(const CollisionShape::AABB& aabbA, const CollisionSha
 bool Collision::OBBToOBB(const CollisionShape::OBB& obbA, const CollisionShape::OBB& obbB) {
 
 	auto CalculateProjection =
-		[](const CollisionShape::OBB& obb, const SakuEngine::Vector3& axis, const Vector3* axes) -> float {
+		[](const CollisionShape::OBB& obb, const Vector3& axis, const Vector3* axes) -> float {
 		return std::abs(obb.size.x * Vector3::Dot(axes[0], axis)) +
 			std::abs(obb.size.y * Vector3::Dot(axes[1], axis)) +
 			std::abs(obb.size.z * Vector3::Dot(axes[2], axis));
@@ -156,9 +156,9 @@ bool Collision::OBBToOBB(const CollisionShape::OBB& obbA, const CollisionShape::
 	auto GetOBBAxes = [](const CollisionShape::OBB& obb) -> std::array<Vector3, 3> {
 		Matrix4x4 rotationMatrix = Quaternion::MakeRotateMatrix(obb.rotate);
 		return {
-			SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Right), rotationMatrix),
-			SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Up), rotationMatrix),
-			SakuEngine::Vector3::Transform(Direction::Get(Direction3D::Forward), rotationMatrix)
+			Vector3::Transform(Direction::Get(Direction3D::Right), rotationMatrix),
+			Vector3::Transform(Direction::Get(Direction3D::Up), rotationMatrix),
+			Vector3::Transform(Direction::Get(Direction3D::Forward), rotationMatrix)
 		};
 		};
 
@@ -208,16 +208,14 @@ bool Collision::OBBToAABB(const CollisionShape::OBB& obb, const CollisionShape::
 	return AABBToOBB(aabb, obb);
 }
 
-bool Collision::RectToMouse(const SakuEngine::Vector2& center,
-	const SakuEngine::Vector2& size, const SakuEngine::Vector2& anchor) {
+bool Collision::RectToMouse(const Vector2& center, const Vector2& size,
+	const Vector2& anchor, InputViewArea viewArea) {
 
-	SakuEngine::Input* input = SakuEngine::Input::GetInstance();
-	if (!input->IsMouseOnView(InputViewArea::Game)) {
-		return false;
-	}
-	
+	Input* input = Input::GetInstance();
+
 	// マウス位置
-	Vector2 mousePos = input->GetMousePosInView(InputViewArea::Game).value();
+	Vector2 mousePos = input->GetMousePosInView(viewArea).has_value() ?
+		input->GetMousePosInView(viewArea).value() : input->GetMousePos();
 
 	// 矩形左上
 	Vector2 topLeft = center - Vector2(size.x * anchor.x, size.y * anchor.y);

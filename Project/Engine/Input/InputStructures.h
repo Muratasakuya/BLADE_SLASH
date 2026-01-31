@@ -105,7 +105,8 @@ enum class InputType {
 enum class InputViewArea {
 
 	Game,
-	Scene
+	Scene,
+	UIEditor,
 };
 
 // 入力振動パラメータ

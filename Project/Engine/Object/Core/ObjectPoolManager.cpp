@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 // data
 #include <Engine/Object/Data/Transform/Transform.h>

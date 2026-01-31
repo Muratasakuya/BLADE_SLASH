@@ -49,12 +49,18 @@ namespace SakuEngine {
 		// エディター
 		void ImGui(float itemSize);
 
+		// json
+		void FromJson(const Json& data);
+		void ToJson(Json& data);
+
 		//--------- accessor -----------------------------------------------------
 
 		// 文字列設定
 		void SetText(const std::string& utf8);
 		void SetText(int32_t value);
 		void SetText(float value, int32_t precision = 2);
+		// フォントの設定
+		void SetFont(const std::string& atlasTextureName);
 
 		// 文字列取得
 		const std::string& GetText() const { return textUtf8_; }

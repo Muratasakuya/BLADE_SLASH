@@ -5,7 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================

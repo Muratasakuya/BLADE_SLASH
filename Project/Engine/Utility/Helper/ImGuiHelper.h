@@ -22,234 +22,234 @@
 
 namespace SakuEngine {
 
-namespace detail {
+	namespace detail {
 
-	template<class T>
-	concept Arithmetic = std::is_arithmetic_v<T>;
+		template<class T>
+		concept Arithmetic = std::is_arithmetic_v<T>;
 
-	template<class T>
-	concept HasXY = requires(const T & v) { v.x; v.y; };
-	template<class T>
-	concept HasXYZ = requires(const T & v) { v.x; v.y; v.z; };
+		template<class T>
+		concept HasXY = requires(const T & v) { v.x; v.y; };
+		template<class T>
+		concept HasXYZ = requires(const T & v) { v.x; v.y; v.z; };
 
-	template<Arithmetic T>
-	inline std::string format_value(const T& v, int precision) {
-		if constexpr (std::is_floating_point_v<T>) {
+		template<Arithmetic T>
+		inline std::string format_value(const T& v, int precision) {
+			if constexpr (std::is_floating_point_v<T>) {
 
-			return std::format("{:.{}f}", v, precision);
-		} else {
+				return std::format("{:.{}f}", v, precision);
+			} else {
 
-			return std::format("{}", v);
+				return std::format("{}", v);
+			}
+		}
+
+		inline std::string format_value(const SakuEngine::Vector2& v, int precision) {
+
+			return std::format("({:.{}f}, {:.{}f})", v.x, precision, v.y, precision);
+		}
+		inline std::string format_value(const SakuEngine::Vector3& v, int precision) {
+
+			return std::format("({:.{}f}, {:.{}f}, {:.{}f})",
+				v.x, precision, v.y, precision, v.z, precision);
 		}
 	}
 
-	inline std::string format_value(const SakuEngine::Vector2& v, int precision) {
+	// 入力状態
+	struct InputImGui {
 
-		return std::format("({:.{}f}, {:.{}f})", v.x, precision, v.y, precision);
-	}
-	inline std::string format_value(const SakuEngine::Vector3& v, int precision) {
+		static constexpr int kBuffer = 128;
+		char input[kBuffer] = {};
+		std::string inputText;
 
-		return std::format("({:.{}f}, {:.{}f}, {:.{}f})",
-			v.x, precision, v.y, precision, v.z, precision);
-	}
-}
+		// バッファへコピー
+		void CopyToBuffer() {
 
-// 入力状態
-struct InputImGui {
-
-	static constexpr int kBuffer = 128;
-	char input[kBuffer] = {};
-	std::string inputText;
-
-	// バッファへコピー
-	void CopyToBuffer() {
-
-		std::memcpy(input, inputText.c_str(), (std::min)(sizeof(input) - 1, inputText.size()));
-	}
-};
-
-// json保存状態
-struct JsonSaveState {
-
-	bool showPopup = false;
-	static constexpr int kBuffer = 128;
-	char input[kBuffer] = {};
-};
-
-//============================================================================
-//	ImGuiHelper class
-//	ImGui関数のヘルパー
-//============================================================================
-class ImGuiHelper {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
-
-	ImGuiHelper() = default;
-	~ImGuiHelper() = default;
-
-	// 画像付きボタン
-	static void ImageButtonWithLabel(const char* id,
-		const std::string& label, ImTextureID textureId, const ImVec2& size);
-	// ドラッグアンドドロップのペイロード取得
-	static const DragPayload* DragDropPayload(PendingType expectedType);
-	// ドラッグアンドドロップのペイロード文字列取得
-	static std::string DragDropPayloadString(PendingType expectedType);
-
-	// 配列のstringをComboで表示する
-	static bool ComboFromStrings(const char* label, int* currentIndex,
-		const std::vector<std::string>& items, int popupMaxHeightInItems = -1);
-	// 選択中の文字列(ioSelected)を items から選ばせる Combo
-	static bool ComboFromStrings(const char* label, std::string* ioSelected,
-		const std::vector<std::string>& items, int popupMaxHeightInItems = -1,
-		const char* nonePreview = "(None)");
-	template <typename T>
-	static bool ComboFromKeys(const char* label, int* currentIndex,
-		const T& container, std::string* outSelectedKey = nullptr,
-		int popupMaxHeightInItems = -1);
-	// 配列のstringをSelectableで表示する
-	static bool SelectableListFromStrings(const char* label, int* currentIndex,
-		const std::vector<std::string>& items, int heightInItems = 8);
-	template <typename T>
-	static bool SelectableListFromKeys(const char* label, int* currentIndex,
-		const T& container, std::string* outSelectedKey = nullptr, int heightInItems = 8);
-
-	// 枠
-	static bool BeginFramedChild(const char* id, const char* title,
-		const ImVec2& size, ImGuiWindowFlags flags = 0);
-	static void EndFramedChild();
-
-	// TagSystemから名前の取得をする
-	static bool SelectTagTarget(const char* label, uint32_t* ioSelectedId,
-		std::string* outName = nullptr, const char* groupFilter = nullptr);
-
-	// 値の表示
-	template <typename T>
-	static void ValueText(const char* label, const T& value, int precision = 3);
-
-	// jsonの保存
-	static bool SaveJsonModal(const char* popupTitle, const char* baseDirLabelEx,
-		const char* prefixOnSave, JsonSaveState& ioState, std::string& outRelPath);
-	// jsonの読み込みファイルダイアログ
-	static bool OpenJsonDialog(std::string& outRelPath);
-
-	// ポストプロセスのマスクの設定
-	static bool EditPostProcessMask(uint32_t& ioMask);
-
-	// uint32_tのDrag編集
-	static bool DragUint32(const char* label, uint32_t& value, int maxValue = 0xffff);
-
-	// 型ごとのDragFloat編集
-	template <typename T>
-	static bool DragFloat(const char* label, T& value, float speed = 0.01f, float minValue = -10000.0f, float maxValue = 10000.0f);
-
-	// 入力
-	static bool InputText(const char* label, InputImGui& ioInput);
-
-	// ウィンドウエリアのサイズを割合に応じて取得する(0 ~ 1、0.5:0.5で半分で分割)
-	// x = 左側、y = 右側
-	static ImVec2 GetWindowAreaSizeRatio(float leftRatio, float rightRatio);
-
-	// 四角形の角丸塗りつぶし
-	static void AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
-		const ImVec2& max, ImU32 color, float rounding);
-};
-
-//============================================================================
-//	ImGuiHelper templateMethods
-//============================================================================
-
-template<typename T>
-inline bool SakuEngine::ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
-	const T& container, std::string* outSelectedKey, int popupMaxHeightInItems) {
-
-	std::vector<const char*> itemNames;
-	std::vector<const std::string*> refs;
-	itemNames.reserve(container.size());
-	refs.reserve(container.size());
-	for (const auto& item : container) {
-
-		refs.push_back(&item.first);
-		itemNames.push_back(item.first.c_str());
-	}
-	if (itemNames.empty()) {
-
-		return ImGui::Combo(label, currentIndex, nullptr, 0, popupMaxHeightInItems);
-	}
-
-	int before = *currentIndex;
-	bool changed = ImGui::Combo(label, currentIndex, itemNames.data(),
-		static_cast<int>(itemNames.size()), popupMaxHeightInItems);
-	if (outSelectedKey && *currentIndex >= 0 && *currentIndex < static_cast<int>(refs.size())) {
-
-		*outSelectedKey = *refs[*currentIndex];
-	}
-	return changed || (before != *currentIndex);
-}
-
-template<typename T>
-inline bool SakuEngine::ImGuiHelper::SelectableListFromKeys(const char* label, int* currentIndex,
-	const T& container, std::string* outSelectedKey, int heightInItems) {
-
-	std::vector<std::string> keys;
-	keys.reserve(container.size());
-	for (const auto& item : container) {
-
-		keys.push_back(item.first);
-	}
-	const bool changed = SelectableListFromStrings(label, currentIndex, keys, heightInItems);
-	if (changed && outSelectedKey && *currentIndex >= 0 && *currentIndex < static_cast<int>(keys.size())) {
-
-		*outSelectedKey = keys[*currentIndex];
-	}
-	return changed;
-}
-
-template<typename T>
-inline void SakuEngine::ImGuiHelper::ValueText(const char* label, const T& value, int precision) {
-
-	using detail::format_value;
-	const std::string stringValue = format_value(value, precision);
-	ImGui::TextUnformatted(std::format("{}: {}", label, stringValue).c_str());
-}
-
-template<typename T>
-inline bool SakuEngine::ImGuiHelper::DragFloat(const char* label, T& value, float speed, float minValue, float maxValue) {
-
-	bool edited = false;
-	if constexpr (detail::Arithmetic<T>) {
-
-		float v = static_cast<float>(value);
-		edited = ImGui::DragFloat(label, &v, speed, minValue, maxValue);
-		if (edited) {
-
-			value = static_cast<T>(v);
+			std::memcpy(input, inputText.c_str(), (std::min)(sizeof(input) - 1, inputText.size()));
 		}
-	} else if constexpr (detail::HasXY<T>) {
+	};
 
-		float v[3] = { static_cast<float>(value.x), static_cast<float>(value.y), 0.0f };
-		edited = ImGui::DragFloat2(label, v, speed, minValue, maxValue);
-		if (edited) {
+	// json保存状態
+	struct JsonSaveState {
 
-			value.x = static_cast<typename std::remove_reference<decltype(value.x)>::type>(v[0]);
-			value.y = static_cast<typename std::remove_reference<decltype(value.y)>::type>(v[1]);
+		bool showPopup = false;
+		static constexpr int kBuffer = 128;
+		char input[kBuffer] = {};
+	};
+
+	//============================================================================
+	//	ImGuiHelper class
+	//	ImGui関数のヘルパー
+	//============================================================================
+	class ImGuiHelper {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		ImGuiHelper() = default;
+		~ImGuiHelper() = default;
+
+		// 画像付きボタン
+		static void ImageButtonWithLabel(const char* id,
+			const std::string& label, ImTextureID textureId, const ImVec2& size);
+		// ドラッグアンドドロップのペイロード取得
+		static const DragPayload* DragDropPayload(PendingType expectedType);
+		// ドラッグアンドドロップのペイロード文字列取得
+		static std::string DragDropPayloadString(PendingType expectedType);
+
+		// 配列のstringをComboで表示する
+		static bool ComboFromStrings(const char* label, int* currentIndex,
+			const std::vector<std::string>& items, int popupMaxHeightInItems = -1);
+		// 選択中の文字列(ioSelected)を items から選ばせる Combo
+		static bool ComboFromStrings(const char* label, std::string* ioSelected,
+			const std::vector<std::string>& items, int popupMaxHeightInItems = -1,
+			const char* nonePreview = "(None)");
+		template <typename T>
+		static bool ComboFromKeys(const char* label, int* currentIndex,
+			const T& container, std::string* outSelectedKey = nullptr,
+			int popupMaxHeightInItems = -1);
+		// 配列のstringをSelectableで表示する
+		static bool SelectableListFromStrings(const char* label, int* currentIndex,
+			const std::vector<std::string>& items, int heightInItems = 8);
+		template <typename T>
+		static bool SelectableListFromKeys(const char* label, int* currentIndex,
+			const T& container, std::string* outSelectedKey = nullptr, int heightInItems = 8);
+
+		// 枠
+		static bool BeginFramedChild(const char* id, const char* title,
+			const ImVec2& size, ImGuiWindowFlags flags = 0);
+		static void EndFramedChild();
+
+		// TagSystemから名前の取得をする
+		static bool SelectTagTarget(const char* label, uint32_t* ioSelectedId,
+			std::string* outName = nullptr, const char* groupFilter = nullptr);
+
+		// 値の表示
+		template <typename T>
+		static void ValueText(const char* label, const T& value, int precision = 3);
+
+		// jsonの保存
+		static bool SaveJsonModal(const char* popupTitle, const char* baseDirLabelEx,
+			const char* prefixOnSave, JsonSaveState& ioState, std::string& outRelPath);
+		// jsonの読み込みファイルダイアログ
+		static bool OpenJsonDialog(std::string& outRelPath);
+
+		// ポストプロセスのマスクの設定
+		static bool EditPostProcessMask(uint32_t& ioMask);
+
+		// uint32_tのDrag編集
+		static bool DragUint32(const char* label, uint32_t& value, int maxValue = 0xffff);
+
+		// 型ごとのDragFloat編集
+		template <typename T>
+		static bool DragFloat(const char* label, T& value, float speed = 0.01f, float minValue = -10000.0f, float maxValue = 10000.0f);
+
+		// 入力
+		static bool InputText(const char* label, InputImGui& ioInput);
+
+		// ウィンドウエリアのサイズを割合に応じて取得する(0 ~ 1、0.5:0.5で半分で分割)
+		// x = 左側、y = 右側
+		static ImVec2 GetWindowAreaSizeRatio(float leftRatio, float rightRatio);
+
+		// 四角形の角丸塗りつぶし
+		static void AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
+			const ImVec2& max, ImU32 color, float rounding);
+	};
+
+	//============================================================================
+	//	ImGuiHelper templateMethods
+	//============================================================================
+
+	template<typename T>
+	inline bool SakuEngine::ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
+		const T& container, std::string* outSelectedKey, int popupMaxHeightInItems) {
+
+		std::vector<const char*> itemNames;
+		std::vector<const std::string*> refs;
+		itemNames.reserve(container.size());
+		refs.reserve(container.size());
+		for (const auto& item : container) {
+
+			refs.push_back(&item.first);
+			itemNames.push_back(item.first.c_str());
 		}
-	} else if constexpr (detail::HasXYZ<T>) {
+		if (itemNames.empty()) {
 
-		float v[3] = { static_cast<float>(value.x), static_cast<float>(value.y), static_cast<float>(value.z) };
-		edited = ImGui::DragFloat3(label, v, speed, minValue, maxValue);
-		if (edited) {
-
-			value.x = static_cast<typename std::remove_reference<decltype(value.x)>::type>(v[0]);
-			value.y = static_cast<typename std::remove_reference<decltype(value.y)>::type>(v[1]);
-			value.z = static_cast<typename std::remove_reference<decltype(value.z)>::type>(v[2]);
+			return ImGui::Combo(label, currentIndex, nullptr, 0, popupMaxHeightInItems);
 		}
-	} else if constexpr (std::is_same_v<T, Color>) {
 
-		edited = ImGui::ColorEdit4(label, &value.r);
+		int before = *currentIndex;
+		bool changed = ImGui::Combo(label, currentIndex, itemNames.data(),
+			static_cast<int>(itemNames.size()), popupMaxHeightInItems);
+		if (outSelectedKey && *currentIndex >= 0 && *currentIndex < static_cast<int>(refs.size())) {
+
+			*outSelectedKey = *refs[*currentIndex];
+		}
+		return changed || (before != *currentIndex);
 	}
-	return edited;
-}
+
+	template<typename T>
+	inline bool SakuEngine::ImGuiHelper::SelectableListFromKeys(const char* label, int* currentIndex,
+		const T& container, std::string* outSelectedKey, int heightInItems) {
+
+		std::vector<std::string> keys;
+		keys.reserve(container.size());
+		for (const auto& item : container) {
+
+			keys.push_back(item.first);
+		}
+		const bool changed = SelectableListFromStrings(label, currentIndex, keys, heightInItems);
+		if (changed && outSelectedKey && *currentIndex >= 0 && *currentIndex < static_cast<int>(keys.size())) {
+
+			*outSelectedKey = keys[*currentIndex];
+		}
+		return changed;
+	}
+
+	template<typename T>
+	inline void SakuEngine::ImGuiHelper::ValueText(const char* label, const T& value, int precision) {
+
+		using detail::format_value;
+		const std::string stringValue = format_value(value, precision);
+		ImGui::TextUnformatted(std::format("{}: {}", label, stringValue).c_str());
+	}
+
+	template<typename T>
+	inline bool SakuEngine::ImGuiHelper::DragFloat(const char* label, T& value, float speed, float minValue, float maxValue) {
+
+		bool edited = false;
+		if constexpr (detail::Arithmetic<T>) {
+
+			float v = static_cast<float>(value);
+			edited = ImGui::DragFloat(label, &v, speed, minValue, maxValue);
+			if (edited) {
+
+				value = static_cast<T>(v);
+			}
+		} else if constexpr (detail::HasXY<T>) {
+
+			float v[3] = { static_cast<float>(value.x), static_cast<float>(value.y), 0.0f };
+			edited = ImGui::DragFloat2(label, v, speed, minValue, maxValue);
+			if (edited) {
+
+				value.x = static_cast<typename std::remove_reference<decltype(value.x)>::type>(v[0]);
+				value.y = static_cast<typename std::remove_reference<decltype(value.y)>::type>(v[1]);
+			}
+		} else if constexpr (detail::HasXYZ<T>) {
+
+			float v[3] = { static_cast<float>(value.x), static_cast<float>(value.y), static_cast<float>(value.z) };
+			edited = ImGui::DragFloat3(label, v, speed, minValue, maxValue);
+			if (edited) {
+
+				value.x = static_cast<typename std::remove_reference<decltype(value.x)>::type>(v[0]);
+				value.y = static_cast<typename std::remove_reference<decltype(value.y)>::type>(v[1]);
+				value.z = static_cast<typename std::remove_reference<decltype(value.z)>::type>(v[2]);
+			}
+		} else if constexpr (std::is_same_v<T, Color>) {
+
+			edited = ImGui::ColorEdit4(label, &value.r);
+		}
+		return edited;
+	}
 
 }; // SakuEngine

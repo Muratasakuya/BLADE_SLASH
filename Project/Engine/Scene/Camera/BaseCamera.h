@@ -5,7 +5,7 @@
 //============================================================================
 #include <Engine/Core/Debug/SpdLogger.h>
 #include <Engine/Object/Base/KeyframeObject3D.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 #include <Engine/Object/Data/Transform/Transform.h>
 #include <Engine/Utility/Timer/StateTimer.h>
 

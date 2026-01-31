@@ -245,6 +245,112 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\AssetData\UIAssetLibrary.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIGamepadNavigationDevice.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIKeyboardNavigationDevice.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\UIInputNavigationComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Selectable\UISelectableComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Text\UITextComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\InputNavigation\UIInputNavigationSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\Interface\IUISystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\UIToolContext.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\UIEditor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Input\InputStructures.cpp">
       <SubType />
     </ClCompile>
@@ -864,9 +970,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Editor\GameObject\GameObjectEditor.cpp">
-      <SubType />
-    </ClCompile>
     <ClCompile Include="Engine\Editor\Level\LevelEditor.cpp" />
     <ClCompile Include="Engine\Editor\Level\SceneBuilder.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\Title\TitleViewCamera.cpp">
@@ -1064,7 +1167,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\Random\RandomGenerator.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Utility\Helper\Algorithm.cpp">
+    <ClCompile Include="Engine\Utility\Algorithm\Algorithm.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\MathLib\MathUtils.cpp">
@@ -1176,6 +1279,130 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\AssetData\UIAsset.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\AssetData\UIAssetLibrary.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIGamepadNavigationDevice.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIKeyboardNavigationDevice.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UINavigationAction.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\UIInputNavigationComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Interface\IUIComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Selectable\UISelectableComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Text\UITextComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\InputNavigation\UIInputNavigationSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\Interface\IUISystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Interface\IUIToolPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\UIToolContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\UIEditor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Object\Base\GameTextObject.h">
       <SubType />
     </ClInclude>
@@ -1205,6 +1432,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Object\System\Systems\MSDFTextBufferSystem.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Algorithm\HandlePool.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Utility\Animation\LerpValue.h">
       <SubType />
@@ -1972,9 +2203,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Editor\GameObject\GameObjectEditor.h">
-      <SubType />
-    </ClInclude>
     <ClInclude Include="Engine\Editor\Level\LevelEditor.h" />
     <ClInclude Include="Engine\Editor\Level\LevelStructures.h" />
     <ClInclude Include="Engine\Editor\Level\SceneBuilder.h" />
@@ -2198,7 +2426,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Utility\Json\JsonAdapter.h" />
     <ClInclude Include="Engine\Utility\Random\RandomGenerator.h" />
-    <ClInclude Include="Engine\Utility\Helper\Algorithm.h">
+    <ClInclude Include="Engine\Utility\Algorithm\Algorithm.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\MathLib\MathUtils.h">

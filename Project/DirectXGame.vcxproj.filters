@@ -1548,9 +1548,6 @@
     <ClCompile Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.cpp">
       <Filter>Game\Gameplay\Camera\ResultCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\GameObject\GameObjectEditor.cpp">
-      <Filter>Engine\Editor\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Editor\Level\LevelEditor.cpp">
       <Filter>Engine\Editor\Level</Filter>
     </ClCompile>
@@ -1806,7 +1803,7 @@
     <ClCompile Include="Engine\Utility\Random\RandomGenerator.cpp">
       <Filter>Engine\Utility\Random</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Utility\Helper\Algorithm.cpp">
+    <ClCompile Include="Engine\Utility\Algorithm\Algorithm.cpp">
       <Filter>Engine\Utility\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Engine\MathLib\MathUtils.cpp">
@@ -2802,9 +2799,6 @@
     <ClInclude Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.h">
       <Filter>Game\Gameplay\Camera\ResultCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\GameObject\GameObjectEditor.h">
-      <Filter>Engine\Editor\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Editor\Level\LevelEditor.h">
       <Filter>Engine\Editor\Level</Filter>
     </ClInclude>
@@ -3096,7 +3090,7 @@
     <ClInclude Include="Engine\Utility\Random\RandomGenerator.h">
       <Filter>Engine\Utility\Random</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Helper\Algorithm.h">
+    <ClInclude Include="Engine\Utility\Algorithm\Algorithm.h">
       <Filter>Engine\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Engine\MathLib\MathUtils.h">
@@ -3220,9 +3214,69 @@
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </None>
     <ClCompile Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.cpp" />
+    <ClCompile Include="Engine\Editor\UI\UIEditor.cpp" />
+    <ClCompile Include="Engine\Editor\UI\AssetData\UIAssetLibrary.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\UIToolContext.cpp" />
+    <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Text\UITextComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\Interface\IUISystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Selectable\UISelectableComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\UIInputNavigationComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIKeyboardNavigationDevice.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIGamepadNavigationDevice.cpp" />
+    <ClCompile Include="Engine\Editor\UI\System\InputNavigation\UIInputNavigationSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
+    <ClInclude Include="Engine\Editor\UI\UIEditor.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Interface\IUIToolPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\AssetData\UIAssetLibrary.h" />
+    <ClInclude Include="Engine\Editor\UI\AssetData\UIAsset.h" />
+    <ClInclude Include="Engine\Utility\Algorithm\HandlePool.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Interface\IUIComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\UIToolContext.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UISpriteTransformComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UITextTransformComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Sprite\UISpriteComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Text\UITextComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\System\Interface\IUISystem.h" />
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UISpriteSyncSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\System\ObjectSync\UITextSyncSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Transform\UIParentRectTransform.h" />
+    <ClInclude Include="Engine\Editor\UI\System\ParentRect\UIUpdateParentRectTransformSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Selectable\UISelectableComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\UIInputNavigationComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIKeyboardNavigationDevice.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UIGamepadNavigationDevice.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\InputNavigation\Devices\UINavigationAction.h" />
+    <ClInclude Include="Engine\Editor\UI\System\InputNavigation\UIInputNavigationSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UISpriteMaterialComponent.h" />
+    <ClInclude Include="Engine\Editor\UI\Component\Material\UITextMaterialComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

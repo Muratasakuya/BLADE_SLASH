@@ -1,4 +1,4 @@
-﻿#include "IGameEditor.h"
+#include "IGameEditor.h"
 
 using namespace SakuEngine;
 
@@ -6,7 +6,7 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Editor/Manager/GameEditorManager.h>
-#include <Engine/Utility/Helper/Algorithm.h>
+#include <Engine/Utility/Algorithm/Algorithm.h>
 
 //============================================================================
 //	IGameEditor classMethods

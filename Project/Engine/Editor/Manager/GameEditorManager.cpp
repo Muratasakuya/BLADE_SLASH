@@ -84,6 +84,12 @@ void GameEditorManager::EditEditor() {
 		return;
 	}
 
+	// 範囲外なら選択取り消し
+	if (editors_.size() <= static_cast<uint32_t>(*selectedIndex_)) {
+		selectedIndex_ = std::nullopt;
+		return;
+	}
+
 	// 名前表示
 	ImGui::Text("name: %s", editors_[*selectedIndex_]->GetName().c_str());
 

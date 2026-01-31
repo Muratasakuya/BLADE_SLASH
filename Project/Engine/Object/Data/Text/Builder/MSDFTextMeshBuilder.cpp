@@ -275,8 +275,8 @@ bool MSDFTextMeshBuilder::Build(const BuildInput& in, const TextTransform2D& tra
 		};
 
 		// テキストボックス関連計算
-		const float sx = (std::max)(1.0e-6f, std::abs(transform.sizeScale.x));
-		const float sy = (std::max)(1.0e-6f, std::abs(transform.sizeScale.y));
+		const float sx = (std::max)(1.0e-6f, std::abs(transform.GetWorldScale().x));
+		const float sy = (std::max)(1.0e-6f, std::abs(transform.GetWorldScale().y));
 		const float invSx = 1.0f / sx;
 		const float invSy = 1.0f / sy;
 		// テキストボックスサイズとパディングもスケール補正
