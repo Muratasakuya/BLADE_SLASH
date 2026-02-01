@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/AssetData/UIAssetLibrary.h>
+#include <Engine/Editor/UI/Animation/UIAnimationLibrary.h>
 
 namespace SakuEngine {
 
@@ -30,6 +31,8 @@ namespace SakuEngine {
 		Asset* asset = nullptr;
 		// UIアセットライブラリ
 		UIAssetLibrary* assetLibrary = nullptr;
+		// UIアニメーションライブラリ
+		UIAnimationLibrary* animationLibrary = nullptr;
 		// UIパレットレジストリ
 		UIPaletteRegistry* paletteRegistry = nullptr;
 

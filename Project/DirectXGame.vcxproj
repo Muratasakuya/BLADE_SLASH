@@ -245,6 +245,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationClip.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationLibrary.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp">
       <SubType>
       </SubType>
@@ -1278,6 +1286,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationClip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationLibrary.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\AssetData\UIAsset.h">
       <SubType>

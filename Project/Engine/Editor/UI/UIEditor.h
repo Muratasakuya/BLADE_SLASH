@@ -53,6 +53,8 @@ namespace SakuEngine {
 
 		// UI要素のIDを管理するライブラリ
 		std::unique_ptr<UIAssetLibrary> assetLibrary_;
+		// UIアニメーションを管理するライブラリ
+		std::unique_ptr<UIAnimationLibrary> animationLibrary_;
 		// UIパレットの登録を行うレジストリ
 		std::unique_ptr<UIPaletteRegistry> paletteRegistry_;
 		// UIアセットの更新を行うランタイム

@@ -39,6 +39,12 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 
 	// アセットライブラリの初期化
 	assetLibrary_ = std::make_unique<UIAssetLibrary>();
+
+	// アニメーションライブラリの初期化
+	animationLibrary_ = std::make_unique<UIAnimationLibrary>();
+	// 全てのアニメーションを読み込み
+	animationLibrary_->LoadAllAnimations();
+
 	// パレットの初期化
 	paletteRegistry_ = std::make_unique<UIPaletteRegistry>();
 	paletteRegistry_->RegisterDefaultItems();
@@ -47,6 +53,7 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 	toolContext_ = std::make_unique<UIToolContext>();
 	toolContext_->asset = asset;
 	toolContext_->assetLibrary = assetLibrary_.get();
+	toolContext_->animationLibrary = animationLibrary_.get();
 	toolContext_->paletteRegistry = paletteRegistry_.get();
 
 	// ランタイムの初期化
