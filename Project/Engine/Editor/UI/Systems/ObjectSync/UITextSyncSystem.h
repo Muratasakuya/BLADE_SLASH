@@ -3,28 +3,26 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/System/Interface/IUISystem.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
+#include <Engine/Editor/UI/Systems/Interface/IUISystem.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UIUpdateParentRectTransformSystem class
-	//	UI親要素のトランスフォーム更新システム
+	//	UITextSyncSystem class
+	//	UIテキストオブジェクト同期システム
 	//============================================================================
-	class UIUpdateParentRectTransformSystem :
+	class UITextSyncSystem :
 		public IUISystem {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UIUpdateParentRectTransformSystem() = default;
-		~UIUpdateParentRectTransformSystem() = default;
+		UITextSyncSystem() = default;
+		~UITextSyncSystem() = default;
 
 		// UIアセットを更新
-		void Update(UIAsset& asset) override;
-
+		void Update(UISystemContext* context, UIAsset& asset) override;
 	private:
 		//========================================================================
 		//	private Methods
@@ -32,7 +30,9 @@ namespace SakuEngine {
 
 		//--------- functions ----------------------------------------------------
 
-		// 行列更新を親から子まで再帰的に行う
-		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node, const UIParentRectTransform* parent);
+		// UIオブジェクトの同期処理を親から子まで再帰的に行う
+		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node);
+		// テキストコンポーネント用のオブジェクトを作成する
+		void EnsureTextObject(UIAsset& asset, const UIElement& element, const UIElement::Handle& node);
 	};
 } // SakuEngine

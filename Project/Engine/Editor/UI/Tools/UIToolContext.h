@@ -16,7 +16,7 @@ namespace SakuEngine {
 	//	UIToolContext class
 	//	UIツールのコンテキスト情報を管理するクラス
 	//============================================================================
-	class UIToolContext {
+	struct UIToolContext {
 	public:
 		//========================================================================
 		//	public Methods

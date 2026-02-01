@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/System/Interface/IUISystem.h>
+#include <Engine/Editor/UI/Systems/Interface/IUISystem.h>
 
 namespace SakuEngine {
 
@@ -22,7 +22,7 @@ namespace SakuEngine {
 		~UISpriteSyncSystem() = default;
 
 		// UIアセットを更新
-		void Update(UIAsset& asset) override;
+		void Update(UISystemContext* context, UIAsset& asset) override;
 	private:
 		//========================================================================
 		//	private Methods

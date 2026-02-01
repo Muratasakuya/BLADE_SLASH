@@ -14,6 +14,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Component/Material/UITextMaterialComponent.h>
 #include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
 #include <Engine/Editor/UI/Component/InputNavigation/UIInputNavigationComponent.h>
+#include <Engine/Editor/UI/Component/Animation/UIStateAnimationComponent.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================
@@ -246,6 +247,9 @@ UIComponentHandle UIAsset::AddComponentByType(UIElement::Handle owner, UICompone
 	case UIComponentType::InputNavigation:
 
 		return AddComponent<UIInputNavigationComponent>(owner);
+	case UIComponentType::StateAnimation:
+
+		return AddComponent<UIStateAnimationComponent>(owner);
 	}
 	return {};
 }

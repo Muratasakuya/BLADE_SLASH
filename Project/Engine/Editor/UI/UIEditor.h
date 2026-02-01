@@ -60,8 +60,9 @@ namespace SakuEngine {
 		// UIアセットの更新を行うランタイム
 		std::unique_ptr<UIRuntime> runtime_;
 
-		// ツールコンテキスト
+		// コンテキスト
 		std::unique_ptr<UIToolContext> toolContext_;
+		std::unique_ptr<UISystemContext> systemContext_;
 		// パネル群
 		std::vector<std::unique_ptr<IUIToolPanel>> panels_;
 

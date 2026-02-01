@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/System/Interface/IUISystem.h>
+#include <Engine/Editor/UI/Systems/Interface/IUISystem.h>
 
 namespace SakuEngine {
 
@@ -21,6 +21,6 @@ namespace SakuEngine {
 		UIInputNavigationSystem() = default;
 		~UIInputNavigationSystem() = default;
 
-		void Update(UIAsset& asset) override;
+		void Update(UISystemContext* context, UIAsset& asset) override;
 	};
 } // SakuEngine

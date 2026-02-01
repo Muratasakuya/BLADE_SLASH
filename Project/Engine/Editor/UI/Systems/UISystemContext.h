@@ -3,39 +3,28 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Systems/Interface/IUISystem.h>
-
-// c++
-#include <vector>
 
 namespace SakuEngine {
 
+	// front
+	class UIAnimationLibrary;
+
 	//============================================================================
-	//	UIRuntime class
-	//	UIアセットをランタイム更新するクラス
+	//	UISystemContext class
+	//	UIシステムのコンテキスト情報を管理するクラス
 	//============================================================================
-	class UIRuntime {
+	struct UISystemContext {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UIRuntime() = default;
-		~UIRuntime() = default;
-
-		// 初期化
-		void Init();
-
-		// UIアセットを更新
-		void Update(UISystemContext* context, UIAsset& asset);
-	private:
-		//========================================================================
-		//	private Methods
-		//========================================================================
+		UISystemContext() = default;
+		~UISystemContext() = default;
 
 		//--------- variables ----------------------------------------------------
 
-		// アセット更新を行うシステム群
-		std::vector<std::unique_ptr<IUISystem>> systems_;
+		// UIアニメーションライブラリ
+		UIAnimationLibrary* animationLibrary = nullptr;
 	};
 } // SakuEngine

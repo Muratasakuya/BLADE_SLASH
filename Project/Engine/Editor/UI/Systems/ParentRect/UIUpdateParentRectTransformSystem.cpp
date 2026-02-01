@@ -10,7 +10,7 @@ using namespace SakuEngine;
 //	UIUpdateParentRectTransformSystem classMethods
 //============================================================================
 
-void UIUpdateParentRectTransformSystem::Update(UIAsset& asset) {
+void UIUpdateParentRectTransformSystem::Update([[maybe_unused]] UISystemContext* context, UIAsset& asset) {
 
 	// ルートから更新
 	UpdateRecursive(asset, asset.rootHandle, nullptr);

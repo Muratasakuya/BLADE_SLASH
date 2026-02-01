@@ -3,31 +3,26 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/AssetData/UIAsset.h>
+#include <Engine/Editor/UI/Animation/Tracks/Interface/IUIAnimationTrackRuntime.h>
+
+// c++
+#include <memory>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	IUISystem class
-	//	UIを処理するシステムのインターフェース
+	//	UIAnimationTrackFactory class
+	//	UIアニメーショントラックの生成を行うクラス
 	//============================================================================
-	class IUISystem {
+	class UIAnimationTrackFactory {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		IUISystem() = default;
-		virtual ~IUISystem() = default;
+		UIAnimationTrackFactory() = default;
+		~UIAnimationTrackFactory() = default;
 
-		// UIアセットを更新
-		virtual void Update(UIAsset& asset) = 0;
+		static std::unique_ptr<IUIAnimationTrackRuntime> Create(const UIAnimationTrackDefinition& definition);
 	};
-
-	// UIシステム用メソッド群
-	namespace UISystemMethod {
-
-		// コンポーネントのjsonキャッシュを基に復元
-		void RestoreFromJsonCache(IUIComponent& component);
-	}
 } // SakuEngine

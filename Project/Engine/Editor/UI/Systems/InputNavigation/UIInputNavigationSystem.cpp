@@ -278,7 +278,7 @@ namespace {
 	}
 }
 
-void UIInputNavigationSystem::Update(UIAsset& asset) {
+void UIInputNavigationSystem::Update([[maybe_unused]] UISystemContext* context, UIAsset& asset) {
 
 	auto* navigation = FindInputModule(asset);
 	if (!navigation) {

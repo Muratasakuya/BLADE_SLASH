@@ -55,6 +55,9 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 	toolContext_->assetLibrary = assetLibrary_.get();
 	toolContext_->animationLibrary = animationLibrary_.get();
 	toolContext_->paletteRegistry = paletteRegistry_.get();
+	// システムコンテキストの作成
+	systemContext_ = std::make_unique<UISystemContext>();
+	systemContext_->animationLibrary = animationLibrary_.get();
 
 	// ランタイムの初期化
 	runtime_ = std::make_unique<UIRuntime>();
@@ -82,7 +85,7 @@ void UIEditor::Update() {
 
 	// 全てのアセットを更新
 	assetLibrary_->ForEachAsset([this]([[maybe_unused]] UIAssetHandle handle, UIAssetEntry& entry) {
-		runtime_->Update(entry.asset);
+		runtime_->Update(systemContext_.get(), entry.asset);
 		});
 }
 
