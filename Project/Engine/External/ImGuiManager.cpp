@@ -30,10 +30,10 @@ void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, ID3D1
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	ImGui::StyleColorsDark(); 
+	ImGui::StyleColorsDark();
 	//Win32初期化
 	ImGui_ImplWin32_Init(hwnd);
-	
+
 	// DX12初期化 
 	ImGui_ImplDX12_InitInfo dxInitInfo = {};
 	dxInitInfo.Device = device;
@@ -59,99 +59,124 @@ void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, ID3D1
 	const char* fontPath = "C:\\Windows\\Fonts\\meiryob.ttc";
 	io.FontDefault = io.Fonts->AddFontFromFileTTF(fontPath, 24.0f, &cfg, io.Fonts->GetGlyphRangesJapanese());
 
-	// 背景色設定
 	ImGuiStyle& style = ImGui::GetStyle();
 	ImVec4* colors = style.Colors;
 
-	// Text
-	colors[ImGuiCol_Text] = ImVec4(0.92f, 0.92f, 0.92f, 1.00f);
-	colors[ImGuiCol_TextDisabled] = ImVec4(0.55f, 0.55f, 0.55f, 1.00f);
+	auto C = [](int r, int g, int b, int a = 255) -> ImVec4 {
+		return ImVec4(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+		};
+
+	// ---- Even darker base (前回よりさらに1段暗く) ----
+	const ImVec4 bg0 = C(6, 7, 8);         // WindowBg
+	const ImVec4 bg1 = C(8, 9, 11);        // Child/Popup
+	const ImVec4 topbar = C(10, 11, 13);        // Title/Menu
+	const ImVec4 panel = C(14, 16, 18);        // Frame/Button/Header
+	const ImVec4 panelH = C(20, 22, 26);        // Hover
+	const ImVec4 panelA = C(28, 31, 36);        // Active (非アクセント)
+	const ImVec4 border = C(45, 48, 52, 110);   // Border（暗め＆控えめ）
+
+	// ---- Accent (指定の赤系：色合い/濃さを統一) ----
+	const ImVec4 accent = C(216, 31, 0, 255);
+	const ImVec4 accentH = C(216, 31, 0, 210);
+	const ImVec4 accentA = C(216, 31, 0, 255); // ←指定どおり
+	const ImVec4 accentLo = C(216, 31, 0, 75);
+
+	// Text（暗背景でも読める程度に）
+	colors[ImGuiCol_Text] = C(200, 200, 200);
+	colors[ImGuiCol_TextDisabled] = C(95, 95, 95);
 
 	// Window
-	colors[ImGuiCol_WindowBg] = ImVec4(0.10f, 0.11f, 0.12f, 1.00f);
-	colors[ImGuiCol_ChildBg] = ImVec4(0.10f, 0.11f, 0.12f, 1.00f);
-	colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.09f, 0.10f, 0.98f);
+	colors[ImGuiCol_WindowBg] = bg0;
+	colors[ImGuiCol_ChildBg] = bg0;
+	colors[ImGuiCol_PopupBg] = C(8, 9, 11, 245);
 
 	// Borders
-	colors[ImGuiCol_Border] = ImVec4(0.26f, 0.27f, 0.29f, 0.60f);
-	colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	colors[ImGuiCol_Border] = border;
+	colors[ImGuiCol_BorderShadow] = C(0, 0, 0, 0);
 
 	// Frame (Input/Slider/Combo)
-	colors[ImGuiCol_FrameBg] = ImVec4(0.16f, 0.17f, 0.18f, 1.00f);
-	colors[ImGuiCol_FrameBgHovered] = ImVec4(0.20f, 0.21f, 0.23f, 1.00f);
-	colors[ImGuiCol_FrameBgActive] = ImVec4(0.22f, 0.24f, 0.26f, 1.00f);
+	colors[ImGuiCol_FrameBg] = panel;
+	colors[ImGuiCol_FrameBgHovered] = panelH;
+	colors[ImGuiCol_FrameBgActive] = panelA;
 
 	// Titlebar
-	colors[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.10f, 0.11f, 1.00f);
-	colors[ImGuiCol_TitleBgActive] = ImVec4(0.12f, 0.13f, 0.15f, 1.00f);
-	colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.07f, 0.08f, 0.09f, 1.00f);
+	colors[ImGuiCol_TitleBg] = topbar;
+	colors[ImGuiCol_TitleBgActive] = C(12, 13, 15);
+	colors[ImGuiCol_TitleBgCollapsed] = C(8, 9, 11);
 
 	// Menu bar
-	colors[ImGuiCol_MenuBarBg] = ImVec4(0.12f, 0.13f, 0.14f, 1.00f);
+	colors[ImGuiCol_MenuBarBg] = topbar;
 
 	// Scrollbar
-	colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.11f, 0.12f, 1.00f);
-	colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.24f, 0.25f, 0.27f, 1.00f);
-	colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.30f, 0.32f, 0.35f, 1.00f);
-	colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.34f, 0.36f, 0.40f, 1.00f);
+	colors[ImGuiCol_ScrollbarBg] = C(5, 6, 7);
+	colors[ImGuiCol_ScrollbarGrab] = C(24, 26, 30);
+	colors[ImGuiCol_ScrollbarGrabHovered] = C(34, 37, 42);
+	colors[ImGuiCol_ScrollbarGrabActive] = C(44, 48, 54);
 
 	// Checkmark / Slider grab
-	colors[ImGuiCol_CheckMark] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
-	colors[ImGuiCol_SliderGrab] = ImVec4(0.14f, 0.48f, 0.90f, 0.75f);
-	colors[ImGuiCol_SliderGrabActive] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
+	colors[ImGuiCol_CheckMark] = accentA;
+	colors[ImGuiCol_SliderGrab] = C(170, 170, 170, 165);
+	colors[ImGuiCol_SliderGrabActive] = accentA;
 
 	// Buttons
-	colors[ImGuiCol_Button] = ImVec4(0.18f, 0.19f, 0.21f, 1.00f);
-	colors[ImGuiCol_ButtonHovered] = ImVec4(0.22f, 0.24f, 0.26f, 1.00f);
-	colors[ImGuiCol_ButtonActive] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
+	colors[ImGuiCol_Button] = panel;
+	colors[ImGuiCol_ButtonHovered] = panelH;
+	colors[ImGuiCol_ButtonActive] = accentA;
 
 	// Header (TreeNode / Selectable / CollapsingHeader)
-	colors[ImGuiCol_Header] = ImVec4(0.18f, 0.19f, 0.21f, 1.00f);
-	colors[ImGuiCol_HeaderHovered] = ImVec4(0.22f, 0.24f, 0.26f, 1.00f);
-	colors[ImGuiCol_HeaderActive] = ImVec4(0.14f, 0.48f, 0.90f, 0.90f);
+	colors[ImGuiCol_Header] = panel;
+	colors[ImGuiCol_HeaderHovered] = panelH;
+	colors[ImGuiCol_HeaderActive] = accentH;
 
 	// Separator / ResizeGrip
-	colors[ImGuiCol_Separator] = ImVec4(0.26f, 0.27f, 0.29f, 0.60f);
-	colors[ImGuiCol_SeparatorHovered] = ImVec4(0.14f, 0.48f, 0.90f, 0.60f);
-	colors[ImGuiCol_SeparatorActive] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
+	colors[ImGuiCol_Separator] = border;
+	colors[ImGuiCol_SeparatorHovered] = accentH;
+	colors[ImGuiCol_SeparatorActive] = accentA;
 
-	colors[ImGuiCol_ResizeGrip] = ImVec4(0.14f, 0.48f, 0.90f, 0.18f);
-	colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.14f, 0.48f, 0.90f, 0.45f);
-	colors[ImGuiCol_ResizeGripActive] = ImVec4(0.14f, 0.48f, 0.90f, 0.75f);
+	colors[ImGuiCol_ResizeGrip] = accentLo;
+	colors[ImGuiCol_ResizeGripHovered] = C(216, 31, 0, 140);
+	colors[ImGuiCol_ResizeGripActive] = accentA;
 
-	// Tabs（Docking用に重要）
-	colors[ImGuiCol_Tab] = ImVec4(0.12f, 0.13f, 0.15f, 1.00f);
-	colors[ImGuiCol_TabHovered] = ImVec4(0.14f, 0.48f, 0.90f, 0.85f);
-	colors[ImGuiCol_TabSelected] = ImVec4(0.16f, 0.17f, 0.20f, 1.00f);
-	colors[ImGuiCol_TabSelectedOverline] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
-	colors[ImGuiCol_TabDimmed] = ImVec4(0.10f, 0.11f, 0.12f, 1.00f);
-	colors[ImGuiCol_TabDimmedSelected] = ImVec4(0.14f, 0.15f, 0.17f, 1.00f);
-	colors[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(0.14f, 0.48f, 0.90f, 0.60f);
+	// Tabs（Docking用）
+	colors[ImGuiCol_Tab] = C(10, 11, 13);
+	colors[ImGuiCol_TabHovered] = accentH;
+	colors[ImGuiCol_TabSelected] = C(16, 18, 21);
+	colors[ImGuiCol_TabSelectedOverline] = accentA;
+	colors[ImGuiCol_TabDimmed] = C(8, 9, 11);
+	colors[ImGuiCol_TabDimmedSelected] = C(12, 13, 15);
+	colors[ImGuiCol_TabDimmedSelectedOverline] = C(216, 31, 0, 140);
 
 	// Docking
-	colors[ImGuiCol_DockingPreview] = ImVec4(0.14f, 0.48f, 0.90f, 0.35f);
-	colors[ImGuiCol_DockingEmptyBg] = ImVec4(0.10f, 0.11f, 0.12f, 1.00f);
+	colors[ImGuiCol_DockingPreview] = C(216, 31, 0, 65);
+	colors[ImGuiCol_DockingEmptyBg] = bg0;
 
 	// Plots
-	colors[ImGuiCol_PlotLines] = ImVec4(0.65f, 0.65f, 0.65f, 1.00f);
-	colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
-	colors[ImGuiCol_PlotHistogram] = ImVec4(0.65f, 0.65f, 0.65f, 1.00f);
-	colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
+	colors[ImGuiCol_PlotLines] = C(145, 145, 145);
+	colors[ImGuiCol_PlotLinesHovered] = accentA;
+	colors[ImGuiCol_PlotHistogram] = C(145, 145, 145);
+	colors[ImGuiCol_PlotHistogramHovered] = accentA;
 
 	// Selection / DragDrop
-	colors[ImGuiCol_TextSelectedBg] = ImVec4(0.14f, 0.48f, 0.90f, 0.35f);
-	colors[ImGuiCol_DragDropTarget] = ImVec4(0.14f, 0.48f, 0.90f, 0.95f);
+	colors[ImGuiCol_TextSelectedBg] = accentLo;
+	colors[ImGuiCol_DragDropTarget] = accentA;
 
 	// Nav highlight
-	colors[ImGuiCol_NavHighlight] = ImVec4(0.14f, 0.48f, 0.90f, 1.00f);
-	colors[ImGuiCol_NavWindowingHighlight] = ImVec4(0.14f, 0.48f, 0.90f, 0.70f);
-	colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.35f);
-	colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.45f);
+	colors[ImGuiCol_NavHighlight] = accentA;
+	colors[ImGuiCol_NavWindowingHighlight] = C(216, 31, 0, 170);
+	colors[ImGuiCol_NavWindowingDimBg] = C(0, 0, 0, 170);
+	colors[ImGuiCol_ModalWindowDimBg] = C(0, 0, 0, 190);
 
-	// 角の丸み
-	style.FrameRounding = 2;
+	// ---- Shape / Layout ----
+	style.WindowRounding = 2.0f;
+	style.ChildRounding = 2.0f;
+	style.FrameRounding = 2.0f;
+	style.ScrollbarRounding = 2.0f;
+	style.GrabRounding = 2.0f;
+	style.TabRounding = 2.0f;
 
-	// ドックウィンドウ間のサイズ
+	style.WindowBorderSize = 1.0f;
+	style.FrameBorderSize = 0.0f;
+
 	style.DockingSeparatorSize = 2.0f;
 }
 

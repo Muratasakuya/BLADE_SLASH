@@ -110,8 +110,18 @@ namespace SakuEngine {
 		// 値ソースを更新
 		valueSource_->Update();
 
-		// 適用モードに応じて値を調整
-		propertyAccess_.setter(valueSource_->GetValue());
+		// 適用モードに応じて値を設定
+		T value = valueSource_->GetValue();
+		switch (applyMode_) {
+		case AnimationApplyMode::Absolute:
+
+			propertyAccess_.setter(value);
+			break;
+		case AnimationApplyMode::Additive:
+
+			propertyAccess_.setter(baseValue_ + value);
+			break;
+		}
 
 		// 終了判定
 		if (valueSource_->IsFinished()) {

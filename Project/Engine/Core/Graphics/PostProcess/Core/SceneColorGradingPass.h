@@ -96,8 +96,5 @@ namespace SakuEngine {
 		// バッファ
 		std::unique_ptr<PostProcessBuffer<SceneColorGradingForGPU>> buffer_;
 		SceneColorGradingForGPU bufferData_;
-
-		//--------- functions ----------------------------------------------------
-
 	};
 }
