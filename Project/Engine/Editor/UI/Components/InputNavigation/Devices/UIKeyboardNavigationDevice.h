@@ -3,25 +3,25 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/InputNavigation/UIInputNavigationComponent.h>
+#include <Engine/Editor/UI/Components/InputNavigation/UIInputNavigationComponent.h>
 #include <Engine/Input/Base/IInputDevice.h>
-#include <Engine/Editor/UI/Component/InputNavigation/Devices/UINavigationAction.h>
+#include <Engine/Editor/UI/Components/InputNavigation/Devices/UINavigationAction.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UIGamepadNavigationDevice class
-	//	UIのゲームパッド入力ナビゲーション
+	//	UIKeyboardNavigationDevice class
+	//	UIのキーボード入力ナビゲーション
 	//============================================================================
-	class UIGamepadNavigationDevice :
+	class UIKeyboardNavigationDevice :
 		public IInputDevice<UINavigationAction> {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UIGamepadNavigationDevice(UIInputNavigationComponent* component);
-		~UIGamepadNavigationDevice() = default;
+		UIKeyboardNavigationDevice(UIInputNavigationComponent* component);
+		~UIKeyboardNavigationDevice() = default;
 
 		float GetVector(UINavigationAction axis) const override;
 
@@ -30,7 +30,7 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
-		InputType GetInputType() const override { return InputType::GamePad; }
+		InputType GetInputType() const override { return InputType::Keyboard; }
 	private:
 		//========================================================================
 		//	private Methods

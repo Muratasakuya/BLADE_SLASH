@@ -6,8 +6,8 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Input/Input.h>
-#include <Engine/Editor/UI/Component/InputNavigation/Devices/UIKeyboardNavigationDevice.h>
-#include <Engine/Editor/UI/Component/InputNavigation/Devices/UIGamepadNavigationDevice.h>
+#include <Engine/Editor/UI/Components/InputNavigation/Devices/UIKeyboardNavigationDevice.h>
+#include <Engine/Editor/UI/Components/InputNavigation/Devices/UIGamepadNavigationDevice.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================

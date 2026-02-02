@@ -5,8 +5,8 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
-#include <Engine/Editor/UI/Component/Animation/UIStateAnimationComponent.h>
+#include <Engine/Editor/UI/Components/Selectable/UISelectableComponent.h>
+#include <Engine/Editor/UI/Components/Animation/UIStateAnimationComponent.h>
 #include <Engine/Editor/UI/Animation/Tracks/Factory/UIAnimationTrackFactory.h>
 #include <Engine/Editor/UI/Animation/UIAnimationLibrary.h>
 

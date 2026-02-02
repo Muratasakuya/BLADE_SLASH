@@ -7,10 +7,10 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Collision/CollisionGeometry.h>
 #include <Engine/Input/Input.h>
-#include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
-#include <Engine/Editor/UI/Component/InputNavigation/UIInputNavigationComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
+#include <Engine/Editor/UI/Components/Selectable/UISelectableComponent.h>
+#include <Engine/Editor/UI/Components/InputNavigation/UIInputNavigationComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UISpriteTransformComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UITextTransformComponent.h>
 
 //============================================================================
 //	UIInputNavigationSystem classMethods

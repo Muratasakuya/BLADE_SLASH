@@ -31,7 +31,7 @@ namespace SakuEngine {
 	// アニメーショントラック定義
 	struct UIAnimationTrackDefinition {
 
-		// 処理の種類、適応方法
+		// 処理の種類、適用方法
 		UIAnimationDataType type = UIAnimationDataType::Translation;
 		AnimationApplyMode applyMode = AnimationApplyMode::Absolute;
 

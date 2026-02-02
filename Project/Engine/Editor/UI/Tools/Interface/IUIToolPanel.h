@@ -38,5 +38,6 @@ namespace SakuEngine {
 		// ペイロードID(UIパレットアイテムタイプ)
 		static constexpr const char* kPalettePayloadId = "UI_PALETTE_ITEM_TYPE";
 		static constexpr const char* kHierarchyPayloadId = "UI_HIERARCHY_ELEMENT_HANDLE";
+		static constexpr const char* kAnimationPayloadId = "UI_ANIMATION_UID";
 	};
 } // SakuEngine

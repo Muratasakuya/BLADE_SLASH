@@ -151,7 +151,7 @@ namespace SakuEngine {
 			}
 		}
 		rawT_ = timer.current_ / (std::max)(0.0001f, timer.target_);
-		float easedT = EasedValue(timer.easeingType_, loop_.LoopedT(rawT_));
+		float easedT = EasedValue(timer.easingType_, loop_.LoopedT(rawT_));
 
 		T from = move_.start;
 		T to = move_.end;

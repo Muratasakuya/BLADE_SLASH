@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Systems/Interface/IUISystem.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
+#include <Engine/Editor/UI/Components/Transform/UIParentRectTransform.h>
 
 namespace SakuEngine {
 

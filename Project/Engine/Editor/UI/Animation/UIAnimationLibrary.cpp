@@ -25,6 +25,7 @@ void UIAnimationLibrary::LoadAllAnimations() {
 
 	namespace fs = std::filesystem;
 
+	clips_.Clear();
 	uidToHandle_.clear();
 	fs::path directory(UIAnimationClip::kBaseJsonPath);
 	// ディレクトリが存在しない場合は終了

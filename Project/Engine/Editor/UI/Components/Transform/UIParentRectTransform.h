@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
+#include <Engine/Editor/UI/Components/Interface/IUIComponent.h>
 #include <Engine/Object/Data/Transform/Transform.h>
 
 namespace SakuEngine {

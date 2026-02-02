@@ -32,7 +32,7 @@ BaseCamera::BaseCamera() {
 	transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);
 	transform_.translation = Vector3(0.0f, 1.8f, -24.0f);
 	autoFucusTimer_.target_ = 0.32f;
-	autoFucusTimer_.easeingType_ = EasingType::EaseOutExpo;
+	autoFucusTimer_.easingType_ = EasingType::EaseOutExpo;
 }
 
 void BaseCamera::StartAutoFocus(bool isFocus, const Vector3& target) {

@@ -48,7 +48,7 @@ void UIHierarchyPanel::DrawNodeRecursive(UIAsset& asset, const UIElement::Handle
 		(isSelected ? ImGuiTreeNodeFlags_Selected : 0);
 
 	// ノード描画
-	bool opened = ImGui::TreeNodeEx((void*)(intptr_t)node.index, flags, "%s", element->name.c_str());
+	bool opened = ImGui::TreeNodeEx((void*)(intptr_t)element->uid, flags, "%s", element->name.c_str());
 	if (ImGui::IsItemClicked()) {
 
 		// 選択

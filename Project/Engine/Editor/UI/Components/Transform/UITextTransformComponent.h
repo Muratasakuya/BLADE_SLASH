@@ -3,24 +3,24 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
+#include <Engine/Editor/UI/Components/Interface/IUIComponent.h>
 #include <Engine/Object/Data/Transform/Transform.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UISpriteTransformComponent class
+	//	UITextTransformComponent class
 	//	UIのTransformコンポーネント
 	//============================================================================
-	class UISpriteTransformComponent :
+	class UITextTransformComponent :
 		public IUIComponent {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UISpriteTransformComponent() = default;
-		~UISpriteTransformComponent() = default;
+		UITextTransformComponent() = default;
+		~UITextTransformComponent() = default;
 
 		// エディター
 		void ImGui(const ImVec2& itemSize) override;
@@ -31,10 +31,10 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		Transform2D* transform = nullptr;
+		TextTransform2D* transform = nullptr;
 
 		//--------- accessor -----------------------------------------------------
 
-		UIComponentType GetType() const override { return UIComponentType::SpriteTransform; }
+		UIComponentType GetType() const override { return UIComponentType::TextTransform; }
 	};
 } // SakuEngine

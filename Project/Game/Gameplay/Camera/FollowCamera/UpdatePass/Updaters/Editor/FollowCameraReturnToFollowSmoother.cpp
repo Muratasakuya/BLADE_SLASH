@@ -21,7 +21,7 @@ void FollowCameraReturnToFollowSmoother::Init() {
 	justStartedReturn_ = false;
 	returnTimer_.Reset();
 	returnTimer_.target_ = duration_;
-	returnTimer_.easeingType_ = easingType_;
+	returnTimer_.easingType_ = easingType_;
 	pitchRotateX_ = 0.0f;
 
 	// json適用
@@ -81,7 +81,7 @@ void FollowCameraReturnToFollowSmoother::StartReturn(FollowCameraContext& contex
 	justStartedReturn_ = true;
 	returnTimer_.Reset();
 	returnTimer_.target_ = (std::max)(duration_, Config::kEpsilon);
-	returnTimer_.easeingType_ = easingType_;
+	returnTimer_.easingType_ = easingType_;
 }
 
 void FollowCameraReturnToFollowSmoother::ApplyReturnBlend(FollowCameraContext& context) {

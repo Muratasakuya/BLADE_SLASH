@@ -6,10 +6,10 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectManager.h>
-#include <Engine/Editor/UI/Component/Sprite/UISpriteComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
-#include <Engine/Editor/UI/Component/Material/UISpriteMaterialComponent.h>
+#include <Engine/Editor/UI/Components/Sprite/UISpriteComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UISpriteTransformComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UIParentRectTransform.h>
+#include <Engine/Editor/UI/Components/Material/UISpriteMaterialComponent.h>
 
 //============================================================================
 //	UISpriteSyncSystem classMethods

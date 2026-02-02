@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
-#include <Engine/Editor/UI/Component/InputNavigation/Devices/UINavigationAction.h>
+#include <Engine/Editor/UI/Components/Interface/IUIComponent.h>
+#include <Engine/Editor/UI/Components/InputNavigation/Devices/UINavigationAction.h>
 #include <Engine/Input/Base/InputMapper.h>
 #include <Engine/Input/InputStructures.h>
 

@@ -6,10 +6,10 @@ using namespace SakuEngine;
 //	include
 //============================================================================
 #include <Engine/Object/Core/ObjectManager.h>
-#include <Engine/Editor/UI/Component/Text/UITextComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
-#include <Engine/Editor/UI/Component/Material/UITextMaterialComponent.h>
+#include <Engine/Editor/UI/Components/Text/UITextComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UITextTransformComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UIParentRectTransform.h>
+#include <Engine/Editor/UI/Components/Material/UITextMaterialComponent.h>
 
 //============================================================================
 //	UITextSyncSystem classMethods

@@ -4,7 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Animation/Tracks/Interface/IUIAnimationTrackRuntime.h>
-#include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
+#include <Engine/Editor/UI/Components/Selectable/UISelectableComponent.h>
 #include <Engine/Utility/Animation/ValueSource/LerpValueSource.h>
 
 namespace SakuEngine {

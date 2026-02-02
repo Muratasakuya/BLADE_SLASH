@@ -129,7 +129,7 @@ void SubPlayerPunchAttackState::UpdateAttack() {
 		// 体の回転を補間
 		float currentT = leftHandAttackInfo_.loop.LoopedT(leftHandAttackInfo_.timer.t_);
 		SakuEngine::Quaternion rotation = SakuEngine::Quaternion::Slerp(bodyStartRotation_,
-			bodyTargetRotation_, EasedValue(leftHandAttackInfo_.timer.easeingType_, currentT));
+			bodyTargetRotation_, EasedValue(leftHandAttackInfo_.timer.easingType_, currentT));
 
 		// 回転を適応
 		body_->SetRotation(SakuEngine::Quaternion::Normalize(rotation));
@@ -301,7 +301,7 @@ void SubPlayerPunchAttackState::LerpAttackHand(AttackInfo& attackInfo, SakuEngin
 
 	// 座標を補間
 	SakuEngine::Vector3 lerpPos = SakuEngine::Vector3::Lerp(attackInfo.startPos,
-		attackInfo.targetPos, EasedValue(attackInfo.timer.easeingType_, currentT));
+		attackInfo.targetPos, EasedValue(attackInfo.timer.easingType_, currentT));
 
 	// トランスフォームに適応
 	hand.SetTranslation(lerpPos);

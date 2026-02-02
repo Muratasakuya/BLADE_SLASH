@@ -3,24 +3,27 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
-#include <Engine/Object/Data/Material/Material.h>
+#include <Engine/Editor/UI/Components/Interface/IUIComponent.h>
+#include <Engine/Object/Data/Text/MSDFText.h>
+
+// c++
+#include <string>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UISpriteMaterialComponent class
-	//	UIのマテリアルコンポーネント
+	//	UITextComponent class
+	//	UIのテキストコンポーネント
 	//============================================================================
-	class UISpriteMaterialComponent :
+	class UITextComponent :
 		public IUIComponent {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UISpriteMaterialComponent() = default;
-		~UISpriteMaterialComponent() = default;
+		UITextComponent() = default;
+		~UITextComponent() = default;
 
 		// エディター
 		void ImGui(const ImVec2& itemSize) override;
@@ -31,10 +34,21 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		SpriteMaterial* material = nullptr;
+		// オブジェクトID
+		uint32_t objectId = 0;
+
+		MSDFText* text = nullptr;
+
+		// デフォルト
+		// アトラステクスチャ名
+		std::string defaultAtlasTextureName = "DS-DIGIB_msdf";
+		// フォントパス
+		std::string defaultFontPath = "Assets/Json/Atlas/DS-DIGIB_msdf.json";
+		// テキスト内容
+		std::string defaultText = "Text_ABC";
 
 		//--------- accessor -----------------------------------------------------
 
-		UIComponentType GetType() const override { return UIComponentType::SpriteMaterial; }
+		UIComponentType GetType() const override { return UIComponentType::Text; }
 	};
 } // SakuEngine

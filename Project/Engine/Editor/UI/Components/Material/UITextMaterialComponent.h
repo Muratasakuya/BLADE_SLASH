@@ -3,27 +3,24 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
-#include <Engine/Object/Data/Sprite/Sprite.h>
-
-// c++
-#include <string>
+#include <Engine/Editor/UI/Components/Interface/IUIComponent.h>
+#include <Engine/Object/Data/Material/Material.h>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UISpriteComponent class
-	//	UIのスプライトコンポーネント
+	//	UITextMaterialComponent class
+	//	UIのマテリアルコンポーネント
 	//============================================================================
-	class UISpriteComponent :
+	class UITextMaterialComponent :
 		public IUIComponent {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UISpriteComponent() = default;
-		~UISpriteComponent() = default;
+		UITextMaterialComponent() = default;
+		~UITextMaterialComponent() = default;
 
 		// エディター
 		void ImGui(const ImVec2& itemSize) override;
@@ -34,17 +31,10 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		// オブジェクトID
-		uint32_t objectId = 0;
-
-		Sprite* sprite = nullptr;
-
-		// デフォルト
-		// テクスチャ名
-		std::string defaultTextureName = "white";
+		MSDFTextMaterial* material = nullptr;
 
 		//--------- accessor -----------------------------------------------------
 
-		UIComponentType GetType() const override { return UIComponentType::Sprite; }
+		UIComponentType GetType() const override { return UIComponentType::TextMaterial; }
 	};
 } // SakuEngine
