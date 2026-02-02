@@ -5,32 +5,30 @@
 //============================================================================
 #include <Engine/Utility/Animation/ValueSource/Interface/IValueSource.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
+#include <Engine/Utility/Enum/EnumAdapter.h>
+#include <Engine/Utility/Helper/ImGuiHelper.h>
 
-//============================================================================
-//	LerpValueSource class
-//	補間された値を取得
-//============================================================================
 namespace SakuEngine {
 
+	//============================================================================
+	//	UILerpValueSource class
+	//	UIアニメーション用の線形補間値ソース
+	//============================================================================
 	template <typename T>
-	class LerpValueSource :
+	class UILerpValueSource :
 		public IValueSource<T> {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		LerpValueSource() = default;
-		~LerpValueSource() = default;
+		UILerpValueSource() = default;
+		~UILerpValueSource() = default;
 
 		// 更新開始
 		void Start(const T& base) override;
-
 		// 値の更新
 		void Update() override;
-
-		// 終了判定
-		bool IsFinished() const override;
 
 		// リセット
 		void Reset() override;
@@ -44,8 +42,11 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
+		// 終了判定
+		bool IsFinished() const override { return animation_.IsFinished(); }
+
 		// 値の取得
-		T GetValue() const override { return current_; }
+		T GetValue() const override { return currentValue_; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -53,61 +54,70 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
+		// 現在の値
+		T currentValue_{};
 		// 基準値
-		T base_;
-		// 現在値
-		T current_;
+		T baseValue_{};
 
-		// 値補間
-		SimpleAnimation<T> animation_;
+		// アニメーション
+		SimpleAnimation<T> animation_{};
 	};
 
 	//============================================================================
-	//	LerpValueSource templateMethods
+	//	UILerpValueSource templateMethods
 	//============================================================================
 
 	template<typename T>
-	inline void LerpValueSource<T>::Start(const T& base) {
+	inline void UILerpValueSource<T>::Start(const T& base) {
 
 		// 補間開始
-		base_ = base;
+		baseValue_ = base;
 		animation_.Start();
 	}
 
 	template<typename T>
-	inline void LerpValueSource<T>::Update() {
+	inline void UILerpValueSource<T>::Update() {
 
-		// 値の補間更新、current_に渡す
-		animation_.LerpValue(current_);
+		// 値の補間更新
+		animation_.LerpValue(currentValue_);
 	}
 
 	template<typename T>
-	inline bool LerpValueSource<T>::IsFinished() const {
-
-		return animation_.IsFinished();
-	}
-
-	template<typename T>
-	inline void LerpValueSource<T>::Reset() {
+	inline void UILerpValueSource<T>::Reset() {
 
 		animation_.Reset();
 	}
 
 	template<typename T>
-	inline void LerpValueSource<T>::ImGui(const char* label) {
+	inline void UILerpValueSource<T>::ImGui(const char* label) {
 
-		animation_.ImGui(label, false);
+		const float itemWidth = 192.0f;
+
+		ImGui::PushID(label);
+		ImGui::PushItemWidth(itemWidth);
+
+		ImGuiHelper::DragValue<T>("baseValue", baseValue_);
+
+		ImGui::Spacing();
+		ImGui::Separator();
+
+		animation_.ImGuiParam(label, true);
+		animation_.ImGuiTimer(label);
+		animation_.ImGuiLoop(label);
+
+		ImGui::PopItemWidth();
+		ImGui::PopID();
 	}
 
 	template<typename T>
-	inline void LerpValueSource<T>::FromJson(const Json& data) {
+	inline void UILerpValueSource<T>::FromJson(const Json& data) {
 
 		animation_.FromJson(data);
 	}
 
 	template<typename T>
-	inline void LerpValueSource<T>::ToJson(Json& data) {
+	inline void UILerpValueSource<T>::ToJson(Json& data) {
 
 		animation_.ToJson(data);
 	}
-}; // SakuEngine
+} // SakuEngine

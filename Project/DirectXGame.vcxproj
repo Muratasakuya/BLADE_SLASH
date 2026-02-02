@@ -249,7 +249,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationValueSourceFactory.cpp">
+    <ClCompile Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIAnimationValueSourceFactory.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -353,7 +353,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -361,24 +361,24 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Hierarchy\UIHierarchyPanel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Palette\UIPalettePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\VisualDesigner\UIVisualDesignerPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\UIEditor.cpp">
       <SubType>
       </SubType>
@@ -1319,7 +1319,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationValueSourceFactory.h">
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIAnimationValueSourceFactory.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1336,6 +1336,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationLibrary.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\UILerpValueSource.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1439,7 +1443,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1447,27 +1451,27 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Hierarchy\UIHierarchyPanel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Palette\UIPalettePanel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\VisualDesigner\UIVisualDesignerPanel.h">
       <SubType>
       </SubType>
     </ClInclude>

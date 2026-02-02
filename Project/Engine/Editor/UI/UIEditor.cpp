@@ -5,13 +5,13 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Tools/Panels/UIAssetPanel.h>
-#include <Engine/Editor/UI/Tools/Panels/UIHierarchyPanel.h>
-#include <Engine/Editor/UI/Tools/Panels/UIVisualDesignerPanel.h>
-#include <Engine/Editor/UI/Tools/Panels/UIAnimationPanel.h>
-#include <Engine/Editor/UI/Tools/Panels/UIDetailPanel.h>
-#include <Engine/Editor/UI/Tools/Panels/UIPalettePanel.h>
-#include <Engine/Editor/UI/Tools/Panels/UIRuntimePanel.h>
+#include <Engine/Editor/UI/Tools/Panels/Asset/UIAssetPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/Hierarchy/UIHierarchyPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/VisualDesigner/UIVisualDesignerPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/Animation/UIAnimationPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/Detail/UIDetailPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/Palette/UIPalettePanel.h>
+#include <Engine/Editor/UI/Tools/Panels/Runtime/UIRuntimePanel.h>
 
 //============================================================================
 //	UIEditor classMethods

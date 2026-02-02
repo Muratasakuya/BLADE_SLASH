@@ -28,7 +28,7 @@ void UIAnimationPanel::ImGui(UIToolContext& context) {
 
 	//============================================================================
 	//	左右分割（左：作成+一覧 / 右：詳細）
-	//============================================================================
+	//============================================================================w
 
 	ImGuiTableFlags splitFlags = ImGuiTableFlags_Resizable |
 		ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_SizingFixedFit;

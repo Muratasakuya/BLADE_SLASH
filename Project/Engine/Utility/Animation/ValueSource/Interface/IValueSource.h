@@ -27,12 +27,6 @@ namespace SakuEngine {
 		// 値の更新
 		virtual void Update() = 0;
 
-		// 値の取得
-		virtual T GetValue() const = 0;
-
-		// 終了判定
-		virtual bool IsFinished() const = 0;
-
 		// リセット
 		virtual void Reset() = 0;
 
@@ -42,5 +36,16 @@ namespace SakuEngine {
 		// json
 		virtual void FromJson(const Json& data) = 0;
 		virtual void ToJson(Json& data) = 0;
+
+		//--------- accessor -----------------------------------------------------
+
+		// 基準値の設定
+		virtual void SetBaseValue([[maybe_unused]] const T& base) {}
+
+		// 終了判定
+		virtual bool IsFinished() const = 0;
+
+		// 値の取得
+		virtual T GetValue() const = 0;
 	};
 }; // SakuEngine

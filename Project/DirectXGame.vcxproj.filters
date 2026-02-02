@@ -3217,12 +3217,12 @@
     <ClCompile Include="Engine\Editor\UI\UIEditor.cpp" />
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAssetLibrary.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\VisualDesigner\UIVisualDesignerPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Hierarchy\UIHierarchyPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Palette\UIPalettePanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp" />
     <ClCompile Include="Engine\Editor\UI\Components\Transform\UISpriteTransformComponent.cpp" />
     <ClCompile Include="Engine\Editor\UI\Components\Transform\UITextTransformComponent.cpp" />
@@ -3246,10 +3246,10 @@
     <ClCompile Include="Engine\Editor\UI\Components\Animation\UIStateAnimationComponent.cpp" />
     <ClCompile Include="Engine\Editor\UI\Systems\Animation\UIStateAnimationSystem.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationTrackFactory.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationValueSourceFactory.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIAnimationValueSourceFactory.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Access\UIAnimationAccess.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\Tracks\UIPropertyTrackRuntime.cpp" />
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
@@ -3261,12 +3261,12 @@
     <ClInclude Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.h" />
     <ClInclude Include="Engine\Editor\UI\Components\Interface\IUIComponent.h" />
     <ClInclude Include="Engine\Editor\UI\Tools\UIToolContext.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAssetPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIVisualDesignerPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIHierarchyPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIDetailPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIAnimationPanel.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIPalettePanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\VisualDesigner\UIVisualDesignerPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Hierarchy\UIHierarchyPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Palette\UIPalettePanel.h" />
     <ClInclude Include="Engine\Editor\UI\Components\Transform\UISpriteTransformComponent.h" />
     <ClInclude Include="Engine\Editor\UI\Components\Transform\UITextTransformComponent.h" />
     <ClInclude Include="Engine\Editor\UI\Components\Sprite\UISpriteComponent.h" />
@@ -3292,10 +3292,11 @@
     <ClInclude Include="Engine\Editor\UI\Systems\Animation\UIStateAnimationSystem.h" />
     <ClInclude Include="Engine\Editor\UI\Systems\UISystemContext.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationTrackFactory.h" />
-    <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationValueSourceFactory.h" />
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIAnimationValueSourceFactory.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Access\UIAnimationAccess.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\Tracks\UIPropertyTrackRuntime.h" />
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.h" />
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\UILerpValueSource.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

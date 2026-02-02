@@ -27,6 +27,12 @@ namespace SakuEngine {
 		Scale,
 		Color,
 	};
+	// アニメーション方法
+	enum class UIAnimationType :
+		uint32_t {
+
+		Lerp,
+	};
 
 	// アニメーショントラック定義
 	struct UIAnimationTrackDefinition {
@@ -36,7 +42,7 @@ namespace SakuEngine {
 		AnimationApplyMode applyMode = AnimationApplyMode::Absolute;
 
 		// 補間方法
-		std::string valueSourceType = "Lerp";
+		UIAnimationType valueSourceType = UIAnimationType::Lerp;
 		Json valueSource;
 
 		// json

@@ -77,6 +77,10 @@ namespace SakuEngine {
 		float GetProgress() const;
 		const T& GetStart() const { return move_.start; }
 		const T& GetEnd() const { return move_.end; }
+
+		// Drag値の取得
+		float GetDragValueFloat() const { return dragValueFloat; }
+		int GetDragValueInt() const { return dragValueInt; }
 	private:
 		//========================================================================
 		//	private Methods

@@ -3,8 +3,9 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Animation/UIAnimationClip.h>
+#include <Engine/Editor/UI/Animation/ValueSource/UILerpValueSource.h>
 #include <Engine/Utility/Animation/ValueSource/Interface/IValueSource.h>
-#include <Engine/Utility/Animation/ValueSource/LerpValueSource.h>
 
 // c++
 #include <memory>
@@ -17,12 +18,12 @@ namespace SakuEngine {
 	//============================================================================
 
 	template <typename T>
-	std::unique_ptr<IValueSource<T>> CreateValueSource(const std::string& typeName) {
+	std::unique_ptr<IValueSource<T>> CreateValueSource(UIAnimationType type) {
 
-		// 線形補間
-		if (typeName == "Lerp") {
-
-			return std::make_unique<LerpValueSource<T>>();
+		switch (type) {
+		case UIAnimationType::Lerp:
+			
+			return std::make_unique<UILerpValueSource<T>>();
 		}
 		return nullptr;
 	}

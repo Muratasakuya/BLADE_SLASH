@@ -819,28 +819,28 @@ void KeyframeObject3D::ImGui() {
 					case AnyMold::Float: {
 						if (auto* value = std::get_if<float>(&keys_[k].anyValues[track])) {
 
-							ImGuiHelper::DragFloat<float>(label.c_str(), *value);
+							ImGuiHelper::DragValue<float>(label.c_str(), *value);
 						}
 						break;
 					}
 					case AnyMold::Vector2: {
 						if (auto* value = std::get_if<Vector2>(&keys_[k].anyValues[track])) {
 
-							ImGuiHelper::DragFloat<Vector2>(label.c_str(), *value);
+							ImGuiHelper::DragValue<Vector2>(label.c_str(), *value);
 						}
 						break;
 					}
 					case AnyMold::Vector3: {
 						if (auto* value = std::get_if<Vector3>(&keys_[k].anyValues[track])) {
 
-							ImGuiHelper::DragFloat<Vector3>(label.c_str(), *value);
+							ImGuiHelper::DragValue<Vector3>(label.c_str(), *value);
 						}
 						break;
 					}
 					case AnyMold::Color: {
 						if (auto* value = std::get_if<Color>(&keys_[k].anyValues[track])) {
 
-							ImGuiHelper::DragFloat<Color>(label.c_str(), *value);
+							ImGuiHelper::DragValue<Color>(label.c_str(), *value);
 						}
 						break;
 					}

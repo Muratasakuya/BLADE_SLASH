@@ -15,7 +15,7 @@ void UIAnimationTrackDefinition::FromJson(const Json& data) {
 	type = EnumAdapter<UIAnimationDataType>::FromString(data.value("type", "Translation")).value();
 	applyMode = EnumAdapter<AnimationApplyMode>::FromString(data.value("applyMode", "Absolute")).value();
 
-	valueSourceType = data.value("valueSourceType", "Lerp");
+	valueSourceType = EnumAdapter<UIAnimationType>::FromString(data.value("valueSourceType", "Lerp")).value();
 	valueSource = data.value("valueSource", Json{});
 }
 
@@ -24,7 +24,7 @@ void UIAnimationTrackDefinition::ToJson(Json& data) {
 	data["type"] = EnumAdapter<UIAnimationDataType>::ToString(type);
 	data["applyMode"] = EnumAdapter<AnimationApplyMode>::ToString(applyMode);
 
-	data["valueSourceType"] = valueSourceType;
+	data["valueSourceType"] = EnumAdapter<UIAnimationType>::ToString(valueSourceType);
 	data["valueSource"] = valueSource;
 }
 
