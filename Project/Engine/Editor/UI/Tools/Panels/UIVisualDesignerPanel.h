@@ -47,7 +47,7 @@ namespace SakuEngine {
 		D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle_{};
 
 		// エディタデバッグ
-		ImVec2 gameViewSize_ = ImVec2(1024.0f, 576.0f);
+		ImVec2 gameViewSize_ = ImVec2(896.0f, 504.0f);
 
 		//--------- functions ----------------------------------------------------
 

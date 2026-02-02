@@ -30,6 +30,11 @@ namespace SakuEngine {
 
 		// アニメーションの追加
 		UIAnimationHandle Create(CanvasType canvasType);
+		UIAnimationHandle Create(CanvasType canvasType, const std::string& desiredName);
+		// アニメーションの削除
+		bool Destroy(uint32_t uid);
+		// 名前の変更
+		bool Rename(uint32_t uid, const std::string& desiredName);
 
 		// json
 		void LoadAllAnimations();
@@ -47,7 +52,13 @@ namespace SakuEngine {
 		// アニメーションクリップの取得
 		UIAnimationClip* GetClip(uint32_t uid);
 		const UIAnimationClip* GetClip(uint32_t uid) const;
-		// 名前の取得
+
+		// ハンドルからエントリを取得
+		UIAnimationEntry* GetEntry(UIAnimationHandle handle) { return clips_.Get(handle); }
+		const UIAnimationEntry* GetEntry(UIAnimationHandle handle) const { return clips_.Get(handle); }
+
+		// UIDから情報を取得
+		UIAnimationHandle GetHandle(uint32_t uid) const;
 		const std::string* GetName(uint32_t uid) const;
 	private:
 		//========================================================================
@@ -67,5 +78,6 @@ namespace SakuEngine {
 
 		// ユニークな名前を作成
 		std::string MakeUniqueName(const std::string& base);
+		std::string MakeUniqueNameFromRequested(const std::string& requested, uint32_t exceptUid);
 	};
 } // SakuEngine

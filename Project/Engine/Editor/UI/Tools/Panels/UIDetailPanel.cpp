@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Components/Animation/UIStateAnimationComponent.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 
@@ -35,6 +36,130 @@ namespace {
 			str.reserve(64);
 		}
 		return ImGui::InputText(label, str.data(), str.capacity() + 1, ImGuiInputTextFlags_CallbackResize, callback, &str);
+	}
+
+	// UIエレメントのキャンバスタイプを検出
+	static CanvasType DetectElementCanvasType(UIAsset& asset, UIElement::Handle handle) {
+
+		const bool hasSprite = asset.FindComponent(handle, UIComponentType::SpriteTransform) ||
+			asset.FindComponent(handle, UIComponentType::Sprite);
+
+		const bool hasText = asset.FindComponent(handle, UIComponentType::TextTransform) ||
+			asset.FindComponent(handle, UIComponentType::Text);
+
+		if (hasSprite && !hasText) {
+			return CanvasType::Sprite;
+		}
+		if (hasText && !hasSprite) {
+			return CanvasType::Text;
+		}
+		return CanvasType::Sprite;
+	}
+
+	static void DrawStateAnimationMapping(UIToolContext& context, UIAsset& asset,
+		UIElement::Handle elementHandle, UIStateAnimationComponent& animComp) {
+
+		UIAnimationLibrary* lib = context.animationLibrary;
+		if (!lib) {
+			ImGui::TextUnformatted("No UIAnimationLibrary.");
+			return;
+		}
+
+		// 要素のキャンバスタイプを検出
+		const CanvasType expectedCanvas = DetectElementCanvasType(asset, elementHandle);
+		// マッピング編集UI
+		struct Row { UIElementState state; const char* label; };
+		static const Row kRows[] = {
+			{ UIElementState::Hidden,    "Hidden"    },
+			{ UIElementState::ShowBegin, "ShowBegin" },
+			{ UIElementState::ShowEnd,   "ShowEnd"   },
+			{ UIElementState::Showing,   "Showing"   },
+			{ UIElementState::Focused,   "Focused"   },
+			{ UIElementState::Decided,   "Decided"   },
+		};
+
+		const float kBtnH = 26.0f;
+
+		ImGui::Text("Expected canvas: %s", EnumAdapter<CanvasType>::ToString(expectedCanvas));
+		ImGui::Separator();
+
+		ImGuiTableFlags tflags = ImGuiTableFlags_BordersInnerH |
+			ImGuiTableFlags_SizingStretchProp | ImGuiTableFlags_PadOuterX;
+
+		if (ImGui::BeginTable("##StateAnimMapTable", 3, tflags)) {
+
+			ImGui::TableSetupColumn("State", ImGuiTableColumnFlags_WidthFixed, 110.0f);
+			ImGui::TableSetupColumn("Clip", ImGuiTableColumnFlags_WidthStretch);
+			ImGui::TableSetupColumn("Clear", ImGuiTableColumnFlags_WidthFixed, 34.0f);
+
+			for (const auto& row : kRows) {
+
+				ImGui::PushID((int)row.state);
+
+				// 現在のマッピングを取得
+				uint32_t& clipUid = animComp.stateToClipUid[row.state];
+				const UIAnimationClip* clip = (clipUid != 0) ? lib->GetClip(clipUid) : nullptr;
+				std::string preview;
+				if (clipUid == 0) {
+
+					preview = "(None)";
+				} else if (!clip) {
+
+					preview = std::format("Missing (uid:{})", clipUid);
+				} else {
+
+					preview = clip->name;
+				}
+
+				ImGui::TableNextRow();
+
+				//--- Col0: State label
+				ImGui::TableSetColumnIndex(0);
+				ImGui::AlignTextToFramePadding();
+				ImGui::TextUnformatted(row.label);
+
+				//--- Col1: Drop slot
+				ImGui::TableSetColumnIndex(1);
+
+				// 列幅いっぱいを使う
+				ImGui::Button(preview.c_str(), ImVec2(-FLT_MIN, kBtnH));
+
+				// ホバーでフル情報出す
+				if (ImGui::IsItemHovered() && clip) {
+
+					ImGui::SetTooltip("uid:%u\ncanvas:%s\nname:%s", clip->uid,
+						EnumAdapter<CanvasType>::ToString(clip->canvasType), clip->name.c_str());
+				}
+
+				// ドラッグ＆ドロップ受け入れ
+				if (ImGui::BeginDragDropTarget()) {
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(IUIToolPanel::kAnimationPayloadId)) {
+						if (payload->DataSize == sizeof(uint32_t)) {
+
+							const uint32_t droppedUid = *reinterpret_cast<const uint32_t*>(payload->Data);
+							const UIAnimationClip* dropped = lib->GetClip(droppedUid);
+
+							// canvas不一致は拒否
+							if (dropped && dropped->canvasType != expectedCanvas) {
+							} else {
+
+								// マッピングを設定
+								clipUid = droppedUid;
+							}
+						}
+					}
+					ImGui::EndDragDropTarget();
+				}
+
+				//--- Col2: Clear button
+				ImGui::TableSetColumnIndex(2);
+				if (ImGui::Button("X", ImVec2(-FLT_MIN, kBtnH))) {
+					clipUid = 0;
+				}
+				ImGui::PopID();
+			}
+			ImGui::EndTable();
+		}
 	}
 }
 
@@ -169,7 +294,15 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 			ImGui::Separator();
 
 			// 各コンポーネントのImGuiを呼ぶ
-			component->ImGui(ImVec2(192.0f, 28.0f));
+			if (component->GetType() == UIComponentType::StateAnimation) {
+
+				auto* stateAnimation = static_cast<UIStateAnimationComponent*>(component);
+				DrawStateAnimationMapping(context, *asset, context.selectedElement, *stateAnimation);
+			} else {
+
+				// 通常コンポーネントは各自のImGui
+				component->ImGui(ImVec2(192.0f, 28.0f));
+			}
 
 			ImGui::PopID();
 			ImGui::Separator();
@@ -198,8 +331,9 @@ void UIDetailPanel::ImGui(UIToolContext& context) {
 	// 追加候補リスト
 	static const AddEntry kAddEntries[] = {
 
-		{ "Interaction", UIComponentType::Selectable,          true,  false, false },
-		{ "Input",       UIComponentType::InputNavigation,     true,  true,  true  },
+		{ "Interaction", UIComponentType::Selectable,        true,  false, false },
+		{ "InputNavi",   UIComponentType::InputNavigation,   true,  true,  true  },
+		{ "StateAnimation", UIComponentType::StateAnimation, true,  false, false },
 	};
 	// 選択中エレメントにすでにあるか
 	auto HasOnElement = [&](UIComponentType t) -> bool {

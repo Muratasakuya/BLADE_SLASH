@@ -8,11 +8,18 @@ using namespace SakuEngine;
 
 UIAnimationHandle UIAnimationLibrary::Create(CanvasType canvasType) {
 
+	return Create(canvasType, "Animation");
+}
+
+UIAnimationHandle UIAnimationLibrary::Create(CanvasType canvasType, const std::string& desiredName) {
+
 	// 新規UIアニメーションクリップエントリを作成
 	UIAnimationEntry entry{};
 	entry.clip.uid = AllocateUid();
 	entry.clip.canvasType = canvasType;
-	entry.clip.name = MakeUniqueName("Animation");
+
+	// 希望名からユニーク化
+	entry.clip.name = MakeUniqueNameFromRequested(desiredName.empty() ? "Animation" : desiredName, entry.clip.uid);
 	entry.clip.tracks.clear();
 
 	// エントリを追加
@@ -21,12 +28,42 @@ UIAnimationHandle UIAnimationLibrary::Create(CanvasType canvasType) {
 	return handle;
 }
 
+bool UIAnimationLibrary::Destroy(uint32_t uid) {
+
+	auto it = uidToHandle_.find(uid);
+	if (it == uidToHandle_.end()) {
+		return false;
+	}
+
+	// ハンドルを取得してエントリを削除
+	const UIAnimationHandle handle = it->second;
+	uidToHandle_.erase(it);
+	clips_.Destroy(handle);
+	return true;
+}
+
+bool UIAnimationLibrary::Rename(uint32_t uid, const std::string& desiredName) {
+
+	if (desiredName.empty()) {
+		return false;
+	}
+
+	UIAnimationClip* clip = GetClip(uid);
+	if (!clip) {
+		return false;
+	}
+
+	clip->name = MakeUniqueNameFromRequested(desiredName, uid);
+	return true;
+}
+
 void UIAnimationLibrary::LoadAllAnimations() {
 
 	namespace fs = std::filesystem;
 
 	clips_.Clear();
 	uidToHandle_.clear();
+	nextUid_ = 1;
 	fs::path directory(UIAnimationClip::kBaseJsonPath);
 	// ディレクトリが存在しない場合は終了
 	if (!fs::exists(directory)) {
@@ -67,6 +104,16 @@ void UIAnimationLibrary::LoadAnimation(const std::string& filePath) {
 		entry.clip.uid = AllocateUid();
 	}
 	nextUid_ = (std::max)(nextUid_, entry.clip.uid + 1);
+
+	// 名前が空なら最低限
+	if (entry.clip.name.empty()) {
+
+		entry.clip.name = MakeUniqueName("Animation");
+	} else {
+
+		// 既存名の重複がある場合もユニーク化
+		entry.clip.name = MakeUniqueNameFromRequested(entry.clip.name, entry.clip.uid);
+	}
 
 	// エントリを追加
 	UIAnimationHandle handle = clips_.Emplace(entry);
@@ -117,6 +164,15 @@ const UIAnimationClip* UIAnimationLibrary::GetClip(uint32_t uid) const {
 	return entry ? &entry->clip : nullptr;
 }
 
+UIAnimationHandle UIAnimationLibrary::GetHandle(uint32_t uid) const {
+
+	auto it = uidToHandle_.find(uid);
+	if (it == uidToHandle_.end()) {
+		return {};
+	}
+	return it->second;
+}
+
 const std::string* UIAnimationLibrary::GetName(uint32_t uid) const {
 
 	auto* clip = GetClip(uid);
@@ -146,4 +202,37 @@ std::string UIAnimationLibrary::MakeUniqueName(const std::string& base) {
 		++index;
 	}
 	return "";
+}
+
+std::string UIAnimationLibrary::MakeUniqueNameFromRequested(const std::string& requested, uint32_t exceptUid) {
+
+	// requestedが未使用ならそのまま返す
+	auto IsUsed = [&](const std::string& name) -> bool {
+
+		bool used = false;
+		clips_.ForEachAlive([&]([[maybe_unused]] UIAnimationHandle handle, UIAnimationEntry& entry) {
+			if (entry.clip.uid == exceptUid) {
+				return;
+			}
+			if (entry.clip.name == name) {
+				used = true;
+			}
+			});
+		return used;
+		};
+
+	if (!IsUsed(requested)) {
+		return requested;
+	}
+
+	// 重複するならsuffixを付ける
+	for (int32_t i = 1; i < 100000; ++i) {
+
+		std::string candidate = requested + "_" + std::to_string(i);
+		if (!IsUsed(candidate)) {
+
+			return candidate;
+		}
+	}
+	return MakeUniqueName(requested);
 }

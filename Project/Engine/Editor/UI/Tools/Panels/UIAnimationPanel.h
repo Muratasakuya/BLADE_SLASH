@@ -4,6 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
+#include <Engine/Object/Data/Canvas/CanvasCommon.h>
+#include <Engine/Utility/Helper/ImGuiHelper.h>
 
 namespace SakuEngine {
 
@@ -35,9 +37,15 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
+		// 新規作成用
+		InputImGui newName_;
+		CanvasType newCanvasType_ = CanvasType::Sprite;
 
+		// 選択中
+		uint32_t selectedUid_ = 0;
+		uint32_t lastSelectedUid_ = 0;
 
-		//--------- functions ----------------------------------------------------
-
+		// リネーム用
+		InputImGui rename_;
 	};
 } // SakuEngine
