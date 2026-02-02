@@ -3249,6 +3249,7 @@
     <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationValueSourceFactory.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Access\UIAnimationAccess.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\Tracks\UIPropertyTrackRuntime.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h" />
@@ -3294,6 +3295,7 @@
     <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationValueSourceFactory.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Access\UIAnimationAccess.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\Tracks\UIPropertyTrackRuntime.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Engine\Shaders\PostProcess\ColorGrading\SceneColorGrading.CS.hlsl" />

@@ -353,6 +353,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp">
       <SubType>
       </SubType>
@@ -1432,6 +1436,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Interface\IUIToolPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\UIRuntimePanel.h">
       <SubType>
       </SubType>
     </ClInclude>

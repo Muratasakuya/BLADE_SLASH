@@ -11,6 +11,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/UI/Tools/Panels/UIAnimationPanel.h>
 #include <Engine/Editor/UI/Tools/Panels/UIDetailPanel.h>
 #include <Engine/Editor/UI/Tools/Panels/UIPalettePanel.h>
+#include <Engine/Editor/UI/Tools/Panels/UIRuntimePanel.h>
 
 //============================================================================
 //	UIEditor classMethods
@@ -70,6 +71,7 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 	panels_.emplace_back(std::make_unique<UIVisualDesignerPanel>());
 	panels_.emplace_back(std::make_unique<UIAnimationPanel>());
 	panels_.emplace_back(std::make_unique<UIDetailPanel>());
+	panels_.emplace_back(std::make_unique<UIRuntimePanel>());
 
 	// 描画用テクスチャのGPUハンドルを設定
 	for (const auto& panel : panels_) {
