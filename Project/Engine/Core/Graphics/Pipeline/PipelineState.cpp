@@ -269,8 +269,7 @@ void PipelineState::BuildBlendStateForMode(D3D12_BLEND_DESC& outDesc, BlendMode 
 	// カラーフォーマットかチェック
 	auto IsColorFormat = [](DXGI_FORMAT format) {
 		return (format == DXGI_FORMAT_R32G32B32A32_FLOAT) ||
-			(format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB) ||
-			(format == DXGI_FORMAT_R8G8B8A8_UNORM);
+			(format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		};
 
 	for (UINT i = 0; i < numRT; ++i) {
@@ -291,9 +290,6 @@ DXGI_FORMAT PipelineState::GetFormatFromString(const std::string& name) const {
 
 	std::string fullName = "DXGI_FORMAT_" + name;
 	DXGI_FORMAT format = SakuEngine::EnumAdapter<DXGI_FORMAT>::FromString(fullName).value();
-	if (format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB) {
-		format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	}
 	return format;
 }
 

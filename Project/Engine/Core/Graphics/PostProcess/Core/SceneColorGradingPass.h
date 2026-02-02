@@ -34,7 +34,7 @@ namespace SakuEngine {
 		//--------- properties ---------------------------------------------------
 
 		// 露出度
-		float exposure = 1.5f;
+		float exposure = 0.32f;
 
 		float pad[3];
 	};

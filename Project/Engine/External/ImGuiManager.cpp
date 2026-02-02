@@ -21,18 +21,14 @@ using namespace SakuEngine;
 void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, ID3D12CommandQueue* commandQueue, SRVDescriptor* srvDescriptor) {
 
 	// マルチビューポート設定
-	enableMultiViewport_ = true;
+	enableMultiViewport_ = false;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
 	// コンフィグ設定
 	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; 
-	if (enableMultiViewport_) {
-
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-	}
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	ImGui::StyleColorsDark(); 
 	//Win32初期化
@@ -43,7 +39,7 @@ void ImGuiManager::Init(HWND hwnd, UINT bufferCount, ID3D12Device* device, ID3D1
 	dxInitInfo.Device = device;
 	dxInitInfo.CommandQueue = commandQueue;
 	dxInitInfo.NumFramesInFlight = bufferCount;
-	dxInitInfo.RTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	dxInitInfo.RTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	dxInitInfo.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	dxInitInfo.SrvDescriptorHeap = srvDescriptor->GetDescriptorHeap();
 	dxInitInfo.LegacySingleSrvCpuDescriptor = srvDescriptor->GetDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
@@ -174,17 +170,6 @@ void ImGuiManager::End() {
 void ImGuiManager::Draw(ID3D12GraphicsCommandList* commandList) {
 
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
-
-	// マルチビューポート有効の時のみ
-	if (enableMultiViewport_) {
-
-		ImGuiIO& io = ImGui::GetIO();
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-
-			ImGui::UpdatePlatformWindows();
-			ImGui::RenderPlatformWindowsDefault();
-		}
-	}
 }
 
 void ImGuiManager::Finalize() {
