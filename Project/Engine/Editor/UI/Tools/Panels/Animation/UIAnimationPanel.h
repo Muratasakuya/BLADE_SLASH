@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/Tools/Interface/IUIToolPanel.h>
+#include <Engine/Editor/UI/Animation/UIAnimationClip.h>
 #include <Engine/Object/Data/Canvas/CanvasCommon.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
 

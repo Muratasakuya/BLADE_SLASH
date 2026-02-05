@@ -50,6 +50,10 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 	paletteRegistry_ = std::make_unique<UIPaletteRegistry>();
 	paletteRegistry_->RegisterDefaultItems();
 
+	// ランタイムの初期化
+	runtime_ = std::make_unique<UIRuntime>();
+	runtime_->Init();
+
 	// ツールコンテキストの作成
 	toolContext_ = std::make_unique<UIToolContext>();
 	toolContext_->asset = asset;
@@ -60,9 +64,7 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 	systemContext_ = std::make_unique<UISystemContext>();
 	systemContext_->animationLibrary = animationLibrary_.get();
 
-	// ランタイムの初期化
-	runtime_ = std::make_unique<UIRuntime>();
-	runtime_->Init();
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	// パネル群の作成
 	panels_.emplace_back(std::make_unique<UIAssetPanel>());
@@ -81,6 +83,7 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 			break;
 		}
 	}
+#endif
 }
 
 void UIEditor::Update() {
@@ -89,6 +92,9 @@ void UIEditor::Update() {
 	assetLibrary_->ForEachAsset([this]([[maybe_unused]] UIAssetHandle handle, UIAssetEntry& entry) {
 		runtime_->Update(systemContext_.get(), entry.asset);
 		});
+
+	// プレビュー用アセットを更新
+
 }
 
 void UIEditor::ImGui() {

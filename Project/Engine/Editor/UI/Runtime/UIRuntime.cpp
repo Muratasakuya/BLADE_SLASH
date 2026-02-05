@@ -28,12 +28,24 @@ void UIRuntime::Init() {
 	systems_.emplace_back(std::make_unique<UISpriteSyncSystem>());
 	// テキストオブジェクトの同期
 	systems_.emplace_back(std::make_unique<UITextSyncSystem>());
+	
+	// プレビュー
+	//previewSystems_.emplace_back(std::make_unique<UIInputNavigationSystem>());
 }
 
 void UIRuntime::Update(UISystemContext* context, UIAsset& asset) {
 
 	// 各システムで更新
 	for (const auto& system : systems_) {
+
+		system->Update(context, asset);
+	}
+}
+
+void UIRuntime::UpdatePreview(UISystemContext* context, UIAsset& asset) {
+
+	// 各システムで更新
+	for (const auto& system : previewSystems_) {
 
 		system->Update(context, asset);
 	}

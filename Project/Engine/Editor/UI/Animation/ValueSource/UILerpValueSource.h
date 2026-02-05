@@ -3,50 +3,71 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Utility/Animation/ValueSource/Interface/IValueSource.h>
+#include <Engine/Editor/UI/Animation/ValueSource/Interface/IUIValueSource.h>
 #include <Engine/Utility/Animation/SimpleAnimation.h>
-#include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Helper/ImGuiHelper.h>
+
+// c++
+#include <memory>
 
 namespace SakuEngine {
 
 	//============================================================================
-	//	UILerpValueSource class
+	//	UILerpValueSourceRuntime class
 	//	UIアニメーション用の線形補間値ソース
 	//============================================================================
 	template <typename T>
-	class UILerpValueSource :
-		public IValueSource<T> {
+	class UILerpValueSourceRuntime :
+		public IUIValueSourceRuntime<T> {
 	public:
 		//========================================================================
 		//	public Methods
 		//========================================================================
 
-		UILerpValueSource() = default;
-		~UILerpValueSource() = default;
+		UILerpValueSourceRuntime(const SimpleAnimation<T>& animationParam) {
 
-		// 更新開始
-		void Start(const T& base) override;
-		// 値の更新
-		void Update() override;
+			// アニメーションパラメータのコピー
+			SimpleAnimation<T> param = animationParam;
+			// Json経由でコピー
+			Json data{};
+			param.ToJson(data);
+			animation_.FromJson(data);
+		}
+		~UILerpValueSourceRuntime() = default;
 
-		// リセット
-		void Reset() override;
+		void Start(const T& base) override {
 
-		// エディター
-		void ImGui(const char* label) override;
+			// 基準値をセット
+			baseValue_ = base;
+			currentValue_ = base;
 
-		// json
-		void FromJson(const Json& data) override;
-		void ToJson(Json& data) override;
+			// アニメーション開始
+			animation_.Start();
+		}
+
+		void Update() override {
+
+			// 補間値の更新
+			animation_.LerpValue(currentValue_);
+
+			// 終了次第リセット
+			if (IsFinished()) {
+
+				Reset();
+			}
+		}
+
+		void Reset() override {
+
+			// リセット
+			animation_.Reset();
+		}
 
 		//--------- accessor -----------------------------------------------------
 
-		// 終了判定
 		bool IsFinished() const override { return animation_.IsFinished(); }
 
-		// 値の取得
-		T GetValue() const override { return currentValue_; }
+		const T& GetValue() const override { return currentValue_; }
 	private:
 		//========================================================================
 		//	private Methods
@@ -54,70 +75,79 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		// 現在の値
-		T currentValue_{};
-		// 基準値
-		T baseValue_{};
+		// 値
+		T currentValue_; // 現在の値
+		T baseValue_;    // 基準値
 
-		// アニメーション
-		SimpleAnimation<T> animation_{};
+		// 補間アニメーション
+		SimpleAnimation<T> animation_;
 	};
 
 	//============================================================================
-	//	UILerpValueSource templateMethods
+	//	UILerpValueSourceRuntime class
+	//	UIアニメーション用の線形補間値ソースアセット
 	//============================================================================
+	template <typename T>
+	class UILerpValueSourceAsset :
+		public IUIValueSourceAsset<T> {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-	template<typename T>
-	inline void UILerpValueSource<T>::Start(const T& base) {
+		UILerpValueSourceAsset() = default;
+		~UILerpValueSourceAsset() = default;
 
-		// 補間開始
-		baseValue_ = base;
-		animation_.Start();
-	}
+		std::unique_ptr<IUIValueSourceRuntime<T>> CreateRuntime() const override {
 
-	template<typename T>
-	inline void UILerpValueSource<T>::Update() {
+			return std::make_unique<UILerpValueSourceRuntime<T>>(animationParam_);
+		}
 
-		// 値の補間更新
-		animation_.LerpValue(currentValue_);
-	}
+		std::unique_ptr<IUIValueSourceAsset<T>> Clone() const override {
 
-	template<typename T>
-	inline void UILerpValueSource<T>::Reset() {
+			// クローンの作成
+			auto cloned = std::make_unique<UILerpValueSourceAsset<T>>();
 
-		animation_.Reset();
-	}
+			// アニメーションパラメータのコピー
+			SimpleAnimation<T> param = animationParam_;
+			// Json経由でコピー
+			Json data{};
+			param.ToJson(data);
+			cloned->animationParam_.FromJson(data);
+			return cloned;
+		}
 
-	template<typename T>
-	inline void UILerpValueSource<T>::ImGui(const char* label) {
+		void ImGui(const char* label) override {
 
-		const float itemWidth = 192.0f;
+			ImGui::PushID(label);
 
-		ImGui::PushID(label);
-		ImGui::PushItemWidth(itemWidth);
+			animationParam_.ImGuiParam(label, true);
+			animationParam_.ImGuiTimer(label);
+			animationParam_.ImGuiLoop(label);
 
-		ImGuiHelper::DragValue<T>("baseValue", baseValue_);
+			ImGui::PopID();
+		}
 
-		ImGui::Spacing();
-		ImGui::Separator();
+		void FromJson(const Json& data) override {
 
-		animation_.ImGuiParam(label, true);
-		animation_.ImGuiTimer(label);
-		animation_.ImGuiLoop(label);
+			animationParam_.FromJson(data);
+		}
 
-		ImGui::PopItemWidth();
-		ImGui::PopID();
-	}
+		void ToJson(Json& data) override {
 
-	template<typename T>
-	inline void UILerpValueSource<T>::FromJson(const Json& data) {
+			animationParam_.ToJson(data);
+		}
 
-		animation_.FromJson(data);
-	}
+		//--------- accessor -----------------------------------------------------
 
-	template<typename T>
-	inline void UILerpValueSource<T>::ToJson(Json& data) {
+		UIValueSourceType GetType() const override { return UIValueSourceType::Lerp; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-		animation_.ToJson(data);
-	}
+		//--------- variables ----------------------------------------------------
+
+		SimpleAnimation<T> animationParam_{};
+	};
 } // SakuEngine

@@ -7,102 +7,51 @@ using namespace SakuEngine;
 //============================================================================
 #include <Engine/Editor/UI/Components/Selectable/UISelectableComponent.h>
 #include <Engine/Editor/UI/Components/Animation/UIStateAnimationComponent.h>
-#include <Engine/Editor/UI/Animation/Tracks/Factory/UIAnimationTrackFactory.h>
 #include <Engine/Editor/UI/Animation/UIAnimationLibrary.h>
 
 //============================================================================
 //	UIStateAnimationSystem classMethods
 //============================================================================
 
-namespace {
-
-	// 全トラックが終了しているか
-	bool AllFinished(const UIStateAnimationComponent& animation) {
-
-		for (const auto& track : animation.tracks) {
-			if (track && !track->IsFinished()) {
-
-				return false;
-			}
-		}
-		return true;
-	}
-}
-
 void UIStateAnimationSystem::Update(UISystemContext* context, UIAsset& asset) {
 
 	// 全要素を走査して、状態に応じたアニメーションを再生する
-	asset.elements.ForEachAlive([&](UIElement::Handle handle, [[maybe_unused]] const UIElement& element) {
+	asset.elements.ForEachAlive([&](UIElement::Handle handle, const UIElement&) {
 
-		// コンポーネントを取得
-		auto* selectable = static_cast<UISelectableComponent*>(asset.FindComponent(handle, UIComponentType::Selectable));
-		auto* animation = static_cast<UIStateAnimationComponent*>(asset.FindComponent(handle, UIComponentType::StateAnimation));
+		// 必要なコンポーネントを取得
+		auto* selectable = (UISelectableComponent*)asset.FindComponent(handle, UIComponentType::Selectable);
+		auto* animation = (UIStateAnimationComponent*)asset.FindComponent(handle, UIComponentType::StateAnimation);
 		if (!selectable || !animation) {
 			return;
 		}
 
-		// 状態に対応するアニメーションクリップUIDを取得
-		uint32_t animationClipUid = animation->stateToClipUid[selectable->state];
+		// 状態に応じたアニメーションクリップUIDを取得
+		uint32_t clipUid = 0;
+		if (auto it = animation->stateToClipUid.find(selectable->state); it != animation->stateToClipUid.end()) {
+			clipUid = it->second;
+		}
 
-		// 状態が変化したとき、再生クリップが変化したときにアニメーションを開始
-		if (animation->lastState != selectable->state || animation->playingClipUid != animationClipUid) {
+		// 状態が切り替わったかどうか
+		const bool stateChanged = (animation->lastState != selectable->state);
+		const bool clipChanged = (animation->playingClipUid != clipUid);
+		if (stateChanged || clipChanged) {
 
-			// クリア、リセット
-			animation->tracks.clear();
-			animation->isPlaying = false;
-
-			// UIDと状態を更新
-			animation->playingClipUid = animationClipUid;
+			// 状態が切り替わった場合はアニメーションを再生し直す
 			animation->lastState = selectable->state;
+			animation->playingClipUid = clipUid;
+			if (clipUid != 0) {
+				if (auto* clip = context->animationLibrary->GetClip(clipUid)) {
 
-			// クリップUIDが有効ならアニメーションを開始
-			if (animationClipUid != 0) {
-				if (auto* clip = context->animationLibrary->GetClip(animationClipUid)) {
-
-					// トラックを生成
-					animation->tracks.reserve(clip->tracks.size());
-					for (const auto& track : clip->tracks) {
-						if (auto newTrack = UIAnimationTrackFactory::Create(track)) {
-
-							animation->tracks.emplace_back(std::move(newTrack));
-						}
-					}
-
-					// トラックを開始
-					for (auto& track : animation->tracks) {
-
-						track->Start(asset, handle, clip->canvasType);
-					}
-					// 再生中フラグを立てる
-					animation->isPlaying = true;
+					animation->player.Play(*clip, asset, handle);
 				}
 			}
 		}
 
-		// 再生中ならトラックを更新
-		if (animation->isPlaying) {
-			if (auto* clip = context->animationLibrary->GetClip(animation->playingClipUid)) {
-				for (auto& track : animation->tracks) {
-					if (track) {
+		// アニメーションの更新
+		animation->player.Update(asset, handle);
 
-						track->Update(asset, handle, clip->canvasType);
-					}
-				}
-				// 全トラックが終了しているか
-				if (AllFinished(*animation)) {
-
-					// 再生終了
-					animation->isPlaying = false;
-				}
-			} else {
-
-				// クリップが見つからない場合も再生終了にしておく
-				animation->isPlaying = false;
-			}
-		}
-
-		// アニメーションが終了している場合、状態を遷移させる
-		if (!animation->isPlaying) {
+		// 再生が終了していたら状態を更新
+		if (!animation->player.IsPlaying()) {
 			switch (selectable->state) {
 			case UIElementState::ShowBegin: {
 
@@ -112,7 +61,6 @@ void UIStateAnimationSystem::Update(UISystemContext* context, UIAsset& asset) {
 			case UIElementState::ShowEnd: {
 
 				selectable->state = UIElementState::Hidden;
-				break;
 			}
 			}
 		}

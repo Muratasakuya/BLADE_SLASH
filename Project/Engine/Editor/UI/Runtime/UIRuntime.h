@@ -28,6 +28,8 @@ namespace SakuEngine {
 
 		// UIアセットを更新
 		void Update(UISystemContext* context, UIAsset& asset);
+		// プレビュー
+		void UpdatePreview(UISystemContext* context, UIAsset& asset);
 	private:
 		//========================================================================
 		//	private Methods
@@ -37,5 +39,7 @@ namespace SakuEngine {
 
 		// アセット更新を行うシステム群
 		std::vector<std::unique_ptr<IUISystem>> systems_;
+		// プレビュー用更新システム群
+		std::vector<std::unique_ptr<IUISystem>> previewSystems_;
 	};
 } // SakuEngine

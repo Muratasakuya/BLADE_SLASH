@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Animation/Tracks/Interface/IUIAnimationTrackRuntime.h>
 #include <Engine/Editor/UI/Components/Selectable/UISelectableComponent.h>
+#include <Engine/Editor/UI/Animation/UIAnimationPlayer.h>
 #include <Engine/Utility/Animation/ValueSource/LerpValueSource.h>
 
 namespace SakuEngine {
@@ -37,13 +37,11 @@ namespace SakuEngine {
 
 		// UIの最後の状態
 		UIElementState lastState = UIElementState::Hidden;
-		// 再生中フラグ
-		bool isPlaying = false;
+
+		// アニメーションプレイヤー
+		UIAnimationPlayer player;
 		// 再生中のアニメーションクリップUID
 		uint32_t playingClipUid = 0;
-
-		// アニメーションを処理するトラックリスト
-		std::vector<std::unique_ptr<IUIAnimationTrackRuntime>> tracks;
 
 		//--------- accessor -----------------------------------------------------
 

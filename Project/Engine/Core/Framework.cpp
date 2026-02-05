@@ -131,7 +131,15 @@ Framework::Framework() {
 	//------------------------------------------------------------------------
 	// scene管理クラス初期化
 
-	sceneManager_ = std::make_unique<SceneManager>(Scene::Debug, asset_.get(), sceneView_.get());
+	// 最初のシーン
+	Scene initScene = Scene::Debug;
+#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+	initScene= Scene::Debug;
+#else
+	initScene = Scene::Title;
+#endif
+
+	sceneManager_ = std::make_unique<SceneManager>(initScene, asset_.get(), sceneView_.get());
 
 	//------------------------------------------------------------------------
 	// module初期化

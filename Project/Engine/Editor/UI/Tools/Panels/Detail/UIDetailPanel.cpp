@@ -127,8 +127,7 @@ namespace {
 				// ホバーでフル情報出す
 				if (ImGui::IsItemHovered() && clip) {
 
-					ImGui::SetTooltip("uid:%u\ncanvas:%s\nname:%s", clip->uid,
-						EnumAdapter<CanvasType>::ToString(clip->canvasType), clip->name.c_str());
+					ImGui::SetTooltip("uid:%u\ncanvas:%s\nname:%s", clip->uid, EnumAdapter<CanvasType>::ToString(clip->canvasType), clip->name.c_str());
 				}
 
 				// ドラッグ＆ドロップ受け入れ

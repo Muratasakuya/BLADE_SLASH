@@ -195,6 +195,11 @@ void UIAnimationPanel::ImGui(UIToolContext& context) {
 
 			ImGui::Spacing();
 			ImGui::Separator();
+
+			// 選択中のクリップ編集
+
+			// 全てのアニメーショントラックを表示し、編集
+
 		}
 		ImGui::EndChild(); // right
 		ImGui::EndTable();

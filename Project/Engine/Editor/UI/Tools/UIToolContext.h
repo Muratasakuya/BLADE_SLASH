@@ -36,7 +36,7 @@ namespace SakuEngine {
 		// UIパレットレジストリ
 		UIPaletteRegistry* paletteRegistry = nullptr;
 
-		// 選択中のUIアセットハンドル
+		// 選択中のUIアセット、要素
 		UIAssetHandle selectedAsset{};
 		UIElement::Handle selectedElement{};
 

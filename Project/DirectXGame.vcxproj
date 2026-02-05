@@ -212,8 +212,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.cpp">
       <SubType />
@@ -245,143 +244,108 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Access\UIAnimationAccess.cpp">
+    <ClCompile Include="Engine\Editor\UI\Animation\Track\Access\UIAnimationAccess.cpp">
+      <SubType />
+    </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Animation\Track\Asset\UIAnimationTrackAsset.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIAnimationValueSourceFactory.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Animation\Tracks\UIPropertyTrackRuntime.cpp">
+    <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationPlayer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationClip.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationLibrary.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAsset.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\AssetData\UIAssetLibrary.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationTrackFactory.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Animation\UIStateAnimationComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\InputNavigation\Devices\UIGamepadNavigationDevice.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\InputNavigation\Devices\UIKeyboardNavigationDevice.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\InputNavigation\UIInputNavigationComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Material\UISpriteMaterialComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Material\UITextMaterialComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Selectable\UISelectableComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Sprite\UISpriteComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Text\UITextComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Transform\UIParentRectTransform.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Transform\UISpriteTransformComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Components\Transform\UITextTransformComponent.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\Animation\UIStateAnimationSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\InputNavigation\UIInputNavigationSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\Interface\IUISystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\ObjectSync\UISpriteSyncSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\ObjectSync\UITextSyncSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\ParentRect\UIUpdateParentRectTransformSystem.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Hierarchy\UIHierarchyPanel.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Palette\UIPalettePanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\VisualDesigner\UIVisualDesignerPanel.cpp" />
     <ClCompile Include="Engine\Editor\UI\UIEditor.cpp">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Input\InputStructures.cpp">
       <SubType />
@@ -1269,8 +1233,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\PostProcess\Core\SceneColorGradingPass.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Core\Graphics\Renderer\2D\CanvasRenderer.h">
       <SubType />
@@ -1311,177 +1274,145 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\Effect\User\Helper\SlashEffectHelper.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Access\UIAnimationAccess.h">
+    <ClInclude Include="Engine\Editor\UI\Animation\Track\Access\UIAnimationAccess.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\Track\Asset\UIAnimationTrackAsset.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Factory\UIAnimationTrackFactory.h">
+    <ClInclude Include="Engine\Editor\UI\Animation\Track\UIPropertyTrackRuntime.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIAnimationValueSourceFactory.h">
+    <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationPlayer.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Animation\Tracks\Interface\IUIAnimationTrackRuntime.h">
+    <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationTarget.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Animation\Tracks\UIPropertyTrackRuntime.h">
-      <SubType>
-      </SubType>
+    <ClInclude Include="Engine\Editor\UI\Animation\Track\Interface\IUIAnimationTrackRuntime.h">
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationClip.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationLibrary.h">
+      <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Interface\IUIValueSource.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\UILerpValueSource.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\AssetData\UIAsset.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\AssetData\UIAssetLibrary.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Animation\UIStateAnimationComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\InputNavigation\Devices\UIGamepadNavigationDevice.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\InputNavigation\Devices\UIKeyboardNavigationDevice.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\InputNavigation\Devices\UINavigationAction.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\InputNavigation\UIInputNavigationComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Interface\IUIComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Material\UISpriteMaterialComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Material\UITextMaterialComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Selectable\UISelectableComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Sprite\UISpriteComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Text\UITextComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Transform\UIParentRectTransform.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Transform\UISpriteTransformComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Components\Transform\UITextTransformComponent.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\Animation\UIStateAnimationSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\InputNavigation\UIInputNavigationSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\Interface\IUISystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\ObjectSync\UISpriteSyncSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\ObjectSync\UITextSyncSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\ParentRect\UIUpdateParentRectTransformSystem.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\UISystemContext.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Interface\IUIToolPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Registry\UIPaletteRegistry.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Hierarchy\UIHierarchyPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Palette\UIPalettePanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\VisualDesigner\UIVisualDesignerPanel.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\UIToolContext.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\UIEditor.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Object\Base\GameTextObject.h">
       <SubType />
@@ -1514,8 +1445,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Utility\Algorithm\HandlePool.h">
-      <SubType>
-      </SubType>
+      <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Utility\Animation\LerpValue.h">
       <SubType />

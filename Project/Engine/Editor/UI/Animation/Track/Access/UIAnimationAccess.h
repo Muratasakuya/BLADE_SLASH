@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Animation/UIAnimationTarget.h>
 #include <Engine/Editor/UI/AssetData/UIAsset.h>
-#include <Engine/Object/Data/Canvas/CanvasCommon.h>
 #include <Engine/MathLib/MathUtils.h>
 
 // c++
@@ -27,12 +27,10 @@ namespace SakuEngine {
 		bool Valid() const { return getter && setter; }
 	};
 
-	// 座標
-	UIPropertyAccess<Vector2> BuildTranslationAccess(UIAsset& asset, const UIElement::Handle& handle, CanvasType canvasType);
-	// 回転
-	UIPropertyAccess<float> BuildRotationAccess(UIAsset& asset, const UIElement::Handle& handle, CanvasType canvasType);
-	// スケール
-	UIPropertyAccess<Vector2> BuildScaleAccess(UIAsset& asset, const UIElement::Handle& handle, CanvasType canvasType);
-	// 色
-	UIPropertyAccess<Color> BuildColorAccess(UIAsset& asset, const UIElement::Handle& handle, CanvasType canvasType);
+	// Vector2プロパティアクセスの構築
+	UIPropertyAccess<Vector2> BuildVec2Access(UIAsset& asset, const UIElement::Handle& handle, UIAnimationTargetType target, UIAnimationProperty property);
+	// floatプロパティアクセスの構築
+	UIPropertyAccess<float> BuildFloatAccess(UIAsset& asset, const UIElement::Handle& handle, UIAnimationTargetType target, UIAnimationProperty property);
+	// Colorプロパティアクセスの構築
+	UIPropertyAccess<Color> BuildColorAccess(UIAsset& asset, const UIElement::Handle& handle, UIAnimationTargetType target, UIAnimationProperty property);
 } // SakuEngine

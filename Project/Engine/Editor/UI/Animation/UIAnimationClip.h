@@ -3,8 +3,8 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Animation/Track/Asset/UIAnimationTrackAsset.h>
 #include <Engine/Object/Data/Canvas/CanvasCommon.h>
-#include <Engine/Utility/Animation/ValueSource/AnimationChannel.h>
 
 // c++
 #include <cstdint>
@@ -18,38 +18,6 @@ namespace SakuEngine {
 	//	UIアニメーションクリップアセット、共有データ
 	//============================================================================
 
-	// アニメーションさせる値の名前
-	enum class UIAnimationDataType :
-		uint32_t {
-
-		Translation,
-		Rotation,
-		Scale,
-		Color,
-	};
-	// アニメーション方法
-	enum class UIAnimationType :
-		uint32_t {
-
-		Lerp,
-	};
-
-	// アニメーショントラック定義
-	struct UIAnimationTrackDefinition {
-
-		// 処理の種類、適用方法
-		UIAnimationDataType type = UIAnimationDataType::Translation;
-		AnimationApplyMode applyMode = AnimationApplyMode::Absolute;
-
-		// 補間方法
-		UIAnimationType valueSourceType = UIAnimationType::Lerp;
-		Json valueSource;
-
-		// json
-		void FromJson(const Json& data);
-		void ToJson(Json& data);
-	};
-
 	// アニメーションクリップ
 	struct UIAnimationClip {
 	
@@ -59,14 +27,12 @@ namespace SakuEngine {
 		// 要素の名前
 		uint32_t uid = 0;
 		std::string name;
-		// 補間対象の描画キャンバス
+
+		// 描画キャンバス
 		CanvasType canvasType = CanvasType::Sprite;
 
 		// トラック定義リスト
-		std::vector<UIAnimationTrackDefinition> tracks;
-
-		// 対象のデータタイプを所持しているか
-		bool HasType(UIAnimationDataType type) const;
+		std::vector<UIAnimationTrackAsset> tracks;
 
 		// json
 		void FromJson(const Json& data);
