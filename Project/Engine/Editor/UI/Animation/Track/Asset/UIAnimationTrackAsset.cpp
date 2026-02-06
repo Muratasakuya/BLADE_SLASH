@@ -5,14 +5,14 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Animation/ValueSource/UILerpValueSource.h>
+#include <Engine/Editor/UI/Animation/ValueSource/Factory/UIValueSourceFactory.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================
 //	UIAnimationTrackAsset classMethods
 //============================================================================
 
-void UIAnimationTrackAsset::EnsureValueSourceAllocated() {
+void UIAnimationTrackAsset::EnsureValueSourceAllocated(bool forceRecreate) {
 
 	// プロパティに応じて値ソースを確保
 	switch (property) {
@@ -23,9 +23,9 @@ void UIAnimationTrackAsset::EnsureValueSourceAllocated() {
 	case UIAnimationProperty::Scale:
 
 		// Vector2値ソースを確保
-		if (!valueVec2) {
+		if (forceRecreate || !valueVec2) {
 
-			valueVec2 = std::make_unique<UILerpValueSourceAsset<Vector2>>();
+			valueVec2 = UIValueSourceFactory::Create<Vector2>(valueSourceType);
 		}
 		// 他の値ソースを解放
 		valueFloat.reset();
@@ -37,9 +37,9 @@ void UIAnimationTrackAsset::EnsureValueSourceAllocated() {
 	case UIAnimationProperty::Rotation:
 
 		// float値ソースを確保
-		if (!valueFloat) {
+		if (forceRecreate || !valueFloat) {
 
-			valueFloat = std::make_unique<UILerpValueSourceAsset<float>>();
+			valueFloat = UIValueSourceFactory::Create<float>(valueSourceType);
 		}
 		// 他の値ソースを解放
 		valueVec2.reset();
@@ -51,9 +51,9 @@ void UIAnimationTrackAsset::EnsureValueSourceAllocated() {
 	case UIAnimationProperty::Color:
 
 		// Color値ソースを確保
-		if (!valueColor) {
+		if (forceRecreate || !valueColor) {
 
-			valueColor = std::make_unique<UILerpValueSourceAsset<Color>>();
+			valueColor = UIValueSourceFactory::Create<Color>(valueSourceType);
 		}
 		// 他の値ソースを解放
 		valueVec2.reset();
@@ -68,11 +68,20 @@ void UIAnimationTrackAsset::ImGui(const char* label) {
 
 	EnumAdapter<UIAnimationTargetType>::Combo("target", &target);
 	EnumAdapter<AnimationApplyMode>::Combo("applyMode", &applyMode);
-
+	// プロパティの編集
 	if (EnumAdapter<UIAnimationProperty>::Combo("property", &property)) {
+
 		// プロパティ変更時に値ソースを確保
-		EnsureValueSourceAllocated();
+		EnsureValueSourceAllocated(true);
 	}
+	// 値ソースタイプの編集
+	if (EnumAdapter<UIValueSourceType>::Combo("valueSourceType", &valueSourceType)) {
+
+		// 値ソースタイプ変更時に値ソースを確保
+		EnsureValueSourceAllocated(true);
+	}
+
+	ImGui::Separator();
 
 	// 値ソースの編集
 	switch (property) {
@@ -104,9 +113,10 @@ void UIAnimationTrackAsset::FromJson(const Json& data) {
 	target = EnumAdapter<UIAnimationTargetType>::FromString(data.value("target", "ParentRectTransform")).value();
 	property = EnumAdapter<UIAnimationProperty>::FromString(data.value("property", "Translation")).value();
 	applyMode = EnumAdapter<AnimationApplyMode>::FromString(data.value("applyMode", "Absolute")).value();
+	valueSourceType = EnumAdapter<UIValueSourceType>::FromString(data.value("valueSourceType", "Lerp")).value();
 
 	// プロパティに応じて値ソースを確保
-	EnsureValueSourceAllocated();
+	EnsureValueSourceAllocated(true);
 
 	// 値ソースの読み込み
 	switch (property) {
@@ -131,6 +141,7 @@ void UIAnimationTrackAsset::ToJson(Json& data) {
 	data["target"] = EnumAdapter<UIAnimationTargetType>::ToString(target);
 	data["property"] = EnumAdapter<UIAnimationProperty>::ToString(property);
 	data["applyMode"] = EnumAdapter<AnimationApplyMode>::ToString(applyMode);
+	data["valueSourceType"] = EnumAdapter<UIValueSourceType>::ToString(valueSourceType);
 
 	// 値ソースの書き出し
 	switch (property) {

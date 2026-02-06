@@ -23,8 +23,9 @@ UIAnimationHandle UIAnimationLibrary::Create(CanvasType canvasType, const std::s
 	entry.clip.tracks.clear();
 
 	// エントリを追加
+	uint32_t uid = entry.clip.uid;
 	UIAnimationHandle handle = clips_.Emplace(std::move(entry));
-	uidToHandle_[entry.clip.uid] = handle;
+	uidToHandle_[uid] = handle;
 	return handle;
 }
 
@@ -116,8 +117,9 @@ void UIAnimationLibrary::LoadAnimation(const std::string& filePath) {
 	}
 
 	// エントリを追加
+	uint32_t uid = entry.clip.uid;
 	UIAnimationHandle handle = clips_.Emplace(std::move(entry));
-	uidToHandle_[entry.clip.uid] = handle;
+	uidToHandle_[uid] = handle;
 }
 
 void UIAnimationLibrary::SaveAnimation(const UIAnimationHandle handle, const std::string& filePath) {

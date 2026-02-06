@@ -88,13 +88,37 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 
 void UIEditor::Update() {
 
+	// コンテキスト更新
+	UpdateContext();
+
 	// 全てのアセットを更新
 	assetLibrary_->ForEachAsset([this]([[maybe_unused]] UIAssetHandle handle, UIAssetEntry& entry) {
-		runtime_->Update(systemContext_.get(), entry.asset);
+
+		// 選択中のアセットかどうかを判定
+		bool isSelected = UIAssetHandle::Equal(handle, toolContext_->selectedAsset);
+		// アセットの更新
+		// プレビュー中かつ選択中のアセットの場合はプレビュー更新を行う
+		if (isSelected && systemContext_->preview.enabled && systemContext_->preview.clipUid != 0) {
+
+			runtime_->UpdatePreview(systemContext_.get(), entry.asset);
+		}
+		// それ以外は通常更新を行う
+		else {
+
+			runtime_->Update(systemContext_.get(), entry.asset);
+		}
 		});
+}
 
-	// プレビュー用アセットを更新
+void UIEditor::UpdateContext() {
 
+	// プレビュー情報をシステムコンテキストに反映
+	// ツールパネルで変更する
+	systemContext_->preview.enabled = toolContext_->previewEnabled;
+	systemContext_->preview.clipUid = toolContext_->previewClipUid;
+	systemContext_->preview.element = toolContext_->selectedElement;
+	systemContext_->preview.requestStart = toolContext_->previewStart;
+	toolContext_->previewStart = false;
 }
 
 void UIEditor::ImGui() {

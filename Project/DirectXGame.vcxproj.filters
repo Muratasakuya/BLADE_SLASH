@@ -3563,6 +3563,7 @@
     </None>
     <ClCompile Include="Engine\Editor\UI\Animation\Track\Asset\UIAnimationTrackAsset.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationPlayer.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Systems\Animation\UIAnimationPreviewSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Interface\IUIValueSource.h" />
@@ -3570,5 +3571,8 @@
     <ClInclude Include="Engine\Editor\UI\Animation\Track\Asset\UIAnimationTrackAsset.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\Track\UIPropertyTrackRuntime.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationPlayer.h" />
+    <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationPreviewContext.h" />
+    <ClInclude Include="Engine\Editor\UI\Systems\Animation\UIAnimationPreviewSystem.h" />
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIValueSourceFactory.h" />
   </ItemGroup>
 </Project>

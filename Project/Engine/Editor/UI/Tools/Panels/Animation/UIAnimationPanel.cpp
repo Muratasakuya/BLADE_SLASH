@@ -28,7 +28,7 @@ void UIAnimationPanel::ImGui(UIToolContext& context) {
 
 	//============================================================================
 	//	左右分割（左：作成+一覧 / 右：詳細）
-	//============================================================================w
+	//============================================================================
 
 	ImGuiTableFlags splitFlags = ImGuiTableFlags_Resizable |
 		ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_SizingFixedFit;
@@ -196,10 +196,90 @@ void UIAnimationPanel::ImGui(UIToolContext& context) {
 			ImGui::Spacing();
 			ImGui::Separator();
 
+			// プレビュー情報を更新
+			if (selectedUid_ != 0 && context.previewEnabled) {
+
+				context.previewClipUid = selectedUid_;
+			}
+
 			// 選択中のクリップ編集
+			{
+				ImGui::Checkbox("PreviewEnable", &context.previewEnabled);
+				ImGui::SameLine();
 
-			// 全てのアニメーショントラックを表示し、編集
+				// 再生ボタン
+				if (ImGui::Button("Start Preview", ImVec2(buttonWidth, itemSize.y))) {
 
+					context.previewStart = true;
+				}
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				// 全てのトラック表示
+				if (ImGui::CollapsingHeader("Tracks", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+					// 追加ボタン
+					if (ImGui::Button("+ Add Track", ImVec2(buttonWidth, itemSize.y))) {
+
+						clip->tracks.emplace_back(UIAnimationTrackAsset{});
+						clip->tracks.back().EnsureValueSourceAllocated(true);
+					}
+					ImGui::SameLine();
+
+					// 保存ボタン
+					if (ImGui::Button("Save Clip", ImVec2(buttonWidth, itemSize.y))) {
+
+						UIAnimationHandle handle = lib->GetHandle(clip->uid);
+						if (handle.IsValid()) {
+
+							UIAnimationEntry* entry = lib->GetEntry(handle);
+							std::string filePath;
+							if (entry && !entry->filePath.empty()) {
+
+								filePath = entry->filePath;
+							} else {
+
+								filePath = UIAnimationClip::kBaseJsonPath + clip->name + ".json";
+							}
+							lib->SaveAnimation(handle, filePath);
+						}
+					}
+
+					ImGui::Separator();
+
+					// トラック一覧表示
+					for (size_t i = 0; i < clip->tracks.size();) {
+
+						ImGui::PushID(static_cast<int32_t>(i));
+
+						std::string header = "Track " + std::to_string(i);
+						bool opened = ImGui::CollapsingHeader(header.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+						bool removeThis = false;
+						if (opened) {
+
+							// track.ImGui 呼び出し
+							clip->tracks[i].ImGui("track");
+
+							ImGui::Separator();
+
+							// 削除ボタン
+							if (ImGui::Button("Remove Track", itemSize)) {
+
+								removeThis = true;
+							}
+						}
+
+						ImGui::PopID();
+
+						if (removeThis) {
+
+							clip->tracks.erase(clip->tracks.begin() + i);
+							continue; 
+						}
+						++i;
+					}
+				}
+			}
 		}
 		ImGui::EndChild(); // right
 		ImGui::EndTable();

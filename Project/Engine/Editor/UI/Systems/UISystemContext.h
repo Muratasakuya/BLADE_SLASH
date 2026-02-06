@@ -3,6 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Editor/UI/Animation/UIAnimationPreviewContext.h>
 
 namespace SakuEngine {
 
@@ -26,5 +27,7 @@ namespace SakuEngine {
 
 		// UIアニメーションライブラリ
 		UIAnimationLibrary* animationLibrary = nullptr;
+		// UIアニメーションプレビューコンテキスト
+		UIAnimationPreviewContext preview;
 	};
 } // SakuEngine

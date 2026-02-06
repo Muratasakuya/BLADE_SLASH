@@ -62,19 +62,19 @@ UIPropertyAccess<Vector2> SakuEngine::BuildVec2Access(UIAsset& asset, const UIEl
 	case UIAnimationTargetType::ParentRectTransform: {
 
 		auto* transform = static_cast<UIParentRectTransform*>(asset.FindComponent(handle, UIComponentType::ParentRectTransform));
-		BuildBaseTransformAccess<Vector2>(transform->transform, property);
+		access = BuildBaseTransformAccess<Vector2>(transform->transform, property);
 		break;
 	}
 	case UIAnimationTargetType::SpriteTransform: {
 
 		auto* transform = static_cast<UISpriteTransformComponent*>(asset.FindComponent(handle, UIComponentType::SpriteTransform));
-		BuildBaseTransformAccess<Vector2>(*transform->transform, property);
+		access = BuildBaseTransformAccess<Vector2>(*transform->transform, property);
 		break;
 	}
 	case UIAnimationTargetType::TextTransform: {
 
 		auto* transform = static_cast<UITextTransformComponent*>(asset.FindComponent(handle, UIComponentType::TextTransform));
-		BuildBaseTransformAccess<Vector2>(*transform->transform, property);
+		access = BuildBaseTransformAccess<Vector2>(*transform->transform, property);
 		break;
 	}
 	}
@@ -89,19 +89,19 @@ UIPropertyAccess<float> SakuEngine::BuildFloatAccess(UIAsset& asset, const UIEle
 	case UIAnimationTargetType::ParentRectTransform: {
 
 		auto* transform = static_cast<UIParentRectTransform*>(asset.FindComponent(handle, UIComponentType::ParentRectTransform));
-		BuildBaseTransformAccess<float>(transform->transform, property);
+		access = BuildBaseTransformAccess<float>(transform->transform, property);
 		break;
 	}
 	case UIAnimationTargetType::SpriteTransform: {
 
 		auto* transform = static_cast<UISpriteTransformComponent*>(asset.FindComponent(handle, UIComponentType::SpriteTransform));
-		BuildBaseTransformAccess<float>(*transform->transform, property);
+		access = BuildBaseTransformAccess<float>(*transform->transform, property);
 		break;
 	}
 	case UIAnimationTargetType::TextTransform: {
 
 		auto* transform = static_cast<UITextTransformComponent*>(asset.FindComponent(handle, UIComponentType::TextTransform));
-		BuildBaseTransformAccess<float>(*transform->transform, property);
+		access = BuildBaseTransformAccess<float>(*transform->transform, property);
 		break;
 	}
 	}

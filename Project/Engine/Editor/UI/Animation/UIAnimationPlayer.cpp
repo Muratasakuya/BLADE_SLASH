@@ -66,8 +66,10 @@ std::unique_ptr<IUIAnimationTrackRuntime> UIAnimationPlayer::CreateRuntimeFromAs
 			return nullptr;
 		}
 		// プロパティアクセス構築関数を生成
-		auto build = [=, &track](UIAsset& asset, const UIElement::Handle& handle) {
-			return BuildVec2Access(asset, handle, track.target, track.property);
+		UIAnimationTargetType targetType = track.target;
+		UIAnimationProperty propertyType = track.property;
+		auto build = [targetType, propertyType](UIAsset& asset, const UIElement::Handle& handle) {
+			return BuildVec2Access(asset, handle, targetType, propertyType);
 			};
 		return std::make_unique<UIPropertyTrackRuntime<Vector2>>(track.applyMode, std::move(runtime), build);
 	}
@@ -79,8 +81,10 @@ std::unique_ptr<IUIAnimationTrackRuntime> UIAnimationPlayer::CreateRuntimeFromAs
 			return nullptr;
 		}
 		// プロパティアクセス構築関数を生成
-		auto build = [=, &track](UIAsset& asset, const UIElement::Handle& handle) {
-			return BuildFloatAccess(asset, handle, track.target, track.property);
+		UIAnimationTargetType targetType = track.target;
+		UIAnimationProperty propertyType = track.property;
+		auto build = [targetType, propertyType](UIAsset& asset, const UIElement::Handle& handle) {
+			return BuildFloatAccess(asset, handle, targetType, propertyType);
 			};
 		return std::make_unique<UIPropertyTrackRuntime<float>>(track.applyMode, std::move(runtime), build);
 	}
@@ -92,8 +96,10 @@ std::unique_ptr<IUIAnimationTrackRuntime> UIAnimationPlayer::CreateRuntimeFromAs
 			return nullptr;
 		}
 		// プロパティアクセス構築関数を生成
-		auto build = [=, &track](UIAsset& asset, const UIElement::Handle& handle) {
-			return BuildColorAccess(asset, handle, track.target, track.property);
+		UIAnimationTargetType targetType = track.target;
+		UIAnimationProperty propertyType = track.property;
+		auto build = [targetType, propertyType](UIAsset& asset, const UIElement::Handle& handle) {
+			return BuildColorAccess(asset, handle, targetType, propertyType);
 			};
 		return std::make_unique<UIPropertyTrackRuntime<Color>>(track.applyMode, std::move(runtime), build);
 	}

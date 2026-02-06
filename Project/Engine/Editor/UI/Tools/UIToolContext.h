@@ -40,6 +40,14 @@ namespace SakuEngine {
 		UIAssetHandle selectedAsset{};
 		UIElement::Handle selectedElement{};
 
+		// プレビュー関連
+		// プレビュー有効フラグ
+		bool previewEnabled = true;
+		// プレビュー中のアニメーションクリップUID
+		uint32_t previewClipUid = 0;
+		// プレビュースタート要求フラグ
+		bool previewStart = false;
+
 		//--------- accessor -----------------------------------------------------
 
 		// 選択中のUIアセットを返す

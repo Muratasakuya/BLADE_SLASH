@@ -90,22 +90,22 @@ namespace SakuEngine {
 
 		struct Move {
 
-			T start; // 開始値
-			T end;   // 終了値
+			T start{}; // 開始値
+			T end{};   // 終了値
 		};
 
 		//--------- variables ----------------------------------------------------
 
-		SimpleAnimationType type_;
+		SimpleAnimationType type_ = SimpleAnimationType::None;
 		bool isRunning_ = false;
 		bool isFinished_ = false;
 		bool useReturnTimer_ = false;
 
-		StateTimer timer_;
-		StateTimer returnTimer_;
+		StateTimer timer_{};
+		StateTimer returnTimer_{};
 		float rawT_ = 0.0f;
-		AnimationLoop loop_;
-		Move move_;
+		AnimationLoop loop_{};
+		Move move_{};
 
 		// Drag値
 		int dragValueInt = 1;

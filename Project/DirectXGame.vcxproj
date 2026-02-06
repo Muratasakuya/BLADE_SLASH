@@ -306,6 +306,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\UI\Runtime\UIRuntime.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Systems\Animation\UIAnimationPreviewSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Systems\Animation\UIStateAnimationSystem.cpp">
       <SubType />
     </ClCompile>
@@ -1289,6 +1293,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationPreviewContext.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationTarget.h">
       <SubType>
       </SubType>
@@ -1301,6 +1309,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationLibrary.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIValueSourceFactory.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Interface\IUIValueSource.h">
       <SubType>
@@ -1359,6 +1371,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Runtime\UIRuntime.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Systems\Animation\UIAnimationPreviewSystem.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Systems\Animation\UIStateAnimationSystem.h">
       <SubType />

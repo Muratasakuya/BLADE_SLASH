@@ -22,6 +22,8 @@ namespace SakuEngine {
 		// 補間対象プロパティ
 		UIAnimationProperty property = UIAnimationProperty::Translation;
 
+		// 値ソースタイプ
+		UIValueSourceType valueSourceType = UIValueSourceType::Lerp;
 		// アニメーション適用モード
 		AnimationApplyMode applyMode = AnimationApplyMode::Absolute;
 
@@ -31,7 +33,7 @@ namespace SakuEngine {
 		std::unique_ptr<IUIValueSourceAsset<Color>> valueColor;
 
 		// プロパティ変更時に値ソースを確保
-		void EnsureValueSourceAllocated();
+		void EnsureValueSourceAllocated(bool forceRecreate = false);
 
 		// エディター
 		void ImGui(const char* label);

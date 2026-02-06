@@ -71,6 +71,9 @@ namespace SakuEngine {
 
 		//--------- functions ----------------------------------------------------
 
+		// コンテキスト更新
+		void UpdateContext();
+
 		UIEditor() :IGameEditor("UIEditor") {}
 		~UIEditor() = default;
 		UIEditor(const UIEditor&) = delete;
