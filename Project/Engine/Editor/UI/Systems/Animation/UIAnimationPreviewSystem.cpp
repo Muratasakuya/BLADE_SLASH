@@ -16,16 +16,16 @@ void UIAnimationPreviewSystem::Update(UISystemContext* context, UIAsset& asset) 
 	// プレビューが無効なら処理しない
 	if (!context->preview.enabled ||
 		context->preview.clipUid == 0 ||
-		!context->preview.element.IsValid()) {
+		!context->preview.previewElement.IsValid()) {
 		return;
 	}
 
-	// クリップまたは要素が変更された
+	// アニメーション再生リクエストがある場合
 	if (context->preview.requestStart) {
 
 		// 再生中情報更新
 		playingClipUid_ = context->preview.clipUid;
-		playingElement_ = context->preview.element;
+		playingElement_ = context->preview.previewElement;
 		context->preview.requestStart = false;
 
 		// クリップ取得と再生

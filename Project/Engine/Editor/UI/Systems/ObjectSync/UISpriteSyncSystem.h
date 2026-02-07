@@ -31,8 +31,10 @@ namespace SakuEngine {
 		//--------- functions ----------------------------------------------------
 
 		// UIオブジェクトの同期処理を親から子まで再帰的に行う
-		void UpdateRecursive(UIAsset& asset, const UIElement::Handle& node);
+		void UpdateRecursive(UISystemContext* context, UIAsset& asset, const UIElement::Handle& node,
+			bool canSuppress, bool parentSuppressed);
 		// スプライトコンポーネント用のオブジェクトを作成する
-		void EnsureSpriteObject(UIAsset& asset, const UIElement& element, const UIElement::Handle& node);
+		void EnsureSpriteObject(UIAsset& asset, const UIElement& element,
+			const UIElement::Handle& node, bool suppressed);
 	};
 } // SakuEngine

@@ -5,6 +5,7 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
+#include <Engine/Object/Core/ObjectManager.h>
 #include <Engine/Editor/UI/Components/Sprite/UISpriteComponent.h>
 #include <Engine/Editor/UI/Components/Text/UITextComponent.h>
 #include <Engine/Editor/UI/Components/Transform/UIParentRectTransform.h>
@@ -665,4 +666,56 @@ void UIAsset::ExportJsonElementPrefab(Json& data, const UIElement::Handle inputR
 	Json elementsJson = Json::array();
 	ExportElementRecursive(*this, inputRootHandle, handleToId, elementsJson);
 	data["elements"] = elementsJson;
+}
+
+void SakuEngine::DestroyObjectRecursive(UIAsset& asset, UIElement::Handle node) {
+
+	UIElement* element = asset.Get(node);
+	if (!element) {
+		return;
+	}
+
+	ObjectManager* objManager = ObjectManager::GetInstance();
+
+	// Sprite
+	if (auto* sprite = static_cast<UISpriteComponent*>(asset.FindComponent(node, UIComponentType::Sprite))) {
+		if (sprite->objectId != 0) {
+
+			objManager->Destroy(sprite->objectId);
+			sprite->objectId = 0;
+			sprite->sprite = nullptr;
+			if (auto* transform = static_cast<UISpriteTransformComponent*>(asset.FindComponent(node, UIComponentType::SpriteTransform))) {
+
+				transform->transform = nullptr;
+			}
+			if (auto* material = static_cast<UISpriteMaterialComponent*>(asset.FindComponent(node, UIComponentType::SpriteMaterial))) {
+
+				material->material = nullptr;
+			}
+		}
+	}
+
+	// Text
+	if (auto* text = static_cast<UITextComponent*>(asset.FindComponent(node, UIComponentType::Text))) {
+		if (text->objectId != 0) {
+
+			objManager->Destroy(text->objectId);
+			text->objectId = 0;
+			text->text = nullptr;
+			if (auto* transform = static_cast<UITextTransformComponent*>(asset.FindComponent(node, UIComponentType::TextTransform))) {
+
+				transform->transform = nullptr;
+			}
+			if (auto* material = static_cast<UITextMaterialComponent*>(asset.FindComponent(node, UIComponentType::TextMaterial))) {
+
+				material->material = nullptr;
+			}
+		}
+	}
+
+	// 子要素も再帰的に削除
+	for (auto child : element->children) {
+
+		DestroyObjectRecursive(asset, child);
+	}
 }
