@@ -20,16 +20,28 @@ void UIPalettePanel::ImGui(UIToolContext& context) {
 		return;
 	}
 
+	ImGui::SetWindowFontScale(0.8f);
+
 	// 追加先の親要素を表示
 	auto parent = context.selectedElement.IsValid() ?
 		context.selectedElement : asset->rootHandle;
 
 	ImGui::Text("Add to: %s", asset->Get(parent)->name.c_str());
+
+	// 親矩形トランスフォームを自動で追加するか
+	bool autoAddParent = context.paletteRegistry->IsAutoAddParentRectTransform();
+	if (ImGui::Checkbox("Auto Add Parent", &autoAddParent)) {
+
+		context.paletteRegistry->SetAutoAddParentRectTransform(autoAddParent);
+	}
+
 	ImGui::Separator();
 
 	// カテゴリごとに表示
 	DrawCategory(context, UIPaletteItemCategory::Panel);
 	DrawCategory(context, UIPaletteItemCategory::Leaf);
+
+	ImGui::SetWindowFontScale(1.0f);
 }
 
 void UIPalettePanel::DrawCategory(UIToolContext& context, UIPaletteItemCategory category) {

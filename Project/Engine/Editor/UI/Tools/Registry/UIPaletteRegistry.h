@@ -18,13 +18,14 @@ namespace SakuEngine {
 	// アイテムタイプ
 	enum class UIPaletteItemType {
 
-		SpriteButton, // 画像ボタン(Spriteを一つ生成する)
-		TextButton,   // テキストボタン(Textを一つ生成する)
-		Text,         // テキスト(Textを一つ生成する)
-		Sprite,       // 画像(Spriteを一つ生成する)
-		CheckBox,     // チェックボックス(背景用、✓用に二つSpriteを生成する)
-		ProgressBar,  // プログレスバー(背景用、全体用に二つSpriteを生成する)
-		Slider,       // スライダー(背景用、全体、持ち手用に三つSpriteを生成する)
+		ParentRectTransform, // 親矩形トランスフォーム
+		SpriteButton,        // 画像ボタン(Spriteを一つ生成する)
+		TextButton,          // テキストボタン(Textを一つ生成する)
+		Text,                // テキスト(Textを一つ生成する)
+		Sprite,              // 画像(Spriteを一つ生成する)
+		CheckBox,            // チェックボックス(背景用、✓用に二つSpriteを生成する)
+		ProgressBar,         // プログレスバー(背景用、全体用に二つSpriteを生成する)
+		Slider,              // スライダー(背景用、全体、持ち手用に三つSpriteを生成する)
 	};
 
 	// アイテムカテゴリ
@@ -65,6 +66,11 @@ namespace SakuEngine {
 
 		//--------- accessor -----------------------------------------------------
 
+		// 親矩形トランスフォームを自動で追加するか設定
+		void SetAutoAddParentRectTransform(bool value) { autoAddParentRectTransform_ = value; }
+		// 親矩形トランスフォームを自動で追加するか取得
+		bool IsAutoAddParentRectTransform() const { return autoAddParentRectTransform_; }
+
 		// タイプからアイテムを検索して返す、見つからなければnullptr
 		const UIPaletteItem* FindItem(UIPaletteItemType type) const;
 		// 登録されているアイテムリストを返す
@@ -79,6 +85,9 @@ namespace SakuEngine {
 		// アイテムリスト
 		std::vector<UIPaletteItem> items_;
 
+		// 親矩形トランスフォームを自動で追加するか
+		bool autoAddParentRectTransform_ = false;
+
 		//--------- functions ----------------------------------------------------
 
 		// アイテムの追加
@@ -86,10 +95,10 @@ namespace SakuEngine {
 		void AddSimpleItem(UIPaletteItemType type, UIPaletteItemCategory category, const std::string& iconName);
 
 		// コンポーネントの追加
-		void AddComponents(UIPaletteItemType type, const UIElement::Handle& ownerRootHandle, UIAsset& asset);
+		UIElement::Handle AddComponents(UIPaletteItemType type, const UIElement::Handle& ownerRootHandle, UIAsset& asset);
 		// スプライト
-		void AddSpriteComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset);
+		UIElement::Handle AddSpriteComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset);
 		// テキスト
-		void AddTextComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset);
+		UIElement::Handle AddTextComponent(const std::string& name, const UIElement::Handle& parentHandle, UIAsset& asset);
 	};
 } // SakuEngine
