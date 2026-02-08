@@ -66,6 +66,13 @@ void UISpriteSyncSystem::EnsureSpriteObject(UIAsset& asset, const UIElement& ele
 
 	// オブジェクトIDが0なら新規作成
 	if (sprite->objectId != 0) {
+
+		// 作成済みの場合は親の同期のみ行う
+		if (auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(
+			element.parentHandle, UIComponentType::ParentRectTransform))) {
+
+			transform->transform->parent = &parentComponent->transform;
+		}
 		return;
 	}
 

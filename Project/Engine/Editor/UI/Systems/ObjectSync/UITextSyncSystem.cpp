@@ -66,6 +66,13 @@ void UITextSyncSystem::EnsureTextObject(UIAsset& asset, const UIElement& element
 
 	// オブジェクトIDが0なら新規作成
 	if (text->objectId != 0) {
+
+		// 作成済みの場合は親の同期のみ行う
+		if (auto* parentComponent = static_cast<UIParentRectTransform*>(asset.FindComponent(
+			element.parentHandle, UIComponentType::ParentRectTransform))) {
+
+			transform->transform->parent = &parentComponent->transform;
+		}
 		return;
 	}
 
