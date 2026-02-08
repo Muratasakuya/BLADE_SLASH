@@ -120,6 +120,8 @@ void UIEditor::UpdateContext() {
 	systemContext_->preview.clipUid = toolContext_->previewClipUid;
 	systemContext_->preview.element = toolContext_->selectedElement;
 	systemContext_->preview.requestStart = toolContext_->previewStart;
+	systemContext_->preview.enablePreviewLoop = toolContext_->enablePreviewLoop;
+	systemContext_->preview.previewTimer.target_ = toolContext_->previewLoopTime;
 	toolContext_->previewStart = false;
 }
 

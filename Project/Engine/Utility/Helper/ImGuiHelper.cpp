@@ -63,7 +63,7 @@ namespace {
 		| static_cast<uint32_t>(Bit_Glitch) | static_cast<uint32_t>(Bit_CRTDisplay);
 }
 
-void SakuEngine::ImGuiHelper::ImageButtonWithLabel(const char* id,
+void ImGuiHelper::ImageButtonWithLabel(const char* id,
 	const std::string& label, ImTextureID textureId, const ImVec2& size) {
 
 	ImGui::PushID(id);
@@ -96,7 +96,7 @@ void SakuEngine::ImGuiHelper::ImageButtonWithLabel(const char* id,
 	ImGui::PopID();
 }
 
-const DragPayload* SakuEngine::ImGuiHelper::DragDropPayload(PendingType expectedType) {
+const DragPayload* ImGuiHelper::DragDropPayload(PendingType expectedType) {
 
 	if (!ImGui::BeginDragDropTarget()) {
 		return nullptr;
@@ -116,7 +116,7 @@ const DragPayload* SakuEngine::ImGuiHelper::DragDropPayload(PendingType expected
 	return nullptr;
 }
 
-std::string SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType expectedType) {
+std::string ImGuiHelper::DragDropPayloadString(PendingType expectedType) {
 
 	if (!ImGui::BeginDragDropTarget()) {
 		return "";
@@ -137,7 +137,7 @@ std::string SakuEngine::ImGuiHelper::DragDropPayloadString(PendingType expectedT
 	return "";
 }
 
-bool SakuEngine::ImGuiHelper::ComboFromStrings(const char* label, int* currentIndex,
+bool ImGuiHelper::ComboFromStrings(const char* label, int* currentIndex,
 	const std::vector<std::string>& items, int popupMaxHeightInItems) {
 
 	std::vector<const char*> itemNames;
@@ -158,7 +158,7 @@ bool SakuEngine::ImGuiHelper::ComboFromStrings(const char* label, int* currentIn
 	return changed || (before != *currentIndex);
 }
 
-bool SakuEngine::ImGuiHelper::ComboFromStrings(const char* label, std::string* ioSelected,
+bool ImGuiHelper::ComboFromStrings(const char* label, std::string* ioSelected,
 	const std::vector<std::string>& items, int popupMaxHeightInItems, const char* nonePreview) {
 
 	// プレビュー文字列
@@ -203,7 +203,7 @@ bool SakuEngine::ImGuiHelper::ComboFromStrings(const char* label, std::string* i
 	return changed;
 }
 
-bool SakuEngine::ImGuiHelper::SelectableListFromStrings(const char* label, int* currentIndex,
+bool ImGuiHelper::SelectableListFromStrings(const char* label, int* currentIndex,
 	const std::vector<std::string>& items, int heightInItems) {
 
 	if (label && *label) {
@@ -235,7 +235,7 @@ bool SakuEngine::ImGuiHelper::SelectableListFromStrings(const char* label, int* 
 	return changed;
 }
 
-bool SakuEngine::ImGuiHelper::BeginFramedChild(const char* id, const char* title,
+bool ImGuiHelper::BeginFramedChild(const char* id, const char* title,
 	const ImVec2& size, ImGuiWindowFlags flags) {
 
 	if (title && *title) {
@@ -245,12 +245,12 @@ bool SakuEngine::ImGuiHelper::BeginFramedChild(const char* id, const char* title
 	return ImGui::BeginChild(id, size, true, flags);
 }
 
-void SakuEngine::ImGuiHelper::EndFramedChild() {
+void ImGuiHelper::EndFramedChild() {
 
 	ImGui::EndChild();
 }
 
-bool SakuEngine::ImGuiHelper::SelectTagTarget(const char* label, uint32_t* ioSelectedId,
+bool ImGuiHelper::SelectTagTarget(const char* label, uint32_t* ioSelectedId,
 	std::string* outName, const char* groupFilter) {
 
 	ObjectManager* objectManager = ObjectManager::GetInstance();
@@ -275,7 +275,7 @@ bool SakuEngine::ImGuiHelper::SelectTagTarget(const char* label, uint32_t* ioSel
 			for (uint32_t id : ids) {
 
 				// 追従先を設定できるオブジェクトのみ
-				if (!objectManager->GetData<SakuEngine::Transform3D>(id)) {
+				if (!objectManager->GetData<Transform3D>(id)) {
 					continue;
 				}
 
@@ -298,7 +298,7 @@ bool SakuEngine::ImGuiHelper::SelectTagTarget(const char* label, uint32_t* ioSel
 	return changed;
 }
 
-bool SakuEngine::ImGuiHelper::SaveJsonModal(const char* popupTitle, const char* baseDirLabelEx,
+bool ImGuiHelper::SaveJsonModal(const char* popupTitle, const char* baseDirLabelEx,
 	const char* prefixOnSave, JsonSaveState& ioState, std::string& outRelPath) {
 
 	if (ioState.showPopup) {
@@ -337,7 +337,7 @@ bool SakuEngine::ImGuiHelper::SaveJsonModal(const char* popupTitle, const char* 
 	return decided;
 }
 
-bool SakuEngine::ImGuiHelper::OpenJsonDialog(std::string& outRelPath) {
+bool ImGuiHelper::OpenJsonDialog(std::string& outRelPath) {
 
 	char szFile[MAX_PATH] = {};
 	OPENFILENAMEA ofn{};
@@ -368,7 +368,7 @@ bool SakuEngine::ImGuiHelper::OpenJsonDialog(std::string& outRelPath) {
 	return false;
 }
 
-bool SakuEngine::ImGuiHelper::EditPostProcessMask(uint32_t& ioMask) {
+bool ImGuiHelper::EditPostProcessMask(uint32_t& ioMask) {
 
 	ImGui::Text("BitValue: %d", ioMask);
 
@@ -389,10 +389,10 @@ bool SakuEngine::ImGuiHelper::EditPostProcessMask(uint32_t& ioMask) {
 		ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_HorizontalScrollbar);
 
 	// 列挙を順にチェックボックス表示
-	constexpr uint32_t n = static_cast<uint32_t>(SakuEngine::EnumAdapter<PostProcessType>::GetEnumCount());
+	constexpr uint32_t n = static_cast<uint32_t>(EnumAdapter<PostProcessType>::GetEnumCount());
 	for (uint32_t i = 0; i < n; ++i) {
 
-		const auto t = SakuEngine::EnumAdapter<PostProcessType>::GetValue(i);
+		const auto t = EnumAdapter<PostProcessType>::GetValue(i);
 		const uint32_t bit = ToBit(t);
 		// 対応していないビットは処理しない
 		if (bit == 0u) {
@@ -401,7 +401,7 @@ bool SakuEngine::ImGuiHelper::EditPostProcessMask(uint32_t& ioMask) {
 		}
 
 		bool value = (ioMask & bit) != 0u;
-		const char* name = SakuEngine::EnumAdapter<PostProcessType>::GetEnumName(i);
+		const char* name = EnumAdapter<PostProcessType>::GetEnumName(i);
 		if (ImGui::Checkbox(name, &value)) {
 			if (value) {
 
@@ -418,7 +418,7 @@ bool SakuEngine::ImGuiHelper::EditPostProcessMask(uint32_t& ioMask) {
 	return changed;
 }
 
-bool SakuEngine::ImGuiHelper::DragUint32(const char* label, uint32_t& value, int maxValue) {
+bool ImGuiHelper::DragUint32(const char* label, uint32_t& value, int maxValue) {
 
 	int intValue = static_cast<int>(value);
 
@@ -428,7 +428,7 @@ bool SakuEngine::ImGuiHelper::DragUint32(const char* label, uint32_t& value, int
 	return result;
 }
 
-bool SakuEngine::ImGuiHelper::InputText(const char* label, InputImGui& ioInput) {
+bool ImGuiHelper::InputText(const char* label, InputImGui& ioInput) {
 
 	bool changed = ImGui::InputText(label, ioInput.input, InputImGui::kBuffer);
 	if (changed) {
@@ -438,7 +438,7 @@ bool SakuEngine::ImGuiHelper::InputText(const char* label, InputImGui& ioInput) 
 	return changed;
 }
 
-ImVec2 SakuEngine::ImGuiHelper::GetWindowAreaSizeRatio(float leftRatio, float rightRatio) {
+ImVec2 ImGuiHelper::GetWindowAreaSizeRatio(float leftRatio, float rightRatio) {
 
 	ImVec2 result{};
 
@@ -452,8 +452,16 @@ ImVec2 SakuEngine::ImGuiHelper::GetWindowAreaSizeRatio(float leftRatio, float ri
 	return result;
 }
 
-void SakuEngine::ImGuiHelper::AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
+void ImGuiHelper::AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
 	const ImVec2& max, ImU32 color, float rounding) {
 
 	draw->AddRectFilled(min, max, color, rounding);
+}
+
+void ImGuiHelper::CenterAlignElement(float elementWidth) {
+
+	float currentX = ImGui::GetCursorPosX();
+	float avail = ImGui::GetContentRegionAvail().x;
+	float x = currentX + (avail - elementWidth) * 0.5f;
+	ImGui::SetCursorPosX((std::max)(currentX, x));
 }

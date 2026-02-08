@@ -154,6 +154,9 @@ namespace SakuEngine {
 		// 四角形の角丸塗りつぶし
 		static void AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
 			const ImVec2& max, ImU32 color, float rounding);
+
+		// 要素をエリアの中央に配置する
+		static void CenterAlignElement(float elementWidth);
 	};
 
 	//============================================================================
@@ -161,7 +164,7 @@ namespace SakuEngine {
 	//============================================================================
 
 	template<typename T>
-	inline bool SakuEngine::ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
+	inline bool ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
 		const T& container, std::string* outSelectedKey, int popupMaxHeightInItems) {
 
 		std::vector<const char*> itemNames;

@@ -47,6 +47,9 @@ namespace SakuEngine {
 		uint32_t previewClipUid = 0;
 		// プレビュースタート要求フラグ
 		bool previewStart = false;
+		// プレビュー時間
+		bool enablePreviewLoop = true;
+		float previewLoopTime = 1.0f;
 
 		//--------- accessor -----------------------------------------------------
 

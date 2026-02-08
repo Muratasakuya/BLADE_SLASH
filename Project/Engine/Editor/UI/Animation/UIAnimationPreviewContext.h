@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/AssetData/UIAsset.h>
+#include <Engine/Utility/Timer/StateTimer.h>
 
 namespace SakuEngine {
 
@@ -30,5 +31,9 @@ namespace SakuEngine {
 		bool isPreviewPass = false;
 		// 元アセット側のUI要素のサブツリーを抑制するかどうか
 		bool suppressOriginalSubtree = false;
+
+		// プレビューループ用タイマー
+		bool enablePreviewLoop = true;
+		StateTimer previewTimer{};
 	};
 } // SakuEngine

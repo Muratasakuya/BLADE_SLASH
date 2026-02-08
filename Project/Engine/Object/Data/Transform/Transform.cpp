@@ -489,9 +489,9 @@ void Transform2D::FromJson(const Json& data) {
 
 	BaseTransform2D::FromJsonCommon(data);
 
-	size = Vector2::FromJson(data["size"]);
-	textureLeftTop = Vector2::FromJson(data["textureLeftTop"]);
-	textureSize = Vector2::FromJson(data["textureSize"]);
+	size = Vector2::FromJson(data.value("size", Json()));
+	textureLeftTop = Vector2::FromJson(data.value("textureLeftTop", Json()));
+	textureSize = Vector2::FromJson(data.value("textureSize", Json()));
 
 	if (data.contains("vertexOffset")) {
 		for (uint32_t i = 0; i < vertexOffset.size(); ++i) {

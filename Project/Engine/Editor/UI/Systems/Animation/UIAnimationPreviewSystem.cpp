@@ -20,6 +20,27 @@ void UIAnimationPreviewSystem::Update(UISystemContext* context, UIAsset& asset) 
 		return;
 	}
 
+	// プレビュー再生処理
+	Play(context, asset);
+
+	// アニメーション更新
+	player_.Update(asset, playingElement_);
+}
+
+void UIAnimationPreviewSystem::Play(UISystemContext* context, UIAsset& asset) {
+
+	// ループ再生が有効、未再生の時
+	if (context->preview.enablePreviewLoop && !player_.IsPlaying()) {
+
+		context->preview.previewTimer.Update(std::nullopt, false);
+		// タイマーが到達したら再生要求を出す
+		if (context->preview.previewTimer.IsReached()) {
+
+			context->preview.requestStart = true;
+			context->preview.previewTimer.Reset();
+		}
+	}
+
 	// アニメーション再生リクエストがある場合
 	if (context->preview.requestStart) {
 
@@ -34,7 +55,4 @@ void UIAnimationPreviewSystem::Update(UISystemContext* context, UIAsset& asset) 
 			player_.Play(*clip, asset, playingElement_);
 		}
 	}
-
-	// アニメーション更新
-	player_.Update(asset, playingElement_);
 }

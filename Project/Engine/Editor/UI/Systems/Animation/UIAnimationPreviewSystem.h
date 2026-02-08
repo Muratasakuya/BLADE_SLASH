@@ -37,5 +37,10 @@ namespace SakuEngine {
 		uint32_t playingClipUid_ = 0;
 		// 再生中の要素ハンドル
 		UIElement::Handle playingElement_{};
+
+		//--------- functions ----------------------------------------------------
+
+		// 再生処理
+		void Play(UISystemContext* context, UIAsset& asset);
 	};
 } // SakuEngine

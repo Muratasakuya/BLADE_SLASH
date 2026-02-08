@@ -208,10 +208,18 @@ void UIAnimationPanel::ImGui(UIToolContext& context) {
 				ImGui::SameLine();
 
 				// 再生ボタン
+				ImGuiHelper::CenterAlignElement(buttonWidth + 16.0f);
 				if (ImGui::Button("Start Preview", ImVec2(buttonWidth, itemSize.y))) {
 
 					context.previewStart = true;
 				}
+				ImGui::Checkbox("EnableLoop", &context.enablePreviewLoop);
+				ImGui::SameLine();
+
+				ImGui::SetNextItemWidth(buttonWidth);
+				ImGuiHelper::CenterAlignElement(buttonWidth);
+				ImGui::DragFloat("##previewLoopTime", &context.previewLoopTime, 0.01f);
+
 				ImGui::Separator();
 				ImGui::Spacing();
 
@@ -274,7 +282,7 @@ void UIAnimationPanel::ImGui(UIToolContext& context) {
 						if (removeThis) {
 
 							clip->tracks.erase(clip->tracks.begin() + i);
-							continue; 
+							continue;
 						}
 						++i;
 					}

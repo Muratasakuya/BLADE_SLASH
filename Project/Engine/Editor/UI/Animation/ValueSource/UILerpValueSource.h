@@ -49,12 +49,6 @@ namespace SakuEngine {
 
 			// 補間値の更新
 			animation_.LerpValue(currentValue_);
-
-			// 終了次第リセット
-			if (IsFinished()) {
-
-				Reset();
-			}
 		}
 
 		void Reset() override {
