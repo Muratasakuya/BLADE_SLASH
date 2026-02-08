@@ -13,6 +13,7 @@ using namespace SakuEngine;
 
 float AnimationLoop::LoopedT(float rawT) {
 
+	// 無限ループの場合
 	if (isInfinityLoop_) {
 
 		float t = rawT;
@@ -36,11 +37,13 @@ float AnimationLoop::LoopedT(float rawT) {
 		return std::clamp(t, 0.0f, 1.0f);
 	}
 
+	// loopCount_が1以下の場合、そのまま返す
 	if (loopCount_ <= 1) {
 
 		return std::clamp(rawT, 0.0f, 1.0f);
 	}
 
+	// 0.0f~loopCount_の範囲に変換
 	float t = rawT * static_cast<float>(loopCount_);
 	if (loopType_ == AnimationLoopType::Repeat) {
 

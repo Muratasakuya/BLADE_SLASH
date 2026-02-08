@@ -5,15 +5,17 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Sprite/UISpriteComponent.h>
-#include <Engine/Editor/UI/Component/Text/UITextComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UIParentRectTransform.h>
-#include <Engine/Editor/UI/Component/Transform/UISpriteTransformComponent.h>
-#include <Engine/Editor/UI/Component/Transform/UITextTransformComponent.h>
-#include <Engine/Editor/UI/Component/Material/UISpriteMaterialComponent.h>
-#include <Engine/Editor/UI/Component/Material/UITextMaterialComponent.h>
-#include <Engine/Editor/UI/Component/Selectable/UISelectableComponent.h>
-#include <Engine/Editor/UI/Component/InputNavigation/UIInputNavigationComponent.h>
+#include <Engine/Object/Core/ObjectManager.h>
+#include <Engine/Editor/UI/Components/Sprite/UISpriteComponent.h>
+#include <Engine/Editor/UI/Components/Text/UITextComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UIParentRectTransform.h>
+#include <Engine/Editor/UI/Components/Transform/UISpriteTransformComponent.h>
+#include <Engine/Editor/UI/Components/Transform/UITextTransformComponent.h>
+#include <Engine/Editor/UI/Components/Material/UISpriteMaterialComponent.h>
+#include <Engine/Editor/UI/Components/Material/UITextMaterialComponent.h>
+#include <Engine/Editor/UI/Components/Selectable/UISelectableComponent.h>
+#include <Engine/Editor/UI/Components/InputNavigation/UIInputNavigationComponent.h>
+#include <Engine/Editor/UI/Components/Animation/UIStateAnimationComponent.h>
 #include <Engine/Utility/Enum/EnumAdapter.h>
 
 //============================================================================
@@ -72,6 +74,7 @@ namespace {
 		uint32_t id = handleToId.at(MakeHandleKey(node));
 
 		elementData["id"] = id;
+		elementData["uid"] = element->uid;
 		elementData["name"] = element->name;
 
 		// parent、Prefab内に存在する場合のみID化、無ければ-1
@@ -195,10 +198,19 @@ void UIAsset::DestroyRecursive(UIElement::Handle target) {
 			DestroyRecursive(child);
 		}
 
+		// オブジェクトも削除
+		DestroyObjectRecursive(*this, target);
+
 		// 親から切り離す
 		if (elements.IsAlive(element->parentHandle)) {
 
 			RemoveChild(element->parentHandle, target);
+		}
+
+		// コンポーネントを削除
+		for (const auto& componentHandle : element->components) {
+
+			components.Destroy(componentHandle);
 		}
 
 		// 最後に自分を削除
@@ -246,6 +258,9 @@ UIComponentHandle UIAsset::AddComponentByType(UIElement::Handle owner, UICompone
 	case UIComponentType::InputNavigation:
 
 		return AddComponent<UIInputNavigationComponent>(owner);
+	case UIComponentType::StateAnimation:
+
+		return AddComponent<UIStateAnimationComponent>(owner);
 	}
 	return {};
 }
@@ -300,7 +315,7 @@ void UIAsset::FromJson(const Json& data) {
 	//	version
 	//============================================================================
 
-	uint32_t version = data.value("version", 1u);
+	uint32_t version = data.value("version", 2u);
 	nextUid = data.value("nextUid", 1u);
 
 	//============================================================================
@@ -311,6 +326,7 @@ void UIAsset::FromJson(const Json& data) {
 
 	const auto& elementArray = data["elements"];
 	uint32_t maxUid = 0;
+	std::unordered_set<uint32_t> usedUids;
 	std::vector<UIElement::Handle> needAssign{};
 	for (const auto& elementData : elementArray) {
 
@@ -322,7 +338,15 @@ void UIAsset::FromJson(const Json& data) {
 		if (elementData.contains("uid")) {
 
 			element.uid = elementData["uid"].get<uint32_t>();
-			maxUid = (std::max)(maxUid, element.uid);
+			// uid重複、0対策
+			if (element.uid == 0 || usedUids.contains(element.uid)) {
+
+				element.uid = 0;
+			} else {
+
+				usedUids.emplace(element.uid);
+				maxUid = (std::max)(maxUid, element.uid);
+			}
 		} else {
 
 			element.uid = 0;
@@ -332,6 +356,7 @@ void UIAsset::FromJson(const Json& data) {
 		idToHandle[id] = handle;
 
 		if (element.uid == 0) {
+
 			needAssign.push_back(handle);
 		}
 	}
@@ -492,6 +517,8 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 		parentRootHandle = rootHandle;
 	}
 
+	const uint32_t version = data.value("version", 2u);
+
 	const auto& elementArray = data["elements"];
 
 	//============================================================================
@@ -499,6 +526,9 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 	//============================================================================
 
 	std::unordered_map<uint32_t, UIElement::Handle> idToHandle;
+	std::vector<UIElement::Handle> importedHandles;
+	std::unordered_map<uint32_t, uint32_t> prefabUidToNewUid;
+	importedHandles.reserve(elementArray.size());
 
 	for (const auto& elementData : elementArray) {
 
@@ -506,9 +536,20 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 
 		UIElement element{};
 		element.name = elementData["name"].get<std::string>();
+		element.uid = AllocateUid();
+
+		if (version >= 2 && elementData.contains("uid")) {
+
+			const uint32_t prefabUid = elementData["uid"].get<uint32_t>();
+			if (prefabUid != 0) {
+
+				prefabUidToNewUid[prefabUid] = element.uid;
+			}
+		}
 
 		UIElement::Handle handle = elements.Emplace(element);
 		idToHandle[id] = handle;
+		importedHandles.emplace_back(handle);
 	}
 
 	// PrefabのrootHandle
@@ -560,18 +601,55 @@ UIElement::Handle UIAsset::ImportJsonElementPrefab(const Json& data, const UIEle
 			}
 		}
 	}
+
+	//============================================================================
+	//	UID参照修正
+	//============================================================================
+
+	if (!prefabUidToNewUid.empty()) {
+
+		// UID参照を持つ可能性のあるコンポーネントを走査
+		auto RemapUidIfInPrefab = [&](uint32_t& v) {
+			if (v == 0) {
+				return;
+			}
+			auto it = prefabUidToNewUid.find(v);
+			if (it != prefabUidToNewUid.end()) {
+				v = it->second;
+			}
+			};
+
+		for (auto handle : importedHandles) {
+
+			// 参照先uidを修正
+			if (auto* selectable = static_cast<UISelectableComponent*>(FindComponent(handle, UIComponentType::Selectable))) {
+
+				auto& ex = selectable->navigation.explicitNavi;
+				RemapUidIfInPrefab(ex.up);
+				RemapUidIfInPrefab(ex.down);
+				RemapUidIfInPrefab(ex.left);
+				RemapUidIfInPrefab(ex.right);
+			}
+			if (auto* inputNav = static_cast<UIInputNavigationComponent*>(FindComponent(handle, UIComponentType::InputNavigation))) {
+
+				RemapUidIfInPrefab(inputNav->focusedUid);
+			}
+		}
+	}
+
 	return prefabRoot;
 }
 
 void UIAsset::ExportJsonElementPrefab(Json& data, const UIElement::Handle inputRootHandle) {
 
-	data["version"] = 1;
+	data["version"] = 2;
 
 	// 要素が存在しなければ空を返す
 	if (!elements.IsAlive(inputRootHandle)) {
 		// 空を返す
 		data["rootId"] = 0;
 		data["elements"] = Json::array();
+		return;
 	}
 
 	//============================================================================
@@ -591,4 +669,56 @@ void UIAsset::ExportJsonElementPrefab(Json& data, const UIElement::Handle inputR
 	Json elementsJson = Json::array();
 	ExportElementRecursive(*this, inputRootHandle, handleToId, elementsJson);
 	data["elements"] = elementsJson;
+}
+
+void SakuEngine::DestroyObjectRecursive(UIAsset& asset, UIElement::Handle node) {
+
+	UIElement* element = asset.Get(node);
+	if (!element) {
+		return;
+	}
+
+	ObjectManager* objManager = ObjectManager::GetInstance();
+
+	// Sprite
+	if (auto* sprite = static_cast<UISpriteComponent*>(asset.FindComponent(node, UIComponentType::Sprite))) {
+		if (sprite->objectId != 0) {
+
+			objManager->Destroy(sprite->objectId);
+			sprite->objectId = 0;
+			sprite->sprite = nullptr;
+			if (auto* transform = static_cast<UISpriteTransformComponent*>(asset.FindComponent(node, UIComponentType::SpriteTransform))) {
+
+				transform->transform = nullptr;
+			}
+			if (auto* material = static_cast<UISpriteMaterialComponent*>(asset.FindComponent(node, UIComponentType::SpriteMaterial))) {
+
+				material->material = nullptr;
+			}
+		}
+	}
+
+	// Text
+	if (auto* text = static_cast<UITextComponent*>(asset.FindComponent(node, UIComponentType::Text))) {
+		if (text->objectId != 0) {
+
+			objManager->Destroy(text->objectId);
+			text->objectId = 0;
+			text->text = nullptr;
+			if (auto* transform = static_cast<UITextTransformComponent*>(asset.FindComponent(node, UIComponentType::TextTransform))) {
+
+				transform->transform = nullptr;
+			}
+			if (auto* material = static_cast<UITextMaterialComponent*>(asset.FindComponent(node, UIComponentType::TextMaterial))) {
+
+				material->material = nullptr;
+			}
+		}
+	}
+
+	// 子要素も再帰的に削除
+	for (auto child : element->children) {
+
+		DestroyObjectRecursive(asset, child);
+	}
 }

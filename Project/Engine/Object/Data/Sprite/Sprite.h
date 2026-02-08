@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Asset/AssetStructure.h>
 #include <Engine/Object/Data/Transform/Transform.h>
+#include <Engine/Object/Data/Material/Material.h>
 #include <Engine/Core/Graphics/GPUObject/VertexBuffer.h>
 #include <Engine/Core/Graphics/GPUObject/IndexBuffer.h>
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
@@ -54,7 +55,7 @@ namespace SakuEngine {
 		~Sprite() = default;
 
 		// 頂点情報更新
-		void UpdateVertex(const Transform2D& transform);
+		void UpdateVertex(const Transform2D& transform, const SpriteMaterial& material);
 
 		// 描画リソースの設定
 		void SetRenderResources(uint32_t objectId);
@@ -123,6 +124,9 @@ namespace SakuEngine {
 		// buffer
 		VertexBuffer<SpriteVertexData> vertexBuffer_;
 		IndexBuffer indexBuffer_;
+
+		// 描画を行うか
+		bool isDrawEnable_ = true;
 
 		//--------- functions ----------------------------------------------------
 

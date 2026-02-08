@@ -45,7 +45,7 @@ namespace SakuEngine {
 		float t_;       // イージングされていない補間T
 		float easedT_;  // イージングした補間T
 
-		EasingType easeingType_;
+		EasingType easingType_;
 	};
 
 }; // SakuEngine

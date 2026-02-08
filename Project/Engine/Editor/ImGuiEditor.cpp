@@ -349,9 +349,11 @@ void ImGuiEditor::Inspector() {
 void ImGuiEditor::AssetEdit() {
 
 	ImGui::Begin("Asset", nullptr, windowFlag_);
+	ImGui::PushID("CoreAssetEditor");
 
 	AssetEditor::GetInstance()->ImGui();
 
+	ImGui::PopID();
 	ImGui::End();
 }
 

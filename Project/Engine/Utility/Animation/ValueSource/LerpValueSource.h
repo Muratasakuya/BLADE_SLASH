@@ -110,5 +110,4 @@ namespace SakuEngine {
 
 		animation_.ToJson(data);
 	}
-
 }; // SakuEngine

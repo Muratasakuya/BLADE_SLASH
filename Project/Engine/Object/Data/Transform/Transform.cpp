@@ -426,6 +426,10 @@ void Transform2D::ImGui(float itemSize) {
 
 	ImGui::PushItemWidth(itemSize);
 
+	ImGui::Checkbox("autoFitSprite", &autoFitSprite_);
+
+	ImGui::Spacing();
+
 	ImGui::DragFloat2("size", &size.x, 1.0f);
 	ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x, 1.0f);
 	ImGui::DragFloat2("textureSize", &textureSize.x, 1.0f);
@@ -485,9 +489,9 @@ void Transform2D::FromJson(const Json& data) {
 
 	BaseTransform2D::FromJsonCommon(data);
 
-	size = Vector2::FromJson(data["size"]);
-	textureLeftTop = Vector2::FromJson(data["textureLeftTop"]);
-	textureSize = Vector2::FromJson(data["textureSize"]);
+	size = Vector2::FromJson(data.value("size", Json()));
+	textureLeftTop = Vector2::FromJson(data.value("textureLeftTop", Json()));
+	textureSize = Vector2::FromJson(data.value("textureSize", Json()));
 
 	if (data.contains("vertexOffset")) {
 		for (uint32_t i = 0; i < vertexOffset.size(); ++i) {

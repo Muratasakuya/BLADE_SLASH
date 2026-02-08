@@ -197,6 +197,7 @@ namespace SakuEngine {
 		// スロットを解放
 		Slot& slot = slots_[handle.index];
 		slot.value = std::nullopt;
+		// 世代カウントを進める
 		++slot.generation;
 		freeList_.emplace_back(handle.index);
 	}

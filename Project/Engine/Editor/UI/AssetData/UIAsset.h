@@ -3,7 +3,7 @@
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Component/Interface/IUIComponent.h>
+#include <Engine/Editor/UI/Components/Interface/IUIComponent.h>
 #include <Engine/Utility/Algorithm/HandlePool.h>
 
 // c++
@@ -133,4 +133,7 @@ namespace SakuEngine {
 		std::string name;
 		UIAsset asset;
 	};
+
+	// UIアセット破棄関数
+	void DestroyObjectRecursive(UIAsset& asset, UIElement::Handle node);
 } // SakuEngine

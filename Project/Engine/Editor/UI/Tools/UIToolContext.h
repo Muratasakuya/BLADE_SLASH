@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/UI/AssetData/UIAssetLibrary.h>
+#include <Engine/Editor/UI/Animation/UIAnimationLibrary.h>
 
 namespace SakuEngine {
 
@@ -15,7 +16,7 @@ namespace SakuEngine {
 	//	UIToolContext class
 	//	UIツールのコンテキスト情報を管理するクラス
 	//============================================================================
-	class UIToolContext {
+	struct UIToolContext {
 	public:
 		//========================================================================
 		//	public Methods
@@ -30,12 +31,25 @@ namespace SakuEngine {
 		Asset* asset = nullptr;
 		// UIアセットライブラリ
 		UIAssetLibrary* assetLibrary = nullptr;
+		// UIアニメーションライブラリ
+		UIAnimationLibrary* animationLibrary = nullptr;
 		// UIパレットレジストリ
 		UIPaletteRegistry* paletteRegistry = nullptr;
 
-		// 選択中のUIアセットハンドル
+		// 選択中のUIアセット、要素
 		UIAssetHandle selectedAsset{};
 		UIElement::Handle selectedElement{};
+
+		// プレビュー関連
+		// プレビュー有効フラグ
+		bool previewEnabled = true;
+		// プレビュー中のアニメーションクリップUID
+		uint32_t previewClipUid = 0;
+		// プレビュースタート要求フラグ
+		bool previewStart = false;
+		// プレビュー時間
+		bool enablePreviewLoop = true;
+		float previewLoopTime = 1.0f;
 
 		//--------- accessor -----------------------------------------------------
 

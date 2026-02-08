@@ -53,13 +53,16 @@ namespace SakuEngine {
 
 		// UI要素のIDを管理するライブラリ
 		std::unique_ptr<UIAssetLibrary> assetLibrary_;
+		// UIアニメーションを管理するライブラリ
+		std::unique_ptr<UIAnimationLibrary> animationLibrary_;
 		// UIパレットの登録を行うレジストリ
 		std::unique_ptr<UIPaletteRegistry> paletteRegistry_;
 		// UIアセットの更新を行うランタイム
 		std::unique_ptr<UIRuntime> runtime_;
 
-		// ツールコンテキスト
+		// コンテキスト
 		std::unique_ptr<UIToolContext> toolContext_;
+		std::unique_ptr<UISystemContext> systemContext_;
 		// パネル群
 		std::vector<std::unique_ptr<IUIToolPanel>> panels_;
 
@@ -67,6 +70,9 @@ namespace SakuEngine {
 		bool isOpen_ = false; // エディターが開いているか
 
 		//--------- functions ----------------------------------------------------
+
+		// コンテキスト更新
+		void UpdateContext();
 
 		UIEditor() :IGameEditor("UIEditor") {}
 		~UIEditor() = default;

@@ -140,9 +140,9 @@ namespace SakuEngine {
 		// uint32_tのDrag編集
 		static bool DragUint32(const char* label, uint32_t& value, int maxValue = 0xffff);
 
-		// 型ごとのDragFloat編集
+		// 型のDrag編集
 		template <typename T>
-		static bool DragFloat(const char* label, T& value, float speed = 0.01f, float minValue = -10000.0f, float maxValue = 10000.0f);
+		static bool DragValue(const char* label, T& value, float speed = 0.01f, float minValue = -10000.0f, float maxValue = 10000.0f);
 
 		// 入力
 		static bool InputText(const char* label, InputImGui& ioInput);
@@ -154,6 +154,9 @@ namespace SakuEngine {
 		// 四角形の角丸塗りつぶし
 		static void AddRectFilledRound(ImDrawList* draw, const ImVec2& min,
 			const ImVec2& max, ImU32 color, float rounding);
+
+		// 要素をエリアの中央に配置する
+		static void CenterAlignElement(float elementWidth);
 	};
 
 	//============================================================================
@@ -161,7 +164,7 @@ namespace SakuEngine {
 	//============================================================================
 
 	template<typename T>
-	inline bool SakuEngine::ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
+	inline bool ImGuiHelper::ComboFromKeys(const char* label, int* currentIndex,
 		const T& container, std::string* outSelectedKey, int popupMaxHeightInItems) {
 
 		std::vector<const char*> itemNames;
@@ -215,10 +218,12 @@ namespace SakuEngine {
 	}
 
 	template<typename T>
-	inline bool SakuEngine::ImGuiHelper::DragFloat(const char* label, T& value, float speed, float minValue, float maxValue) {
+	inline bool ImGuiHelper::DragValue(const char* label, T& value, float speed, float minValue, float maxValue) {
 
 		bool edited = false;
-		if constexpr (detail::Arithmetic<T>) {
+		// 型に応じて処理を分岐
+		// Floatの場合
+		if constexpr (detail::Arithmetic<T> && !std::is_integral_v<T>) {
 
 			float v = static_cast<float>(value);
 			edited = ImGui::DragFloat(label, &v, speed, minValue, maxValue);
@@ -248,8 +253,15 @@ namespace SakuEngine {
 		} else if constexpr (std::is_same_v<T, Color>) {
 
 			edited = ImGui::ColorEdit4(label, &value.r);
+		} else if constexpr (std::is_integral_v<T>) {
+
+			int intValue = static_cast<int>(value);
+			edited = ImGui::DragInt(label, &intValue, 1.0f, static_cast<int>(minValue), static_cast<int>(maxValue));
+			if (edited) {
+
+				value = static_cast<T>(intValue);
+			}
 		}
 		return edited;
 	}
-
 }; // SakuEngine

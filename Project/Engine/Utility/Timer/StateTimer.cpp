@@ -20,7 +20,7 @@ void StateTimer::Update(const std::optional<float>& target, bool isUseScaledDelt
 	float endTarget = target.has_value() ? target.value() : target_;
 	current_ += isUseScaledDeltaTime ? SakuEngine::GameTimer::GetScaledDeltaTime() : SakuEngine::GameTimer::GetDeltaTime();
 	t_ = std::clamp(current_ / endTarget, 0.0f, 1.0f);
-	easedT_ = EasedValue(easeingType_, t_);
+	easedT_ = EasedValue(easingType_, t_);
 }
 
 void StateTimer::Reset() {
@@ -46,7 +46,7 @@ void StateTimer::ImGui(const std::string& name, bool isSeparate) {
 
 	ImGui::Text(std::format("currentT: {}", t_).c_str());
 	ImGui::DragFloat("targetTime", &target_, 0.01f);
-	Easing::SelectEasingType(easeingType_, name);
+	Easing::SelectEasingType(easingType_, name);
 
 	ImGui::PopID();
 }
@@ -61,12 +61,12 @@ void StateTimer::FromJson(const Json& data) {
 
 	target_ = data.value("target_", 0.8f);
 
-	const auto& easing = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easeingType_", "EaseInSine"));
-	easeingType_ = easing.value();
+	const auto& easing = SakuEngine::EnumAdapter<EasingType>::FromString(data.value("easingType_", "EaseInSine"));
+	easingType_ = easing.value();
 }
 
 void StateTimer::ToJson(Json& data) {
 
 	data["target_"] = target_;
-	data["easeingType_"] = SakuEngine::EnumAdapter<EasingType>::ToString(easeingType_);
+	data["easingType_"] = SakuEngine::EnumAdapter<EasingType>::ToString(easingType_);
 }

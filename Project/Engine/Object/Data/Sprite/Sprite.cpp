@@ -71,7 +71,7 @@ void Sprite::InitBuffer(ID3D12Device* device) {
 	indexBuffer_.TransferData(indexData);
 }
 
-void Sprite::UpdateVertex(const Transform2D& transform) {
+void Sprite::UpdateVertex(const Transform2D& transform, const SpriteMaterial& material) {
 
 	// デバイスに応じたテクスチャ名更新
 	UpdateDeviceTextureName();
@@ -111,6 +111,10 @@ void Sprite::UpdateVertex(const Transform2D& transform) {
 
 	// GPUデータ転送
 	vertexBuffer_.TransferData(vertexData_);
+
+	// 描画するかどうかを更新する
+	isDrawEnable_ |= 0.0f < transform.GetWorldScale().Length();
+	isDrawEnable_ |= 0.0f < material.material.color.a;
 }
 
 void Sprite::SetRenderResources(uint32_t objectId) {
@@ -173,6 +177,11 @@ void Sprite::DrawCommand(ID3D12GraphicsCommandList6* commandList) {
 		.bufferHandle = GetAlphaTextureGPUHandle(),
 			});
 		preAlphaTextureName_ = alphaTextureName_;
+	}
+
+	// 描画有効でなければ処理しない
+	if (!isDrawEnable_) {
+		return;
 	}
 
 	// 頂点バッファ設定
