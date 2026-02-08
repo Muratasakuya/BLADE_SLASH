@@ -328,6 +328,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\UI\Systems\ParentRect\UIUpdateParentRectTransformSystem.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\CoreAsset\UICoreAssetPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.cpp">
       <SubType />
     </ClCompile>
@@ -337,7 +341,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.cpp">
       <SubType />
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\AssetLibrary\UIAssetLibraryPanel.cpp">
       <SubType />
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.cpp">
@@ -1400,6 +1404,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\UI\Tools\Interface\IUIToolPanel.h">
       <SubType />
     </ClInclude>
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\CoreAsset\UICoreAssetPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Runtime\UIRuntimePanel.h">
       <SubType />
     </ClInclude>
@@ -1409,7 +1417,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.h">
       <SubType />
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\AssetLibrary\UIAssetLibraryPanel.h">
       <SubType />
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.h">

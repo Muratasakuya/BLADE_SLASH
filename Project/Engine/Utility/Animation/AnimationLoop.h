@@ -16,12 +16,12 @@ enum class AnimationLoopType {
 	PingPong,
 };
 
-//============================================================================
-//	AnimationLoop class
-//	0.0f~1.0fの範囲でループ制御
-//============================================================================
 namespace SakuEngine {
 
+	//============================================================================
+	//	AnimationLoop class
+	//	0.0f~1.0fの範囲でループ制御
+	//============================================================================
 	class AnimationLoop {
 	public:
 		//========================================================================
@@ -64,9 +64,8 @@ namespace SakuEngine {
 		//--------- variables ----------------------------------------------------
 
 		// ループ制御
-		uint32_t loopCount_ = 1;      // 回数
-		AnimationLoopType loopType_; // 種類
+		uint32_t loopCount_ = 1;
+		AnimationLoopType loopType_ = AnimationLoopType::Repeat;
 		bool isInfinityLoop_ = false;
 	};
-
 }; // SakuEngine

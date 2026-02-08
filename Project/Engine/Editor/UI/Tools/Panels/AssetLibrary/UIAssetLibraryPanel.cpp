@@ -1,4 +1,4 @@
-#include "UIAssetPanel.h"
+#include "UIAssetLibraryPanel.h"
 
 using namespace SakuEngine;
 
@@ -8,10 +8,10 @@ using namespace SakuEngine;
 #include <Engine/Utility/Json/JsonAdapter.h>
 
 //============================================================================
-//	UIAssetPanel classMethods
+//	UIAssetLibraryPanel classMethods
 //============================================================================
 
-void UIAssetPanel::ImGui(UIToolContext& context) {
+void UIAssetLibraryPanel::ImGui(UIToolContext& context) {
 
 	const float itemWidth = 200.0f;
 

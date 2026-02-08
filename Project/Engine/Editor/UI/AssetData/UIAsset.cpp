@@ -198,6 +198,9 @@ void UIAsset::DestroyRecursive(UIElement::Handle target) {
 			DestroyRecursive(child);
 		}
 
+		// オブジェクトも削除
+		DestroyObjectRecursive(*this, target);
+
 		// 親から切り離す
 		if (elements.IsAlive(element->parentHandle)) {
 
@@ -337,7 +340,7 @@ void UIAsset::FromJson(const Json& data) {
 			element.uid = elementData["uid"].get<uint32_t>();
 			// uid重複、0対策
 			if (element.uid == 0 || usedUids.contains(element.uid)) {
-				
+
 				element.uid = 0;
 			} else {
 

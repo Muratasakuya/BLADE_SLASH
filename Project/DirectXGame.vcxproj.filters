@@ -1062,7 +1062,7 @@
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.cpp">
       <Filter>Engine\Editor\UI\Tools\Panels\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.cpp">
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\AssetLibrary\UIAssetLibraryPanel.cpp">
       <Filter>Engine\Editor\UI\Tools\Panels\Asset</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.cpp">
@@ -2250,7 +2250,7 @@
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Animation\UIAnimationPanel.h">
       <Filter>Engine\Editor\UI\Tools\Panels\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Editor\UI\Tools\Panels\Asset\UIAssetPanel.h">
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\AssetLibrary\UIAssetLibraryPanel.h">
       <Filter>Engine\Editor\UI\Tools\Panels\Asset</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Editor\UI\Tools\Panels\Detail\UIDetailPanel.h">
@@ -3564,6 +3564,7 @@
     <ClCompile Include="Engine\Editor\UI\Animation\Track\Asset\UIAnimationTrackAsset.cpp" />
     <ClCompile Include="Engine\Editor\UI\Animation\UIAnimationPlayer.cpp" />
     <ClCompile Include="Engine\Editor\UI\Systems\Animation\UIAnimationPreviewSystem.cpp" />
+    <ClCompile Include="Engine\Editor\UI\Tools\Panels\CoreAsset\UICoreAssetPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Interface\IUIValueSource.h" />
@@ -3574,5 +3575,6 @@
     <ClInclude Include="Engine\Editor\UI\Animation\UIAnimationPreviewContext.h" />
     <ClInclude Include="Engine\Editor\UI\Systems\Animation\UIAnimationPreviewSystem.h" />
     <ClInclude Include="Engine\Editor\UI\Animation\ValueSource\Factory\UIValueSourceFactory.h" />
+    <ClInclude Include="Engine\Editor\UI\Tools\Panels\CoreAsset\UICoreAssetPanel.h" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,8 @@ using namespace SakuEngine;
 //============================================================================
 //	include
 //============================================================================
-#include <Engine/Editor/UI/Tools/Panels/Asset/UIAssetPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/AssetLibrary/UIAssetLibraryPanel.h>
+#include <Engine/Editor/UI/Tools/Panels/CoreAsset/UICoreAssetPanel.h>
 #include <Engine/Editor/UI/Tools/Panels/Hierarchy/UIHierarchyPanel.h>
 #include <Engine/Editor/UI/Tools/Panels/VisualDesigner/UIVisualDesignerPanel.h>
 #include <Engine/Editor/UI/Tools/Panels/Animation/UIAnimationPanel.h>
@@ -67,7 +68,8 @@ void UIEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& handle) {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	// パネル群の作成
-	panels_.emplace_back(std::make_unique<UIAssetPanel>());
+	panels_.emplace_back(std::make_unique<UIAssetLibraryPanel>());
+	panels_.emplace_back(std::make_unique<UICoreAssetPanel>());
 	panels_.emplace_back(std::make_unique<UIPalettePanel>());
 	panels_.emplace_back(std::make_unique<UIHierarchyPanel>());
 	panels_.emplace_back(std::make_unique<UIVisualDesignerPanel>());

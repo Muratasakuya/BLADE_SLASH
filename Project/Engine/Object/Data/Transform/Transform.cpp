@@ -426,6 +426,10 @@ void Transform2D::ImGui(float itemSize) {
 
 	ImGui::PushItemWidth(itemSize);
 
+	ImGui::Checkbox("autoFitSprite", &autoFitSprite_);
+
+	ImGui::Spacing();
+
 	ImGui::DragFloat2("size", &size.x, 1.0f);
 	ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x, 1.0f);
 	ImGui::DragFloat2("textureSize", &textureSize.x, 1.0f);

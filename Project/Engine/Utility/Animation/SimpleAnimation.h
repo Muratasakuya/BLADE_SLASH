@@ -103,7 +103,6 @@ namespace SakuEngine {
 
 		StateTimer timer_{};
 		StateTimer returnTimer_{};
-		float rawT_ = 0.0f;
 		AnimationLoop loop_{};
 		Move move_{};
 
@@ -154,17 +153,24 @@ namespace SakuEngine {
 				timer = timer_;
 			}
 		}
-		rawT_ = timer.current_ / (std::max)(0.0001f, timer.target_);
-		float easedT = EasedValue(timer.easingType_, loop_.LoopedT(rawT_));
 
+		// 補間値の計算
+		float rawT = timer.current_ / (std::max)(0.0001f, timer.target_);
+		// ループ処理
+		float loopInput = loop_.IsInfinityLoop() ? rawT : timer.t_;
+		// 実際に使用する補間t値
+		float lerpT = loop_.LoopedT(loopInput);
+		float easedT = EasedValue(timer.easingType_, lerpT);
+
+		// 開始、終了値の設定
 		T from = move_.start;
 		T to = move_.end;
-		// 逆向き補間なら値を入れ替える
+		// 補間の種類による入れ替え
 		if (type_ == SimpleAnimationType::Return) {
+
 			std::swap(from, to);
 		}
 
-		// 値の補間処理
 		if constexpr (std::is_same_v<T, Color>) {
 
 			value = SakuEngine::Color::Lerp(from, to, easedT);
@@ -173,8 +179,8 @@ namespace SakuEngine {
 			value = Algorithm::Lerp<T>(from, to, easedT);
 		}
 
-		// ループ数が最後まで行けば終了
-		if (!loop_.IsInfinityLoop() && loop_.GetLoopCount() <= std::floor(rawT_)) {
+		// アニメーション終了判定
+		if (!loop_.IsInfinityLoop() && timer.IsReached()) {
 
 			isFinished_ = true;
 			isRunning_ = false;
