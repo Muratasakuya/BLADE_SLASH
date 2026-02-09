@@ -956,21 +956,41 @@ void KeyframeObject3D::ImGui() {
 
 		ImGui::SeparatorText("Pos");
 
-		ImGui::Checkbox("isInversePos", &editInverseSetting_.isInversePos);
-		for (auto& [axis, vaild] : editInverseSetting_.inversePosAxisMap) {
+		auto GetAxisString = [](Math::Axis axis) {
 
-			std::string label = "Pos:" + std::string(EnumAdapter<Math::Axis>::ToString(axis));
-			ImGui::Checkbox(label.c_str(), &vaild);
+			std::string result{};
+			switch (axis) {
+			case Math::Axis::X:
+
+				result = "YZ";
+				break;
+			case Math::Axis::Y:
+
+				result = "XZ";
+				break;
+			case Math::Axis::Z:
+
+				result = "XY";
+				break;
+			}
+			return result;
+			};
+
+		ImGui::Checkbox("isInversePos", &editInverseSetting_.isInversePos);
+		for (auto& [axis, valid] : editInverseSetting_.inversePosAxisMap) {
+
+			std::string label = "Pos:" + GetAxisString(axis);
+			ImGui::Checkbox(label.c_str(), &valid);
 		}
 
 		ImGui::SeparatorText("Rotation");
 
 		ImGui::Checkbox("isRotationFollowPosAxis", &editInverseSetting_.isRotationFollowPosAxis);
 		ImGui::Checkbox("isInverseRotation", &editInverseSetting_.isInverseRotation);
-		for (auto& [axis, vaild] : editInverseSetting_.inverseRotateAxisMap) {
+		for (auto& [axis, valid] : editInverseSetting_.inverseRotateAxisMap) {
 
-			std::string label = "Rotate:" + std::string(EnumAdapter<Math::Axis>::ToString(axis));
-			ImGui::Checkbox(label.c_str(), &vaild);
+			std::string label = "Rotate:" + GetAxisString(axis);
+			ImGui::Checkbox(label.c_str(), &valid);
 		}
 	}
 
@@ -1195,8 +1215,7 @@ Transform3D KeyframeObject3D::MakeInversedTransform(
 	return dst;
 }
 
-void SakuEngine::KeyframeObject3D::DrawKeyTimelineInternal(
-	bool allowKeyDrag, bool allowEndTimeDrag) {
+void KeyframeObject3D::DrawKeyTimelineInternal(bool allowKeyDrag, bool allowEndTimeDrag) {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	// 以前の固定サイズを基準に、表示領域(Child/Column等)の幅に合わせて自動調整する
@@ -1433,6 +1452,9 @@ void KeyframeObject3D::DrawKeyLine() {
 
 	if (isInverseHeaderOpen_) {
 
+		std::vector<Vector3> positions{};
+		positions.reserve(keys_.size());
+
 		// keys_の反転位置、回転を表示
 		for (const auto& key : keys_) {
 
@@ -1444,6 +1466,9 @@ void KeyframeObject3D::DrawKeyLine() {
 			// 軸
 			lineRenderer->Get3D()->DrawAxis(inverse.scale.Length(),
 				inverse.translation, inverse.rotation, LineType::DepthIgnore);
+
+			// キー座標を追加
+			positions.emplace_back(inverse.translation);
 		}
 
 		// 現在のTransformも反転した位置、回転を表示
@@ -1454,6 +1479,9 @@ void KeyframeObject3D::DrawKeyLine() {
 		// 軸
 		lineRenderer->Get3D()->DrawAxis(inverseCurrent.scale.Length(),
 			inverseCurrent.translation, inverseCurrent.rotation, LineType::DepthIgnore);
+
+		// 線描画
+		LerpKeyframe::DrawKeyframeLine(positions, lerpType_, isConnectEnds_);
 	}
 #endif
 }

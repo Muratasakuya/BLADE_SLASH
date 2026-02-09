@@ -1,7 +1,7 @@
 {
     "Attack_1st": {
         "MoveTimer": {
-            "easeingType_": "EaseInExpo",
+            "easingType_": "EaseInSine",
             "target_": 0.15000000596046448
         },
         "attackLookAtCircleRange_": 164.0,
@@ -50,12 +50,12 @@
     },
     "Attack_3rd": {
         "BackMoveTimer": {
-            "easeingType_": "EaseInExpo",
+            "easingType_": "EaseInSine",
             "target_": 0.11999999731779099
         },
         "CatchMoveTimer": {
-            "easeingType_": "EaseOutExpo",
-            "target_": 0.1599999964237213
+            "easingType_": "EaseInSine",
+            "target_": 0.05999999865889549
         },
         "Weapon": {
             "Left": {
@@ -70,7 +70,7 @@
             }
         },
         "WeaponMoveTimer": {
-            "easeingType_": "EaseOutExpo",
+            "easingType_": "EaseInSine",
             "target_": 0.09000000357627869
         },
         "attackLookAtCircleRange_": 164.0,
@@ -92,8 +92,8 @@
     },
     "Attack_4th": {
         "MoveTimer": {
-            "easeingType_": "EaseOutExpo",
-            "target_": 0.800000011920929
+            "easingType_": "EaseOutExpo",
+            "target_": 0.47999998927116394
         },
         "attackLookAtCircleRange_": 164.0,
         "attackOffsetTranslation_": 12.0,
@@ -257,15 +257,15 @@
                 }
             },
             "ReturnTimer": {
-                "easeingType_": "EaseInSine",
+                "easingType_": "EaseInSine",
                 "target_": 0.800000011920929
             },
             "Timer": {
-                "easeingType_": "EaseOutBack",
-                "target_": 0.18000000715255737
+                "easingType_": "EaseInSine",
+                "target_": 0.1599999964237213
             },
-            "move_.end": 2.0,
-            "move_.start": 0.1599999964237213,
+            "move_.end": 3.200000047683716,
+            "move_.start": 0.5,
             "useReturnTimer_": false
         },
         "decelLerp_": {
@@ -277,15 +277,15 @@
                 }
             },
             "ReturnTimer": {
-                "easeingType_": "EaseInSine",
+                "easingType_": "EaseInSine",
                 "target_": 0.800000011920929
             },
             "Timer": {
-                "easeingType_": "EaseInBack",
+                "easingType_": "EaseInSine",
                 "target_": 0.18000000715255737
             },
-            "move_.end": 0.7200000286102295,
-            "move_.start": 1.2999999523162842,
+            "move_.end": 1.25,
+            "move_.start": 3.200000047683716,
             "useReturnTimer_": false
         },
         "nextAnimDuration_": 0.017999999225139618,
@@ -293,7 +293,7 @@
     },
     "Falter": {
         "FalterTimer": {
-            "easeingType_": "EaseOutCubic",
+            "easingType_": "EaseInSine",
             "target_": 0.09000000357627869
         },
         "hitStopTime_": 0.07999999821186066,
@@ -331,7 +331,7 @@
     "ParryWait": {
         "enemyDistance_": -12.0,
         "lerpPosTimer": {
-            "easeingType_": "EaseOutQuart",
+            "easingType_": "EaseInSine",
             "target_": 0.05000000074505806
         },
         "nextAnimDuration_": 0.007000000216066837
@@ -505,7 +505,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Spline",
-            "parentName_": "playerSkilMoveFrontTransform",
+            "parentName_": "playerSkilMoveFrontTransform1",
             "startDuration_": 0.05999999865889549,
             "startEaseType_": "Linear"
         },
@@ -803,7 +803,7 @@
             "isUpdateKeyDuringLerp_": false,
             "keyRenderView_": "Scene",
             "lerpType_": "Linear",
-            "parentName_": "playerSkilMoveFrontTransform",
+            "parentName_": "playerSkilMoveFrontTransform1",
             "startDuration_": 0.0,
             "startEaseType_": "Linear"
         },
@@ -826,7 +826,7 @@
     },
     "Walk": {
         "moveDecay_": 0.4399999976158142,
-        "moveSpeed_": 0.4000000059604645,
+        "moveSpeed_": 0.5,
         "nextAnimDuration_": 0.1599999964237213,
         "rotationLerpRate_": 0.1599999964237213
     }

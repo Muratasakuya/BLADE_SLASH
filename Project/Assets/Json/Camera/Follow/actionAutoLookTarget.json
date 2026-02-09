@@ -8,7 +8,7 @@
                 "areaCheckMethod": "InCamera",
                 "isLockTarget": false,
                 "lookTimer": {
-                    "easeingType_": "EaseOutSine",
+                    "easingType_": "EaseInSine",
                     "target_": 0.7799999713897705
                 },
                 "lookYawOffset": 0.0,
@@ -25,8 +25,8 @@
                 "areaCheckMethod": "InCamera",
                 "isLockTarget": true,
                 "lookTimer": {
-                    "easeingType_": "EaseOutQuint",
-                    "target_": 0.5
+                    "easingType_": "EaseOutSine",
+                    "target_": 0.23000000417232513
                 },
                 "lookYawOffset": 0.3199999928474426,
                 "targetXRotation": 0.10000000149011612
@@ -40,29 +40,14 @@
                 "areaCheckMethod": "InCamera",
                 "isLockTarget": true,
                 "lookTimer": {
-                    "easeingType_": "EaseOutQuint",
-                    "target_": 0.3199999928474426
+                    "easingType_": "EaseOutSine",
+                    "target_": 0.25999999046325684
                 },
                 "lookYawOffset": 0.3199999928474426,
                 "targetXRotation": 0.10000000149011612
             },
             "priority": 0,
             "state": "Attack_1st"
-        },
-        {
-            "enabled": true,
-            "parameter": {
-                "areaCheckMethod": "OutCamera",
-                "isLockTarget": true,
-                "lookTimer": {
-                    "easeingType_": "EaseInOutQuad",
-                    "target_": 0.7699999809265137
-                },
-                "lookYawOffset": 0.2199999988079071,
-                "targetXRotation": 0.1599999964237213
-            },
-            "priority": 10,
-            "state": "Attack_4th"
         }
     ],
     "tieBreak_": "PreferBoss",

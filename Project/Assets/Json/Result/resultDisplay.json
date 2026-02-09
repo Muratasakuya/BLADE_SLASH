@@ -2,17 +2,18 @@
     "ClearPosAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
         },
         "ReturnTimer": {
-            "easeingType_": "EaseInSine",
+            "easingType_": "EaseInSine",
             "target_": 0.800000011920929
         },
         "Timer": {
-            "easeingType_": "EaseInCubic",
-            "target_": 0.6399999856948853
+            "easingType_": "EaseInQuad",
+            "target_": 0.6000000238418579
         },
         "move_.end": {
             "x": 960.0,
@@ -27,17 +28,18 @@
     "ClearSizeAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
         },
         "ReturnTimer": {
-            "easeingType_": "EaseInSine",
+            "easingType_": "EaseInSine",
             "target_": 0.800000011920929
         },
         "Timer": {
-            "easeingType_": "EaseOutQuint",
-            "target_": 0.3199999928474426
+            "easingType_": "EaseInSine",
+            "target_": 0.14000000059604645
         },
         "move_.end": {
             "x": 592.0,
@@ -52,17 +54,18 @@
     "ClearTimePosAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
         },
         "ReturnTimer": {
-            "easeingType_": "EaseInSine",
+            "easingType_": "EaseInSine",
             "target_": 0.800000011920929
         },
         "Timer": {
-            "easeingType_": "EaseInOutQuart",
-            "target_": 1.440000057220459
+            "easingType_": "EaseOutSine",
+            "target_": 0.800000011920929
         },
         "move_.end": {
             "x": 800.0,
@@ -75,7 +78,7 @@
         "useReturnTimer_": false
     },
     "DisplayWaitTime": {
-        "easeingType_": "EaseInSine",
+        "easingType_": "EaseInSine",
         "target_": 0.7200000286102295
     },
     "LeftButton": {
@@ -86,6 +89,7 @@
             },
             "colorLoop": {
                 "loop": {
+                    "isInfinityLoop": false,
                     "loopCount": 2,
                     "type": "PingPong"
                 }
@@ -116,6 +120,7 @@
             },
             "colorLoop": {
                 "loop": {
+                    "isInfinityLoop": false,
                     "loopCount": 2,
                     "type": "PingPong"
                 }
@@ -151,17 +156,18 @@
     "LeftButtonPosAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
         },
         "ReturnTimer": {
-            "easeingType_": "EaseInSine",
+            "easingType_": "EaseInSine",
             "target_": 0.800000011920929
         },
         "Timer": {
-            "easeingType_": "EaseOutQuint",
-            "target_": 1.600000023841858
+            "easingType_": "EaseOutQuad",
+            "target_": 1.0
         },
         "move_.end": {
             "x": 720.0,
@@ -174,7 +180,7 @@
         "useReturnTimer_": false
     },
     "RandomDisplayTime": {
-        "easeingType_": "EaseInSine",
+        "easingType_": "EaseInSine",
         "target_": 2.4000000953674316
     },
     "RightButton": {
@@ -185,6 +191,7 @@
             },
             "colorLoop": {
                 "loop": {
+                    "isInfinityLoop": false,
                     "loopCount": 2,
                     "type": "PingPong"
                 }
@@ -215,6 +222,7 @@
             },
             "colorLoop": {
                 "loop": {
+                    "isInfinityLoop": false,
                     "loopCount": 2,
                     "type": "PingPong"
                 }
@@ -250,17 +258,18 @@
     "RightButtonPosAnim": {
         "Loop": {
             "loop": {
+                "isInfinityLoop": false,
                 "loopCount": 1,
                 "type": "Repeat"
             }
         },
         "ReturnTimer": {
-            "easeingType_": "EaseInSine",
+            "easingType_": "EaseInSine",
             "target_": 0.800000011920929
         },
         "Timer": {
-            "easeingType_": "EaseOutQuint",
-            "target_": 1.600000023841858
+            "easingType_": "EaseOutQuad",
+            "target_": 1.0
         },
         "move_.end": {
             "x": 1200.0,
