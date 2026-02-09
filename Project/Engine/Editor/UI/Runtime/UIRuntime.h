@@ -39,7 +39,8 @@ namespace SakuEngine {
 		//--------- variables ----------------------------------------------------
 
 		// アセット更新を行うシステム群
-		std::vector<std::unique_ptr<IUISystem>> systems_;
+		std::vector<std::unique_ptr<IUISystem>> baseSystems_;
+		std::vector<std::unique_ptr<IUISystem>> activeSystems_;
 		// プレビュー用更新システム群
 		std::vector<std::unique_ptr<IUISystem>> previewSystems_;
 
