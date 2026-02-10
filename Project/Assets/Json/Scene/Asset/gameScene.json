@@ -80,7 +80,10 @@
     "playerRightWeapon",
     "playerLeftWeapon",
     "subPlayerBody",
-    "subPlayerHand"
+    "subPlayerHand",
+    "Rock1",
+    "Rock2",
+    "Rock3"
   ],
   "Animations": [
     {
