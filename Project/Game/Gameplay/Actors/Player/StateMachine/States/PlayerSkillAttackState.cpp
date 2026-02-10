@@ -1,4 +1,4 @@
-#include "PlayerSkilAttackState.h"
+#include "PlayerSkillAttackState.h"
 
 //============================================================================
 //	include
@@ -13,10 +13,10 @@
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 
 //============================================================================
-//	PlayerSkilAttackState classMethods
+//	PlayerSkillAttackState classMethods
 //============================================================================
 
-void PlayerSkilAttackState::CreateEffect() {
+void PlayerSkillAttackState::CreateEffect() {
 
 	// キーフレームオブジェクトの生成
 	moveKeyframeObject_ = std::make_unique<SakuEngine::KeyframeObject3D>();
@@ -59,7 +59,7 @@ void PlayerSkilAttackState::CreateEffect() {
 	groundCrackEmitted_ = false;
 }
 
-void PlayerSkilAttackState::Enter() {
+void PlayerSkillAttackState::Enter() {
 
 	// 最初のアニメーションに設定
 	player_->SetNextAnimation("player_skilAttack_1st", false, nextAnimDuration_);
@@ -90,16 +90,16 @@ void PlayerSkilAttackState::Enter() {
 	followCamera_->StratPlayerActionAnimString("playerSkilMove", false);
 }
 
-void PlayerSkilAttackState::Update() {
+void PlayerSkillAttackState::Update() {
 
 	// 状態ごとの更新
 	switch (currentState_) {
-	case PlayerSkilAttackState::State::MoveAttack:
+	case PlayerSkillAttackState::State::MoveAttack:
 
 		// 移動攻撃更新
 		UpdateMoveAttack();
 		break;
-	case PlayerSkilAttackState::State::JumpAttack:
+	case PlayerSkillAttackState::State::JumpAttack:
 
 		// ジャンプ攻撃更新
 		UpdateJumpAttack();
@@ -107,7 +107,7 @@ void PlayerSkilAttackState::Update() {
 	}
 }
 
-void PlayerSkilAttackState::UpdateMoveAttack() {
+void PlayerSkillAttackState::UpdateMoveAttack() {
 
 	// トランスフォーム補間更新
 	moveKeyframeObject_->SelfUpdate();
@@ -145,10 +145,6 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 		SakuEngine::Vector3 translation = moveKeyframeObject_->GetIndexKeyTransform(
 			moveKeyframeObject_->GetNextKeyIndex() - 1).translation;
 		moveAtackEffect_->Emit(translation);
-
-		// 移動攻撃SE再生、再生前に一度止める
-		SakuEngine::Audio::GetInstance()->Stop("skillMoveAttack");
-		SakuEngine::Audio::GetInstance()->PlayOneShot("skillMoveAttack", moveAttackSEVolume_);
 	}
 
 	// 補間処理終了後状態を終了
@@ -201,7 +197,7 @@ void PlayerSkilAttackState::UpdateMoveAttack() {
 	}
 }
 
-void PlayerSkilAttackState::UpdateJumpAttack() {
+void PlayerSkillAttackState::UpdateJumpAttack() {
 
 	// トランスフォーム補間更新
 	jumpKeyframeObject_->SelfUpdate();
@@ -240,9 +236,6 @@ void PlayerSkilAttackState::UpdateJumpAttack() {
 			SakuEngine::Quaternion::Normalize(effectRotation), ParticleUpdateModuleID::Rotation);
 		// プレイヤーの右手からエフェクト発生
 		moveAtackEffect_->Emit(player_->GetWeapon(PlayerWeaponType::Right)->GetTransform().GetWorldPos());
-
-		// 移動攻撃SE再生
-		SakuEngine::Audio::GetInstance()->PlayOneShot("skillMoveAttack", moveAttackSEVolume_);
 	}
 
 	// 補間処理終了後状態を終了
@@ -279,7 +272,7 @@ void PlayerSkilAttackState::UpdateJumpAttack() {
 	}
 }
 
-void PlayerSkilAttackState::SetTargetByRange(SakuEngine::KeyframeObject3D& keyObject, const std::string& cameraKeyName) {
+void PlayerSkillAttackState::SetTargetByRange(SakuEngine::KeyframeObject3D& keyObject, const std::string& cameraKeyName) {
 
 	// 敵が攻撃可能範囲にいるかチェック
 	isInRange_ = CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true));
@@ -303,7 +296,7 @@ void PlayerSkilAttackState::SetTargetByRange(SakuEngine::KeyframeObject3D& keyOb
 	}
 }
 
-void PlayerSkilAttackState::BeginUpdateAlways() {
+void PlayerSkillAttackState::BeginUpdateAlways() {
 
 	// キーフレームオブジェクトの更新
 	moveFrontTransform_->UpdateMatrix();
@@ -311,7 +304,7 @@ void PlayerSkilAttackState::BeginUpdateAlways() {
 	jumpKeyframeObject_->UpdateKey();
 }
 
-void PlayerSkilAttackState::UpdateAlways() {
+void PlayerSkillAttackState::UpdateAlways() {
 
 	// ヒットストップの更新
 	moveAttackHitstop_.hitStop.Update();
@@ -324,7 +317,7 @@ void PlayerSkilAttackState::UpdateAlways() {
 	groundCrackEffect_->Update();
 }
 
-void PlayerSkilAttackState::Exit() {
+void PlayerSkillAttackState::Exit() {
 
 	// リセット
 	canExit_ = false;
@@ -362,7 +355,7 @@ void PlayerSkilAttackState::Exit() {
 	afterImageEffect_->End(objects);
 }
 
-void PlayerSkilAttackState::ImGui() {
+void PlayerSkillAttackState::ImGui() {
 
 	ImGui::Text(std::format("canExit: {}", canExit_).c_str());
 
@@ -414,7 +407,7 @@ void PlayerSkilAttackState::ImGui() {
 	}
 }
 
-void PlayerSkilAttackState::ApplyJson(const Json& data) {
+void PlayerSkillAttackState::ApplyJson(const Json& data) {
 
 	nextAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextAnimDuration_");
 	nextJumpAnimDuration_ = SakuEngine::JsonAdapter::GetValue<float>(data, "nextJumpAnimDuration_");
@@ -437,7 +430,7 @@ void PlayerSkilAttackState::ApplyJson(const Json& data) {
 	jumpAttackHitstop_.hitStop.FromJson(data.value("JumpAttackHitstop", Json()));
 }
 
-void PlayerSkilAttackState::SaveJson(Json& data) {
+void PlayerSkillAttackState::SaveJson(Json& data) {
 
 	data["nextAnimDuration_"] = nextAnimDuration_;
 	data["nextJumpAnimDuration_"] = nextJumpAnimDuration_;
