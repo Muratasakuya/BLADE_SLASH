@@ -10,18 +10,18 @@
 #include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerBaseAttackState.h>
 
 //============================================================================
-//	PlayerSkilAttackState class
+//	PlayerSkillAttackState class
 //	スキル攻撃
 //============================================================================
-class PlayerSkilAttackState :
+class PlayerSkillAttackState :
 	public PlayerBaseAttackState {
 public:
 	//========================================================================
 	//	public Methods
 	//========================================================================
 
-	PlayerSkilAttackState() = default;
-	~PlayerSkilAttackState() = default;
+	PlayerSkillAttackState() = default;
+	~PlayerSkillAttackState() = default;
 
 	void CreateEffect() override;
 

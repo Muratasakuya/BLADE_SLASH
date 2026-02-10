@@ -138,6 +138,56 @@ namespace {
 	}
 }
 
+void UIAsset::SetActivate(bool active) {
+
+	// 同じ状態への遷移はしない
+	if (isActive == active) {
+		return;
+	}
+
+	// アクティブ化
+	if (active) {
+
+		runtimeSnapshot = {};
+		// スナップショット取得
+		ToJson(runtimeSnapshot);
+		hasRuntimeSnapshot = true;
+
+		// アクティブ化処理
+		elements.ForEachAlive([&](UIElement::Handle handle, [[maybe_unused]] const UIElement& element) {
+			if (auto* navigate = static_cast<UIInputNavigationComponent*>(FindComponent(handle, UIComponentType::InputNavigation))) {
+				navigate->acceptInput = true;
+			}
+			});
+		isActive = true;
+		return;
+	}
+
+	// 非アクティブ化
+	if (elements.IsAlive(rootHandle)) {
+
+		// FromJsonでプールが消えるので、先に生成オブジェクト破棄
+		DestroyObjectRecursive(*this, rootHandle);
+	}
+	// スナップショット復元
+	if (hasRuntimeSnapshot) {
+
+		FromJson(runtimeSnapshot);
+	}
+
+	// 非アクティブ化処理
+	elements.ForEachAlive([&](UIElement::Handle handle, [[maybe_unused]] const UIElement& element) {
+		if (auto* navigate = static_cast<UIInputNavigationComponent*>(FindComponent(handle, UIComponentType::InputNavigation))) {
+			navigate->acceptInput = false;
+		}
+		});
+
+	// 状態クリア
+	isActive = false;
+	runtimeSnapshot = {};
+	hasRuntimeSnapshot = false;
+}
+
 void UIAsset::Init() {
 
 	// クリア

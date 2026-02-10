@@ -32,6 +32,11 @@ void BossEnemyProjectileAttackState::BulletCollision::Init() {
 	transform.translation = collisionSafePos_;
 	startPos = collisionSafePos_;
 	targetPos = collisionSafePos_;
+
+	// 着弾エフェクト初期化
+	landingEffect = std::make_unique<SakuEngine::EffectGroup>();
+	landingEffect->Init("landingProjectileEffect", "BossEnemyEffect");
+	landingEffect->LoadJson("GameEffectGroup/BossEnemy/bossEnemyLandingProjectileEffect.json");
 }
 
 void BossEnemyProjectileAttackState::CreateEffect() {
@@ -110,7 +115,7 @@ void BossEnemyProjectileAttackState::UpdateLaunch() {
 	for (uint32_t i = 0; i < count; ++i) {
 
 		// 発生していなければ
-		if (!launchEmited_[i]) {
+		if (!launchEmitted_[i]) {
 
 			// i番目の時間を計算
 			float t = static_cast<float>(i + 1) / static_cast<float>(count);
@@ -120,7 +125,7 @@ void BossEnemyProjectileAttackState::UpdateLaunch() {
 				// 発生起動エフェクト発生
 				launchEffect_->Emit(launchPositions_[launchIndices_[i]]);
 				// 発生済み
-				launchEmited_[i] = true;
+				launchEmitted_[i] = true;
 			}
 		}
 	}
@@ -133,7 +138,7 @@ void BossEnemyProjectileAttackState::UpdateLaunch() {
 
 		// 攻撃エフェクト前処理
 		// 発生済みフラグをリセット
-		bulletEmited_.assign(phaseBulletCounts_[currentPhaseIndex_], false);
+		bulletEmitted_.assign(phaseBulletCounts_[currentPhaseIndex_], false);
 	}
 }
 
@@ -148,7 +153,7 @@ void  BossEnemyProjectileAttackState::UpdateAttack() {
 	for (uint32_t i = 0; i < count; ++i) {
 
 		// 発生していなければ
-		if (!bulletEmited_[i]) {
+		if (!bulletEmitted_[i]) {
 
 			// i番目の時間を計算
 			float t = static_cast<float>(i + 1) / static_cast<float>(count);
@@ -168,7 +173,7 @@ void  BossEnemyProjectileAttackState::UpdateAttack() {
 				std::vector<SakuEngine::Vector3> keys = { start, target };
 				bulletEffects_[i]->SetKeyframePath(bulletParticleNodeKey_, keys);
 				// 発生済み
-				bulletEmited_[i] = true;
+				bulletEmitted_[i] = true;
 
 				// 衝突判定の設定
 				BulletCollision& bulletCollider = bulletColliders_[i];
@@ -195,7 +200,7 @@ void BossEnemyProjectileAttackState::BeginLaunchPhase() {
 	// 発生順序のインデックスを設定する
 	SetLeftToRightIndices();
 	// 発生済みフラグをリセット
-	launchEmited_.assign(phaseBulletCounts_[currentPhaseIndex_], false);
+	launchEmitted_.assign(phaseBulletCounts_[currentPhaseIndex_], false);
 }
 
 void BossEnemyProjectileAttackState::SetLeftToRightIndices() {
@@ -222,7 +227,8 @@ void BossEnemyProjectileAttackState::SetLeftToRightIndices() {
 
 			float projectionA = SakuEngine::Vector3::Dot(launchPositions_[a] - center, right);
 			float projectionB = SakuEngine::Vector3::Dot(launchPositions_[b] - center, right);
-			return projectionA < projectionB; });
+			return projectionA < projectionB;
+		});
 }
 
 void BossEnemyProjectileAttackState::SetLaunchPositions(int32_t phaseIndex) {
@@ -290,6 +296,9 @@ void BossEnemyProjectileAttackState::BulletCollision::Update(float duration) {
 	}
 	// 衝突判定は常に更新しておく
 	collider->UpdateAllBodies(transform);
+
+	// 着弾エフェクト更新
+	landingEffect->Update();
 }
 
 void BossEnemyProjectileAttackState::BulletCollision::LerpTranslation(float duration) {
@@ -309,6 +318,9 @@ void BossEnemyProjectileAttackState::BulletCollision::LerpTranslation(float dura
 		transform.translation = collisionSafePos_;
 		// 非アクティブ状態にする
 		isActive = false;
+
+		// 着弾エフェクト発生
+		landingEffect->Emit(targetPos);
 	}
 }
 
@@ -354,9 +366,9 @@ void BossEnemyProjectileAttackState::ImGui() {
 	ImGui::SeparatorText("Debug");
 
 	int index = 0;
-	for (const auto& emited : bulletEmited_) {
+	for (const auto& emited : bulletEmitted_) {
 
-		ImGui::Text("bulletEmited[%d]: %s", index++, emited ? "true" : "false");
+		ImGui::Text("bulletEmitted[%d]: %s", index++, emited ? "true" : "false");
 	}
 	ImGui::Separator();
 	for (const auto& bullet : bulletColliders_) {

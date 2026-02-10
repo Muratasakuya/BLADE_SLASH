@@ -83,5 +83,15 @@ namespace SakuEngine {
 		//--------- accessor -----------------------------------------------------
 
 		UIComponentType GetType() const override { return UIComponentType::InputNavigation; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		// 追加する予定の入力
+		KeyDIKCode addKeyDIKCode = KeyDIKCode::SPACE;
+		GamePadButtons addGamePadButton = GamePadButtons::A;
 	};
 } // SakuEngine

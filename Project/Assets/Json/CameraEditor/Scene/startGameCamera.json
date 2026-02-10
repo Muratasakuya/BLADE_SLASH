@@ -3,6 +3,8 @@
         "Keys": [
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.8875366449356079,
                         "x": -0.38198578357696533,
@@ -28,6 +30,8 @@
             },
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.9464906454086304,
                         "x": 0.20966693758964539,
@@ -53,6 +57,8 @@
             },
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.9921109676361084,
                         "x": 0.08253474533557892,
@@ -78,6 +84,8 @@
             },
             {
                 "Transform": {
+                    "isCompulsion_": false,
+                    "isIgnoreParentScale": false,
                     "rotation": {
                         "w": 0.9889407753944397,
                         "x": 0.08227087557315826,
@@ -104,12 +112,32 @@
         ],
         "addKeyTimeStep_": 0.800000011920929,
         "isConnectEnds_": false,
+        "isIgnoreParentScale_": false,
         "isUpdateKeyDuringLerp_": false,
+        "keyRenderView_": "Scene",
         "lerpType_": "Spline",
         "parentName_": "platformRound",
         "startDuration_": 0.0,
         "startEaseType_": "Linear"
     },
+    "keyEvents": [
+        {
+            "startTime": 1.3003365993499756,
+            "updater": {
+                "intensity_": {
+                    "x": 1.2000000476837158,
+                    "y": 4.0,
+                    "z": 1.2000000476837158
+                },
+                "isAdvanceKey_": true,
+                "timer_": {
+                    "easingType_": "EaseOutSine",
+                    "target_": 1.2000000476837158
+                }
+            },
+            "updaterID": "ScreenShake"
+        }
+    ],
     "keyName": "startGameCamera",
     "previewLoopSpacing_": 1.0,
     "previewMode_": "Play"

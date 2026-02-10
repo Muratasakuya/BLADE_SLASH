@@ -64,6 +64,9 @@ private:
 		// 絶対に当たらない座標
 		const SakuEngine::Vector3 collisionSafePos_ = SakuEngine::Vector3(0.0f, -128.0f, 0.0f);
 
+		// 着弾エフェクト
+		std::unique_ptr<SakuEngine::EffectGroup> landingEffect;
+
 		// 初期化
 		void Init();
 
@@ -119,8 +122,8 @@ private:
 	float bulletLerpDuration_;
 
 	// エフェクト発生済みフラグ
-	std::vector<bool> launchEmited_;
-	std::vector<bool> bulletEmited_;
+	std::vector<bool> launchEmitted_;
+	std::vector<bool> bulletEmitted_;
 
 	// エディター
 	bool isEditMode_ = false;

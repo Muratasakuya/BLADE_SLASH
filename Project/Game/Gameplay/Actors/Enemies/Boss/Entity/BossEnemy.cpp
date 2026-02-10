@@ -518,14 +518,14 @@ void BossEnemy::DerivedImGui() {
 
 		// 距離レベルの描画
 		// Near
-		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
-			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Near], SakuEngine::Color::Red());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawCircle(6,
+			stats_.distanceLevels[DistanceLevel::Near], enemyPos, SakuEngine::Color::Red());
 		// Middle
-		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
-			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Middle], SakuEngine::Color::Green());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawCircle(6,
+			stats_.distanceLevels[DistanceLevel::Middle], enemyPos, SakuEngine::Color::Green());
 		// Far
-		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,
-			enemyPos + direction * stats_.distanceLevels[DistanceLevel::Far], SakuEngine::Color::Cyan());
+		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawCircle(6,
+			stats_.distanceLevels[DistanceLevel::Far], enemyPos, SakuEngine::Color::Cyan());
 
 		// 今
 		SakuEngine::LineRenderer::GetInstance()->Get3D()->DrawLine(enemyPos,

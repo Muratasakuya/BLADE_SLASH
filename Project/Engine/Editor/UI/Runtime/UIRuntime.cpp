@@ -30,20 +30,21 @@ namespace {
 
 void UIRuntime::Init() {
 
-	systems_.clear();
+	baseSystems_.clear();
+	activeSystems_.clear();
 	previewSystems_.clear();
 
 	// 各システムを生成して登録 ↓
-	// 入力によるナビゲーション更新
-	systems_.emplace_back(std::make_unique<UIInputNavigationSystem>());
-	// 状態に応じたアニメーション再生
-	systems_.emplace_back(std::make_unique<UIStateAnimationSystem>());
 	// 親矩形情報の更新
-	systems_.emplace_back(std::make_unique<UIUpdateParentRectTransformSystem>());
+	baseSystems_.emplace_back(std::make_unique<UIUpdateParentRectTransformSystem>());
 	// スプライトオブジェクトの同期
-	systems_.emplace_back(std::make_unique<UISpriteSyncSystem>());
+	baseSystems_.emplace_back(std::make_unique<UISpriteSyncSystem>());
 	// テキストオブジェクトの同期
-	systems_.emplace_back(std::make_unique<UITextSyncSystem>());
+	baseSystems_.emplace_back(std::make_unique<UITextSyncSystem>());
+	// 入力ナビゲーション更新
+	activeSystems_.emplace_back(std::make_unique<UIInputNavigationSystem>());
+	// 状態アニメーション更新
+	activeSystems_.emplace_back(std::make_unique<UIStateAnimationSystem>());
 
 	// プレビュー登録 ↓
 	// 親矩形情報の更新
@@ -75,9 +76,15 @@ void UIRuntime::Update(UISystemContext* context, UIAsset& asset) {
 	context->preview.suppressOriginalSubtree = false;
 
 	// 各システムで更新
-	for (const auto& system : systems_) {
+	for (const auto& system : baseSystems_) {
 
 		system->Update(context, asset);
+	}
+	if (asset.isActive) {
+		for (const auto& system : activeSystems_) {
+
+			system->Update(context, asset);
+		}
 	}
 }
 
@@ -103,9 +110,16 @@ void UIRuntime::UpdatePreview(UISystemContext* context, UIAsset& originalAsset) 
 	context->preview.isPreviewPass = false;
 	context->preview.suppressOriginalSubtree = true;
 
-	for (const auto& system : systems_) {
+	// 各システムで更新
+	for (const auto& system : baseSystems_) {
 
 		system->Update(context, originalAsset);
+	}
+	if (originalAsset.isActive) {
+		for (const auto& system : activeSystems_) {
+
+			system->Update(context, originalAsset);
+		}
 	}
 
 	// 選択要素が変わったらプレビューアセットを作り直す

@@ -46,7 +46,7 @@ void UIInputNavigationComponent::EnsureMapper() {
 	cancelPad.emplace_back(GamePadButtons::B);
 }
 
-void UIInputNavigationComponent::ImGui([[maybe_unused]] const ImVec2& itemSize) {
+void UIInputNavigationComponent::ImGui(const ImVec2& itemSize) {
 
 	ImGui::Checkbox("acceptInput", &acceptInput);
 	ImGui::Checkbox("mouseHoverFocus", &mouseHoverFocus);
@@ -54,6 +54,216 @@ void UIInputNavigationComponent::ImGui([[maybe_unused]] const ImVec2& itemSize) 
 	ImGui::SliderFloat("stickThreshold", &stickThreshold, 0.0f, 1.0f);
 	ImGui::SliderFloat("repeatDelaySecond", &repeatDelaySecond, 0.0f, 1.0f);
 	ImGui::SliderFloat("repeatIntervalSecond", &repeatIntervalSecond, 0.01f, 0.5f);
+
+	// 配列ごとの選択状態を保持
+	static std::unordered_map<uintptr_t, int> s_selectedIndex;
+	// キー追加用
+	auto DrawKeyMappingButton = [&](const char* addLabel, std::vector<uint8_t>& keyArray) {
+
+		ImGui::PushID(reinterpret_cast<void*>(&keyArray));
+
+		// 左クリック: 追加
+		if (ImGui::Button(addLabel, itemSize)) {
+			// 同じキーが登録されていなければ
+			bool alreadyExists = false;
+			for (const auto existingKey : keyArray) {
+				if (existingKey == static_cast<uint8_t>(addKeyDIKCode)) {
+
+					alreadyExists = true;
+					break;
+				}
+			}
+			if (!alreadyExists) {
+
+				keyArray.emplace_back(static_cast<uint8_t>(addKeyDIKCode));
+			}
+		}
+
+		// 右クリック: 一覧ポップアップ
+		if (ImGui::BeginPopupContextItem("##KeyList", ImGuiPopupFlags_MouseButtonRight)) {
+
+			ImGui::Text("Count: %d", static_cast<int>(keyArray.size()));
+			ImGui::Separator();
+
+			int& selected = s_selectedIndex[reinterpret_cast<uintptr_t>(&keyArray)];
+			if (selected >= static_cast<int>(keyArray.size())) {
+				selected = -1;
+			}
+
+			constexpr float kListHeight = 160.0f;
+			ImGui::BeginChild("##KeyListChild", ImVec2(itemSize.x / 2.0f, kListHeight), true);
+
+			for (int i = 0; i < static_cast<int>(keyArray.size()); ++i) {
+
+				ImGui::PushID(i);
+
+				const auto code = static_cast<KeyDIKCode>(keyArray[i]);
+				const std::string name = EnumAdapter<KeyDIKCode>::ToString(code);
+
+				std::string label = std::to_string(i) + ": " +
+					(name.empty() ? std::to_string(static_cast<int>(keyArray[i])) : name);
+
+				// 左クリック: 選択
+				if (ImGui::Selectable(label.c_str(), selected == i)) {
+					selected = i;
+				}
+
+				// 右クリック: Removeボタン
+				if (ImGui::BeginPopupContextItem("##KeyItemCtx", ImGuiPopupFlags_MouseButtonRight)) {
+
+					ImGui::TextUnformatted(label.c_str());
+					ImGui::Separator();
+
+					if (ImGui::Button("Remove")) {
+
+						keyArray.erase(keyArray.begin() + i);
+
+						if (selected == i) {
+							selected = -1;
+						} else if (selected > i) {
+							selected -= 1;
+						}
+
+						ImGui::CloseCurrentPopup();
+						ImGui::EndPopup();
+						ImGui::PopID();
+						// 削除したので抜ける
+						break;
+					}
+					ImGui::EndPopup();
+				}
+				ImGui::PopID();
+			}
+			ImGui::EndChild();
+			ImGui::Separator();
+
+			// 全削除ボタン
+			if (ImGui::Button("Clear All")) {
+
+				keyArray.clear();
+				selected = -1;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+		ImGui::PopID();
+		};
+	// ゲームパッド追加用
+	auto DrawGamePadMappingButton = [&](const char* addLabel, std::vector<GamePadButtons>& buttonArray) {
+
+		ImGui::PushID(reinterpret_cast<void*>(&buttonArray));
+
+		// 左クリック: 追加
+		if (ImGui::Button(addLabel, itemSize)) {
+			// 同じボタンが登録されていなければ
+			bool alreadyExists = false;
+			for (const auto existingButton : buttonArray) {
+				if (existingButton == addGamePadButton) {
+
+					alreadyExists = true;
+					break;
+				}
+			}
+			if (!alreadyExists) {
+
+				buttonArray.emplace_back(addGamePadButton);
+			}
+		}
+
+		// 右クリック: 一覧ポップアップ
+		if (ImGui::BeginPopupContextItem("##PadList", ImGuiPopupFlags_MouseButtonRight)) {
+
+			ImGui::Text("Count: %d", static_cast<int>(buttonArray.size()));
+			ImGui::Separator();
+
+			int& selected = s_selectedIndex[reinterpret_cast<uintptr_t>(&buttonArray)];
+			if (selected >= static_cast<int>(buttonArray.size())) {
+				selected = -1;
+			}
+
+			constexpr float kListHeight = 160.0f;
+			ImGui::BeginChild("##PadListChild", ImVec2(260.0f, kListHeight), true);
+
+			for (int i = 0; i < static_cast<int>(buttonArray.size()); ++i) {
+
+				ImGui::PushID(i);
+
+				const std::string name = EnumAdapter<GamePadButtons>::ToString(buttonArray[i]);
+				std::string label = std::to_string(i) + ": " + (name.empty() ? "<Unknown>" : name);
+
+				// 左クリック: 選択
+				if (ImGui::Selectable(label.c_str(), selected == i)) {
+					selected = i;
+				}
+
+				// 右クリック: Removeボタン
+				if (ImGui::BeginPopupContextItem("##PadItemCtx", ImGuiPopupFlags_MouseButtonRight)) {
+
+					ImGui::TextUnformatted(label.c_str());
+					ImGui::Separator();
+
+					if (ImGui::Button("Remove")) {
+
+						buttonArray.erase(buttonArray.begin() + i);
+
+						if (selected == i) {
+							selected = -1;
+						} else if (selected > i) {
+							selected -= 1;
+						}
+
+						ImGui::CloseCurrentPopup();
+						ImGui::EndPopup();
+						ImGui::PopID();
+						// 削除したので抜ける
+						break;
+					}
+					ImGui::EndPopup();
+				}
+				ImGui::PopID();
+			}
+			ImGui::EndChild();
+			ImGui::Separator();
+
+			// 全削除ボタン
+			if (ImGui::Button("Clear All")) {
+
+				buttonArray.clear();
+				selected = -1;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+		ImGui::PopID();
+		};
+
+	// キーボード
+	ImGui::SeparatorText("Key Mappings");
+	ImGui::PushID("KeyArray");
+
+	EnumAdapter<KeyDIKCode>::Combo("addKey", &addKeyDIKCode);
+	DrawKeyMappingButton("Add Up", upKeys);
+	DrawKeyMappingButton("Add Down", downKeys);
+	DrawKeyMappingButton("Add Left", leftKeys);
+	DrawKeyMappingButton("Add Right", rightKeys);
+	DrawKeyMappingButton("Add Submit", submitKeys);
+	DrawKeyMappingButton("Add Cancel", cancelKeys);
+
+	ImGui::PopID();
+
+	// ゲームパッド
+	ImGui::SeparatorText("GamePad Mappings");
+	ImGui::PushID("GamePadArray");
+
+	EnumAdapter<GamePadButtons>::Combo("addGamePad", &addGamePadButton);
+	DrawGamePadMappingButton("Add Up", upPad);
+	DrawGamePadMappingButton("Add Down", downPad);
+	DrawGamePadMappingButton("Add Left", leftPad);
+	DrawGamePadMappingButton("Add Right", rightPad);
+	DrawGamePadMappingButton("Add Submit", submitPad);
+	DrawGamePadMappingButton("Add Cancel", cancelPad);
+
+	ImGui::PopID();
 }
 
 void UIInputNavigationComponent::FromJson(const Json& data) {
