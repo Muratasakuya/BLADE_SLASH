@@ -69,16 +69,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -92,16 +93,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -125,16 +127,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -148,16 +151,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -177,16 +181,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -206,16 +211,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -237,16 +243,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": 1.0,
@@ -260,16 +267,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -293,16 +301,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -316,16 +325,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -345,16 +355,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": {
@@ -374,16 +385,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -435,9 +447,37 @@
                     },
                     "Sprite": {
                         "blendMode": "kBlendModeNormal",
+                        "deviceTextureNames": [
+                            "white",
+                            "white"
+                        ],
+                        "isChangeDeviceTexture": false,
                         "layer": "PostModel",
                         "layerIndex": 0,
-                        "postProccessEnable_": true,
+                        "leftBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "leftTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
                         "textureName": "gameStartText"
                     },
                     "Transform": {
@@ -491,16 +531,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": 0.1599999964237213,
@@ -514,16 +555,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -547,16 +589,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -570,16 +613,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -599,16 +643,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": {
@@ -628,16 +673,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -726,16 +772,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -749,16 +796,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -782,16 +830,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -805,16 +854,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -834,16 +884,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -863,16 +914,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -894,16 +946,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": 1.0,
@@ -917,16 +970,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -950,16 +1004,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -973,16 +1028,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1002,16 +1058,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": {
@@ -1031,16 +1088,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1092,9 +1150,37 @@
                     },
                     "Sprite": {
                         "blendMode": "kBlendModeNormal",
+                        "deviceTextureNames": [
+                            "white",
+                            "white"
+                        ],
+                        "isChangeDeviceTexture": false,
                         "layer": "PostModel",
                         "layerIndex": 0,
-                        "postProccessEnable_": true,
+                        "leftBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "leftTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
                         "textureName": "gameFinishText"
                     },
                     "Transform": {
@@ -1148,16 +1234,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": 0.1599999964237213,
@@ -1171,16 +1258,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1204,16 +1292,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -1227,16 +1316,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1256,16 +1346,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": {
@@ -1285,16 +1376,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1383,16 +1475,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -1406,16 +1499,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1439,16 +1533,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -1462,16 +1557,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1491,16 +1587,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1520,16 +1617,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1551,16 +1649,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -1574,16 +1673,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1607,16 +1707,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutExpo",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": -3.140000104904175,
@@ -1630,16 +1731,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1659,16 +1761,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1688,16 +1791,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutQuint",
+                                    "easingType_": "EaseOutQuart",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": {
@@ -1749,9 +1853,37 @@
                     },
                     "Sprite": {
                         "blendMode": "kBlendModeNormal",
+                        "deviceTextureNames": [
+                            "white",
+                            "white"
+                        ],
+                        "isChangeDeviceTexture": false,
                         "layer": "PostModel",
                         "layerIndex": 0,
-                        "postProccessEnable_": true,
+                        "leftBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "leftTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
                         "textureName": "optionIcon"
                     },
                     "Transform": {
@@ -1805,16 +1937,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -1828,16 +1961,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1861,16 +1995,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutSine",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": 0.0,
@@ -1884,16 +2019,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1913,16 +2049,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -1942,16 +2079,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseOutSine",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": {
@@ -1975,16 +2113,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -1998,16 +2137,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2031,16 +2171,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -2054,16 +2195,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2083,16 +2225,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2112,16 +2255,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2143,16 +2287,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.3199999928474426
                                 },
                                 "move_.end": 1.0,
@@ -2166,16 +2311,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2199,16 +2345,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -2222,16 +2369,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2251,16 +2399,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2280,16 +2429,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2341,9 +2491,37 @@
                     },
                     "Sprite": {
                         "blendMode": "kBlendModeNormal",
+                        "deviceTextureNames": [
+                            "white",
+                            "white"
+                        ],
+                        "isChangeDeviceTexture": false,
                         "layer": "PostModel",
                         "layerIndex": 0,
-                        "postProccessEnable_": true,
+                        "leftBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "leftTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightBottomColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
+                        "rightTopColor": {
+                            "a": 1.0,
+                            "b": 1.0,
+                            "g": 1.0,
+                            "r": 1.0
+                        },
                         "textureName": "optionText"
                     },
                     "Transform": {
@@ -2397,16 +2575,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "EaseOutExpo",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.05999999865889549
                                 },
                                 "move_.end": 0.0,
@@ -2420,16 +2599,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2453,16 +2633,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": 0.0,
@@ -2476,16 +2657,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2505,16 +2687,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
@@ -2534,16 +2717,17 @@
                             "ValueSource": {
                                 "Loop": {
                                     "loop": {
+                                        "isInfinityLoop": false,
                                         "loopCount": 1,
                                         "type": "Repeat"
                                     }
                                 },
                                 "ReturnTimer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "Timer": {
-                                    "easeingType_": "Linear",
+                                    "easingType_": "EaseInSine",
                                     "target_": 0.0
                                 },
                                 "move_.end": {
