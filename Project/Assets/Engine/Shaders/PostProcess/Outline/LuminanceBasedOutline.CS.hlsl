@@ -64,47 +64,50 @@ void main(uint3 DTid : SV_DispatchThreadID) {
 	if (pixelPos.x >= width || pixelPos.y >= height) {
 		return;
 	}
-	
-	// フラグが立っていなければ処理しない
-	if (!CheckPixelBitMask(Bit_LuminanceBasedOutline, pixelPos)) {
-		
+
+	// 近傍(3x3)のどこかにBit_LuminanceBasedOutlineが立っていたら処理する
+	bool anyMask = false;
+	{
+		int2 maxP = int2(int(width) - 1, int(height) - 1);
+		[unroll]
+		for (int y = 0; y < 3; ++y) {
+			[unroll]
+			for (int x = 0; x < 3; ++x) {
+
+				int2 p = clamp(int2(pixelPos) + kIndex3x3[x][y], int2(0, 0), maxP);
+
+				if (CheckPixelBitMask(Bit_LuminanceBasedOutline, uint2(p))) {
+					anyMask = true;
+				}
+			}
+		}
+	}
+
+	if (!anyMask) {
 		gOutputTexture[pixelPos] = gInputTexture.Load(int3(pixelPos, 0));
 		return;
 	}
 
 	// UVステップサイズ
 	float2 uvStepSize = float2(1.0f / width, 1.0f / height);
-
-	// Prewitt フィルタ用の勾配
 	float2 difference = float2(0.0f, 0.0f);
-
-	// 3x3 畳み込み処理
 	for (int x = 0; x < 3; ++x) {
 		for (int y = 0; y < 3; ++y) {
-			
+
 			int2 offset = kIndex3x3[x][y];
+			int2 samplePos = clamp(int2(pixelPos) + offset, int2(0, 0), int2(int(width) - 1, int(height) - 1));
 
-			// ピクセル位置を計算
-			int2 samplePos = clamp(pixelPos + offset, int2(0, 0), int2(width - 1, height - 1));
-
-			// テクスチャのサンプル
 			float3 sampleColor = gInputTexture.Load(int3(samplePos, 0)).rgb;
-
-			// 輝度計算
 			float luminance = Luminance(sampleColor);
 
-			// Prewitt フィルタ適用
 			difference.x += luminance * kPrewittHorizontalKernel[x][y];
 			difference.y += luminance * kPrewittVerticalKernel[x][y];
 		}
 	}
 
-	// 変化の大きさを計算
-	float weight = length(difference) * gEdge.strength;
-	weight = saturate(weight);
-	// 元のテクスチャカラーを取得
+	// エッジの強さに応じて元画像を減算
+	float weight = saturate(length(difference) * gEdge.strength);
 	float4 originalColor = gInputTexture.Load(int3(pixelPos, 0));
-	// エッジを適用
 	float3 finalColor = (1.0f - weight) * originalColor.rgb;
 
 	gOutputTexture[pixelPos] = float4(finalColor, 1.0f);

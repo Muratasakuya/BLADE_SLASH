@@ -68,10 +68,27 @@ void main(uint3 DTid : SV_DispatchThreadID) {
 	if (pixelPos.x >= width || pixelPos.y >= height) {
 		return;
 	}
-	
+
+	// 近傍(3x3)のどこかに Bit_DepthBasedOutline が立っていたら処理する
+	// 自分のピクセルが立ってなくても、外側アウトライン用に通す
+	bool anyMask = false;
+	{
+		int2 maxP = int2(int(width) - 1, int(height) - 1);
+		[unroll]
+		for (int y = 0; y < 3; ++y) {
+			[unroll]
+			for (int x = 0; x < 3; ++x) {
+
+				int2 p = clamp(int2(pixelPos) + kIndex3x3[x][y], int2(0, 0), maxP);
+				if (CheckPixelBitMask(Bit_DepthBasedOutline, uint2(p))) {
+					
+					anyMask = true;
+				}
+			}
+		}
+	}
 	// フラグが立っていなければ処理しない
-	if (!CheckPixelBitMask(Bit_DepthBasedOutline, pixelPos)) {
-		
+	if (!anyMask) {
 		gOutputTexture[pixelPos] = gInputTexture.Load(int3(pixelPos, 0));
 		return;
 	}
@@ -81,19 +98,19 @@ void main(uint3 DTid : SV_DispatchThreadID) {
 	// サンプリング処理
 	for (int y = 0; y < 3; ++y) {
 		for (int x = 0; x < 3; ++x) {
-			
+
 			int2 offset = kIndex3x3[x][y];
-			int2 sampleP = clamp(int2(pixelPos) + offset, int2(0, 0), int2(width - 1, height - 1));
+			int2 sampleP = clamp(int2(pixelPos) + offset, int2(0, 0), int2(int(width) - 1, int(height) - 1));
 
 			float2 uv = (float2(sampleP) + 0.5f) / float2(width, height);
 			float ndcDepth = gDepthTexture.SampleLevel(gSamplerPoint, uv, 0).r;
 
-			// NDC→clip
+			// NDC -> clip
 			float2 clipXY = uv * 2.0f - 1.0f;
 			clipXY.y *= -1.0f;
 			float4 clipPos = float4(clipXY, ndcDepth, 1.0f);
 
-			// clip→view
+			// clip -> view
 			float4 viewPos = mul(clipPos, gMaterial.projectionInverse);
 			viewPos /= viewPos.w;
 			float viewZ = viewPos.z;
@@ -102,14 +119,14 @@ void main(uint3 DTid : SV_DispatchThreadID) {
 			gradient.y += viewZ * kPrewittVerticalKernel[x][y];
 		}
 	}
-
+	// エッジの重み計算
 	float weight = saturate(max(length(gradient) - gMaterial.threshold, 0.0f) * gMaterial.edgeScale);
 
 	// 元カラーと合成して出力
 	float2 uv = (float2(pixelPos) + 0.5f) / float2(width, height);
 	float4 srcColor = gInputTexture.SampleLevel(gSamplerLinear, uv, 0);
-
 	float3 finalColor = lerp(gMaterial.color, srcColor.rgb, 1.0f - weight);
-
+	
+	// 出力
 	gOutputTexture[pixelPos] = float4(finalColor, 1.0f);
 }

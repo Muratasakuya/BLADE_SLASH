@@ -62,16 +62,33 @@ void main(uint3 DTid : SV_DispatchThreadID) {
 
 	// ブラー適用
 	float3 outputColor = float3(0.0f, 0.0f, 0.0f);
-
+	float sampleCount = 0.0f;
 	for (int i = 0; i < gBlur.numSamples; ++i) {
-		
-		float2 sampleUV = uv + direction * gBlur.width * distance * float(i);
-		sampleUV = clamp(sampleUV, float2(0.001f, 0.001f), float2(0.999f, 0.999f));
+
+		float t = float(i) / max(1.0f, float(gBlur.numSamples - 1));
+		float2 sampleUV = uv + direction * gBlur.width * distance * t;
+
+		sampleUV = clamp(sampleUV, 0.001f, 0.999f);
+
+		// UV → ピクセル座標
+		uint2 samplePixel =
+		uint2(sampleUV * float2(width, height));
+
+		// サンプル元もマスク判定を行って影響を受けないようにする
+		if (!CheckPixelBitMask(Bit_RadialBlur, samplePixel)) {
+			continue;
+		}
 		outputColor += gInputTexture.SampleLevel(gSampler, sampleUV, 0).rgb;
+		sampleCount += 1.0f;
 	}
 
-	// 平均化
-	outputColor *= rcp(float(gBlur.numSamples));
+	if (sampleCount > 0.0f) {
 
+		outputColor /= sampleCount;
+	} else {
+		
+		// 全部弾かれたら元の色
+		outputColor = gInputTexture.Load(int3(pixelPos, 0)).rgb;
+	}
 	gOutputTexture[pixelPos] = float4(outputColor, 1.0f);
 }
