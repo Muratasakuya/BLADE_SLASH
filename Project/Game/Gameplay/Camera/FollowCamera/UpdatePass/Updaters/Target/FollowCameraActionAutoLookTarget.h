@@ -35,7 +35,7 @@ public:
 
 	//--------- accessor -----------------------------------------------------
 
-	void BindDependencies(const FollowCameraDependencies& dependencies);
+	void BindDependencies(const FollowCameraDependencies& dependencies) override;
 
 	// 識別IDの取得
 	static constexpr FollowCameraUpdatePassID ID = FollowCameraUpdatePassID::ActionAutoLookTarget;

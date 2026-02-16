@@ -51,6 +51,9 @@ public:
 	bool IsInRange(AreaReactionType reactionType) const;
 	// 範囲の取得
 	float GetRange(AreaReactionType reactionType) const { return areaParams_[static_cast<uint32_t>(reactionType)].range; }
+	// 最小、最大範囲の取得
+	float GetMinRange() const;
+	float GetMaxRange() const;
 private:
 	//========================================================================
 	//	private Methods

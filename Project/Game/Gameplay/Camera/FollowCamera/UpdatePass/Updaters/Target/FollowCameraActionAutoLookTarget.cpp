@@ -8,10 +8,6 @@ using namespace SakuEngine;
 #include <Engine/Utility/Enum/EnumAdapter.h>
 #include <Engine/Utility/Json/JsonAdapter.h>
 #include <Engine/Config.h>
-
-//============================================================================
-//	include
-//============================================================================
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
 

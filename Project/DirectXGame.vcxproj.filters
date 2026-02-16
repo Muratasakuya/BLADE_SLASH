@@ -3606,5 +3606,9 @@
     <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli">
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </None>
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraCalFov.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraCalFov.h" />
   </ItemGroup>
 </Project>

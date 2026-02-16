@@ -50,6 +50,8 @@ void ObjectAreaChecker::ImGui() {
 		SaveJson();
 	}
 	ImGui::Text("Json Path: %s", jsonPath_.c_str());
+	ImGui::Text("Min Range: %.3f", GetMinRange());
+	ImGui::Text("Max Range: %.3f", GetMaxRange());
 
 	for (uint32_t i = 0; i < static_cast<uint32_t>(AreaReactionType::Count); ++i) {
 
@@ -73,6 +75,30 @@ bool ObjectAreaChecker::IsInRange(AreaReactionType reactionType) const {
 
 	uint32_t typeIndex = static_cast<uint32_t>(reactionType);
 	return areaParams_[typeIndex].isInRange;
+}
+
+float ObjectAreaChecker::GetMinRange() const {
+
+	std::vector<float> ranges{};
+	ranges.reserve(areaParams_.size());
+	for (const auto& param : areaParams_) {
+
+		ranges.emplace_back(param.range);
+	}
+	std::sort(ranges.begin(), ranges.end());
+	return ranges.front();
+}
+
+float ObjectAreaChecker::GetMaxRange() const {
+
+	std::vector<float> ranges{};
+	ranges.reserve(areaParams_.size());
+	for (const auto& param : areaParams_) {
+
+		ranges.emplace_back(param.range);
+	}
+	std::sort(ranges.begin(), ranges.end(), std::greater());
+	return ranges.front();
 }
 
 void ObjectAreaChecker::ApplyJson() {

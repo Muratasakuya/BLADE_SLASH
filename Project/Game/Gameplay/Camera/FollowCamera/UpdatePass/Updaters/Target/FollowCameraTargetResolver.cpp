@@ -28,7 +28,7 @@ void FollowCameraTargetResolver::Execute([[maybe_unused]] FollowCameraContext& c
 	Vector3 targetPos = dependencies_.bossEnemy->GetTranslation();
 
 	// とりあえずプレイヤーの位置
-	targetPos_ = Vector3::Lerp(basePos, targetPos, distanceLerpRate_);
+	targetPos_ = Vector3::Lerp(basePos, targetPos, distanceLerpRate_);	
 }
 
 void FollowCameraTargetResolver::ImGui() {

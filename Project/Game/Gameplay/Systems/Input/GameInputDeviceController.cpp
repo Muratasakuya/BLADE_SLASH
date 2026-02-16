@@ -186,6 +186,7 @@ void GameInputDeviceController::ImGui() {
 
 	ImGui::Checkbox("Display Mouse", &isDisplayMouse_);
 	ImGui::Checkbox("Control Move Mouse", &isControlMoveMouse_);
+	ImGui::Text("Push Enter + F1 to release mouse control");
 	{
 		bool edit = false;
 		edit |= ImGui::DragFloat2("Mouse Area Pos", &mouseAreaPos_.x, 1.0f);

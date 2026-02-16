@@ -21,6 +21,7 @@ using namespace SakuEngine;
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraActionAutoLookTarget.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraZoomOffsetResolver.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraOffsetSmoother.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Fov/FollowCameraCalFov.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Fov/FollowCameraReturnFov.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Editor/FollowCameraReturnToFollowSmoother.h>
 
@@ -42,12 +43,13 @@ void FollowCameraUpdatePass::Init() {
 	registry.Register<FollowCameraZoomOffsetResolver>();
 	registry.Register<FollowCameraOffsetSmoother>();
 	registry.Register<FollowCameraOrbitTranslationComposer>();
+	registry.Register<FollowCameraCalFov>();
 	registry.Register<FollowCameraReturnFov>();
 	registry.Register<FollowCameraActionAutoLookTarget>();
 	registry.Register<FollowCameraReturnToFollowSmoother>();
 
 	// 実行順
-	static constexpr std::array<FollowCameraUpdatePassID, 12> kExecuteOrder = {
+	static constexpr std::array<FollowCameraUpdatePassID, 13> kExecuteOrder = {
 
 		FollowCameraUpdatePassID::LookInputSmoother,        // 入力
 		FollowCameraUpdatePassID::TargetResolver,           // 追従ターゲット決定
@@ -62,6 +64,7 @@ void FollowCameraUpdatePass::Init() {
 		FollowCameraUpdatePassID::OrbitTranslationComposer, // 最終座標合成
 
 		FollowCameraUpdatePassID::RollStabilizer,   // ロール安定化
+		FollowCameraUpdatePassID::CalFov,           // デフォルト画角計算
 		FollowCameraUpdatePassID::ReturnFov,        // 画角戻し
 		FollowCameraUpdatePassID::ToFollowSmoother, // エディター戻し
 	};
@@ -100,6 +103,7 @@ void FollowCameraUpdatePass::BuildFrameService() {
 	frameService_.inputSmoother = static_cast<FollowCameraLookInputSmoother*>(GetPassByID(FollowCameraUpdatePassID::LookInputSmoother));
 	frameService_.pitchClamper = static_cast<FollowCameraPitchClamper*>(GetPassByID(FollowCameraUpdatePassID::PitchClamper));
 	frameService_.toFollowSmoother = static_cast<FollowCameraReturnToFollowSmoother*>(GetPassByID(FollowCameraUpdatePassID::ToFollowSmoother));
+	frameService_.calFov = static_cast<FollowCameraCalFov*>(GetPassByID(FollowCameraUpdatePassID::CalFov));
 }
 
 IFollowCameraUpdatePass* FollowCameraUpdatePass::GetPassByID(FollowCameraUpdatePassID id) {
@@ -143,6 +147,16 @@ void FollowCameraUpdatePass::Update(FollowCamera& followCamera) {
 void FollowCameraUpdatePass::ImGui() {
 
 	if (ImGui::BeginTabBar("CameraUpdatePass")) {
+
+		//=========================================================================================================================
+		//	更新パスコンフィグ
+		//=========================================================================================================================
+
+		if (ImGui::BeginTabItem("Config")) {
+			
+
+			ImGui::EndTabItem();
+		}
 
 		//=========================================================================================================================
 		//	更新パスの編集
