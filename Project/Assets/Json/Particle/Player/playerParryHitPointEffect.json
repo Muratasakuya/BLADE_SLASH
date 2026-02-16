@@ -3,6 +3,8 @@
         {
             "blendMode": "kBlendModeAdd",
             "gameMaxParticleCount_": 512,
+            "isUseScalingDeltaTime_": false,
+            "modelName": "",
             "name": "dispersion",
             "phases": [
                 {
@@ -55,9 +57,9 @@
                             },
                             "radius": 0.20000000298023224,
                             "translation": {
-                                "x": 26.253360748291016,
-                                "y": 4.0,
-                                "z": -53.2144660949707
+                                "x": 0.0,
+                                "y": 8.0,
+                                "z": 0.0
                             }
                         },
                         "type": "Sphere"
@@ -97,7 +99,14 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
                                 "slerpExtraTurns_": 0,
                                 "slerpPreferLongArc_": false,
                                 "updateType": "Slerp"
@@ -217,6 +226,8 @@
         {
             "blendMode": "kBlendModeAdd",
             "gameMaxParticleCount_": 32,
+            "isUseScalingDeltaTime_": false,
+            "modelName": "",
             "name": "centerCircle",
             "phases": [
                 {
@@ -269,9 +280,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 26.253360748291016,
-                                "y": 4.0,
-                                "z": -53.2144660949707
+                                "x": 0.0,
+                                "y": 8.0,
+                                "z": 0.0
                             }
                         },
                         "type": "Sphere"
@@ -311,7 +322,14 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
                                 "slerpExtraTurns_": 0,
                                 "slerpPreferLongArc_": false,
                                 "updateType": "Slerp"
@@ -395,6 +413,8 @@
         {
             "blendMode": "kBlendModeAdd",
             "gameMaxParticleCount_": 32,
+            "isUseScalingDeltaTime_": false,
+            "modelName": "",
             "name": "centerFlash",
             "phases": [
                 {
@@ -447,9 +467,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 26.253360748291016,
-                                "y": 4.0,
-                                "z": -53.2144660949707
+                                "x": 0.0,
+                                "y": 8.0,
+                                "z": 0.0
                             }
                         },
                         "type": "Sphere"
@@ -489,7 +509,14 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
                                 "slerpExtraTurns_": 0,
                                 "slerpPreferLongArc_": false,
                                 "updateType": "Slerp"
@@ -573,6 +600,8 @@
         {
             "blendMode": "kBlendModeAdd",
             "gameMaxParticleCount_": 32,
+            "isUseScalingDeltaTime_": false,
+            "modelName": "",
             "name": "centerLine",
             "phases": [
                 {
@@ -625,9 +654,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 26.253360748291016,
-                                "y": 4.0,
-                                "z": -53.2144660949707
+                                "x": 0.0,
+                                "y": 8.0,
+                                "z": 0.0
                             }
                         },
                         "type": "Sphere"
@@ -667,7 +696,14 @@
                                         "z": 0.04596751555800438
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
                                 "slerpExtraTurns_": 0,
                                 "slerpPreferLongArc_": false,
                                 "updateType": "Slerp"
@@ -751,6 +787,8 @@
         {
             "blendMode": "kBlendModeAdd",
             "gameMaxParticleCount_": 32,
+            "isUseScalingDeltaTime_": false,
+            "modelName": "",
             "name": "centerSpark",
             "phases": [
                 {
@@ -803,9 +841,9 @@
                             },
                             "radius": 0.0,
                             "translation": {
-                                "x": 26.253360748291016,
-                                "y": 4.0,
-                                "z": -53.2144660949707
+                                "x": 0.0,
+                                "y": 8.0,
+                                "z": 0.0
                             }
                         },
                         "type": "Sphere"
@@ -845,7 +883,14 @@
                                         "z": 0.0
                                     }
                                 },
+                                "lockAxisAngle_": 0.0,
                                 "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
                                 "slerpExtraTurns_": 0,
                                 "slerpPreferLongArc_": false,
                                 "updateType": "Slerp"

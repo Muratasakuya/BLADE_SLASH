@@ -81,6 +81,8 @@ private:
 
 	// インスタンス数
 	uint32_t numInstance_;
+	// スケーリングされたデルタタイムを使用するか
+	bool isUseScalingDeltaTime_ = true;
 
 	// フェーズ
 	std::vector<std::unique_ptr<ParticlePhase>> phases_;
