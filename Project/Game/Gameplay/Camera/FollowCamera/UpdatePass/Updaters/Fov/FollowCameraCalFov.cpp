@@ -31,7 +31,7 @@ void FollowCameraCalFov::BindDependencies(const FollowCameraDependencies& depend
 }
 
 void FollowCameraCalFov::Execute([[maybe_unused]] FollowCameraContext& context,
-	[[maybe_unused]] const FollowCameraFrameService& service, float deltaTime) {
+	[[maybe_unused]] const FollowCameraFrameService& service, [[maybe_unused]] float deltaTime) {
 
 	// エリアチェッカー更新
 	areaChecker_->Update();
