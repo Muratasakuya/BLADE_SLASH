@@ -154,6 +154,17 @@ void FollowCameraUpdatePass::ImGui() {
 
 		if (ImGui::BeginTabItem("Config")) {
 			
+			// 現在の処理順
+			if (ImGui::CollapsingHeader("Execute Order")) {
+				for (size_t i = 0; i < updatePasses_.size(); ++i) {
+
+					ImGui::Spacing();
+
+					// 処理名
+					ImGui::Text("%s", EnumAdapter<FollowCameraUpdatePassID>::ToString(updatePasses_[i]->GetID()));
+					ImGui::Text("[↓]");
+				}
+			}
 
 			ImGui::EndTabItem();
 		}
