@@ -1,9 +1,0 @@
-{
-    "durationSec_": 0.7200000286102295,
-    "easingType_": "EaseOutSine",
-    "pitchRotateX_": 0.12999999523162842,
-    "targetKeyNames_": [
-        "playerParry",
-        "playerSkilJump"
-    ]
-}

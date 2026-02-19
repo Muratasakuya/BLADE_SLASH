@@ -31,9 +31,6 @@ SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGa
 	// シーン遷移クラス初期化
 	sceneTransition_ = std::make_unique<SceneTransition>();
 	sceneTransition_->Init();
-	// レベルエディター初期化
-	levelEditor_ = std::make_unique<LevelEditor>();
-	levelEditor_->Init();
 
 	// 最初のシーンファイルを読みこみ
 	asset->LoadSceneAsync(scene, AssetLoadType::Synch);
@@ -52,14 +49,10 @@ SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGa
 
 	// 最初のシーンを読み込んで初期化
 	LoadScene(scene);
-
 	currentScene_->Init();
 }
 
 void SceneManager::Update() {
-
-	// エディター更新
-	levelEditor_->Update();
 
 	currentScene_->Update();
 	sceneTransition_->Update();
@@ -167,12 +160,6 @@ void SceneManager::LoadScene(Scene scene) {
 	currentSceneType_ = scene;
 	currentScene_ = factory_->Create(scene);
 	currentScene_->SetPtr(sceneView_, this);
-
-	// シーンの構築
-	if (scene == Scene::Title) {
-		levelEditor_->BuildObjects("levelEditor");
-	}
-	levelEditor_->SetCurrentScene(scene);
 
 	// imgui選択をリセット
 	ImGuiObjectEditor::GetInstance()->Reset();

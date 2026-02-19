@@ -131,7 +131,7 @@ void BaseCamera::UpdateAutoFocus() {
 
 void BaseCamera::ImGui() {
 
-	ImGui::DragFloat3("translation##DebugCamera", &transform_.translation.x, 0.01f);
+	ImGui::DragFloat3("translation##DebugCamera", &transform_.translation.x, 0.1f);
 	if (ImGui::DragFloat3("rotation##DebugCamera", &transform_.eulerRotate.x, 0.01f)) {
 
 		transform_.rotation = Quaternion::EulerToQuaternion(transform_.eulerRotate);

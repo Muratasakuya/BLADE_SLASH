@@ -1,0 +1,33 @@
+{
+  "Textures": [
+    "folder",
+    "file",
+    "model",
+    "texture",
+    "white",
+    "checkerboard",
+    "alphaGradation",
+    "FiraMono_msdf",
+    "Corporate-Logo-Rounded-Bold_msdf",
+    "DS-DIGIB_msdf",
+    "manipulatorTranslate",
+    "manipulatorRotate",
+    "manipulatorScale",
+    "manipulatorNone",
+    "manipulatorAutoFocus",
+    "UITextIcon",
+    "UITextButtonIcon",
+    "UIImageIcon",
+    "UICheckBoxIcon",
+    "UISliderIcon",
+    "UIProgressBarIcon",
+    "UIImageButtonIcon",
+    "UIParentRectTransformIcon"
+  ],
+  "Models": [
+    "demoCamera",
+    "cube",
+    "sphere",
+    "sponza"
+  ]
+}

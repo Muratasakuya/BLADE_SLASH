@@ -17,8 +17,6 @@ namespace SakuEngine {
 	enum class Scene {
 
 		Debug,
-		Title,
-		Game,
 	};
 
 	//============================================================================

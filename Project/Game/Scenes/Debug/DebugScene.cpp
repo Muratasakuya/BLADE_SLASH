@@ -12,8 +12,8 @@
 
 void DebugScene::Init() {
 
-	debugText_ = std::make_unique<SakuEngine::GameTextObject>();
-	debugText_->Init("DS-DIGIB_msdf", "Assets/Json/Atlas/DS-DIGIB_msdf.json", "debugText", "Text");
+	sponza_ = std::make_unique<SakuEngine::GameObject3D>();
+	sponza_->Init("sponza", "sponza", "Sponza");
 
 	//========================================================================
 	//	scene
