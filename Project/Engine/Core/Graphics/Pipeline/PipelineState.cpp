@@ -20,59 +20,49 @@ using namespace SakuEngine;
 void PipelineState::Create(const std::string& fileName, ID3D12Device8* device,
 	SRVDescriptor* srvDescriptor, DxShaderCompiler* shaderCompiler) {
 
-	// pipelineの種類
-	PipelineType pipelineType{};
-
 	// jsonFileの読み込み
 	Json json = LoadFile(fileName);
 
 	// shaderCompileを行う
-	std::vector<ComPtr<IDxcBlob>> shaderBlobs;
-	shaderCompiler->Compile(json, shaderBlobs);
-	// shaderBlobsのサイズが1つならcomputeShaderとして処理をする
-	if (shaderBlobs.size() == 1) {
+	CompiledShaders shaders{};
+	shaderCompiler->Compile(json, shaders);
+
+	// タイプ判別
+	PipelineType pipelineType{};
+	if (shaders.IsComputeOnly()) {
 
 		pipelineType = PipelineType::COMPUTE;
-	} else {
-		// meshShaderを使うかどうか
-		if (json.contains("Type") && json["Type"] == "MS") {
+	} else if (shaders.HasMS()) {
 
-			// typeがMS
-			pipelineType = PipelineType::MESH;
-		} else {
+		pipelineType = PipelineType::MESH;
+	} else if (shaders.HasVS()) {
 
-			// typeがMS
-			pipelineType = PipelineType::VERTEX;
-		}
+		pipelineType = PipelineType::VERTEX;
 	}
 
-	// rootSignatureの作成
+	// RootSignatureの作成
 	DxRootSignature dxRootSignature;
 	dxRootSignature.Create(fileName, json, device, srvDescriptor, rootSignature_);
 
-	// pipelineごとの分岐処理
-	// pipeline作成
+	// pipelineの作成
 	switch (pipelineType) {
-	case PipelineState::PipelineType::VERTEX: {
+	case PipelineType::VERTEX:
 
-		CreateVertexPipeline(fileName, json, device, shaderBlobs);
+		CreateVertexPipeline(fileName, json, device, shaders);
 		break;
-	}
-	case PipelineState::PipelineType::MESH: {
+	case PipelineType::MESH:
 
-		CreateMeshPipeline(fileName, json, device, shaderBlobs);
+		CreateMeshPipeline(fileName, json, device, shaders);
 		break;
-	}
-	case PipelineState::PipelineType::COMPUTE: {
+	case PipelineType::COMPUTE:
 
-		CreateComputePipeline(fileName, device, shaderBlobs);
+		CreateComputePipeline(fileName, device, shaders);
 		break;
-	}
 	}
 }
 
 void PipelineState::CreateVertexPipeline(const std::string& fileName, const Json& json, ID3D12Device8* device,
-	const std::vector<ComPtr<IDxcBlob>>& shaderBlobs) {
+	const CompiledShaders& shaders) {
 
 	// inputLayoutの作成
 	DxInputLayout dxInputLayout;
@@ -91,12 +81,12 @@ void PipelineState::CreateVertexPipeline(const std::string& fileName, const Json
 	// 共通設定
 	pipelineDesc.pRootSignature = rootSignature_.Get();
 	pipelineDesc.VS = {
-		.pShaderBytecode = shaderBlobs.front()->GetBufferPointer(),
-		.BytecodeLength = shaderBlobs.front()->GetBufferSize()
+		.pShaderBytecode = shaders.vs->GetBufferPointer(),
+		.BytecodeLength = shaders.vs->GetBufferSize()
 	};
 	pipelineDesc.PS = {
-		.pShaderBytecode = shaderBlobs.back()->GetBufferPointer(),
-		.BytecodeLength = shaderBlobs.back()->GetBufferSize()
+		.pShaderBytecode = shaders.ps->GetBufferPointer(),
+		.BytecodeLength = shaders.ps->GetBufferSize()
 	};
 	pipelineDesc.RasterizerState = rasterizerDesc;
 	pipelineDesc.DepthStencilState = depthDesc;
@@ -146,8 +136,11 @@ void PipelineState::CreateVertexPipeline(const std::string& fileName, const Json
 }
 
 
-void PipelineState::CreateMeshPipeline(const std::string& fileName, const Json& json, ID3D12Device8* device,
-	const std::vector<ComPtr<IDxcBlob>>& shaderBlobs) {
+void PipelineState::CreateMeshPipeline(const std::string& fileName,
+	const Json& json, ID3D12Device8* device, const CompiledShaders& shaders) {
+
+	ASSERT(shaders.ms.Get() != nullptr, "Mesh pipeline requires MeshShader.");
+	ASSERT(shaders.ps.Get() != nullptr, "Mesh pipeline requires PixelShader (current engine design).");
 
 	// depth、rasterizerの作成
 	DxDepthRaster depthRaster;
@@ -166,13 +159,22 @@ void PipelineState::CreateMeshPipeline(const std::string& fileName, const Json& 
 	pipelineDesc.pRootSignature = rootSignature_.Get();
 
 	// shaderByteCodeの設定
+	hasAmplificationShader_ = (shaders.as.Get() != nullptr);
+
+	// ASはオプション
+	if (hasAmplificationShader_) {
+		pipelineDesc.AS = {
+			shaders.as->GetBufferPointer(),
+			shaders.as->GetBufferSize()
+		};
+	}
 	pipelineDesc.MS = {
-		shaderBlobs.front().Get()->GetBufferPointer(),
-		shaderBlobs.front().Get()->GetBufferSize()
+		shaders.ms->GetBufferPointer(),
+		shaders.ms->GetBufferSize()
 	};
 	pipelineDesc.PS = {
-		shaderBlobs.back().Get()->GetBufferPointer(),
-		shaderBlobs.back().Get()->GetBufferSize()
+		shaders.ps->GetBufferPointer(),
+		shaders.ps->GetBufferSize()
 	};
 
 	const auto& stateJson = json["PipelineState"][0];
@@ -201,18 +203,19 @@ void PipelineState::CreateMeshPipeline(const std::string& fileName, const Json& 
 			streamDesc.pPipelineStateSubobjectStream = &pipelineStream;
 			streamDesc.SizeInBytes = sizeof(pipelineStream);
 			return device->CreatePipelineState(&streamDesc,
-				IID_PPV_ARGS(graphicsPipelineStates_[mode].GetAddressOf())); });
+				IID_PPV_ARGS(graphicsPipelineStates_[mode].GetAddressOf()));
+		});
 }
 
 void PipelineState::CreateComputePipeline(const std::string& fileName, ID3D12Device8* device,
-	const std::vector<ComPtr<IDxcBlob>>& shaderBlobs) {
+	const CompiledShaders& shaders) {
 
-	// pipelinsStateの作成
+	// pipelineStateの作成
 	D3D12_COMPUTE_PIPELINE_STATE_DESC pipelineDesc{};
 
 	pipelineDesc.CS = {
-	.pShaderBytecode = shaderBlobs.back()->GetBufferPointer(),
-	.BytecodeLength = shaderBlobs.back()->GetBufferSize()
+	.pShaderBytecode = shaders.cs->GetBufferPointer(),
+	.BytecodeLength = shaders .cs->GetBufferSize()
 	};
 	pipelineDesc.pRootSignature = rootSignature_.Get();
 

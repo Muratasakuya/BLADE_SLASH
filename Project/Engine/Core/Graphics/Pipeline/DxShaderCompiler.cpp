@@ -1,4 +1,4 @@
-﻿#include "DxShaderCompiler.h"
+#include "DxShaderCompiler.h"
 
 using namespace SakuEngine;
 
@@ -25,100 +25,125 @@ void DxShaderCompiler::Init() {
 	assert(SUCCEEDED(hr));
 }
 
-void DxShaderCompiler::Compile(const Json& json, std::vector<ComPtr<IDxcBlob>>& shaderBlobs) {
+void DxShaderCompiler::Compile(const Json& json, CompiledShaders& outShaders) {
 
-	// baseShaderPath
+	// リセット
+	outShaders = {};
+
+	// 基底シェーダーファイルパス
 	const fs::path basePath = "./Assets/Engine/Shaders/";
 	fs::path fullPath;
 
-	for (const auto& shaderPass : json["ShaderPass"]) {
-		if (shaderPass.contains("Type")) {
+	// シェーダーステージごとにコンパイル処理を行うラムダ関数
+	auto CompileStage = [&](const char* key, const wchar_t* profile, ComPtr<IDxcBlob>& dst) {
+
+		// JSONに該当ステージの定義がない場合はスキップ
+		if (!key || !json.contains("ShaderPass")) {
+			return;
+		}
+		// JSONのShaderPass配列を走査して、該当ステージの定義を探す
+		for (const auto& shaderPass : json["ShaderPass"]) {
+
+			// パスのタイプが定義されていない場合はスキップ
+			if (!shaderPass.contains("Type")) {
+				continue;
+			}
+			// Graphics/Compute/DXR以外のパスはスキップ
+			if (std::string(shaderPass["Type"]) != "Graphics" &&
+				std::string(shaderPass["Type"]) != "Compute" &&
+				std::string(shaderPass["Type"]) != "DXR") {
+				continue;
+			}
+			// 該当ステージの定義がない場合はスキップ
+			if (!shaderPass.contains(key)) {
+				continue;
+			}
+
+			// ファイルパスを取得して、存在するか確認
+			std::string file = shaderPass[key];
+			if (!Filesystem::Found(basePath, file, fullPath)) {
+				ASSERT(false, "Failed to find HLSL file: " + file);
+			}
+
+			// シェーダーをコンパイルしてBlobを生成
+			ComPtr<IDxcBlob> blob;
+			CompileShader(fullPath.string(), fullPath.wstring(), profile, blob, L"main");
+			dst = blob;
+			return;
+		}
+		};
+
+	// 各ステージのコンパイル処理を実行
+	CompileStage("VertexShader", L"vs_6_0", outShaders.vs);
+	CompileStage("AmplificationShader", L"as_6_5", outShaders.as);
+	CompileStage("MeshShader", L"ms_6_5", outShaders.ms);
+
+	// 一度クリアする
+	fullPath.clear();
+
+	// ピクセルはプロファイルに応じてで切替
+	{
+		for (const auto& shaderPass : json["ShaderPass"]) {
+
+			// パスのタイプが定義されていない場合はスキップ
+			if (!shaderPass.contains("Type") ||
+				std::string(shaderPass["Type"]) != "Graphics" ||
+				!shaderPass.contains("PixelShader")) {
+				continue;
+			}
+
+			const wchar_t* profile = L"ps_6_0";
+			// DXRパスならps_6_6、そうでなくてもIsDXRフラグがあればps_6_5を使う
+			if (shaderPass.contains("PSProfile")) { 
+				profile = L"ps_6_6";
+			}
+
+			std::string file = shaderPass["PixelShader"];
+			if (!Filesystem::Found(basePath, file, fullPath)) {
+				ASSERT(false, "Failed to find HLSL file: " + file);
+			}
+
+			// シェーダーをコンパイルしてBlobを生成
+			ComPtr<IDxcBlob> blob;
+			CompileShader(fullPath.string(), fullPath.wstring(), profile, blob, L"main");
+			outShaders.ps = blob;
+			break;
+		}
+	}
+
+	// 一度クリアする
+	fullPath.clear();
+
+	// Compute/DXRシェーダーは両方ともcs_6_0以上を使うが、DXRパスが優先される
+	{
+		for (const auto& shaderPass : json["ShaderPass"]) {
+
+			// パスのタイプが定義されていない場合はスキップ
+			if (!shaderPass.contains("Type")) {
+				continue;
+			}
 
 			std::string type = shaderPass["Type"];
-			if (type == "Graphics") {
+			if ((type == "Compute" || type == "DXR") &&
+				shaderPass.contains("ComputeShader")) {
 
-				// vertexShaderのcompile
-				if (shaderPass.contains("VertexShader")) {
-
-					std::string vertexShader = shaderPass["VertexShader"];
-					if (Filesystem::Found(basePath, vertexShader, fullPath)) {
-						ComPtr<IDxcBlob> vertexShaderBlob;
-						CompileShader(fullPath.string(), fullPath.wstring(), L"vs_6_0", vertexShaderBlob, L"main");
-						shaderBlobs.emplace_back(vertexShaderBlob);
-					} else {
-
-						ASSERT(false, "Failed to find HLSL file: " + vertexShader);
-					}
+				// ファイルパスを取得して、存在するか確認
+				std::string file = shaderPass["ComputeShader"];
+				if (!Filesystem::Found(basePath, file, fullPath)) {
+					ASSERT(false, "Failed to find HLSL file: " + file);
 				}
 
-				// meshShaderのcompile
-				if (shaderPass.contains("MeshShader")) {
-
-					std::string meshShader = shaderPass["MeshShader"];
-					if (Filesystem::Found(basePath, meshShader, fullPath)) {
-
-						ComPtr<IDxcBlob> meshShaderBlob;
-						CompileShader(fullPath.string(), fullPath.wstring(), L"ms_6_5", meshShaderBlob, L"main");
-						shaderBlobs.emplace_back(meshShaderBlob);
-					} else {
-
-						ASSERT(false, "Failed to find HLSL file: " + meshShader);
-					}
+				// シェーダーをコンパイルしてBlobを生成
+				const wchar_t* profile = L"cs_6_0";
+				if (type == "DXR") {
+					profile = L"cs_6_6";
+				} else if (shaderPass.contains("IsDXR")) {
+					profile = L"cs_6_5";
 				}
-
-				// pixelShaderのcompile
-				if (shaderPass.contains("PixelShader")) {
-
-					const wchar_t* profile = L"ps_6_0";
-					if (shaderPass.contains("PSProfile")) {
-
-						profile = L"ps_6_6";
-					}
-
-					std::string pixelShader = shaderPass["PixelShader"];
-					if (Filesystem::Found(basePath, pixelShader, fullPath)) {
-
-						ComPtr<IDxcBlob> pixelShaderBlob;
-						CompileShader(fullPath.string(), fullPath.wstring(), profile, pixelShaderBlob, L"main");
-						shaderBlobs.emplace_back(pixelShaderBlob);
-					} else {
-
-						ASSERT(false, "Failed to find HLSL file: " + pixelShader);
-					}
-				}
-			} else if (type == "Compute" && shaderPass.contains("ComputeShader")) {
-
-				// computeShaderのcompile
-				std::string computeShader = shaderPass["ComputeShader"];
-				if (Filesystem::Found(basePath, computeShader, fullPath)) {
-					if (shaderPass.contains("IsDXR")) {
-
-						ComPtr<IDxcBlob> computeShaderBlob;
-						CompileShader(fullPath.string(), fullPath.wstring(), L"cs_6_5", computeShaderBlob, L"main");
-						shaderBlobs.push_back(computeShaderBlob);
-					} else {
-
-						ComPtr<IDxcBlob> computeShaderBlob;
-						CompileShader(fullPath.string(), fullPath.wstring(), L"cs_6_0", computeShaderBlob, L"main");
-						shaderBlobs.push_back(computeShaderBlob);
-					}
-				} else {
-
-					ASSERT(false, "Failed to find HLSL file: " + computeShader);
-				}
-			} else if (type == "DXR" && shaderPass.contains("ComputeShader")) {
-
-				// DXRのcompile
-				std::string computeShader = shaderPass["ComputeShader"];
-				if (Filesystem::Found(basePath, computeShader, fullPath)) {
-
-					ComPtr<IDxcBlob> computeShaderBlob;
-					CompileShader(fullPath.string(), fullPath.wstring(), L"cs_6_6", computeShaderBlob, L"main");
-					shaderBlobs.push_back(computeShaderBlob);
-				} else {
-
-					ASSERT(false, "Failed to find HLSL file: " + computeShader);
-				}
+				ComPtr<IDxcBlob> blob;
+				CompileShader(fullPath.string(), fullPath.wstring(), profile, blob, L"main");
+				outShaders.cs = blob;
+				break;
 			}
 		}
 	}
@@ -173,7 +198,7 @@ void DxShaderCompiler::CompileShader(
 		const char* errorMessage = reinterpret_cast<const char*>(shaderError->GetBufferPointer());
 		errorMessage;
 
-		ASSERT(false , "Failed to compile HLSL file: " + std::string(errorMessage));
+		ASSERT(false, "Failed to compile HLSL file: " + std::string(errorMessage));
 	}
 
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
