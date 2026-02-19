@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //============================================================================
 //	include
@@ -8,53 +8,52 @@
 // c++
 #include <string>
 #include <unordered_map>
+
 namespace SakuEngine {
 
-// front
+	// front
+	class Asset;
 
-class Asset;
+	//============================================================================
+	//	MeshRegistry class
+	//	メッシュの登録を行い、提供を行う
+	//============================================================================
+	class MeshRegistry {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	MeshRegistry class
-//	メッシュの登録を行い、提供を行う
-//============================================================================
-class MeshRegistry {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		MeshRegistry() = default;
+		~MeshRegistry() = default;
 
-	MeshRegistry() = default;
-	~MeshRegistry() = default;
+		// 初期化
+		void Init(ID3D12Device* device, Asset* asset);
 
-	// 初期化
-	void Init(ID3D12Device* device, Asset* asset);
+		// メッシュをマップに登録する
+		void RegisterMesh(const std::string& modelName,
+			bool isSkinned, uint32_t numInstance);
 
-	// メッシュをマップに登録する
-	void RegisterMesh(const std::string& modelName,
-		bool isSkinned, uint32_t numInstance);
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		// meshの取得
+		IMesh* GetMesh(const std::string& name) const { return meshes_.at(name).get(); }
+		const std::unordered_map<std::string, std::unique_ptr<IMesh>>& GetMeshes() const { return meshes_; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
 
-	// meshの取得
-	IMesh* GetMesh(const std::string& name) const { return meshes_.at(name).get(); }
-	const std::unordered_map<std::string, std::unique_ptr<IMesh>>& GetMeshes() const { return meshes_; }
-private:
-	//========================================================================
-	//	private Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		ID3D12Device* device_;
+		Asset* asset_;
 
-	ID3D12Device* device_;
-	Asset* asset_;
+		std::unordered_map<std::string, std::unique_ptr<IMesh>> meshes_;
 
-	std::unordered_map<std::string, std::unique_ptr<IMesh>> meshes_;
+		//--------- functions ----------------------------------------------------
 
-	//--------- functions ----------------------------------------------------
-
-	// meshletの作成
-	ResourceMesh<MeshVertex> CreateMeshlet(const std::string& modelName);
-};
-
+		// meshletの作成
+		ResourceMesh<MeshVertex> CreateMeshlet(const std::string& modelName);
+	};
 }; // SakuEngine
