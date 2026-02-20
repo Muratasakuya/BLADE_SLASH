@@ -50,7 +50,7 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		SceneColorGradingPass() :IGameEditor("ColorGradingPass") {}
+		SceneColorGradingPass() :IGameEditor("ColorGradingPass", "Screen") {}
 		~SceneColorGradingPass() = default;
 
 		// 初期化

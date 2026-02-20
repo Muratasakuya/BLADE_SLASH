@@ -19,7 +19,7 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		ObjectPoolManager() :IGameEditor("ObjectPoolManager") {};
+		ObjectPoolManager() :IGameEditor("ObjectPool", "EngineCore") {};
 		~ObjectPoolManager() = default;
 
 		// 新規オブジェクトIDを発行する(再利用キュー優先)
