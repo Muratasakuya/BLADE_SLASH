@@ -153,7 +153,7 @@ namespace SakuEngine {
 		// 最終かどうかで遷移先(PS/CS)を切り替え、UAVから適切な状態へ遷移する
 		void BeginTransition(PostProcessType type, DxCommand* dxCommand);
 
-		PostProcessSystem() :IGameEditor("PostProcessSystem") {}
+		PostProcessSystem() :IGameEditor("PostProcess", "Screen") {}
 		~PostProcessSystem() = default;
 		PostProcessSystem(const PostProcessSystem&) = delete;
 		PostProcessSystem& operator=(const PostProcessSystem&) = delete;

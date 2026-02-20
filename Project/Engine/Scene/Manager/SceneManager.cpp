@@ -17,7 +17,8 @@ using namespace SakuEngine;
 //	SceneManager classMethods
 //============================================================================
 
-SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :IGameEditor("SceneManager") {
+SceneManager::SceneManager(Scene scene, Asset* asset, SceneView* sceneView) :
+	IGameEditor("SceneManager", "Scene") {
 
 	sceneView_ = nullptr;
 	sceneView_ = sceneView;

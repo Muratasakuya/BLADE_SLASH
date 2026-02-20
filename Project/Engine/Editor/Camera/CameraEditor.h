@@ -81,7 +81,7 @@ namespace SakuEngine {
 			Manual,   // 手動で動かした補間値(0.0f~1.0f)の視点
 			Play      // 再生
 		};
-		
+
 		// キーイベント情報
 		struct KeyEvent {
 
@@ -191,7 +191,7 @@ namespace SakuEngine {
 		// 名前からベースネームと番号を分離する
 		std::string SplitBaseNameAndNumber(const std::string& name, int& number);
 
-		CameraEditor() :IGameEditor("CameraEditor") {}
+		CameraEditor() :IGameEditor("CameraEditor", "Tools") {}
 		~CameraEditor() = default;
 		CameraEditor(const CameraEditor&) = delete;
 		CameraEditor& operator=(const CameraEditor&) = delete;

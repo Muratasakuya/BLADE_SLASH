@@ -27,7 +27,6 @@
   "Models": [
     "demoCamera",
     "cube",
-    "sphere",
-    "sponza"
+    "sphere"
   ]
 }

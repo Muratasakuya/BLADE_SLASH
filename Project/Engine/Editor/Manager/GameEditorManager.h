@@ -8,6 +8,8 @@
 // c++
 #include <cstdint>
 #include <vector>
+#include <unordered_map>
+#include <ranges>
 
 //============================================================================
 //	GameEditorManager class
@@ -46,14 +48,28 @@ namespace SakuEngine {
 		//	private Methods
 		//========================================================================
 
+		//--------- structure ----------------------------------------------------
+
+		// 選択中の情報
+		struct SelectInfo {
+
+			IGameEditor* editor;
+
+			std::string groupName;
+			std::optional<uint32_t> index;
+
+			// 選択中のエディターがあるか
+			bool Has() { return index.has_value(); }
+		};
+
 		//--------- variables ----------------------------------------------------
 
 		static GameEditorManager* instance_;
 
-		std::vector<IGameEditor*> editors_;
+		// 登録されているエディター
+		std::unordered_map<std::string, std::vector<IGameEditor*>> editorMap_;
 
-		IGameEditor* selectedEditor_;
-
-		std::optional<uint32_t> selectedIndex_ = std::nullopt;
+		// 選択されているエディター情報
+		SelectInfo selectInfo_;
 	};
 }; // SakuEngine
