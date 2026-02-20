@@ -38,9 +38,4 @@ private:
 
 	std::unique_ptr<SakuEngine::BaseCamera> camera3D_;
 	std::unique_ptr<SakuEngine::BasePunctualLight> light_;
-
-	std::unique_ptr<SakuEngine::GameObject3D> sponza_;
-
-	//--------- functions ----------------------------------------------------
-
 };

@@ -18,7 +18,7 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		SRVDescriptor() :BaseDescriptor(256) {};
+		SRVDescriptor() :BaseDescriptor(1024) {};
 		~SRVDescriptor() = default;
 
 		// リソースと記述子からSRVを作成し、SRVインデックスを更新する。

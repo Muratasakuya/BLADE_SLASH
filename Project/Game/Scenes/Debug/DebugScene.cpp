@@ -12,9 +12,6 @@
 
 void DebugScene::Init() {
 
-	sponza_ = std::make_unique<SakuEngine::GameObject3D>();
-	sponza_->Init("sponza", "sponza", "Sponza");
-
 	//========================================================================
 	//	scene
 	//========================================================================
