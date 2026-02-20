@@ -12,10 +12,9 @@ using namespace SakuEngine;
 //	IGameEditor classMethods
 //============================================================================
 
-IGameEditor::IGameEditor(const std::string& name, const std::string& groupName) {
+IGameEditor::IGameEditor(const std::string& name) {
 
 	name_ = name;
-	groupName_ = groupName;
 	GameEditorManager::GetInstance()->AddEditor(this);
 }
 

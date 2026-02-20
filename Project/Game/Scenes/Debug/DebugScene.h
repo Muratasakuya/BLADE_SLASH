@@ -9,8 +9,8 @@
 #include <Engine/Scene/Camera/BaseCamera.h>
 #include <Engine/Scene/Light/PunctualLight.h>
 
-// デバッグオブジェクト
-#include <Engine/Object/Base/GameObject3D.h>
+// デバッグに使用するクラス
+#include <Engine/Object/Base/GameTextObject.h>
 
 //============================================================================
 //	DebugScene class
@@ -38,4 +38,10 @@ private:
 
 	std::unique_ptr<SakuEngine::BaseCamera> camera3D_;
 	std::unique_ptr<SakuEngine::BasePunctualLight> light_;
+
+	// テキスト
+	std::unique_ptr<SakuEngine::GameTextObject> debugText_;
+
+	//--------- functions ----------------------------------------------------
+
 };

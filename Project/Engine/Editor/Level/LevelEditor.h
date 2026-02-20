@@ -1,0 +1,89 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/Base/IGameEditor.h>
+#include <Engine/Editor/Level/SceneBuilder.h>
+#include <Engine/Scene/Methods/IScene.h>
+
+// c++
+#include <string>
+#include <memory>
+#include <vector>
+#include <unordered_map>
+namespace SakuEngine {
+
+	// front
+
+	class Asset;
+
+	//============================================================================
+	//	LevelEditor class
+	//	シーンのレベルエディター
+	//============================================================================
+	class LevelEditor :
+		IGameEditor {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
+
+		LevelEditor() :IGameEditor("LevelEditor") {};
+		~LevelEditor() = default;
+
+		// .jsonファイルから初期化
+		void Init();
+		// オブジェクトの構築
+		void BuildObjects(const std::string& sceneFile);
+
+		// データ更新
+		void Update();
+
+		// editorUIの呼び出し
+		void ImGui() override;
+
+		//--------- accessor -----------------------------------------------------
+
+		// 現在のシーンの設定
+		void SetCurrentScene(Scene scene) { currentScene_ = scene; }
+	private:
+		//========================================================================
+		//	private Methods
+		//========================================================================
+
+		//--------- variables ----------------------------------------------------
+
+		const std::string jsonPath_ = "Level/ObjectData/";
+
+		// 全てのobjectを管理
+		std::unordered_map<Level::ObjectType, std::vector<std::unique_ptr<GameObject3D>>> objectsMap_;
+
+		// builder
+		std::unique_ptr<SceneBuilder> sceneBuilder_;
+
+		Level::ObjectType currentSelectType_;   // 選択中のタイプ
+		std::optional<int> currentSelectIndex_; // 選択インデックス
+
+		// 現在のシーン
+		Scene currentScene_;
+
+		// editor
+		ImVec2 rightChildSize_;        // 右側
+		ImVec2 buttonSize_;            // ボタンサイズ
+		ImGuiTextFilter selectFilter_; // 検索フィルター
+
+		//--------- functions ----------------------------------------------------
+
+		// json
+		void SaveObject(GameObject3D* object);
+
+		// update
+		void BuildObjects();
+		void UpdateObjects();
+
+		// editor
+		void SelectObject();
+		void EditObject();
+	};
+}; // SakuEngine

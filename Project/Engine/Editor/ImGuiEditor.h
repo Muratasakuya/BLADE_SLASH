@@ -34,10 +34,12 @@ namespace SakuEngine {
 		~ImGuiEditor() = default;
 
 		// 初期化
-		void Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle,
+		void Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle,
 			const D3D12_GPU_DESCRIPTOR_HANDLE& debugSceneRenderTextureGPUHandle);
+		// アイコンテクスチャの読み込み
+		void LoadIconTextures(Asset* asset);
 
-		// エディターの表示
+		// imguiの表示
 		void Display(SceneView* sceneView);
 
 		//--------- accessor -----------------------------------------------------

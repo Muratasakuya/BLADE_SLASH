@@ -23,88 +23,89 @@
 #include <memory>
 #include <optional>
 
+//============================================================================
+//	SceneView class
+//	シーンの環境を更新、提供するクラス
+//============================================================================
 namespace SakuEngine {
 
-	//============================================================================
-	//	SceneView class
-	//	シーンの環境を更新、提供するクラス
-	//============================================================================
-	class SceneView :
-		public SakuEngine::IGameEditor {
-	public:
-		//========================================================================
-		//	public Methods
-		//========================================================================
+class SceneView :
+	public SakuEngine::IGameEditor {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
 
-		SceneView() : IGameEditor("SceneView", "Scene") {};
-		~SceneView() = default;
+	SceneView() : IGameEditor("SceneView") {};
+	~SceneView() = default;
 
-		void Init();
+	void Init();
 
-		void Update();
+	void Update();
 
-		void ImGui() override;
+	void ImGui() override;
 
-		//--------- accessor -----------------------------------------------------
+	//--------- accessor -----------------------------------------------------
 
-		// camera
-		void SetGameCamera(BaseCamera* gameCamera);
-		void AddSceneCamera(const std::string& name, BaseCamera* sceneCamera);
-		// light
-		void SetLight(BasePunctualLight* gameLight);
+	// camera
+	void SetGameCamera(BaseCamera* gameCamera);
+	void AddSceneCamera(const std::string& name, BaseCamera* sceneCamera);
+	// light
+	void SetLight(BasePunctualLight* gameLight);
 
-		// camera
-		BaseCamera* GetCamera() const { return activeGameCamera3D_.value(); }
-		BaseCamera* GetSceneCamera() const { return activeSceneCamera_.value(); }
-		Camera2D* GetCamera2D() const { return camera2D_.get(); }
-		// light
-		BasePunctualLight* GetLight() const { return punctualLight_.value(); }
-		// dither
-		const DitherForGPU& GetDither() const { return dither_; }
-	private:
-		//========================================================================
-		//	private Methods
-		//========================================================================
+	// camera
+	BaseCamera* GetCamera() const { return activeGameCamera3D_.value(); }
+	BaseCamera* GetSceneCamera() const { return activeSceneCamera_.value(); }
+	Camera2D* GetCamera2D() const { return camera2D_.get(); }
+	// light
+	BasePunctualLight* GetLight() const { return punctualLight_.value(); }
+	// dither
+	const DitherForGPU& GetDither() const { return dither_; }
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
 
-		//--------- variables ----------------------------------------------------
+	//--------- variables ----------------------------------------------------
 
-		// camera
-		// 3Dシーン
-		std::optional<BaseCamera*> activeGameCamera3D_; // ゲームで使用されているカメラ
-		std::optional<BaseCamera*> activeSceneCamera_;  // シーン視点のカメラ
+	// camera
+	// 3Dシーン
+	std::optional<BaseCamera*> activeGameCamera3D_; // ゲームで使用されているカメラ
+	std::optional<BaseCamera*> activeSceneCamera_;  // シーン視点のカメラ
 
-		// シーン視点のカメラの配列、この中からシーン視点のカメラを選択する
-		std::unordered_map<std::string, std::vector<BaseCamera*>> sceneCameras_;
+	// シーン視点のカメラの配列、この中からシーン視点のカメラを選択する
+	std::unordered_map<std::string, std::vector<BaseCamera*>> sceneCameras_;
 
-		// デバッグカメラ
-		std::unique_ptr<DebugCamera> debugCamera_;
-		// 2Dシーン
-		std::unique_ptr<Camera2D> camera2D_;
+	// デバッグカメラ
+	std::unique_ptr<DebugCamera> debugCamera_;
+	// 2Dシーン
+	std::unique_ptr<Camera2D> camera2D_;
 
-		// light
-		std::optional<BasePunctualLight*> punctualLight_;
+	// light
+	std::optional<BasePunctualLight*> punctualLight_;
 
-		// dither
-		DitherForGPU dither_;
+	// dither
+	DitherForGPU dither_;
 
-		// editor
-		int activeSceneCameraIndex_;
-		bool isDrawLight_ = false;
+	// editor
+	int activeSceneCameraIndex_;
+	bool isDrawLight_ = false;
 
-		//--------- functions ----------------------------------------------------
+	//--------- functions ----------------------------------------------------
 
-		// init
-		void InitCamera();
+	// init
+	void InitCamera();
 
-		// update
-		void UpdateCamera();
-		void UpdateLight();
+	// update
+	void UpdateCamera();
+	void UpdateLight();
 
-		void EditCamera();
-		void EditLight();
+	void EditCamera();
+	void EditLight();
 
-		// debug
-		void DisplayPointLight();
-		void DisplaySpotLight();
-	};
+	// debug
+	void DisplayPointLight();
+	void DisplaySpotLight();
+};
+
 }; // SakuEngine

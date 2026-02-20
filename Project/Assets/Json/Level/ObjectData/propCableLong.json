@@ -1,0 +1,88 @@
+{
+    "Material0": {
+        "castShadow": 1,
+        "color": {
+            "a": 1.0,
+            "b": 0.04961499944329262,
+            "g": 0.02788900025188923,
+            "r": 0.04312000051140785
+        },
+        "emissionColor": {
+            "x": 0.04312000051140785,
+            "y": 0.02788900025188923,
+            "z": 0.04961499944329262
+        },
+        "emissiveIntensity": 0.0,
+        "enableBlinnPhongReflection": 1,
+        "enableDithering": 0,
+        "enableHalfLambert": 1,
+        "enableImageBasedLighting": 0,
+        "enableLighting": 1,
+        "environmentCoefficient": 0.25,
+        "phongRefShininess": 8.0,
+        "shadowRate": 0.47999998927116394,
+        "specularColor": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvTranslate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
+    "Material1": {
+        "castShadow": 1,
+        "color": {
+            "a": 1.0,
+            "b": 0.08848399668931961,
+            "g": 0.043813999742269516,
+            "r": 0.0797400027513504
+        },
+        "emissionColor": {
+            "x": 0.0797400027513504,
+            "y": 0.043813999742269516,
+            "z": 0.08848399668931961
+        },
+        "emissiveIntensity": 0.0,
+        "enableBlinnPhongReflection": 1,
+        "enableDithering": 0,
+        "enableHalfLambert": 1,
+        "enableImageBasedLighting": 0,
+        "enableLighting": 1,
+        "environmentCoefficient": 0.25,
+        "phongRefShininess": 8.0,
+        "shadowRate": 0.47999998927116394,
+        "specularColor": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvTranslate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

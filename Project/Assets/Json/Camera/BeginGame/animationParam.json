@@ -1,0 +1,16 @@
+{
+    "AnimationTimer": {
+        "easeingType_": "EaseInQuad",
+        "target_": 1.2000000476837158
+    },
+    "startPos_": {
+        "x": 0.0,
+        "y": 32.0,
+        "z": -128.0
+    },
+    "targetPos_": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": -10.0
+    }
+}

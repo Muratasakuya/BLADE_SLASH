@@ -1,0 +1,40 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Game/Scenes/Game/GameState/Interface/IGameSceneState.h>
+
+//============================================================================
+//	ResultGameState class
+//	リザルト画面の状態
+//============================================================================
+class ResultGameState :
+	public IGameSceneState {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
+
+	ResultGameState(GameContext* context) :IGameSceneState(context) {}
+	~ResultGameState() = default;
+
+	void Init(SakuEngine::SceneView* sceneView) override;
+
+	void Update() override;
+	void NonActiveUpdate() override;
+
+	// 遷移開始時
+	void Enter() override;
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- variables ----------------------------------------------------
+
+
+
+	//--------- functions ----------------------------------------------------
+
+};

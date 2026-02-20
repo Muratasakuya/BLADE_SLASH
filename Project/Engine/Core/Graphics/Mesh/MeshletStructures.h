@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -15,75 +15,87 @@
 
 namespace SakuEngine {
 
-	struct MeshInstanceData {
+struct MeshInstanceData {
 
-		uint32_t meshletCount;
-		uint32_t numVertices;
-		int32_t isSkinned;
-	};
+	uint32_t meshletCount;
+	uint32_t numVertices;
+	int32_t isSkinned;
+};
+struct EffectMeshInstanceData {
 
-	// mesh頂点情報
-	struct MeshVertex {
+	uint32_t meshletCount;
+	uint32_t numVertices;
+};
 
-		Vector4 pos;
-		Vector2 texcoord;
-		Vector3 normal;
-		Color color;
-		Vector3 tangent;
-		Vector3 bitangent;
-	};
+// mesh頂点情報
+struct MeshVertex {
 
-	// メッシュレット情報の格納
-	struct ResourceMeshlet {
+	Vector4 pos;
+	Vector2 texcoord;
+	Vector3 normal;
+	Color color;
+	Vector3 tangent;
+	Vector3 bitangent;
+};
+struct EffectMeshVertex {
 
-		// vertex
-		uint32_t vertexOffset; // 頂点番号オフセット
-		uint32_t vertexCount;  // 頂点数
+	Vector4 pos;
+	Vector2 texcoord;
+	Color color;
+};
 
-		// primitive
-		uint32_t primitiveOffset; // プリミティブ番号オフセット
-		uint32_t primitiveCount;  // プリミティブオフセット
+// meshlet情報の格納
+struct ResourceMeshlet {
 
-		Color color; // メッシュレットの色
-	};
+	// vertex
+	uint32_t vertexOffset; // 頂点番号オフセット
+	uint32_t vertexCount;  // 頂点数
 
-	// 出力index用
-	struct ResourcePrimitiveIndex {
+	// primitive
+	uint32_t primitiveOffset; // プリミティブ番号オフセット
+	uint32_t primitiveCount;  // プリミティブオフセット
 
-		uint32_t index0 : 10; // 出力頂点番号0、10bit
-		uint32_t index1 : 10; // 出力頂点番号1、10bit
-		uint32_t index2 : 10; // 出力頂点番号2、10bit
+	Color color; // meshletの色
+};
 
-		uint32_t reserved : 2; // 予約領域
-	};
+// 出力index用
+struct ResourcePrimitiveIndex {
 
-	// 上記のデータを格納
-	template<typename T>
-	struct ResourceMesh {
+	uint32_t index0 : 10; // 出力頂点番号0、10bit
+	uint32_t index1 : 10; // 出力頂点番号1、10bit
+	uint32_t index2 : 10; // 出力頂点番号2、10bit
 
-		// mesh数
-		size_t meshCount_;
+	uint32_t reserved : 2; // 予約領域
+};
 
-		std::vector<std::vector<T>> vertices;
-		std::vector<std::vector<uint32_t>> indices;
+// 上記のデータを格納
+template<typename T>
+struct ResourceMesh {
 
-		std::vector<std::vector<ResourceMeshlet>> meshlets;
-		std::vector<std::vector<uint32_t>> uniqueVertexIndices;
-		std::vector<std::vector<ResourcePrimitiveIndex>> primitiveIndices;
+	// mesh数
+	size_t meshCount_;
 
-		bool isSkinned;
+	std::vector<std::vector<T>> vertices;
+	std::vector<std::vector<uint32_t>> indices;
 
-		// operator
-		ResourceMesh<T>& operator=(const ResourceMesh<T>& other) {
-			if (this != &other) {
-				meshCount_ = other.meshCount_;
-				vertices = other.vertices;
-				indices = other.indices;
-				meshlets = other.meshlets;
-				uniqueVertexIndices = other.uniqueVertexIndices;
-				primitiveIndices = other.primitiveIndices;
-			}
-			return *this;
+	std::vector<std::vector<ResourceMeshlet>> meshlets;
+	std::vector<std::vector<uint32_t>> uniqueVertexIndices;
+	std::vector<std::vector<ResourcePrimitiveIndex>> primitiveIndices;
+
+	bool isSkinned;
+
+	// operator
+	ResourceMesh<T>& operator=(const ResourceMesh<T>& other) {
+		if (this != &other) {
+			meshCount_ = other.meshCount_;
+			vertices = other.vertices;
+			indices = other.indices;
+			meshlets = other.meshlets;
+			uniqueVertexIndices = other.uniqueVertexIndices;
+			primitiveIndices = other.primitiveIndices;
 		}
-	};
+		return *this;
+	}
+};
+
 }; // SakuEngine

@@ -1,0 +1,101 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/Base/IGameEditor.h>
+#include <Engine/Object/Base/GameObject2D.h>
+#include <Engine/Utility/Timer/StateTimer.h>
+
+//============================================================================
+//	BossEnemyAttackSign class
+//	ボスの攻撃予備動作サイン
+//============================================================================
+class BossEnemyAttackSign :
+	public SakuEngine::IGameEditor {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
+
+	BossEnemyAttackSign() :IGameEditor("BossEnemyAttackSign") {}
+	~BossEnemyAttackSign() = default;
+
+	// 初期化
+	void Init();
+
+	// 更新
+	void Update();
+
+	// エディター
+	void ImGui() override;
+
+	//--------- accessor -----------------------------------------------------
+
+	// 予備動作サインを発生させる
+	void Emit(const SakuEngine::Vector2& emitPos);
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- structure ----------------------------------------------------
+
+	template <typename T>
+	struct LerpValue {
+
+		T start;
+		T target;
+	};
+
+	struct DirectionInfo {
+
+		SakuEngine::Vector2 direction; // 進行方向
+		SakuEngine::Vector2 anchor;    // アンカーポイント
+		bool horizontal;   // 横方向かどうか
+	};
+
+	// 状態
+	enum class State {
+
+		None,
+		Update,
+	};
+
+	// 線の方向
+	enum class SignDirection {
+
+		Right,  // 右
+		Left,   // 左
+		Up,     // 上
+		Bottom, // 下
+		Count
+	};
+
+	//--------- variables ----------------------------------------------------
+
+	// 現在の状態
+	State currentState_;
+
+	// 表示スプライト
+	std::array<std::unique_ptr<SakuEngine::GameObject2D>, static_cast<uint32_t>(SignDirection::Count)> signs_;
+
+	// parameters
+	// アニメーションに使用するパラメータは全て共通
+	SakuEngine::Vector2 emitPos_;           // 発生座標
+	SakuEngine::StateTimer animationTimer_; // タイマー
+	LerpValue<SakuEngine::Vector2> size_;   // サイズ
+	LerpValue<float> move_;                 // 開始地点からの移動量
+
+	//--------- functions ----------------------------------------------------
+
+	// json
+	void ApplyJson();
+	void SaveJson();
+
+	// update
+	void UpdateAnimation();
+
+	// helper
+	DirectionInfo GetDirectionInfo(SignDirection direction) const;
+};

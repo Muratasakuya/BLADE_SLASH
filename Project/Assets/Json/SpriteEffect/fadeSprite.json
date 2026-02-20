@@ -1,0 +1,14 @@
+{
+    "beginTimer_": {
+        "easeingType_": "EaseInSine",
+        "target_": 0.6399999856948853
+    },
+    "endTimer_": {
+        "easeingType_": "EaseOutExpo",
+        "target_": 0.4000000059604645
+    },
+    "waitTimer_": {
+        "easeingType_": "EaseInSine",
+        "target_": 0.3199999928474426
+    }
+}

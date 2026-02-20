@@ -1,0 +1,66 @@
+{
+    "field": {
+        "Material0": {
+            "color": {
+                "a": 1.0,
+                "b": 0.6953846216201782,
+                "g": 0.6953846216201782,
+                "r": 0.6953846216201782
+            },
+            "emissionColor": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "emissiveIntensity": 0.0,
+            "enableBlinnPhongReflection": 0,
+            "enableHalfLambert": 1,
+            "enableLighting": 1,
+            "phongRefShininess": 1.0,
+            "shadowRate": 0.25,
+            "specularColor": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "uvRotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "uvScale": {
+                "x": 16.0,
+                "y": 16.0,
+                "z": 1.0
+            },
+            "uvTranslate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        "Name": {
+            "groupName": "Environment",
+            "instancingName": "stageField",
+            "objectName": "field"
+        },
+        "Transform": {
+            "rotation": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 128.0,
+                "y": 1.0,
+                "z": 128.0
+            },
+            "translation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    }
+}

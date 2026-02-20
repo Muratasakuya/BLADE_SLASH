@@ -134,13 +134,15 @@ Framework::Framework() {
 	// 最初のシーン
 	Scene initScene = Scene::Debug;
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
-	initScene = Scene::Debug;
+	initScene= Scene::Debug;
+#else
+	initScene = Scene::Title;
 #endif
 
 	sceneManager_ = std::make_unique<SceneManager>(initScene, asset_.get(), sceneView_.get());
 
 	//------------------------------------------------------------------------
-	// モジュール機能初期化
+	// module初期化
 
 	// 入力初期化
 	Input::GetInstance()->Init(winApp_.get());
@@ -159,7 +161,8 @@ Framework::Framework() {
 #if defined(_DEBUG) || defined(_DEVELOPBUILD)
 
 	imguiEditor_ = std::make_unique<ImGuiEditor>();
-	imguiEditor_->Init(asset_.get(), renderEngine_->GetRenderTextureGPUHandle(), postProcessSystem->GetCopySRVGPUHandle());
+	imguiEditor_->Init(renderEngine_->GetRenderTextureGPUHandle(), postProcessSystem->GetCopySRVGPUHandle());
+	imguiEditor_->LoadIconTextures(asset_.get());
 
 	// コンソール表示用
 	imguiEditor_->SetConsoleViewDescriptor(DescriptorHeapType::SRV, srvDescriptor);

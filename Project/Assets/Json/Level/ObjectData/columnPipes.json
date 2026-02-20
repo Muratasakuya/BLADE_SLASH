@@ -1,0 +1,131 @@
+{
+    "Material0": {
+        "castShadow": 1,
+        "color": {
+            "a": 1.0,
+            "b": 0.09501300007104874,
+            "g": 0.08998099714517593,
+            "r": 0.10695400089025497
+        },
+        "emissionColor": {
+            "x": 0.10695400089025497,
+            "y": 0.08998099714517593,
+            "z": 0.09501300007104874
+        },
+        "emissiveIntensity": 0.0,
+        "enableBlinnPhongReflection": 1,
+        "enableDithering": 1,
+        "enableHalfLambert": 1,
+        "enableImageBasedLighting": 0,
+        "enableLighting": 1,
+        "environmentCoefficient": 0.25,
+        "phongRefShininess": 8.0,
+        "shadowRate": 0.6399999856948853,
+        "specularColor": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvTranslate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
+    "Material1": {
+        "castShadow": 1,
+        "color": {
+            "a": 1.0,
+            "b": 0.36307692527770996,
+            "g": 0.3329136073589325,
+            "r": 0.3388367295265198
+        },
+        "emissionColor": {
+            "x": 0.07653199881315231,
+            "y": 0.07003200054168701,
+            "z": 0.10313300043344498
+        },
+        "emissiveIntensity": 0.0,
+        "enableBlinnPhongReflection": 1,
+        "enableDithering": 1,
+        "enableHalfLambert": 1,
+        "enableImageBasedLighting": 0,
+        "enableLighting": 1,
+        "environmentCoefficient": 0.25,
+        "phongRefShininess": 8.0,
+        "shadowRate": 0.6399999856948853,
+        "specularColor": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvTranslate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
+    "Material2": {
+        "castShadow": 1,
+        "color": {
+            "a": 1.0,
+            "b": 0.15076923370361328,
+            "g": 0.15076923370361328,
+            "r": 0.15076923370361328
+        },
+        "emissionColor": {
+            "x": 0.15076923370361328,
+            "y": 0.15076923370361328,
+            "z": 0.15076923370361328
+        },
+        "emissiveIntensity": 0.0,
+        "enableBlinnPhongReflection": 1,
+        "enableDithering": 1,
+        "enableHalfLambert": 1,
+        "enableImageBasedLighting": 0,
+        "enableLighting": 1,
+        "environmentCoefficient": 0.25,
+        "phongRefShininess": 8.0,
+        "shadowRate": 0.6399999856948853,
+        "specularColor": {
+            "x": 0.5318816900253296,
+            "y": 0.6523076891899109,
+            "z": 0.6156240701675415
+        },
+        "uvRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvTranslate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

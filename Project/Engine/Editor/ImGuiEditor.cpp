@@ -28,18 +28,11 @@ using namespace SakuEngine;
 //	ImGuiEditor classMethods
 //============================================================================
 
-void ImGuiEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle,
+void ImGuiEditor::Init(const D3D12_GPU_DESCRIPTOR_HANDLE& renderTextureGPUHandle,
 	const D3D12_GPU_DESCRIPTOR_HANDLE& debugSceneRenderTextureGPUHandle) {
 
-	// GPUHandleを設定
 	renderTextureGPUHandle_ = renderTextureGPUHandle;
 	debugSceneRenderTextureGPUHandle_ = debugSceneRenderTextureGPUHandle;
-	// アイコンのGPUHandleはassetから取得する
-	gizmoIconGPUHandles_.emplace(GizmoEnum::None, asset->GetGPUHandle("manipulatorNone"));
-	gizmoIconGPUHandles_.emplace(GizmoEnum::Translate, asset->GetGPUHandle("manipulatorTranslate"));
-	gizmoIconGPUHandles_.emplace(GizmoEnum::Rotate, asset->GetGPUHandle("manipulatorRotate"));
-	gizmoIconGPUHandles_.emplace(GizmoEnum::Scale, asset->GetGPUHandle("manipulatorScale"));
-	cameraAutoFocusGPUHandle_ = asset->GetGPUHandle("manipulatorAutoFocus");
 
 	// サイズの変更、移動不可
 	windowFlag_ = ImGuiWindowFlags_None;
@@ -55,6 +48,27 @@ void ImGuiEditor::Init(Asset* asset, const D3D12_GPU_DESCRIPTOR_HANDLE& renderTe
 	debugViewSize_ = ImVec2(768.0f, 432.0f);
 	sceneSidebarWidth_ = 66.0f;
 	gizmoIconSize_ = 40.0f;
+}
+
+void ImGuiEditor::LoadIconTextures(Asset* asset) {
+
+	// アイコン読み込み
+	asset->LoadTexture("manipulaterTranslate", AssetLoadType::Synch);
+	asset->LoadTexture("manipulaterRotate", AssetLoadType::Synch);
+	asset->LoadTexture("manipulaterScale", AssetLoadType::Synch);
+	asset->LoadTexture("manipulaterNone", AssetLoadType::Synch);
+	asset->LoadTexture("manipulaterAutoFocus", AssetLoadType::Synch);
+
+	// GPUHandleを設定
+	gizmoIconGPUHandles_.emplace(GizmoEnum::None,
+		asset->GetGPUHandle("manipulaterNone"));
+	gizmoIconGPUHandles_.emplace(GizmoEnum::Translate,
+		asset->GetGPUHandle("manipulaterTranslate"));
+	gizmoIconGPUHandles_.emplace(GizmoEnum::Rotate,
+		asset->GetGPUHandle("manipulaterRotate"));
+	gizmoIconGPUHandles_.emplace(GizmoEnum::Scale,
+		asset->GetGPUHandle("manipulaterScale"));
+	cameraAutoFocusGPUHandle_ = asset->GetGPUHandle("manipulaterAutoFocus");
 }
 
 void ImGuiEditor::SetConsoleViewDescriptor(

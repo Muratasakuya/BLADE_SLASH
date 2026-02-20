@@ -67,7 +67,7 @@ namespace SakuEngine {
 		//--------- variables ----------------------------------------------------
 
 		// json
-		const std::string baseJsonPath_ = "Editor/Asset/";
+		const std::string baseJsonPath_ = "AssetEditor/";
 
 		static AssetEditor* instance_;
 

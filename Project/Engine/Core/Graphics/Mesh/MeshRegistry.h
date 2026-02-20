@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -8,52 +8,53 @@
 // c++
 #include <string>
 #include <unordered_map>
-
 namespace SakuEngine {
 
-	// front
-	class Asset;
+// front
 
-	//============================================================================
-	//	MeshRegistry class
-	//	メッシュの登録を行い、提供を行う
-	//============================================================================
-	class MeshRegistry {
-	public:
-		//========================================================================
-		//	public Methods
-		//========================================================================
+class Asset;
 
-		MeshRegistry() = default;
-		~MeshRegistry() = default;
+//============================================================================
+//	MeshRegistry class
+//	メッシュの登録を行い、提供を行う
+//============================================================================
+class MeshRegistry {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
 
-		// 初期化
-		void Init(ID3D12Device* device, Asset* asset);
+	MeshRegistry() = default;
+	~MeshRegistry() = default;
 
-		// メッシュをマップに登録する
-		void RegisterMesh(const std::string& modelName,
-			bool isSkinned, uint32_t numInstance);
+	// 初期化
+	void Init(ID3D12Device* device, Asset* asset);
 
-		//--------- accessor -----------------------------------------------------
+	// メッシュをマップに登録する
+	void RegisterMesh(const std::string& modelName,
+		bool isSkinned, uint32_t numInstance);
 
-		// meshの取得
-		IMesh* GetMesh(const std::string& name) const { return meshes_.at(name).get(); }
-		const std::unordered_map<std::string, std::unique_ptr<IMesh>>& GetMeshes() const { return meshes_; }
-	private:
-		//========================================================================
-		//	private Methods
-		//========================================================================
+	//--------- accessor -----------------------------------------------------
 
-		//--------- variables ----------------------------------------------------
+	// meshの取得
+	IMesh* GetMesh(const std::string& name) const { return meshes_.at(name).get(); }
+	const std::unordered_map<std::string, std::unique_ptr<IMesh>>& GetMeshes() const { return meshes_; }
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
 
-		ID3D12Device* device_;
-		Asset* asset_;
+	//--------- variables ----------------------------------------------------
 
-		std::unordered_map<std::string, std::unique_ptr<IMesh>> meshes_;
+	ID3D12Device* device_;
+	Asset* asset_;
 
-		//--------- functions ----------------------------------------------------
+	std::unordered_map<std::string, std::unique_ptr<IMesh>> meshes_;
 
-		// meshletの作成
-		ResourceMesh<MeshVertex> CreateMeshlet(const std::string& modelName);
-	};
+	//--------- functions ----------------------------------------------------
+
+	// meshletの作成
+	ResourceMesh<MeshVertex> CreateMeshlet(const std::string& modelName);
+};
+
 }; // SakuEngine

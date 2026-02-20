@@ -1,0 +1,73 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/Base/IGameEditor.h>
+#include <Game/Gameplay/Actors/SubPlayer/StateMachine/SubPlayerStateController.h>
+
+//============================================================================
+//	SubPlayer class
+//	サブプレイヤー
+//============================================================================
+class SubPlayer :
+	public SakuEngine::IGameEditor {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
+
+	SubPlayer() :IGameEditor("SubPlayer") {}
+	~SubPlayer() = default;
+
+	void Init();
+
+	void Update();
+
+	void ImGui() override;
+
+	//--------- accessor -----------------------------------------------------
+
+	void SetBossEnemy(BossEnemy* bossEnemy) { stateController_->SetBossEnemy(bossEnemy); }
+
+	// 状態をリクエスト
+	void SetRequestState(SubPlayerState state) { stateController_->SetRequestState(state); }
+
+	// 特定の状態かどうか
+	SubPlayerState GetCurrentState() const { return stateController_->GetCurrentState(); }
+
+	// 殴り終わったか
+	bool IsFinishPunchAttack() const;
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- variables ----------------------------------------------------
+
+	// パーツ
+	std::unique_ptr<SakuEngine::GameObject3D> body_; // 体、親となる
+	std::unique_ptr<SakuEngine::GameObject3D> rightHand_; // 右手
+	std::unique_ptr<SakuEngine::GameObject3D> leftHand_;  // 左手
+
+	// 状態管理
+	std::unique_ptr<SubPlayerStateController> stateController_;
+
+	// パーツ別の初期トランスフォーム
+	SakuEngine::Transform3D initBodyTransform_;
+	SakuEngine::Transform3D initRightHandTransform_;
+	SakuEngine::Transform3D initLeftHandTransform_;
+
+	//--------- functions ----------------------------------------------------
+
+	// json
+	void ApplyJson();
+	void SaveJson();
+
+	// init
+	void InitParts();
+	void InitState();
+
+	// パーツにトランスフォームをセットする
+	void SetPartsTransform(SakuEngine::GameObject3D* parts, const SakuEngine::Transform3D& transform);
+};

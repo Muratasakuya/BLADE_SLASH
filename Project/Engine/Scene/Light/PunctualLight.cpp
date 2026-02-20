@@ -16,8 +16,8 @@ using namespace SakuEngine;
 void DirectionalLight::Init() {
 
 	color = SakuEngine::Color::White();
-	direction = { 0.63f,-0.768f,0.114f };
-	intensity = 3.2f;
+	direction = { 0.0f,-1.0f,0.0f };
+	intensity = 1.4f;
 }
 
 void DirectionalLight::ImGui(float itemWidth) {

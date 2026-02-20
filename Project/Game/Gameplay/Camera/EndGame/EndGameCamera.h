@@ -1,0 +1,68 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Scene/Camera/BaseCamera.h>
+#include <Engine/Utility/Timer/StateTimer.h>
+
+//============================================================================
+//	EndGameCamera class
+//	敵、プレイヤーの撃破後のエンディング用カメラ
+//============================================================================
+class EndGameCamera :
+	public SakuEngine::BaseCamera {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
+
+	EndGameCamera() = default;
+	~EndGameCamera() = default;
+
+	void Init();
+
+	void Update() override;
+
+	void ImGui() override;
+
+	//--------- accessor -----------------------------------------------------
+
+	// アニメーション終了判定
+	bool IsFinished() const;
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- structure ----------------------------------------------------
+
+	// 現在の状態
+	enum class State {
+
+		Update,
+		Finished
+	};
+
+	//--------- variables ----------------------------------------------------
+
+	// 現在の状態
+	State currentState_;
+	bool disableTransition_;
+
+	// 時間管理
+	SakuEngine::StateTimer animationTimer_;
+
+	// parameters... 一旦簡易アニメーションで作成する
+	SakuEngine::Vector3 startPos_;
+	SakuEngine::Vector3 targetPos_;
+
+	//--------- functions ----------------------------------------------------
+
+	// json
+	void ApplyJson();
+	void SaveJson();
+
+	// update
+	void UpdateAnimation();
+};

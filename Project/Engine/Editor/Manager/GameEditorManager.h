@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //============================================================================
 //	include
@@ -8,8 +8,6 @@
 // c++
 #include <cstdint>
 #include <vector>
-#include <unordered_map>
-#include <ranges>
 
 //============================================================================
 //	GameEditorManager class
@@ -17,59 +15,46 @@
 //============================================================================
 namespace SakuEngine {
 
-	class GameEditorManager {
-	public:
-		//========================================================================
-		//	public Methods
-		//========================================================================
+class GameEditorManager {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
 
-		GameEditorManager() = default;
-		~GameEditorManager() = default;
+	GameEditorManager() = default;
+	~GameEditorManager() = default;
 
-		// editorの登録、削除
-		void AddEditor(IGameEditor* editor);
-		void RemoveEditor(IGameEditor* editor);
+	// editorの登録、削除
+	void AddEditor(IGameEditor* editor);
+	void RemoveEditor(IGameEditor* editor);
 
-		// editorの選択
-		void SelectEditor();
-		// 選択したeditorの選択
-		void EditEditor();
+	// editorの選択
+	void SelectEditor();
+	// 選択したeditorの選択
+	void EditEditor();
 
-		//--------- accessor -----------------------------------------------------
+	//--------- accessor -----------------------------------------------------
 
-		// 外部からフォーカスするIDを設定
-		void SetSelectObjectID(uint32_t id);
+	// 外部からフォーカスするIDを設定
+	void SetSelectObjectID(uint32_t id);
 
-		// singleton
-		static GameEditorManager* GetInstance();
-		static void Finalize();
-	private:
-		//========================================================================
-		//	private Methods
-		//========================================================================
+	// singleton
+	static GameEditorManager* GetInstance();
+	static void Finalize();
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
 
-		//--------- structure ----------------------------------------------------
+	//--------- variables ----------------------------------------------------
 
-		// 選択中の情報
-		struct SelectInfo {
+	static GameEditorManager* instance_;
 
-			IGameEditor* editor;
+	std::vector<IGameEditor*> editors_;
 
-			std::string groupName;
-			std::optional<uint32_t> index;
+	IGameEditor* selectedEditor_;
 
-			// 選択中のエディターがあるか
-			bool Has() { return index.has_value(); }
-		};
+	std::optional<uint32_t> selectedIndex_ = std::nullopt;
+};
 
-		//--------- variables ----------------------------------------------------
-
-		static GameEditorManager* instance_;
-
-		// 登録されているエディター
-		std::unordered_map<std::string, std::vector<IGameEditor*>> editorMap_;
-
-		// 選択されているエディター情報
-		SelectInfo selectInfo_;
-	};
 }; // SakuEngine

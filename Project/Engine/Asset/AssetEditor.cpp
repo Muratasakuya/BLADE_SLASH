@@ -97,6 +97,11 @@ void AssetEditor::Init(Asset* asset) {
 	asset_ = nullptr;
 	asset_ = asset;
 
+	// editorに使う画像
+	asset_->LoadTexture("folder", AssetLoadType::Synch);
+	asset_->LoadTexture("texture", AssetLoadType::Synch); // texture表示、読み込まれていなければこっち
+	asset_->LoadTexture("model", AssetLoadType::Synch);   // model表示
+	asset_->LoadTexture("file", AssetLoadType::Synch);    // file表示
 	// GPUHandleを予め取得
 	folderIcon_ = asset_->GetGPUHandle("folder");
 	fileIcon_ = asset_->GetGPUHandle("file");
@@ -438,7 +443,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE AssetEditor::GetIconForEntry(const DirectoryNode& en
 void AssetEditor::ApplyJson() {
 
 	Json data;
-	if (!SakuEngine::JsonAdapter::LoadCheck(baseJsonPath_ + "parameter.json", data)) {
+	if (!SakuEngine::JsonAdapter::LoadCheck(baseJsonPath_ + "editorParameter.json", data)) {
 		return;
 	}
 
@@ -463,5 +468,5 @@ void AssetEditor::SaveJson() {
 	data["folderOffset_"] = SakuEngine::JsonAdapter::FromObject<Vector2>(folderOffset_);
 	data["loadOverlayOffset_"] = SakuEngine::JsonAdapter::FromObject<Vector2>(loadOverlayOffset_);
 
-	SakuEngine::JsonAdapter::Save(baseJsonPath_ + "parameter.json", data);
+	SakuEngine::JsonAdapter::Save(baseJsonPath_ + "editorParameter.json", data);
 }

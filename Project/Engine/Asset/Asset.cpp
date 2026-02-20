@@ -156,7 +156,7 @@ void Asset::LoadSceneAsync(Scene scene, AssetLoadType loadType) {
 	std::string sceneName = EnumAdapter<Scene>::ToString(scene);
 	// 1文字目を小文字に変換する
 	sceneName[0] = static_cast<char>(std::tolower(sceneName[0]));
-	std::string fileName = "Scene/Load/" + sceneName + "Scene.json";
+	std::string fileName = "Scene/Asset/" + sceneName + "Scene.json";
 
 	// 読み込み処理
 	Json data{};

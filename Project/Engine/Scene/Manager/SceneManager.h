@@ -7,78 +7,83 @@
 #include <Engine/Scene/Methods/SceneFactory.h>
 #include <Engine/Scene/Methods/SceneTransition.h>
 #include <Engine/Editor/Base/IGameEditor.h>
+#include <Engine/Editor/Level/LevelEditor.h>
 
 // c++
 #include <memory>
 namespace SakuEngine {
 
-	// front
-	class Asset;
+// front
 
-	//============================================================================
-	//	SceneManager class
-	//	ISceneを継承した各シーンの生成・破棄・更新・切り替えを管理する
-	//============================================================================
-	class SceneManager :
-		public SakuEngine::IGameEditor {
-	public:
-		//========================================================================
-		//	public Methods
-		//========================================================================
+class Asset;
 
-		// 初期化、最初のシーンを決定し読み込んで作成
-		SceneManager(Scene scene, Asset* asset, SceneView* sceneView);
-		~SceneManager() = default;
+//============================================================================
+//	SceneManager class
+//	ISceneを継承した各シーンの生成・破棄・更新・切り替えを管理する
+//============================================================================
+class SceneManager :
+	public SakuEngine::IGameEditor {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
 
-		// シーンの更新
-		void Update();
+	// 初期化、最初のシーンを決定し読み込んで作成
+	SceneManager(Scene scene, Asset* asset, SceneView* sceneView);
+	~SceneManager() = default;
 
-		// フレーム開始・終了
-		void BeginFrame();
-		void EndFrame();
+	// シーンの更新
+	void Update();
 
-		// シーン切り替え
-		void SwitchScene();
-		void InitNextScene();
-		void SetNextScene(Scene scene, std::unique_ptr<ITransition> transition);
+	// フレーム開始・終了
+	void BeginFrame();
+	void EndFrame();
 
-		void ImGui() override;
+	// シーン切り替え
+	void SwitchScene();
+	void InitNextScene();
+	void SetNextScene(Scene scene, std::unique_ptr<ITransition> transition);
 
-		//--------- accessor -----------------------------------------------------
+	void ImGui() override;
 
-		bool IsFinishGame() const { return currentScene_->IsFinishGame(); }
-		bool IsSceneSwitching() const { return isSceneSwitching_; }
-		bool IsFinishedTransition() const { return !sceneTransition_->IsTransition(); }
-		bool IsMeshRenderingAllowed() const { return allowMeshRendering_; }
-		bool ConsumeNeedInitNextScene();
-	private:
-		//========================================================================
-		//	private Methods
-		//========================================================================
+	//--------- accessor -----------------------------------------------------
 
-		//--------- variables ----------------------------------------------------
+	bool IsFinishGame() const { return currentScene_->IsFinishGame(); }
+	bool IsSceneSwitching() const { return isSceneSwitching_; }
+	bool IsFinishedTransition() const { return !sceneTransition_->IsTransition(); }
+	bool IsMeshRenderingAllowed() const { return allowMeshRendering_; }
+	bool ConsumeNeedInitNextScene();
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
 
-		Asset* asset_;
-		SceneView* sceneView_;
+	//--------- variables ----------------------------------------------------
 
-		std::unique_ptr<IScene> currentScene_;
+	Asset* asset_;
+	SceneView* sceneView_;
 
-		std::unique_ptr<SceneFactory> factory_;
+	std::unique_ptr<IScene> currentScene_;
 
-		std::unique_ptr<SceneTransition> sceneTransition_;
+	std::unique_ptr<SceneFactory> factory_;
 
-		Scene currentSceneType_;
-		Scene nextSceneType_;
-		bool isSceneSwitching_;
-		bool needInitNextScene_;
+	std::unique_ptr<SceneTransition> sceneTransition_;
 
-		// メッシュ制御
-		bool queuedMeshBuild_;
-		bool allowMeshRendering_ = true;
+	std::unique_ptr<LevelEditor> levelEditor_;
 
-		//--------- functions ----------------------------------------------------
+	Scene currentSceneType_;
+	Scene nextSceneType_;
+	bool isSceneSwitching_;
+	bool needInitNextScene_;
 
-		// シーン読み込み
-		void LoadScene(Scene scene);
-	};
+	// メッシュ制御
+	bool queuedMeshBuild_;
+	bool allowMeshRendering_ = true;
+
+	//--------- functions ----------------------------------------------------
+
+	// シーン読み込み
+	void LoadScene(Scene scene);
+};
+
 }; // SakuEngine

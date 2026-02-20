@@ -116,7 +116,6 @@ void MeshRenderer::Rendering(bool debugEnable, SceneConstBuffer* sceneBuffer, Dx
 
 	// 絶対に被らないブレンドモードで初期化
 	BlendMode currentBlendMode = BlendMode::kBlendModeCount;
-	bool meshPipelineBound = false;
 	MeshCommandContext commandContext{};
 	for (const auto& [name, mesh] : meshes) {
 
@@ -124,26 +123,24 @@ void MeshRenderer::Rendering(bool debugEnable, SceneConstBuffer* sceneBuffer, Dx
 		if (!system->IsReady(name)) {
 			continue;
 		}
-		// 描画情報がないメッシュは描画しない
-		auto it = renderData.find(name);
-		if (it == renderData.end()) {
-			continue;
-		}
+		// 描画先のビットが立っていなければ描画しない
+		if (auto it = renderData.find(name); it != renderData.end()) {
 
-		// ビュー判定
-		const uint8_t mask = static_cast<uint8_t>(it->second.renderView);
-		const uint8_t want = static_cast<uint8_t>(debugEnable ? MeshRenderView::Scene : MeshRenderView::Game);
-		if ((mask & want) == 0) {
-			continue;
-		}
+			const uint8_t mask = static_cast<uint8_t>(it->second.renderView);
+			const uint8_t want = static_cast<uint8_t>(debugEnable ? MeshRenderView::Scene : MeshRenderView::Game);
+			// ビットが被っていなければ描画しない
+			if ((mask & want) == 0) {
+				continue;
+			}
 
-		// 最初の描画ではセットし、ブレンドモードが前のメッシュと違う場合のみパイプラインをセット
-		if (!meshPipelineBound || currentBlendMode != it->second.blendMode) {
+			// 違うブレンドモードならパイプラインを再設定
+			if (currentBlendMode != it->second.blendMode) {
 
-			currentBlendMode = it->second.blendMode;
-			SetPipeline(debugEnable, *skyBoxSystem, sceneBuffer, commandList, currentBlendMode);
-			// パイプラインをセットしたのでフラグを立てる
-			meshPipelineBound = true;
+				// ブレンドモード更新
+				currentBlendMode = it->second.blendMode;
+				// パイプライン設定
+				SetPipeline(debugEnable, *skyBoxSystem, sceneBuffer, commandList, currentBlendMode);
+			}
 		}
 
 		// 行列バッファ設定

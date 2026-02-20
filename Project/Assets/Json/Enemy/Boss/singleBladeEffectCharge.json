@@ -1,0 +1,21 @@
+{
+    "EmitTimer": {
+        "easeingType_": "EaseInSine",
+        "target_": 4.0
+    },
+    "particleTranslation": {
+        "x": 0.0,
+        "y": 6.400000095367432,
+        "z": 4.800000190734863
+    },
+    "planeTranslation": {
+        "x": 0.0,
+        "y": 6.400000095367432,
+        "z": 6.0
+    },
+    "slashTranslation": {
+        "x": 0.0,
+        "y": 6.400000095367432,
+        "z": -12.0
+    }
+}

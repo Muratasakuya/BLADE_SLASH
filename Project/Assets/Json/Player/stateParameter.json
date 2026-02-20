@@ -1,0 +1,833 @@
+{
+    "Attack_1st": {
+        "MoveTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.15000000596046448
+        },
+        "attackLookAtCircleRange_": 164.0,
+        "attackOffsetTranslation_": 12.0,
+        "attackPosEaseType_": 14,
+        "attackPosLerpCircleRange_": 40.0,
+        "attackPosLerpTime_": 0.4399999976158142,
+        "exitTime_": 0.029999999329447746,
+        "moveValue_": 24.0,
+        "nextAnimDuration_": 0.019999999552965164,
+        "rotationLerpRate_": 0.46000000834465027,
+        "slashEffectOffset_": {
+            "x": -2.799999952316284,
+            "y": 4.5,
+            "z": 5.900000095367432
+        },
+        "targetCameraRotateX_": 0.05000000074505806
+    },
+    "Attack_2nd": {
+        "approachForwardDistance_": 34.0,
+        "approachLeftPointAngle_": 0.09000000357627869,
+        "approachRightPointAngle_": 0.6100000143051147,
+        "approachSwayLength_": -8.720000267028809,
+        "attackLookAtCircleRange_": 164.0,
+        "attackOffsetTranslation_": 14.0,
+        "attackPosEaseType_": 14,
+        "attackPosLerpCircleRange_": 40.0,
+        "attackPosLerpTime_": 0.47999998927116394,
+        "exitTime_": 0.1599999964237213,
+        "leftPointAngle_": 0.6399999856948853,
+        "nextAnimDuration_": 0.04800000041723251,
+        "rightPointAngle_": 0.9200000166893005,
+        "rotationLerpRate_": 0.4000000059604645,
+        "slash1stEffectOffset_": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 10.100000381469727
+        },
+        "slash2ndEffectOffset_": {
+            "x": -2.0,
+            "y": 1.7999999523162842,
+            "z": 10.199999809265137
+        },
+        "swayRate_": -0.1599999964237213,
+        "targetCameraRotateX_": 0.10000000149011612
+    },
+    "Attack_3rd": {
+        "BackMoveTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.11999999731779099
+        },
+        "CatchMoveTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.05999999865889549
+        },
+        "Weapon": {
+            "Left": {
+                "moveValue": 80.0,
+                "offsetRotationY": -0.2800000011920929,
+                "rotateSpeed": 1.600000023841858
+            },
+            "Right": {
+                "moveValue": 80.0,
+                "offsetRotationY": 0.27000001072883606,
+                "rotateSpeed": 1.600000023841858
+            }
+        },
+        "WeaponMoveTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.09000000357627869
+        },
+        "attackLookAtCircleRange_": 164.0,
+        "attackOffsetTranslation_": 12.0,
+        "attackPosEaseType_": 14,
+        "attackPosLerpCircleRange_": 40.0,
+        "attackPosLerpTime_": 0.4399999976158142,
+        "backMoveValue_": -48.0,
+        "bossEnemyDistance_": -12.699999809265137,
+        "dashEffectOffset_": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 16.0
+        },
+        "exitTime_": 0.019999999552965164,
+        "nextAnimDuration_": 0.07999999821186066,
+        "rotationLerpRate_": 0.46000000834465027,
+        "weaponPosY_": 2.0
+    },
+    "Attack_4th": {
+        "MoveTimer": {
+            "easingType_": "EaseOutExpo",
+            "target_": 0.47999998927116394
+        },
+        "attackLookAtCircleRange_": 164.0,
+        "attackOffsetTranslation_": 12.0,
+        "attackPosEaseType_": 14,
+        "attackPosLerpCircleRange_": 40.0,
+        "attackPosLerpTime_": 0.4399999976158142,
+        "exitTime_": 0.23999999463558197,
+        "moveValue_": 24.0,
+        "nextAnimDuration_": 0.01600000075995922,
+        "rotateEffectOffsetRotation_": {
+            "x": 0.0,
+            "y": 1.5700000524520874,
+            "z": 0.0
+        },
+        "rotateEffectOffset_": {
+            "x": 0.0,
+            "y": 12.0,
+            "z": 0.0
+        },
+        "rotationLerpRate_": 0.46000000834465027
+    },
+    "Avoid": {
+        "easingType_": 11,
+        "lerpTime_": 0.1599999964237213,
+        "moveDistance_": -16.0,
+        "nextAnimDuration_": 0.019999999552965164
+    },
+    "Conditions": {
+        "Attack_1st": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 1.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": false
+        },
+        "Attack_2nd": {
+            "allowedPreState": [
+                5
+            ],
+            "chainInputTime": 0.6399999856948853,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": false
+        },
+        "Attack_3rd": {
+            "allowedPreState": [
+                6
+            ],
+            "chainInputTime": 0.6399999856948853,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": true
+        },
+        "Attack_4th": {
+            "allowedPreState": [
+                7
+            ],
+            "chainInputTime": 0.6399999856948853,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": true
+        },
+        "Avoid": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.3199999928474426,
+            "enableInARowForceState": false,
+            "interruptableBy": [
+                1,
+                2,
+                5,
+                6,
+                7,
+                8
+            ],
+            "isArmor": false
+        },
+        "Dash": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.3199999928474426,
+            "enableInARowForceState": true,
+            "interruptableBy": [
+                5,
+                6,
+                2,
+                1,
+                7,
+                8
+            ],
+            "isArmor": false
+        },
+        "Falter": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.0,
+            "enableInARowForceState": true,
+            "interruptableBy": [],
+            "isArmor": false
+        },
+        "Idle": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": false
+        },
+        "Parry": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.23999999463558197,
+            "enableInARowForceState": true,
+            "interruptableBy": [
+                5,
+                6,
+                7,
+                8,
+                3,
+                2,
+                1
+            ],
+            "isArmor": true
+        },
+        "ParryWait": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": true
+        },
+        "SkilAttack": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.1599999964237213,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": true
+        },
+        "Walk": {
+            "allowedPreState": [],
+            "chainInputTime": 0.0,
+            "coolTime": 0.0,
+            "enableInARowForceState": false,
+            "interruptableBy": [],
+            "isArmor": false
+        }
+    },
+    "Dash": {
+        "accelLerp_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 1,
+                    "type": "Repeat"
+                }
+            },
+            "ReturnTimer": {
+                "easingType_": "EaseInSine",
+                "target_": 0.800000011920929
+            },
+            "Timer": {
+                "easingType_": "EaseInSine",
+                "target_": 0.1599999964237213
+            },
+            "move_.end": 3.200000047683716,
+            "move_.start": 0.5,
+            "useReturnTimer_": false
+        },
+        "decelLerp_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 1,
+                    "type": "Repeat"
+                }
+            },
+            "ReturnTimer": {
+                "easingType_": "EaseInSine",
+                "target_": 0.800000011920929
+            },
+            "Timer": {
+                "easingType_": "EaseInSine",
+                "target_": 0.18000000715255737
+            },
+            "move_.end": 1.25,
+            "move_.start": 3.200000047683716,
+            "useReturnTimer_": false
+        },
+        "nextAnimDuration_": 0.017999999225139618,
+        "rotationLerpRate_": 0.18000000715255737
+    },
+    "Falter": {
+        "FalterTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.09000000357627869
+        },
+        "hitStopTime_": 0.07999999821186066,
+        "moveDistance_": -12.0,
+        "nextAnimDuration_": 0.0,
+        "targetCameraRotateX_": 0.10000000149011612
+    },
+    "Idle": {
+        "nextAnimDuration_": 0.20000000298023224
+    },
+    "Parry": {
+        "attackLerp_.easingType": 14,
+        "attackLerp_.moveDistance": -13.0,
+        "attackLerp_.time": 0.1599999964237213,
+        "cameraLookRate_": 4.800000190734863,
+        "deltaLerpSpeed_": 12.59000015258789,
+        "deltaWaitTime_": 0.3140000104904175,
+        "hitEffectOffsetY_": 3.0,
+        "nextAnimDuration_": 0.08500000089406967,
+        "parryEffectPosY_": 4.0,
+        "parryHitSEAddVolume_": 0.5,
+        "parryHitSEVolume_": 0.20000000298023224,
+        "parryLerp_.easingType": 11,
+        "parryLerp_.moveDistance": -50.0,
+        "parryLerp_.time": 0.47999998927116394,
+        "vibrationParams_": {
+            "attack": 0.05999999865889549,
+            "duration": 0.23999999463558197,
+            "left": 5.0,
+            "priority": 4,
+            "release": 0.20000000298023224,
+            "right": 5.0
+        }
+    },
+    "ParryWait": {
+        "enemyDistance_": -12.0,
+        "lerpPosTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.05000000074505806
+        },
+        "nextAnimDuration_": 0.007000000216066837
+    },
+    "SkilAttack": {
+        "JumpAttackHitstop": {
+            "hitstops": [
+                {
+                    "delay": 0.0,
+                    "duration": 0.10000000149011612,
+                    "timeScale": 0.0
+                },
+                {
+                    "delay": 0.10000000149011612,
+                    "duration": 0.029999999329447746,
+                    "timeScale": 0.0
+                }
+            ]
+        },
+        "JumpAttackHitstopStartProgress": 0.9660000205039978,
+        "JumpKey": {
+            "Keys": [
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999999776482582,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999999776482582
+                        },
+                        "translation": {
+                            "x": 0.0,
+                            "y": 2.4423601627349854,
+                            "z": -36.11090087890625
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.0
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999999776482582,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999999776482582
+                        },
+                        "translation": {
+                            "x": 0.0,
+                            "y": 10.1108980178833,
+                            "z": -43.2225341796875
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.06276922672986984
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999999776482582,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999999776482582
+                        },
+                        "translation": {
+                            "x": 0.0,
+                            "y": 16.943294525146484,
+                            "z": -48.56427001953125
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.1427692323923111
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999999776482582,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999999776482582
+                        },
+                        "translation": {
+                            "x": 1.1920928955078125e-07,
+                            "y": 23.818880081176758,
+                            "z": -53.944549560546875
+                        }
+                    },
+                    "ease": "EaseOutSine",
+                    "time": 0.3209230601787567
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999999776482582,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999999776482582
+                        },
+                        "translation": {
+                            "x": 1.1920928955078125e-07,
+                            "y": 24.831125259399414,
+                            "z": -55.044219970703125
+                        }
+                    },
+                    "ease": "EaseOutExpo",
+                    "time": 0.9390769004821777
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999999776482582,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999999776482582
+                        },
+                        "translation": {
+                            "x": 1.1920928955078125e-07,
+                            "y": -1.600000023841858,
+                            "z": -4.30718994140625
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.9800000190734863
+                }
+            ],
+            "addKeyTimeStep_": 0.800000011920929,
+            "isConnectEnds_": false,
+            "isIgnoreParentScale_": false,
+            "isUpdateKeyDuringLerp_": false,
+            "keyRenderView_": "Scene",
+            "lerpType_": "Spline",
+            "parentName_": "playerSkilMoveFrontTransform1",
+            "startDuration_": 0.05999999865889549,
+            "startEaseType_": "Linear"
+        },
+        "MoveAttackHitstop": {
+            "hitstops": [
+                {
+                    "delay": 0.0,
+                    "duration": 0.05999999865889549,
+                    "timeScale": 0.0
+                },
+                {
+                    "delay": 0.20000000298023224,
+                    "duration": 0.05999999865889549,
+                    "timeScale": 0.0
+                },
+                {
+                    "delay": 0.23999999463558197,
+                    "duration": 0.05999999865889549,
+                    "timeScale": 0.0
+                },
+                {
+                    "delay": 0.3199999928474426,
+                    "duration": 0.05999999865889549,
+                    "timeScale": 0.0
+                }
+            ]
+        },
+        "MoveAttackHitstopStartProgress": 0.20000000298023224,
+        "MoveFrontTransform": {
+            "isCompulsion_": true,
+            "isIgnoreParentScale": false,
+            "rotation": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.159999966621399,
+                "z": 1.0
+            },
+            "translation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 30.0
+            }
+        },
+        "MoveKey": {
+            "Keys": [
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 1.30385160446167e-07,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": -0.05667102336883545,
+                            "y": 0.4981783628463745,
+                            "z": -20.663848876953125
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.0
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 5.587935447692871e-08,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": -0.19227981567382813,
+                            "y": 1.3540287017822266,
+                            "z": 21.36956787109375
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.08737692981958389
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 1.4028046280145645e-07,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": -27.901264190673828,
+                            "y": 1.5064054727554321,
+                            "z": -9.205108642578125
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.19128462672233582
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 7.078116937009327e-08,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": 16.899887084960938,
+                            "y": 11.307538986206055,
+                            "z": 1.07623291015625
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.3070000112056732
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 9.69369536667881e-27,
+                            "y": 7.450649519569197e-08,
+                            "z": 4.545721603186661e-26
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": 16.049755096435547,
+                            "y": 3.292809009552002,
+                            "z": -12.74969482421875
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.4156307876110077
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 9.31329537934289e-08,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": -16.27859878540039,
+                            "y": 8.552984237670898,
+                            "z": 7.3353271484375
+                        }
+                    },
+                    "ease": "EaseOutQuad",
+                    "time": 0.5242615342140198
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 6.593763828277588e-07,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": -0.4013214111328125,
+                            "y": 2.9528679847717285,
+                            "z": -12.115264892578125
+                        }
+                    },
+                    "ease": "EaseOutExpo",
+                    "time": 0.6328923106193542
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 6.631016731262207e-07,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": 0.04567718505859375,
+                            "y": 4.454836845397949,
+                            "z": 22.162200927734375
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 0.7769462466239929
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 6.09084963798523e-07,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 0.9999570846557617,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": -0.3860511779785156,
+                            "y": 4.373260498046875,
+                            "z": 28.4129638671875
+                        }
+                    },
+                    "ease": "EaseOutExpo",
+                    "time": 0.9847115278244019
+                },
+                {
+                    "Transform": {
+                        "isCompulsion_": false,
+                        "isIgnoreParentScale": false,
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 6.09084963798523e-07,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 0.9999567866325378,
+                            "z": 1.0
+                        },
+                        "translation": {
+                            "x": 0.017740249633789063,
+                            "y": 0.5345309376716614,
+                            "z": -40.693878173828125
+                        }
+                    },
+                    "ease": "Linear",
+                    "time": 1.0779999494552612
+                }
+            ],
+            "addKeyTimeStep_": 0.800000011920929,
+            "isConnectEnds_": false,
+            "isIgnoreParentScale_": false,
+            "isUpdateKeyDuringLerp_": false,
+            "keyRenderView_": "Scene",
+            "lerpType_": "Linear",
+            "parentName_": "playerSkilMoveFrontTransform1",
+            "startDuration_": 0.0,
+            "startEaseType_": "Linear"
+        },
+        "attackLookAtCircleRange_": 100.0,
+        "attackOffsetTranslation_": 8.0,
+        "attackPosEaseType_": 0,
+        "attackPosLerpCircleRange_": 77.19999694824219,
+        "attackPosLerpTime_": 0.4399999976158142,
+        "exitTime_": 0.4000000059604645,
+        "jumpEffectEmitProgress_": 0.9100000262260437,
+        "moveAttackSEVolume_": 0.1599999964237213,
+        "nextAnimDuration_": 0.029999999329447746,
+        "nextJumpAnimDuration_": 0.6299999952316284,
+        "rotationAxis_": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "rotationLerpRate_": 0.6000000238418579
+    },
+    "Walk": {
+        "moveDecay_": 0.4399999976158142,
+        "moveSpeed_": 0.5,
+        "nextAnimDuration_": 0.1599999964237213,
+        "rotationLerpRate_": 0.1599999964237213
+    }
+}

@@ -1,0 +1,57 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerIState.h>
+#include <Engine/Utility/Enum/Easing.h>
+
+//============================================================================
+//	PlayerAvoidSatate class
+//	回避状態、止まっている状態から後ろに後ずさりする
+//============================================================================
+class PlayerAvoidSatate :
+	public PlayerIState {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
+
+	PlayerAvoidSatate() = default;
+	~PlayerAvoidSatate() = default;
+
+	void Enter() override;
+
+	void Update() override;
+
+	void Exit() override;
+
+	// imgui
+	void ImGui() override;
+
+	// json
+	void ApplyJson(const Json& data) override;
+	void SaveJson(Json& data) override;
+
+	//--------- accessor -----------------------------------------------------
+
+	bool IsAvoidance() const override { return isAvoiding_; }
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- variables ----------------------------------------------------
+
+	// parameters
+	float lerpTimer_; // 補間時間
+	float lerpTime_;  // 補間にかける時間
+	EasingType easingType_;
+	float moveDistance_; // 移動距離
+
+	SakuEngine::Vector3 startPos_;  // 開始座標
+	SakuEngine::Vector3 targetPos_; // 目標座標
+
+	// 回避中か
+	bool isAvoiding_ = false;
+};

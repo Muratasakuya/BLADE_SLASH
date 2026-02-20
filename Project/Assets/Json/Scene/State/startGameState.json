@@ -1,0 +1,26 @@
+{
+    "NextStateEvent": {
+        "CollisionBody0": {
+            "AABB": {
+                "center": {
+                    "x": 0.0,
+                    "y": 6.0,
+                    "z": -172.0
+                },
+                "extent": {
+                    "x": 320.0,
+                    "y": 6.0,
+                    "z": 16.0
+                }
+            }
+        }
+    },
+    "playerToBossText_Pos": {
+        "x": 964.0,
+        "y": 980.0
+    },
+    "playerToBossText_Size": {
+        "x": 346.0,
+        "y": 64.0
+    }
+}

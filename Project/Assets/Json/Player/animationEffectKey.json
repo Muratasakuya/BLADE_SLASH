@@ -1,0 +1,64 @@
+{
+    "animations": [
+        {
+            "object": "playerArmature",
+            "action": "attack_1st",
+            "events": {
+                "Effect": [
+                    4
+                ]
+            }
+        },
+        {
+            "object": "playerArmature",
+            "action": "attack_2nd",
+            "events": {
+                "Effect": [
+                    2,
+                    5
+                ]
+            }
+        },
+        {
+            "object": "playerArmature",
+            "action": "attack_3rd",
+            "events": {
+                "OutSword": [
+                    1,
+                    8
+                ],
+                "CatchSword": [
+                    16
+                ],
+                "Effect": [
+                    1,
+                    8
+                ]
+            }
+        },
+        {
+            "object": "playerArmature",
+            "action": "attack_3rd_Throw",
+            "events": {
+                "OutSword": [
+                    1,
+                    8
+                ],
+                "Effect": [
+                    1,
+                    8
+                ]
+            }
+        },
+        {
+            "object": "<unlinked>",
+            "action": "attack_4th",
+            "events": {
+                "Effect": [
+                    0,
+                    9
+                ]
+            }
+        }
+    ]
+}

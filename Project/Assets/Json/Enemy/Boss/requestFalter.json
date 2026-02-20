@@ -1,0 +1,112 @@
+{
+    "allowFalterBossStates": {
+        "ChargeAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "ContinuousAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "Falter": {
+            "isAllow": true,
+            "isAllowAll": false
+        },
+        "GreatAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "Idle": {
+            "isAllow": true,
+            "isAllowAll": false
+        },
+        "JumpAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "LightAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "ProjectileAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "RushAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "StrongAttack": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "Stun": {
+            "isAllow": false,
+            "isAllowAll": false
+        },
+        "Teleport": {
+            "isAllow": false,
+            "isAllowAll": false
+        }
+    },
+    "forceFalterPlayerStates": {
+        "Attack_1st": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Attack_2nd": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Attack_3rd": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Attack_4th": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Avoid": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Dash": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Falter": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Idle": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "None": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Parry": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "SkilAttack": {
+            "isDisableState": true,
+            "isForce": true
+        },
+        "StunAttack": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "SwitchAlly": {
+            "isDisableState": false,
+            "isForce": false
+        },
+        "Walk": {
+            "isDisableState": false,
+            "isForce": false
+        }
+    },
+    "maxFalterCount": 8,
+    "recoverFalterCount": 8
+}

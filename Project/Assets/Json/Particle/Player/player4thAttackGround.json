@@ -1,0 +1,3979 @@
+{
+    "CPUGroups": [
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 32,
+            "modelName": "",
+            "name": "baseGround",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 1,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.27300000190734863,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 0.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "centerEmissiveCircle",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XZ",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "groundEffect1",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "EaseOutQuad",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 64.0,
+                                        "y": 64.0,
+                                        "z": 64.0
+                                    },
+                                    "target": {
+                                        "x": 80.0,
+                                        "y": 80.0,
+                                        "z": 80.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.9321953058242798,
+                                        "g": 0.24098968505859375,
+                                        "r": 0.04729387164115906
+                                    },
+                                    "target": {
+                                        "a": 1.0,
+                                        "b": 0.9321953058242798,
+                                        "g": 0.24098968505859375,
+                                        "r": 0.04729387164115906
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 4.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 4.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 4.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "Linear",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.47999998927116394,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 20,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 2.0,
+                                    "targetAmplitude": 0.47999998927116394,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 20,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 0.3199999928474426,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 2.0
+                                },
+                                "plane": {
+                                    "mode": "XZ",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XZ",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": 0.5,
+                                    "target": 0.5
+                                },
+                                "easingType": "EaseOutExpo",
+                                "noise": {
+                                    "start": 1.0,
+                                    "target": 0.0
+                                },
+                                "useNoiseTexture": true
+                            },
+                            "type": "AlphaReference"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 0.047058820724487305,
+                                        "y": 0.219845712184906,
+                                        "z": 0.9333333373069763
+                                    },
+                                    "target": {
+                                        "x": 0.047058820724487305,
+                                        "y": 0.219845712184906,
+                                        "z": 0.9333333373069763
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "intencity": {
+                                    "start": 1.0,
+                                    "target": 6.0
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                },
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 0,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 4.0,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 0.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XZ",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "groundEffect1",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.9321953058242798,
+                                        "g": 0.24098968505859375,
+                                        "r": 0.04729387164115906
+                                    },
+                                    "target": {
+                                        "a": 0.0,
+                                        "b": 0.9333333373069763,
+                                        "g": 0.239215686917305,
+                                        "r": 0.0470588244497776
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 4.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 4.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 4.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "Linear",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.47999998927116394,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 20,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 2.0,
+                                    "targetAmplitude": 0.47999998927116394,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 20,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 0.3199999928474426,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 2.0
+                                },
+                                "plane": {
+                                    "mode": "XZ",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XZ",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": 0.5,
+                                    "target": 0.5
+                                },
+                                "easingType": "Linear",
+                                "noise": {
+                                    "start": 0.0,
+                                    "target": 1.0
+                                },
+                                "useNoiseTexture": true
+                            },
+                            "type": "AlphaReference"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 0.047058820724487305,
+                                        "y": 0.219845712184906,
+                                        "z": 0.9333333373069763
+                                    },
+                                    "target": {
+                                        "x": 0.047058820724487305,
+                                        "y": 0.219845712184906,
+                                        "z": 0.9333333373069763
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "intencity": {
+                                    "start": 6.0,
+                                    "target": 0.0
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Plane",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 32,
+            "modelName": "",
+            "name": "centerCircle",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 4,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.27300000190734863,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 0.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "centerEmissiveCircle",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XZ",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "burnt",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "EaseOutExpo",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 256.0,
+                                        "y": 256.0,
+                                        "z": 256.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.1225271224975586,
+                                        "g": 0.0209555272012949,
+                                        "r": 0.0
+                                    },
+                                    "target": {
+                                        "a": 1.0,
+                                        "b": 0.1225271224975586,
+                                        "g": 0.0209555272012949,
+                                        "r": 0.0
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 4.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 4.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 4.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "Linear",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.47999998927116394,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 20,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 2.0,
+                                    "targetAmplitude": 0.47999998927116394,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 20,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 0.3199999928474426,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 2.0
+                                },
+                                "plane": {
+                                    "mode": "XZ",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XZ",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 0.026433510705828667,
+                                        "y": 0.0016118095954880118,
+                                        "z": 0.5612635612487793
+                                    },
+                                    "target": {
+                                        "x": 0.026433510705828667,
+                                        "y": 0.0016118095954880118,
+                                        "z": 0.5612635612487793
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "intencity": {
+                                    "start": 0.30000001192092896,
+                                    "target": 0.30000001192092896
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                },
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 0,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 1.6399999856948853,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 0.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XZ",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "burnt",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.12156862765550613,
+                                        "g": 0.019607843831181526,
+                                        "r": 0.0
+                                    },
+                                    "target": {
+                                        "a": 0.0,
+                                        "b": 0.12156862765550613,
+                                        "g": 0.019607843831181526,
+                                        "r": 0.0
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 4.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 4.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 4.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "Linear",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.47999998927116394,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 20,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 2.0,
+                                    "targetAmplitude": 0.47999998927116394,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 20,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 0.3199999928474426,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 2.0
+                                },
+                                "plane": {
+                                    "mode": "XZ",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XZ",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Plane",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 32,
+            "modelName": "",
+            "name": "outMoveSmoke",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "angleMax_": 360.0,
+                            "angleMin_": 0.0,
+                            "clockwise_": false,
+                            "common": {
+                                "emitCount": {
+                                    "constant": 18,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.800000011920929,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 32.0,
+                                    "randomMax": 18.0,
+                                    "randomMin": 16.0,
+                                    "valueType": 1
+                                },
+                                "noiseTextureName": "swirlNoise",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XY",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "smoke",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "mode": "Random",
+                            "radius": 0.5,
+                            "rotation": {
+                                "w": 1.0,
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "stepAngle_": 15.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            },
+                            "velocityMode_": "Normal"
+                        },
+                        "type": "Circle"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "All",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "EaseOutExpo",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 24.0,
+                                        "y": 24.0,
+                                        "z": 24.0
+                                    },
+                                    "target": {
+                                        "x": 40.0,
+                                        "y": 40.0,
+                                        "z": 40.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "target": {
+                                        "a": 0.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    }
+                                },
+                                "easingType": "EaseOutSine",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "direction": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": 0.0
+                                },
+                                "reflectGround": true,
+                                "reflectGroundY": 0.0,
+                                "restitution": 0.4000000059604645,
+                                "strength": 9.800000190734863
+                            },
+                            "type": "Gravity"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": 0.0,
+                                    "target": 0.0
+                                },
+                                "easingType": "EaseOutExpo",
+                                "noise": {
+                                    "start": 0.0,
+                                    "target": 1.0
+                                },
+                                "useNoiseTexture": true
+                            },
+                            "type": "AlphaReference"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "pivot": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "rotation": {
+                                    "start": 0.0,
+                                    "target": 3.140000104904175
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                "scrollValue": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "serial": {
+                                    "cellSize_.x": 0,
+                                    "cellSize_.y": 0,
+                                    "cols_": 1,
+                                    "gapSize_.x": 0,
+                                    "gapSize_.y": 0,
+                                    "horizontalCounts_": [],
+                                    "horizontal_": "Right",
+                                    "loopCount_": 1,
+                                    "origin_.x": 0,
+                                    "origin_.y": 0,
+                                    "rowsUse_": 0,
+                                    "rows_": 1,
+                                    "startCorner_": "LeftTop",
+                                    "textureSize_.x": 0,
+                                    "textureSize_.y": 0,
+                                    "traverse_": "Wrap",
+                                    "vertical_": "Down"
+                                },
+                                "translation": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "updateType": "Lerp"
+                            },
+                            "type": "NoiseUV"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Plane",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 32,
+            "modelName": "",
+            "name": "rotateSmoke",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 2,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.37299999594688416,
+                                    "randomMax": 0.31299999356269836,
+                                    "randomMin": 0.20900000631809235,
+                                    "valueType": 1
+                                },
+                                "moveSpeed": {
+                                    "constant": 0.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "cylinder": {
+                                        "bottomRadius": 4.0,
+                                        "divide": 16,
+                                        "height": 4.0,
+                                        "topRadius": 4.0
+                                    },
+                                    "shape": "Cylinder"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "smoke",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 4.0,
+                                        "y": 1.0,
+                                        "z": 4.0
+                                    },
+                                    "target": {
+                                        "x": 8.0,
+                                        "y": 1.0,
+                                        "z": 8.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "target": {
+                                        "a": 0.08235294371843338,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    }
+                                },
+                                "easingType": "EaseOutQuad",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 0.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 1.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 18.010000228881836,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "EaseOutCubic",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.47999998927116394,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 20,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 2.0,
+                                    "targetAmplitude": 0.47999998927116394,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 20,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 0.3199999928474426,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 2.0
+                                },
+                                "plane": {
+                                    "mode": "XY",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XY",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "pivot": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "rotation": {
+                                    "start": 0.0,
+                                    "target": 0.0
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 0.17000000178813934,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 1.0,
+                                        "y": 0.8799999952316284,
+                                        "z": 1.0
+                                    }
+                                },
+                                "scrollValue": {
+                                    "x": -0.019999999552965164,
+                                    "y": 0.0
+                                },
+                                "serial": {
+                                    "cellSize_.x": 0,
+                                    "cellSize_.y": 0,
+                                    "cols_": 1,
+                                    "gapSize_.x": 0,
+                                    "gapSize_.y": 0,
+                                    "horizontalCounts_": [],
+                                    "horizontal_": "Right",
+                                    "loopCount_": 1,
+                                    "origin_.x": 0,
+                                    "origin_.y": 0,
+                                    "rowsUse_": 0,
+                                    "rows_": 1,
+                                    "startCorner_": "LeftTop",
+                                    "textureSize_.x": 0,
+                                    "textureSize_.y": 0,
+                                    "traverse_": "Wrap",
+                                    "vertical_": "Down"
+                                },
+                                "translation": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "updateType": "Scroll"
+                            },
+                            "type": "ColorUV"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "intencity": {
+                                    "start": 1.0,
+                                    "target": 1.0
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Cylinder",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 32,
+            "modelName": "",
+            "name": "centerLightning",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 4,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.48100000619888306,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 1.600000023841858,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "shape": "Lightning"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "lightning",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.5,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "All",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": -6.230203143786639e-05,
+                                        "y": 0.00012859661364927888,
+                                        "z": 0.00016697852697689086
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.8484364748001099,
+                                        "g": 0.2027869075536728,
+                                        "r": 0.04642850533127785
+                                    },
+                                    "target": {
+                                        "a": 1.0,
+                                        "b": 0.8470588326454163,
+                                        "g": 0.20392157137393951,
+                                        "r": 0.0470588244497776
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 4.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 4.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 4.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "EaseOutExpo",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.6399999856948853,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 20.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 32,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 48.0,
+                                    "targetAmplitude": 0.05999999865889549,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 2.690000057220459,
+                                    "targetNodeCount": 32,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 1.0,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 64.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 1.0
+                                },
+                                "plane": {
+                                    "mode": "XY",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XY",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 0.0470588244497776,
+                                        "y": 0.20392157137393951,
+                                        "z": 0.8470588326454163
+                                    }
+                                },
+                                "easingType": "EaseOutExpo",
+                                "intencity": {
+                                    "start": 4.0,
+                                    "target": 8.0
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Lightning",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 64,
+            "modelName": "",
+            "name": "outLightning",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "baseRadius": 2.9000000953674316,
+                            "common": {
+                                "emitCount": {
+                                    "constant": 12,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.800000011920929,
+                                    "randomMax": 0.800000011920929,
+                                    "randomMin": 0.800000011920929,
+                                    "valueType": 0
+                                },
+                                "moveSpeed": {
+                                    "constant": 4.425000190734863,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "shape": "Lightning"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "lightning",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "emitterRotation": {
+                                "x": -2.0376124382019043,
+                                "y": 1.7999999523162842,
+                                "z": 36.174259185791016
+                            },
+                            "height": 2.0,
+                            "topRadius": 33.150001525878906,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Cone"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "All",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.8045628666877747,
+                                        "g": 0.2029811590909958,
+                                        "r": 0.0344005785882473
+                                    },
+                                    "target": {
+                                        "a": 1.0,
+                                        "b": 0.8045628666877747,
+                                        "g": 0.2029811590909958,
+                                        "r": 0.0344005785882473
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 4.0,
+                                    "startDivide": 16,
+                                    "startHeight": 4.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 4.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 4.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 4.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 4.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "EaseOutExpo",
+                                "lightning": {
+                                    "isLookAtEnd": true,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 1.2000000476837158,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 16,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.0,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 4.0,
+                                    "targetAmplitude": 0.019999999552965164,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 16,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 1.0,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 0.0
+                                },
+                                "plane": {
+                                    "mode": "XY",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XY",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 0.07049571722745895,
+                                        "y": 0.09446996450424194,
+                                        "z": 0.9441608190536499
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "intencity": {
+                                    "start": 1.0,
+                                    "target": 8.0
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Lightning",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeAdd",
+            "gameMaxParticleCount_": 32,
+            "modelName": "",
+            "name": "upShockWave",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 4,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.5,
+                                    "randomMax": 0.4000000059604645,
+                                    "randomMin": 0.21699999272823334,
+                                    "valueType": 1
+                                },
+                                "moveSpeed": {
+                                    "constant": 0.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "cylinder": {
+                                        "bottomRadius": 4.0,
+                                        "divide": 16,
+                                        "height": 4.0,
+                                        "topRadius": 4.0
+                                    },
+                                    "shape": "Cylinder"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "noise3",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 0.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "None",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "Slerp"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 4.0,
+                                        "y": 1.0,
+                                        "z": 4.0
+                                    },
+                                    "target": {
+                                        "x": 8.0,
+                                        "y": 1.0,
+                                        "z": 8.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 1.0,
+                                        "b": 0.6689534187316895,
+                                        "g": 0.5173348188400269,
+                                        "r": 0.12465499341487885
+                                    },
+                                    "target": {
+                                        "a": 1.0,
+                                        "b": 0.6705882549285889,
+                                        "g": 0.5176470875740051,
+                                        "r": 0.125490203499794
+                                    }
+                                },
+                                "easingType": "EaseOutQuad",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "crescent": {
+                                    "startDivide": 8,
+                                    "startEndAngle": 2.6179940700531006,
+                                    "startInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startInnerRadius": 2.0,
+                                    "startOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "startOuterRadius": 4.0,
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startStartAngle": 0.5235987901687622,
+                                    "startThickness": 0.10000000149011612,
+                                    "startTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "startUVMode": 1,
+                                    "startWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetDivide": 8,
+                                    "targetEndAngle": 2.6179940700531006,
+                                    "targetInnerColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterColor": {
+                                        "a": 1.0,
+                                        "b": 1.0,
+                                        "g": 1.0,
+                                        "r": 1.0
+                                    },
+                                    "targetOuterRadius": 4.0,
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetStartAngle": 0.5235987901687622,
+                                    "targetThickness": 0.10000000149011612,
+                                    "targetTipSharpness": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "targetUVMode": 1,
+                                    "targetWeight": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    }
+                                },
+                                "cylinder": {
+                                    "startBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startBottomRadius": 0.0,
+                                    "startDivide": 16,
+                                    "startHeight": 0.0,
+                                    "startMaxAngle": 6.2831854820251465,
+                                    "startTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startTopRadius": 0.0,
+                                    "targetBottomColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetBottomRadius": 1.0,
+                                    "targetDivide": 16,
+                                    "targetHeight": 20.0,
+                                    "targetMaxAngle": 6.2831854820251465,
+                                    "targetTopColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetTopRadius": 8.0,
+                                    "uvMode": "None"
+                                },
+                                "easingType": "EaseOutSine",
+                                "lightning": {
+                                    "isLookAtEnd": false,
+                                    "isRefSpawnPos_": false,
+                                    "startAmplitude": 0.47999998927116394,
+                                    "startAngle": 0.0,
+                                    "startEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "startFrequency": 6.0,
+                                    "startNodeCount": 20,
+                                    "startSeed": 1337.0,
+                                    "startSmoothness": 0.3199999928474426,
+                                    "startStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "startWidth": 2.0,
+                                    "targetAmplitude": 0.47999998927116394,
+                                    "targetAngle": 0.0,
+                                    "targetEnd": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 0.0
+                                    },
+                                    "targetFrequency": 6.0,
+                                    "targetNodeCount": 20,
+                                    "targetSeed": 1337.0,
+                                    "targetSmoothness": 0.3199999928474426,
+                                    "targetStart": {
+                                        "x": 0.0,
+                                        "y": 32.0,
+                                        "z": 0.0
+                                    },
+                                    "targetWidth": 2.0
+                                },
+                                "plane": {
+                                    "mode": "XY",
+                                    "startLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetLeftBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetLeftTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetRightBottomVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetRightTopVertexColor": {
+                                        "a": 1.0,
+                                        "b": 0.0,
+                                        "g": 0.0,
+                                        "r": 0.0
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                },
+                                "ring": {
+                                    "startDivide": 8,
+                                    "startInnerRadius": 2.0,
+                                    "startOuterRadius": 4.0,
+                                    "targetDivide": 8,
+                                    "targetInnerRadius": 2.0,
+                                    "targetOuterRadius": 4.0
+                                },
+                                "testMesh": {
+                                    "mode": "XY",
+                                    "startPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "startSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    },
+                                    "targetPivot": {
+                                        "x": 0.5,
+                                        "y": 0.5
+                                    },
+                                    "targetSize": {
+                                        "x": 1.0,
+                                        "y": 1.0
+                                    }
+                                }
+                            },
+                            "type": "Primitive"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "pivot": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "rotation": {
+                                    "start": 0.0,
+                                    "target": 0.0
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 2.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 2.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                "scrollValue": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "serial": {
+                                    "cellSize_.x": 0,
+                                    "cellSize_.y": 0,
+                                    "cols_": 1,
+                                    "gapSize_.x": 0,
+                                    "gapSize_.y": 0,
+                                    "horizontalCounts_": [],
+                                    "horizontal_": "Right",
+                                    "loopCount_": 1,
+                                    "origin_.x": 0,
+                                    "origin_.y": 0,
+                                    "rowsUse_": 0,
+                                    "rows_": 1,
+                                    "startCorner_": "LeftTop",
+                                    "textureSize_.x": 0,
+                                    "textureSize_.y": 0,
+                                    "traverse_": "Wrap",
+                                    "vertical_": "Down"
+                                },
+                                "translation": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "updateType": "Scroll"
+                            },
+                            "type": "ColorUV"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 0.32549023628234863,
+                                        "y": 0.36014115810394287,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 0.32549023628234863,
+                                        "y": 0.36014115810394287,
+                                        "z": 1.0
+                                    }
+                                },
+                                "easingType": "EaseOutSine",
+                                "intencity": {
+                                    "start": 8.0,
+                                    "target": 0.0
+                                }
+                            },
+                            "type": "Emissive"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": 0.5,
+                                    "target": 0.5
+                                },
+                                "easingType": "Linear",
+                                "noise": {
+                                    "start": 0.0,
+                                    "target": 0.5
+                                },
+                                "useNoiseTexture": true
+                            },
+                            "type": "AlphaReference"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "pivot": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "rotation": {
+                                    "start": 0.0,
+                                    "target": 0.0
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    },
+                                    "target": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                "scrollValue": {
+                                    "x": 0.05000000074505806,
+                                    "y": 0.0
+                                },
+                                "serial": {
+                                    "cellSize_.x": 0,
+                                    "cellSize_.y": 0,
+                                    "cols_": 1,
+                                    "gapSize_.x": 0,
+                                    "gapSize_.y": 0,
+                                    "horizontalCounts_": [],
+                                    "horizontal_": "Right",
+                                    "loopCount_": 1,
+                                    "origin_.x": 0,
+                                    "origin_.y": 0,
+                                    "rowsUse_": 0,
+                                    "rows_": 1,
+                                    "startCorner_": "LeftTop",
+                                    "textureSize_.x": 0,
+                                    "textureSize_.y": 0,
+                                    "traverse_": "Wrap",
+                                    "vertical_": "Down"
+                                },
+                                "translation": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "updateType": "Scroll"
+                            },
+                            "type": "NoiseUV"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Cylinder",
+            "textureName": ""
+        },
+        {
+            "blendMode": "kBlendModeScreen",
+            "gameMaxParticleCount_": 0,
+            "modelName": "",
+            "name": "randomMove",
+            "phases": [
+                {
+                    "duration": 0.800000011920929,
+                    "notEmit": false,
+                    "postProcessMask_": 16649,
+                    "spawn": {
+                        "params": {
+                            "common": {
+                                "emitCount": {
+                                    "constant": 16,
+                                    "randomMax": 4,
+                                    "randomMin": 4,
+                                    "valueType": 0
+                                },
+                                "lifeTime": {
+                                    "constant": 0.9990000128746033,
+                                    "randomMax": 0.5,
+                                    "randomMin": 0.30000001192092896,
+                                    "valueType": 1
+                                },
+                                "moveSpeed": {
+                                    "constant": 4.0,
+                                    "randomMax": 1.600000023841858,
+                                    "randomMin": 1.600000023841858,
+                                    "valueType": 0
+                                },
+                                "noiseTextureName": "noise",
+                                "primitive": {
+                                    "plane": {
+                                        "mode": "XY",
+                                        "pivot": {
+                                            "x": 0.5,
+                                            "y": 0.5
+                                        },
+                                        "size": {
+                                            "x": 1.0,
+                                            "y": 1.0
+                                        }
+                                    },
+                                    "shape": "Plane"
+                                },
+                                "samplerType_none": 0,
+                                "samplerType_trail": 0,
+                                "textureName": "starCircle",
+                                "trailNoiseTextureName_": "noise",
+                                "trailTextureName_": "white",
+                                "useNoiseTexture_none": 0,
+                                "useNoiseTexture_trail": 0
+                            },
+                            "radius": 20.0,
+                            "translation": {
+                                "x": 19.213666915893555,
+                                "y": 0.800000011920929,
+                                "z": -408.1338195800781
+                            }
+                        },
+                        "type": "Sphere"
+                    },
+                    "updaters": [
+                        {
+                            "params": {
+                                "endMode_": "Advance"
+                            },
+                            "type": "LifeTime"
+                        },
+                        {
+                            "params": null,
+                            "type": "Velocity"
+                        },
+                        {
+                            "params": {
+                                "angleAxis_": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "angleSpeedRadian_": 0.0,
+                                "billboardType": "All",
+                                "easingType": "Linear",
+                                "lerpRotation": {
+                                    "start": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
+                                },
+                                "lockAxisAngle_": 0.0,
+                                "lockAxisType": "None",
+                                "lockRotation": {
+                                    "w": 1.0,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "slerpExtraTurns_": 0,
+                                "slerpPreferLongArc_": false,
+                                "updateType": "LockRotation"
+                            },
+                            "type": "Rotation"
+                        },
+                        {
+                            "params": {
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 3,
+                                    "type": "Repeat"
+                                },
+                                "scale": {
+                                    "start": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "target": {
+                                        "x": 4.0,
+                                        "y": 4.0,
+                                        "z": 4.0
+                                    }
+                                }
+                            },
+                            "type": "Scale"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "a": 0.0,
+                                        "b": 0.09803921729326248,
+                                        "g": 0.8941176533699036,
+                                        "r": 0.33725491166114807
+                                    },
+                                    "target": {
+                                        "a": 1.0,
+                                        "b": 0.6689534187316895,
+                                        "g": 0.23765136301517487,
+                                        "r": 0.14866818487644196
+                                    }
+                                },
+                                "easingType": "Linear",
+                                "loop": {
+                                    "loopCount": 1,
+                                    "type": "Repeat"
+                                }
+                            },
+                            "type": "Color"
+                        },
+                        {
+                            "params": {
+                                "color": {
+                                    "start": {
+                                        "x": 0.007949641905725002,
+                                        "y": 0.7327696084976196,
+                                        "z": 0.3449191153049469
+                                    },
+                                    "target": {
+                                        "x": 0.10293645411729813,
+                                        "y": 0.25216612219810486,
+                                        "z": 0.8683790564537048
+                                    }
+                                },
+                                "easingType": "EaseInExpo",
+                                "intencity": {
+                                    "start": 2.0,
+                                    "target": 4.0
+                                }
+                            },
+                            "type": "Emissive"
+                        }
+                    ]
+                }
+            ],
+            "primitive": "Plane",
+            "textureName": ""
+        }
+    ],
+    "name": "player4thAttackGround",
+    "primitiveType": "Plane"
+}

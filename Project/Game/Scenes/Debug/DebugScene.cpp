@@ -12,6 +12,9 @@
 
 void DebugScene::Init() {
 
+	debugText_ = std::make_unique<SakuEngine::GameTextObject>();
+	debugText_->Init("DS-DIGIB_msdf", "Assets/Json/Atlas/DS-DIGIB_msdf.json", "debugText", "Text");
+
 	//========================================================================
 	//	scene
 	//========================================================================

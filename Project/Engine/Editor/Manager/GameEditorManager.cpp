@@ -31,103 +31,69 @@ void GameEditorManager::Finalize() {
 
 void GameEditorManager::AddEditor(IGameEditor* editor) {
 
-	// 同じ名前のエディターが無ければ追加
-	std::string name = editor->GetName();
-
-	for (const auto& editors : std::views::values(editorMap_)) {
-		for (const auto& registered : editors) {
-			// 同じ名前がないかチェック
-			if (registered->GetName() == name) {
-
-				// あったら早期リターンして追加させない
-				return;
-			}
-		}
-	}
-	// 追加
-	std::string groupName = editor->GetGroupName();
-	editorMap_[groupName].emplace_back(editor);
+	// editor追加
+	editors_.emplace_back(editor);
 }
 
 void GameEditorManager::RemoveEditor(IGameEditor* editor) {
 
-	// 選択中のエディターを削除したとき
-	if (selectInfo_.editor) {
-		if (selectInfo_.editor->GetName() == editor->GetName()) {
+	// 選択中のeditorを削除したとき
+	if (selectedEditor_) {
+		if (selectedEditor_->GetName() == editor->GetName()) {
 
-			selectInfo_.editor = nullptr;
-			selectInfo_.groupName.clear();
-			selectInfo_.index = std::nullopt;
+			selectedEditor_ = nullptr;
+			selectedIndex_ = std::nullopt;
 		}
 	}
 
-	// エディター削除
-	for (auto& [groupName, editors] : editorMap_) {
-		if (groupName == editor->GetGroupName()) {
-
-			editors.erase(std::remove(editors.begin(), editors.end(), editor), editors.end());
-		}
-	}
+	// editor削除
+	editors_.erase(std::remove(editors_.begin(), editors_.end(), editor), editors_.end());
 }
 
 void GameEditorManager::SetSelectObjectID(uint32_t id) {
 
 	// 選択されていなければ早期リターン
-	if (!selectInfo_.Has()) {
+	if (!selectedIndex_.has_value()) {
 		return;
 	}
-	selectInfo_.editor->SetSelectObjectID(id);
+	editors_[*selectedIndex_]->SetSelectObjectID(id);
 }
 
 void GameEditorManager::SelectEditor() {
 
 	ImGui::SetWindowFontScale(0.84f);
 
-	// グループ別に表示を行う
-	for (const auto& [groupName, editors] : editorMap_) {
+	// editorsの要素を表示
+	if (!editors_.empty()) {
+		for (uint32_t index = 0; index < editors_.size(); ++index) {
+			if (ImGui::Selectable(editors_[index]->GetName().c_str(),
+				selectedIndex_.has_value() && selectedIndex_.value() == index)) {
 
-		// グループ表示ヘッダー
-		if (ImGui::CollapsingHeader(groupName.c_str())) {
-			if (editors.empty()) {
-				continue;
+				selectedIndex_ = index;
+				selectedEditor_ = editors_[index];
 			}
-
-			ImGui::Indent();
-
-			// 所持エディターを表示
-			for (uint32_t index = 0; index < editors.size(); ++index) {
-				if (ImGui::Selectable(editors[index]->GetName().c_str(),
-					selectInfo_.Has() && selectInfo_.index.value() == index)) {
-
-					selectInfo_.index = index;
-					selectInfo_.editor = editors[index];
-				}
-			}
-			ImGui::Unindent();
 		}
 	}
-
 	ImGui::SetWindowFontScale(1.0f);
 }
 
 void GameEditorManager::EditEditor() {
 
 	// 選択されていなければ早期リターン
-	if (!selectInfo_.Has()) {
+	if (!selectedIndex_.has_value()) {
 		return;
 	}
 
-	// 選択中のグループ内で範囲外アクセスになるなら選択取り消し
-	if (editorMap_[selectInfo_.groupName].size() <= static_cast<uint32_t>(selectInfo_.index.value())) {
-		selectInfo_.index = std::nullopt;
-		selectInfo_.editor = nullptr;
+	// 範囲外なら選択取り消し
+	if (editors_.size() <= static_cast<uint32_t>(*selectedIndex_)) {
+		selectedIndex_ = std::nullopt;
 		return;
 	}
 
 	// 名前表示
-	ImGui::Text("name: %s", selectInfo_.editor->GetName().c_str());
+	ImGui::Text("name: %s", editors_[*selectedIndex_]->GetName().c_str());
 
 	ImGui::Separator();
 
-	selectInfo_.editor->ImGui();
+	editors_[*selectedIndex_]->ImGui();
 }

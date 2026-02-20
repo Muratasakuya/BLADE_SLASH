@@ -1,0 +1,91 @@
+#pragma once
+
+//============================================================================
+//	include
+//============================================================================
+#include <Engine/Editor/Effect/User/Helper/SlashEffectHelper.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/Interface/BossEnemyBaseAttackState.h>
+
+//============================================================================
+//	BossEnemyStrongAttackState class
+//	強攻撃状態
+//============================================================================
+class BossEnemyStrongAttackState :
+	public BossEnemyBaseAttackState {
+public:
+	//========================================================================
+	//	public Methods
+	//========================================================================
+
+	BossEnemyStrongAttackState() = default;
+	~BossEnemyStrongAttackState() = default;
+
+	void CreateEffect() override;
+
+	void Enter() override;
+
+	void Update() override;
+	void UpdateAlways() override;
+
+	void Exit() override;
+
+	// imgui
+	void ImGui() override;
+
+	// json
+	void ApplyJson(const Json& data) override;
+	void SaveJson(Json& data) override;
+private:
+	//========================================================================
+	//	private Methods
+	//========================================================================
+
+	//--------- stricture ----------------------------------------------------
+
+	// 状態
+	enum class State {
+
+		ParrySign, // パリィ受付中
+		Attack1st, // 攻撃1回目
+		Attack2nd  // 攻撃2回目
+	};
+
+	//--------- variables ----------------------------------------------------
+
+	// 状態
+	State currentState_;
+
+	// 座標
+	SakuEngine::Vector3 startPos_; // 開始座標
+
+	// parameters
+	float lerpTimer_;       // 座標補間の際の経過時間
+	EasingType easingType_; // 補間の際のイージング
+
+	float attackOffsetTranslation_; // 座標からのオフセット距離
+
+	float exitTimer_; // 遷移可能にするまでの経過時間
+	float exitTime_;  // 遷移可能にするまでの時間
+
+	float attack2ndAnimDuration_; // 2回目のアニメーション補間時間
+	float attack2ndLerpTime_;     // 座標補間時間
+	bool reachedPlayer_; // 近くまで来たかどうか
+
+	// 剣エフェクト
+	SakuEngine::SlashEffectHelper strongSlash_; // 強攻撃エフェクト
+	SakuEngine::SlashEffectHelper lightSlash_;  // 軽攻撃エフェクト
+
+	// debug
+	std::unordered_map<State, bool> parriedMaps_;
+
+	//--------- functions ----------------------------------------------------
+
+	// update
+	void UpdateParrySign();
+	void UpdateAttack1st();
+	void UpdateAttack2nd();
+	void UpdateParryTiming();
+
+	// helper
+	void LerpTranslation();
+};

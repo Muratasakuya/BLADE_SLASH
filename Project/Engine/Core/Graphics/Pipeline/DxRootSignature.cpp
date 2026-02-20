@@ -1,4 +1,4 @@
-#include "DxRootSignature.h"
+﻿#include "DxRootSignature.h"
 
 using namespace SakuEngine;
 
@@ -60,34 +60,16 @@ void DxRootSignature::Create(const std::string& fileName, const Json& json,
 
 				rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 				rootParam.Descriptor.ShaderRegister = param["ShaderRegister"];
-
-				rootParam.Descriptor.RegisterSpace = 0;
-				if (param.contains("RegisterSpace")) {
-
-					rootParam.Descriptor.RegisterSpace = param["RegisterSpace"];
-				}
 			}
 			if (type == "UAV") {
 
 				rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_UAV;
 				rootParam.Descriptor.ShaderRegister = param["ShaderRegister"];
-
-				rootParam.Descriptor.RegisterSpace = 0;
-				if (param.contains("RegisterSpace")) {
-
-					rootParam.Descriptor.RegisterSpace = param["RegisterSpace"];
-				}
 			}
 			if (type == "SRV") {
 
 				rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
 				rootParam.Descriptor.ShaderRegister = param["ShaderRegister"];
-
-				rootParam.Descriptor.RegisterSpace = 0;
-				if (param.contains("RegisterSpace")) {
-
-					rootParam.Descriptor.RegisterSpace = param["RegisterSpace"];
-				}
 			} else if (type == "TABLE") {
 
 				rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
@@ -137,16 +119,10 @@ void DxRootSignature::Create(const std::string& fileName, const Json& json,
 			} else if (visibility == "MESH") {
 
 				rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_MESH;
-			} else if (visibility == "AMPLIFICATION") {
-
-				rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_AMPLIFICATION;
 			} else if (visibility == "PIXEL") {
 
 				rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 			} else if (visibility == "COMPUTE") {
-
-				rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-			} else if (visibility == "ALL") {
 
 				rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 			}

@@ -1,0 +1,310 @@
+{
+    "ClearPosAnim": {
+        "Loop": {
+            "loop": {
+                "isInfinityLoop": false,
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.800000011920929
+        },
+        "Timer": {
+            "easingType_": "EaseInQuad",
+            "target_": 0.6000000238418579
+        },
+        "move_.end": {
+            "x": 960.0,
+            "y": 360.0
+        },
+        "move_.start": {
+            "x": 960.0,
+            "y": 720.0
+        },
+        "useReturnTimer_": false
+    },
+    "ClearSizeAnim": {
+        "Loop": {
+            "loop": {
+                "isInfinityLoop": false,
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.800000011920929
+        },
+        "Timer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.14000000059604645
+        },
+        "move_.end": {
+            "x": 592.0,
+            "y": 128.0
+        },
+        "move_.start": {
+            "x": 0.0,
+            "y": 96.0
+        },
+        "useReturnTimer_": false
+    },
+    "ClearTimePosAnim": {
+        "Loop": {
+            "loop": {
+                "isInfinityLoop": false,
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.800000011920929
+        },
+        "Timer": {
+            "easingType_": "EaseOutSine",
+            "target_": 0.800000011920929
+        },
+        "move_.end": {
+            "x": 800.0,
+            "y": 550.0
+        },
+        "move_.start": {
+            "x": 1280.0,
+            "y": 550.0
+        },
+        "useReturnTimer_": false
+    },
+    "DisplayWaitTime": {
+        "easingType_": "EaseInSine",
+        "target_": 0.7200000286102295
+    },
+    "LeftButton": {
+        "AnyMouseClick": {
+            "baseSize_": {
+                "x": 256.0,
+                "y": 54.0
+            },
+            "colorLoop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 2,
+                    "type": "PingPong"
+                }
+            },
+            "endEasing_": "EaseOutQuint",
+            "endTime_": 0.1599999964237213,
+            "loopEasing_": "EaseOutExpo",
+            "loopSpacing_": 0.4699999988079071,
+            "maxScale_": 1.2000000476837158,
+            "smallScale_": 1.0,
+            "startColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8470588326454163,
+                "r": 0.8980392217636108
+            },
+            "targetColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8980392217636108,
+                "r": 0.6039215922355652
+            }
+        },
+        "Focus": {
+            "baseSize_": {
+                "x": 256.0,
+                "y": 54.0
+            },
+            "colorLoop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 2,
+                    "type": "PingPong"
+                }
+            },
+            "endEasing_": "EaseOutQuint",
+            "endTime_": 0.1599999964237213,
+            "loopEasing_": "EaseOutExpo",
+            "loopSpacing_": 0.4699999988079071,
+            "maxScale_": 1.2000000476837158,
+            "smallScale_": 1.0,
+            "startColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8470588326454163,
+                "r": 0.8980392217636108
+            },
+            "targetColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8980392217636108,
+                "r": 0.6039215922355652
+            }
+        },
+        "checkCollisionEnable_": true,
+        "collisionSize_": {
+            "x": 400.0,
+            "y": 96.0
+        },
+        "collisionType_": "Mouse",
+        "mouseButton_": "Left",
+        "responseType_": "AnyMouseClick"
+    },
+    "LeftButtonPosAnim": {
+        "Loop": {
+            "loop": {
+                "isInfinityLoop": false,
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.800000011920929
+        },
+        "Timer": {
+            "easingType_": "EaseOutQuad",
+            "target_": 1.0
+        },
+        "move_.end": {
+            "x": 720.0,
+            "y": 700.0
+        },
+        "move_.start": {
+            "x": 1600.0,
+            "y": 700.0
+        },
+        "useReturnTimer_": false
+    },
+    "RandomDisplayTime": {
+        "easingType_": "EaseInSine",
+        "target_": 2.4000000953674316
+    },
+    "RightButton": {
+        "AnyMouseClick": {
+            "baseSize_": {
+                "x": 256.0,
+                "y": 54.0
+            },
+            "colorLoop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 2,
+                    "type": "PingPong"
+                }
+            },
+            "endEasing_": "EaseOutQuint",
+            "endTime_": 0.1599999964237213,
+            "loopEasing_": "EaseOutExpo",
+            "loopSpacing_": 0.4699999988079071,
+            "maxScale_": 1.2000000476837158,
+            "smallScale_": 1.0,
+            "startColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8470588326454163,
+                "r": 0.8980392217636108
+            },
+            "targetColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8980392217636108,
+                "r": 0.6039215922355652
+            }
+        },
+        "Focus": {
+            "baseSize_": {
+                "x": 256.0,
+                "y": 54.0
+            },
+            "colorLoop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 2,
+                    "type": "PingPong"
+                }
+            },
+            "endEasing_": "EaseOutQuint",
+            "endTime_": 0.1599999964237213,
+            "loopEasing_": "EaseOutExpo",
+            "loopSpacing_": 0.4699999988079071,
+            "maxScale_": 1.2000000476837158,
+            "smallScale_": 1.0,
+            "startColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8470588326454163,
+                "r": 0.8980392217636108
+            },
+            "targetColor_": {
+                "a": 1.0,
+                "b": 0.05098039284348488,
+                "g": 0.8980392217636108,
+                "r": 0.6039215922355652
+            }
+        },
+        "checkCollisionEnable_": true,
+        "collisionSize_": {
+            "x": 400.0,
+            "y": 96.0
+        },
+        "collisionType_": "Mouse",
+        "mouseButton_": "Left",
+        "responseType_": "AnyMouseClick"
+    },
+    "RightButtonPosAnim": {
+        "Loop": {
+            "loop": {
+                "isInfinityLoop": false,
+                "loopCount": 1,
+                "type": "Repeat"
+            }
+        },
+        "ReturnTimer": {
+            "easingType_": "EaseInSine",
+            "target_": 0.800000011920929
+        },
+        "Timer": {
+            "easingType_": "EaseOutQuad",
+            "target_": 1.0
+        },
+        "move_.end": {
+            "x": 1200.0,
+            "y": 700.0
+        },
+        "move_.start": {
+            "x": 1720.0,
+            "y": 700.0
+        },
+        "useReturnTimer_": false
+    },
+    "buttonSize_": {
+        "x": 256.0,
+        "y": 54.0
+    },
+    "glitchAreaSize_": {
+        "x": 1880.0,
+        "y": 320.0
+    },
+    "randomSwitchBias_": 3.200000047683716,
+    "randomSwitchCount_": 32,
+    "randomTimeMax_": 32000.0,
+    "timeResultOffsetScale_": 24.0,
+    "timeResultSizeScale_": 5.400000095367432,
+    "timerOffsetX_": 168.0,
+    "timerSize_": {
+        "x": 320.0,
+        "y": 320.0
+    },
+    "timerSymbolSize_": {
+        "x": 192.0,
+        "y": 192.0
+    },
+    "timerTranslation_": {
+        "x": 268.0,
+        "y": 540.0
+    }
+}

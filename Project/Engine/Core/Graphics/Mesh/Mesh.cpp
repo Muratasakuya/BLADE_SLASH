@@ -1,4 +1,4 @@
-#include "Mesh.h"
+﻿#include "Mesh.h"
 
 using namespace SakuEngine;
 
@@ -106,4 +106,55 @@ void SkinnedMesh::TransferVertexBuffer(uint32_t meshIndex, const ResourceMesh<Me
 
 	// 入力頂点
 	inputVertices_[meshIndex].TransferData(resource.vertices[meshIndex]);
+}
+
+//============================================================================
+//	EffectMesh classMethods
+//============================================================================
+
+void EffectMesh::Init(ID3D12Device* device,
+	const ResourceMesh<EffectMeshVertex>& resource, uint32_t numInstance) {
+
+	// 頂点数
+	vertexCount_ = static_cast<UINT>(resource.vertices.front().size());
+	// meshlet数
+	meshletCount_ = static_cast<uint32_t>(resource.meshlets.front().size());
+
+	// buffer生成
+	CreateBuffer(device, resource, numInstance);
+	// buffer転送
+	TransferBuffer(resource);
+}
+
+void EffectMesh::CreateBuffer(ID3D12Device* device,
+	const ResourceMesh<EffectMeshVertex>& resource, [[maybe_unused]] uint32_t numInstance) {
+
+	// meshInstance情報
+	meshInstanceData_.CreateBuffer(device);
+	// 頂点
+	vertices_.CreateSRVBuffer(device, vertexCount_);
+	// インデックス
+	const UINT uniqueVertexIndexCount = static_cast<UINT>(resource.uniqueVertexIndices.front().size());
+	uniqueVertexIndices_.CreateSRVBuffer(device, uniqueVertexIndexCount);
+	// プリミティブ
+	const UINT primitiveIndexCount = static_cast<UINT>(resource.primitiveIndices.front().size());
+	primitiveIndices_.CreateSRVBuffer(device, primitiveIndexCount);
+	// meshlet
+	meshlets_.CreateSRVBuffer(device, meshletCount_);
+}
+
+void EffectMesh::TransferBuffer(const ResourceMesh<EffectMeshVertex>& resource) {
+
+	// meshInstance情報
+	meshInstanceData_.TransferData({
+		.meshletCount = meshletCount_,
+		.numVertices = vertexCount_ });
+	// 頂点
+	vertices_.TransferData(resource.vertices.front());
+	// インデックス
+	uniqueVertexIndices_.TransferData(resource.uniqueVertexIndices.front());
+	// プリミティブ
+	primitiveIndices_.TransferData(resource.primitiveIndices.front());
+	// meshlet
+	meshlets_.TransferData(resource.meshlets.front());
 }

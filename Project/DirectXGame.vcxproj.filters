@@ -2,520 +2,532 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Assets">
-      <UniqueIdentifier>{4D4F4BA3-BB3C-4917-9ED4-77799B1DEE9F}</UniqueIdentifier>
+      <UniqueIdentifier>{45D38E13-99C4-472A-B8CE-881E96AAAE20}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine">
-      <UniqueIdentifier>{F3987FA6-A8DA-42A5-913D-E49C63EF2E7A}</UniqueIdentifier>
+      <UniqueIdentifier>{DB55035E-0EB0-4370-BA54-55443C015D23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{5AC4F705-D7E5-4FBA-ACA9-48356ABA2738}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine">
-      <UniqueIdentifier>{BECB7335-B60F-4F28-B413-E0233F672358}</UniqueIdentifier>
+      <UniqueIdentifier>{EAD1C9BF-E285-4E5A-8DB2-59227B77441B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Asset">
-      <UniqueIdentifier>{BCA0EB3B-A72F-402E-83DD-1598F0922605}</UniqueIdentifier>
+      <UniqueIdentifier>{B6D4C364-AAA1-46B1-858C-10ECA4953735}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Audio">
-      <UniqueIdentifier>{4050AD00-1AC0-4CC4-AE79-6C9A6D33FD47}</UniqueIdentifier>
+      <UniqueIdentifier>{2274326B-57A7-4465-A0D5-263D4719B20F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Collision">
-      <UniqueIdentifier>{D3B313A9-8596-481D-949E-99A6384FC3DF}</UniqueIdentifier>
+      <UniqueIdentifier>{411CF744-0FB6-4D4E-A76C-E1FB4FBC2365}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core">
-      <UniqueIdentifier>{CC4BD3D5-245A-41F4-9C87-FF4668A6CB8B}</UniqueIdentifier>
+      <UniqueIdentifier>{85756F13-622D-45B0-AF30-F18B30677E26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor">
-      <UniqueIdentifier>{882FEBF0-4640-495A-8614-2C2A87D62BF8}</UniqueIdentifier>
+      <UniqueIdentifier>{4D4E5F93-15AF-4F20-84D4-82D4710BBCD3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\External">
-      <UniqueIdentifier>{BB738E22-AA86-4608-8CAC-408F1E7C54AF}</UniqueIdentifier>
+      <UniqueIdentifier>{73CA5528-32B4-4093-A9B9-97C7DA7D3526}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Input">
-      <UniqueIdentifier>{B4C08F82-4485-4A38-8C39-549D55E9A3EC}</UniqueIdentifier>
+      <UniqueIdentifier>{F762C00B-7694-4027-9CE6-4FCA77258D9A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\MathLib">
-      <UniqueIdentifier>{FB0E6A77-1BD3-4593-94B0-C363C53640D7}</UniqueIdentifier>
+      <UniqueIdentifier>{B7F9F3D9-604D-4426-B5DF-1BB303DF64F5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object">
-      <UniqueIdentifier>{A534A0C4-3ED5-497D-BE9F-29108D47A2F5}</UniqueIdentifier>
+      <UniqueIdentifier>{FC0B284F-650A-4F59-A198-0F4ACD69CE4B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Scene">
-      <UniqueIdentifier>{33913299-BF6C-4BD8-B88A-630F3F0A5C72}</UniqueIdentifier>
+      <UniqueIdentifier>{21DB2B8A-9883-41B9-AC34-AF011462EE74}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility">
-      <UniqueIdentifier>{D2AABD01-D9F6-4450-B276-59DC0101A2F1}</UniqueIdentifier>
+      <UniqueIdentifier>{EE7329A5-A859-404A-B756-A3CEF09C1B1D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes">
+      <UniqueIdentifier>{70F5C4CA-937F-4FEC-BD41-C540F803CC9D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders">
-      <UniqueIdentifier>{ADDBBCCE-5C80-4565-AB55-FDB94D47D488}</UniqueIdentifier>
+      <UniqueIdentifier>{1A424FC2-C0C7-4E08-BA63-A0C026C5C6E3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Asset\Async">
-      <UniqueIdentifier>{7ACDFA38-9A08-4108-87C9-C98978E2E152}</UniqueIdentifier>
+      <UniqueIdentifier>{6F182904-DDA1-437C-88C6-4D5436B6003E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Debug">
-      <UniqueIdentifier>{C6D4E03E-03EB-4365-863B-BDAB17FB8871}</UniqueIdentifier>
+      <UniqueIdentifier>{499C514F-272C-41B7-9196-1EDC00E5B928}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics">
-      <UniqueIdentifier>{6D843755-7084-465B-BC6A-9618FCB58A2B}</UniqueIdentifier>
+      <UniqueIdentifier>{F7EB89E2-93CB-481A-B1C8-2C40BF55EFCD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Window">
-      <UniqueIdentifier>{5AB142F8-859B-4696-AD13-24C7F7EABD10}</UniqueIdentifier>
+      <UniqueIdentifier>{98B54718-512A-49AB-860F-8ED42D49720E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Base">
-      <UniqueIdentifier>{94CA8A56-A54B-45FB-A819-B2270137B451}</UniqueIdentifier>
+      <UniqueIdentifier>{90CB146B-782B-4942-88E3-FE336A582920}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Camera">
-      <UniqueIdentifier>{5C6B8F5E-70C8-4C84-8F57-B93D4CB50800}</UniqueIdentifier>
+      <UniqueIdentifier>{6CB49F00-917F-4059-B15C-358491227B5A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect">
-      <UniqueIdentifier>{F56CCB52-0722-4AAA-A7DE-C8908082F24C}</UniqueIdentifier>
+      <UniqueIdentifier>{6706C3EB-BCFC-42F9-BBFE-4D0204B4FF71}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\GameObject">
-      <UniqueIdentifier>{52E056EC-9F6C-484E-A98E-6082A99EF547}</UniqueIdentifier>
+      <UniqueIdentifier>{67D68BE9-95B2-4FDE-89B1-A211E0DFBB38}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Manager">
-      <UniqueIdentifier>{4F56554D-7B36-4E7B-8AD0-E2D68B092763}</UniqueIdentifier>
+      <UniqueIdentifier>{32E949D1-0EF6-49D6-8DA5-5A4DD1339E18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI">
-      <UniqueIdentifier>{2322A08D-CC17-4830-A229-281BF3837B44}</UniqueIdentifier>
+      <UniqueIdentifier>{53BD69FF-E710-4328-9CB9-12CBB22D9683}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Input\Base">
-      <UniqueIdentifier>{5340C89A-13AD-4080-99BC-8E788DF6F346}</UniqueIdentifier>
+      <UniqueIdentifier>{A3289BED-A887-43AE-B530-EBBE910C4156}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Base">
-      <UniqueIdentifier>{D7CA8885-D757-4524-B886-3D3C35559BB2}</UniqueIdentifier>
+      <UniqueIdentifier>{17F659CA-7817-4575-B177-BCD819EB41ED}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Core">
-      <UniqueIdentifier>{4520F7AD-F03E-492E-9FC2-08D6F00E6348}</UniqueIdentifier>
+      <UniqueIdentifier>{8BDCDC80-E26C-42FE-94E0-FB36899F404C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data">
-      <UniqueIdentifier>{A1BC3528-C99A-4CD1-94BC-4FE7E5A2C6F8}</UniqueIdentifier>
+      <UniqueIdentifier>{D47F7CB2-13F9-463A-84B1-5EC43416333F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\State">
-      <UniqueIdentifier>{2D0F7F4C-29EC-471F-9A74-F8FC6DA4E7C1}</UniqueIdentifier>
+      <UniqueIdentifier>{5818426C-09F7-4219-8089-F99B2BEFB0EB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\System">
-      <UniqueIdentifier>{A7CFB687-A37F-4CB7-8FCA-FB4FBD730685}</UniqueIdentifier>
+      <UniqueIdentifier>{F8B32D97-0F14-4BB0-896C-1C674C2A64C9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Scene\Camera">
-      <UniqueIdentifier>{989A3567-CA8A-42F6-8DED-518FFEFD88BB}</UniqueIdentifier>
+      <UniqueIdentifier>{D0D8CA84-CCBF-4BF7-8F9C-14857CEE85E3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Scene\Light">
-      <UniqueIdentifier>{525A8F64-354F-4AB7-AABC-4FA2461E630F}</UniqueIdentifier>
+      <UniqueIdentifier>{44DA8A45-ED63-4852-8AF2-6A19935C64D4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Scene\Manager">
-      <UniqueIdentifier>{7F0F518E-326E-4AD5-B243-5D36F4F543B0}</UniqueIdentifier>
+      <UniqueIdentifier>{6EF6595D-CE0D-4D74-B455-4698CBD30097}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Scene\Methods">
-      <UniqueIdentifier>{4264EA49-27E9-47D3-9544-7A702ECC4DC8}</UniqueIdentifier>
+      <UniqueIdentifier>{941472FD-3F24-4AC9-BAFF-B39997BA1F15}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Algorithm">
-      <UniqueIdentifier>{D30CCB89-602D-4A0D-923F-6D80444F0369}</UniqueIdentifier>
+      <UniqueIdentifier>{07B295CB-ED92-48A2-A72E-344C1A9C5687}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Animation">
-      <UniqueIdentifier>{EB0F8BAE-5E20-4113-9FE5-22C7828C89C4}</UniqueIdentifier>
+      <UniqueIdentifier>{103098FB-B491-4DC6-A0A5-77CE65BF7143}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Curve">
-      <UniqueIdentifier>{CD905ED1-1189-4F4F-91C2-739814F380F9}</UniqueIdentifier>
+      <UniqueIdentifier>{7CB8EC88-9EA8-4F74-B5D3-E8E0B191350A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Enum">
-      <UniqueIdentifier>{E38616EF-0CA7-408E-85F2-5395E731A3C9}</UniqueIdentifier>
+      <UniqueIdentifier>{EF376928-8095-4B85-BA82-3745E9C5F10A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Helper">
-      <UniqueIdentifier>{12D50D24-1DDB-4634-8689-35E34BF10AF8}</UniqueIdentifier>
+      <UniqueIdentifier>{C53532BC-45F4-49CF-A241-125032937A67}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Json">
-      <UniqueIdentifier>{58DED98A-07AD-4CD8-A00C-63008A50165D}</UniqueIdentifier>
+      <UniqueIdentifier>{5920E509-CA8F-4EE0-AC16-74C55012B832}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Material">
-      <UniqueIdentifier>{F197538A-522E-4269-9CBC-B8846EA3B759}</UniqueIdentifier>
+      <UniqueIdentifier>{7DF6AD86-527C-4625-9CEE-FD684471E8FE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Object">
-      <UniqueIdentifier>{1B5DFC2D-A59C-4273-AED5-7E176F262732}</UniqueIdentifier>
+      <UniqueIdentifier>{96A88877-AE3C-4C5B-9DF9-61C29900ECF2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Random">
-      <UniqueIdentifier>{0C21AF51-7339-470C-A4D0-CFF2F44BB72A}</UniqueIdentifier>
+      <UniqueIdentifier>{8EBA7FB7-B1B2-4173-906A-9A201D5E3339}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Timer">
-      <UniqueIdentifier>{DCF61EC0-ACE5-4A27-9F77-F2B43580198C}</UniqueIdentifier>
+      <UniqueIdentifier>{F5844F26-3EE3-440C-8ADC-D61E52C98A01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes\Debug">
+      <UniqueIdentifier>{1C8FC3FB-4081-454C-9DA0-807E1B03DD4E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes\Transition">
+      <UniqueIdentifier>{6F815A56-B02B-4D7D-BDBE-66AF914F0637}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Math">
-      <UniqueIdentifier>{46FDD9F5-BC7D-4BC8-ABD3-B589C01C4AA3}</UniqueIdentifier>
+      <UniqueIdentifier>{7ADF3FF9-4723-4FEE-A7E3-B1E7E607DD33}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Mesh">
-      <UniqueIdentifier>{3DB87413-364B-4D2A-9862-5C1B454F915E}</UniqueIdentifier>
+      <UniqueIdentifier>{8CBEC860-37F8-49FA-BE19-2B853D640F4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle">
-      <UniqueIdentifier>{2E116532-7FDD-4E33-8367-0E3D818706DA}</UniqueIdentifier>
+      <UniqueIdentifier>{008199DE-98FE-4745-B30C-4DA29A20CB0E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess">
-      <UniqueIdentifier>{6CBFF974-AD75-4DCE-9A4F-9447F585356B}</UniqueIdentifier>
+      <UniqueIdentifier>{8A78DB2C-A059-43B0-BFAC-98186BD303E2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Raytracing">
-      <UniqueIdentifier>{CB90907B-CF97-42BE-BFE1-149F0CCA3CA1}</UniqueIdentifier>
+      <UniqueIdentifier>{358B1B11-417A-4B34-A919-2A8AEBCBA31E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Skybox">
-      <UniqueIdentifier>{1403C186-19DD-48B1-97DF-26711443F88C}</UniqueIdentifier>
+      <UniqueIdentifier>{EAB920FC-DBED-4EC2-A194-FC3493778BCE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Text">
-      <UniqueIdentifier>{7A4C9C8D-DA64-4E21-B435-E2B3A4619BFB}</UniqueIdentifier>
+      <UniqueIdentifier>{357CB325-02DF-4EDA-BA95-5791B78253FF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Context">
-      <UniqueIdentifier>{97E6CFBC-D7F8-4297-AAD7-97B310857398}</UniqueIdentifier>
+      <UniqueIdentifier>{70E797A8-0DC6-44D8-A2C5-74C46D51CDEA}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Descriptors">
-      <UniqueIdentifier>{57A0BF7D-8DE6-4616-8ABF-8AB0F2B7907A}</UniqueIdentifier>
+      <UniqueIdentifier>{D78ACD06-EACC-4941-AC65-66014ED04F55}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\DxLib">
-      <UniqueIdentifier>{3F715598-579E-4D7F-B94A-DC4F5F18C356}</UniqueIdentifier>
+      <UniqueIdentifier>{6B094C92-5D67-4B00-98DE-5C3C9D3600EF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\DxObject">
-      <UniqueIdentifier>{3239689B-DC66-4CE4-AA5D-A06E8A74873E}</UniqueIdentifier>
+      <UniqueIdentifier>{F6D0365F-4C06-4844-A61E-298161B43651}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\GPUObject">
-      <UniqueIdentifier>{3D694D1A-8ADF-415A-95A0-478DE8F64C78}</UniqueIdentifier>
+      <UniqueIdentifier>{E5F7E979-2EF2-48CE-B6D8-0150D99B85E4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Mesh">
-      <UniqueIdentifier>{983F9C97-0906-4C21-B5DF-23632AF352FA}</UniqueIdentifier>
+      <UniqueIdentifier>{36F86E60-8838-4A58-A644-7A1A9846E0CD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Pipeline">
-      <UniqueIdentifier>{B18F84F7-E4AB-4653-8A0B-046E3C60A03E}</UniqueIdentifier>
+      <UniqueIdentifier>{3ADF3F51-7046-474C-A0E5-208FE1EDB2DE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\PostProcess">
-      <UniqueIdentifier>{37F1437A-194B-4DDD-AA7B-578B3FF68A1F}</UniqueIdentifier>
+      <UniqueIdentifier>{573781FE-2656-4DCA-B012-E7C745E661BD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Raytracing">
-      <UniqueIdentifier>{DBFF7390-1DBC-4CBA-A2BA-6411FFF38085}</UniqueIdentifier>
+      <UniqueIdentifier>{2C35B61E-9C04-44FB-8D06-B35CEA22E7A9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Renderer">
-      <UniqueIdentifier>{D16B58BE-B9ED-426E-8029-D8EEB998B0A7}</UniqueIdentifier>
+      <UniqueIdentifier>{EC913958-87A3-47AB-BA1A-371779285FC3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Camera\Module">
-      <UniqueIdentifier>{260F9BF7-921B-4763-9B40-1AC7BBF10018}</UniqueIdentifier>
+      <UniqueIdentifier>{21769321-D2BC-414E-880D-5977527B5CF8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle">
-      <UniqueIdentifier>{32C81499-FE82-4957-872B-CED209ECC384}</UniqueIdentifier>
+      <UniqueIdentifier>{D22EF85D-C0B2-4B52-B0D4-6928621DC205}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\User">
-      <UniqueIdentifier>{3CC22C07-6002-42D0-85A7-0E87E2CCD4F7}</UniqueIdentifier>
+      <UniqueIdentifier>{DE1AFD6D-6BB8-4772-89D6-105CCB6AC052}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation">
-      <UniqueIdentifier>{7FC736C0-3F49-4A94-A9BE-072184DF5806}</UniqueIdentifier>
+      <UniqueIdentifier>{D1647AFD-3BDA-46DB-A1E3-AA7E9C2E73DE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\AssetData">
-      <UniqueIdentifier>{D153B5DF-4C96-4931-9E17-6ABF41EB470F}</UniqueIdentifier>
+      <UniqueIdentifier>{0D4D8186-7D01-4FA5-83E8-A2369C3EC035}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components">
-      <UniqueIdentifier>{A5426FBC-6FA3-48C5-976B-D6E41745372C}</UniqueIdentifier>
+      <UniqueIdentifier>{3503C51E-DFC1-4762-91DA-62665A2BDEC6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Runtime">
-      <UniqueIdentifier>{74795491-87F0-47C4-8198-25E170256A0D}</UniqueIdentifier>
+      <UniqueIdentifier>{E8E0EBB9-D287-45BF-899A-D9E1888D5B15}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Systems">
-      <UniqueIdentifier>{AB0CC1D8-252E-4ADA-9BBB-E03E014D5205}</UniqueIdentifier>
+      <UniqueIdentifier>{A9EAE556-3106-4CDA-9DB4-9F178E9ED66A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools">
-      <UniqueIdentifier>{95A800D4-F963-4D64-A96B-21B3D15876AE}</UniqueIdentifier>
+      <UniqueIdentifier>{6C4C8DE0-B13D-4AB9-A463-FECBA1B61975}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Base\Interface">
-      <UniqueIdentifier>{0303746D-A93E-44FB-A54D-4C8B7AE9D9DD}</UniqueIdentifier>
+      <UniqueIdentifier>{601A53D3-9B96-4CF0-B1BA-76859284F52F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Canvas">
-      <UniqueIdentifier>{067F1E00-B042-4C70-8D35-3A0340851009}</UniqueIdentifier>
+      <UniqueIdentifier>{1C37669B-1C27-4522-A783-F149C176C7D6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Material">
-      <UniqueIdentifier>{44091FD7-A837-4920-8C8F-F281B063336B}</UniqueIdentifier>
+      <UniqueIdentifier>{A39B5541-E348-461D-8BC4-CA9FDE619B3C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Render">
-      <UniqueIdentifier>{E5877D8A-DFD7-4BC9-A262-4C6DF8B0F1CC}</UniqueIdentifier>
+      <UniqueIdentifier>{5EAD8CD1-29D1-4902-9F20-AD5A9D89A1D8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Skinned">
-      <UniqueIdentifier>{1DE4FAA0-0198-4205-9B2A-DE1290D972B3}</UniqueIdentifier>
+      <UniqueIdentifier>{7B316790-A8C8-4D69-8D85-2D3FD8591E55}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Skybox">
-      <UniqueIdentifier>{97737019-D3C1-4D36-9F6C-854ECE72B6E5}</UniqueIdentifier>
+      <UniqueIdentifier>{B3D9E8A2-D432-4FF7-B910-F96D56B23239}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Sprite">
-      <UniqueIdentifier>{E2773025-E469-432B-852B-7286CDFB34D0}</UniqueIdentifier>
+      <UniqueIdentifier>{48267ECF-2241-445F-B07F-50F740A304C5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Tag">
-      <UniqueIdentifier>{1369ABC5-BDD3-4B42-8FB1-D6CDF6360F36}</UniqueIdentifier>
+      <UniqueIdentifier>{1B05F6F9-A76D-479C-8D58-362A15D02190}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Text">
-      <UniqueIdentifier>{8348F8C3-7ED5-4597-9C9F-223529E8F277}</UniqueIdentifier>
+      <UniqueIdentifier>{571EA807-ED94-4283-8DCA-9B082C394FEB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Transform">
-      <UniqueIdentifier>{3AB9009F-C556-4324-B370-6D8655388BE7}</UniqueIdentifier>
+      <UniqueIdentifier>{B5B4E9C4-780A-455F-B3F7-EE15D7BA2CA5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\System\Base">
-      <UniqueIdentifier>{E844ABFA-ABC3-4C3F-A633-DDDE9056C1FD}</UniqueIdentifier>
+      <UniqueIdentifier>{01DC674A-5909-48C5-AA57-3E0BDFD2B858}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\System\Manager">
-      <UniqueIdentifier>{742D4FE3-1E90-4AF8-AD61-ED41D7BA76C3}</UniqueIdentifier>
+      <UniqueIdentifier>{B6A8E7DB-74D2-4202-A063-E12D473D67A2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\System\Systems">
-      <UniqueIdentifier>{136258DF-D5A6-43E2-B5F4-ED38F0CFAFE7}</UniqueIdentifier>
+      <UniqueIdentifier>{51C8558B-DC51-4CD5-A9F2-B5D33F14208C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Animation\ValueSource">
-      <UniqueIdentifier>{7E00FA96-8AC0-4DD3-892D-7EB0C77B9B99}</UniqueIdentifier>
+      <UniqueIdentifier>{BD5CB075-05CE-430D-9540-7B70B7350005}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Mesh\CS">
-      <UniqueIdentifier>{11FE6FDB-7E10-45C0-9800-5CF3C71628CA}</UniqueIdentifier>
+      <UniqueIdentifier>{9A813018-2BC3-43A6-845D-63DB43BC86F0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Mesh\MS">
-      <UniqueIdentifier>{DD81F2C0-547A-41DE-AFF0-C123B87A95E5}</UniqueIdentifier>
+      <UniqueIdentifier>{DEC4B446-6F83-4C30-8D91-A7ED9FFC1405}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\CPUParticle">
-      <UniqueIdentifier>{4A8DCC0D-DABC-496E-9F20-9B0A57E26753}</UniqueIdentifier>
+      <UniqueIdentifier>{F5E31D76-9AA2-4009-91FD-6C01B969C1EE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle">
-      <UniqueIdentifier>{9B4F30A2-1D56-4F48-B2E0-7ED62F20FBBF}</UniqueIdentifier>
+      <UniqueIdentifier>{3DEE7E66-6311-4B53-A93D-0739041073D2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\Bloom">
-      <UniqueIdentifier>{840AB82C-747E-4916-9A9A-0C42E304FFDD}</UniqueIdentifier>
+      <UniqueIdentifier>{867E9A9F-4FEA-4E28-96A5-A1A47B008C78}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\CRTDisplay">
-      <UniqueIdentifier>{6F85D95A-69CE-45EB-A3AF-CE90F4F040A3}</UniqueIdentifier>
+      <UniqueIdentifier>{BF76E389-BDED-44C2-B438-17EC76A1342E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\ColorGrading">
-      <UniqueIdentifier>{0E64C6FB-3F28-4BA1-AE33-A08D07DD3391}</UniqueIdentifier>
+      <UniqueIdentifier>{A709620C-C74E-49EC-BB00-F9F63F8CEC79}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\Copy">
-      <UniqueIdentifier>{D8D6E649-1A25-4750-9DF3-2D8BB3EB5ABD}</UniqueIdentifier>
+      <UniqueIdentifier>{2DF35D3F-5979-4CEC-A9FE-DC23E91B2DDE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\Distortion">
-      <UniqueIdentifier>{F2EB973B-A55B-483E-A0F0-2C22BD544C8E}</UniqueIdentifier>
+      <UniqueIdentifier>{40FDF435-CF91-4687-B3ED-2E89717FDD2F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\Glitch">
-      <UniqueIdentifier>{8AAFCA43-49DB-4A3C-8A89-2F9E692ECDDF}</UniqueIdentifier>
+      <UniqueIdentifier>{0C0AA6F7-5276-4633-94D8-4E59EC86633A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\Lut">
-      <UniqueIdentifier>{AED8F38D-DC9D-49F4-BFEE-2BB8319E76F1}</UniqueIdentifier>
+      <UniqueIdentifier>{08998ED1-69F1-4DF0-90AD-03969322D142}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\PostProcess\PlayerAfterImage">
-      <UniqueIdentifier>{748A3553-4C4C-4756-AAF7-B90BDDD6D28F}</UniqueIdentifier>
+      <UniqueIdentifier>{BED2A8BB-44B2-447D-8CF4-21ED7C1541C9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\PostProcess\Buffer">
-      <UniqueIdentifier>{F52CC20C-566C-41A5-8F24-F071F02CDEDB}</UniqueIdentifier>
+      <UniqueIdentifier>{43F0A42D-B9B6-4308-9622-B2B11415C333}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\PostProcess\Core">
-      <UniqueIdentifier>{1BD55E1B-338F-4601-9093-1161D36735EE}</UniqueIdentifier>
+      <UniqueIdentifier>{0CD97D30-13C6-44BE-B7AA-5AAA04E5D232}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\PostProcess\Texture">
-      <UniqueIdentifier>{5AAFAE58-9D8D-4B5A-B2F4-711D07A677A6}</UniqueIdentifier>
+      <UniqueIdentifier>{EB556E6B-5466-43C3-9786-D5842DFBCCA8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Renderer\2D">
-      <UniqueIdentifier>{01111B98-B5CF-4370-A55D-FE34F604FBAC}</UniqueIdentifier>
+      <UniqueIdentifier>{9343945E-FB89-4FD0-9DE3-4D687E633429}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Renderer\3D">
-      <UniqueIdentifier>{C99D25C0-2C0D-435B-8435-6B6A290EA335}</UniqueIdentifier>
+      <UniqueIdentifier>{549B715B-9699-4A97-AD42-DD59547AEA0E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Renderer\Line">
-      <UniqueIdentifier>{5A7EFFB6-DA14-4A0B-96C7-FC1F2E0EAFE0}</UniqueIdentifier>
+      <UniqueIdentifier>{897C118E-EBD0-49DF-8A6A-7FDECB6B92FD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Camera\Module\Interface">
-      <UniqueIdentifier>{E4AE6CAE-B834-4831-A940-6A5865BC786A}</UniqueIdentifier>
+      <UniqueIdentifier>{32235DA5-F0BB-4907-BE58-C91AE6D2F41F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Camera\Module\Updaters">
-      <UniqueIdentifier>{2197A4D4-2679-46A4-BC2C-FD70475F62EA}</UniqueIdentifier>
+      <UniqueIdentifier>{F1673733-86B9-487D-B2F3-58B7640E215D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Command">
-      <UniqueIdentifier>{EB7A55AE-5AC7-495A-B4EE-40981DB238E1}</UniqueIdentifier>
+      <UniqueIdentifier>{F2E17EA5-6EC7-4EDD-9C3D-DB47D6F5CA74}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Core">
-      <UniqueIdentifier>{886EAE19-6493-42E1-BD93-D9C31A3D6795}</UniqueIdentifier>
+      <UniqueIdentifier>{A1031BA8-40EF-48EF-874D-09034F3B22F6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Data">
-      <UniqueIdentifier>{9FED5AC9-F398-4382-8384-2E7021673300}</UniqueIdentifier>
+      <UniqueIdentifier>{D1E5BD79-9DC0-409A-9B21-5CBA4B50BE05}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module">
-      <UniqueIdentifier>{9201A12E-DA93-481C-9DE1-61B874747F59}</UniqueIdentifier>
+      <UniqueIdentifier>{352BBC29-6ED7-495D-805B-C9C60E20D022}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Phase">
-      <UniqueIdentifier>{EFBA95A1-A477-4905-B0FA-659B9BB2313E}</UniqueIdentifier>
+      <UniqueIdentifier>{FC5B5562-61F5-4EAA-A06F-1046FF6C35BD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Structures">
-      <UniqueIdentifier>{68ADAD46-E20B-405D-A606-E3B13291BC5C}</UniqueIdentifier>
+      <UniqueIdentifier>{5A23E41B-3000-4CD1-AA06-4AFD7F90A251}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\System">
-      <UniqueIdentifier>{FE63ACB7-4544-471B-92E6-CEFB64AC106C}</UniqueIdentifier>
+      <UniqueIdentifier>{ACA24D47-C5B2-4A26-8950-69008FE5F475}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\User\Helper">
-      <UniqueIdentifier>{FA69307C-CDF9-403A-A659-A6CC65F0F340}</UniqueIdentifier>
+      <UniqueIdentifier>{A26BAA02-DD74-45E4-8E54-D94E4FF894C4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\User\Methods">
-      <UniqueIdentifier>{F4F2D892-2FAA-4A62-8350-98FFA6DA2623}</UniqueIdentifier>
+      <UniqueIdentifier>{67D62D88-6391-4FD5-92CB-CB6BB7E99D74}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\Track">
-      <UniqueIdentifier>{A4C0A6C3-FD8B-43FF-A18B-9E08807D83F9}</UniqueIdentifier>
+      <UniqueIdentifier>{E03FC8E3-F129-47A4-87E5-37F2F7C68D91}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\ValueSource">
-      <UniqueIdentifier>{131CE410-EAD4-4EEC-8B7A-B4ADE27C8A5C}</UniqueIdentifier>
+      <UniqueIdentifier>{FC017B9D-A416-439E-9954-66AFE7E27093}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Animation">
-      <UniqueIdentifier>{87BD5693-F31D-42BE-B988-5D9674DF6900}</UniqueIdentifier>
+      <UniqueIdentifier>{09AFDD5D-72C2-4312-9914-0EF8EAE08600}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\InputNavigation">
-      <UniqueIdentifier>{9514C9E1-8189-4112-9817-9BB3519849E0}</UniqueIdentifier>
+      <UniqueIdentifier>{9291A45F-72DB-491E-AFBF-6107F0389126}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Interface">
-      <UniqueIdentifier>{62ED8725-6CA2-495F-B198-1C6B1E25E5CF}</UniqueIdentifier>
+      <UniqueIdentifier>{A0D56F6F-D3CB-4DC6-9D32-C4545FD3C883}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Material">
-      <UniqueIdentifier>{AC624B0B-829C-47DE-AC32-30261C640B3D}</UniqueIdentifier>
+      <UniqueIdentifier>{9AC7DC46-1D6D-4A18-804D-176429122003}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Selectable">
-      <UniqueIdentifier>{2744B058-022E-4F01-92C1-72ADADAC6D63}</UniqueIdentifier>
+      <UniqueIdentifier>{B2E36486-AE36-4C58-9DB9-D841987E870D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Sprite">
-      <UniqueIdentifier>{7114E101-64C7-44E5-9E5A-004873BE4DF0}</UniqueIdentifier>
+      <UniqueIdentifier>{771414E2-6F1E-4801-BE57-8E3D185B721F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Text">
-      <UniqueIdentifier>{69AB0022-F095-4106-8383-A640E9447730}</UniqueIdentifier>
+      <UniqueIdentifier>{D566665D-77ED-4564-8F13-A28E5172E9A8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\Transform">
-      <UniqueIdentifier>{45615432-FF39-4F94-A130-BECC4253E1C5}</UniqueIdentifier>
+      <UniqueIdentifier>{DA141CC5-FD6D-4409-A0E9-4065A7DE62C5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Systems\Animation">
-      <UniqueIdentifier>{5940D2EC-E850-406E-AE46-4E41B411671D}</UniqueIdentifier>
+      <UniqueIdentifier>{8F9003A0-C051-4518-A71F-04F8C8723416}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Systems\InputNavigation">
-      <UniqueIdentifier>{B09EBA5A-7E06-4C09-90A2-56702BB17C56}</UniqueIdentifier>
+      <UniqueIdentifier>{385DAA7B-D632-4CC4-B5D4-DCBDA12EC1F0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Systems\Interface">
-      <UniqueIdentifier>{6EA26367-00CB-4F49-B504-D0C4296F7E47}</UniqueIdentifier>
+      <UniqueIdentifier>{A76AD866-2A2B-4FFC-9E19-2902F31815F3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Systems\ObjectSync">
-      <UniqueIdentifier>{04E441B9-9BFC-404B-9B1E-A07074C36BF8}</UniqueIdentifier>
+      <UniqueIdentifier>{042565F5-7615-44D9-9BAB-3D4AC507F75A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Systems\ParentRect">
-      <UniqueIdentifier>{38472DB3-A95A-4495-A72D-E5F67A5A0467}</UniqueIdentifier>
+      <UniqueIdentifier>{190B576E-4B1E-4D50-B6E5-0FB27A91886B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Interface">
-      <UniqueIdentifier>{8D2B7FDF-1822-47BD-B590-33EE98C0C415}</UniqueIdentifier>
+      <UniqueIdentifier>{BF3BB6C2-FD2C-46C8-A654-21510C1AC377}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels">
-      <UniqueIdentifier>{1DF17F5B-002D-4C7A-ABF0-E492F481A507}</UniqueIdentifier>
+      <UniqueIdentifier>{4EC76B40-04B0-4744-AEBE-F568B409C399}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Registry">
-      <UniqueIdentifier>{74D17024-141B-4C40-B2BC-894E8ECB3B87}</UniqueIdentifier>
+      <UniqueIdentifier>{A2AED7D4-8256-4455-B5B5-C9B4873635DB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Text\Builder">
-      <UniqueIdentifier>{6FE15CE4-0229-4BC8-8AC2-70C3E9CDC007}</UniqueIdentifier>
+      <UniqueIdentifier>{DC803C1F-1651-4A9E-B82F-A064EC4EE7E2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Text\Generator">
-      <UniqueIdentifier>{D9260EA1-9BBC-4938-8EDE-9470FBCDEEC8}</UniqueIdentifier>
+      <UniqueIdentifier>{DD2074FB-54E9-4C02-8D9F-45115C4945C2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\Animation\ValueSource\Interface">
-      <UniqueIdentifier>{14F50789-47F1-48CB-B9F6-F0F86EAC428B}</UniqueIdentifier>
+      <UniqueIdentifier>{07BC353F-BD25-45D9-BA92-3C2308684B1F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\CPUParticle\PS">
-      <UniqueIdentifier>{8526CBDC-49A0-4329-B849-3D88DD815922}</UniqueIdentifier>
+      <UniqueIdentifier>{79D18D6E-B028-4457-88FC-4B14A1CF7574}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS">
-      <UniqueIdentifier>{FDBF0223-D79C-4632-AA9F-2D15E396E09E}</UniqueIdentifier>
+      <UniqueIdentifier>{7E224229-1DF6-49AE-B392-1CBD78F0E812}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\PS">
-      <UniqueIdentifier>{101E9B5A-C5BA-49BA-B8E9-BC1DD2521FA3}</UniqueIdentifier>
+      <UniqueIdentifier>{3B8E2B6F-A06F-4041-95B9-9DCC97471BB4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\PostProcess\Buffer\Updater">
-      <UniqueIdentifier>{090B417D-F8FE-4631-ABA5-951126F413A8}</UniqueIdentifier>
+      <UniqueIdentifier>{3C39AB3E-4DFE-4928-BC55-7A44ECC01DF1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Renderer\Line\Base">
-      <UniqueIdentifier>{54021568-D093-4EE3-ADD8-5559B59F19FC}</UniqueIdentifier>
+      <UniqueIdentifier>{77ACC1CF-F4FB-461D-8291-3723B988A72F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\Renderer\Line\Dimensions">
-      <UniqueIdentifier>{EFF79E37-920E-4632-B09D-3BAB6B46DE1C}</UniqueIdentifier>
+      <UniqueIdentifier>{D3F604CD-156F-4A47-9407-85DB3618041C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Data\Base">
-      <UniqueIdentifier>{7DB5C8CB-120D-4632-98E8-9E24E55653AA}</UniqueIdentifier>
+      <UniqueIdentifier>{B0DA2C33-33F1-4276-9E06-6BE0FFF12AC1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Base">
-      <UniqueIdentifier>{E76E5AB7-229B-4588-8B86-3A921BC1C7EF}</UniqueIdentifier>
+      <UniqueIdentifier>{ADCE0093-F99F-4C70-AE6B-26B3D952D231}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Spawner">
-      <UniqueIdentifier>{D3765538-DB6D-446F-AFBB-6F90E001665C}</UniqueIdentifier>
+      <UniqueIdentifier>{49BBFD11-770C-471B-8179-CA69E5FB2DBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater">
-      <UniqueIdentifier>{5ED458BB-9FE6-4683-AA58-4F464CCF0F27}</UniqueIdentifier>
+      <UniqueIdentifier>{861736DD-8EF5-415C-BC83-40116F66E0E9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\Track\Access">
-      <UniqueIdentifier>{55208B65-AB38-4BF0-AC54-64958C753C75}</UniqueIdentifier>
+      <UniqueIdentifier>{14A09531-1A53-40F2-81C0-087210F8444E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\Track\Asset">
-      <UniqueIdentifier>{204FC090-0F9F-4787-8895-34A4425DE399}</UniqueIdentifier>
+      <UniqueIdentifier>{90F145DA-19E4-48B3-889D-D2BF973ECABC}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\Track\Interface">
-      <UniqueIdentifier>{31F25092-C216-4B24-BEC3-CFE14091E9F8}</UniqueIdentifier>
+      <UniqueIdentifier>{A7AFFFFC-B9CA-46C5-A465-B00D4CAE73B5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\ValueSource\Factory">
-      <UniqueIdentifier>{11B41B8B-ADEC-461D-8D96-BCD23FF341DC}</UniqueIdentifier>
+      <UniqueIdentifier>{E45A6127-40EF-4BF2-94A6-4CA353F581AD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Animation\ValueSource\Interface">
-      <UniqueIdentifier>{73680464-98A8-42B1-8871-B2BD28AAC138}</UniqueIdentifier>
+      <UniqueIdentifier>{FB69364A-309A-43C9-A7AE-75C2BD195B8B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Components\InputNavigation\Devices">
-      <UniqueIdentifier>{9480A138-4E27-44E6-84D2-7C6B4883946F}</UniqueIdentifier>
+      <UniqueIdentifier>{49FC84D1-5679-47C9-8EBF-EC586E48C439}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\Animation">
-      <UniqueIdentifier>{E95631FD-A0FC-4451-B411-1B9B65267D09}</UniqueIdentifier>
+      <UniqueIdentifier>{75903727-3E4D-4694-B8F1-71A49A345441}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\AssetLibrary">
-      <UniqueIdentifier>{5ADA1AE2-9C53-4FA0-BBF6-E95B4E949764}</UniqueIdentifier>
+      <UniqueIdentifier>{35C7AC92-147A-4AF7-AE7E-14CAC7686796}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\CoreAsset">
-      <UniqueIdentifier>{782B08C2-845B-4343-B039-662BDFA69C3D}</UniqueIdentifier>
+      <UniqueIdentifier>{39B0796E-B523-40C5-A39B-2CEB67154823}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\Detail">
-      <UniqueIdentifier>{E476B429-E2BE-4835-A982-676F05E6303A}</UniqueIdentifier>
+      <UniqueIdentifier>{344C4CB0-4A96-4A82-9667-478F4942034F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\Hierarchy">
-      <UniqueIdentifier>{D2EB3A2F-8C62-4376-8BEC-E4474691D1A8}</UniqueIdentifier>
+      <UniqueIdentifier>{CBB31B70-DC5B-42BD-B67C-DEF71E7921F4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\Palette">
-      <UniqueIdentifier>{B291B79E-71F8-4D13-9B2F-B617A8597E1C}</UniqueIdentifier>
+      <UniqueIdentifier>{4860B6AE-043F-417D-A2E7-AB595A0B6309}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\Runtime">
-      <UniqueIdentifier>{08B99F70-04FE-4C6B-AA33-2C8225567916}</UniqueIdentifier>
+      <UniqueIdentifier>{3CFAF52F-68E6-4AD5-9EF7-15D15CE64069}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\UI\Tools\Panels\VisualDesigner">
-      <UniqueIdentifier>{F600D600-75E4-48DA-974C-663101ABD744}</UniqueIdentifier>
+      <UniqueIdentifier>{9D573EAA-3764-42F3-93D8-FB389FF17026}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Object\Data\Text\Generator\Interface">
-      <UniqueIdentifier>{096C895E-D9E7-4BE6-BB7E-DD65CDC78270}</UniqueIdentifier>
+      <UniqueIdentifier>{D70D9CA9-E982-4AC2-A671-BC84D53C1C06}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS\Emit">
-      <UniqueIdentifier>{45EE0C71-52C5-4C02-9B96-43E5D68C7B3E}</UniqueIdentifier>
+      <UniqueIdentifier>{D5D46A96-4798-4AB2-8510-436BA799CB61}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS\Init">
-      <UniqueIdentifier>{F119F154-C9AA-43D1-B145-5620827C4342}</UniqueIdentifier>
+      <UniqueIdentifier>{3CA28C29-6256-421A-BA64-510576265AC4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Engine\Shaders\Particle\GPUParticle\CS\Update">
-      <UniqueIdentifier>{833A6052-0C8B-42BC-9BCA-A334285595D9}</UniqueIdentifier>
+      <UniqueIdentifier>{D964FA3F-FDFF-4823-B1EA-C8C904A2BF9A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Graphics\PostProcess\Buffer\Updater\Interface">
-      <UniqueIdentifier>{C4A71405-ADE3-443D-A0A5-ACDA5B13EA49}</UniqueIdentifier>
+      <UniqueIdentifier>{639070C1-A5AD-4590-9436-A1D8DBA80B46}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Material">
-      <UniqueIdentifier>{438E7E11-BCDB-40F1-A0E7-FC42173242F1}</UniqueIdentifier>
+      <UniqueIdentifier>{C9082FE8-E279-4E72-BF83-4B61CBCB5858}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Move">
-      <UniqueIdentifier>{3AED53E3-38F2-4412-AD3F-F74AA8509374}</UniqueIdentifier>
+      <UniqueIdentifier>{17052B01-250E-4A6B-AD7A-ACB9F7A949B9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive">
-      <UniqueIdentifier>{3FE3581C-AE52-4FCB-9F8D-0322F897862A}</UniqueIdentifier>
+      <UniqueIdentifier>{F8E083DD-B1E9-44EA-8C63-500F06DDFF7B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Time">
-      <UniqueIdentifier>{024B20DE-8333-4014-A0BB-3A4814112DBF}</UniqueIdentifier>
+      <UniqueIdentifier>{F7385BDA-2453-48E9-A4A7-B606F17DE0AA}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Trail">
-      <UniqueIdentifier>{DC41AD4C-FFF8-40BE-992E-0177CFDF11D8}</UniqueIdentifier>
+      <UniqueIdentifier>{8BE4A431-C2B6-4B68-9580-2F821F651775}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Transform">
-      <UniqueIdentifier>{168EC9BA-D24A-4580-9E0D-CB1818A8D58D}</UniqueIdentifier>
+      <UniqueIdentifier>{CDD6EDD8-2346-4DD2-ABDC-6AE94FD0DBA7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived">
-      <UniqueIdentifier>{F442078E-46A0-481A-92CA-60951531636A}</UniqueIdentifier>
+      <UniqueIdentifier>{89810EB6-1A8B-4B1F-8514-D2ED0D8412A5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Interface">
-      <UniqueIdentifier>{C9B8F269-C356-4DDA-9CFE-0FC3AAB08FB5}</UniqueIdentifier>
+      <UniqueIdentifier>{E4713C3D-F165-46F8-82E8-AD2B4262507F}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1199,6 +1211,12 @@
     </ClCompile>
     <ClCompile Include="Engine\MathLib\Vector4.cpp">
       <Filter>Engine\MathLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp">
+      <Filter>Game\Scenes\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scenes\Transition\FadeTransition.cpp">
+      <Filter>Game\Scenes\Transition</Filter>
     </ClCompile>
     <ClInclude Include="Engine\Asset\AnimationManager.h">
       <Filter>Engine\Asset</Filter>
@@ -2088,6 +2106,15 @@
     <ClInclude Include="Engine\MathLib\Vector4.h">
       <Filter>Engine\MathLib</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scenes\Debug\DebugScene.h">
+      <Filter>Game\Scenes\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\Transition\FadeTransition.h">
+      <Filter>Game\Scenes\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\Transition\ITransition.h">
+      <Filter>Game\Scenes\Transition</Filter>
+    </ClInclude>
     <FxCompile Include="Assets\Engine\Shaders\Mesh\CS\PickMeshInstance.CS.hlsl">
       <Filter>Assets\Engine\Shaders\Mesh\CS</Filter>
     </FxCompile>
@@ -2193,12 +2220,334 @@
     <None Include="Assets\Engine\Shaders\Text\MSDFText.hlsli">
       <Filter>Assets\Engine\Shaders\Text</Filter>
     </None>
-    <ClCompile Include="Game\Scenes\Debug\DebugScene.cpp" />
-    <ClCompile Include="Game\Scenes\Transition\FadeTransition.cpp" />
+    <ClCompile Include="Engine\Editor\Level\LevelEditor.cpp" />
+    <ClCompile Include="Engine\Editor\Level\SceneBuilder.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\CRTDisplayUpdater.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\DefaultDistortionUpdater.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\DepthOutlineUpdater.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\GlitchUpdater.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\GrayscaleUpdater.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\PlayerAfterImageUpdater.cpp" />
+    <ClCompile Include="Game\Effects\PostProcess\RadialBlurUpdater.cpp" />
+    <ClCompile Include="Game\Effects\SpriteEffect\FadeSprite.cpp" />
+    <ClCompile Include="Game\Event\GameHUDEvents\GameHUDEvents.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyAttackCollision.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyBladeCollision.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemy.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemyWeapon.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Start\BossEnemyStartAnimation.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests\BossEnemyRequestFalter.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackApproach.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\BossEnemyGreatAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyChargeAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyContinuousAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyFalterState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyIdleState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyJumpAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyLightAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyProjectileAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyRushAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStrongAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStunState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyTeleportationState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateController.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Structures\BossEnemyStructures.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\UI\BossEnemyAttackSign.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Environment\Collision\FieldBoundary.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Environment\Collision\FieldWallCollision.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Environment\Object\FieldCrossMarkWall.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Collision\PlayerAttackCollision.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Interface\IPlayerComboTimelineTrack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerActionNodeAssetTimelineTrack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerInputGraceTimelineTrack.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Interface\IPlayerComboActionEditorPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboListPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\PlayerComboActionEditorUI.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboInputExecuteMode.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboTimelineExecuteMode.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecutor.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Effect\PlayerAfterImageEffect.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Entity\Player.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Entity\PlayerWeapon.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerGamePadInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerKeyInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\Interface\PlayerBaseAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_1stState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_2ndState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_3rdState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_4thState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAvoidSatate.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerDashState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerFalterState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerIdleState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerSkillAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerWalkState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\PlayerInputTransitionPlanner.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\StateMachine\PlayerStateController.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Structure\PlayerStructures.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Player\Systems\PlayerParrySystem.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\Entity\SubPlayer.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerInactiveState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerPunchAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\SubPlayer\StateMachine\SubPlayerStateController.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\EndGame\EndGameCamera.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraGamePadInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraCalFov.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\Title\TitleViewCamera.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\CameraManager.cpp" />
+    <ClCompile Include="Game\Gameplay\Lighting\GameLight.cpp" />
+    <ClCompile Include="Game\Gameplay\Result\GameResultDisplay.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Area\ObjectAreaChecker.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.cpp" />
+    <ClCompile Include="Game\Gameplay\Systems\Input\GameInputDeviceController.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameState\States\BeginGameState.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameState\States\EndGameState.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameState\States\PauseState.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameState\States\PlayGameState.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameState\States\ResultGameState.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameState\States\StartGameState.cpp" />
+    <ClCompile Include="Game\Scenes\Game\GameScene.cpp" />
+    <ClCompile Include="Game\Scenes\Title\Background\TitleBackground.cpp" />
+    <ClCompile Include="Game\Scenes\Title\TitleController.cpp" />
+    <ClCompile Include="Game\Scenes\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.cpp" />
+    <ClCompile Include="Game\UI\HUD\Controllers\Player\PlayerHUDController.cpp" />
+    <ClCompile Include="Game\UI\HUD\Enemy\Boss\BossEnemyHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Share\PlayerShareHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\Stun\PlayerStunHUD.cpp" />
+    <ClCompile Include="Game\UI\HUD\Player\TargetNavigation\TargetNavigation.cpp" />
+    <ClCompile Include="Game\UI\HUD\GameHUDStateSynchronizer.cpp" />
+    <ClCompile Include="Game\UI\Input\Devices\SelectUIGamePadInput.cpp" />
+    <ClCompile Include="Game\UI\Input\Devices\SelectUIKeyInput.cpp" />
+    <ClCompile Include="Game\UI\Navigation\GamecButtonFocusNavigator.cpp" />
+    <ClCompile Include="Game\UI\Navigation\GameUIFocusNavigator.cpp" />
+    <ClCompile Include="Game\UI\Structures\GameCommonStructures.cpp" />
+    <ClCompile Include="Game\UI\Widgets\Button\GameButton.cpp" />
+    <ClCompile Include="Game\UI\Widgets\Button\GameButtonBlinkingUpdater.cpp" />
+    <ClCompile Include="Game\UI\Widgets\DamageDisplay\GameDisplayDamage.cpp" />
+    <ClCompile Include="Game\UI\Widgets\DigitDisplay\GameDigitDisplay.cpp" />
+    <ClCompile Include="Game\UI\Widgets\HPBar\GameHPBar.cpp" />
+    <ClCompile Include="Game\UI\Widgets\TimerDisplay\GameTimerDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game\Scenes\Transition\ITransition.h" />
-    <ClInclude Include="Game\Scenes\Debug\DebugScene.h" />
-    <ClInclude Include="Game\Scenes\Transition\FadeTransition.h" />
+    <ClInclude Include="Engine\Editor\Level\LevelEditor.h" />
+    <ClInclude Include="Engine\Editor\Level\LevelStructures.h" />
+    <ClInclude Include="Engine\Editor\Level\SceneBuilder.h" />
+    <ClInclude Include="Game\Effects\PostProcess\ActiveObjectOutlineUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\CRTDisplayUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\DefaultDistortionUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\DepthOutlineUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\GlitchUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\GrayscaleUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\PlayerAfterImageUpdater.h" />
+    <ClInclude Include="Game\Effects\PostProcess\RadialBlurUpdater.h" />
+    <ClInclude Include="Game\Effects\SpriteEffect\FadeSprite.h" />
+    <ClInclude Include="Game\Event\GameEventBus\GameEventBus.h" />
+    <ClInclude Include="Game\Event\GameHUDEvents\GameHUDEvents.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyAttackCollision.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Collision\BossEnemyBladeCollision.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemy.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemyWeapon.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Start\BossEnemyStartAnimation.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyIState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests\BossEnemyRequestFalter.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\Interface\BossEnemyGreatAttackIState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackApproach.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\States\BossEnemyGreatAttackInOutArea.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\GreatAttackState\BossEnemyGreatAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyChargeAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyContinuousAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyFalterState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyIdleState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyJumpAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyLightAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyProjectileAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyRushAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStrongAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyStunState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyTeleportationState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateConfig.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateController.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Structures\BossEnemyStructures.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\UI\BossEnemyAttackSign.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Environment\Collision\FieldBoundary.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Environment\Collision\FieldWallCollision.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Environment\Object\FieldCrossMarkWall.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Collision\PlayerAttackCollision.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Helper\BasePlayerMoveKeyAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Interface\PlayerIActionNode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerCatchWeaponAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerJumpAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveFrontAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerMoveWaysAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrowWeaponAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\Nodes\PlayerThrustAttack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Action\PlayerActionNode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Interface\IPlayerComboTimelineTrack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerActionNodeAssetTimelineTrack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\Tracks\PlayerInputGraceTimelineTrack.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\Timeline\PlayerComboActionTimelinePanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Interface\IPlayerComboActionEditorPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodeEditPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerActionNodePoolPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboListPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerComboTimelinePanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\Panels\PlayerGuardConditionPanel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\UI\PlayerComboActionEditorUI.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Editor\PlayerComboActionEditor.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerActionNodeFactory.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionJsonSerializer.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Methods\PlayerComboActionModel.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Interface\IPlayerComboExecuteMode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboInputExecuteMode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\Modes\PlayerComboTimelineExecuteMode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecuteMode.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\ComboAction\Runtime\Execute\PlayerComboExecutor.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Effect\PlayerAfterImageEffect.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Entity\Player.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Entity\PlayerWeapon.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Conditions\PlayerGuardOverSkill.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Interface\IPlayerGuardCondition.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\Methods\PlayerGuardConditionFactory.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\GuardCondition\PlayerGuardConditionType.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Input\Actions\PlayerInputAction.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerGamePadInput.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Input\Devices\PlayerKeyInput.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\Interface\PlayerBaseAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\Interface\PlayerIState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_1stState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_2ndState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_3rdState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAttack_4thState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerAvoidSatate.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerDashState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerFalterState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerIdleState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerParryWaitState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerSkillAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\States\PlayerWalkState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\PlayerInputTransitionPlanner.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\PlayerStateConfig.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\StateMachine\PlayerStateController.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Structure\PlayerStructures.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Player\Systems\PlayerParrySystem.h" />
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\Entity\SubPlayer.h" />
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\Interface\SubPlayerIState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerInactiveState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\States\SubPlayerPunchAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\StateMachine\SubPlayerStateController.h" />
+    <ClInclude Include="Game\Gameplay\Actors\SubPlayer\Structure\SubPlayerStructure.h" />
+    <ClInclude Include="Game\Gameplay\Camera\EndGame\EndGameCamera.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Actions\FollowCameraInputAction.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraGamePadInput.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Interface\IFollowCameraUpdatePass.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraFrameService.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Service\FollowCameraRuntimeDebug.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraCalFov.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraReturnFov.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Input\FollowCameraLookInputSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraOffsetSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Offset\FollowCameraZoomOffsetResolver.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraLookRotationIntegrator.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraPitchClamper.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\FollowCamera.h" />
+    <ClInclude Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.h" />
+    <ClInclude Include="Game\Gameplay\Camera\Title\TitleViewCamera.h" />
+    <ClInclude Include="Game\Gameplay\Camera\CameraManager.h" />
+    <ClInclude Include="Game\Gameplay\Lighting\GameLight.h" />
+    <ClInclude Include="Game\Gameplay\Result\GameResultDisplay.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Area\ObjectAreaChecker.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\Actions\GameInputAction.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputGamePadInput.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\Devices\GameInputKeyInput.h" />
+    <ClInclude Include="Game\Gameplay\Systems\Input\GameInputDeviceController.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\Interface\IGameSceneState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\States\BeginGameState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\States\EndGameState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\States\PauseState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\States\PlayGameState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\States\ResultGameState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\States\StartGameState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\GameContext.h" />
+    <ClInclude Include="Game\Scenes\Game\GameState\GameSceneState.h" />
+    <ClInclude Include="Game\Scenes\Game\GameScene.h" />
+    <ClInclude Include="Game\Scenes\Title\Background\TitleBackground.h" />
+    <ClInclude Include="Game\Scenes\Title\TitleController.h" />
+    <ClInclude Include="Game\Scenes\Title\TitleScene.h" />
+    <ClInclude Include="Game\UI\HUD\Controllers\Enemy\Boss\BossEnemyHUDController.h" />
+    <ClInclude Include="Game\UI\HUD\Controllers\Player\PlayerHUDController.h" />
+    <ClInclude Include="Game\UI\HUD\Enemy\Boss\BossEnemyHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Interface\IGameHUDController.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Operate\PlayerOperateHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Share\PlayerShareHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Stats\PlayerStatsHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Player\Stun\PlayerStunHUD.h" />
+    <ClInclude Include="Game\UI\HUD\Player\TargetNavigation\TargetNavigation.h" />
+    <ClInclude Include="Game\UI\HUD\GameHUDStateSynchronizer.h" />
+    <ClInclude Include="Game\UI\Input\Actions\SelectUIInputAction.h" />
+    <ClInclude Include="Game\UI\Input\Devices\SelectUIGamePadInput.h" />
+    <ClInclude Include="Game\UI\Input\Devices\SelectUIKeyInput.h" />
+    <ClInclude Include="Game\UI\Navigation\GamecButtonFocusNavigator.h" />
+    <ClInclude Include="Game\UI\Navigation\GameUIFocusNavigator.h" />
+    <ClInclude Include="Game\UI\Structures\GameCommonStructures.h" />
+    <ClInclude Include="Game\UI\Widgets\Button\GameButton.h" />
+    <ClInclude Include="Game\UI\Widgets\Button\GameButtonBlinkingUpdater.h" />
+    <ClInclude Include="Game\UI\Widgets\Button\IGameButtonResponseUpdater.h" />
+    <ClInclude Include="Game\UI\Widgets\DamageDisplay\GameDisplayDamage.h" />
+    <ClInclude Include="Game\UI\Widgets\DigitDisplay\GameDigitDisplay.h" />
+    <ClInclude Include="Game\UI\Widgets\HPBar\GameHPBar.h" />
+    <ClInclude Include="Game\UI\Widgets\TimerDisplay\GameTimerDisplay.h" />
   </ItemGroup>
 </Project>

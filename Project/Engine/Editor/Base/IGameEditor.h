@@ -22,7 +22,7 @@ namespace SakuEngine {
 		//	public Methods
 		//========================================================================
 
-		IGameEditor(const std::string& name, const std::string& groupName = " Independent");
+		IGameEditor(const std::string& name);
 		virtual ~IGameEditor();
 
 		virtual void ImGui() = 0;
@@ -32,7 +32,6 @@ namespace SakuEngine {
 		void SetSelectObjectID(uint32_t id) { selectObjectID_ = id; }
 
 		const std::string& GetName() const { return name_; }
-		const std::string& GetGroupName() const { return groupName_; }
 	protected:
 		//========================================================================
 		//	protected Methods
@@ -52,9 +51,6 @@ namespace SakuEngine {
 
 		//--------- variables ----------------------------------------------------
 
-		// エディターの名前
 		std::string name_;
-		// エディターのグループ名
-		std::string groupName_;
 	};
 }; // SakuEngine
