@@ -36,6 +36,7 @@ using namespace SakuEngine;
 #include <Engine/Editor/Effect/Particle/Module/Updater/Move/ParticleUpdateNoiseForceModule.h>
 #include <Engine/Editor/Effect/Particle/Module/Updater/Move/ParticleUpdateKeyframePathModule.h>
 #include <Engine/Editor/Effect/Particle/Module/Updater/Move/ParticleUpdateCollectModule.h>
+#include <Engine/Editor/Effect/Particle/Module/Updater/Move/ParticleUpdateSpeedAdjustmentModule.h>
 // Primitive
 #include <Engine/Editor/Effect/Particle/Module/Updater/Primitive/ParticleUpdatePrimitiveModule.h>
 // Trail
@@ -149,6 +150,7 @@ void ParticleManager::RegisterModules() {
 	uRegistry.Register<ParticleUpdateTrailModule>();
 	uRegistry.Register<ParticleUpdateKeyframePathModule>();
 	uRegistry.Register<ParticleUpdateCollectModule>();
+	uRegistry.Register<ParticleUpdateSpeedAdjustmentModule>();
 	uRegistry.Register<ParticleUpdateTranslateModule>();
 }
 

@@ -6,6 +6,7 @@
 #include <Engine/Audio/Audio.h>
 #include <Engine/Core/Graphics/Renderer/Line/LineRenderer.h>
 #include <Engine/Utility/Timer/GameTimer.h>
+#include <Engine/Utility/Timer/DelayedHitstop.h>
 #include <Game/Gameplay/Camera/FollowCamera/FollowCamera.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Entity/BossEnemy.h>
 #include <Game/Gameplay/Actors/Player/Entity/Player.h>
@@ -71,6 +72,15 @@ void PlayerAttack_4thState::Update() {
 
 		// 座標、回転補間
 		AttackAssist();
+
+		// 攻撃が命中しそうなときのみヒットストップ
+		if (!attackHitStop_.isStart &&
+			attackHitStop_.startProgress <= player_->GetAnimationProgress() &&
+			player_->GetCurrentAnimationName() == "player_attack_4th") {
+
+			attackHitStop_.isStart = true;
+			attackHitStop_.hitStop.Start();
+		}
 	} else {
 
 		// 前に前進させる
@@ -106,6 +116,9 @@ void PlayerAttack_4thState::Update() {
 
 void PlayerAttack_4thState::UpdateAlways() {
 
+	// ヒットストップの更新
+	attackHitStop_.hitStop.Update();
+
 	// 地割れエフェクトの更新
 	groundCrackEffect_->Update();
 	// 回転エフェクトの更新
@@ -125,6 +138,8 @@ void PlayerAttack_4thState::Exit() {
 	attackPosLerpTimer_ = 0.0f;
 	exitTimer_ = 0.0f;
 	moveTimer_.Reset();
+	attackHitStop_.isStart = false;
+	attackHitStop_.hitStop.Reset();
 	groundCrackEmitted_ = false;
 
 	// カメラアニメーション終了
@@ -144,6 +159,13 @@ void PlayerAttack_4thState::ImGui() {
 
 	moveTimer_.ImGui("MoveTimer");
 	ImGui::DragFloat("moveValue", &moveValue_, 0.1f);
+
+	if (ImGui::CollapsingHeader("Hitstop")) {
+
+		ImGui::ProgressBar(player_->GetAnimationProgress());
+		ImGui::DragFloat("startProgress", &attackHitStop_.startProgress, 0.01f, 0.0f, 1.0f);
+		attackHitStop_.hitStop.ImGui("AttackHitStop");
+	}
 }
 
 void PlayerAttack_4thState::ApplyJson(const Json& data) {
@@ -159,6 +181,9 @@ void PlayerAttack_4thState::ApplyJson(const Json& data) {
 
 	moveTimer_.FromJson(data.value("MoveTimer", Json()));
 	moveValue_ = data.value("moveValue_", 1.0f);
+
+	attackHitStop_.startProgress = data.value("startProgress", 0.0f);
+	attackHitStop_.hitStop.FromJson(data.value("hitStop", Json()));
 }
 
 void PlayerAttack_4thState::SaveJson(Json& data) {
@@ -174,6 +199,9 @@ void PlayerAttack_4thState::SaveJson(Json& data) {
 
 	moveTimer_.ToJson(data["MoveTimer"]);
 	data["moveValue_"] = moveValue_;
+
+	data["startProgress"] = attackHitStop_.startProgress;
+	attackHitStop_.hitStop.ToJson(data["hitStop"]);
 }
 
 bool PlayerAttack_4thState::GetCanExit() const {

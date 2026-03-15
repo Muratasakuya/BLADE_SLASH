@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Collision/Collider.h>
+#include <Engine/Editor/Effect/User/EffectGroup.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/Structures/BossEnemyStructures.h>
 
 //============================================================================
@@ -32,6 +33,9 @@ public:
 	// json
 	void ApplyJson(const Json& data);
 	void SaveJson(Json& data);
+
+	// 衝突
+	void OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) override;
 
 	//--------- accessor -----------------------------------------------------
 
@@ -70,8 +74,11 @@ private:
 
 	float currentTimer_; // 現在の経過時間、全部共通
 
-	// editor
+	// エディター
 	BossEnemyState editingState_;
+
+	// ボスの攻撃ヒットエフェクト
+	std::unique_ptr<SakuEngine::EffectGroup> attackHitEffect_;
 
 	//--------- functions ----------------------------------------------------
 

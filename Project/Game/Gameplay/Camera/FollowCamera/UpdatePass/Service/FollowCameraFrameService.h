@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/MathLib/Vector3.h>
 #include <Engine/MathLib/Quaternion.h>
+#include <Game/Scenes/Game/GameState/GameSceneState.h>
 
 // front
 class Player;       // 基準点
@@ -40,6 +41,7 @@ enum class FollowCameraUpdatePassID {
 	CalFov,                   // デフォルト画角を計算
 	ReturnFov,                // 画角元に戻す
 	ActionAutoLookTarget,     // 自動で注視点を向かせる
+	LockOn,                   // ロックオン
 	ToFollowSmoother,         // エディター更新から追従状態に戻る補間
 };
 
@@ -61,6 +63,8 @@ struct FollowCameraDependencies {
 };
 // フレーム毎の各パスが処理したデータを共有するサービス
 struct FollowCameraFrameService {
+
+	GameSceneState sceneState; // シーン状態
 
 	const FollowCameraLookInputSmoother* inputSmoother;           // 視点入力補間
 	const FollowCameraLookRotationIntegrator* rotationIntegrator; // 注視回転積分

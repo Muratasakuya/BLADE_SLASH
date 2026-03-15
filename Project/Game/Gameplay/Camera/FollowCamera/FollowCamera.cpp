@@ -144,10 +144,10 @@ void FollowCamera::Init() {
 	editorInverseSetting_.inverseRotateAxisMap[SakuEngine::Math::Axis::Z] = false;
 }
 
-void FollowCamera::Update() {
+void FollowCamera::Update(GameSceneState sceneState) {
 
 	// 更新パスの更新
-	updatePass_->Update(*this);
+	updatePass_->Update(*this, sceneState);
 
 	// エディターで更新しているときは処理しない
 	if (isUpdateEditor_) {

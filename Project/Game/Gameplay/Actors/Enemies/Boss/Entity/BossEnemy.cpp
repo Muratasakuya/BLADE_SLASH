@@ -56,6 +56,7 @@ void BossEnemy::InitAnimations() {
 	animation_->SetAnimationData("bossEnemy_slashStay");
 	animation_->SetAnimationData("bossEnemy_stayedSlash");
 	animation_->SetAnimationData("bossEnemy_greatAttack");
+	animation_->SetAnimationData("bossEnemy_groundSmash");
 
 	// 右手を親として更新させる
 	animation_->SetParentJoint("rightHand");
@@ -168,8 +169,7 @@ void BossEnemy::DerivedInit() {
 	// アニメーション初期化
 	InitAnimation();
 
-	// 最初はダメージを受けないようにする
-	isNormalDamageEnabled_ = false;
+	preSceneState_ = GameSceneState::Start;
 
 	// ポストエフェクトの設定
 	SetPostProcessMask(Bit_RadialBlur);
@@ -245,8 +245,8 @@ int BossEnemy::GetDamage() const {
 
 		int damage = stats_.damages.at(currentState);
 		// ランダムでダメージを設定
-		damage = SakuEngine::RandomGenerator::Generate(damage - stats_.damageRandomRange,
-			damage + stats_.damageRandomRange);
+		damage = SakuEngine::RandomGenerator::Generate(stats_.damageRandomRange,
+			stats_.damageRandomRange * 2);
 		return damage;
 	}
 	return 0;
@@ -359,9 +359,6 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 		}
 		case GameSceneState::BeginGame: {
 
-			// ダメージを受け付けるようにする
-			isNormalDamageEnabled_ = true;
-
 			// HUDの表示を行う
 			GameHUDEvents::VisibilityChangedEvent event{};
 			event.target = GameHUDEvents::MakeEntityId(this);
@@ -381,7 +378,7 @@ void BossEnemy::CheckSceneState(GameSceneState sceneState) {
 void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
 
 	// 無効状態の時ダメージを受けない
-	if (!isNormalDamageEnabled_) {
+	if (IsInvincible()) {
 		return;
 	}
 
@@ -398,19 +395,6 @@ void BossEnemy::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody)
 			// 靭性値を増やす
 			stats_.currentDestroyToughness = (std::min)(stats_.currentDestroyToughness + player_->GetToughness(),
 				stats_.maxDestroyToughness);
-
-			// 靭性値が最大にまで行ったらHUDの表示を消す
-			if (stats_.currentDestroyToughness == stats_.maxDestroyToughness) {
-
-				// ダメージを受け付けないようにする
-				isNormalDamageEnabled_ = false;
-
-				// HUD非表示
-				GameHUDEvents::VisibilityChangedEvent event{};
-				event.target = GameHUDEvents::MakeEntityId(this);
-				event.visible = false;
-				eventBus_->Publish(event);
-			}
 		}
 
 		// ダメージイベント発行

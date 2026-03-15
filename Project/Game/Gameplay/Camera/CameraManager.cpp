@@ -50,11 +50,11 @@ void CameraManager::Update(GameSceneState sceneState) {
 	switch (sceneState) {
 	case GameSceneState::Start:
 
-		followCamera_->Update();
+		followCamera_->Update(sceneState);
 		break;
 	case GameSceneState::PlayGame:
 
-		followCamera_->Update();
+		followCamera_->Update(sceneState);
 		break;
 	case GameSceneState::EndGame:
 

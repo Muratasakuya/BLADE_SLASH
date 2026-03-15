@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Base/EditorModuleRegistry.h>
+#include <Game/Scenes/Game/GameState/GameSceneState.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Interface/IFollowCameraUpdatePass.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Service/FollowCameraRuntimeDebug.h>
 
@@ -28,7 +29,7 @@ public:
 	void Init();
 
 	// 更新
-	void Update(FollowCamera& followCamera);
+	void Update(FollowCamera& followCamera, GameSceneState sceneState);
 
 	// エディター
 	void ImGui();

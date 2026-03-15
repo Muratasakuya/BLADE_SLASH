@@ -225,6 +225,20 @@ int Player::GetDamage() const {
 	return 0;
 }
 
+bool Player::IsAttacking() const {
+
+	// 攻撃中か
+	PlayerState currentState = stateController_->GetCurrentState();
+	if (currentState == PlayerState::Attack_1st ||
+		currentState == PlayerState::Attack_2nd ||
+		currentState == PlayerState::Attack_3rd ||
+		currentState == PlayerState::Attack_4th ||
+		currentState == PlayerState::SkilAttack) {
+		return true;
+	}
+	return false;
+}
+
 void Player::Update() {
 
 	// 更新モードがNotの時は更新しない

@@ -2370,6 +2370,11 @@
     <ClCompile Include="Game\UI\Widgets\DigitDisplay\GameDigitDisplay.cpp" />
     <ClCompile Include="Game\UI\Widgets\HPBar\GameHPBar.cpp" />
     <ClCompile Include="Game\UI\Widgets\TimerDisplay\GameTimerDisplay.cpp" />
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateSpeedAdjustmentModule.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Interface\IFollowCameraUpdatePass.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraLockOn.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\BossEnemyAllFieldAttackState.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\Item\BossEnemyProtrusion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Editor\Level\LevelEditor.h" />
@@ -2549,5 +2554,9 @@
     <ClInclude Include="Game\UI\Widgets\DigitDisplay\GameDigitDisplay.h" />
     <ClInclude Include="Game\UI\Widgets\HPBar\GameHPBar.h" />
     <ClInclude Include="Game\UI\Widgets\TimerDisplay\GameTimerDisplay.h" />
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateSpeedAdjustmentModule.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraLockOn.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\BossEnemyAllFieldAttackState.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\Item\BossEnemyProtrusion.h" />
   </ItemGroup>
 </Project>

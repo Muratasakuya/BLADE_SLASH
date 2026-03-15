@@ -573,6 +573,7 @@ void SkinnedAnimation::SwitchAnimation(const std::string& nextAnimName,
 	// 遷移開始
 	inTransition_ = true;
 	transitionTimer_ = 0.0f;
+	animationProgress_ = 0.0f;
 	transitionDuration_ = transitionDuration;
 
 	roopAnimation_ = loopAnimation;

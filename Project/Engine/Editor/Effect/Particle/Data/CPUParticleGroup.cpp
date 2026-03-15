@@ -14,6 +14,24 @@ using namespace SakuEngine;
 //	CPUParticleGroup classMethods
 //============================================================================
 
+namespace {
+
+	// パーティクルの削除条件
+	bool ShouldRemoveParticle(const CPUParticle::ParticleData& particle) {
+		switch (particle.deleteMode) {
+		case ParticleDeleteMode::LifeTime: {
+
+			return particle.lifeTime <= particle.currentTime;
+		}
+		case ParticleDeleteMode::ColorAlpha: {
+
+			return particle.material.color.a <= 0.0f;
+		}
+		}
+		return false;
+	}
+}
+
 void CPUParticleGroup::Create(ID3D12Device* device,
 	Asset* asset, ParticlePrimitiveType primitiveType) {
 
@@ -161,7 +179,7 @@ void CPUParticleGroup::UpdatePhase() {
 		// 削除、フェーズ判定処理
 		// 寿命終了後、モードに応じて処理
 		auto* lifeModule = phases_[particle.phaseIndex]->GetLifeTimeModule();
-		if (particle.lifeTime <= particle.currentTime) {
+		if (ShouldRemoveParticle(particle)) {
 
 			switch (lifeModule->GetEndMode()) {
 			case ParticleLifeEndMode::Advance: {

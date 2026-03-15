@@ -4,6 +4,7 @@
 //	include
 //============================================================================
 #include <Engine/Scene/Camera/BaseCamera.h>
+#include <Game/Scenes/Game/GameState/GameSceneState.h>
 #include <Game/Gameplay/Actors/Player/Structure/PlayerStructures.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/FollowCameraUpdatePass.h>
 
@@ -24,7 +25,7 @@ public:
 	void Init() override;
 	void LoadAnim();
 
-	void Update() override;
+	void Update(GameSceneState sceneState);
 
 	void ImGui() override;
 

@@ -17,7 +17,7 @@ using namespace SakuEngine;
 //============================================================================
 
 void GraphicsPlatform::InitDXDevice() {
-#if defined(_DEBUG) || defined(_DEVELOPBUILD)
+#ifdef _DEBUG
 	ComPtr<ID3D12Debug1> debugController = nullptr;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 

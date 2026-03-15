@@ -30,7 +30,7 @@ void PlayerAttack_1stState::Enter() {
 	canExit_ = false;
 
 	// 敵が攻撃可能範囲にいるかチェック
-	const SakuEngine::Vector3 playerPos = player_->GetTranslation();
+	const SakuEngine::Vector3 playerPos = player_->GetTranslation(); 
 	// 補間座標を設定
 	if (!CheckInRange(attackPosLerpCircleRange_, SakuEngine::Math::GetDistance3D(*player_, *bossEnemy_, true, true))) {
 

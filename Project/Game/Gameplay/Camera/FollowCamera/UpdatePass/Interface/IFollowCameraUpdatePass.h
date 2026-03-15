@@ -33,8 +33,12 @@ public:
 
 	// エディター
 	virtual void ImGui() {}
+	void ImGuiCommon();
 
 	//--------- accessor -----------------------------------------------------
+
+	// 処理を行うか
+	bool IsEnabled() const { return enable_; }
 
 	// 処理依存オブジェクトを設定
 	virtual void BindDependencies(const FollowCameraDependencies& dependencies) { dependencies_ = dependencies; }
@@ -47,6 +51,9 @@ protected:
 	//========================================================================
 
 	//--------- variables ----------------------------------------------------
+
+	// 処理を行うかフラグ
+	bool enable_ = true;
 
 	// 処理対象カメラ
 	FollowCameraDependencies dependencies_{};

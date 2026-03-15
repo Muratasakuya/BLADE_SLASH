@@ -66,6 +66,7 @@ namespace SakuEngine {
 		void SetKeyframePath(const std::string& nodeKey, const std::vector<Vector3>& keys);
 		// 回転の設定
 		void SetParentRotation(const std::string& nodeKey, const Quaternion& rotation, ParticleUpdateModuleID updaterID);
+		void SetParentRotation(const std::string& nodeKey, const Quaternion& rotation, ParticleSpawnModuleID spawnerID);
 
 		// すべてのノードが処理を終えているか
 		bool IsFinishedAllNode() const;

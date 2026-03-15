@@ -106,6 +106,9 @@ void BossEnemyTeleportationState::Exit() {
 	canExit_ = false;
 	lerpTimer_ = 0.0f;
 	currentAlpha_ = 1.0f;
+
+	// 確実にαを戻す
+	bossEnemy_->SetAlpha(1.0f);
 }
 
 void BossEnemyTeleportationState::ImGui() {

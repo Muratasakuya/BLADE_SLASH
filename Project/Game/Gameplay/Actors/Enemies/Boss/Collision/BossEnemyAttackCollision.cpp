@@ -29,9 +29,17 @@ void BossEnemyAttackCollision::Init() {
 	// 最初は無効状態
 	weaponBody_->SetType(ColliderType::Type_None);
 	weaponBody_->SetTargetType(ColliderType::Type_Player);
+
+	// ヒットエフェクト
+	attackHitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
+	attackHitEffect_->Init("bossAttackHitEffect", "BossEnemyEffect");
+	attackHitEffect_->LoadJson("GameEffectGroup/BossEnemy/bossEnemyAttackHitEffect.json");
 }
 
 void BossEnemyAttackCollision::Update(const Transform3D& transform) {
+
+	// ヒットエフェクトは常に更新する
+	attackHitEffect_->Update();
 
 	auto it = table_.find(currentState_);
 	if (it == table_.end()) {
@@ -166,6 +174,22 @@ void BossEnemyAttackCollision::SaveJson(Json& data) {
 				windowData.push_back(j);
 			}
 			value["hitWindows"] = windowData;
+		}
+	}
+}
+
+void BossEnemyAttackCollision::OnCollisionEnter(const SakuEngine::CollisionBody* collisionBody) {
+
+	// プレイヤーに衝突したか
+	if ((collisionBody->GetType() & ColliderType::Type_Player) != ColliderType::Type_None) {
+		if (const auto* obb = std::get_if<CollisionShape::OBB>(&collisionBody->GetShape())) {
+
+			// 発生座標
+			Vector3 emitPos = obb->center;
+			emitPos.y += obb->size.y / 2.0f;
+
+			// ヒットエフェクト発生
+			attackHitEffect_->Emit(emitPos);
 		}
 	}
 }

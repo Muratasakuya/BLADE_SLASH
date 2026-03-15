@@ -107,6 +107,8 @@ private:
 	// 地割れエフェクト
 	std::unique_ptr<SakuEngine::EffectGroup> groundCrackEffect_;
 	bool groundCrackEmitted_ = false;
+	// ヒットエフェクト
+	std::unique_ptr<SakuEngine::EffectGroup> hitEffect_;
 
 	// 移動攻撃SE音量
 	float moveAttackSEVolume_ = 1.0f;

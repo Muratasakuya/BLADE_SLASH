@@ -76,13 +76,20 @@ private:
 	Vector3 translation_; // 座標
 	Quaternion rotation_; // 回転
 
-	// angle設定
+	// 発生座標オフセット
+	ParticleValue<Vector3> emitOffset_;
+
+	// 円アングル設定
 	float angleMin_; // 最小角度
 	float angleMax_; // 最大角度
 	bool clockwise_; // 進める符号の方向
 
-	float stepAngle_;    // Progressiveの角度の進み
-	float currentAngle_; // 現在の角度
+	ParticleValue<float> stepAngle_; // Progressiveの角度の進み
+	float executingStepAngle_;       // 呼びだされた瞬間の角度
+	float currentAngle_;             // 現在の角度
+
+	// 角度を進めて最初に戻る瞬間は最初の角度方向を向かせない
+	bool usePrevSegmentDirectionOnWrap_ = false;
 
 	// エディター
 	int circleDivision_; // 分割数

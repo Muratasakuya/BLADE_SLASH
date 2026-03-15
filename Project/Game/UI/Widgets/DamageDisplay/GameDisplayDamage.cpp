@@ -42,6 +42,11 @@ void GameDisplayDamage::SetCanvasLayer(SakuEngine::CanvasLayer layer) {
 
 void GameDisplayDamage::SetDamage(int damage) {
 
+	// ダメージが0の場合は表示しない
+	if (damage == 0) {
+		return;
+	}
+
 	receivedDamages_.push_back(std::clamp(damage, 0, 9999));
 }
 

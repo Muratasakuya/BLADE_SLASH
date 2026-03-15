@@ -168,6 +168,23 @@ void EffectGroup::SetParentRotation(const std::string& nodeKey, const Quaternion
 	}
 }
 
+void EffectGroup::SetParentRotation(const std::string& nodeKey, const Quaternion& rotation,
+	[[maybe_unused]] ParticleSpawnModuleID spawnerID) {
+
+	for (const auto& node : nodes_) {
+		if (node.key == nodeKey) {
+
+			// コマンド作成
+			ParticleCommand command = EffectModuleBinder::MakeCommand<Quaternion>(
+				ParticleCommandTarget::Spawner, ParticleCommandID::SetParentRotation, rotation);
+
+			// コマンド送信
+			EffectCommandRouter::Send(node.system, command);
+			break;
+		}
+	}
+}
+
 bool EffectGroup::IsFinishedAllNode() const {
 
 	for (const auto& node : nodes_) {

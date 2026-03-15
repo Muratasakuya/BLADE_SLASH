@@ -53,6 +53,9 @@ namespace SakuEngine {
 		// json定義を元にボディ群を構築し、タイプ/ターゲットを設定する
 		void BuildBodies(const Json& data);
 
+		// 形状オフセットを初期化
+		void InitBodyOffsets(CollisionShape::Shapes& shape);
+
 		//--------- accessor -----------------------------------------------------
 
 		// 指定インデックスの球形状の半径を設定する
@@ -119,5 +122,4 @@ namespace SakuEngine {
 		void EditAABBBody(uint32_t index, CollisionShape::AABB& offset);
 		void EditOBBBody(uint32_t index, CollisionShape::OBB& offset);
 	};
-
 }; // SakuEngine

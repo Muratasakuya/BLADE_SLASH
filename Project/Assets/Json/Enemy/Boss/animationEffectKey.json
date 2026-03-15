@@ -46,7 +46,7 @@
                     12
                 ],
                 "Effect": [
-                    12
+                    10
                 ]
             }
         },
@@ -90,7 +90,7 @@
             }
         },
         {
-            "object": "bossEnemyArmature",
+            "object": "<unlinked>",
             "action": "speedSlash1",
             "events": {
                 "Parry": [

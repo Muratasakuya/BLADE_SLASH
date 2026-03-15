@@ -21,151 +21,158 @@ enum class ParticleEmitterShape {
 	Count,
 };
 
+// パーティクルの削除方法
+enum class ParticleDeleteMode {
+
+	LifeTime,   // ライフタイムで削除
+	ColorAlpha, // 色のアルファ値で削除
+};
+
 namespace SakuEngine {
 
-struct ParticleEmitterCommon {
+	struct ParticleEmitterCommon {
 
-	int32_t count;
-	int32_t emit;
-	float lifeTime;
-	float moveSpeed;
+		int32_t count;
+		int32_t emit;
+		float lifeTime;
+		float moveSpeed;
 
-	Vector3 scale;
-	float pad1;
+		Vector3 scale;
+		float pad1;
 
-	Color color;
+		Color color;
 
-	// 適応するポストエフェクトのビット
-	uint32_t postProcessMask;
-	void Init() {
+		// 適応するポストエフェクトのビット
+		uint32_t postProcessMask;
+		void Init() {
 
-		// 初期値
-		count = 32;
-		emit = false;
-		lifeTime = 1.0f;
-		moveSpeed = 1.0f;
+			// 初期値
+			count = 32;
+			emit = false;
+			lifeTime = 1.0f;
+			moveSpeed = 1.0f;
 
-		scale = SakuEngine::Vector3::AnyInit(0.4f);
-		color = SakuEngine::Color::White();
+			scale = SakuEngine::Vector3::AnyInit(0.4f);
+			color = SakuEngine::Color::White();
 
-		// デフォルトでかけるポストプロセス
-		postProcessMask = Bit_Bloom | Bit_RadialBlur | Bit_Glitch | Bit_Vignette;
-	}
-};
-
-// 球
-struct ParticleEmitterSphere {
-
-	float radius;
-
-	Vector3 translation;
-	float pad0;
-
-	void Init() {
-
-		radius = 2.0f;
-		translation = SakuEngine::Vector3::AnyInit(0.0f);
-	}
-};
-
-// 半球
-struct ParticleEmitterHemisphere {
-
-	float radius;
-
-	Vector3 translation;
-	Matrix4x4 rotationMatrix;
-
-	void Init() {
-
-		radius = 2.0f;
-		translation = SakuEngine::Vector3::AnyInit(0.0f);
-		rotationMatrix = Matrix4x4::MakeIdentity4x4();
-	}
-};
-
-// 箱(OBB)
-struct ParticleEmitterBox {
-
-	Vector3 size;
-	float pod0;
-
-	Vector3 translation;
-	float pod1;
-
-	Matrix4x4 rotationMatrix;
-
-	void Init() {
-
-		size = SakuEngine::Vector3::AnyInit(2.0f);
-		translation = SakuEngine::Vector3::AnyInit(0.0f);
-		rotationMatrix = Matrix4x4::MakeIdentity4x4();
-	}
-};
-
-// コーン状
-struct ParticleEmitterCone {
-
-	float baseRadius;
-	float topRadius;
-	float height;
-	float pod0;
-
-	Vector3 translation;
-	float pod1;
-
-	Matrix4x4 rotationMatrix;
-
-	void Init() {
-
-		baseRadius = 0.4f;
-		topRadius = 1.6f;
-		height = 1.6f;
-
-		translation = SakuEngine::Vector3::AnyInit(0.0f);
-		rotationMatrix = Matrix4x4::MakeIdentity4x4();
-	}
-};
-
-struct ParticleEmitterData {
-
-	ParticleEmitterShape shape;
-
-	// 発生
-	ParticleEmitterCommon common;
+			// デフォルトでかけるポストプロセス
+			postProcessMask = Bit_Bloom | Bit_RadialBlur | Bit_Glitch | Bit_Vignette;
+		}
+	};
 
 	// 球
-	ParticleEmitterSphere sphere;
+	struct ParticleEmitterSphere {
+
+		float radius;
+
+		Vector3 translation;
+		float pad0;
+
+		void Init() {
+
+			radius = 2.0f;
+			translation = SakuEngine::Vector3::AnyInit(0.0f);
+		}
+	};
+
 	// 半球
-	ParticleEmitterHemisphere hemisphere;
+	struct ParticleEmitterHemisphere {
+
+		float radius;
+
+		Vector3 translation;
+		Matrix4x4 rotationMatrix;
+
+		void Init() {
+
+			radius = 2.0f;
+			translation = SakuEngine::Vector3::AnyInit(0.0f);
+			rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		}
+	};
+
 	// 箱(OBB)
-	ParticleEmitterBox box;
+	struct ParticleEmitterBox {
+
+		Vector3 size;
+		float pod0;
+
+		Vector3 translation;
+		float pod1;
+
+		Matrix4x4 rotationMatrix;
+
+		void Init() {
+
+			size = SakuEngine::Vector3::AnyInit(2.0f);
+			translation = SakuEngine::Vector3::AnyInit(0.0f);
+			rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		}
+	};
+
 	// コーン状
-	ParticleEmitterCone cone;
+	struct ParticleEmitterCone {
 
-	void Init() {
+		float baseRadius;
+		float topRadius;
+		float height;
+		float pod0;
 
-		// 全て初期化
-		sphere.Init();
-		hemisphere.Init();
-		box.Init();
-		cone.Init();
-	}
-};
+		Vector3 translation;
+		float pod1;
 
-struct ParticleEmitterBufferData {
+		Matrix4x4 rotationMatrix;
 
-	// 発生
-	DxConstBuffer<ParticleEmitterCommon> common;
+		void Init() {
 
-	// 球
-	DxConstBuffer<ParticleEmitterSphere> sphere;
-	// 半球
-	DxConstBuffer<ParticleEmitterHemisphere> hemisphere;
-	// 箱(OBB)
-	DxConstBuffer<ParticleEmitterBox> box;
-	// コーン状
-	DxConstBuffer<ParticleEmitterCone> cone;
-};
+			baseRadius = 0.4f;
+			topRadius = 1.6f;
+			height = 1.6f;
+
+			translation = SakuEngine::Vector3::AnyInit(0.0f);
+			rotationMatrix = Matrix4x4::MakeIdentity4x4();
+		}
+	};
+
+	struct ParticleEmitterData {
+
+		ParticleEmitterShape shape;
+
+		// 発生
+		ParticleEmitterCommon common;
+
+		// 球
+		ParticleEmitterSphere sphere;
+		// 半球
+		ParticleEmitterHemisphere hemisphere;
+		// 箱(OBB)
+		ParticleEmitterBox box;
+		// コーン状
+		ParticleEmitterCone cone;
+
+		void Init() {
+
+			// 全て初期化
+			sphere.Init();
+			hemisphere.Init();
+			box.Init();
+			cone.Init();
+		}
+	};
+
+	struct ParticleEmitterBufferData {
+
+		// 発生
+		DxConstBuffer<ParticleEmitterCommon> common;
+
+		// 球
+		DxConstBuffer<ParticleEmitterSphere> sphere;
+		// 半球
+		DxConstBuffer<ParticleEmitterHemisphere> hemisphere;
+		// 箱(OBB)
+		DxConstBuffer<ParticleEmitterBox> box;
+		// コーン状
+		DxConstBuffer<ParticleEmitterCone> cone;
+	};
 
 }; // SakuEngine

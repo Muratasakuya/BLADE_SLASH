@@ -30,6 +30,7 @@ enum class BossEnemyState {
 	GreatAttack,      // 大技攻撃
 	JumpAttack,       // ジャンプ攻撃
 	ProjectileAttack, // 飛び道具攻撃
+	AllFieldAttack,   // 全方位攻撃
 	Count,
 };
 

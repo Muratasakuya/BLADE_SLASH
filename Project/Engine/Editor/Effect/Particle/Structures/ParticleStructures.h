@@ -5,6 +5,7 @@
 //============================================================================
 #include <Engine/Editor/Effect/Particle/Structures/ParticlePrimitiveStructures.h>
 #include <Engine/Editor/Effect/Particle/Structures/ParticleValue.h>
+#include <Engine/Editor/Effect/Particle/Structures/ParticleEmitterStructures.h>
 #include <Engine/Core/Graphics/GPUObject/DxStructuredBuffer.h>
 #include <Engine/Core/Graphics/DxLib/DxStructures.h>
 #include <Engine/Object/Data/Transform/Transform.h>
@@ -300,6 +301,9 @@ namespace CPUParticle {
 		// bufferを更新するデータ
 		// 移動速度
 		Vector3 velocity;
+
+		// 削除方法
+		ParticleDeleteMode deleteMode;
 
 		// bufferに渡すデータ
 		MaterialForGPU material;

@@ -35,6 +35,17 @@ void ParticleSpawnCircleModule::SetCommand(const ParticleCommand& command) {
 		}
 		break;
 	}
+	case ParticleCommandID::SetParentRotation: {
+		if (const auto& ERotation = std::get_if<Vector3>(&command.value)) {
+
+			rotation_ = Quaternion::EulerToQuaternion(*ERotation) * rotation_;
+		} else if (const auto& QRotation = std::get_if<Quaternion>(&command.value)) {
+
+			rotation_ = *QRotation * rotation_;
+		}
+		rotation_ = Quaternion::Normalize(rotation_);
+		break;
+	}
 	}
 }
 
@@ -46,6 +57,7 @@ void ParticleSpawnCircleModule::Init() {
 	radius_ = 2.0f;
 	translation_ = Vector3(0.0f, 6.0f, 0.0f);
 	rotation_ = Quaternion::Identity();
+	emitOffset_.SetValue(Vector3::AnyInit(0.0f));
 
 	// デフォでランダム
 	mode_ = SpawnMode::Random;
@@ -54,9 +66,11 @@ void ParticleSpawnCircleModule::Init() {
 	angleMax_ = 360.0f;
 	clockwise_ = false;
 
-	stepAngle_ = 15.0f;
+	stepAngle_.SetValue(15.0f);
 	currentAngle_ = 0.0f;
 	circleDivision_ = 64;
+
+	usePrevSegmentDirectionOnWrap_ = false;
 }
 
 void ParticleSpawnCircleModule::Execute(std::list<CPUParticle::ParticleData>& particles) {
@@ -71,6 +85,9 @@ void ParticleSpawnCircleModule::Execute(std::list<CPUParticle::ParticleData>& pa
 	float amin = Math::WrapDegree(angleMin_);
 	float amax = Math::WrapDegree(angleMax_);
 	float span = fullCircleAngle ? 360.0f : Math::WrapDegree(amax - amin);
+
+	// この時点でステップ角度を決定する
+	executingStepAngle_ = stepAngle_.GetValue();
 
 	// 発生インデックスから角度を取得
 	auto GetAngle = [&](uint32_t i)->float {
@@ -105,7 +122,7 @@ void ParticleSpawnCircleModule::Execute(std::list<CPUParticle::ParticleData>& pa
 			// アークの基準
 			const float base = clockwise_ ? amax : amin;
 			const float angle = Math::WrapDegree(currentAngle_);
-			const float stepMag = std::fabs(stepAngle_);
+			const float stepMag = std::fabs(executingStepAngle_);
 
 			// minとmaxが同じならその角度で返す
 			if (span <= 0.0f) {
@@ -154,6 +171,9 @@ void ParticleSpawnCircleModule::Execute(std::list<CPUParticle::ParticleData>& pa
 		Vector3 worldDirection = rotation_ * localDirection;
 		Vector3 worldPos = rotation_ * localPos + translation_ + parentTranslation;
 
+		// 発生座標にオフセットをかける
+		worldPos += emitOffset_.GetValue();
+
 		// 速度、発生位置
 		particle.velocity = GetVelocity(index, emitCount, worldDirection);
 		particle.transform.translation = worldPos;
@@ -183,7 +203,7 @@ void ParticleSpawnCircleModule::UpdateAdvanceProgressive(uint32_t emitCount) {
 		// 進行の基準端点
 		const float base = clockwise_ ? angleMax_ : angleMin_;
 		// 1発生あたりの前進量
-		const float stepMag = std::fabs(stepAngle_) * static_cast<float>(emitCount);
+		const float stepMag = std::fabs(executingStepAngle_) * static_cast<float>(emitCount);
 
 		// 指定方向に沿ったfromからtoへの距離
 		auto DistanceAlong = [&](float from, float to)->float {
@@ -247,7 +267,7 @@ Vector3 ParticleSpawnCircleModule::GetVelocity(
 			// アークの基準
 			const float base = clockwise_ ? amax : amin;
 			const float angle = Math::WrapDegree(currentAngle_);
-			const float stepMag = std::fabs(stepAngle_);
+			const float stepMag = std::fabs(executingStepAngle_);
 
 			// minとmaxが同じならその角度で返す
 			if (span <= 0.0f) {
@@ -323,6 +343,59 @@ Vector3 ParticleSpawnCircleModule::GetVelocity(
 	// 隣接点のインデックスを取得
 	uint32_t j = NeighborIndex(wantNext);
 
+	// 次の点を向かせるときのオプション、角度を進めて最初に戻る瞬間は最初の角度方向を向かせない
+	if (velocityMode_ == VelocityMode::NextPoint && usePrevSegmentDirectionOnWrap_) {
+
+		bool wrapped = false;
+		if (mode_ == SpawnMode::Progressive && span > Config::kEpsilon) {
+
+			const float base = clockwise_ ? amax : amin;
+			const float angle0 = Math::WrapDegree(currentAngle_);
+			const float stepMag = std::fabs(executingStepAngle_);
+
+			auto distAlong = [&](float from, float to)->float {
+				return clockwise_ ? Math::WrapDegree(from - to) : Math::WrapDegree(to - from);
+				};
+
+			float pos0 = distAlong(base, angle0);
+			float adv_i = std::fmod(pos0 + stepMag * static_cast<float>(index), span);
+			float adv_next = std::fmod(pos0 + stepMag * static_cast<float>(index + 1), span);
+
+			// spanを跨いで0側に戻った判定
+			wrapped = (adv_next + Config::kEpsilon < adv_i);
+		} else if (mode_ == SpawnMode::EvenPerFrame && fullCircleAngle) {
+
+			wrapped = (index + 1 >= emitCount);
+		}
+		if (wrapped) {
+
+			// 前のインデックスから現在のインデックスへの向きを作る
+			uint32_t prevIndex = (index > 0) ? (index - 1) : index;
+
+			// 前回の角度
+			float prevRad = GetAngle(prevIndex) * radian;
+			Vector3 prevLocalPos(std::cos(prevRad), 0.0f, std::sin(prevRad));
+			prevLocalPos *= radius_;
+			Vector3 prevWorldPos = rotation_ * prevLocalPos + translation_ + parentTranslation;
+
+			// 進行方向を取得
+			Vector3 dir = worldPos - prevWorldPos;
+			if (dir.Length() <= Config::kEpsilon) {
+
+				// ほぼ同じなら接線方向
+				float sign = 1.0f;
+				if (clockwise_) {
+					sign *= -1.0f;
+				}
+
+				// wantNext == true なので反転しない
+				Vector3 tanLocal(-std::sin(rad) * sign, 0.0f, std::cos(rad) * sign);
+				dir = rotation_ * tanLocal;
+			}
+			return dir.Normalize() * speed;
+		}
+	}
+
 	// 隣接点の角度、位置を取得する
 	float nextRad = GetAngle(j) * radian;
 	Vector3 nextLocalDir(std::cos(nextRad), 0.0f, std::sin(nextRad));
@@ -391,10 +464,13 @@ void ParticleSpawnCircleModule::ImGui() {
 		rotation_ = SakuEngine::Quaternion::Normalize(rotation_);
 	}
 
+	emitOffset_.EditDragValue("emitOffset");
+
 	ImGui::SeparatorText("Angle");
 
 	SakuEngine::EnumAdapter<SpawnMode>::Combo("SpawnMode", &mode_);
 	SakuEngine::EnumAdapter<VelocityMode>::Combo("VelocityMode", &velocityMode_);
+	ImGui::Checkbox("usePrevDirectionOnWrap", &usePrevSegmentDirectionOnWrap_);
 
 	ImGui::DragFloat("angleMinDeg", &angleMin_, 0.1f, 0.0f, 360.0f);
 	ImGui::DragFloat("angleMaxDeg", &angleMax_, 0.1f, 0.0f, 360.0f);
@@ -402,8 +478,9 @@ void ParticleSpawnCircleModule::ImGui() {
 
 	if (mode_ == SpawnMode::Progressive) {
 
-		ImGui::Text("currentAngle: %.3f", currentAngle_);
-		ImGui::DragFloat("stepAngle", &stepAngle_, 0.1f, 0.0f, 360.0f);
+		ImGui::Text("currentAngle:       %.3f", currentAngle_);
+		ImGui::Text("executingStepAngle: %.3f", executingStepAngle_);
+		stepAngle_.EditDragValue("stepAngle");
 	}
 }
 
@@ -423,7 +500,10 @@ Json ParticleSpawnCircleModule::ToJson() {
 	data["angleMin_"] = angleMin_;
 	data["angleMax_"] = angleMax_;
 	data["clockwise_"] = clockwise_;
-	data["stepAngle_"] = stepAngle_;
+	data["usePrevSegmentDirectionOnWrap_"] = usePrevSegmentDirectionOnWrap_;
+
+	stepAngle_.SaveJson(data, "stepAngle_");
+	emitOffset_.SaveJson(data, "emitOffset_");
 
 	return data;
 }
@@ -442,5 +522,8 @@ void ParticleSpawnCircleModule::FromJson(const Json& data) {
 	angleMin_ = data.value("angleMin_", 0.0f);
 	angleMax_ = data.value("angleMax_", 360.0f);
 	clockwise_ = data.value("clockwise_", false);
-	stepAngle_ = data.value("stepAngle_", 15.0f);
+	usePrevSegmentDirectionOnWrap_ = data.value("usePrevSegmentDirectionOnWrap_", false);
+
+	stepAngle_.ApplyJson(data, "stepAngle_");
+	emitOffset_.ApplyJson(data, "emitOffset_");
 }

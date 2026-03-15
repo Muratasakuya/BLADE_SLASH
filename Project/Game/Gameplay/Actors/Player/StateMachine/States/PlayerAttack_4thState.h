@@ -4,6 +4,8 @@
 //	include
 //============================================================================
 #include <Engine/Editor/Effect/User/EffectGroup.h>
+#include <Engine/Utility/Timer/DelayedHitstop.h>
+#include <Engine/Input/InputStructures.h>
 #include <Game/Gameplay/Actors/Player/StateMachine/Interface/PlayerBaseAttackState.h>
 
 //============================================================================
@@ -44,9 +46,22 @@ private:
 	//	private Methods
 	//========================================================================
 
+	//--------- structure ----------------------------------------------------
+
+	// ヒットストップ
+	struct HitStop {
+
+		bool isStart = false;               // 開始フラグ
+		float startProgress;                // 発生させる攻撃進捗
+		SakuEngine::DelayedHitstop hitStop; // ヒットストップ
+	};
+
 	//--------- variables ----------------------------------------------------
 
 	bool assisted_;
+
+	// 入力振動
+	InputVibrationParams vibrationParams_;
 
 	// parameters
 	// 座標補間を行わないときの処理
@@ -62,4 +77,7 @@ private:
 	std::unique_ptr<SakuEngine::EffectGroup> rotationEffect_;
 	SakuEngine::Vector3 rotateEffectOffset_;
 	SakuEngine::Vector3 rotateEffectOffsetRotation_;
+
+	// 攻撃ヒットストップ
+	HitStop attackHitStop_;
 };

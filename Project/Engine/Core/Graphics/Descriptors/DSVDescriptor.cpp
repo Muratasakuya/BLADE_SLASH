@@ -1,4 +1,4 @@
-﻿#include "DSVDescriptor.h"
+#include "DSVDescriptor.h"
 
 using namespace SakuEngine;
 

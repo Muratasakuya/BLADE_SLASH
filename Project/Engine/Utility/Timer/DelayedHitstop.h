@@ -37,6 +37,10 @@ namespace SakuEngine {
 		// json
 		void FromJson(const Json& data);
 		void ToJson(Json& data) const;
+
+		//--------- accessor -----------------------------------------------------
+
+		bool IsStarted() const { return isStart_; }
 	private:
 		//========================================================================
 		//	private Methods

@@ -19,6 +19,7 @@ using namespace SakuEngine;
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraTargetResolver.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraInterTargetSmoother.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraActionAutoLookTarget.h>
+#include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Target/FollowCameraLockOn.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraZoomOffsetResolver.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Offset/FollowCameraOffsetSmoother.h>
 #include <Game/Gameplay/Camera/FollowCamera/UpdatePass/Updaters/Fov/FollowCameraCalFov.h>
@@ -47,9 +48,10 @@ void FollowCameraUpdatePass::Init() {
 	registry.Register<FollowCameraReturnFov>();
 	registry.Register<FollowCameraActionAutoLookTarget>();
 	registry.Register<FollowCameraReturnToFollowSmoother>();
+	registry.Register<FollowCameraLockOn>();
 
 	// 実行順
-	static constexpr std::array<FollowCameraUpdatePassID, 13> kExecuteOrder = {
+	static constexpr std::array<FollowCameraUpdatePassID, 14> kExecuteOrder = {
 
 		FollowCameraUpdatePassID::LookInputSmoother,        // 入力
 		FollowCameraUpdatePassID::TargetResolver,           // 追従ターゲット決定
@@ -57,6 +59,7 @@ void FollowCameraUpdatePass::Init() {
 
 		FollowCameraUpdatePassID::LookRotationIntegrator,   // 入力回転の積分
 		FollowCameraUpdatePassID::ActionAutoLookTarget,     // 自動ロックオン等
+		FollowCameraUpdatePassID::LockOn,                   // ロックオン
 		FollowCameraUpdatePassID::PitchClamper,             // ピッチ制限
 
 		FollowCameraUpdatePassID::ZoomOffsetResolver,       // 回転に依存するオフセット計算
@@ -116,16 +119,23 @@ IFollowCameraUpdatePass* FollowCameraUpdatePass::GetPassByID(FollowCameraUpdateP
 	return nullptr;
 }
 
-void FollowCameraUpdatePass::Update(FollowCamera& followCamera) {
+void FollowCameraUpdatePass::Update(FollowCamera& followCamera, GameSceneState sceneState) {
 
 	// コンテキストを初期化
 	context_.cameraTranslation = followCamera.GetTransform().translation;
 	context_.cameraRotation = followCamera.GetTransform().rotation;
 	context_.cameraFovY = followCamera.GetFovY();
+	// サービスにシーン状態を提供
+	frameService_.sceneState = sceneState;
 
 	// デルタタイム取得
 	float deltaTime = GameTimer::GetDeltaTime();
 	for (auto& pass : updatePasses_) {
+
+		// 無効なパスはスキップ
+		if (!pass->IsEnabled()) {
+			continue;
+		}
 
 		// 開始処理
 		pass->Begin(context_);
@@ -158,11 +168,15 @@ void FollowCameraUpdatePass::ImGui() {
 			if (ImGui::CollapsingHeader("Execute Order")) {
 				for (size_t i = 0; i < updatePasses_.size(); ++i) {
 
+					if (!updatePasses_[i]->IsEnabled()) {
+						continue;
+					}
+
 					ImGui::Spacing();
 
 					// 処理名
 					ImGui::Text("%s", EnumAdapter<FollowCameraUpdatePassID>::ToString(updatePasses_[i]->GetID()));
-					ImGui::Text("[↓]");
+					ImGui::Text("[|]");
 				}
 			}
 
@@ -180,6 +194,10 @@ void FollowCameraUpdatePass::ImGui() {
 
 			for (const auto& pass : updatePasses_) {
 				if (pass->GetID() == editPassID_) {
+
+					pass->ImGuiCommon();
+
+					ImGui::Separator();
 
 					pass->ImGui();
 					break;

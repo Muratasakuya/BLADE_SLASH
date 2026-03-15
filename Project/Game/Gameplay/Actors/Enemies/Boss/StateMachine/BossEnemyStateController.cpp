@@ -23,6 +23,7 @@
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyContinuousAttackState.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/BossEnemyProjectileAttackState.h>
 #include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/GreatAttackState/BossEnemyGreatAttackState.h>
+#include <Game/Gameplay/Actors/Enemies/Boss/StateMachine/States/AllFieldAttackState/BossEnemyAllFieldAttackState.h>
 
 //============================================================================
 //	BossEnemyStateController classMethods
@@ -67,6 +68,7 @@ void BossEnemyStateController::Init(BossEnemy* owner, uint32_t phaseCount) {
 	machine.Add<BossEnemyGreatAttackState>(BossEnemyState::GreatAttack);
 	machine.Add<BossEnemyJumpAttackState>(BossEnemyState::JumpAttack);
 	machine.Add<BossEnemyProjectileAttackState>(BossEnemyState::ProjectileAttack, phaseCount);
+	machine.Add<BossEnemyAllFieldAttackState>(BossEnemyState::AllFieldAttack);
 
 	ForEachState([&](BossEnemyState state) {
 		if (!machine.Has(state)) {
@@ -287,6 +289,7 @@ void BossEnemyStateController::UpdateStateTimer() {
 			(current == BossEnemyState::ChargeAttack) ||
 			(current == BossEnemyState::RushAttack) ||
 			(current == BossEnemyState::GreatAttack) ||
+			(current == BossEnemyState::AllFieldAttack) ||
 			(current == BossEnemyState::ContinuousAttack);
 		// 攻撃状態空の遷移でかつ強制遷移するなら
 		if (isAttack && phase.autoIdleAfterAttack) {

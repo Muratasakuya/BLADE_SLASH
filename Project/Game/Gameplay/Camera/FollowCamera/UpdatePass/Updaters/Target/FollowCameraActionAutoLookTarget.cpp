@@ -301,10 +301,8 @@ void FollowCameraActionAutoLookTarget::StartCandidate(
 	}
 
 	// 最短方向を取得
-	// yaw方向決定
-	float yawDelta = 0.0f;
 	// AreaCheckMethodに応じて基準点から見た方向を決定
-	yawDelta = candidate.parameter->areaCheckMethod == AreaCheckMethod::InCamera ?
+	float yawDelta = candidate.parameter->areaCheckMethod == AreaCheckMethod::InCamera ?
 		SakuEngine::Math::YawSignedDelta(startRotation_, dependencies_.bossEnemy->GetRotation()) :
 		SakuEngine::Math::YawSignedDelta(startRotation_, dependencies_.player->GetRotation());
 	if (std::abs(yawDelta) <= Config::kEpsilon) {

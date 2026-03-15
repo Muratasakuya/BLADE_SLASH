@@ -93,6 +93,7 @@ namespace SakuEngine {
 		ColliderType GetTargetType() const { return targetType_; }
 
 		const CollisionShape::Shapes& GetShape() const { return shape_; }
+		CollisionShape::Shapes& GetShape() { return shape_; }
 	private:
 		//========================================================================
 		//	private Methods

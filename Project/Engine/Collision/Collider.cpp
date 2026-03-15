@@ -93,7 +93,7 @@ void Collider::UpdateOBBBody(CollisionBody* body, const SakuEngine::Transform3D&
 
 	// 子か親かで回転を変える
 	Quaternion bodyRotation = isChild_ ? Quaternion::FromRotationMatrix(transform.matrix.world) : transform.rotation;
-	Quaternion rotation = (bodyRotation * offset.rotate).Normalize();
+	Quaternion rotation = Quaternion::Normalize(bodyRotation);
 
 	body->UpdateOBB(CollisionShape::OBB(center, size, SakuEngine::Vector3::AnyInit(0.0f), rotation));
 }
@@ -129,6 +129,24 @@ CollisionBody* Collider::AddCollider(const CollisionShape::Shapes& shape, bool a
 	}
 
 	return collider;
+}
+
+void Collider::InitBodyOffsets(CollisionShape::Shapes& shape) {
+
+	if (auto* sphere = std::get_if<CollisionShape::Sphere>(&shape)) {
+
+		sphere->center = Vector3::AnyInit(0.0f);
+		sphere->radius = 1.0f;
+	} else if (auto* aabb = std::get_if<CollisionShape::AABB>(&shape)) {
+
+		aabb->center = Vector3::AnyInit(0.0f);
+		aabb->extent = Vector3::AnyInit(1.0f);
+	} else if (auto* obb = std::get_if<CollisionShape::OBB>(&shape)) {
+
+		obb->center = Vector3::AnyInit(0.0f);
+		obb->eulerRotate = Vector3::AnyInit(0.0f);
+		obb->rotate = Quaternion::Identity();
+	}
 }
 
 void Collider::RemoveCollider(CollisionBody* collisionBody) {

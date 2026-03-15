@@ -81,6 +81,7 @@ private:
 	void UpdateParrySign();
 	void UpdateAttack();
 	void UpdateParryTiming();
+	void UpdateEffectTiming();
 
 	// helper
 	void LerpTranslation();

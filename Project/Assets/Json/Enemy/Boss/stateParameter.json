@@ -1,4 +1,53 @@
 {
+    "AllFieldAttack": {
+        "areaAttackChargeTimer_": {
+            "easingType_": "Linear",
+            "target_": 1.0
+        },
+        "areaAttackColliderRadius_": 4.0,
+        "areaAttackColliderSpeed_": 4.099999904632568,
+        "areaAttackEmitIntervalTimer_": {
+            "easingType_": "Linear",
+            "target_": 0.3100000023841858
+        },
+        "areaAttackTimer_": {
+            "easingType_": "Linear",
+            "target_": 4.0
+        },
+        "emitAngleInterval_": 0.26179999113082886,
+        "longColliderLifeTime_": 1.0,
+        "moveToCenterAnim_": {
+            "Loop": {
+                "loop": {
+                    "isInfinityLoop": false,
+                    "loopCount": 1,
+                    "type": "Repeat"
+                }
+            },
+            "ReturnTimer": {
+                "easingType_": "Linear",
+                "target_": 0.0
+            },
+            "Timer": {
+                "easingType_": "Linear",
+                "target_": 0.800000011920929
+            },
+            "move_.end": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "move_.start": {
+                "x": -0.3590708076953888,
+                "y": 0.0,
+                "z": 4.813688278198242
+            },
+            "useReturnTimer_": false
+        },
+        "protrusionEmitRadiusMin_": 80.0,
+        "protrusionLifeTime_": 4.0,
+        "shortColliderLifeTime_": 0.5
+    },
     "ChargeAttack": {
         "exitTime_": 0.05999999865889549,
         "nextAnimDuration_": 0.1599999964237213,
@@ -43,9 +92,9 @@
             },
             "MovePendulum": {
                 "anchor": {
-                    "x": -5.806941986083984,
-                    "y": 23.88581085205078,
-                    "z": -139.5224609375
+                    "x": -5.862225532531738,
+                    "y": 23.885814666748047,
+                    "z": -68.6410140991211
                 },
                 "angle": 3.940000057220459,
                 "angularVelocity": 4.541358470916748,
@@ -499,24 +548,24 @@
     "JumpAttack": {
         "JumpKeyframes": [
             {
-                "x": 104.5223388671875,
+                "x": 93.5586166381836,
                 "y": 0.0,
-                "z": -54.97026443481445
+                "z": -137.42967224121094
             },
             {
-                "x": 103.98302459716797,
+                "x": 60.18956756591797,
                 "y": 20.0,
-                "z": -54.43464279174805
+                "z": -74.47647094726563
             },
             {
-                "x": 103.44371795654297,
+                "x": 26.82052993774414,
                 "y": 18.299999237060547,
-                "z": -53.89902114868164
+                "z": -11.523284912109375
             },
             {
-                "x": 102.90440368652344,
+                "x": -6.5485100746154785,
                 "y": 0.0,
-                "z": -53.363399505615234
+                "z": 51.429901123046875
             }
         ],
         "LerpTranslationXZ": {
@@ -536,14 +585,14 @@
                 "target_": 0.5699999928474426
             },
             "move_.end": {
-                "x": 102.90440368652344,
+                "x": -6.5485100746154785,
                 "y": 0.0,
-                "z": -53.363399505615234
+                "z": 51.429901123046875
             },
             "move_.start": {
-                "x": 104.5223388671875,
+                "x": 93.5586166381836,
                 "y": 0.0,
-                "z": -54.97026443481445
+                "z": -137.42967224121094
             },
             "useReturnTimer_": false
         },

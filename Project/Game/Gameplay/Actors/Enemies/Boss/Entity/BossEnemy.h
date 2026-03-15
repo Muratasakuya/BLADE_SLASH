@@ -79,7 +79,7 @@ public:
 
 	int GetDamage() const;
 	bool IsDead() const;
-	bool IsInvincible() const { return  !isNormalDamageEnabled_; }
+	bool IsInvincible() const { return  preSceneState_ == GameSceneState::Start; }
 	uint32_t GetCurrentPhaseIndex() const;
 	const ParryParameter& GetParryParam() const { return stateController_->GetParryParam(); }
 private:
@@ -103,8 +103,6 @@ private:
 	// 攻撃の衝突
 	std::unique_ptr<BossEnemyAttackCollision>  attackCollision_;
 
-	// ダメージを受けるかどうか
-	bool isNormalDamageEnabled_ = false;
 	// イベント発行先
 	GameEventBus* eventBus_ = nullptr;
 

@@ -96,8 +96,7 @@ namespace SakuEngine {
 	template<typename ModuleT>
 	inline void EditorModuleRegistry<BaseT, EnumT>::Register() {
 
-		RegisterFn(ModuleT::ID, []() -> std::unique_ptr<BaseT> {
-			return std::make_unique<ModuleT>(); });
+		RegisterFn(ModuleT::ID, []() -> std::unique_ptr<BaseT> {return std::make_unique<ModuleT>(); });
 	}
 
 	template<typename BaseT, EditorModuleEnum EnumT>

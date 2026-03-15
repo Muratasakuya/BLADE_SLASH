@@ -1,0 +1,18 @@
+{
+    "collisionTransform_.scale": {
+        "x": 16.0,
+        "y": 2.0,
+        "z": 21.0
+    },
+    "emitPosOffset": 4.0,
+    "emitPosYRandomRange": 3.200000047683716,
+    "emitTimer_": {
+        "easingType_": "Linear",
+        "target_": 0.019999999552965164
+    },
+    "lifeTimer_": {
+        "easingType_": "Linear",
+        "target_": 4.0
+    },
+    "maxProtrusionCount_": 10
+}

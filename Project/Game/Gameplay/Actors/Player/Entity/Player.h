@@ -69,6 +69,7 @@ public:
 	int GetToughness() const { return stats_.toughness; }
 	bool IsDead() const { return stats_.currentHP == 0; }
 	bool IsActiveParry() const { return stateController_->IsActiveParry(); }
+	bool IsAttacking() const;
 	const SakuEngine::Transform3D& GetInitTransform() const { return initTransform_; }
 
 	// アニメーション名一覧の取得

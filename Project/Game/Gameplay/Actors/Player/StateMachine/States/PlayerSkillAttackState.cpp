@@ -57,6 +57,11 @@ void PlayerSkillAttackState::CreateEffect() {
 	groundCrackEffect_->Init("skillGroundCrack", "PlayerEffect");
 	groundCrackEffect_->LoadJson("GameEffectGroup/Player/groundSkillCrackEffect.json");
 	groundCrackEmitted_ = false;
+
+	// ヒットエフェクト作成
+	hitEffect_ = std::make_unique<SakuEngine::EffectGroup>();
+	hitEffect_->Init("skillHitEffect", "PlayerEffect");
+	hitEffect_->LoadJson("GameEffectGroup/Player/skillHitEffect.json");
 }
 
 void PlayerSkillAttackState::Enter() {
@@ -145,6 +150,16 @@ void PlayerSkillAttackState::UpdateMoveAttack() {
 		SakuEngine::Vector3 translation = moveKeyframeObject_->GetIndexKeyTransform(
 			moveKeyframeObject_->GetNextKeyIndex() - 1).translation;
 		moveAtackEffect_->Emit(translation);
+	}
+
+	// 範囲内に入っていた時
+	if (isInRange_) {
+		// プレイヤーが敵と衝突したら
+		if (player_->IsHitTrigger()) {
+
+			// ヒットエフェクト発生
+			hitEffect_->Emit(bossEnemy_->GetTranslation() + SakuEngine::Vector3(0.0f, 3.0f, 0.0f));
+		}
 	}
 
 	// 補間処理終了後状態を終了
@@ -315,6 +330,8 @@ void PlayerSkillAttackState::UpdateAlways() {
 	moveAtackEffect_->Update();
 	// 地割れ
 	groundCrackEffect_->Update();
+	// ヒットエフェクト
+	hitEffect_->Update();
 }
 
 void PlayerSkillAttackState::Exit() {

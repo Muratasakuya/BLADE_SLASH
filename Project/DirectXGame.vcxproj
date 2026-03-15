@@ -238,6 +238,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.cpp">
       <SubType />
     </ClCompile>
+    <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateSpeedAdjustmentModule.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.cpp">
       <SubType />
     </ClCompile>
@@ -785,9 +789,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemy.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemyWeapon.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\Start\BossEnemyStartAnimation.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\BossEnemyAllFieldAttackState.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateController.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests\BossEnemyRequestFalter.cpp" />
+    <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\Item\BossEnemyProtrusion.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyChargeAttackState.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyContinuousAttackState.cpp" />
     <ClCompile Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyFalterState.cpp" />
@@ -868,6 +880,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraGamePadInput.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\Input\Devices\FollowCameraKeyInput.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\FollowCameraUpdatePass.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Interface\IFollowCameraUpdatePass.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Composer\FollowCameraOrbitTranslationComposer.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Editor\FollowCameraReturnToFollowSmoother.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Fov\FollowCameraCalFov.cpp" />
@@ -880,6 +896,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.cpp" />
+    <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraLockOn.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.cpp" />
     <ClCompile Include="Game\Gameplay\Camera\Title\TitleViewCamera.cpp" />
@@ -1014,6 +1034,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateCollectModule.h">
       <SubType />
+    </ClInclude>
+    <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Move\ParticleUpdateSpeedAdjustmentModule.h">
+      <SubType>
+      </SubType>
     </ClInclude>
     <ClInclude Include="Engine\Editor\Effect\Particle\Module\Updater\Primitive\Derived\ParticleTestMeshUpdater.h">
       <SubType />
@@ -1728,11 +1752,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemy.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Entity\BossEnemyWeapon.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\Start\BossEnemyStartAnimation.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\BossEnemyAllFieldAttackState.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateConfig.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\BossEnemyStateController.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyBaseAttackState.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Interface\BossEnemyIState.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\Requests\BossEnemyRequestFalter.h" />
+    <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\AllFieldAttackState\Item\BossEnemyProtrusion.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyChargeAttackState.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyContinuousAttackState.h" />
     <ClInclude Include="Game\Gameplay\Actors\Enemies\Boss\StateMachine\States\BossEnemyFalterState.h" />
@@ -1840,6 +1872,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Rotation\FollowCameraRollStabilizer.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraActionAutoLookTarget.h" />
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraInterTargetSmoother.h" />
+    <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraLockOn.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game\Gameplay\Camera\FollowCamera\UpdatePass\Updaters\Target\FollowCameraTargetResolver.h" />
     <ClInclude Include="Game\Gameplay\Camera\ResultCamera\ClearResultCamera.h" />
     <ClInclude Include="Game\Gameplay\Camera\Title\TitleViewCamera.h" />

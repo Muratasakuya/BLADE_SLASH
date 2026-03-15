@@ -22,6 +22,7 @@ void BossEnemyLightAttackState::CreateEffect() {
 
 	// 親の設定
 	slash_.SetParent("bossSlash_0", bossEnemy_->GetTransform());
+	slash_.SetParent("bossSlashDispersion", bossEnemy_->GetTransform());
 }
 
 void BossEnemyLightAttackState::Enter() {
@@ -48,9 +49,6 @@ void BossEnemyLightAttackState::Enter() {
 
 void BossEnemyLightAttackState::Update() {
 
-	// パリィ攻撃のタイミングを更新
-	UpdateParryTiming();
-
 	// 状態に応じて更新
 	switch (currentState_) {
 	case BossEnemyLightAttackState::State::ParrySign: {
@@ -60,6 +58,11 @@ void BossEnemyLightAttackState::Update() {
 		break;
 	}
 	case BossEnemyLightAttackState::State::Attack: {
+
+		// パリィ攻撃のタイミングを更新
+		UpdateParryTiming();
+		// エフェクト発生のタイミングを更新
+		UpdateEffectTiming();
 
 		// 攻撃、終了後状態を終了
 		UpdateAttack();
@@ -124,15 +127,23 @@ void BossEnemyLightAttackState::UpdateAttack() {
 void BossEnemyLightAttackState::UpdateParryTiming() {
 
 	// パリィ攻撃のタイミング
-	switch (currentState_) {
-	case BossEnemyLightAttackState::State::Attack: {
-		if (bossEnemy_->IsEventKey("Parry", 0)) {
+	if (bossEnemy_->IsEventKey("Parry", 0)) {
 
-			bossEnemy_->TellParryTiming();
-			parried_ = true;
-		}
-		break;
+		bossEnemy_->TellParryTiming();
+		parried_ = true;
 	}
+}
+
+void BossEnemyLightAttackState::UpdateEffectTiming() {
+
+	// エフェクトの発生タイミング
+	if (bossEnemy_->IsEventKey("Effect", 0)) {
+
+		// エミッターに回転を渡す
+		slash_.effect->SetParentRotation("bossSlashDispersion", bossEnemy_->GetRotation(), ParticleSpawnModuleID::Circle);
+
+		// 剣エフェクトの発生
+		slash_.Emit(*bossEnemy_);
 	}
 }
 
@@ -165,9 +176,6 @@ void BossEnemyLightAttackState::LerpTranslation() {
 
 			reachedPlayer_ = true;
 			bossEnemy_->SetTranslation(target);
-
-			// 剣エフェクトの発生
-			slash_.Emit(*bossEnemy_);
 		}
 	}
 }

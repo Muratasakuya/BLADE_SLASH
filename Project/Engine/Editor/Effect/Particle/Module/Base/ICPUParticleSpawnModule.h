@@ -13,104 +13,105 @@
 #include <list>
 namespace SakuEngine {
 
-// front
+	// front
+	class Asset;
 
-class Asset;
+	//============================================================================
+	//	ICPUParticleSpawnModule class
+	//	CPUパーティクル発生モジュール基底
+	//============================================================================
+	class ICPUParticleSpawnModule :
+		public ICPUParticleModule {
+	public:
+		//========================================================================
+		//	public Methods
+		//========================================================================
 
-//============================================================================
-//	ICPUParticleSpawnModule class
-//	CPUパーティクル発生モジュール基底
-//============================================================================
-class ICPUParticleSpawnModule :
-	public ICPUParticleModule {
-public:
-	//========================================================================
-	//	public Methods
-	//========================================================================
+		ICPUParticleSpawnModule() = default;
+		virtual ~ICPUParticleSpawnModule() = default;
 
-	ICPUParticleSpawnModule() = default;
-	virtual ~ICPUParticleSpawnModule() = default;
+		// 受け取ったパーティクルの発生処理を行う
+		virtual void Execute(std::list<CPUParticle::ParticleData>& particles) = 0;
 
-	// 受け取ったパーティクルの発生処理を行う
-	virtual void Execute(std::list<CPUParticle::ParticleData>& particles) = 0;
+		virtual void UpdateEmitter() {}
+		virtual void DrawEmitter() {}
 
-	virtual void UpdateEmitter() {}
-	virtual void DrawEmitter() {}
+		// editor
+		void ImGuiRenderParam(bool hasTrailModule);
+		void ImGuiPrimitiveParam();
+		void ImGuiEmitParam();
 
-	// editor
-	void ImGuiRenderParam(bool hasTrailModule);
-	void ImGuiPrimitiveParam();
-	void ImGuiEmitParam();
+		//--------- accessor -----------------------------------------------------
 
-	//--------- accessor -----------------------------------------------------
+		void SetAsset(Asset* asset) { asset_ = asset; }
+		void SetPrimitiveType(ParticlePrimitiveType type);
+		// 親の設定
+		void SetParent(bool isSet, const BaseTransform3D& parent);
 
-	void SetAsset(Asset* asset) { asset_ = asset; }
-	void SetPrimitiveType(ParticlePrimitiveType type);
-	// 親の設定
-	void SetParent(bool isSet, const BaseTransform3D& parent);
+		// データ共有
+		void ShareCommonParam(ICPUParticleSpawnModule* other);
 
-	// データ共有
-	void ShareCommonParam(ICPUParticleSpawnModule* other);
+		float GetLifeTime() const { return lifeTime_.GetValue(); }
+		const CPUParticle::TextureInfoForGPU& GetTextureInfo() const { return textureInfo_; }
+	protected:
+		//========================================================================
+		//	protected Methods
+		//========================================================================
 
-	float GetLifeTime() const { return lifeTime_.GetValue(); }
-	const CPUParticle::TextureInfoForGPU& GetTextureInfo() const { return textureInfo_; }
-protected:
-	//========================================================================
-	//	protected Methods
-	//========================================================================
+		//--------- variables ----------------------------------------------------
 
-	//--------- variables ----------------------------------------------------
+		Asset* asset_;
 
-	Asset* asset_;
+		// 全ての発生に置いて共通しているパラメータ
+		// Emit
+		ParticleValue<uint32_t> emitCount_; // 発生数
+		ParticleValue<float> lifeTime_;     // 生存時間
 
-	// 全ての発生に置いて共通しているパラメータ
-	// Emit
-	ParticleValue<uint32_t> emitCount_; // 発生数
-	ParticleValue<float> lifeTime_;     // 生存時間
+		// 移動速度
+		ParticleValue<float> moveSpeed_;
 
-	// 移動速度
-	ParticleValue<float> moveSpeed_;
+		// TextureInfo、ランダムがないのでそのまま渡す
+		CPUParticle::TextureInfoForGPU textureInfo_;
+		// トレイル
+		ParticleCommon::TrailTextureInfoForGPU trailTextureInfo_;
 
-	// TextureInfo、ランダムがないのでそのまま渡す
-	CPUParticle::TextureInfoForGPU textureInfo_;
-	// トレイル
-	ParticleCommon::TrailTextureInfoForGPU trailTextureInfo_;
+		// プリミティブ形状
+		ParticleCommon::PrimitiveData<false> primitive_;
+		ParticlePlaneType planeType_;
 
-	// Primtive
-	ParticleCommon::PrimitiveData<false> primitive_;
-	ParticlePlaneType planeType_;
+		// パーティクルの削除方法
+		ParticleDeleteMode deleteMode = ParticleDeleteMode::LifeTime;
 
-	// editor
-	const Color emitterLineColor_ = Color::Yellow(0.4f);
-	std::string textureName_;
-	std::string noiseTextureName_;
-	// トレイル
-	std::string trailTextureName_;
-	std::string trailNoiseTextureName_;
+		// editor
+		const Color emitterLineColor_ = Color::Red();
+		std::string textureName_;
+		std::string noiseTextureName_;
+		// トレイル
+		std::string trailTextureName_;
+		std::string trailNoiseTextureName_;
 
-	// 親設定
-	const BaseTransform3D* parentTransform_ = nullptr;
+		// 親設定
+		const BaseTransform3D* parentTransform_ = nullptr;
 
-	//--------- functions ----------------------------------------------------
+		//--------- functions ----------------------------------------------------
 
-	// init
-	void InitCommonData();
+		// init
+		void InitCommonData();
 
-	// helper
-	void SetCommonData(CPUParticle::ParticleData& particle);
+		// helper
+		void SetCommonData(CPUParticle::ParticleData& particle);
 
-	// json
-	void ToCommonJson(Json& data);
-	void FromCommonJson(const Json& data);
-private:
-	//========================================================================
-	//	protected Methods
-	//========================================================================
+		// json
+		void ToCommonJson(Json& data);
+		void FromCommonJson(const Json& data);
+	private:
+		//========================================================================
+		//	protected Methods
+		//========================================================================
 
-	//--------- functions ----------------------------------------------------
+		//--------- functions ----------------------------------------------------
 
-	// editor
-	void DragAndDropTexture(bool isTrail);
-};
-
+		// editor
+		void DragAndDropTexture(bool isTrail);
+	};
 }; // SakuEngine

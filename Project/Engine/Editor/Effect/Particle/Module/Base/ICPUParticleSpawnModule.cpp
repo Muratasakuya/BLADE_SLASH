@@ -74,6 +74,8 @@ void ICPUParticleSpawnModule::SetCommonData(CPUParticle::ParticleData& particle)
 
 	// プリミティブ
 	particle.primitive = primitive_;
+	// 削除方法
+	particle.deleteMode = deleteMode;
 }
 
 void ICPUParticleSpawnModule::SetPrimitiveType(ParticlePrimitiveType type) {
@@ -139,6 +141,9 @@ void ICPUParticleSpawnModule::ShareCommonParam(ICPUParticleSpawnModule* other) {
 
 	// Primitive
 	primitive_ = other->primitive_;
+
+	// 削除方法
+	deleteMode = other->deleteMode;
 
 	// 親の設定
 	if (other->parentTransform_) {
@@ -230,6 +235,8 @@ void ICPUParticleSpawnModule::ImGuiEmitParam() {
 	lifeTime_.EditDragValue("lifeTime");
 
 	moveSpeed_.EditDragValue("moveSpeed");
+
+	EnumAdapter<ParticleDeleteMode>::Combo("deleteMode", &deleteMode);
 }
 
 void ICPUParticleSpawnModule::DragAndDropTexture(bool isTrail) {
@@ -344,6 +351,8 @@ void ICPUParticleSpawnModule::ToCommonJson(Json& data) {
 		data[key]["primitive"]["crescent"]["innerColor"] = primitive_.crescent.innerColor.ToJson();
 		break;
 	}
+
+	data[key]["deleteMode"] = EnumAdapter<ParticleDeleteMode>::ToString(deleteMode);
 }
 
 void ICPUParticleSpawnModule::FromCommonJson(const Json& data) {
@@ -447,4 +456,6 @@ void ICPUParticleSpawnModule::FromCommonJson(const Json& data) {
 		break;
 	}
 	}
+
+	deleteMode = EnumAdapter<ParticleDeleteMode>::FromString(data[key].value("deleteMode", "LifeTime")).value_or(ParticleDeleteMode::LifeTime);
 }
